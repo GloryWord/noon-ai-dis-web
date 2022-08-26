@@ -47,7 +47,7 @@ subaccount = {
                             <div class="pass_modi" value='+result[i].id+'><p>재설정</p></div>\
                         </div>\
                         <div class="del_content">\
-                            <civ class="delBtn" value='+result[i].id+'><p>삭제하기></p></div>\
+                            <civ class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
                         </div>\
                     </div>';
         }
