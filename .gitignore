@@ -1,2 +1,3 @@
 .dockerignore
 build.sh
+nginx-dev.conf
