@@ -1,0 +1,198 @@
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-8Heavy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.select_area{
+    width: 100%;
+    height: auto;
+    margin: 200px 0 0;
+    display: flex;
+}
+
+.video_select,
+.image_select {
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: midnightblue;
+    cursor: pointer;
+}
+
+.video_select {
+    margin: auto 40px auto auto;
+}
+
+.image_select { 
+    margin: auto auto auto 40px;
+}
+
+.video_select p,
+.image_select p {
+    color: white;
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    font-size: 18px;
+}
+
+.logTable {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0 0;
+}
+
+.logTable .logHeader {
+    width: 1000px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.logTable .mainLog {
+    width: 1000px;
+    height: 320px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.logTable .mainLog .logContent {
+    display: flex;
+    height: 60px;
+    border-bottom: 1px solid;
+}
+
+
+.logTable .logHeader .id_content,
+.logTable .mainLog .logContent .id_content {
+    width: 100px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .name_content,
+.logTable .mainLog .logContent .name_content {
+    width: 300px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .mainLog .logContent .name_content p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logTable .logHeader .type_content,
+.logTable .mainLog .logContent .type_content {
+    width: 100px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .date_content,
+.logTable .mainLog .logContent .date_content {
+    width: 120px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .progress_content,
+.logTable .mainLog .logContent .progress_content {
+    width: 80px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .status_content,
+.logTable .mainLog .logContent .status_content {
+    width: 80px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .rest_content,
+.logTable .mainLog .logContent .rest_content {
+    width: 80px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .logHeader .detail_content,
+.logTable .mainLog .logContent .detail_content {
+    width: 140px;
+    margin: auto;
+    text-align: center;
+}
+
+.logTable .mainLog .logContent .detail_content .detailInfo {
+    width: 120px;
+    height: 40px;
+    background-color: deepskyblue;
+    display: flex;
+    margin: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logTable .mainLog .logContent .detail_content .detailInfo p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>main</title>
+
+  <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/manage.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
+
+  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+  <script src="./static/js/sweetalert/sweetalert.js"></script>
+  <script src="./static/js/common/common.js"></script>
+  <script src="./static/js/common/header.js"></script>
+  <script src="modules/download.js"></script>
+  <style>
+    .table-fixed td {
+      text-align: center;
+    }
+
+    .table-fixed thead tr th {
+      padding: 10px 30px 10px 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header_content">
+      <a href="/main">
+        <div class="logo"></div>
+      </a>
+      <div class="flow">
+      </div>
+      <div class="menuBtn">
+        <div id="myDropdown" class="dropdown-content">
+          <a href="/main">홈</a>
+          <a href="/log">기록 열람</a>
+          <a href="/key">KEY 관리</a>
+          <a href="/myInfo">내 정보</a>
+          <a class="admin_only" href="/submanage">서브 계정 관리</a>
+          <a id="logout" href="/">로그아웃</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="wrapper">
+    <div class="curTenant">
+
+    </div>
+    <div>
+      <br>
+      <p>복호화 요청 페이지</p>
+      <a href="/main">비식별화 요청 페이지로 이동</a>
+    </div>
+    <br>
+
+    <form class="fileform" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+      <!-- 파일 업로드 -->
+      <input type="file" id="file" value="키 선택" name="file" accept=".pem" />
+    </form>
+
+    <br>
+
+    <br>
+
+    <div style="display:flex">
+      <input type="text" id="encRequestId" placeholder="요청번호를 입력하세요">
+      <button class="send-decrypt-request" type="submit" id="sendDecryptRequest">비식별화 요청</button>
+    </div>
+
+    <!-- <button class="testBtn2" type="submit">데이터베이스 생성</button> -->
+
+    <div class="container">
+      <table class="table table-fixed" id="requestListTable">
+        <!-- <thead>
+          <tr>
+            <th class="col-xs-3">요청 번호</th>
+            <th class="col-xs-3">비식별 키</th>
+            <th class="col-xs-6">파일명</th>
+            <th class="col-xs-6">요청 날짜</th>
+            <th class="col-xs-6">진행률</th>
+            <th class="col-xs-6">상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+          <tr>
+            <td class="col-xs-3">1</td>
+            <td class="col-xs-3">minhh</td>
+            <td class="col-xs-6">한글테스트테스트.mp4</td>
+            <td class="col-xs-6">2022-08-10</td>
+            <td class="col-xs-6">50%</td>
+            <td class="col-xs-6">진행중</td>
+          </tr>
+        </tbody> -->
+      </table>
+    </div>
+
+    <br>
+    <!-- <button class="sendMessage" type="submit" id="send_message">메시지큐에 담기</button> -->
+    <br>
+    <form>
+      <br>
+      <button class="logout" type="submit" formaction="/api/logout">로그아웃</button>
+    </form>
+    <!-- <form class="folderform" method="post" enctype="multipart/form-data">
+      <input type="file" id="folder_name" value="폴더 선택" name="folder" webkitdirectory />
+      <div class="modalBtn">
+        <button class="upload" type="submit" id="folder_upload" formaction="/folderupload">업로드</button>
+        <div class="cancel1">취소</div>
+      </div>
+    </form> -->
+  </div>
+</body>
+
+<script>
+  var curTime = ''
+
+  function getToday() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+
+    var dateString = year + '-' + month + '-' + day;
+
+    return dateString;
+  }
+
+  function getTime() {
+    var today = new Date();
+    var hours = ('0' + today.getHours()).slice(-2);
+    var minutes = ('0' + today.getMinutes()).slice(-2);
+    var seconds = ('0' + today.getSeconds()).slice(-2);
+
+    var timeString = hours + ':' + minutes + ':' + seconds;
+
+    return timeString;
+  }
+
+  function sendMessage(postData) {
+
+    var reqInfo = postData['reqInfo'];
+    var msgTemplate = postData;
+    delete msgTemplate.reqInfo;
+    $.ajax({
+      method: "post",
+      url: "/api/sendMessage/decrypt",
+      dataType: "json",
+      data: {
+        'msgTemplate': JSON.stringify(msgTemplate),
+        'reqInfo': JSON.stringify(reqInfo)
+      },
+      success: function (data) {
+
+      },
+      error: function (xhr, status) {
+        // alert(xhr + " : " + status);
+        alert(JSON.stringify(xhr));
+      }
+    });
+  }
+
+  function storeRequestInfo(encRequestId, userAuth) {
+    var result = ''
+    $.ajax({
+      method: "post",
+      url: "/api/request/decrypt",
+      dataType: "json",
+      data: {
+        'enc_request_id': encRequestId,
+        'account_auth_id': userAuth.id
+      },
+      async: false,
+      success: function (data) {
+        result = data;
+      },
+      error: function (xhr, status) {
+        // alert(xhr + " : " + status);
+        alert(JSON.stringify(xhr));
+      }
+    });
+    return result;
+  }
+
+  function uploadKeyAndVerify(fileName, keyName) {
+    var formData = new FormData();
+    var file = document.getElementById('file').files[0];
+    var valid = false;
+
+    if (file == undefined) {
+      alert("키 파일을 선택해 주세요")
+    }
+    // else if ($('#selectKeyName').val() == '0' && restoration == 1) alert('사용할 키를 선택해 주세요')
+    else {
+      formData.append('file', file);
+      var xhr = new XMLHttpRequest();
+      xhr.open('post', '/api/uploadNAS', true);
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          var percentage = (e.loaded / e.total) * 100;
+          console.log(percentage + "%");
+        }
+      }
+      xhr.onerror = function (e) {
+        console.log('Error');
+        console.log(e);
+      };
+      xhr.onload = function () {
+        new Promise((resolve, reject) => {
+          var valid = verifyKey(fileName, keyName);
+          resolve(valid)
+        }).then((valid) => {
+          if (!valid) alert ('비식별화시 사용된 키 파일 정보와 일치하지 않습니다.');
+          else {
+            new Promise((resolve, reject) => {
+              var encRequestId = $("#encRequestId").val()
+              var userAuth = comm.getAuth();
+              var result = storeRequestInfo(encRequestId, userAuth);
+              resolve(result);
+            }).then((result) => {
+              var decReqInfo = result['decReqInfo'];
+              sendMessage(decReqInfo)
+              new Promise((resolve, reject) => {
+                resolve()
+              }).then(() => {
+                alert('복호화 요청 완료');
+                location.href = '/decrypt'
+              })
+            })
+          }
+        })
+      };
+      xhr.send(formData);
+    }
+  }
+
+  function verifyKey(fileName, keyName) {
+    var valid = false;
+    $.ajax({
+      method: "post",
+      url: "/api/key/verify",
+      dataType: "json",
+      data: {
+        'fileName': fileName,
+        'keyName': keyName
+      },
+      async: false,
+      success: function (data) {
+        if (data['log'] == 'valid') valid = true;
+      },
+      error: function (xhr, status) {
+        // alert(xhr + " : " + status);
+        alert(JSON.stringify(xhr));
+      }
+    });
+    return valid;
+  }
+
+  $(document).on("click", "#sendDecryptRequest", function () {
+    var formData = new FormData();
+    var file = document.getElementById('file').files[0];
+    if (file == undefined) {
+      alert("키 파일을 선택해 주세요")
+    }
+    else {
+      var encRequestId = $("#encRequestId").val()
+      var targetHTML = $('#enc_request_index-'+encRequestId)[0];
+      if(targetHTML == undefined) alert('유효하지 않은 요청 번호입니다.')
+      else {
+        var keyName = $('#enc_request_index-'+encRequestId)[0].children[1].innerHTML;
+        var fileName = file.name;
+        uploadKeyAndVerify(fileName, keyName);
+      }
+    }    
+  });
+
+  $('#uploadNASBtn').on("click", function () {
+    
+  })
+</script>
+
+</html>

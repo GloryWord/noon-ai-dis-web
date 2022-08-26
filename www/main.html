@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/main.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
+
+  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Login.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+  <script src="./static/js/sweetalert/sweetalert.js"></script>
+  <script src="./static/js/common/common.js"></script>
+  <script src="./static/js/common/header.js"></script>
+  <script src="modules/download.js"></script>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header_content">
+      <a href="/main">
+        <div class="logo"></div>
+      </a>
+      <div class="flow">
+      </div>
+      <div class="menuBtn">
+        <div id="myDropdown" class="dropdown-content">
+          <a href="/main">홈</a>
+          <a href="/log">기록 열람</a>
+          <a href="/key">KEY 관리</a>
+          <a class="infoMove">내 정보</a>
+          <a class="admin_only" href="/submanage">서브 계정 관리</a>
+          <a id="logout" href="/">로그아웃</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="select_area">
+    <div class="video_select">
+      <p>동영상 선택</p>
+    </div>
+    <div class="image_select">
+      <p>이미지 선택</p>
+    </div>
+  </div>
+  <div class="logTable">
+    <div class="logHeader">
+        <div class="id_content"><h3>요청 번호</h3></div>
+        <div class="name_content"><h3>파일명</h3></div>
+        <div class="type_content"><h3>파일 타입</h3></div>
+        <div class="date_content"><h3>요청 날짜</h3></div>
+        <div class="progress_content"><h3>진행률</h3></div>
+        <div class="status_content"><h3>상태</h3></div>
+        <div class="rest_content"><h3>복호화</h3></div>
+        <div class="detail_content"><h3>상세보기</h3></div>
+    </div>
+    <div class="mainLog">
+    </div>
+  </div>
+</body>
+
+<div id="saveConfir" class="modal">
+  <div id="wrap">
+    <div class="layerPopupBox active">
+      <div class="info_inner">
+        <div class="saveContent">
+          <div class="saveHeader">
+            <h1>비밀번호 입력</h1>
+          </div>
+          <div class="saveBody">
+            <div class="bodyHeader">
+              <p>현재 비밀번호 : </p>
+              <input type="password" class="cur_password">
+            </div>
+            <div class="saveFooter">
+              <div class="infoConfir">
+                <p>저장</p>
+              </div>
+              <div class="cancel">
+                <p>취소</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>

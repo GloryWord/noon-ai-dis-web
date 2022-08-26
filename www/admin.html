@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>admin</title>
+
+  <script src="js/jquery.js"></script>
+
+  <link rel="apple-touch-icon" href="static/imgs/icon.jpg" />
+  <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+  <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+  <script src="../user_modules/download.js"></script>
+
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div class="curTenant">
+
+    </div>
+    <p>
+      발급할 키 이름을 입력하세요
+    </p>
+    <p>
+      <input type="text" name="keyName" id="keyName">
+    </p>
+
+    <p>
+      <button class="testBtn" type="submit">RSA 키 발급</button>
+    </p>
+    <!-- <button class="testBtn" type="submit">RSA 키 발급</button> -->
+
+    <form>
+      <br>
+      <button class="logout" type="submit" formaction="/logout">로그아웃</button>
+    </form>
+
+  </div>
+</body>
+
+<script>
+  $('.testBtn').on("click", function () {
+    var keyName = $("#keyName").val();
+    $.ajax({
+      method: "post",
+      url: "/api/key",
+      data: { 'keyName': keyName },
+      success: function (data) {
+        // alert(JSON.stringify(data));
+        new Promise((resolve, reject) => {
+          download(data.privateKey, data.keyName+".pem", "text/plain")  
+          resolve();
+        }).then(() => {
+          alert('RSA 키 발급 완료');
+          location.href='/admin' 
+        })
+        // download(data.privateKey, data.keyName+".pem", "text/plain")
+      },
+      error: function (xhr, status) {
+        alert(JSON.stringify(xhr) + JSON.stringify(status));
+      }
+    });
+  })
+</script>
+
+</html>

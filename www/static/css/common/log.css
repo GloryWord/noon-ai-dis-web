@@ -1,0 +1,373 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.log_content {
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area {
+    display: flex;
+    margin: 60px auto 40px;
+}
+
+.log_content .search_area .searchFile {
+    display: flex;
+    flex-direction: column;
+    background-color: #909090;
+    border-radius: 5px;
+    margin: 0 12px 0 0;
+}
+
+.log_content .search_area .searchFile h1 {
+    margin: 12px auto 0;
+    font-family: S-CoreDream-6Bold;
+    font-size: 24px;
+    color: white;
+}
+
+.log_content .search_area .searchFile div {
+    display: flex;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    margin: auto;
+    width: 120px;
+    height: 60px;
+    margin: auto 24px;
+    cursor: pointer;
+}
+
+.log_content .search_area .file_filter.active {
+    background-color: darkblue;
+}
+
+.log_content .search_area .rest_filter.active {
+    background-color: darkblue;
+}
+
+.log_content .search_area .searchFile div p {
+    font-family: S-CoreDream-6Bold;
+    color: white;
+    margin: auto;
+    font-size: 18px;
+}
+
+.log_content .search_area .searchRestore {
+    display: flex;
+    flex-direction: column;
+    background-color: #909090;
+    border-radius: 5px;
+    margin: 0 12px 0 0;
+    height: 300px;
+}
+
+.log_content .search_area .searchRestore h1 {
+    margin: 12px auto 0;
+    font-family: S-CoreDream-6Bold;
+    font-size: 24px;
+    color: white;
+}
+
+.log_content .search_area .searchRestore div {
+    display: flex;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    margin: auto 24px;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.log_content .search_area .searchRestore div p {
+    font-family: S-CoreDream-6Bold;
+    color: white;
+    margin: auto;
+    font-size: 18px;
+}
+
+.log_content .search_area .searchDate {
+    display: flex;
+    flex-direction: column;
+    background-color: #909090;
+    border-radius: 5px;
+    margin: 0 12px 0 0;
+    height: 300px;
+}
+
+.log_content .search_area .searchDate h1 {
+    margin: 12px auto 0;
+    font-family: S-CoreDream-6Bold;
+    font-size: 24px;
+    color: white;
+}
+
+.log_content .search_area .searchDate .dateTop {
+    display: flex;
+    margin: auto 24px;
+}
+
+.log_content .search_area .searchDate .dateTop .today {
+    margin: auto 12px auto 0;
+}
+
+.log_content .search_area .searchDate .dateTop .date_filter.active {
+    background-color: darkblue;
+}
+
+.log_content .search_area .searchDate .dateTop div {
+    display: flex;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    margin: auto;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.log_content .search_area .searchDate .dateTop div p {
+    font-family: S-CoreDream-6Bold;
+    color: white;
+    margin: auto;
+    font-size: 18px;
+}
+
+.log_content .search_area .searchDate .dateMiddle {
+    display: flex;
+    margin: auto 24px;
+}
+
+.log_content .search_area .searchDate .dateMiddle .week {
+    margin: auto 12px auto 0;
+}
+
+.log_content .search_area .searchDate .dateMiddle div {
+    display: flex;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    margin: auto;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.log_content .search_area .searchDate .dateMiddle .date_filter.active {
+    background-color: darkblue;
+}
+
+.log_content .search_area .searchDate .dateMiddle div p {
+    font-family: S-CoreDream-6Bold;
+    color: white;
+    margin: auto;
+    font-size: 18px;
+}
+
+.log_content .search_area .searchDate .dateBottom {
+    display: flex;
+    margin: auto;
+}
+
+.log_content .search_area .searchDate .dateBottom .startDate,
+.log_content .search_area .searchDate .dateBottom .endDate {
+    display: flex;
+    margin: auto;
+    width: 120px;
+}
+
+.log_content .search_area .searchDate .dateBottom .startDate {
+    margin: auto 12px auto 0;
+}
+
+.log_content .search_area .searchDate .dateBottom .startDate input,
+.log_content .search_area .searchDate .dateBottom .endDate input {
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+
+.log_content .search_area .searchBtn {
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    height: 300px;
+}
+
+.log_content .search_area .searchBtn .clear,
+.log_content .search_area .searchBtn .allSearch,
+.log_content .search_area .searchBtn .search {
+    display: flex;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.log_content .search_area .searchBtn .clear {
+    margin: auto auto 12px auto;
+}
+
+.log_content .search_area .searchBtn .allSearch{
+    margin: 0 auto 12px auto;
+}
+
+.log_content .search_area .searchBtn .search {
+    margin: 0 auto;
+}
+
+.log_content .search_area .searchBtn .clear p,
+.log_content .search_area .searchBtn .allSearch p,
+.log_content .search_area .searchBtn .search p {
+    font-family: S-CoreDream-6Bold;
+    color: white;
+    margin: auto;
+    font-size: 18px;
+}
+
+.logTable {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0 0;
+}
+
+.logTable .logHeader {
+    width: 1020px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.logTable .mainLog {
+    width: 1020px;
+    height: 320px;
+    overflow-y: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.logTable .mainLog .logContent {
+    display: flex;
+    height: 60px;
+    border-bottom: 1px solid;
+}
+
+
+.logTable .logHeader .id_content,
+.logTable .mainLog .logContent .id_content {
+    width: 100px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .name_content,
+.logTable .mainLog .logContent .name_content {
+    width: 300px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .mainLog .logContent .name_content p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logTable .logHeader .type_content,
+.logTable .mainLog .logContent .type_content {
+    width: 100px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .date_content,
+.logTable .mainLog .logContent .date_content {
+    width: 120px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .progress_content,
+.logTable .mainLog .logContent .progress_content {
+    width: 80px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .status_content,
+.logTable .mainLog .logContent .status_content {
+    width: 80px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .rest_content,
+.logTable .mainLog .logContent .rest_content {
+    width: 80px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .logHeader .detail_content,
+.logTable .mainLog .logContent .detail_content {
+    width: 140px;
+    margin: auto 0;
+    text-align: center;
+}
+
+.logTable .mainLog .logContent .detail_content .detailInfo {
+    width: 120px;
+    height: 40px;
+    background-color: deepskyblue;
+    display: flex;
+    margin: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logTable .mainLog .logContent .detail_content .detailInfo p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}

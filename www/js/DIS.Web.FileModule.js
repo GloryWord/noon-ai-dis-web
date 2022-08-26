@@ -1,0 +1,198 @@
+'use strict';
+
+/**
+ * DIS.Web.FileModule 네임스페이스
+ * @class DIS.Web.FileModule
+ */
+DIS.Web.FileModule = DIS.Web.FileModule || {};
+
+/**
+ * DIS.Web.FileModule 클래스를 참조하는 글로벌 멤버 변수
+ * @interface FileModule
+ */
+
+var fileModule = DIS.Web.FileModule;
+fileModule = {
+    getFileList: function () {
+        const files = document.getElementById("file").files;
+
+        var fileTypeInfo = ''
+        var fileType = []
+        var fileExt = []
+        var fileWidth = []
+        var fileHeight = []
+        var videoDuration = []
+
+        for (var i = 0; i < files.length; i++) {
+            fileTypeInfo = files[i].type.split('/');
+            fileType.push(fileTypeInfo[0])
+            fileExt.push(fileTypeInfo[1])
+        }
+
+        for (var i = 0; i < files.length; i++) {
+            if (fileType[i] == 'image') {
+                let img = new Image()
+                img.src = window.URL.createObjectURL(files[i])
+                img.onload = () => {
+                    // alert(img.width + " " + img.height);
+                    fileWidth.push(img.width);
+                    fileHeight.push(img.height);
+                }
+            }
+            else if (fileType[i] == 'video') {
+                const video = document.createElement('video');
+                video.addEventListener('loadedmetadata', event => {
+                    fileWidth.push(video.videoWidth);
+                    fileHeight.push(video.videoHeight);
+                    videoDuration.push(video.duration);
+                });
+                video.src = URL.createObjectURL(files[i]);
+            }
+        }
+
+        var fileList = ''
+        for (var i = 0; i < files.length; i++) {
+            fileList += '파일 이름: ' + files[i].name + '<br>'
+                + '크기: ' + formatBytes(files[i].size) + '<br>'
+                + '종류: ' + fileType[i] + '<br>'
+        }
+
+        var html = '<table>\
+                    <tr>\
+                        <th>파일명</th>\
+                        <th>용량</th>\
+                        <th>객체 선택</th>\
+                        <th>파일 삭제</th>\
+                    </tr>';
+        for (var i = 0; i < files.length; i++) {
+            html += '<tr id=file-' + [i] + '>\
+                        <td>'+ files[i].name + '</td>\
+                        <td>'+ formatBytes(files[i].size) + '</td>\
+                        <td>\
+                            <input type="checkbox"><label>사람-얼굴</label>&nbsp;\
+                            <input type="checkbox"><label>사람-몸</label>&nbsp;\
+                            <input type="checkbox"><label>자동차 번호판</label>\
+                        </td>\
+                        <td>\
+                            <div class="uploadDelete" value='+ i + '>\
+                                <p>삭제하기</p>\
+                            </div>\
+                        </td>\
+                    </tr>'
+        }
+        html += '</table>';
+        return [html, fileWidth, fileHeight, videoDuration];
+    },
+
+    deleteFile: function (index) {
+        $("tr").remove("#file-" + index);
+        const dataTransfer = new DataTransfer();
+        const files = $('#file')[0].files;	//사용자가 입력한 파일을 변수에 할당
+        let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
+        fileArray.splice(index, 1);	//해당하는 index의 파일을 배열에서 제거
+        fileArray.forEach(file => { dataTransfer.items.add(file); });
+        //남은 배열을 dataTransfer로 처리(Array -> FileList)
+        $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
+    },
+
+    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration) {
+        var curTime = getTime();
+        var fileNameList = getFiles();
+        var fileWidthObj = Object.assign({}, fileWidth)
+        var fileHeightObj = Object.assign({}, fileHeight)
+        var videoDurationObj = Object.assign({}, videoDuration)
+
+        var keyIndex = 0;
+        var keyName = 'null';
+        if (restoration == 1) {
+            keyIndex = $('#selectKeyName').val()
+            keyName = $('#selectKeyName option:checked').text()
+        }
+
+        var postData = {
+            'requestType': 'encrypt',
+            'fileNameList': fileNameList,
+            'fileWidth': JSON.stringify(fileWidthObj),
+            'fileHeight': JSON.stringify(fileHeightObj),
+            'videoDuration': JSON.stringify(videoDurationObj),
+            'curTime': curTime,
+            'keyIndex': keyIndex,
+            'keyName': keyName,
+            'requestIndex': '',
+            'restoration': restoration,
+        }
+
+        $.ajax({
+            method: "post",
+            url: "/api/syncTime",
+            dataType: "json",
+            data: {
+                'curTime': curTime
+            },
+            success: function (data) {
+                var formData = new FormData();
+                var file = document.getElementById('file').files[0];
+
+                formData.append('file', file);
+                var xhr = new XMLHttpRequest();
+                xhr.open('post', '/api/uploadNAS', true);
+                xhr.upload.onprogress = function (e) {
+                    if (e.lengthComputable) {
+                        var percentage = (e.loaded / e.total) * 100;
+                        console.log(percentage + "%");
+                    }
+                }
+                xhr.onerror = function (e) {
+                    console.log('Error');
+                    console.log(e);
+                };
+                xhr.onload = function () {
+                    new Promise((resolve, reject) => {
+                        var requestIndex = ''
+                        $.ajax({
+                            method: "post",
+                            url: "/api/request/encrypt",
+                            dataType: "json",
+                            data: postData,
+                            async: false,
+                            success: function (data) {
+                                requestIndex = data.enc_request_list_id;
+                            },
+                            error: function (xhr, status) {
+                              // alert(xhr + " : " + status);
+                              alert(JSON.stringify(xhr));
+                            }
+                        });
+                        postData['requestIndex'] = requestIndex;
+                        resolve();
+                    }).then(() => {
+                        $.ajax({
+                            method: "post",
+                            url: "/api/sendMessage/encrypt",
+                            dataType: "json",
+                            data: postData,
+                            success: function (data) {
+                      
+                            },
+                            error: function (xhr, status) {
+                              // alert(xhr + " : " + status);
+                              alert(JSON.stringify(xhr));
+                            }
+                          });
+                        new Promise((resolve, reject) => {
+                            resolve()
+                        }).then((a) => {
+                            alert('NAS에 업로드 완료');
+                            location.href = '/main'
+                        })
+                    })
+                };
+                xhr.send(formData);
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                alert(JSON.stringify(xhr));
+            }
+        });
+    },
+}

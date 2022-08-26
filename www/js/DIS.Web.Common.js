@@ -1,0 +1,141 @@
+'use strict';
+
+/** 
+ * DIS 네임스페이스
+ * @author 이민형(2022.07.20)
+ * @namespace DIS 
+ */
+var DIS = DIS || {};
+
+/**
+ * DIS.Web 네임스페이스
+ * @namespace DIS.Web
+ */
+DIS.Web = DIS.Web || {};
+
+/**
+ * DIS.Web.Common 네임스페이스
+ * @class DIS.Web.Common
+ */
+DIS.Web.Common = DIS.Web.Common || {};
+
+/**
+ * DIS.Web.Common 클래스를 참조하는 글로벌 멤버 변수
+ * @interface comm
+ */
+var comm = DIS.Web.Common;
+comm = {
+    /**
+     * 사용자 로그인시 사용되는 공통 메서드 입니다.
+     * @param {string} userId 회원 아이디
+     * @param {string} password 회원 비밀번호
+     */
+
+    getUser: function () {
+        var result = '';
+        var resultStr = '';
+        $.ajax({
+            method: "get",
+            url: "/api/user",
+            async: false,
+            success: function (data) {
+                result = data
+            },
+            error: function (xhr, status) {
+                alert(xhr + " : " + status);
+            }
+        });
+        resultStr = '<p>접속 서버 환경: ' + result.env + '</p>\
+            <p>현재 테넌트: tenant-'+ result.tenant_id + '</p>\
+            <p>유저 권한: '+ result.auth + '</p>\
+            <p>회사명: '+ result.company_name + '</p>\
+            <p>현재 아이디: '+ result.account_name + '</p>';
+        return resultStr;
+    },
+
+    getKeyList: function () {
+        var result = '';
+        var resultStr = '<option value="0">----</option>';
+        $.ajax({
+            method: "get",
+            url: "/api/key",
+            async: false,
+            success: function (data) {
+                result = data
+                console.log(data)
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        if (!result.keyList) {
+            for (var i = 0; i < result.length; i++) {
+                resultStr += "<option value=" + result[i]['id'] + ">" + result[i]['key_name'] + "</option>"
+            }
+        }
+        return resultStr;
+    },
+
+    getAuth: function () {
+        var result = ''
+        $.ajax({
+            method: "get",
+            url: "/api/user/auth",
+            async: false,
+            success: function (data) {
+                result = data
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
+    secondaryLogin: async function () {
+        await Swal.fire({
+            title: '2차 인증',
+            input: 'password',
+            inputLabel: '정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다',
+            inputPlaceholder: '비밀번호를 입력해 주세요',
+            inputAttributes: {
+                maxlength: 10,
+                autocapitalize: 'off',
+                autocorrect: 'off'
+            },
+            showCancelButton: true,
+        }).then((result) => {
+            const password = result.value;
+            if (result.isDismissed) location.href = '/submanage';
+            if (password) {
+                var verify = login.secondaryLogin(password);
+                if (verify) Swal.fire('2차 인증이 완료되었습니다.', '', 'success')
+                else Swal.fire('2차 인증에 실패하였습니다.', '', 'error').then(() => {
+                    location.href = '/submanage';
+                })
+            }
+        })
+    },
+
+    generateKey: function (genKeyName) {
+        $.ajax({
+            method: "post",
+            url: "/api/key",
+            data: { 'keyName': genKeyName },
+            success: function (data) {
+                new Promise((resolve, reject) => {
+                    download(data.privateKey, data.keyName + ".pem", "text/plain")
+                    resolve();
+                }).then(() => {
+                    alert('RSA 키 발급 완료');
+                    location.href = '/encrypt/video';
+                })
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + JSON.stringify(status));
+            }
+        });
+    }
+}

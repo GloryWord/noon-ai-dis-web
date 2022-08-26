@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    
+    <link rel="stylesheet" href="./static/css/common/adminUser.css" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.SignUp.js"></script>
+</head>
+
+<style>
+    input.valid {
+        border-color: #36cc36;
+    }
+
+    input.invalid {
+        border-color: orange;
+    }
+</style>
+
+<body>
+    <div class="registerContent">
+        <div class="registerBox">
+            <h1>회원가입</h1>
+            <div class="regiBody">
+                <p>ID : </p>
+                <div class="emailArea">
+                    <input class="regi_id" value="" name="account_name" id="account_name">
+                    <div class="auth_send" id="email_send">
+                        <h3>이메일 인증</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="regiBody">
+                <p>비밀번호 : </p>
+                <input class="regi_pass" type="password" name="password" id="password">
+            </div>
+            <div class="regiBody">
+                <p>비밀번호 확인 : </p>
+                <input class="regi_passConfig" type="password" name="repassword" id="repassword">
+            </div>
+            <div class="regiBody">
+                <p>기관명 : </p>
+                <input class="regi_company" value="" name="company_name" id="company_name">
+            </div>
+            <div class="regiBody">
+                <p>이름 : </p>
+                <input class="regu_name" value="" name="owner_name" id="owner_name">
+            </div>
+            <div class="regiBody">
+                <p>전화번호 : </p>
+                <input class="regi_phone" value="" placeholder='- 를 제외하고 입력해 주세요' name="telephone" id="telephone">
+            </div>
+            <div class="regiBody">
+                <p>인증번호 : </p>
+                <div class="authArea">
+                    <input class="regi_auth" value="" name="verify_number" id="verify_number">
+                    <div class="auth_confirm" id="email_verify">
+                        <h3>인증 확인</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="btnArea">
+                <div class="regiSave" id="tenant_register">
+                    <p>승인 요청</p>
+                </div>
+                <div class="regiCancel">
+                    <p>취소</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
+
+<script>
+    const patterns = {
+        account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
+        password: /^[\w@-]{8,20}$/,
+        repassword: /^[\w@-]{8,20}$/,
+        company_name: /^[a-z\d]{1,20}$/i,
+        owner_name: /^[a-z\d]{1,20}$/i,
+        telephone: /^[0-9]{11}$/,
+        verify_number: /^[0-9]{6}$/
+    };
+
+    const inputs = document.querySelectorAll('input');
+
+    function validate(input, regex) {
+        return regex.test(input.value) ? 'valid' : 'invalid';
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener('keyup', (event) => {
+            input.className = validate(event.target, patterns[event.target.attributes.name.value]);
+        });
+    });
+
+    var verify = false;
+    var verifyCode = '';
+    $(document).on("click", "#email_send", function () {
+        var email = $("#account_name").val();
+        if (email) verifyCode = signup.sendMail(email);
+        else alert('이메일을 입력해 주세요')
+        alert('이메일 인증번호를 확인해 주세요');
+    });
+
+    $(document).on("click", "#email_verify", function () {
+        if ($("#verify_number").val() == verifyCode) {
+            alert('인증 완료');
+            verify = true;
+            $(this).addClass('click');
+            $("#account_name").attr('disabled', true); // or false
+        }
+    });
+
+    $(document).on("click", "#tenant_register", function () {
+        if (!verify) alert("이메일을 인증해주세요")
+        else {
+            var accountName = $("#account_name").val();
+            var password = $("#password").val();
+            var repassword = $("#repassword").val();
+            var companyName = $("#company_name").val();
+            var ownerName = $("#owner_name").val();
+            var telePhone = $("#telephone").val();
+            if (password != repassword) alert("비밀번호 입력이 불일치합니다")
+            else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
+        }
+    });
+</script>

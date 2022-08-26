@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../static/css/common/base.css" type="text/css" />
+    <link rel="stylesheet" href="../static/css/common/imageupload.css" type="text/css" />
+    <link rel="stylesheet" href="../static/css/common/header.css" type="text/css" />
+    <link rel="stylesheet" href="../static/css/common/modal.css" type="text/css" />
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/DIS.Web.Common.js"></script>
+    <script type="text/javascript" src="../js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="../js/DIS.Web.SubAccount.js"></script>
+    <script type="text/javascript" src="../js/DIS.Web.Login.js"></script>
+    <script type="text/javascript" src="../js/DIS.Web.FileModule.js"></script>
+    <script src="../static/js/sweetalert/sweetalert.js"></script>
+    <script src="../static/js/common/common.js"></script>
+    <script src="../static/js/common/header.js"></script>
+    <script src="../modules/download.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_content">
+            <a href="/main"><div class="logo"></div></a>
+            <div class="flow">
+                <div class="circleArea">
+                    <div class="stepArea">
+                        <div class="circle on"></div>
+                        <p class="circleText1">파일 업로드</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="s_circle"></div>
+                    <div class="line"></div>
+                    <div class="stepArea">
+                        <div class="circle"></div>
+                        <p class="circleText3">AI 비식별화 진행</p>
+                    </div>
+                </div>
+            </div>
+            <div class="menuBtn">                
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/main">홈</a>
+                    <a href="/log">기록 열람</a>
+                    <a href="/key">KEY 관리</a>
+                    <a class="infoMove">내 정보</a>
+                    <a class="admin_only" href="/subManage">서브 계정 관리</a>
+                    <a id="logout" href="/">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uploadArea">
+            <div class="btnArea" data-video="1" data-num="1">
+                <p>NEXT</p>
+            </div>
+        <div class="videoUpload">
+            <div class="uploadSelect">
+                <div class="fileSelect">
+                    <p>파일 선택</p>
+                </div>
+                <div class="folderSelect">
+                    <p>
+                        폴더 선택
+                    </p>
+                </div>
+            </div>
+            <div class="uploadHeader">
+                <div class="textArea">
+                    <h1>이미지 업로드</h1>
+                    <p>※ 이미지의 경우 10개의 파일만 선택 할 수 있습니다.</p>
+                </div>
+                <div class="uploadBtnArea">
+                    <label class="fileUpload uploadBtn active" for="file"><p>파일 업로드</p></label> 
+                    <input type="file" id="file">
+                    <label class="folderUpload uploadBtn" for="folder"><p>폴더 업로드</p></label> 
+                    <input type="file" id="folder" webkitdirectory>
+                </div>
+            </div>
+            <div class="uploadContent">
+                <table>
+                    <tr>
+                        <th>파일명</th>
+                        <th>용량</th>
+                        <!-- <th>영상 종류</th> -->
+                        <th>객체 선택<br>
+                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="allbody" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="allcar" type="checkbox"><label>자동차 번호판</label>
+                        </th>
+                        <th>파일 삭제</th>
+                    </tr>
+                    <tr>
+                        <td>123.png</td>
+                        <td>235.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456.png</td>
+                        <td>237.68kb</td>
+                        <!-- <td>
+                            <input type="radio" name="video" value="cctv"><label for="cctv">CCTV 영상</label>
+                            <input type="radio" name="video" value="normal"><label for="normal">일반 영상</label>
+                        </td> -->
+                        <td>
+                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
+                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="car" type="checkbox"><label>자동차 번호판</label>
+                        </td>
+                        <td>
+                            <div class="uploadDelete">
+                                <p>삭제하기</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="uploadFooter">
+                <input class="restore" type="checkbox" name="restore" value="true"><label for="restore">추후 복호화 진행</label>
+                <h3>※&nbsp;선택하거나 생성한 KEY를 활용하여 추후 파일 복원 시 사용됩니다.</h3>
+                <div class="restoreKey">
+                    <div class="sKeyArea">
+                        <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">발급 받은 비식별화 시 사용할 KEY 선택</label>
+                        <div class="selectKey">
+                            <p>KEY 선택 : </p>
+                            <select>
+                                <option value="aaa">aaa</option>
+                                <option value="bbb">bbb</option>
+                                <option value="ccc">ccc</option>
+                                <option value="ddd">ddd</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cKeyArea">
+                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">신규 KEY 생성 및 다운로드</label>
+                        <div class="createKey">
+                            <p>KEY 입력 : </p>
+                            <input class="keyCreate">
+                            <div class="keyCD">
+                                <p>KEY 파일 생성 및 다운로드</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<div id="saveConfir" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="info_inner">
+                <div class="saveContent">
+                    <div class="saveHeader">
+                        <h1>비밀번호 입력</h1>
+                    </div>
+                    <div class="saveBody">
+                        <div class="bodyHeader">
+                            <p>현재 비밀번호 : </p>
+                            <input type="password" class="cur_password">
+                        </div>
+                        <div class="saveFooter">
+                            <div class="infoConfir">
+                                <p>저장</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

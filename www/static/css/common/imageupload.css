@@ -1,0 +1,300 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.uploadArea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.uploadArea .btnArea {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    margin: 30px 60px 0 auto;
+    cursor: pointer;
+}
+
+.uploadArea .btnArea a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.uploadArea .btnArea p {
+    font-family: S-CoreDream-6Bold;
+    font-size: 24px;
+    margin: auto;
+    color: white;
+}.uploadArea .videoUpload {
+    width: auto;
+    height: auto;
+    margin: 100px auto 0;
+    background-color: darkgray;
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    position: relative;
+}
+
+.uploadArea .videoUpload .uploadHeader {
+    display: flex;
+    width: auto;
+    height: auto;
+}
+
+.uploadArea .videoUpload .uploadSelect {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    top: -40px;
+}
+
+.uploadArea .videoUpload .uploadSelect .fileSelect {
+    display: flex;
+    border-top-left-radius: 5px;
+    width: 80px;
+    height: 40px;
+    background-color: #909090;
+    border-right: solid 1px white;
+    cursor: pointer;
+}
+
+.uploadArea .videoUpload .uploadSelect .fileSelect p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}
+
+.uploadArea .videoUpload .uploadSelect .folderSelect {
+    display: flex;
+    border-top-right-radius: 5px;
+    width: 80px;
+    height: 40px;
+    background-color: #909090;
+    cursor: pointer;
+}
+
+.uploadArea .videoUpload .uploadSelect .folderSelect p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}
+
+.uploadArea .videoUpload .uploadHeader {
+    display: flex;
+    width: auto;
+    height: auto;
+}
+
+.uploadArea .videoUpload .uploadHeader .textArea {
+    display: flex;
+    flex-direction: column;
+    margin: 12px auto 12px 12px;
+}
+
+.uploadArea .videoUpload .uploadHeader .textArea h1 {
+    font-size: 24px;
+    font-family: S-CoreDream-6Bold;
+    color: black;
+    margin: 0;
+}
+
+.uploadArea .videoUpload .uploadHeader .textArea p {
+    font-size: 12px;
+    font-family: S-CoreDream-4Regular;
+    font-weight: normal;
+    color: red;
+    margin: 6px 0 0;
+}
+
+.uploadArea .videoUpload .uploadHeader .uploadBtnArea {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 12px 12px 120px;
+}
+
+.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn {
+    display: none;
+}
+
+.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active {
+    display: flex;
+    background-color: deepskyblue;
+    margin: auto 0;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.uploadArea .videoUpload .uploadHeader .uploadBtnArea input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+.uploadArea .videoUpload .uploadContent {
+    margin: 0 12px 12px 12px;
+    background-color: white;
+    width: auto;
+    height: 360px;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+
+.uploadArea .videoUpload .uploadContent table {
+    width: 800px;
+}
+
+.uploadArea .videoUpload .uploadContent table th {
+    height: 60px;
+    border-bottom: 1px solid;
+}
+
+.uploadArea .videoUpload .uploadContent table td {
+    margin: 0 auto;
+    text-align: center;
+    height: 60px;
+    border-bottom: 1px solid;
+}
+
+.uploadArea .videoUpload .uploadContent table td p {
+    margin: auto;
+}
+
+.uploadArea .videoUpload .uploadContent table td .uploadDelete {
+    width: 120px;
+    height: 40px;
+    background-color: #909090;
+    border-radius: 5px;
+    display: flex;
+    margin: auto;
+    cursor: pointer;
+}
+
+.uploadArea .videoUpload .uploadContent table td .uploadDelete p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}
+
+.uploadFooter {
+    margin: 0 0 12px 12px;
+    font-family: S-CoreDream-4Regular;
+}
+
+.uploadFooter h3 {
+    font-size: 12px;
+    font-family: S-CoreDream-4Regular;
+    color: red;
+    margin: 2px 0 0 4px;
+    font-weight: normal;
+}
+
+.uploadFooter .restoreKey {
+    display: none;
+}
+
+.uploadFooter .restoreKey.on {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0 0 12px;
+}
+
+.uploadFooter .restoreKey.on .sKeyArea {
+    margin: 0 0 8px;
+}
+
+.uploadFooter .restoreKey .selectKey,
+.uploadFooter .restoreKey .createKey {
+    display: none;
+}
+
+.uploadFooter .restoreKey .selectKey.on,
+.uploadFooter .restoreKey .createKey.on {
+    display: flex;
+    margin: 8px 0 8px 24px;
+}
+
+.uploadFooter .restoreKey .selectKey.on p,
+.uploadFooter .restoreKey .createKey.on p {
+    margin: auto 8px auto 0;
+    font-family: S-CoreDream-4Regular;
+}
+
+.uploadFooter .restoreKey .selectKey.on select {
+    width: 200px;
+    height: 40px;
+    font-family: S-CoreDream-4Regular;
+}
+
+.uploadFooter .restoreKey .createKey.on .keyCreate {
+    margin: 0 8px 0 0;
+}
+
+.uploadFooter .restoreKey .createKey.on .keyCD {
+    width: 220px;
+    height: 40px;
+    background-color: deepskyblue;
+    display: flex;
+    border-radius: 5px;
+    font-family: S-CoreDream-4Regular;
+    cursor: pointer;
+}
+
+.uploadFooter .restoreKey .createKey.on .keyCD p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}

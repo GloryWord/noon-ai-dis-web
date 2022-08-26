@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/key.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="./static/js/common/jquery-3.5.1.min.js"></script>
+    <script src="./static/js/common/common.js"></script>
+    <script src="./static/js/common/header.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_content">
+            <a href="/main"><div class="logo"></div></a>
+            <div class="flow">
+            </div>
+            <div class="menuBtn">                
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/main">홈</a>
+                    <a href="/log">기록 열람</a>
+                    <a href="/key">KEY 관리</a>
+                    <a class="infoMove">내 정보</a>
+                    <a href="/subManage">서브 계정 관리</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="key_content">
+        <div class="key_add"><p>KEY 생성</p></div>
+        <div class="key_table">
+            <div class="keyList">
+                <div class="listHeader">
+                    <div class="headArea">
+                        <div class="number_head"><h3>생성 번호</h3></div>
+                        <div class="name_head"><h3>KEY 이름</h3></div>
+                        <div class="user_head"><h3>담당자</h3></div>
+                        <div class="create_head"><h3>KEY 생성일</h3></div>
+                        <div class="memo_head"><h3>메모</h3></div>
+                    </div>
+                </div>
+                <div class="listContent">
+                    <div class="tableContent">
+                        <div class="number_content"><p>5</p></div>
+                        <div class="name_content"><p>test5</p></div>
+                        <div class="user_content"><p>홍길동</p></div>
+                        <div class="create_content"><p>2022.08.15</p></div>
+                        <div class="memo_content">
+                            <p>경찰청용</p>
+                            <div class="memo_modi"><p>수정</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<div id="keyAdd" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="addContent">
+                    <div class="addHeader">
+                        <h1>KEY 생성</h1>
+                    </div>
+                    <div class="addBody">
+                        <div class="bodyHeader">
+                            <p>KEY 입력 : </p>
+                            <input class="keyname">
+                        </div>
+                        <div class="bodyMiddle">
+                            <p>KEY 메모 : </p>
+                            <input class="keymemo">
+                        </div>
+                        <div class="bodyFooter">
+                            <p>※ 복호화 시 사용 할 KEY 파일을 생성합니다.</p>
+                            <div class="BtnArea">
+                                <div class="keyCreate">
+                                    <p>KEY 파일 생성 및 다운로드</p>
+                                </div>
+                                <div class="cancel">
+                                    <p>취소</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="saveConfir" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="info_inner">
+                <div class="saveContent">
+                    <div class="saveHeader">
+                        <h1>비밀번호 입력</h1>
+                    </div>
+                    <div class="saveBody">
+                        <div class="bodyHeader">
+                            <p>현재 비밀번호 : </p>
+                            <input type="password" class="cur_password">
+                        </div>
+                        <div class="saveFooter">
+                            <div class="infoConfir">
+                                <p>저장</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="memoModi" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="modiContent">
+                    <div class="modiHeader">
+                        <h1>KEY 메모 수정</h1>
+                    </div>
+                    <div class="modiBody">
+                        <div class="bodyHeader">
+                            <p>내용</p>
+                            <div class="allClear">
+                                <p>내용 비우기</p>
+                            </div>
+                        </div>
+                        <div class="bodyMiddle">
+                            <textarea class="keymemo_modi"></textarea>
+                        </div>
+                        <div class="bodyFooter">
+                            <div class="memosave">
+                                <p>저장</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

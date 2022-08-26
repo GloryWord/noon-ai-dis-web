@@ -1,0 +1,201 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.info_content {
+    width: auto;
+    height: auto;
+    display: flex;
+}
+
+.info_content .infoArea {
+    width: 500px;
+    height: auto;
+    display: flex;
+    margin: 200px auto 0;
+    flex-direction: column;
+    background-color: #CCCCCC;
+    border-radius: 5px;
+}
+
+.info_content .infoArea h1 {
+    margin: 24px auto 12px;
+    font-family: S-CoreDream-6Bold;
+}
+
+.info_content .infoArea .infoBody {
+    display: flex;
+    margin: auto auto 12px;
+    width: 400px;
+}
+
+.info_content .infoArea .infoBody p {
+    margin: 0 12px 0 0;
+    text-align: right;
+    width: 136px;
+    font-family: SpoqaHanSansNeo-Regular;
+}
+
+.info_content .infoArea .infoBody input {
+    width: 200px;
+}
+
+.info_content .infoArea .btnArea {
+    display: flex;
+    margin: auto;
+    margin: 12px auto 24px;
+}
+
+.info_content .infoArea .btnArea .infoSave {
+    width: 120px;
+    height: 30px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    margin: 0 48px 0 0;
+    display: flex;
+    cursor: pointer;
+}
+
+.info_content .infoArea .btnArea .infoSave p {
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    color: white;
+}
+
+.info_content .infoArea .btnArea .infoCancel {
+    width: 120px;
+    height: 30px;
+    background-color: #909090;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.info_content .infoArea .btnArea .infoCancel p {
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    color: white;
+}
+
+.layerPopupBox .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px #666;
+    background: #FFFFFF;
+    border: 1px solid #EBEDF2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.layerPopupBox .inner .saveContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .inner .saveContent .saveHeader {
+    margin: 24px auto;
+}
+
+.layerPopupBox .inner .saveContent .saveHeader h1 {
+    margin: 0;
+    font-weight: S-CoreDream-6Bold;
+}
+
+.layerPopupBox .inner .saveContent .saveBody {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .bodyHeader {
+    display: flex;
+    margin: 0 auto 8px 0;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .bodyHeader p {
+    margin: 0 12px 0 0;
+    font-family: SpoqaHanSansNeo-Regular;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .saveFooter {
+    display: flex;
+    margin: 12px auto 24px;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .saveFooter .infoConfir {
+    margin: 0 24px 0 0;
+    width: 120px;
+    height: 30px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .saveFooter .infoConfir p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .saveFooter .cancel {
+    margin: 0;
+    width: 120px;
+    height: 30px;
+    background-color: #909090;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.layerPopupBox .inner .saveContent .saveBody .saveFooter .cancel p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}

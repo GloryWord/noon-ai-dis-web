@@ -1,0 +1,9 @@
+body {
+    margin: 0;
+    padding-top: 88px;
+    overflow: auto;
+}
+
+a {
+    text-decoration: none;
+}

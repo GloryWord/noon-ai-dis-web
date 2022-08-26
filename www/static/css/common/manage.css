@@ -1,0 +1,412 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.sub_content {
+    display: flex;
+    flex-direction: column;
+    margin: 120px auto 0;
+}
+
+.sub_add {
+    margin: 0 auto 24px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    width: 180px;
+    height: 40px;
+    display: flex;
+    cursor: pointer;
+}
+
+.sub_add p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.sub_table {
+    display: flex;
+    margin: 0 auto;
+    height: auto;
+    overflow-y: auto;
+    border-top: 1px solid;
+}
+
+.sub_table .subList {
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub_table .subList .listHeader {
+    width: 100%;
+    height: 80px;
+    display: flex;
+}
+
+.sub_table .subList .listHeader .headArea {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.sub_table .subList .listHeader .headArea .number_head,
+.sub_table .subList .listHeader .headArea .id_head,
+.sub_table .subList .listHeader .headArea .name_head,
+.sub_table .subList .listHeader .headArea .last_head,
+.sub_table .subList .listHeader .headArea .create_head,
+.sub_table .subList .listHeader .headArea .pass_head,
+.sub_table .subList .listHeader .headArea .del_head {
+    height: 100%;
+    display: flex;
+    margin: auto;
+}
+
+.sub_table .subList .listHeader .headArea .number_head {
+    width: 10%;
+}
+
+.sub_table .subList .listHeader .headArea .id_head {
+    width: 20%;
+}
+
+.sub_table .subList .listHeader .headArea .name_head {
+    width: 10%;
+}
+
+.sub_table .subList .listHeader .headArea .last_head {
+    width: 15%;
+}
+
+.sub_table .subList .listHeader .headArea .create_head {
+    width: 15%;
+}
+
+.sub_table .subList .listHeader .headArea .pass_head {
+    width: 15%;
+}
+
+.sub_table .subList .listHeader .headArea .del_head {
+    width: 15%;
+}
+
+.sub_table .subList .listHeader .headArea h3 {
+    margin: auto;
+}
+
+.sub_table .subList .listContent {
+    height: auto;
+    max-height: 550px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub_table .subList .listContent .tableContent {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.sub_table .subList .listContent .tableContent .number_content,
+.sub_table .subList .listContent .tableContent .id_content,
+.sub_table .subList .listContent .tableContent .name_content,
+.sub_table .subList .listContent .tableContent .last_content,
+.sub_table .subList .listContent .tableContent .create_content,
+.sub_table .subList .listContent .tableContent .pass_content,
+.sub_table .subList .listContent .tableContent .del_content {
+    height: 60px;
+    display: flex;
+    margin: auto;
+}
+
+.sub_table .subList .listContent .tableContent .number_content {
+    width: 10%;
+}
+
+.sub_table .subList .listContent .tableContent .id_content {
+    width: 20%;
+}
+
+.sub_table .subList .listContent .tableContent .name_content {
+    width: 10%;
+}
+
+.sub_table .subList .listContent .tableContent .last_content {
+    width: 15%;
+}
+
+.sub_table .subList .listContent .tableContent .create_content {
+    width: 15%;
+}
+
+.sub_table .subList .listContent .tableContent .pass_content {
+    width: 15%;
+}
+
+.sub_table .subList .listContent .tableContent .del_content {
+    width: 15%;
+}
+
+.sub_table .subList .listContent .tableContent p {
+    margin: auto;
+}
+
+.sub_table .subList .listContent .tableContent .pass_content .pass_modi {
+    display: flex;
+    width: 80px;
+    height: 40px;
+    margin: auto;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub_table .subList .listContent .tableContent .pass_content .pass_modi p {
+    color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    margin: auto;
+}
+
+.sub_table .subList .listContent .tableContent .del_content .delBtn {
+    display: flex;
+    width: 80px;
+    height: 40px;
+    margin: auto;
+    background-color: #909090;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub_table .subList .listContent .tableContent .del_content .delBtn p {
+    color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    margin: auto;
+}
+
+.add_content {
+    width: auto;
+    height: auto;
+    display: flex;
+}
+
+.add_content .addArea {
+    width: 500px;
+    height: auto;
+    display: flex;
+    margin: 200px auto 0;
+    flex-direction: column;
+    background-color: #CCCCCC;
+    border-radius: 5px;
+}
+
+.add_content .addArea h1 {
+    margin: 24px auto 12px;
+    font-family: S-CoreDream-6Bold;
+}
+
+.add_content .addArea .addBody {
+    display: flex;
+    margin: auto auto 12px;
+    width: 400px;
+}
+
+.add_content .addArea .addBody p {
+    margin: 0 12px 0 0;
+    text-align: right;
+    width: 136px;
+    font-family: SpoqaHanSansNeo-Regular;
+}
+
+.add_content .addArea .addBody input {
+    width: 200px;
+}
+
+.add_content .addArea .btnArea {
+    display: flex;
+    margin: auto;
+    margin: 12px auto 24px;
+}
+
+.add_content .addArea .btnArea .addSave {
+    width: 120px;
+    height: 30px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    margin: 0 48px 0 0;
+    display: flex;
+    cursor: pointer;
+}
+
+.add_content .addArea .btnArea .addSave p {
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    color: white;
+}
+
+.add_content .addArea .btnArea .addCancel {
+    width: 120px;
+    height: 30px;
+    background-color: #909090;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.add_content .addArea .btnArea .addCancel p {
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    color: white;
+}
+
+.layerPopupBox .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 180px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px #666;
+    background: #FFFFFF;
+    border: 1px solid #EBEDF2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.layerPopupBox .inner .passContent,
+.layerPopupBox .inner .delContent,
+.layerPopupBox .inner .addContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .inner .passContent .passHeader,
+.layerPopupBox .inner .delContent .delHeader,
+.layerPopupBox .inner .addContent .addHeader {
+    margin: 24px auto;
+}
+
+.layerPopupBox .inner .passContent .passHeader h1,
+.layerPopupBox .inner .delContent .delHeader h1,
+.layerPopupBox .inner .addContent .addHeader h1 {
+    margin: 0;
+    font-weight: S-CoreDream-6Bold;
+}
+
+.layerPopupBox .inner .passContent .passBody,
+.layerPopupBox .inner .delContent .delBody,
+.layerPopupBox .inner .addContent .addBody {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .inner .passContent .passBody .bodyHeader,
+.layerPopupBox .inner .delContent .delBody .bodyHeader,
+.layerPopupBox .inner .addContent .addBody .bodyHeader {
+    display: flex;
+    margin: 0 auto 12px;
+}
+
+.layerPopupBox .inner .passContent .passBody .bodyHeader p,
+.layerPopupBox .inner .delContent .delBody .bodyHeader p,
+.layerPopupBox .inner .addContent .addBody .bodyHeader p {
+    margin: 0 12px 0 0;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter,
+.layerPopupBox .inner .delContent .delBody .delFooter ,
+.layerPopupBox .inner .addContent .addBody .addFooter{
+    display: flex;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter .passConfig,
+.layerPopupBox .inner .delContent .delBody .delFooter .delConfig,
+.layerPopupBox .inner .addContent .addBody .addFooter .addConfig {
+    margin: 0 24px 0 0;
+    width: 120px;
+    height: 30px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter .passConfig p,
+.layerPopupBox .inner .delContent .delBody .delFooter .delConfig p,
+.layerPopupBox .inner .addContent .addBody .addFooter .addConfig p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter .passConfig input,
+.layerPopupBox .inner .delContent .delBody .delFooter .delConfig input,
+.layerPopupBox .inner .addContent .addBody .addFooter .addConfig input {
+    width: 200px;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter .cancel,
+.layerPopupBox .inner .delContent .delBody .delFooter .cancel,
+.layerPopupBox .inner .addContent .addBody .addFooter .cancel {
+    margin: 0;
+    width: 120px;
+    height: 30px;
+    background-color: #909090;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.layerPopupBox .inner .passContent .passBody .passFooter .cancel p,
+.layerPopupBox .inner .delContent .delBody .delFooter .cancel p,
+.layerPopupBox .inner .addContent .addBody .addFooter .cancel p {
+    color: white;
+    font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
