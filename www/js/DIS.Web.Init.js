@@ -231,6 +231,49 @@ init = {
     },
 
     image: function () {
+        var html = ''
+        var fileWidth = []
+        var fileHeight = []
+        var videoDuration = []
+
+        $("#selectKeyName").html(comm.getKeyList());
+
+        $("#file").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $("#folder").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $(document).on("click", ".uploadDelete", function () {
+            var idx = $(this).attr('value')
+            fileModule.deleteFile(idx);
+        });
+
+        $(document).on("click", "#generateKey", function () {
+            var genKeyName = $("#genKeyName").val();
+            comm.generateKey(genKeyName);
+        });
+
+        var restoration = 0;
+        $('input[type=checkbox][name=restoration]').on('change', function () {
+            switch ($(this)[0].checked) {
+                case true:
+                    restoration = 1;
+                    break;
+                case false:
+                    restoration = 0;
+                    break;
+            }
+        });
+
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
@@ -239,6 +282,14 @@ init = {
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+        });
+
+        $(document).on("click", ".btnArea", function () {
+            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
+        });
+
+        $(document).on("click", "#logout", function () {
+            login.logout();
         });
     },
 
@@ -255,7 +306,14 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList();
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $("#folder").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
             }, 100);

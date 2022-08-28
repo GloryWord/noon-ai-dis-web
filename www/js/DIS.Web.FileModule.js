@@ -13,9 +13,8 @@ DIS.Web.FileModule = DIS.Web.FileModule || {};
 
 var fileModule = DIS.Web.FileModule;
 fileModule = {
-    getFileList: function () {
-        const files = document.getElementById("file").files;
-
+    getFileList: function (type, mode) {
+        var files = document.getElementById(mode).files;
         var fileTypeInfo = ''
         var fileType = []
         var fileExt = []
@@ -23,9 +22,16 @@ fileModule = {
         var fileHeight = []
         var videoDuration = []
 
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
+        var filteredFileArray = fileArray.filter((element) => element.type.split('/')[0] == type);
+        
+        filteredFileArray.forEach(file => { dataTransfer.items.add(file); });
+        $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
+        files = $('#file')[0].files;
+
         for (var i = 0; i < files.length; i++) {
             fileTypeInfo = files[i].type.split('/');
-            fileType.push(fileTypeInfo[0])
             fileExt.push(fileTypeInfo[1])
         }
 
@@ -64,6 +70,17 @@ fileModule = {
                         <th>객체 선택</th>\
                         <th>파일 삭제</th>\
                     </tr>';
+        if(type == 'image') html = '<table>\
+                                    <tr>\
+                                        <th>파일명</th>\
+                                        <th>용량</th>\
+                                        <th>객체 선택<br>\
+                                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;\
+                                            <input class="allbody" type="checkbox"><label>사람-몸</label>&nbsp;\
+                                            <input class="allcar" type="checkbox"><label>자동차 번호판</label>\
+                                        </th>\
+                                        <th>파일 삭제</th>\
+                                    </tr>';
         for (var i = 0; i < files.length; i++) {
             html += '<tr id=file-' + [i] + '>\
                         <td>'+ files[i].name + '</td>\
@@ -131,12 +148,15 @@ fileModule = {
             },
             success: function (data) {
                 var formData = new FormData();
-                var file = document.getElementById('file').files[0];
-
-                formData.append('file', file);
+                var file = document.getElementById('file').files;
+                var mode = ''
+                if (file.length > 1) mode = '/multiple';
+                for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
+                // formData.append('file', file);
                 var xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/uploadNAS', true);
+                xhr.open('post', '/api/uploadNAS'+mode, true);
                 xhr.upload.onprogress = function (e) {
+                    console.log(e);
                     if (e.lengthComputable) {
                         var percentage = (e.loaded / e.total) * 100;
                         console.log(percentage + "%");
@@ -182,8 +202,8 @@ fileModule = {
                         new Promise((resolve, reject) => {
                             resolve()
                         }).then((a) => {
-                            alert('NAS에 업로드 완료');
-                            location.href = '/main'
+                            alert('NAS 업로드 완료');
+                            location.reload();
                         })
                     })
                 };
