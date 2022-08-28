@@ -191,6 +191,10 @@ init = {
                 location.href = "/album_detail"
             }
         });
+
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     main2: function () {
@@ -358,6 +362,10 @@ init = {
         $(document).on("click", "#logout", function () {
             login.logout();
         });
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     log: function () {
@@ -498,6 +506,10 @@ init = {
 
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     key: function () {
@@ -522,6 +534,10 @@ init = {
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
         });
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     decrypt: function () {
@@ -545,6 +561,10 @@ init = {
 
         var subAccountList = subaccount.getList();
         $(".listContent").html(subAccountList);
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     add: function () {
@@ -583,6 +603,10 @@ init = {
         });
 
         comm.secondaryLogin();
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     admin: function () {
