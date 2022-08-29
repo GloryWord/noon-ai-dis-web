@@ -142,4 +142,20 @@ login = {
 
         return 0;
     },
+
+    adminonly: function () {
+        var auth = ''
+        $.ajax({
+            method: "get",
+            url: "/api/get-auth",
+            async: false,
+            success: function (data) {
+                auth = data.auth
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+        return auth
+    },
 }
