@@ -172,10 +172,6 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
-
         var mainLog = requestTable.getEncRequestList()
         $(".mainLog").html(mainLog);
 
@@ -244,6 +240,10 @@ init = {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
         });
+        
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
     },
 
     loading: function () {
@@ -301,10 +301,6 @@ init = {
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
         });
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
-        
         $(document).on("click", "#logout", function () {
             login.logout();
         });
@@ -452,6 +448,15 @@ init = {
         $(document).on("click", "#logout", function () {
             login.logout();
         });
+    },
+
+    myinfo: function () {
+        $(document).on("click", "#logout", function () {
+            login.logout();
+        });
+
+        var infoArea = requestTable.getUserInfo()
+        $(".infoArea").html(infoArea);
     },
 
     key: function () {
