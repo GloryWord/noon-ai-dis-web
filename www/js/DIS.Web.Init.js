@@ -181,14 +181,14 @@ init = {
 
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
-            if(type == '영상'){
-                location.href = "/video_detail"
+            if (type == '영상') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
             }
-            else if(type == '이미지'){
-                location.href = "/image_detail"
+            else if (type == '이미지') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
-            else if(type == '이미지 그룹'){
-                location.href = "/album_detail"
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
 
@@ -235,6 +235,49 @@ init = {
     },
 
     image: function () {
+        var html = ''
+        var fileWidth = []
+        var fileHeight = []
+        var videoDuration = []
+
+        $("#selectKeyName").html(comm.getKeyList());
+
+        $("#file").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $("#folder").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $(document).on("click", ".uploadDelete", function () {
+            var idx = $(this).attr('value')
+            fileModule.deleteFile(idx);
+        });
+
+        $(document).on("click", "#generateKey", function () {
+            var genKeyName = $("#genKeyName").val();
+            comm.generateKey(genKeyName);
+        });
+
+        var restoration = 0;
+        $('input[type=checkbox][name=restoration]').on('change', function () {
+            switch ($(this)[0].checked) {
+                case true:
+                    restoration = 1;
+                    break;
+                case false:
+                    restoration = 0;
+                    break;
+            }
+        });
+
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
@@ -243,6 +286,26 @@ init = {
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+        });
+
+        $(document).on("click", ".btnArea", function () {
+            var encryptObject = []
+            for(var i = 0; i < fileWidth.length; i++) {
+                var head = $('#file-'+i+' .selectObject')[0].children[0].checked
+                var body = $('#file-'+i+' .selectObject')[0].children[2].checked
+                var lp = $('#file-'+i+' .selectObject')[0].children[4].checked
+
+                var select = ''
+                select = (head) ? select +='1' : select +='0'
+                select = (body) ? select +='1' : select +='0'
+                select = (lp) ? select +='1' : select +='0'
+                encryptObject.push(select)
+            }
+            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+        });
+
+        $(document).on("click", "#logout", function () {
+            login.logout();
         });
     },
 
@@ -259,7 +322,14 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList();
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
+            setTimeout(function () {
+                $('.uploadContent').html(html);
+            }, 100);
+        });
+
+        $("#folder").on('change', function () {
+            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
             }, 100);
@@ -304,32 +374,95 @@ init = {
         $(document).on("click", "#logout", function () {
             login.logout();
         });
-        
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
+    },
+
+    detail: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var eventIndex = urlParams.get('id');
+        var mode = urlParams.get('mode');
+
+        var encDirectory = [];
+        var fileList = [];
+        [encDirectory, fileList] = resultLoader.getFileInfo(eventIndex);
+
+        if (type == 'image') {
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            var html = resultLoader.getHtml(signedUrl, mode, fileList);
+            if (mode == 'single') {
+                $('.lockData')[0].innerHTML = html;
+                $('#signedUrl').attr('href', signedUrl[0]);
+            }
+            else if (mode == 'group') {
+                $(document).on("click", ".file_recoConfirm", function () {
+                    $("#recoData").addClass('active')
+                });
+
+                $(document).on("click", ".select_recoConfirm", function () {
+                    $("#select_recoData").addClass('active')
+                });
+
+                $(document).on("click", ".albumImg", function () {
+                    if ($(this).hasClass("active")) {
+                        $(this).removeClass('active')
+                    }
+                    else {
+                        $(this).addClass('active')
+                    }
+                });
+
+                $(document).on("click", ".plusBtn", function () {
+                    $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".recoConfirm", function () {
+                    $('.modal').removeClass('active')
+                });
+
+                $(document).on("click", ".cancel", function () {
+                    $('.modal').removeClass('active')
+                });
+
+                $(document).on("click", "#signedUrl", function () {
+                    resultLoader.getFileToZip({
+                        id: eventIndex,
+                        bucketName: encDirectory[0],
+                        subDirectory: encDirectory[1],
+                        fileName: fileList
+                    });
+                });
+
+                $('.lockDataList')[0].innerHTML = html;
+            }
+
+        }
+        else if (type == 'video') {
+
+        }
+
     },
 
     log: function () {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).parent().parent().children()[1].textContent
-            if(type == '영상'){
+            if (type == '영상') {
                 location.href = "/video_detail"
             }
-            else if(type == '이미지'){
+            else if (type == '이미지') {
                 location.href = "/image_detail"
             }
-            else if(type == '이미지 그룹'){
+            else if (type == '이미지 그룹') {
                 location.href = "/album_detail"
             }
         });
 
         $(document).on("click", ".filter_video", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
             }
-            else{
+            else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("video")
@@ -337,11 +470,11 @@ init = {
         });
 
         $(document).on("click", ".filter_image", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
             }
-            else{
+            else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("image")
@@ -349,11 +482,11 @@ init = {
         });
 
         $(document).on("click", ".filter_album", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
             }
-            else{
+            else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("album")
@@ -361,11 +494,11 @@ init = {
         });
 
         $(document).on("click", ".filter_rest", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_rest").val("")
             }
-            else{
+            else {
                 $(".rest_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_rest").val(1)
@@ -373,11 +506,11 @@ init = {
         });
 
         $(document).on("click", ".filter_norest", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_rest").val("")
             }
-            else{
+            else {
                 $(".rest_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_rest").val(0)
@@ -385,25 +518,25 @@ init = {
         });
 
         $(document).on("click", ".date_filter", function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
             }
-            else{
+            else {
                 $(".date_filter").removeClass('active')
                 $(this).addClass('active')
-                if($(this).children().text()=="오늘"){
+                if ($(this).children().text() == "오늘") {
                     $(".startVal").val(today());
                     $(".endVal").val(today());
                 }
-                else if($(this).children().text()=="어제"){
+                else if ($(this).children().text() == "어제") {
                     $(".startVal").val(yesterday());
                     $(".endVal").val(yesterday());
                 }
-                else if($(this).children().text()=="일주일"){
+                else if ($(this).children().text() == "일주일") {
                     $(".startVal").val(week());
                     $(".endVal").val(today());
                 }
-                else if($(this).children().text()=="한달"){
+                else if ($(this).children().text() == "한달") {
                     $(".startVal").val(month());
                     $(".endVal").val(today());
                 }
@@ -411,20 +544,20 @@ init = {
         });
 
         $(document).on("click", ".clear", function () {
-            $(".file_filter").removeClass('active')   
-            $(".rest_filter").removeClass('active')   
-            $(".date_filter").removeClass('active') 
-            $(".filter_file").val("")  
+            $(".file_filter").removeClass('active')
+            $(".rest_filter").removeClass('active')
+            $(".date_filter").removeClass('active')
+            $(".filter_file").val("")
             $(".filter_rest").val("")
             $(".startVal").val("");
             $(".endVal").val("");
         });
 
         $(document).on("click", ".allSearch", function () {
-            $(".file_filter").removeClass('active')   
-            $(".rest_filter").removeClass('active')   
-            $(".date_filter").removeClass('active') 
-            $(".filter_file").val("")  
+            $(".file_filter").removeClass('active')
+            $(".rest_filter").removeClass('active')
+            $(".date_filter").removeClass('active')
+            $(".filter_file").val("")
             $(".filter_rest").val("")
             $(".startVal").val("");
             $(".endVal").val("");
@@ -437,10 +570,10 @@ init = {
             var filter_rest = $(".filter_rest").val();
             var startDate = $(".startVal").val();
             var endDate = $(".endVal").val();
-            if(filter_file=="" && filter_rest=="" && startDate=="" && endDate==""){
+            if (filter_file == "" && filter_rest == "" && startDate == "" && endDate == "") {
                 Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
             }
-            else{
+            else {
                 var mainLog = requestTable.postDataSearch(filter_file, filter_rest, startDate, endDate)
                 $(".mainLog").html(mainLog);
             }
@@ -448,7 +581,7 @@ init = {
 
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
-        
+
         $(document).on("click", "#logout", function () {
             login.logout();
         });
@@ -476,7 +609,7 @@ init = {
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
         });
-        
+
         $(document).on("click", "#logout", function () {
             login.logout();
         });
@@ -503,7 +636,7 @@ init = {
 
         var subAccountList = subaccount.getList();
         $(".listContent").html(subAccountList);
-        
+
         $(document).on("click", "#logout", function () {
             login.logout();
         });
@@ -545,7 +678,7 @@ init = {
         });
 
         comm.secondaryLogin();
-        
+
         $(document).on("click", "#logout", function () {
             login.logout();
         });

@@ -62,7 +62,6 @@ comm = {
             async: false,
             success: function (data) {
                 result = data
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
