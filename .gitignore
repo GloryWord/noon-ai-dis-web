@@ -2,3 +2,5 @@
 build.sh
 nginx-dev.conf
 push.sh
+www/static/imgs
+gitlogin.sh

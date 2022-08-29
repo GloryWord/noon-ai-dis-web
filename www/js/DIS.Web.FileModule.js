@@ -32,7 +32,8 @@ fileModule = {
 
         for (var i = 0; i < files.length; i++) {
             fileTypeInfo = files[i].type.split('/');
-            fileExt.push(fileTypeInfo[1])
+            fileType.push(fileTypeInfo[0]);
+            fileExt.push(fileTypeInfo[1]);
         }
 
         for (var i = 0; i < files.length; i++) {
@@ -85,10 +86,10 @@ fileModule = {
             html += '<tr id=file-' + [i] + '>\
                         <td>'+ files[i].name + '</td>\
                         <td>'+ formatBytes(files[i].size) + '</td>\
-                        <td>\
-                            <input type="checkbox"><label>사람-얼굴</label>&nbsp;\
-                            <input type="checkbox"><label>사람-몸</label>&nbsp;\
-                            <input type="checkbox"><label>자동차 번호판</label>\
+                        <td class="selectObject">\
+                            <input type="checkbox" name="head"><label>사람-얼굴</label>&nbsp;\
+                            <input type="checkbox" name="body"><label>사람-몸</label>&nbsp;\
+                            <input type="checkbox" name="lp"><label>자동차 번호판</label>\
                         </td>\
                         <td>\
                             <div class="uploadDelete" value='+ i + '>\
@@ -112,12 +113,13 @@ fileModule = {
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
     },
 
-    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration) {
+    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject) {
         var curTime = getTime();
         var fileNameList = getFiles();
         var fileWidthObj = Object.assign({}, fileWidth)
         var fileHeightObj = Object.assign({}, fileHeight)
         var videoDurationObj = Object.assign({}, videoDuration)
+        var encryptObj = Object.assign({}, encryptObject);
 
         var keyIndex = 0;
         var keyName = 'null';
@@ -137,6 +139,7 @@ fileModule = {
             'keyName': keyName,
             'requestIndex': '',
             'restoration': restoration,
+            'encryptObject': JSON.stringify(encryptObj)
         }
 
         $.ajax({
@@ -192,7 +195,7 @@ fileModule = {
                             dataType: "json",
                             data: postData,
                             success: function (data) {
-                      
+                            
                             },
                             error: function (xhr, status) {
                               // alert(xhr + " : " + status);
