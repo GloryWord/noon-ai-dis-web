@@ -155,7 +155,7 @@ comm = {
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "/api/join-info",
+            url: "/api/user/check",
             data: postdata,
             async: false,
             success: function (data) {

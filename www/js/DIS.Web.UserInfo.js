@@ -15,8 +15,8 @@ userinfo = {
     infoModi: function(name, email, phone, now_pass, new_pass, new_passConfig) {
         var postdata = {name:name, email:email, phone:phone, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
         $.ajax({
-            method: "post",
-            url: "/api/update-user-info",
+            method: "put",
+            url: "/api/user/info",
             data: postdata,
             async: false,
             success: function (data) {

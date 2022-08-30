@@ -228,7 +228,7 @@ requestTable = {
         
         $.ajax({
             method: "get",
-            url: "/api/get-key",
+            url: "/api/key/all",
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -271,7 +271,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "/api/post-key-memo",
+            url: "/api/key/memo",
             data: postdata,
             async: false,
             success: function (data) {
@@ -298,8 +298,8 @@ requestTable = {
     postUpdateKeyMemo: function(key_memo) {
         var postdata = {key_memo:key_memo}
         $.ajax({
-            method: "post",
-            url: "/api/update-key-memo",
+            method: "put",
+            url: "/api/key/memo",
             data: postdata,
             async: false,
             success: function (data) {
@@ -319,7 +319,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/api/get-user-info",
+            url: "/api/user/info",
             async: false,
             success: function (data) {
                 requestList = data;
