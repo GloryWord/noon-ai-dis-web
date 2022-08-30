@@ -147,8 +147,16 @@ resultLoader = {
                 <div class="file_reco">\
                     <p class="title">복호화 여부 : </p>\
                     <p>'+restoration+'</p>\
-                </div>\
-                <div class="file_date">\
+                </div>';
+        
+        if(restoration == 'O') {
+            html += '<div class="file_key">\
+                        <p class="title">복호화 키 : </p>\
+                        <p>'+result.key_name+'</p>\
+                    </div>';
+        }
+
+        html += '<div class="file_date">\
                     <p class="title">날짜 : </p>\
                     <p>'+dateFormat(date)+'</p>\
                 </div>'
@@ -204,7 +212,7 @@ resultLoader = {
         })
     },
 
-    deleteZipFile: function (bucketName, subDirectory) {        
+    deleteZipFile: function (bucketName, subDirectory) {
         var parameter = "/" + bucketName + "/" + encodeURIComponent(subDirectory);
 
         var result = false;

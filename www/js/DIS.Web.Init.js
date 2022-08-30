@@ -189,39 +189,6 @@ init = {
         });
     },
 
-    main2: function () {
-        var temp = comm.getUser()
-        $(".curTenant").html(temp);
-        $("#selectKeyName").html(comm.getKeyList());
-
-        function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            $('#progress').html(encProgress['progress']);
-            if (encProgress['file_type'] == 'video' && progress != '100%') {
-                setTimeout(reloadProgress, 200);
-            }
-            else if (encProgress['file_type'] == 'image') {
-                var cur = encProgress['progress'].split('/')
-                if (cur[0] != cur[1]) setTimeout(reloadProgress, 200);
-            }
-        }
-
-        new Promise((resolve, reject) => {
-            $('#requestListTable').html(requestTable.getEncRequestList('all'));
-            resolve();
-        }).then(() => {
-            reloadProgress();
-        })
-
-        $(document).on("click", ".video_select", function () {
-            location.href = "/encrypt/video"
-        });
-
-        $(document).on("click", ".image_select", function () {
-            location.href = "/encrypt/image"
-        });
-    },
-
     image: function () {
         var html = ''
         var fileWidth = []
@@ -384,8 +351,8 @@ init = {
         });
 
         $(document).on("click", ".recoConfirm", function () {
-            var keyName = $('.pemUpload').val();
-            fileModule.verifyKey(keyName);
+            var keyName = $('.file_key')[0].children[1].innerHTML
+            fileModule.verifyKey(keyName, eventIndex);
         });
 
         if (type == 'image') {
@@ -660,12 +627,6 @@ init = {
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
         });
-    },
-
-    decrypt: function () {
-        var html = comm.getUser()
-        $(".curTenant").html(html);
-        $('#requestListTable').html(requestTable.getEncRequestList('restoration'));
     },
 
     submanage: function () {

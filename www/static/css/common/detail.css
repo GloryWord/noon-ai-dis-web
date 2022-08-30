@@ -166,6 +166,7 @@
 .detailArea .infoArea .file_name,
 .detailArea .infoArea .file_type,
 .detailArea .infoArea .file_reco,
+.detailArea .infoArea .file_key,
 .detailArea .infoArea .file_date,
 .detailArea .infoArea .file_download,
 .detailArea .infoArea .file_recoConfirm,
@@ -177,6 +178,7 @@
 .detailArea .infoArea .file_name .title,
 .detailArea .infoArea .file_type .title,
 .detailArea .infoArea .file_reco .title,
+.detailArea .infoArea .file_key .title,
 .detailArea .infoArea .file_date .title {
     margin: 0 8px 0 0;
     text-align: right;
@@ -187,6 +189,7 @@
 .detailArea .infoArea .file_name p,
 .detailArea .infoArea .file_type p,
 .detailArea .infoArea .file_reco p,
+.detailArea .infoArea .file_key p,
 .detailArea .infoArea .file_date p {
     margin: 0 8px 0 0;
     font-family: SpoqaHanSansNeo-Regular;

@@ -228,7 +228,6 @@ fileModule = {
         if (file == undefined) {
             alert("키 파일을 선택해 주세요")
         }
-        // else if ($('#selectKeyName').val() == '0' && restoration == 1) alert('사용할 키를 선택해 주세요')
         else {
             formData.append('file', file);
             var xhr = new XMLHttpRequest();
@@ -245,7 +244,6 @@ fileModule = {
             };
             xhr.onload = function () {
                 new Promise((resolve, reject) => {
-                    var valid = false;
                     $.ajax({
                         method: "post",
                         url: "/api/key/verify",
