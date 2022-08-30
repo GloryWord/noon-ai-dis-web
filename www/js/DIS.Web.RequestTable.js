@@ -138,7 +138,7 @@ requestTable = {
 
             if(requestList[i]['file_type']=="video") var type = "영상"
             else if(requestList[i]['file_type']=="image") var type = "이미지"
-            else if(requestList[i]['file_type']=="image" && fileList.length > 1) var type = "이미지 그룹"
+            if(requestList[i]['file_type']=="image" && fileList.length > 1) var type = "이미지 그룹"
 
             var status = (requestList[i]['complete'] == 1) ? '완료' :'진행중'
             htmlStr += '<div class="logContent" id=enc_request_index-'+requestList[i]['id']+'>\

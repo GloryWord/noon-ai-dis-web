@@ -278,15 +278,15 @@ init = {
 
         $(document).on("click", ".btnArea", function () {
             var encryptObject = []
-            for(var i = 0; i < fileWidth.length; i++) {
-                var head = $('#file-'+i+' .selectObject')[0].children[0].checked
-                var body = $('#file-'+i+' .selectObject')[0].children[2].checked
-                var lp = $('#file-'+i+' .selectObject')[0].children[4].checked
+            for (var i = 0; i < fileWidth.length; i++) {
+                var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
 
                 var select = ''
-                select = (head) ? select +='1' : select +='0'
-                select = (body) ? select +='1' : select +='0'
-                select = (lp) ? select +='1' : select +='0'
+                select = (head) ? select += '1' : select += '0'
+                select = (body) ? select += '1' : select += '0'
+                select = (lp) ? select += '1' : select += '0'
                 encryptObject.push(select)
             }
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
@@ -366,19 +366,37 @@ init = {
         var encDirectory = [];
         var fileList = [];
         [encDirectory, fileList] = resultLoader.getFileInfo(eventIndex);
+        var infoHtml = resultLoader.getInfoHtml(eventIndex);
+        $('.infoArea')[0].innerHTML = infoHtml;
+
+        $(document).on("click", ".file_recoConfirm", function () {
+            $("#recoData").addClass('active')
+        });
+
+        $(document).on("click", ".cancel", function () {
+            $('.modal').removeClass('active')
+        });
+
+        $("#file").on('change', function () {
+            var file = document.getElementById('file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
+        $(document).on("click", ".recoConfirm", function () {
+            var keyName = $('.pemUpload').val();
+            fileModule.verifyKey(keyName);
+        });
 
         if (type == 'image') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getHtml(signedUrl, mode, fileList);
+            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
+
             if (mode == 'single') {
                 $('.lockData')[0].innerHTML = html;
                 $('#signedUrl').attr('href', signedUrl[0]);
             }
             else if (mode == 'group') {
-                $(document).on("click", ".file_recoConfirm", function () {
-                    $("#recoData").addClass('active')
-                });
-
                 $(document).on("click", ".select_recoConfirm", function () {
                     $("#select_recoData").addClass('active')
                 });
@@ -400,25 +418,42 @@ init = {
                     $('.modal').removeClass('active')
                 });
 
-                $(document).on("click", ".cancel", function () {
-                    $('.modal').removeClass('active')
-                });
-
                 $(document).on("click", "#signedUrl", function () {
-                    resultLoader.getFileToZip({
-                        id: eventIndex,
-                        bucketName: encDirectory[0],
-                        subDirectory: encDirectory[1],
-                        fileName: fileList
-                    });
+                    new Promise((resolve, reject) => {
+                        //압축하여 다운로드
+                        resultLoader.fileToZip({
+                            id: eventIndex,
+                            bucketName: encDirectory[0],    //참조할 버킷 이름
+                            subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                            fileName: fileList              //참조할 object filename 목록
+                        });
+                        resolve();
+                    }).then(() => {
+                        setTimeout(function () {
+                            new Promise((resolve, reject) => {
+                                //파일 다운로드 경로 획득
+                                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                location.href = signedUrl;
+                                resolve();
+                            }).then(() => {
+                                new Promise((resolve, reject) => {
+                                    //다운로드 후 zip 파일 삭제
+                                    var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
+                                    resolve(complete);
+                                }).then((complete) => {
+                                    if (complete) Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                })
+                            })
+                        }, 500)
+                    })
                 });
-
                 $('.lockDataList')[0].innerHTML = html;
             }
-
         }
         else if (type == 'video') {
-
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            // var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+            $('#signedUrl').attr('href', signedUrl[0]);
         }
     },
 
@@ -558,6 +593,19 @@ init = {
             }
         });
 
+        $(document).on("click", ".detailInfo", function () {
+            var type = $(this).data('type')
+            if (type == '영상') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+            }
+            else if (type == '이미지') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
+
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
     },
@@ -692,6 +740,25 @@ init = {
 
         $(document).on("click", ".findCancel", function () {
             location.href = "/"
+        });
+    },
+
+    test: function () {
+        $(document).on("click", "#user", function () {
+            // $.ajax({
+            //     method: "get",
+            //     url: "/api/socket",
+            //     async: false,
+            //     success: function (data) {
+            //         if (data.message == 'success') {
+            //             console.log(data);
+            //         }
+            //         // else alert(JSON.stringify(data));
+            //     }, // success 
+            //     error: function (xhr, status) {
+            //         alert("error : " + xhr + " : " + JSON.stringify(status));
+            //     }
+            // })
         });
     }
 };
