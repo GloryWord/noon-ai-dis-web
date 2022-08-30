@@ -45,7 +45,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -74,20 +73,16 @@ requestTable = {
 
             var date = new Date(requestList[i]['request_date'])
             
-            if(requestList[i]['restoration']==1){
-                var restoration = "O"
-            }
-            else {
-                var restoration = "X"
-            }
+            if(requestList[i]['restoration']==1) var restoration = "O"
+            else var restoration = "X"
 
-            if(requestList[i]['file_type']=="video"){
-                var type = "영상"
-            }
-            else if(requestList[i]['file_type']=="image"){
-                var type = "이미지"
-            }
+            var fileList = requestList[i]['request_file_list'].split('\n');
+            fileList = fileList.splice(0, fileList.length-1);
 
+            if(requestList[i]['file_type']=="video") var type = "영상"
+            else if(requestList[i]['file_type']=="image") var type = "이미지"
+            if(requestList[i]['file_type']=="image" && fileList.length > 1) var type = "이미지 그룹"
+            
             var status = (requestList[i]['complete'] == 1) ? '완료' :'진행중'
             htmlStr += '<div class="logContent" id=enc_request_index-'+requestList[i]['id']+'>\
                             <div class="id_content"><p>'+requestList[i]['id']+'</p></div>\
@@ -135,19 +130,15 @@ requestTable = {
 
             var date = new Date(requestList[i]['request_date'])
             
-            if(requestList[i]['restoration']==1){
-                var restoration = "O"
-            }
-            else {
-                var restoration = "X"
-            }
+            if(requestList[i]['restoration']==1) var restoration = "O"
+            else var restoration = "X"
 
-            if(requestList[i]['file_type']=="video"){
-                var type = "영상"
-            }
-            else if(requestList[i]['file_type']=="image"){
-                var type = "이미지"
-            }
+            var fileList = requestList[i]['request_file_list'].split('\n');
+            fileList = fileList.splice(0, fileList.length-1);
+
+            if(requestList[i]['file_type']=="video") var type = "영상"
+            else if(requestList[i]['file_type']=="image") var type = "이미지"
+            else if(requestList[i]['file_type']=="image" && fileList.length > 1) var type = "이미지 그룹"
 
             var status = (requestList[i]['complete'] == 1) ? '완료' :'진행중'
             htmlStr += '<div class="logContent" id=enc_request_index-'+requestList[i]['id']+'>\
