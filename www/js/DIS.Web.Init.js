@@ -172,10 +172,6 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
-
         var mainLog = requestTable.getEncRequestList()
         $(".mainLog").html(mainLog);
 
@@ -190,10 +186,6 @@ init = {
             else if (type == '이미지 그룹') {
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
     },
 
@@ -227,10 +219,6 @@ init = {
 
         $(document).on("click", ".image_select", function () {
             location.href = "/encrypt/image"
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
     },
 
@@ -303,10 +291,6 @@ init = {
             }
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
         });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     loading: function () {
@@ -369,10 +353,6 @@ init = {
 
         $(document).on("click", ".btnArea", function () {
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
     },
 
@@ -440,7 +420,6 @@ init = {
         else if (type == 'video') {
 
         }
-
     },
 
     log: function () {
@@ -581,14 +560,29 @@ init = {
 
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
+    },
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
+    myinfo: function () {
+        $(document).on("click", ".infoSave", function () {
+            var name = $(".view_name").val()
+            var email = $(".view_email").val()
+            var phone = $(".view_phone").val()
+            var now_pass = $(".now_pass").val()
+            var new_pass = $(".new_pass").val()
+            var new_passConfig = $(".new_passConfig").val()
+            // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
+            userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
         });
+
+        $(document).on("click", ".infoCancel", function () {
+            location.href = "/myinfo"
+        });
+
+        var infoArea = requestTable.getUserInfo()
+        $(".infoArea").html(infoArea);
     },
 
     key: function () {
-
         var keyContent = requestTable.getAllKeyList()
         $(".listContent").html(keyContent);
 
@@ -597,7 +591,16 @@ init = {
         });
 
         $(document).on("click", ".memo_modi", function () {
+            var key_idx = $(this).data("id")
+            var keymemo_modi = requestTable.postSelectKeyMemo(key_idx)
+            $(".keymemo_modi").val(keymemo_modi)
+            // $(".bodyMiddle").html(keymemo_modi)
             $("#memoModi").addClass('active')
+        });
+
+        $(document).on("click", ".memosave", function () {
+            var key_memo = $(".keymemo_modi").val()
+            requestTable.postUpdateKeyMemo(key_memo)
         });
 
         $(document).on("click", ".cancel", function () {
@@ -608,10 +611,6 @@ init = {
 
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
     },
 
@@ -636,10 +635,6 @@ init = {
 
         var subAccountList = subaccount.getList();
         $(".listContent").html(subAccountList);
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     add: function () {
@@ -678,10 +673,6 @@ init = {
         });
 
         comm.secondaryLogin();
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     admin: function () {

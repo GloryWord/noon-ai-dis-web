@@ -66,19 +66,6 @@ login = {
         })
     },
 
-    logout: function () {
-        $.ajax({
-            method: "get",
-            url: "/api/logout",
-            success: function (data) {
-                location.href = '/';
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
-    },
-
     signup: function (account_name, password, repassword) {
         if(password == repassword) {
             $.ajax({
@@ -117,5 +104,5 @@ login = {
         else {
             alert("비밀번호 입력이 불일치합니다.")
         }
-    }
+    },
 }
