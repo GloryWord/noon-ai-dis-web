@@ -146,7 +146,7 @@ resultLoader = {
                 </div>\
                 <div class="file_reco">\
                     <p class="title">복호화 여부 : </p>\
-                    <p>'+restoration+'</p>\
+                    <p class="rest_info">'+restoration+'</p>\
                 </div>\
                 <div class="file_date">\
                     <p class="title">날짜 : </p>\

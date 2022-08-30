@@ -240,6 +240,11 @@
     font-family: S-CoreDream-6Bold;
 }
 
+.detailArea .infoArea .file_recoConfirm.hide,
+.detailArea .infoArea .select_recoConfirm.hide {
+    display: none;
+}
+
 .layerPopupBox .inner {
     position: absolute;
     top: 50%;

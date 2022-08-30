@@ -369,6 +369,14 @@ init = {
         var infoHtml = resultLoader.getInfoHtml(eventIndex);
         $('.infoArea')[0].innerHTML = infoHtml;
 
+        $(document).ready(function () {
+            var rest = $(".rest_info").text()
+            if(rest == "X"){
+                $(".file_recoConfirm").addClass("hide")
+                $(".select_recoConfirm").addClass("hide")
+            }
+        });
+
         $(document).on("click", ".file_recoConfirm", function () {
             $("#recoData").addClass('active')
         });
