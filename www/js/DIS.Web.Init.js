@@ -187,10 +187,6 @@ init = {
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     main2: function () {
@@ -223,10 +219,6 @@ init = {
 
         $(document).on("click", ".image_select", function () {
             location.href = "/encrypt/image"
-        });
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
         });
     },
 
@@ -299,9 +291,6 @@ init = {
             }
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
         });
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     loading: function () {
@@ -364,10 +353,6 @@ init = {
 
         $(document).on("click", ".btnArea", function () {
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
-        });
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
         });
     },
 
@@ -575,17 +560,9 @@ init = {
 
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     myinfo: function () {
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
-
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
@@ -635,10 +612,6 @@ init = {
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
         });
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     decrypt: function () {
@@ -662,10 +635,6 @@ init = {
 
         var subAccountList = subaccount.getList();
         $(".listContent").html(subAccountList);
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     add: function () {
@@ -704,10 +673,6 @@ init = {
         });
 
         comm.secondaryLogin();
-
-        $(document).on("click", "#logout", function () {
-            comm.logout();
-        });
     },
 
     admin: function () {

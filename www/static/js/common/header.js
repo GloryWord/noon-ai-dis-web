@@ -32,4 +32,8 @@ $(document).ready(function () {
         var cur_password = $(".cur_password").val()
         comm.joinInfo(cur_password);
     });
+
+    $(document).on("click", "#logout", function () {
+        comm.logout();
+    });
 });
