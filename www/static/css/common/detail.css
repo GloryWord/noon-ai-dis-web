@@ -101,6 +101,10 @@
     cursor: pointer;
 }
 
+.detailArea .albumArea .albumlist .albumImg.active {
+    border: solid 1px red;
+}
+
 .detailArea .albumArea .albumlist .albumFooter {
     display: flex;
 }
@@ -280,17 +284,28 @@
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn {
+    display: flex;
+    background-color: deepskyblue;
+    margin: auto 0;
     width: 120px;
     height: 40px;
     border-radius: 5px;
-    background-color: deepskyblue;
-    display: flex;
+    cursor: pointer;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn p {
-    margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.layerPopupBox .inner .recoContent .recoBody .recoMiddle input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoFooter {

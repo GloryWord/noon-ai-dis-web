@@ -14,6 +14,7 @@
     <script type="text/javascript" src="../../js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.ResultLoader.js"></script>
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script src="../../static/js/sweetalert/sweetalert.js"></script>
     <script src="../../static/js/common/jquery-3.5.1.min.js"></script>
     <script src="../../static/js/common/common.js"></script>
@@ -175,6 +176,10 @@
         </div>
     </div>
 </body>
+
+<script>
+    var socket = io();
+</script>
 
 <div id="saveConfir" class="modal">
     <div id="wrap">

@@ -25,7 +25,7 @@ fileModule = {
         const dataTransfer = new DataTransfer();
         let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
         var filteredFileArray = fileArray.filter((element) => element.type.split('/')[0] == type);
-        
+
         filteredFileArray.forEach(file => { dataTransfer.items.add(file); });
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
         files = $('#file')[0].files;
@@ -71,7 +71,7 @@ fileModule = {
                         <th>객체 선택</th>\
                         <th>파일 삭제</th>\
                     </tr>';
-        if(type == 'image') html = '<table>\
+        if (type == 'image') html = '<table>\
                                     <tr>\
                                         <th>파일명</th>\
                                         <th>용량</th>\
@@ -157,7 +157,7 @@ fileModule = {
                 for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
                 // formData.append('file', file);
                 var xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/uploadNAS'+mode, true);
+                xhr.open('post', '/api/uploadNAS' + mode, true);
                 xhr.upload.onprogress = function (e) {
                     console.log(e);
                     if (e.lengthComputable) {
@@ -182,8 +182,8 @@ fileModule = {
                                 requestIndex = data.enc_request_list_id;
                             },
                             error: function (xhr, status) {
-                              // alert(xhr + " : " + status);
-                              alert(JSON.stringify(xhr));
+                                // alert(xhr + " : " + status);
+                                alert(JSON.stringify(xhr));
                             }
                         });
                         postData['requestIndex'] = requestIndex;
@@ -195,13 +195,13 @@ fileModule = {
                             dataType: "json",
                             data: postData,
                             success: function (data) {
-                            
+
                             },
                             error: function (xhr, status) {
-                              // alert(xhr + " : " + status);
-                              alert(JSON.stringify(xhr));
+                                // alert(xhr + " : " + status);
+                                alert(JSON.stringify(xhr));
                             }
-                          });
+                        });
                         new Promise((resolve, reject) => {
                             resolve()
                         }).then((a) => {
@@ -218,4 +218,107 @@ fileModule = {
             }
         });
     },
+
+    verifyKey: function (keyName, index) {
+        var formData = new FormData();
+        var file = document.getElementById('file').files[0];
+        var fileName = file.name;
+        var valid = false;
+
+        if (file == undefined) {
+            alert("키 파일을 선택해 주세요")
+        }
+        // else if ($('#selectKeyName').val() == '0' && restoration == 1) alert('사용할 키를 선택해 주세요')
+        else {
+            formData.append('file', file);
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/api/uploadNAS', true);
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    var percentage = (e.loaded / e.total) * 100;
+                    console.log(percentage + "%");
+                }
+            }
+            xhr.onerror = function (e) {
+                console.log('Error');
+                console.log(e);
+            };
+            xhr.onload = function () {
+                new Promise((resolve, reject) => {
+                    var valid = false;
+                    $.ajax({
+                        method: "post",
+                        url: "/api/key/verify",
+                        dataType: "json",
+                        data: {
+                            'fileName': fileName,
+                            'keyName': keyName
+                        },
+                        async: false,
+                        success: function (data) {
+                            if (data['log'] == 'valid') valid = true;
+                        },
+                        error: function (xhr, status) {
+                            // alert(xhr + " : " + status);
+                            alert(JSON.stringify(xhr));
+                        }
+                    });
+                    resolve(valid)
+                }).then((valid) => {
+                    if (!valid) alert('비식별화시 사용된 키 파일 정보와 일치하지 않습니다.');
+                    else {
+                        new Promise((resolve, reject) => {
+                            var userAuth = comm.getAuth();
+                            var result = '';
+                            $.ajax({
+                                method: "post",
+                                url: "/api/request/decrypt",
+                                dataType: "json",
+                                data: {
+                                    'enc_request_id': index,
+                                    'account_auth_id': userAuth.id
+                                },
+                                async: false,
+                                success: function (data) {
+                                    result = data;
+                                },
+                                error: function (xhr, status) {
+                                    // alert(xhr + " : " + status);
+                                    alert(JSON.stringify(xhr));
+                                }
+                            });
+                            resolve(result);
+                        }).then((result) => {
+                            var reqInfo = result['decReqInfo']['reqInfo'];
+                            var msgTemplate = result['decReqInfo'];
+                            delete msgTemplate.reqInfo;
+                            $.ajax({
+                                method: "post",
+                                url: "/api/sendMessage/decrypt",
+                                dataType: "json",
+                                data: {
+                                    'msgTemplate': JSON.stringify(msgTemplate),
+                                    'reqInfo': JSON.stringify(reqInfo)
+                                },
+                                success: function (data) {
+
+                                },
+                                error: function (xhr, status) {
+                                    // alert(xhr + " : " + status);
+                                    alert(JSON.stringify(xhr));
+                                }
+                            });
+                            new Promise((resolve, reject) => {
+                                resolve()
+                            }).then(() => {
+                                alert('복호화 요청 완료');
+                                location.reload();
+                            })
+                        })
+                    }
+                })
+            };
+            xhr.send(formData);
+        }
+    }
 }
