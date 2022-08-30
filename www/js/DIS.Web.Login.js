@@ -66,19 +66,6 @@ login = {
         })
     },
 
-    logout: function () {
-        $.ajax({
-            method: "get",
-            url: "/api/logout",
-            success: function (data) {
-                location.href = '/';
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
-    },
-
     signup: function (account_name, password, repassword) {
         if(password == repassword) {
             $.ajax({
@@ -117,45 +104,5 @@ login = {
         else {
             alert("비밀번호 입력이 불일치합니다.")
         }
-    },
-
-    joinInfo: function(cur_password) {
-        var postdata = {cur_password:cur_password}
-        $.ajax({
-            method: "post",
-            url: "/api/join-info",
-            data: postdata,
-            async: false,
-            success: function (data) {
-                if(data.message == "success"){
-                    location.href = '/myinfo';
-                }
-                else{
-                    Swal.fire('비밀번호가 틀렸습니다.', '', 'error').then(() => {
-                    })
-                }
-            },
-            error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        });
-
-        return 0;
-    },
-
-    adminonly: function () {
-        var auth = ''
-        $.ajax({
-            method: "get",
-            url: "/api/get-auth",
-            async: false,
-            success: function (data) {
-                auth = data.auth
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
-        return auth
     },
 }

@@ -18,7 +18,7 @@ $(document).ready(function () {
     });
 
     $(document).ready(function() {
-        var auth = login.adminonly();
+        var auth = comm.adminonly();
         if(auth == "master"){
             $(".admin_only").removeClass('hide')
         }
@@ -30,6 +30,6 @@ $(document).ready(function () {
     $(document).on("click", ".infoConfir", function () {
         // location.href="/myinfo"
         var cur_password = $(".cur_password").val()
-        login.joinInfo(cur_password);
+        comm.joinInfo(cur_password);
     });
 });
