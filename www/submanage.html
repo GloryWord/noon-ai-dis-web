@@ -32,9 +32,9 @@
                     <a href="/main">홈</a>
                     <a href="/log">기록 열람</a>
                     <a href="/key">KEY 관리</a>
-                    <a href="/myInfo">내 정보</a>
+                    <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                    <a id="logout" href="/">로그아웃</a>
+                    <div id="logout">로그아웃</div>
                 </div>
             </div>
         </div>
@@ -157,6 +157,34 @@
                         </div>
                         <div class="passFooter">
                             <div class="passConfig">
+                                <p>확인</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="saveConfir" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="info_inner">
+                <div class="saveContent">
+                    <div class="saveHeader">
+                        <h1>비밀번호 입력</h1>
+                    </div>
+                    <div class="saveBody">
+                        <div class="bodyHeader">
+                            <p>현재 비밀번호 : </p>
+                            <input type="password" class="cur_password">
+                        </div>
+                        <div class="saveFooter">
+                            <div class="infoConfir">
                                 <p>확인</p>
                             </div>
                             <div class="cancel">

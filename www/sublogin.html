@@ -515,12 +515,12 @@
     </div>
 
     <script>
-        $(".box").keypress(function (e) {
+        $("body").keypress(function (e) {
             if (e.keyCode == 13) {
                 $("#loginButton").click();
             }
         });
-
+        
         $(function () {
 
             $(".input input").focus(function () {
