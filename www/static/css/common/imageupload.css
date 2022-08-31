@@ -47,28 +47,34 @@
 }
 
 .uploadArea .btnArea {
+    display: flex;
+}
+
+.uploadArea .btnArea .prevBtn,
+.uploadArea .btnArea .nextBtn {
     width: 200px;
     height: 80px;
     display: flex;
     justify-content: center;
     background-color: deepskyblue;
     border-radius: 5px;
-    margin: 30px 60px 0 auto;
+    margin: 30px auto 0 60px;
     cursor: pointer;
 }
 
-.uploadArea .btnArea a {
-    width: 100%;
-    height: 100%;
-    display: flex;
+.uploadArea .btnArea .nextBtn {
+    margin: 30px 60px 0 auto;
 }
 
-.uploadArea .btnArea p {
+.uploadArea .btnArea .prevBtn p,
+.uploadArea .btnArea .nextBtn p {
     font-family: S-CoreDream-6Bold;
     font-size: 24px;
     margin: auto;
     color: white;
-}.uploadArea .videoUpload {
+}
+
+.uploadArea .imgUpload {
     width: auto;
     height: auto;
     margin: 100px auto 0;
@@ -78,20 +84,20 @@
     position: relative;
 }
 
-.uploadArea .videoUpload .uploadHeader {
+.uploadArea .imgUpload .uploadHeader {
     display: flex;
     width: auto;
     height: auto;
 }
 
-.uploadArea .videoUpload .uploadSelect {
+.uploadArea .imgUpload .uploadSelect {
     display: flex;
     position: absolute;
     right: 0px;
     top: -40px;
 }
 
-.uploadArea .videoUpload .uploadSelect .fileSelect {
+.uploadArea .imgUpload .uploadSelect .fileSelect {
     display: flex;
     border-top-left-radius: 5px;
     width: 80px;
@@ -101,13 +107,13 @@
     cursor: pointer;
 }
 
-.uploadArea .videoUpload .uploadSelect .fileSelect p {
+.uploadArea .imgUpload .uploadSelect .fileSelect p {
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
 }
 
-.uploadArea .videoUpload .uploadSelect .folderSelect {
+.uploadArea .imgUpload .uploadSelect .folderSelect {
     display: flex;
     border-top-right-radius: 5px;
     width: 80px;
@@ -116,32 +122,37 @@
     cursor: pointer;
 }
 
-.uploadArea .videoUpload .uploadSelect .folderSelect p {
+.uploadArea .imgUpload .uploadSelect .folderSelect p {
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
 }
 
-.uploadArea .videoUpload .uploadHeader {
+.uploadArea .imgUpload .uploadSelect .fileSelect.active,
+.uploadArea .imgUpload .uploadSelect .folderSelect.active {
+    background-color: deepskyblue;
+}
+
+.uploadArea .imgUpload .uploadHeader {
     display: flex;
     width: auto;
     height: auto;
 }
 
-.uploadArea .videoUpload .uploadHeader .textArea {
+.uploadArea .imgUpload .uploadHeader .textArea {
     display: flex;
     flex-direction: column;
     margin: 12px auto 12px 12px;
 }
 
-.uploadArea .videoUpload .uploadHeader .textArea h1 {
+.uploadArea .imgUpload .uploadHeader .textArea h1 {
     font-size: 24px;
     font-family: S-CoreDream-6Bold;
     color: black;
     margin: 0;
 }
 
-.uploadArea .videoUpload .uploadHeader .textArea p {
+.uploadArea .imgUpload .uploadHeader .textArea p {
     font-size: 12px;
     font-family: S-CoreDream-4Regular;
     font-weight: normal;
@@ -149,17 +160,17 @@
     margin: 6px 0 0;
 }
 
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea {
+.uploadArea .imgUpload .uploadHeader .uploadBtnArea {
     display: flex;
     flex-direction: column;
     margin: 12px 12px 12px 120px;
 }
 
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn {
+.uploadArea .imgUpload .uploadHeader .uploadBtnArea .uploadBtn {
     display: none;
 }
 
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active {
+.uploadArea .imgUpload .uploadHeader .uploadBtnArea .uploadBtn.active {
     display: flex;
     background-color: deepskyblue;
     margin: auto 0;
@@ -169,13 +180,13 @@
     cursor: pointer;
 }
 
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active p {
+.uploadArea .imgUpload .uploadHeader .uploadBtnArea .uploadBtn.active p {
     color: white;
     font-family: S-CoreDream-6Bold;
     margin: auto;
 }
 
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea input[type="file"] {
+.uploadArea .imgUpload .uploadHeader .uploadBtnArea input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -184,7 +195,7 @@
     border: 0;
 }
 
-.uploadArea .videoUpload .uploadContent {
+.uploadArea .imgUpload .uploadContent {
     margin: 0 12px 12px 12px;
     background-color: white;
     width: auto;
@@ -193,27 +204,27 @@
     border-radius: 5px;
 }
 
-.uploadArea .videoUpload .uploadContent table {
+.uploadArea .imgUpload .uploadContent table {
     width: 800px;
 }
 
-.uploadArea .videoUpload .uploadContent table th {
+.uploadArea .imgUpload .uploadContent table th {
     height: 60px;
     border-bottom: 1px solid;
 }
 
-.uploadArea .videoUpload .uploadContent table td {
+.uploadArea .imgUpload .uploadContent table td {
     margin: 0 auto;
     text-align: center;
     height: 60px;
     border-bottom: 1px solid;
 }
 
-.uploadArea .videoUpload .uploadContent table td p {
+.uploadArea .imgUpload .uploadContent table td p {
     margin: auto;
 }
 
-.uploadArea .videoUpload .uploadContent table td .uploadDelete {
+.uploadArea .imgUpload .uploadContent table td .uploadDelete {
     width: 120px;
     height: 40px;
     background-color: #909090;
@@ -223,7 +234,7 @@
     cursor: pointer;
 }
 
-.uploadArea .videoUpload .uploadContent table td .uploadDelete p {
+.uploadArea .imgUpload .uploadContent table td .uploadDelete p {
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;

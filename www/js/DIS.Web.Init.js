@@ -231,14 +231,22 @@ init = {
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
+            $(".folderSelect").removeClass('active')
+            $(".fileSelect").addClass('active')
         });
 
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+            $(".fileSelect").removeClass('active')
+            $(".folderSelect").addClass('active')
         });
 
-        $(document).on("click", ".btnArea", function () {
+        $(document).on("click", ".prevBtn", function () {
+            location.href = "/main"
+        });
+
+        $(document).on("click", ".nextBtn", function () {
             var encryptObject = []
             for (var i = 0; i < fileWidth.length; i++) {
                 var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
@@ -325,14 +333,22 @@ init = {
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
+            $(".folderSelect").removeClass('active')
+            $(".fileSelect").addClass('active')
         });
 
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+            $(".fileSelect").removeClass('active')
+            $(".folderSelect").addClass('active')
         });
 
-        $(document).on("click", ".btnArea", function () {
+        $(document).on("click", ".prevBtn", function () {
+            location.href = "/main"
+        });
+
+        $(document).on("click", ".nextBtn", function () {
             fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
         });
     },

@@ -42,10 +42,20 @@
 
 .loadingArea {
     display: flex;
-    margin: 15% 0 0;
+    flex-direction: column;    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .loadingArea img {
     margin: auto;
+}
+
+.loadingArea #progress {
+    margin: auto;
+    font-family: S-CoreDream-6Bold;
+    font-size: 28px;
 }
 
