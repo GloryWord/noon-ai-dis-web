@@ -381,7 +381,7 @@
 
 .layerPopupBox .img_inner .imgContent .imgHeader {
     margin: 24px auto 12px;
-    width: 960px;
+    width: auto;
     height: 540px;
 }
 

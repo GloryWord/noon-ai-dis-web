@@ -85,7 +85,7 @@ resultLoader = {
                             <img class="albumImg" src="'+urlList[i]+'">\
                             <div class="albumFooter">\
                                 <p>'+objectName[i]+'</p>\
-                                <div class="plusBtn">\
+                                <div data-num='+i+' class="plusBtn">\
                                     <img class="plus_img" src="../../static/imgs/plusBtn.png">\
                                 </div>\
                             </div>\
@@ -174,10 +174,10 @@ resultLoader = {
             html += '<div class="file_download" id="signedUrl">\
                         <p>이미지 일괄 다운로드</p>\
                     </div>\
-                    <div class="file_recoConfirm">\
+                    <div class="file_recoConfirm hide">\
                         <p>전체 원본 복원하기</p>\
                     </div>\
-                    <div class="select_recoConfirm">\
+                    <div class="select_recoConfirm hide">\
                         <p>선택 원본 복원하기</p>\
                     </div>'
         }
@@ -187,7 +187,7 @@ resultLoader = {
                             <p>'+type+' 다운로드</p>\
                         </div>\
                     </a>\
-                    <div class="file_recoConfirm">\
+                    <div class="file_recoConfirm hide">\
                         <p>원본 복원하기</p>\
                     </div>'
         }
