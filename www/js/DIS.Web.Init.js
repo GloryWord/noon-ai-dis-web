@@ -634,7 +634,7 @@ init = {
             location.href = "/myinfo"
         });
 
-        var infoArea = requestTable.getUserInfo()
+        var infoArea = userinfo.getUserInfo()
         $(".infoArea").html(infoArea);
     },
 
