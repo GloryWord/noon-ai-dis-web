@@ -168,23 +168,16 @@
 }
 
 .login_user {
-    width: 150px;
+    width: auto;
     height: 100%;
     display: flex;
     margin: 0 12px 0 auto;
-    cursor: pointer;
-    background-color: #9c9c9c;
-    position: relative;
 }
 
 .login_user p {
-    width: 150px;
-    height: 100%;
-    display: flex;
-    margin: 0 12px 0 auto;
-    cursor: pointer;
-    background-color: #9c9c9c;
-    position: relative;
+    margin: auto;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
 }
 
 .menuBtn {

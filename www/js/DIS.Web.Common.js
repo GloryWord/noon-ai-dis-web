@@ -50,7 +50,7 @@ comm = {
         //     <p>유저 권한: '+ result.auth + '</p>\
         //     <p>회사명: '+ result.company_name + '</p>\
         //     <p>현재 아이디: '+ result.account_name + '</p>';
-        resultStr = result.user_name+'님'
+        resultStr = "<p>"+result.user_name+'님</p>'
         return resultStr;
     },
 

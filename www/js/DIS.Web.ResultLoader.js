@@ -85,7 +85,7 @@ resultLoader = {
                             <img class="albumImg" src="'+urlList[i]+'">\
                             <div class="albumFooter">\
                                 <p>'+objectName[i]+'</p>\
-                                <div class="plusBtn">\
+                                <div data-num='+i+' class="plusBtn">\
                                     <img class="plus_img" src="../../static/imgs/plusBtn.png">\
                                 </div>\
                             </div>\

@@ -459,6 +459,16 @@ init = {
                 });
 
                 $(document).on("click", ".plusBtn", function () {
+                    var imgnum = $(this).data("num")
+                    var imgtag = '<img class="viewImg" src="'+signedUrl[imgnum]+'">'
+                    var downloadArea = '<a class="imgConfirm" href="'+signedUrl[imgnum]+'" download>\
+                        <p>이미지 다운로드</p>\
+                    </a>\
+                    <div class="cancel">\
+                        <p>취소</p>\
+                    </div>'
+                    document.getElementById('selectImgArea').innerHTML = imgtag
+                    document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
                 });
 
