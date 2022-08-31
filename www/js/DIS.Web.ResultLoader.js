@@ -119,7 +119,6 @@ resultLoader = {
             success: function (data) {
                 if (data.message == 'success') {
                     result = data.result;
-                    console.log(data.result);
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
@@ -202,7 +201,7 @@ resultLoader = {
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
-                    console.log(data);
+
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
@@ -222,7 +221,6 @@ resultLoader = {
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
-                    console.log(data);
                     result = true;
                 }
                 else alert(JSON.stringify(data));

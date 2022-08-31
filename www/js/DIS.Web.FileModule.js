@@ -204,9 +204,16 @@ fileModule = {
                         });
                         new Promise((resolve, reject) => {
                             resolve()
-                        }).then((a) => {
-                            alert('NAS 업로드 완료');
-                            location.reload();
+                        }).then(() => {
+                            Swal.fire({
+                                title: '비식별화 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = '/encrypt/loading';
+                                }
+                            })
                         })
                     })
                 };

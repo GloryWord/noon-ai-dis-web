@@ -141,28 +141,23 @@ init = {
     },
 
     main: function () {
+        var socket = io();
         var temp = comm.getUser()
         $(".curTenant").html(temp);
         $("#selectKeyName").html(comm.getKeyList());
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
-            $('#progress').html(encProgress['progress']);
-            if (encProgress['file_type'] == 'video' && progress != '100%') {
-                setTimeout(reloadProgress, 200);
-            }
-            else if (encProgress['file_type'] == 'image') {
-                var cur = encProgress['progress'].split('/')
-                if (cur[0] != cur[1]) setTimeout(reloadProgress, 200);
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                var mainLog = requestTable.getEncRequestList()
+                $(".mainLog").html(mainLog);
             }
         }
 
-        new Promise((resolve, reject) => {
-            $('#requestListTable').html(requestTable.getEncRequestList('all'));
-            resolve();
-        }).then(() => {
-            reloadProgress();
-        })
+        reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -218,7 +213,7 @@ init = {
 
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            comm.generateKey(genKeyName);
+            comm.generateKey(genKeyName, null);
         });
 
         var restoration = 0;
@@ -261,7 +256,26 @@ init = {
     },
 
     loading: function () {
+        function reloadProgress() {
+            var encProgress = requestTable.getEncProgress();
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                Swal.fire({
+                    title: '비식별화가 완료되었습니다!',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    icon: 'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/log';
+                    }
+                })
+            }
+        }
 
+        reloadProgress();
     },
 
     video: function () {
@@ -293,7 +307,7 @@ init = {
 
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            comm.generateKey(genKeyName);
+            comm.generateKey(genKeyName, null);
         });
 
         var restoration = 0;
@@ -324,6 +338,8 @@ init = {
     },
 
     detail: function () {
+        var socket = io();
+        
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -386,17 +402,14 @@ init = {
                 });
 
                 $(document).on("click", "#signedUrl", function () {
-                    new Promise((resolve, reject) => {
-                        //압축하여 다운로드
-                        resultLoader.fileToZip({
-                            id: eventIndex,
-                            bucketName: encDirectory[0],    //참조할 버킷 이름
-                            subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                            fileName: fileList              //참조할 object filename 목록
-                        });
-                        resolve();
-                    }).then(() => {
-                        setTimeout(function () {
+                    resultLoader.fileToZip({
+                        id: eventIndex,
+                        bucketName: encDirectory[0],    //참조할 버킷 이름
+                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                        fileName: fileList              //참조할 object filename 목록
+                    });
+                    socket.on('compress', function (data) {
+                        if(data.log == '압축 완료') {
                             new Promise((resolve, reject) => {
                                 //파일 다운로드 경로 획득
                                 var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
@@ -405,14 +418,13 @@ init = {
                             }).then(() => {
                                 new Promise((resolve, reject) => {
                                     //다운로드 후 zip 파일 삭제
+                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
                                     var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
                                     resolve(complete);
-                                }).then((complete) => {
-                                    if (complete) Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
                                 })
                             })
-                        }, 500)
-                    })
+                        }
+                    });
                 });
                 $('.lockDataList')[0].innerHTML = html;
             }
@@ -626,6 +638,12 @@ init = {
 
         $(document).on("click", ".allClear", function () {
             $('.keymemo_modi').val('')
+        });
+
+        $(document).on("click", "#generateKey", function () {
+            var genKeyName = $("#genKeyName").val();
+            var keyMemo = $("#keyMemo").val();
+            comm.generateKey(genKeyName, keyMemo);
         });
     },
 
