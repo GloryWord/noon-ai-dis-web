@@ -125,7 +125,12 @@ init = {
             var accountName = $("#name").val();
             var password = $("#pass").val();
             if (accountName && password) login.login(accountName, password);
-            else Swal.fire('아이디를 입력해 주세요.', '', 'warning');
+            else {
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+            }
         });
     },
 
@@ -134,8 +139,14 @@ init = {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
             var password = $("#pass").val();
-            if (accountName && password) login.subLogin(loginAlias, accountName, password);
-            else Swal.fire('아이디를 입력해 주세요.', '', 'warning');
+            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
+            else {
+                if (loginAlias == '') var msg = '접속키'
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+            }
         });
     },
 
@@ -185,6 +196,7 @@ init = {
 
     image: function () {
         var html = ''
+        var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -195,6 +207,7 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
             }, 100);
         });
 
@@ -202,6 +215,7 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
             }, 100);
         });
 
@@ -246,19 +260,22 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            var encryptObject = []
-            for (var i = 0; i < fileWidth.length; i++) {
-                var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
-                var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            else {
+                var encryptObject = []
+                for (var i = 0; i < fileCount; i++) {
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
 
-                var select = ''
-                select = (head) ? select += '1' : select += '0'
-                select = (body) ? select += '1' : select += '0'
-                select = (lp) ? select += '1' : select += '0'
-                encryptObject.push(select)
+                    var select = ''
+                    select = (head) ? select += '1' : select += '0'
+                    select = (body) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                }
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
             }
-            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
         });
     },
 
@@ -287,6 +304,7 @@ init = {
 
     video: function () {
         var html = ''
+        var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -297,6 +315,8 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
+                console.log(fileCount);
             }, 100);
         });
 
@@ -348,8 +368,29 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
+            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            else {
+                var encryptObject = []
+                for (var i = 0; i < fileCount; i++) {
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+
+                    var select = ''
+                    select = (head) ? select += '1' : select += '0'
+                    select = (body) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                    console.log(encryptObject);
+                }
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+            }
         });
+
+        // $(document).on("click", ".nextBtn", function () {
+        //     if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+        //     else fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+        // });
     },
 
     detail: function () {

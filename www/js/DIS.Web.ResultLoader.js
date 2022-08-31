@@ -146,9 +146,6 @@ resultLoader = {
                 <div class="file_reco">\
                     <p class="title">복호화 여부 : </p>\
                     <p class="rest_info">'+restoration+'</p>\
-                </div>\
-                <div class="file_date">\
-                    <p>'+restoration+'</p>\
                 </div>';
         
         if(restoration == 'O') {
@@ -159,7 +156,6 @@ resultLoader = {
         }
 
         html += '<div class="file_date">\
-
                     <p class="title">날짜 : </p>\
                     <p>'+dateFormat(date)+'</p>\
                 </div>'
