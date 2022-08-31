@@ -7,6 +7,7 @@
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Login.js"></script>
+    <script src="./static/js/sweetalert/sweetalert.js"></script>
 </head>
 
 <style>
@@ -515,12 +516,12 @@
     </div>
 
     <script>
-        $(".box").keypress(function (e) {
+        $("body").keypress(function (e) {
             if (e.keyCode == 13) {
                 $("#loginButton").click();
             }
         });
-
+        
         $(function () {
 
             $(".input input").focus(function () {

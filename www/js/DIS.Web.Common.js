@@ -118,23 +118,80 @@ comm = {
         })
     },
 
-    generateKey: function (genKeyName) {
+    generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
             url: "/api/key",
-            data: { 'keyName': genKeyName },
+            data: { 
+                'keyName': genKeyName,
+                'keyMemo': keyMemo
+             },
             success: function (data) {
                 new Promise((resolve, reject) => {
                     download(data.privateKey, data.keyName + ".pem", "text/plain")
                     resolve();
                 }).then(() => {
-                    alert('RSA 키 발급 완료');
-                    location.href = '/encrypt/video';
+                    Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
+                        location.reload();
+                    })
                 })
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + JSON.stringify(status));
             }
         });
-    }
+    },
+
+    logout: function () {
+        $.ajax({
+            method: "get",
+            url: "/api/logout",
+            success: function (data) {
+                location.href = '/';
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    },    
+    
+    joinInfo: function(cur_password) {
+        var postdata = {cur_password:cur_password}
+        $.ajax({
+            method: "post",
+            url: "/api/user/check",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                if(data.message == "success"){
+                    location.href = '/myinfo';
+                }
+                else{
+                    Swal.fire('비밀번호가 틀렸습니다.', '', 'error').then(() => {
+                    })
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return 0;
+    },
+
+    adminonly: function () {
+        var auth = ''
+        $.ajax({
+            method: "get",
+            url: "/api/get-auth",
+            async: false,
+            success: function (data) {
+                auth = data.auth
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+        return auth
+    },
 }

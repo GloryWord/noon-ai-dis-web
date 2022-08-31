@@ -10,11 +10,11 @@
   <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
 
-  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
   <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
-  <script type="text/javascript" src="js/DIS.Web.Login.js"></script>
   <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+  <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
   <script src="./static/js/sweetalert/sweetalert.js"></script>
   <script src="./static/js/common/common.js"></script>
   <script src="./static/js/common/header.js"></script>
@@ -36,7 +36,7 @@
           <a href="/key">KEY 관리</a>
           <a class="infoMove">내 정보</a>
           <a class="admin_only" href="/submanage">서브 계정 관리</a>
-          <a id="logout" href="/">로그아웃</a>
+          <div id="logout">로그아웃</div>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="saveFooter">
               <div class="infoConfir">
-                <p>저장</p>
+                <p>확인</p>
               </div>
               <div class="cancel">
                 <p>취소</p>

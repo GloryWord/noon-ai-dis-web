@@ -13,9 +13,10 @@
     <script type="text/javascript" src="../../js/jquery.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="../../js/DIS.Web.UserInfo.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.ResultLoader.js"></script>
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script src="../../static/js/sweetalert/sweetalert.js"></script>
-    <script src="../../static/js/common/jquery-3.5.1.min.js"></script>
     <script src="../../static/js/common/common.js"></script>
     <script src="../../static/js/common/header.js"></script>
 </head>
@@ -23,10 +24,12 @@
 <body>
     <div class="header">
         <div class="header_content">
-            <a href="/main"><div class="logo"></div></a>
+            <a href="/main">
+                <div class="logo"></div>
+            </a>
             <div class="flow">
             </div>
-            <div class="menuBtn">                
+            <div class="menuBtn">
                 <div id="myDropdown" class="dropdown-content">
                     <a href="/main">홈</a>
                     <a href="/log">기록 열람</a>
@@ -142,7 +145,7 @@
             </div>
             <div class="btnArea">
                 <div class="back" onclick="window.history.back()">
-                    <p>기록 열람으로</p>
+                    <p>뒤로가기</p>
                 </div>
             </div>
         </div>
@@ -215,7 +218,9 @@
                     <div class="recoBody">
                         <div class="recoMiddle">
                             <input class="pemUpload" value="abc.pem" readonly>
-                            <label class="uploadBtn" for="file"><p>파일 업로드</p></label> 
+                            <label class="uploadBtn" for="file">
+                                <p>파일 업로드</p>
+                            </label>
                             <input type="file" id="file">
                         </div>
                         <div class="recoFooter">
@@ -244,7 +249,9 @@
                     <div class="recoBody">
                         <div class="recoMiddle">
                             <input class="pemUpload" value="abc.pem" readonly>
-                            <label class="uploadBtn" for="select_file"><p>파일 업로드</p></label> 
+                            <label class="uploadBtn" for="select_file">
+                                <p>파일 업로드</p>
+                            </label>
                             <input type="file" id="select_file">
                         </div>
                         <div class="recoFooter">

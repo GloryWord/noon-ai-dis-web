@@ -101,6 +101,10 @@
     cursor: pointer;
 }
 
+.detailArea .albumArea .albumlist .albumImg.active {
+    border: solid 1px red;
+}
+
 .detailArea .albumArea .albumlist .albumFooter {
     display: flex;
 }
@@ -162,6 +166,7 @@
 .detailArea .infoArea .file_name,
 .detailArea .infoArea .file_type,
 .detailArea .infoArea .file_reco,
+.detailArea .infoArea .file_key,
 .detailArea .infoArea .file_date,
 .detailArea .infoArea .file_download,
 .detailArea .infoArea .file_recoConfirm,
@@ -173,6 +178,7 @@
 .detailArea .infoArea .file_name .title,
 .detailArea .infoArea .file_type .title,
 .detailArea .infoArea .file_reco .title,
+.detailArea .infoArea .file_key .title,
 .detailArea .infoArea .file_date .title {
     margin: 0 8px 0 0;
     text-align: right;
@@ -183,6 +189,7 @@
 .detailArea .infoArea .file_name p,
 .detailArea .infoArea .file_type p,
 .detailArea .infoArea .file_reco p,
+.detailArea .infoArea .file_key p,
 .detailArea .infoArea .file_date p {
     margin: 0 8px 0 0;
     font-family: SpoqaHanSansNeo-Regular;
@@ -236,6 +243,11 @@
     font-family: S-CoreDream-6Bold;
 }
 
+.detailArea .infoArea .file_recoConfirm.hide,
+.detailArea .infoArea .select_recoConfirm.hide {
+    display: none;
+}
+
 .layerPopupBox .inner {
     position: absolute;
     top: 50%;
@@ -280,17 +292,28 @@
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn {
+    display: flex;
+    background-color: deepskyblue;
+    margin: auto 0;
     width: 120px;
     height: 40px;
     border-radius: 5px;
-    background-color: deepskyblue;
-    display: flex;
+    cursor: pointer;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn p {
-    margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
+    margin: auto;
+}
+
+.layerPopupBox .inner .recoContent .recoBody .recoMiddle input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoFooter {

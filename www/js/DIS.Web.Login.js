@@ -26,7 +26,8 @@ login = {
                 location.href = '/main';
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
+                Swal.fire('로그인에 실패하였습니다.', '', 'error');
             }
         })
     },
@@ -44,7 +45,8 @@ login = {
                 if(data.message == 'success') result = true;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
+                Swal.fire('로그인에 실패하였습니다.', '', 'error');
             }
         })
         return result;
@@ -61,20 +63,8 @@ login = {
                 location.href = '/main';
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
-    },
-
-    logout: function () {
-        $.ajax({
-            method: "get",
-            url: "/api/logout",
-            success: function (data) {
-                location.href = '/';
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                Swal.fire('로그인에 실패하였습니다.', '', 'error');
             }
         })
     },
@@ -117,5 +107,5 @@ login = {
         else {
             alert("비밀번호 입력이 불일치합니다.")
         }
-    }
+    },
 }

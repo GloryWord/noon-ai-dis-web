@@ -125,7 +125,12 @@ init = {
             var accountName = $("#name").val();
             var password = $("#pass").val();
             if (accountName && password) login.login(accountName, password);
-            else alert('아이디를 입력해 주세요.')
+            else {
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+            }
         });
     },
 
@@ -134,35 +139,35 @@ init = {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
             var password = $("#pass").val();
-            console.log(loginAlias)
-            if (accountName && password) login.subLogin(loginAlias, accountName, password);
-            else alert('아이디를 입력해 주세요.')
+            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
+            else {
+                if (loginAlias == '') var msg = '접속키'
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+            }
         });
     },
 
     main: function () {
+        var socket = io();
         var temp = comm.getUser()
         $(".curTenant").html(temp);
         $("#selectKeyName").html(comm.getKeyList());
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
-            $('#progress').html(encProgress['progress']);
-            if (encProgress['file_type'] == 'video' && progress != '100%') {
-                setTimeout(reloadProgress, 200);
-            }
-            else if (encProgress['file_type'] == 'image') {
-                var cur = encProgress['progress'].split('/')
-                if (cur[0] != cur[1]) setTimeout(reloadProgress, 200);
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                var mainLog = requestTable.getEncRequestList()
+                $(".mainLog").html(mainLog);
             }
         }
 
-        new Promise((resolve, reject) => {
-            $('#requestListTable').html(requestTable.getEncRequestList('all'));
-            resolve();
-        }).then(() => {
-            reloadProgress();
-        })
+        reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -170,10 +175,6 @@ init = {
 
         $(document).on("click", ".image_select", function () {
             location.href = "/encrypt/image"
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
 
         var mainLog = requestTable.getEncRequestList()
@@ -191,51 +192,11 @@ init = {
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
-    },
-
-    main2: function () {
-        var temp = comm.getUser()
-        $(".curTenant").html(temp);
-        $("#selectKeyName").html(comm.getKeyList());
-
-        function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            $('#progress').html(encProgress['progress']);
-            if (encProgress['file_type'] == 'video' && progress != '100%') {
-                setTimeout(reloadProgress, 200);
-            }
-            else if (encProgress['file_type'] == 'image') {
-                var cur = encProgress['progress'].split('/')
-                if (cur[0] != cur[1]) setTimeout(reloadProgress, 200);
-            }
-        }
-
-        new Promise((resolve, reject) => {
-            $('#requestListTable').html(requestTable.getEncRequestList('all'));
-            resolve();
-        }).then(() => {
-            reloadProgress();
-        })
-
-        $(document).on("click", ".video_select", function () {
-            location.href = "/encrypt/video"
-        });
-
-        $(document).on("click", ".image_select", function () {
-            location.href = "/encrypt/image"
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     image: function () {
         var html = ''
+        var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -246,6 +207,7 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
             }, 100);
         });
 
@@ -253,6 +215,7 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
             }, 100);
         });
 
@@ -263,7 +226,7 @@ init = {
 
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            comm.generateKey(genKeyName);
+            comm.generateKey(genKeyName, null);
         });
 
         var restoration = 0;
@@ -281,40 +244,67 @@ init = {
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
+            $(".folderSelect").removeClass('active')
+            $(".fileSelect").addClass('active')
         });
 
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+            $(".fileSelect").removeClass('active')
+            $(".folderSelect").addClass('active')
         });
 
-        $(document).on("click", ".btnArea", function () {
-            var encryptObject = []
-            for(var i = 0; i < fileWidth.length; i++) {
-                var head = $('#file-'+i+' .selectObject')[0].children[0].checked
-                var body = $('#file-'+i+' .selectObject')[0].children[2].checked
-                var lp = $('#file-'+i+' .selectObject')[0].children[4].checked
+        $(document).on("click", ".prevBtn", function () {
+            location.href = "/main"
+        });
 
-                var select = ''
-                select = (head) ? select +='1' : select +='0'
-                select = (body) ? select +='1' : select +='0'
-                select = (lp) ? select +='1' : select +='0'
-                encryptObject.push(select)
+        $(document).on("click", ".nextBtn", function () {
+            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            else {
+                var encryptObject = []
+                for (var i = 0; i < fileCount; i++) {
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+
+                    var select = ''
+                    select = (head) ? select += '1' : select += '0'
+                    select = (body) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                }
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
             }
-            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
-        });
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
         });
     },
 
     loading: function () {
+        function reloadProgress() {
+            var encProgress = requestTable.getEncProgress();
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                Swal.fire({
+                    title: '비식별화가 완료되었습니다!',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    icon: 'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/log';
+                    }
+                })
+            }
+        }
 
+        reloadProgress();
     },
 
     video: function () {
         var html = ''
+        var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -325,6 +315,8 @@ init = {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
+                fileCount = fileWidth.length;
+                console.log(fileCount);
             }, 100);
         });
 
@@ -342,7 +334,7 @@ init = {
 
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            comm.generateKey(genKeyName);
+            comm.generateKey(genKeyName, null);
         });
 
         var restoration = 0;
@@ -360,23 +352,50 @@ init = {
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
+            $(".folderSelect").removeClass('active')
+            $(".fileSelect").addClass('active')
         });
 
         $(document).on("click", ".folderSelect", function () {
             $(".fileUpload").removeClass('active')
             $(".folderUpload").addClass('active')
+            $(".fileSelect").removeClass('active')
+            $(".folderSelect").addClass('active')
         });
 
-        $(document).on("click", ".btnArea", function () {
-            fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration);
+        $(document).on("click", ".prevBtn", function () {
+            location.href = "/main"
         });
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
+        $(document).on("click", ".nextBtn", function () {
+            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            else {
+                var encryptObject = []
+                for (var i = 0; i < fileCount; i++) {
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+
+                    var select = ''
+                    select = (head) ? select += '1' : select += '0'
+                    select = (body) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                    console.log(encryptObject);
+                }
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+            }
         });
+
+        // $(document).on("click", ".nextBtn", function () {
+        //     if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+        //     else fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+        // });
     },
 
     detail: function () {
+        var socket = io();
+        
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -386,19 +405,45 @@ init = {
         var encDirectory = [];
         var fileList = [];
         [encDirectory, fileList] = resultLoader.getFileInfo(eventIndex);
+        var infoHtml = resultLoader.getInfoHtml(eventIndex);
+        $('.infoArea')[0].innerHTML = infoHtml;
+
+        $(document).ready(function () {
+            var rest = $(".rest_info").text()
+            if(rest == "X"){
+                $(".file_recoConfirm").addClass("hide")
+                $(".select_recoConfirm").addClass("hide")
+            }
+        });
+
+        $(document).on("click", ".file_recoConfirm", function () {
+            $("#recoData").addClass('active')
+        });
+
+        $(document).on("click", ".cancel", function () {
+            $('.modal').removeClass('active')
+        });
+
+        $("#file").on('change', function () {
+            var file = document.getElementById('file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
+        $(document).on("click", ".recoConfirm", function () {
+            var keyName = $('.file_key')[0].children[1].innerHTML
+            fileModule.verifyKey(keyName, eventIndex);
+        });
 
         if (type == 'image') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getHtml(signedUrl, mode, fileList);
+            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
+
             if (mode == 'single') {
                 $('.lockData')[0].innerHTML = html;
                 $('#signedUrl').attr('href', signedUrl[0]);
             }
             else if (mode == 'group') {
-                $(document).on("click", ".file_recoConfirm", function () {
-                    $("#recoData").addClass('active')
-                });
-
                 $(document).on("click", ".select_recoConfirm", function () {
                     $("#select_recoData").addClass('active')
                 });
@@ -420,27 +465,39 @@ init = {
                     $('.modal').removeClass('active')
                 });
 
-                $(document).on("click", ".cancel", function () {
-                    $('.modal').removeClass('active')
-                });
-
                 $(document).on("click", "#signedUrl", function () {
-                    resultLoader.getFileToZip({
+                    resultLoader.fileToZip({
                         id: eventIndex,
-                        bucketName: encDirectory[0],
-                        subDirectory: encDirectory[1],
-                        fileName: fileList
+                        bucketName: encDirectory[0],    //참조할 버킷 이름
+                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                        fileName: fileList              //참조할 object filename 목록
+                    });
+                    socket.on('compress', function (data) {
+                        if(data.log == '압축 완료') {
+                            new Promise((resolve, reject) => {
+                                //파일 다운로드 경로 획득
+                                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                location.href = signedUrl;
+                                resolve();
+                            }).then(() => {
+                                new Promise((resolve, reject) => {
+                                    //다운로드 후 zip 파일 삭제
+                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                    var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
+                                    resolve(complete);
+                                })
+                            })
+                        }
                     });
                 });
-
                 $('.lockDataList')[0].innerHTML = html;
             }
-
         }
         else if (type == 'video') {
-
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            // var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+            $('#signedUrl').attr('href', signedUrl[0]);
         }
-
     },
 
     log: function () {
@@ -579,16 +636,44 @@ init = {
             }
         });
 
+        $(document).on("click", ".detailInfo", function () {
+            var type = $(this).data('type')
+            if (type == '영상') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+            }
+            else if (type == '이미지') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
+
         var mainLog = requestTable.getAllEncRequestList()
         $(".mainLog").html(mainLog);
+    },
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
+    myinfo: function () {
+        $(document).on("click", ".infoSave", function () {
+            var name = $(".view_name").val()
+            var email = $(".view_email").val()
+            var phone = $(".view_phone").val()
+            var now_pass = $(".now_pass").val()
+            var new_pass = $(".new_pass").val()
+            var new_passConfig = $(".new_passConfig").val()
+            // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
+            userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
         });
+
+        $(document).on("click", ".infoCancel", function () {
+            location.href = "/myinfo"
+        });
+
+        var infoArea = userinfo.getUserInfo()
+        $(".infoArea").html(infoArea);
     },
 
     key: function () {
-
         var keyContent = requestTable.getAllKeyList()
         $(".listContent").html(keyContent);
 
@@ -597,7 +682,16 @@ init = {
         });
 
         $(document).on("click", ".memo_modi", function () {
+            var key_idx = $(this).data("id")
+            var keymemo_modi = requestTable.postSelectKeyMemo(key_idx)
+            $(".keymemo_modi").val(keymemo_modi)
+            // $(".bodyMiddle").html(keymemo_modi)
             $("#memoModi").addClass('active')
+        });
+
+        $(document).on("click", ".memosave", function () {
+            var key_memo = $(".keymemo_modi").val()
+            requestTable.postUpdateKeyMemo(key_memo)
         });
 
         $(document).on("click", ".cancel", function () {
@@ -610,15 +704,11 @@ init = {
             $('.keymemo_modi').val('')
         });
 
-        $(document).on("click", "#logout", function () {
-            login.logout();
+        $(document).on("click", "#generateKey", function () {
+            var genKeyName = $("#genKeyName").val();
+            var keyMemo = $("#keyMemo").val();
+            comm.generateKey(genKeyName, keyMemo);
         });
-    },
-
-    decrypt: function () {
-        var html = comm.getUser()
-        $(".curTenant").html(html);
-        $('#requestListTable').html(requestTable.getEncRequestList('restoration'));
     },
 
     submanage: function () {
@@ -636,10 +726,6 @@ init = {
 
         var subAccountList = subaccount.getList();
         $(".listContent").html(subAccountList);
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     add: function () {
@@ -678,10 +764,6 @@ init = {
         });
 
         comm.secondaryLogin();
-
-        $(document).on("click", "#logout", function () {
-            login.logout();
-        });
     },
 
     admin: function () {
@@ -692,6 +774,69 @@ init = {
         $(document).on("click", ".regiCancel", function () {
             location.href = "/"
         });
+
+        const patterns = {
+            account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
+            password: /^[\w@-]{8,20}$/,
+            repassword: /^[\w@-]{8,20}$/,
+            company_name: /^[a-z\d]{1,20}$/i,
+            owner_name: /^[a-z\d]{1,20}$/i,
+            telephone: /^[0-9]{11}$/,
+            verify_number: /^[0-9]{6}$/
+        };
+    
+        const inputs = document.querySelectorAll('input');
+    
+        function validate(input, regex) {
+            return regex.test(input.value) ? 'valid' : 'invalid';
+        }
+    
+        inputs.forEach((input) => {
+            input.addEventListener('keyup', (event) => {
+                input.className = validate(event.target, patterns[event.target.attributes.name.value]);
+            });
+        });
+    
+        var verify = false;
+        var verifyCode = null;
+        $(document).on("click", "#email_send", function () {
+            var email = $("#account_name").val();
+            if (email) {
+                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                    verifyCode = signup.sendMail(email);
+                })
+            }
+            else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
+            // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
+        });
+    
+        $(document).on("click", "#email_verify", function () {
+            if (!$(this).hasClass('click')) {
+                if ($("#verify_number").val() == verifyCode) {
+                    Swal.fire('인증이 완료되었습니다.', '', 'success');
+                    verify = true;
+                    $(this).addClass('click');
+                    $("#account_name").attr('disabled', true); // or false
+                }
+                else {
+                    Swal.fire('인증번호가 일치하지 않습니다.', '', 'error');
+                }
+            }
+        });
+    
+        $(document).on("click", "#tenant_register", function () {
+            if (!verify) Swal.fire('인증 실패', '이메일 인증을 완료해 주세요', 'error');
+            else {
+                var accountName = $("#account_name").val();
+                var password = $("#password").val();
+                var repassword = $("#repassword").val();
+                var companyName = $("#company_name").val();
+                var ownerName = $("#owner_name").val();
+                var telePhone = $("#telephone").val();
+                if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
+                else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
+            }
+        });
     },
 
     findpwd: function () {
@@ -701,6 +846,25 @@ init = {
 
         $(document).on("click", ".findCancel", function () {
             location.href = "/"
+        });
+    },
+
+    test: function () {
+        $(document).on("click", "#user", function () {
+            // $.ajax({
+            //     method: "get",
+            //     url: "/api/socket",
+            //     async: false,
+            //     success: function (data) {
+            //         if (data.message == 'success') {
+            //             console.log(data);
+            //         }
+            //         // else alert(JSON.stringify(data));
+            //     }, // success 
+            //     error: function (xhr, status) {
+            //         alert("error : " + xhr + " : " + JSON.stringify(status));
+            //     }
+            // })
         });
     }
 };

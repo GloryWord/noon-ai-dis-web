@@ -10,6 +10,7 @@
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Login.js"></script>
+    <script src="./static/js/sweetalert/sweetalert.js"></script>
 </head>
 
 <body>
@@ -26,13 +27,13 @@
                 <input type="password" name="pass" id="pass">
                 <span class="spin"></span>
             </div>
-            <div class="button login" id="loginButton">
+            <div class="button login" onkeyup="enterkey();" id="loginButton">
                 <button><span>로그인</span> <i class="fa fa-check"></i></button>
             </div>
             <div class="boxFooter">
                 <a href="/findpwd" class="pass-forgot1">비밀번호 찾기</a>
                 <p class="pass-forgot2">|</p>
-                <a href="sublogin" class="pass-forgot3">서브 계정으로 로그인</a>
+                <a href="/sublogin" class="pass-forgot3">서브 계정으로 로그인</a>
             </div>
         </div>
 
@@ -43,12 +44,18 @@
 </body>
 
 <script>
-    $(".box").keypress(function (e) {
+    $("body").keypress(function (e) {
         if (e.keyCode == 13) {
             $("#loginButton").click();
         }
     });
-
+    // function enterkey() {
+    //     if (window.event.keyCode == 13) {
+ 
+    //          // 엔터키가 눌렸을 때 실행하는 반응
+    //          $("#loginButton").click();
+    //     }
+    // }
     $(function () {
 
         $(".input input").focus(function () {

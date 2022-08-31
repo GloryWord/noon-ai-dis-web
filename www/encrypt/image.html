@@ -14,7 +14,6 @@
     <script type="text/javascript" src="../js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="../js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="../js/DIS.Web.SubAccount.js"></script>
-    <script type="text/javascript" src="../js/DIS.Web.Login.js"></script>
     <script type="text/javascript" src="../js/DIS.Web.FileModule.js"></script>
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="../static/js/common/common.js"></script>
@@ -48,18 +47,23 @@
                     <a href="/key">KEY 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                    <a id="logout" href="/">로그아웃</a>
+                    <div id="logout">로그아웃</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="uploadArea">
-            <div class="btnArea" data-video="1" data-num="1">
+        <div class="btnArea">
+            <div class="prevBtn">
+                <p>PREV</p>
+            </div>
+            <div class="nextBtn">
                 <p>NEXT</p>
             </div>
-        <div class="videoUpload">
+        </div>
+        <div class="imgUpload">
             <div class="uploadSelect">
-                <div class="fileSelect">
+                <div class="fileSelect active">
                     <p>파일 선택</p>
                 </div>
                 <div class="folderSelect">
@@ -282,7 +286,7 @@
                         </div>
                         <div class="saveFooter">
                             <div class="infoConfir">
-                                <p>저장</p>
+                                <p>확인</p>
                             </div>
                             <div class="cancel">
                                 <p>취소</p>

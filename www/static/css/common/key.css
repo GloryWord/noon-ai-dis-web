@@ -153,6 +153,12 @@
     width: 300px;
 }
 
+.key_table .keyList .listContent .tableContent .name_content p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .key_table .keyList .listContent .tableContent .user_content {
     width: 100px;
 }
@@ -163,6 +169,14 @@
 
 .key_table .keyList .listContent .tableContent .memo_content {
     width: 200px;
+}
+
+.key_table .keyList .listContent .tableContent .memo_content .memo_text {
+    width: 120px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .key_table .keyList .listContent .tableContent p {

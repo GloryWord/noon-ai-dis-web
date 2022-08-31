@@ -7,4 +7,33 @@ $(document).ready(function () {
             $('.dropdown-content').addClass('on')
         }
     })
+
+    $(document).on("click", ".infoMove", function () {
+        $("#saveConfir").addClass('active')
+    });
+
+    $(document).on("click", ".cancel", function () {
+        $('.modal').removeClass('active')
+        $('.cur_password').val("")
+    });
+
+    $(document).ready(function() {
+        var auth = comm.adminonly();
+        if(auth == "master"){
+            $(".admin_only").removeClass('hide')
+        }
+        else if(auth == "sub"){
+            $(".admin_only").addClass('hide')
+        }
+    });
+
+    $(document).on("click", ".infoConfir", function () {
+        // location.href="/myinfo"
+        var cur_password = $(".cur_password").val()
+        comm.joinInfo(cur_password);
+    });
+
+    $(document).on("click", "#logout", function () {
+        comm.logout();
+    });
 });
