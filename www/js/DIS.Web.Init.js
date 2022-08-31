@@ -370,9 +370,9 @@ init = {
 
         $(document).ready(function () {
             var rest = $(".rest_info").text()
-            if(rest == "X"){
-                $(".file_recoConfirm").addClass("hide")
-                $(".select_recoConfirm").addClass("hide")
+            if(rest == "O"){
+                $(".file_recoConfirm").removeClass("hide")
+                $(".select_recoConfirm").removeClass("hide")
             }
         });
 
