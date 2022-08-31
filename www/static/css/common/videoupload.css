@@ -210,6 +210,8 @@
 .uploadArea .videoUpload .uploadContent table th {
     height: 60px;
     border-bottom: 1px solid;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .uploadArea .videoUpload .uploadContent table td {
@@ -217,6 +219,8 @@
     text-align: center;
     height: 60px;
     border-bottom: 1px solid;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .uploadArea .videoUpload .uploadContent table td p {

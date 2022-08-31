@@ -624,10 +624,6 @@ init = {
             userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
         });
 
-        $(document).on("click", ".infoCancel", function () {
-            location.href = "/myinfo"
-        });
-
         var infoArea = userinfo.getUserInfo()
         $(".infoArea").html(infoArea);
     },

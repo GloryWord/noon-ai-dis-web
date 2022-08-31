@@ -75,7 +75,7 @@ userinfo = {
                         <div class="infoSave">\
                             <p>저장</p>\
                         </div>\
-                        <div class="infoCancel">\
+                        <div class="infoCancel" onclick="window.history.back()">\
                             <p>취소</p>\
                         </div>\
                     </div>'
