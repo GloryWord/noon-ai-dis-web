@@ -119,6 +119,7 @@ resultLoader = {
             success: function (data) {
                 if (data.message == 'success') {
                     result = data.result;
+                    console.log(result)
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
@@ -135,6 +136,7 @@ resultLoader = {
         var group = (count > 1) ? '그룹' : '';
         var restoration = (result.restoration == 1) ? 'O' : 'X';
         var date = new Date(result.request_date)
+        var userName = result.user_name;
         html = '<div class="file_name">\
                     <p class="title">파일명 : </p>\
                     <p>'+fileNameArray[0]+ nameCount +'</p>\
@@ -158,6 +160,14 @@ resultLoader = {
         html += '<div class="file_date">\
                     <p class="title">날짜 : </p>\
                     <p>'+dateFormat(date)+'</p>\
+                </div>\
+                <div class="file_time">\
+                    <p class="title">시간 : </p>\
+                    <p>'+result.request_time+'</p>\
+                </div>\
+                <div class="file_user">\
+                    <p class="title">담당자 : </p>\
+                    <p>'+userName+'</p>\
                 </div>'
 
         if (group == '그룹' && type == '이미지') {

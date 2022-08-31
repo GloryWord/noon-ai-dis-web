@@ -153,8 +153,9 @@ init = {
     main: function () {
         var socket = io();
         var temp = comm.getUser()
+        console.log(temp);
         $(".curTenant").html(temp);
-        $("#selectKeyName").html(comm.getKeyList());
+        // $("#selectKeyName").html(comm.getKeyList());
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
