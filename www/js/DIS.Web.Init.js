@@ -125,7 +125,7 @@ init = {
             var accountName = $("#name").val();
             var password = $("#pass").val();
             if (accountName && password) login.login(accountName, password);
-            else alert('아이디를 입력해 주세요.')
+            else Swal.fire('아이디를 입력해 주세요.', '', 'warning');
         });
     },
 
@@ -134,9 +134,8 @@ init = {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
             var password = $("#pass").val();
-            console.log(loginAlias)
             if (accountName && password) login.subLogin(loginAlias, accountName, password);
-            else alert('아이디를 입력해 주세요.')
+            else Swal.fire('아이디를 입력해 주세요.', '', 'warning');
         });
     },
 
@@ -733,6 +732,69 @@ init = {
     join: function () {
         $(document).on("click", ".regiCancel", function () {
             location.href = "/"
+        });
+
+        const patterns = {
+            account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
+            password: /^[\w@-]{8,20}$/,
+            repassword: /^[\w@-]{8,20}$/,
+            company_name: /^[a-z\d]{1,20}$/i,
+            owner_name: /^[a-z\d]{1,20}$/i,
+            telephone: /^[0-9]{11}$/,
+            verify_number: /^[0-9]{6}$/
+        };
+    
+        const inputs = document.querySelectorAll('input');
+    
+        function validate(input, regex) {
+            return regex.test(input.value) ? 'valid' : 'invalid';
+        }
+    
+        inputs.forEach((input) => {
+            input.addEventListener('keyup', (event) => {
+                input.className = validate(event.target, patterns[event.target.attributes.name.value]);
+            });
+        });
+    
+        var verify = false;
+        var verifyCode = null;
+        $(document).on("click", "#email_send", function () {
+            var email = $("#account_name").val();
+            if (email) {
+                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                    verifyCode = signup.sendMail(email);
+                })
+            }
+            else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
+            // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
+        });
+    
+        $(document).on("click", "#email_verify", function () {
+            if (!$(this).hasClass('click')) {
+                if ($("#verify_number").val() == verifyCode) {
+                    Swal.fire('인증이 완료되었습니다.', '', 'success');
+                    verify = true;
+                    $(this).addClass('click');
+                    $("#account_name").attr('disabled', true); // or false
+                }
+                else {
+                    Swal.fire('인증번호가 일치하지 않습니다.', '', 'error');
+                }
+            }
+        });
+    
+        $(document).on("click", "#tenant_register", function () {
+            if (!verify) Swal.fire('인증 실패', '이메일 인증을 완료해 주세요', 'error');
+            else {
+                var accountName = $("#account_name").val();
+                var password = $("#password").val();
+                var repassword = $("#repassword").val();
+                var companyName = $("#company_name").val();
+                var ownerName = $("#owner_name").val();
+                var telePhone = $("#telephone").val();
+                if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
+                else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
+            }
         });
     },
 
