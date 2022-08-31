@@ -119,7 +119,6 @@ resultLoader = {
             success: function (data) {
                 if (data.message == 'success') {
                     result = data.result;
-                    console.log(data.result);
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
@@ -147,8 +146,16 @@ resultLoader = {
                 <div class="file_reco">\
                     <p class="title">복호화 여부 : </p>\
                     <p>'+restoration+'</p>\
-                </div>\
-                <div class="file_date">\
+                </div>';
+        
+        if(restoration == 'O') {
+            html += '<div class="file_key">\
+                        <p class="title">복호화 키 : </p>\
+                        <p>'+result.key_name+'</p>\
+                    </div>';
+        }
+
+        html += '<div class="file_date">\
                     <p class="title">날짜 : </p>\
                     <p>'+dateFormat(date)+'</p>\
                 </div>'
@@ -194,7 +201,7 @@ resultLoader = {
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
-                    console.log(data);
+
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
@@ -204,7 +211,7 @@ resultLoader = {
         })
     },
 
-    deleteZipFile: function (bucketName, subDirectory) {        
+    deleteZipFile: function (bucketName, subDirectory) {
         var parameter = "/" + bucketName + "/" + encodeURIComponent(subDirectory);
 
         var result = false;
@@ -214,7 +221,6 @@ resultLoader = {
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
-                    console.log(data);
                     result = true;
                 }
                 else alert(JSON.stringify(data));

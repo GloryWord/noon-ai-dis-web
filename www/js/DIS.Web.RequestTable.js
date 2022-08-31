@@ -15,7 +15,8 @@ requestTable = {
     getEncProgress: function() {
         var result = {
             'progress': '',
-            'type': ''
+            'type': '',
+            'status': ''
         }
         $.ajax({
             method: "get",
@@ -24,8 +25,7 @@ requestTable = {
             success: function (data) {
                 result['progress'] = data['encrypt_progress'];
                 result['type'] = data['file_type'];
-                console.log(result)
-                // console.log(data['progress'])
+                result['complete'] = data['complete'];
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
