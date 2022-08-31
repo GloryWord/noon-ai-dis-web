@@ -118,18 +118,22 @@ comm = {
         })
     },
 
-    generateKey: function (genKeyName) {
+    generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
             url: "/api/key",
-            data: { 'keyName': genKeyName },
+            data: { 
+                'keyName': genKeyName,
+                'keyMemo': keyMemo
+             },
             success: function (data) {
                 new Promise((resolve, reject) => {
                     download(data.privateKey, data.keyName + ".pem", "text/plain")
                     resolve();
                 }).then(() => {
-                    alert('RSA 키 발급 완료');
-                    location.href = '/encrypt/video';
+                    Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
+                        location.reload();
+                    })
                 })
             },
             error: function (xhr, status) {
