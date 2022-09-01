@@ -529,11 +529,13 @@ init = {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("video")
+                $(".group_file").val(0)
             }
         });
 
@@ -541,11 +543,13 @@ init = {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("image")
+                $(".group_file").val(0)
             }
         });
 
@@ -553,11 +557,13 @@ init = {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("album")
+                $(".group_file").val(1)
             }
         });
 
