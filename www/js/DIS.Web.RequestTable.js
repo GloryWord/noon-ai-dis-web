@@ -79,6 +79,16 @@ requestTable = {
 
                 var date = new Date(requestList[i]['request_date'])
 
+                var namelist = requestList[i]['request_file_list'].split('\n')
+                namelist = namelist.splice(0, namelist.length - 1);
+    
+                if(namelist.length > 1){
+                    var name = namelist[0] + " 외 " +(Number(namelist.length)-1)+"개"
+                }
+                else {
+                    var name = namelist[0]
+                }
+                
                 if (requestList[i]['restoration'] == 1) var restoration = "O"
                 else var restoration = "X"
 
@@ -92,7 +102,7 @@ requestTable = {
                 var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
                 htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ requestList[i]['request_file_list'] + '</p></div>\
+                            <div class="name_content"><p>'+ name + '</p></div>\
                             <div class="type_content"><p>'+ type + '</p></div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="progress_content" id="progress"><p>-</p></div>\
