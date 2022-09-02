@@ -35,6 +35,28 @@ requestTable = {
         return result;
     },
 
+    getDecProgress: function () {
+        var result = {
+            'progress': '',
+            'type': '',
+            'status': ''
+        }
+        $.ajax({
+            method: "get",
+            url: "/api/progress/decrypt",
+            async: false,
+            success: function (data) {
+                result['progress'] = data['decrypt_progress'];
+                result['complete'] = data['complete'];
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
     getEncRequestList: function (mode) {
         var requestList = ''
 
@@ -44,7 +66,6 @@ requestTable = {
             async: false,
             success: function (data) {
                 // result = data['progress']
-                console.log(data);
                 requestList = data;
             },
             error: function (xhr, status) {
@@ -73,7 +94,6 @@ requestTable = {
         else {
             var count = 0;
             for (var i = 0; i < 5; i++) {
-                console.log(requestList[i])
                 if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
                 if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
 

@@ -59,3 +59,18 @@
     font-size: 28px;
 }
 
+#download {
+    width: 120px;
+    height: 40px;
+    background-color: deepskyblue;
+    display: flex;
+    margin: 12px auto auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#download p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}

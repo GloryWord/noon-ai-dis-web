@@ -38,8 +38,9 @@ signup = {
                     //         alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
                     //     }
                     // })
-                    alert('회원가입 요청이 완료되었습니다.\n 1 영업일 이내로 요청 확인 후 승인 절차가 이루어집니다.')
-                    window.location = '/'
+                    Swal.fire('회원가입 요청이 완료되었습니다.\n 1 영업일 이내로 요청 확인 후 승인 절차가 이루어집니다.').then(() => {
+                        window.location = '/';
+                    })
                 } else {
                     alert(JSON.stringify(data));
                 }
