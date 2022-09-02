@@ -45,11 +45,12 @@ comm = {
                 alert(xhr + " : " + status);
             }
         });
-        resultStr = '<p>접속 서버 환경: ' + result.env + '</p>\
-            <p>현재 테넌트: tenant-'+ result.tenant_id + '</p>\
-            <p>유저 권한: '+ result.auth + '</p>\
-            <p>회사명: '+ result.company_name + '</p>\
-            <p>현재 아이디: '+ result.account_name + '</p>';
+        // resultStr = '<p>접속 서버 환경: ' + result.env + '</p>\
+        //     <p>현재 테넌트: tenant-'+ result.tenant_id + '</p>\
+        //     <p>유저 권한: '+ result.auth + '</p>\
+        //     <p>회사명: '+ result.company_name + '</p>\
+        //     <p>현재 아이디: '+ result.account_name + '</p>';
+        resultStr = "<p>"+result.user_name+'님</p>'
         return resultStr;
     },
 

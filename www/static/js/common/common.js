@@ -22,48 +22,48 @@ $(document).ready(function () {
         }
     })
 
-    $('.allface').click(function () {
+    $(document).on("click", ".allface", function () {
         if($('.allface').is(":checked")){
             $("input:checkbox[class=face]").prop("checked", true);
         }
         else{
             $('input[class=face]:checked').prop('checked', false)
         }
-    })
-    
-    $('.allbody').click(function () {
+    });
+
+    $(document).on("click", ".allbody", function () {
         if($('.allbody').is(":checked")){
             $("input:checkbox[class=body]").prop("checked", true);
         }
         else{
             $('input[class=body]:checked').prop('checked', false)
         }
-    })
-    
-    $('.allcar').click(function () {
+    });
+
+    $(document).on("click", ".allcar", function () {
         if($('.allcar').is(":checked")){
             $("input:checkbox[class=car]").prop("checked", true);
         }
         else{
             $('input[class=car]:checked').prop('checked', false)
         }
-    })
+    });
 
-    $('.face').click(function () {
+    $(document).on("click", ".face", function () {
         if(!$(this).is(":checked")){
             $("input:checkbox[class=allface]").prop("checked",false);
         }
-    })
-    
-    $('.body').click(function () {
+    });
+
+    $(document).on("click", ".body", function () {
         if(!$(this).is(":checked")){
             $("input:checkbox[class=allbody]").prop("checked",false);
         }
-    })
-    
-    $('.car').click(function () {
+    });
+
+    $(document).on("click", ".car", function () {
         if(!$(this).is(":checked")){
             $("input:checkbox[class=allcar]").prop("checked",false);
         }
-    })
+    });
 });

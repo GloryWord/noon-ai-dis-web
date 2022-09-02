@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    var loginUser = comm.getUser()
+    $(".login_user").html(loginUser);
+
     $('.menuBtn').click(function () {
         if($('.dropdown-content').hasClass('on')){
             $('.dropdown-content').removeClass('on')
