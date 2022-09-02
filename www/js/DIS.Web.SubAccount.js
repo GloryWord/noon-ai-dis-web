@@ -158,9 +158,9 @@ subaccount = {
 
         var html = '<div class="bucketAuth">\
                         <h1>버킷 권한 설정</h1>\
-                        <input class="bcreateAuth" type="checkbox" '+bucket_c+'><label>생성</label>&nbsp;\
-                        <input class="breadAuth" type="checkbox" '+bucket_r+'><label>읽기</label>&nbsp;\
-                        <input class="bupdateAuth" type="checkbox" '+bucket_u+'><label>수정</label>\
+                        <input class="bdownloadAuth" type="checkbox" '+bucket_c+'><label>다운로드</label>&nbsp;\
+                        <input class="buploadAuth" type="checkbox" '+bucket_r+'><label>업로드</label>&nbsp;\
+                        <input class="bdeleteAuth" type="checkbox" '+bucket_u+'><label>삭제</label>\
                     </div>\
                     <div class="dbAuth">\
                         <h1>DB 권한 설정</h1>\

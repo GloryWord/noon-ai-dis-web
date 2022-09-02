@@ -746,11 +746,11 @@ init = {
             var bucketAuth = ""
             var dbAuth = ""
 
-            if($('.bcreateAuth').is(':checked')) bucketAuth += "1"
+            if($('.bdownloadAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
-            if($('.breadAuth').is(':checked')) bucketAuth += "1"
+            if($('.buploadAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
-            if($('.bupdateAuth').is(':checked')) bucketAuth += "1"
+            if($('.bdeleteAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
             
             if($('.dcreateAuth').is(':checked')) dbAuth += "1"
