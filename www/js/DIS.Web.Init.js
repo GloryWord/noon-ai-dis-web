@@ -27,8 +27,8 @@ function getTime() {
 
 function dateFormat(date) {
     let dateFormat2 = date.getFullYear() +
-        '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-        '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
+        '-' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+        '-' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()));
     return dateFormat2;
 }
 
@@ -168,7 +168,7 @@ init = {
             }
         }
 
-        reloadProgress();
+        // reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -184,7 +184,7 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
             if (type == '영상') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
@@ -206,18 +206,18 @@ init = {
 
         $("#file").on('change', function () {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
-            setTimeout(function () {
+            setTimeout(function() {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-            }, 100);
+            }, 200)
         });
 
         $("#folder").on('change', function () {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
-            setTimeout(function () {
+            setTimeout(function() {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-            }, 100);
+            }, 200)
         });
 
         $(document).on("click", ".uploadDelete", function () {
@@ -265,13 +265,13 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
                     var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
 
                     var select = ''
-                    select = (head) ? select += '1' : select += '0'
                     select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
@@ -281,26 +281,89 @@ init = {
     },
 
     loading: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var eventIndex = urlParams.get('id');
+        var progressObject = ''
+
         function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            var progress = encProgress['progress']
+            if (type == 'encrypt') progressObject = requestTable.getEncProgress();
+            else if (type == 'decrypt') progressObject = requestTable.getDecProgress();
+            var progress = progressObject['progress'];
             $('#progress').html(progress);
-            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if(progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
+                var msg = (type == 'encrypt') ? '비식별화' : '복호화';
                 Swal.fire({
-                    title: '비식별화가 완료되었습니다!',
+                    title: msg + '가 완료되었습니다!',
                     showCancelButton: false,
                     confirmButtonText: '확인',
-                    icon: 'success'
+                    icon: 'success',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/log';
+                        if (type == 'encrypt') location.href = '/log';
+                        if (type == 'decrypt') {
+                            let timerInterval;
+                            Swal.fire({
+                                title: '원본 영상 다운로드',
+                                html: 
+                                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
+                                    '<a href="" id="signedUrl" download>' +
+                                    '<div id="download" class="btn">' +
+                                        '<p>다운로드</p>' +
+                                    '</div>'+
+                                    '</a>',
+                                // timer: 60000 * 15,
+                                timer: 60000 * 15,
+                                timerProgressBar: true,
+                                icon: 'info',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    const content = Swal.getHtmlContainer()
+                                    const $ = content.querySelector.bind(content)
+
+                                    Swal.showLoading()
+                                    let decDirectory, fileList;
+                                    [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
+                                    var signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
+
+                                    const download = $('#download');
+                                    const downloadLink = $('#signedUrl');
+                                    downloadLink.href = signedUrl[0]
+
+                                    download.addEventListener('click', () => {
+                                        Swal.fire({
+                                            title: '다운로드가 시작됩니다!',
+                                            text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                            confirmButtonText: '확인',
+                                            allowOutsideClick: false
+                                        }).then((result)=> {
+                                            if(result.isConfirmed) history.back();
+                                        })
+                                    })
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                    timerInterval = setInterval(() => {
+                                        var seconds = parseInt(Swal.getTimerLeft() / 1000);
+                                        var minute = parseInt((seconds%3600)/60);
+                                        var sec = seconds%60;
+                                        b.textContent = minute + '분 ' + sec + '초'
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            }).then((result) => {
+                                if(result.dismiss === Swal.DismissReason.timer) {
+                                    console.log('asdadsdas')
+                                }
+                            })
+                        }
                     }
                 })
             }
         }
-
-        reloadProgress();
+        setTimeout(reloadProgress, 100);
     },
 
     video: function () {
@@ -317,15 +380,14 @@ init = {
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-                console.log(fileCount);
-            }, 100);
+            }, 200);
         });
 
         $("#folder").on('change', function () {
             [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
-            }, 100);
+            }, 200);
         });
 
         $(document).on("click", ".uploadDelete", function () {
@@ -373,25 +435,19 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
                     var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
 
                     var select = ''
-                    select = (head) ? select += '1' : select += '0'
                     select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
-                    console.log(encryptObject);
                 }
                 fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
             }
         });
-
-        // $(document).on("click", ".nextBtn", function () {
-        //     if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
-        //     else fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
-        // });
     },
 
     detail: function () {
@@ -403,9 +459,11 @@ init = {
         var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
 
-        var encDirectory = [];
-        var fileList = [];
-        [encDirectory, fileList] = resultLoader.getFileInfo(eventIndex);
+        var selectedFile = []
+        // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
+        var encFileInfo = resultLoader.getEncFileInfo(eventIndex);
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
         var infoHtml = resultLoader.getInfoHtml(eventIndex);
         $('.infoArea')[0].innerHTML = infoHtml;
 
@@ -431,9 +489,16 @@ init = {
             $('.pemUpload').val(fileName);
         });
 
+        $("#select_file").on('change', function () {
+            var file = document.getElementById('select_file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
         $(document).on("click", ".recoConfirm", function () {
             var keyName = $('.file_key')[0].children[1].innerHTML
-            fileModule.verifyKey(keyName, eventIndex);
+            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList);
+            else if (mode == 'group') fileModule.verifyKey(keyName, eventIndex, selectedFile);
         });
 
         if (type == 'image') {
@@ -446,6 +511,12 @@ init = {
             }
             else if (mode == 'group') {
                 $(document).on("click", ".select_recoConfirm", function () {
+                    selectedFile = [];
+                    var imgDivList = document.getElementsByClassName('albumImg');
+                    var len = imgDivList.length;
+                    for (var i = 0; i < len; i++) {
+                        if (imgDivList[i].className == 'albumImg active') selectedFile.push(fileList[i])
+                    }
                     $("#select_recoData").addClass('active')
                 });
 
@@ -496,7 +567,7 @@ init = {
         }
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            // var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
             $('#signedUrl').attr('href', signedUrl[0]);
         }
     },

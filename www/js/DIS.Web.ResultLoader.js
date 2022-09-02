@@ -13,7 +13,7 @@ DIS.Web.ResultLoader = DIS.Web.ResultLoader || {};
 
 var resultLoader = DIS.Web.ResultLoader;
 resultLoader = {
-    getFileInfo: function (index) {
+    getEncFileInfo: function (index) {
         var result = ''
         $.ajax({
             method: "get",
@@ -38,7 +38,41 @@ resultLoader = {
 
         var fileList = result.fileList.split('\n');
         fileList = fileList.splice(0, fileList.length-1);
-        return [encDirectory, fileList];
+        
+        result = {
+            encDirectory: encDirectory,
+            fileList: fileList
+        }
+        // return [encDirectory, fileList];
+        return result
+    },
+
+    getDecFileInfo: function (index) {
+        var result = ''
+        $.ajax({
+            method: "get",
+            url: "/api/decrypt/result/"+index,
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    result = data.result;
+                }
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + xhr + " : " + JSON.stringify(status));
+            }
+        })
+
+        var parsedDirectory = result.save_directory.split('/');
+        var decDirectory = [parsedDirectory[0], ''];
+        for (var i = 1; i < parsedDirectory.length; i++) {
+            if (i == 1) decDirectory[1] += parsedDirectory[i];
+            else decDirectory[1] += '/'+ parsedDirectory[i];
+        }
+
+        var fileList = result.fileList.split('\n');
+        if(fileList[fileList.length-1]) fileList = fileList.splice(0, fileList.length-1);
+        return [decDirectory, fileList];
     },
 
     getFileUrl: function (bucketName, subDirectory, objectName) {
@@ -46,7 +80,7 @@ resultLoader = {
         for(var i = 0; i < objectName.length; i++) {
             $.ajax({
                 method: "post",
-                url: "/api/encrypt/result/url",
+                url: "/api/result/url",
                 data: {
                     'bucketName': bucketName,
                     'objectName': subDirectory + '/' + objectName[i],
@@ -54,6 +88,7 @@ resultLoader = {
                 },
                 async: false,
                 success: function (data) {
+                    console.log(data);
                     if (data.message == 'success') {
                         result.push(data.result);
                     }
@@ -119,7 +154,6 @@ resultLoader = {
             success: function (data) {
                 if (data.message == 'success') {
                     result = data.result;
-                    console.log(result)
                 }
                 // else alert(JSON.stringify(data));
             }, // success 
