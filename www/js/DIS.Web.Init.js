@@ -26,9 +26,10 @@ function getTime() {
 }
 
 function dateFormat(date) {
-    let dateFormat2 = date.getFullYear() +
-        '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-        '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
+    // let dateFormat2 = date.getFullYear() +
+    //     '-' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+    //     '-' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()));
+    let dateFormat2 = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
     return dateFormat2;
 }
 
@@ -731,6 +732,44 @@ init = {
 
         $(document).on("click", ".pass_modi", function () {
             $("#passModi").addClass('active')
+        });
+
+        $(document).on("click", ".auth_modi", function () {
+            var accountName = $(this).data("account");
+            $(".subid").val(accountName)
+            var authArea = subaccount.getAuthList(accountName);
+            $(".authArea").html(authArea);
+            $("#authModi").addClass('active')
+        });
+
+        $(document).on("click", ".authConfig", function () {
+            var bucketAuth = ""
+            var dbAuth = ""
+
+            if($('.bcreateAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+            if($('.breadAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+            if($('.bupdateAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+            
+            if($('.dcreateAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if($('.dreadAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if($('.dupdateAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if($('.ddeleteAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            
+            if($('.encAuth').is(':checked')) var enc = 1
+            else var enc = 0
+            if($('.decAuth').is(':checked')) var dec = 1
+            else var dec = 0
+
+            var accountName = $(".subid").val()
+
+            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, accountName)
         });
 
         $(document).on("click", ".cancel", function () {
