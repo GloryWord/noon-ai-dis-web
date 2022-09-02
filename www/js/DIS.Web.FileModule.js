@@ -87,13 +87,8 @@ fileModule = {
                         <td>'+ files[i].name + '</td>\
                         <td>'+ formatBytes(files[i].size) + '</td>\
                         <td class="selectObject">\
-<<<<<<< HEAD
                             <input class="body" type="checkbox" name="body"><label>사람-몸</label>&nbsp;\
                             <input class="face" type="checkbox" name="head"><label>사람-얼굴</label>&nbsp;\
-=======
-                            <input class="face" type="checkbox" name="head"><label>사람-얼굴</label>&nbsp;\
-                            <input class="body" type="checkbox" name="body"><label>사람-몸</label>&nbsp;\
->>>>>>> 0c473623bed774cc8cdf2ffb1951a10d22f5df07
                             <input class="car" type="checkbox" name="lp"><label>자동차 번호판</label>\
                         </td>\
                         <td>\
