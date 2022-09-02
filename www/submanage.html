@@ -67,6 +67,9 @@
                         <div class="pass_head">
                             <h3>비밀번호 재설정</h3>
                         </div>
+                        <div class="auth_head">
+                            <h3>권한 재설정</h3>
+                        </div>
                         <div class="del_head">
                             <h3>삭제하기</h3>
                         </div>
@@ -159,6 +162,51 @@
                         </div>
                         <div class="passFooter">
                             <div class="passConfig">
+                                <p>확인</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="authModi" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="auth_inner">
+                <div class="authContent">
+                    <div class="authHeader">
+                        <h1>서브 계정 권한 설정</h1>
+                        <input class="subid" value="" hidden>
+                    </div>
+                    <div class="authBody">
+                        <div class="authArea">
+                            <div class="bucketAuth">
+                                <h1>버킷 권한 설정</h1>
+                                <input class="bdownloadAuth" type="checkbox"><label>다운로드</label>&nbsp;
+                                <input class="buploadAuth" type="checkbox"><label>업로드</label>&nbsp;
+                                <input class="bdeleteAuth" type="checkbox"><label>삭제</label>
+                            </div>
+                            <div class="dbAuth">
+                                <h1>DB 권한 설정</h1>
+                                <input class="dcreateAuth" type="checkbox"><label>생성</label>&nbsp;
+                                <input class="dreadAuth" type="checkbox"><label>읽기</label>&nbsp;
+                                <input class="dupdateAuth" type="checkbox"><label>수정</label>&nbsp;
+                                <input class="ddeleteAuth" type="checkbox"><label>삭제</label>
+                            </div>
+                            <div class="enc_dec_Auth">
+                                <h1>암복호화 권한 설정</h1>
+                                <input class="encAuth" type="checkbox"><label>비식별화</label>&nbsp;
+                                <input class="decAuth" type="checkbox"><label>복호화</label>
+                            </div>
+                        </div>
+                        <div class="authFooter">
+                            <div class="authConfig">
                                 <p>확인</p>
                             </div>
                             <div class="cancel">
