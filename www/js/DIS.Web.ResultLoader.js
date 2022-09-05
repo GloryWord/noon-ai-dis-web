@@ -20,6 +20,7 @@ resultLoader = {
             url: "/api/encrypt/result/"+index,
             async: false,
             success: function (data) {
+                console.log(data);
                 if (data.message == 'success') {
                     result = data.result;
                 }
@@ -54,6 +55,7 @@ resultLoader = {
             url: "/api/decrypt/result/"+index,
             async: false,
             success: function (data) {
+                console.log(data);
                 if (data.message == 'success') {
                     result = data.result;
                 }
@@ -69,9 +71,10 @@ resultLoader = {
             if (i == 1) decDirectory[1] += parsedDirectory[i];
             else decDirectory[1] += '/'+ parsedDirectory[i];
         }
-
+        
         var fileList = result.fileList.split('\n');
-        if(fileList[fileList.length-1]) fileList = fileList.splice(0, fileList.length-1);
+
+        if(fileList[fileList.length-1] == '') fileList = fileList.splice(0, fileList.length-1);
         return [decDirectory, fileList];
     },
 
