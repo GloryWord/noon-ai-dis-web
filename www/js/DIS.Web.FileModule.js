@@ -21,6 +21,7 @@ fileModule = {
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
+        var fileCount = 0;
 
         const dataTransfer = new DataTransfer();
         let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
@@ -44,11 +45,13 @@ fileModule = {
                     // alert(img.width + " " + img.height);
                     fileWidth.push(img.width);
                     fileHeight.push(img.height);
+                    fileCount += 1;
                 }
             }
             else if (fileType[i] == 'video') {
                 const video = document.createElement('video');
                 video.addEventListener('loadedmetadata', event => {
+                    fileCount += 1;
                     fileWidth.push(video.videoWidth);
                     fileHeight.push(video.videoHeight);
                     videoDuration.push(video.duration);
@@ -100,7 +103,7 @@ fileModule = {
         }
         html += '</table>';
 
-        return [html, fileWidth, fileHeight, videoDuration];
+        return [html, fileWidth, fileHeight, fileCount, videoDuration];
     },
 
     deleteFile: function (index) {

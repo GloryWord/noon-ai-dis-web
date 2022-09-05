@@ -203,7 +203,7 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function() {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
@@ -211,7 +211,7 @@ init = {
         });
 
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function() {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
@@ -259,7 +259,15 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            if(fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html: 
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
@@ -279,6 +287,7 @@ init = {
     },
 
     loading: function () {
+        var socket = io();
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -331,6 +340,12 @@ init = {
                                     downloadLink.href = signedUrl[0]
 
                                     download.addEventListener('click', () => {
+                                        socket.emit('deleteFile', {
+                                            bucketName: decDirectory[0],
+                                            subDirectory: decDirectory[1],
+                                            fileName: fileList
+                                        })
+
                                         Swal.fire({
                                             title: '다운로드가 시작됩니다!',
                                             text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
@@ -374,15 +389,16 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
+                console.log(fileCount)
             }, 200);
         });
 
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'folder');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
             }, 200);
@@ -429,7 +445,15 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            if(fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html: 
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
@@ -563,8 +587,13 @@ init = {
                                 new Promise((resolve, reject) => {
                                     //다운로드 후 zip 파일 삭제
                                     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                    var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
-                                    resolve(complete);
+                                    // var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
+                                    socket.emit('deleteFile', {
+                                        bucketName: encDirectory[0],
+                                        subDirectory: encDirectory[1],
+                                        fileName: ['Download.zip']
+                                    })
+                                    // resolve(complete);
                                 })
                             })
                         }
@@ -581,19 +610,6 @@ init = {
     },
 
     log: function () {
-        $(document).on("click", ".detailInfo", function () {
-            var type = $(this).parent().parent().children()[1].textContent
-            if (type == '영상') {
-                location.href = "/video_detail"
-            }
-            else if (type == '이미지') {
-                location.href = "/image_detail"
-            }
-            else if (type == '이미지 그룹') {
-                location.href = "/album_detail"
-            }
-        });
-
         $(document).on("click", ".filter_video", function () {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
@@ -725,7 +741,7 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
             if (type == '영상') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
             }
             else if (type == '이미지') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
