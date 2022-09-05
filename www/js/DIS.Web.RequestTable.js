@@ -120,6 +120,8 @@ requestTable = {
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
                 var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+                if(status=="완료") var css = ""
+                else var css = "disable"
                 htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
                             <div class="name_content"><p>'+ name + '</p></div>\
@@ -129,7 +131,7 @@ requestTable = {
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\
@@ -189,6 +191,8 @@ requestTable = {
             if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
             var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+            if(status=="완료") var css = ""
+            else var css = "disable"
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
                             <div class="name_content"><p>'+ name + '</p></div>\
@@ -198,7 +202,7 @@ requestTable = {
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\
@@ -267,6 +271,8 @@ requestTable = {
             }
 
             var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+            if(status=="완료") var css = ""
+            else var css = "disable"
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
                             <div class="name_content"><p>'+ name + '</p></div>\
@@ -276,7 +282,7 @@ requestTable = {
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + group +'" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + group +'" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\
