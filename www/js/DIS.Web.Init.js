@@ -35,6 +35,9 @@ function underTen(data) {
     if(Number(data)<=9){
         underTen = "0"+data
     }
+    else{
+        underTen = data
+    }
     return underTen;
 }
 
@@ -679,6 +682,20 @@ init = {
     },
 
     log: function () {
+    
+        function reloadProgress() {
+            var encProgress = requestTable.getEncProgress();
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                var mainLog = requestTable.getAllEncRequestList()
+                $(".mainLog").html(mainLog);
+            }
+        }
+
+        reloadProgress();
+
         $(document).on("click", ".filter_video", function () {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
