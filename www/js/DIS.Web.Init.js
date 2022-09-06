@@ -1044,6 +1044,58 @@ init = {
         $(document).on("click", ".findCancel", function () {
             location.href = "/"
         });
+
+        $(document).on("click", "#email_send", function () {
+            var email = $("#account_name").val();
+            if (email) {
+                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                    // verifyCode = signup.sendMail(email);
+                    login.forgetPassword(email);
+                })
+            }
+            // else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
+            // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
+        });
+
+        $(document).on("click", "#email_verify", function () {
+            if (!$(this).hasClass('click')) {
+                if ($("#verify_number").val() == verifyCode) {
+                    Swal.fire('인증이 완료되었습니다.', '', 'success');
+                    verify = true;
+                    $(this).addClass('click');
+                    $("#account_name").attr('disabled', true); // or false
+                }
+                else {
+                    Swal.fire('인증번호가 일치하지 않습니다.', '', 'error');
+                }
+            }
+        });
+    },
+
+    changepassword: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var accountName = urlParams.get('emailAddress');
+        var token = urlParams.get('token');
+
+        var html = login.verifyResetToken(accountName, token);
+        $('#changePassForm').html(html);
+
+        $(document).on("click", "#confirm", function () {
+            var password = $('#password').val();
+            var repassword = $('#repassword').val();
+        
+            if (password != repassword) Swal.fire({
+                title: '비밀번호 불일치',
+                text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
+                confirmButtonText: '확인',
+                allowOutsideClick: false,
+                icon: 'warning'
+            })
+            else {
+                login.resetPassword(accountName, password);
+            }
+        })
     },
 
     test: function () {

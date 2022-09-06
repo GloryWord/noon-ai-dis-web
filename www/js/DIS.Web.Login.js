@@ -69,43 +69,80 @@ login = {
         })
     },
 
-    signup: function (account_name, password, repassword) {
-        if(password == repassword) {
-            $.ajax({
-                method: "post",
-                url: "/api/signup",
-                data: {
-                    account_name,
-                    password,
-                },
-                success: function (data) {
-                    if (data.message == 'success') {
-                        // $.ajax({
-                        //     method: "post",
-                        //     url: "/api/createBucket",
-                        //     data: {
-                        //         account_name
-                        //     },
-                        //     success: function (data) {
-                        //         console.log(data.log)
-                        //     },
-                        //     error: function (xhr, status) {
-                        //         alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-                        //     }
-                        // })
-                        alert('회원가입이 완료되었습니다.')
-                        window.location = '/'
-                    } else {
-                        alert(JSON.stringify(data));
-                    }
-                }, // success 
-                error: function (xhr, status) {
-                    alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+    verifyResetToken: function (accountName, token) {
+        var validHtml = '<span>변경하실 새로운 비밀번호를 입력해 주세요</span>\
+                    <br>\
+                    <p>비밀번호</p>\
+                    <p>\
+                        <input type="password" id="password" placeholder="신규 비밀번호를 입력해 주세요">\
+                    </p>\
+                    <p>\
+                        <input type="password" id="repassword" placeholder="신규 비밀번호를 확인해 주세요">\
+                    </p>\
+                    <div id="confirm">\
+                        변경하기\
+                    </div>';
+
+        var invalidHtml = '<div>유효하지 않은 링크입니다.</div>\
+                            <div>이미 만료 되었거나 인증시간이 초과 되었습니다 (10분 이내)</div>';
+
+        var html;
+        $.ajax({
+            method: "get",
+            url: "/api/token/verify/"+accountName+"/"+token,
+            async: false,
+            success: function (data) {
+                console.log(data);
+                if(data.message == 'success' && data.result == 'valid') html = validHtml;
+                else if(data.message == 'success' && data.result == 'invalid') html = invalidHtml;
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+        return html;
+    },
+
+    forgetPassword: function (accountName) {
+        $.ajax({
+            method: "post",
+            url: "/api/forget-password",
+            data: {
+                accountName
+            },
+            success: function (data) {
+                console.log(data);
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    },
+
+    resetPassword: function (accountName, password) {
+        $.ajax({
+            method: "post",
+            url: "/api/reset-password",
+            data: {
+                accountName,
+                password
+            },
+            success: function (data) {
+                if(data.message == 'success') {
+                    Swal.fire({
+                        title: '비밀번호 변경 완료',
+                        text: '새로운 비밀번호로 비밀번호 변경이 완료되었습니다!',
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) location.href = '/';
+                    })
                 }
-            })
-        }
-        else {
-            alert("비밀번호 입력이 불일치합니다.")
-        }
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
     },
 }
