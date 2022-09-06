@@ -1069,6 +1069,37 @@ init = {
         $(document).on("click", ".findCancel", function () {
             location.href = "/"
         });
+
+        $(document).on("click", "#email_send", function () {
+            var email = $("#account_name").val();
+            if (email) login.forgetPassword(email);
+        });
+    },
+
+    changepassword: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var accountName = urlParams.get('emailAddress');
+        var token = urlParams.get('token');
+
+        var html = login.verifyResetToken(accountName, token);
+        $('#changePassForm').html(html);
+
+        $(document).on("click", "#confirm", function () {
+            var password = $('#password').val();
+            var repassword = $('#repassword').val();
+        
+            if (password != repassword) Swal.fire({
+                title: '비밀번호 불일치',
+                text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
+                confirmButtonText: '확인',
+                allowOutsideClick: false,
+                icon: 'warning'
+            })
+            else {
+                login.resetPassword(accountName, password);
+            }
+        })
     },
 
     test: function () {

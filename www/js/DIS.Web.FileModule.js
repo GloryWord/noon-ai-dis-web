@@ -219,6 +219,7 @@ fileModule = {
                                 title: '비식별화 요청이 \n완료되었습니다.',
                                 showCancelButton: false,
                                 confirmButtonText: '확인',
+                                allowOutsideClick: false,
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     location.href = '/loading?type='+fileType+'&service=encrypt';
@@ -349,6 +350,7 @@ fileModule = {
                                     title: '복호화 요청이 \n완료되었습니다.',
                                     showCancelButton: false,
                                     confirmButtonText: '확인',
+                                    allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         location.href = '/loading?type='+fileType+'&id='+decRequestId+'&service=decrypt';
