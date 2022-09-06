@@ -117,7 +117,7 @@ fileModule = {
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
     },
 
-    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject) {
+    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject, fileType) {
         var curTime = getTime();
         var fileNameList = getFiles();
         var fileWidthObj = Object.assign({}, fileWidth)
@@ -221,7 +221,7 @@ fileModule = {
                                 confirmButtonText: '확인',
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    location.href = '/loading?type=encrypt';
+                                    location.href = '/loading?type='+fileType+'&service=encrypt';
                                 }
                             })
                         })
@@ -236,17 +236,24 @@ fileModule = {
         });
     },
 
-    verifyKey: function (keyName, index, fileList) {
+    verifyKey: function (keyName, index, fileList, fileType) {
         var formData = new FormData();
         var file = document.getElementById('file').files[0];
         if (file == undefined) file = document.getElementById('select_file').files[0];
-        var fileName = file.name;
+        var fileName;
         var valid = false;
 
         if (file == undefined) {
-            alert("키 파일을 선택해 주세요")
+            Swal.fire({
+                title: '키 파일이 없습니다!',
+                text: '키 파일을 업로드했는지 확인해주세요.',
+                confirmButtonText: '확인',
+                allowOutsideClick: false,
+                icon: 'error'
+            })
         }
         else {
+            fileName = file.name;
             formData.append('file', file);
             var xhr = new XMLHttpRequest();
             xhr.open('post', '/api/uploadNAS', true);
@@ -344,7 +351,7 @@ fileModule = {
                                     confirmButtonText: '확인',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        location.href = '/loading?id='+decRequestId+'&type=decrypt';
+                                        location.href = '/loading?type='+fileType+'&id='+decRequestId+'&service=decrypt';
                                     }
                                 })
                             })

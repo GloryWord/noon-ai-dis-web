@@ -57,7 +57,12 @@ function getFiles() {
 
     // manually create a new file obj for each File in the FileList
     for (var i = 0; i < files.length; i++) {
-        var [ext, fileName] = files[i].name.split('.').reverse();
+        var parsedArray = files[i].name.split('.');
+        var ext = parsedArray[parsedArray.length -1];
+        parsedArray = parsedArray.splice(0, parsedArray.length -1);
+        var fileName = parsedArray.join('.');
+        console.log(fileName);
+        console.log(ext);
         file = {
             'lastMod': files[i].lastModified,
             'lastModDate': files[i].lastModifiedDate,
@@ -167,7 +172,7 @@ init = {
             var encProgress = requestTable.getEncProgress();
             var progress = encProgress['progress']
             $('#progress').html(progress);
-            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
                 var mainLog = requestTable.getEncRequestList()
                 $(".mainLog").html(mainLog);
@@ -204,6 +209,7 @@ init = {
     image: function () {
         var html = ''
         var fileCount = 0;
+        var fileIndex = [];
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -212,23 +218,31 @@ init = {
 
         $("#file").on('change', function () {
             [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
+                fileIndex = [];
+                for(var i = 0; i < fileCount; i++) fileIndex.push(i);
             }, 200)
         });
 
         $("#folder").on('change', function () {
             [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
+                fileIndex = [];
+                for(var i = 0; i < fileCount; i++) fileIndex.push(i);
             }, 200)
         });
 
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
             fileModule.deleteFile(idx);
+            fileCount--;
+            fileIndex = fileIndex.filter(function(item) {
+                return item !== Number(idx);
+            })
         });
 
         $(document).on("click", "#generateKey", function () {
@@ -267,10 +281,10 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) {
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
-                    html: 
+                    html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     icon: 'warning',
@@ -279,9 +293,9 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
+                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
 
                     var select = ''
                     select = (body) ? select += '1' : select += '0'
@@ -289,7 +303,7 @@ init = {
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
             }
         });
     },
@@ -299,17 +313,19 @@ init = {
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
+        var service = urlParams.get('service');
         var eventIndex = urlParams.get('id');
+
         var progressObject = ''
 
         function reloadProgress() {
-            if (type == 'encrypt') progressObject = requestTable.getEncProgress();
-            else if (type == 'decrypt') progressObject = requestTable.getDecProgress();
+            if (service == 'encrypt') progressObject = requestTable.getEncProgress();
+            else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             var progress = progressObject['progress'];
             $('#progress').html(progress);
-            if(progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                var msg = (type == 'encrypt') ? '비식별화' : '복호화';
+                var msg = (service == 'encrypt') ? '비식별화' : '복호화';
                 Swal.fire({
                     title: msg + '가 완료되었습니다!',
                     showCancelButton: false,
@@ -317,17 +333,18 @@ init = {
                     icon: 'success',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        if (type == 'encrypt') location.href = '/log';
-                        if (type == 'decrypt') {
+                        if (service == 'encrypt') location.href = '/log';
+                        if (service == 'decrypt') {
                             let timerInterval;
+                            var typeStr = (type == 'image') ? '이미지' : '영상';
                             Swal.fire({
-                                title: '원본 영상 다운로드',
-                                html: 
+                                title: '원본 ' + typeStr + ' 다운로드',
+                                html:
                                     '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
                                     '<a href="" id="signedUrl" download>' +
                                     '<div id="download" class="btn">' +
-                                        '<p>다운로드</p>' +
-                                    '</div>'+
+                                    '<p>다운로드</p>' +
+                                    '</div>' +
                                     '</a>',
                                 // timer: 60000 * 15,
                                 timer: 60000 * 15,
@@ -339,35 +356,64 @@ init = {
                                     const $ = content.querySelector.bind(content)
 
                                     Swal.showLoading()
-                                    let decDirectory, fileList;
+                                    let decDirectory, fileList, signedUrl;
                                     [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
-                                    var signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
 
                                     const download = $('#download');
                                     const downloadLink = $('#signedUrl');
-                                    downloadLink.href = signedUrl[0]
 
+                                    if (fileList.length == 1) {
+                                        signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
+                                        downloadLink.href = signedUrl[0]
+                                    }
+                                    else if (fileList.length > 1) {
+                                        resultLoader.fileToZip({
+                                            id: eventIndex,
+                                            bucketName: decDirectory[0],    //참조할 버킷 이름
+                                            subDirectory: decDirectory[1],  //참조할 object의 세부 경로
+                                            fileName: fileList              //참조할 object filename 목록
+                                        });
+
+                                        socket.on('compress', function (data) {
+                                            if (data.log == '압축 완료') {
+                                                signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
+                                                downloadLink.href = signedUrl;
+                                            }
+                                        });
+                                    }
                                     download.addEventListener('click', () => {
-                                        socket.emit('deleteFile', {
-                                            bucketName: decDirectory[0],
-                                            subDirectory: decDirectory[1],
-                                            fileName: fileList
-                                        })
-
-                                        Swal.fire({
-                                            title: '다운로드가 시작됩니다!',
-                                            text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
-                                            confirmButtonText: '확인',
-                                            allowOutsideClick: false
-                                        }).then((result)=> {
-                                            if(result.isConfirmed) history.back();
-                                        })
+                                        if(downloadLink.href == '') {
+                                            Swal.fire({
+                                                title: '다운로드 링크 생성중',
+                                                text: '잠시만 기다려주세요! 서버에서 다운로드 링크를 생성중입니다.',
+                                                confirmButtonText: '확인',
+                                                allowOutsideClick: false,
+                                                icon: 'info'
+                                            })
+                                        }
+                                        else {
+                                            socket.emit('deleteFile', {
+                                                bucketName: decDirectory[0],
+                                                subDirectory: decDirectory[1],
+                                                fileName: (fileList.length > 1) ? ['Download.zip'] : fileList
+                                            })
+    
+                                            Swal.fire({
+                                                title: '다운로드가 시작됩니다!',
+                                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                                confirmButtonText: '확인',
+                                                allowOutsideClick: false
+                                            }).then((result) => {
+                                                if (result.isConfirmed) history.back();
+                                            })
+                                        }
                                     })
+
                                     const b = Swal.getHtmlContainer().querySelector('b')
                                     timerInterval = setInterval(() => {
                                         var seconds = parseInt(Swal.getTimerLeft() / 1000);
-                                        var minute = parseInt((seconds%3600)/60);
-                                        var sec = seconds%60;
+                                        var minute = parseInt((seconds % 3600) / 60);
+                                        var sec = seconds % 60;
                                         b.textContent = minute + '분 ' + sec + '초'
                                     }, 100)
                                 },
@@ -375,7 +421,7 @@ init = {
                                     clearInterval(timerInterval)
                                 }
                             }).then((result) => {
-                                if(result.dismiss === Swal.DismissReason.timer) {
+                                if (result.dismiss === Swal.DismissReason.timer) {
                                     console.log('asdadsdas')
                                 }
                             })
@@ -453,10 +499,10 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) {
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
-                    html: 
+                    html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     icon: 'warning',
@@ -475,14 +521,14 @@ init = {
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
             }
         });
     },
 
     detail: function () {
         var socket = io();
-        
+
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -499,13 +545,14 @@ init = {
 
         $(document).ready(function () {
             var rest = $(".rest_info").text()
-            if(rest == "O"){
+            if (rest == "O") {
                 $(".file_recoConfirm").removeClass("hide")
                 $(".select_recoConfirm").removeClass("hide")
             }
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
+            $('.recoConfirm').attr('data-value', $(this).data('value'));
             $("#recoData").addClass('active')
         });
 
@@ -527,8 +574,21 @@ init = {
 
         $(document).on("click", ".recoConfirm", function () {
             var keyName = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList);
-            else if (mode == 'group') fileModule.verifyKey(keyName, eventIndex, selectedFile);
+            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type);
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                if(selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type);
+                else if(selected == 'select'){
+                    if(selectedFile.length == 0) Swal.fire({
+                        title: '선택된 파일이 없습니다',
+                        text: '복호화할 파일을 선택해 주세요.',
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'error'
+                    })
+                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
+                }
+            }
         });
 
         if (type == 'image') {
@@ -541,6 +601,7 @@ init = {
             }
             else if (mode == 'group') {
                 $(document).on("click", ".select_recoConfirm", function () {
+                    $('.recoConfirm').attr('data-value', $(this).data('value'));
                     selectedFile = [];
                     var imgDivList = document.getElementsByClassName('albumImg');
                     var len = imgDivList.length;
@@ -561,8 +622,8 @@ init = {
 
                 $(document).on("click", ".plusBtn", function () {
                     var imgnum = $(this).data("num")
-                    var imgtag = '<img class="viewImg" src="'+signedUrl[imgnum]+'">'
-                    var downloadArea = '<a class="imgConfirm" href="'+signedUrl[imgnum]+'" download>\
+                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
                         <p>이미지 다운로드</p>\
                     </a>\
                     <div class="cancel">\
@@ -585,7 +646,7 @@ init = {
                         fileName: fileList              //참조할 object filename 목록
                     });
                     socket.on('compress', function (data) {
-                        if(data.log == '압축 완료') {
+                        if (data.log == '압축 완료') {
                             new Promise((resolve, reject) => {
                                 //파일 다운로드 경로 획득
                                 var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
@@ -838,25 +899,25 @@ init = {
             var bucketAuth = ""
             var dbAuth = ""
 
-            if($('.bdownloadAuth').is(':checked')) bucketAuth += "1"
+            if ($('.bdownloadAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
-            if($('.buploadAuth').is(':checked')) bucketAuth += "1"
+            if ($('.buploadAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
-            if($('.bdeleteAuth').is(':checked')) bucketAuth += "1"
+            if ($('.bdeleteAuth').is(':checked')) bucketAuth += "1"
             else bucketAuth += "0"
-            
-            if($('.dcreateAuth').is(':checked')) dbAuth += "1"
+
+            if ($('.dcreateAuth').is(':checked')) dbAuth += "1"
             else dbAuth += "0"
-            if($('.dreadAuth').is(':checked')) dbAuth += "1"
+            if ($('.dreadAuth').is(':checked')) dbAuth += "1"
             else dbAuth += "0"
-            if($('.dupdateAuth').is(':checked')) dbAuth += "1"
+            if ($('.dupdateAuth').is(':checked')) dbAuth += "1"
             else dbAuth += "0"
-            if($('.ddeleteAuth').is(':checked')) dbAuth += "1"
+            if ($('.ddeleteAuth').is(':checked')) dbAuth += "1"
             else dbAuth += "0"
-            
-            if($('.encAuth').is(':checked')) var enc = 1
+
+            if ($('.encAuth').is(':checked')) var enc = 1
             else var enc = 0
-            if($('.decAuth').is(':checked')) var dec = 1
+            if ($('.decAuth').is(':checked')) var dec = 1
             else var dec = 0
 
             var accountName = $(".subid").val()
@@ -928,19 +989,19 @@ init = {
             telephone: /^[0-9]{11}$/,
             verify_number: /^[0-9]{6}$/
         };
-    
+
         const inputs = document.querySelectorAll('input');
-    
+
         function validate(input, regex) {
             return regex.test(input.value) ? 'valid' : 'invalid';
         }
-    
+
         inputs.forEach((input) => {
             input.addEventListener('keyup', (event) => {
                 input.className = validate(event.target, patterns[event.target.attributes.name.value]);
             });
         });
-    
+
         var verify = false;
         var verifyCode = null;
         $(document).on("click", "#email_send", function () {
@@ -953,7 +1014,7 @@ init = {
             else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
-    
+
         $(document).on("click", "#email_verify", function () {
             if (!$(this).hasClass('click')) {
                 if ($("#verify_number").val() == verifyCode) {
@@ -967,7 +1028,7 @@ init = {
                 }
             }
         });
-    
+
         $(document).on("click", "#tenant_register", function () {
             if (!verify) Swal.fire('인증 실패', '이메일 인증을 완료해 주세요', 'error');
             else {
