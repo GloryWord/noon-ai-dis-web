@@ -166,7 +166,7 @@ resultLoader = {
 
         var fileNameArray = result.request_file_list.split('\n');
         fileNameArray = fileNameArray.splice(0, fileNameArray.length - 1);
-        var count = fileNameArray.length-1;
+        var count = fileNameArray.length;
         var nameCount = (fileNameArray.length > 1) ? ' 외 '+count+'장' : '';
         var type = (result.file_type == 'image') ? '이미지' : '비디오'
         var group = (count > 1) ? '그룹' : '';
