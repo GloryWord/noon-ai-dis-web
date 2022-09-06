@@ -91,7 +91,6 @@ resultLoader = {
                 },
                 async: false,
                 success: function (data) {
-                    console.log(data);
                     if (data.message == 'success') {
                         result.push(data.result);
                     }
@@ -211,10 +210,10 @@ resultLoader = {
             html += '<div class="file_download" id="signedUrl">\
                         <p>이미지 일괄 다운로드</p>\
                     </div>\
-                    <div class="file_recoConfirm hide">\
+                    <div class="file_recoConfirm hide" data-value="all">\
                         <p>전체 원본 복원하기</p>\
                     </div>\
-                    <div class="select_recoConfirm hide">\
+                    <div class="select_recoConfirm hide" data-value="select">\
                         <p>선택 원본 복원하기</p>\
                     </div>'
         }
