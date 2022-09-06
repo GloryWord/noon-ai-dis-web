@@ -366,6 +366,11 @@
     cursor: pointer;
 }
 
+.logTable .mainLog .logContent .detail_content .detailInfo.disable {
+    pointer-events: none;
+    background-color: #909090;
+}
+
 .logTable .mainLog .logContent .detail_content .detailInfo p {
     margin: auto;
     color: white;

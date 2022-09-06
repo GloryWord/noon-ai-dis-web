@@ -168,6 +168,8 @@
 .detailArea .infoArea .file_reco,
 .detailArea .infoArea .file_key,
 .detailArea .infoArea .file_date,
+.detailArea .infoArea .file_time,
+.detailArea .infoArea .file_user,
 .detailArea .infoArea .file_download,
 .detailArea .infoArea .file_recoConfirm,
 .detailArea .infoArea .select_recoConfirm {
@@ -179,7 +181,9 @@
 .detailArea .infoArea .file_type .title,
 .detailArea .infoArea .file_reco .title,
 .detailArea .infoArea .file_key .title,
-.detailArea .infoArea .file_date .title {
+.detailArea .infoArea .file_user .title,
+.detailArea .infoArea .file_date .title,
+.detailArea .infoArea .file_time .title {
     margin: 0 8px 0 0;
     text-align: right;
     width: 100px;
@@ -190,7 +194,9 @@
 .detailArea .infoArea .file_type p,
 .detailArea .infoArea .file_reco p,
 .detailArea .infoArea .file_key p,
-.detailArea .infoArea .file_date p {
+.detailArea .infoArea .file_user p,
+.detailArea .infoArea .file_date p,
+.detailArea .infoArea .file_time p {
     margin: 0 8px 0 0;
     font-family: SpoqaHanSansNeo-Regular;
 }
@@ -375,7 +381,7 @@
 
 .layerPopupBox .img_inner .imgContent .imgHeader {
     margin: 24px auto 12px;
-    width: 960px;
+    width: auto;
     height: 540px;
 }
 

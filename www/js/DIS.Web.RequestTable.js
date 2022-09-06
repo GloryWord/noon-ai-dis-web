@@ -35,6 +35,28 @@ requestTable = {
         return result;
     },
 
+    getDecProgress: function () {
+        var result = {
+            'progress': '',
+            'type': '',
+            'status': ''
+        }
+        $.ajax({
+            method: "get",
+            url: "/api/progress/decrypt",
+            async: false,
+            success: function (data) {
+                result['progress'] = data['decrypt_progress'];
+                result['complete'] = data['complete'];
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
     getEncRequestList: function (mode) {
         var requestList = ''
 
@@ -44,7 +66,6 @@ requestTable = {
             async: false,
             success: function (data) {
                 // result = data['progress']
-                console.log(data);
                 requestList = data;
             },
             error: function (xhr, status) {
@@ -73,12 +94,21 @@ requestTable = {
         else {
             var count = 0;
             for (var i = 0; i < 5; i++) {
-                console.log(requestList[i])
                 if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
                 if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
 
                 var date = new Date(requestList[i]['request_date'])
 
+                var namelist = requestList[i]['request_file_list'].split('\n')
+                namelist = namelist.splice(0, namelist.length - 1);
+    
+                if(namelist.length > 1){
+                    var name = namelist[0] + " 외 " +(Number(namelist.length)-1)+"개"
+                }
+                else {
+                    var name = namelist[0]
+                }
+                
                 if (requestList[i]['restoration'] == 1) var restoration = "O"
                 else var restoration = "X"
 
@@ -90,16 +120,18 @@ requestTable = {
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
                 var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+                if(status=="완료") var css = ""
+                else var css = "disable"
                 htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ requestList[i]['request_file_list'] + '</p></div>\
+                            <div class="name_content"><p>'+ name + '</p></div>\
                             <div class="type_content"><p>'+ type + '</p></div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="progress_content" id="progress"><p>-</p></div>\
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\
@@ -138,6 +170,16 @@ requestTable = {
 
             var date = new Date(requestList[i]['request_date'])
 
+            var namelist = requestList[i]['request_file_list'].split('\n')
+            namelist = namelist.splice(0, namelist.length - 1);
+
+            if(namelist.length > 1){
+                var name = namelist[0] + " 외 " +(Number(namelist.length)-1)+"개"
+            }
+            else {
+                var name = namelist[0]
+            }
+
             if (requestList[i]['restoration'] == 1) var restoration = "O"
             else var restoration = "X"
 
@@ -149,16 +191,18 @@ requestTable = {
             if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
             var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+            if(status=="완료") var css = ""
+            else var css = "disable"
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ requestList[i]['request_file_list'] + '</p></div>\
+                            <div class="name_content"><p>'+ name + '</p></div>\
                             <div class="type_content"><p>'+ type + '</p></div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="progress_content" id="progress"><p>-</p></div>\
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\
@@ -195,6 +239,15 @@ requestTable = {
             // if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
 
             var date = new Date(requestList[i]['request_date'])
+            var namelist = requestList[i]['request_file_list'].split('\n')
+            namelist = namelist.splice(0, namelist.length - 1);
+
+            if(namelist.length > 1){
+                var name = namelist[0] + " 외 " +(Number(namelist.length)-1)+"개"
+            }
+            else {
+                var name = namelist[0]
+            }
 
             if (requestList[i]['restoration'] == 1) {
                 var restoration = "O"
@@ -210,17 +263,26 @@ requestTable = {
                 var type = "이미지"
             }
 
+            if(requestList[i]['file_count']>1){
+                var group = " 그룹"
+            }
+            else{
+                var group = ""
+            }
+
             var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+            if(status=="완료") var css = ""
+            else var css = "disable"
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ requestList[i]['request_file_list'] + '</p></div>\
-                            <div class="type_content"><p>'+ type + '</p></div>\
+                            <div class="name_content"><p>'+ name + '</p></div>\
+                            <div class="type_content"><p>'+ type + group +'</p></div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="progress_content" id="progress"><p>-</p></div>\
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + group +'" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\

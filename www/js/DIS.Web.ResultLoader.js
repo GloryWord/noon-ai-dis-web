@@ -13,13 +13,14 @@ DIS.Web.ResultLoader = DIS.Web.ResultLoader || {};
 
 var resultLoader = DIS.Web.ResultLoader;
 resultLoader = {
-    getFileInfo: function (index) {
+    getEncFileInfo: function (index) {
         var result = ''
         $.ajax({
             method: "get",
             url: "/api/encrypt/result/"+index,
             async: false,
             success: function (data) {
+                console.log(data);
                 if (data.message == 'success') {
                     result = data.result;
                 }
@@ -38,7 +39,43 @@ resultLoader = {
 
         var fileList = result.fileList.split('\n');
         fileList = fileList.splice(0, fileList.length-1);
-        return [encDirectory, fileList];
+        
+        result = {
+            encDirectory: encDirectory,
+            fileList: fileList
+        }
+        // return [encDirectory, fileList];
+        return result
+    },
+
+    getDecFileInfo: function (index) {
+        var result = ''
+        $.ajax({
+            method: "get",
+            url: "/api/decrypt/result/"+index,
+            async: false,
+            success: function (data) {
+                console.log(data);
+                if (data.message == 'success') {
+                    result = data.result;
+                }
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + xhr + " : " + JSON.stringify(status));
+            }
+        })
+
+        var parsedDirectory = result.save_directory.split('/');
+        var decDirectory = [parsedDirectory[0], ''];
+        for (var i = 1; i < parsedDirectory.length; i++) {
+            if (i == 1) decDirectory[1] += parsedDirectory[i];
+            else decDirectory[1] += '/'+ parsedDirectory[i];
+        }
+        
+        var fileList = result.fileList.split('\n');
+
+        if(fileList[fileList.length-1] == '') fileList = fileList.splice(0, fileList.length-1);
+        return [decDirectory, fileList];
     },
 
     getFileUrl: function (bucketName, subDirectory, objectName) {
@@ -46,7 +83,7 @@ resultLoader = {
         for(var i = 0; i < objectName.length; i++) {
             $.ajax({
                 method: "post",
-                url: "/api/encrypt/result/url",
+                url: "/api/result/url",
                 data: {
                     'bucketName': bucketName,
                     'objectName': subDirectory + '/' + objectName[i],
@@ -85,7 +122,7 @@ resultLoader = {
                             <img class="albumImg" src="'+urlList[i]+'">\
                             <div class="albumFooter">\
                                 <p>'+objectName[i]+'</p>\
-                                <div class="plusBtn">\
+                                <div data-num='+i+' class="plusBtn">\
                                     <img class="plus_img" src="../../static/imgs/plusBtn.png">\
                                 </div>\
                             </div>\
@@ -129,12 +166,13 @@ resultLoader = {
 
         var fileNameArray = result.request_file_list.split('\n');
         fileNameArray = fileNameArray.splice(0, fileNameArray.length - 1);
-        var count = fileNameArray.length;
-        var nameCount = (count > 1) ? ' 외 '+count+'장' : '';
+        var count = fileNameArray.length-1;
+        var nameCount = (fileNameArray.length > 1) ? ' 외 '+count+'장' : '';
         var type = (result.file_type == 'image') ? '이미지' : '비디오'
         var group = (count > 1) ? '그룹' : '';
         var restoration = (result.restoration == 1) ? 'O' : 'X';
         var date = new Date(result.request_date)
+        var userName = result.user_name;
         html = '<div class="file_name">\
                     <p class="title">파일명 : </p>\
                     <p>'+fileNameArray[0]+ nameCount +'</p>\
@@ -158,16 +196,24 @@ resultLoader = {
         html += '<div class="file_date">\
                     <p class="title">날짜 : </p>\
                     <p>'+dateFormat(date)+'</p>\
+                </div>\
+                <div class="file_time">\
+                    <p class="title">시간 : </p>\
+                    <p>'+result.request_time+'</p>\
+                </div>\
+                <div class="file_user">\
+                    <p class="title">담당자 : </p>\
+                    <p>'+userName+'</p>\
                 </div>'
 
         if (group == '그룹' && type == '이미지') {
             html += '<div class="file_download" id="signedUrl">\
                         <p>이미지 일괄 다운로드</p>\
                     </div>\
-                    <div class="file_recoConfirm">\
+                    <div class="file_recoConfirm hide" data-value="all">\
                         <p>전체 원본 복원하기</p>\
                     </div>\
-                    <div class="select_recoConfirm">\
+                    <div class="select_recoConfirm hide" data-value="select">\
                         <p>선택 원본 복원하기</p>\
                     </div>'
         }
@@ -177,7 +223,7 @@ resultLoader = {
                             <p>'+type+' 다운로드</p>\
                         </div>\
                     </a>\
-                    <div class="file_recoConfirm">\
+                    <div class="file_recoConfirm hide">\
                         <p>원본 복원하기</p>\
                     </div>'
         }

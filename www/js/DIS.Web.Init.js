@@ -26,9 +26,7 @@ function getTime() {
 }
 
 function dateFormat(date) {
-    let dateFormat2 = date.getFullYear() +
-        '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-        '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
+    let dateFormat2 = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
     return dateFormat2;
 }
 
@@ -51,7 +49,12 @@ function getFiles() {
 
     // manually create a new file obj for each File in the FileList
     for (var i = 0; i < files.length; i++) {
-        var [ext, fileName] = files[i].name.split('.').reverse();
+        var parsedArray = files[i].name.split('.');
+        var ext = parsedArray[parsedArray.length -1];
+        parsedArray = parsedArray.splice(0, parsedArray.length -1);
+        var fileName = parsedArray.join('.');
+        console.log(fileName);
+        console.log(ext);
         file = {
             'lastMod': files[i].lastModified,
             'lastModDate': files[i].lastModifiedDate,
@@ -153,21 +156,22 @@ init = {
     main: function () {
         var socket = io();
         var temp = comm.getUser()
+        console.log(temp);
         $(".curTenant").html(temp);
-        $("#selectKeyName").html(comm.getKeyList());
+        // $("#selectKeyName").html(comm.getKeyList());
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
             var progress = encProgress['progress']
             $('#progress').html(progress);
-            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
                 var mainLog = requestTable.getEncRequestList()
                 $(".mainLog").html(mainLog);
             }
         }
 
-        reloadProgress();
+        // reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -183,7 +187,7 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
             if (type == '영상') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
@@ -197,6 +201,7 @@ init = {
     image: function () {
         var html = ''
         var fileCount = 0;
+        var fileIndex = [];
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -204,24 +209,32 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'file');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-            }, 100);
+                fileIndex = [];
+                for(var i = 0; i < fileCount; i++) fileIndex.push(i);
+            }, 200)
         });
 
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('image', 'folder');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-            }, 100);
+                fileIndex = [];
+                for(var i = 0; i < fileCount; i++) fileIndex.push(i);
+            }, 200)
         });
 
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
             fileModule.deleteFile(idx);
+            fileCount--;
+            fileIndex = fileIndex.filter(function(item) {
+                return item !== Number(idx);
+            })
         });
 
         $(document).on("click", "#generateKey", function () {
@@ -260,46 +273,156 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            if (fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html:
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
+                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
+                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
 
                     var select = ''
-                    select = (head) ? select += '1' : select += '0'
                     select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
             }
         });
     },
 
     loading: function () {
+        var socket = io();
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var service = urlParams.get('service');
+        var eventIndex = urlParams.get('id');
+
+        var progressObject = ''
+
         function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            var progress = encProgress['progress']
+            if (service == 'encrypt') progressObject = requestTable.getEncProgress();
+            else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
+            var progress = progressObject['progress'];
             $('#progress').html(progress);
-            if(encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
+                var msg = (service == 'encrypt') ? '비식별화' : '복호화';
                 Swal.fire({
-                    title: '비식별화가 완료되었습니다!',
+                    title: msg + '가 완료되었습니다!',
                     showCancelButton: false,
                     confirmButtonText: '확인',
-                    icon: 'success'
+                    icon: 'success',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/log';
+                        if (service == 'encrypt') location.href = '/log';
+                        if (service == 'decrypt') {
+                            let timerInterval;
+                            var typeStr = (type == 'image') ? '이미지' : '영상';
+                            Swal.fire({
+                                title: '원본 ' + typeStr + ' 다운로드',
+                                html:
+                                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
+                                    '<a href="" id="signedUrl" download>' +
+                                    '<div id="download" class="btn">' +
+                                    '<p>다운로드</p>' +
+                                    '</div>' +
+                                    '</a>',
+                                // timer: 60000 * 15,
+                                timer: 60000 * 15,
+                                timerProgressBar: true,
+                                icon: 'info',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    const content = Swal.getHtmlContainer()
+                                    const $ = content.querySelector.bind(content)
+
+                                    Swal.showLoading()
+                                    let decDirectory, fileList, signedUrl;
+                                    [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
+
+                                    const download = $('#download');
+                                    const downloadLink = $('#signedUrl');
+
+                                    if (fileList.length == 1) {
+                                        signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
+                                        downloadLink.href = signedUrl[0]
+                                    }
+                                    else if (fileList.length > 1) {
+                                        resultLoader.fileToZip({
+                                            id: eventIndex,
+                                            bucketName: decDirectory[0],    //참조할 버킷 이름
+                                            subDirectory: decDirectory[1],  //참조할 object의 세부 경로
+                                            fileName: fileList              //참조할 object filename 목록
+                                        });
+
+                                        socket.on('compress', function (data) {
+                                            if (data.log == '압축 완료') {
+                                                signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
+                                                downloadLink.href = signedUrl;
+                                            }
+                                        });
+                                    }
+                                    download.addEventListener('click', () => {
+                                        if(downloadLink.href == '') {
+                                            Swal.fire({
+                                                title: '다운로드 링크 생성중',
+                                                text: '잠시만 기다려주세요! 서버에서 다운로드 링크를 생성중입니다.',
+                                                confirmButtonText: '확인',
+                                                allowOutsideClick: false,
+                                                icon: 'info'
+                                            })
+                                        }
+                                        else {
+                                            socket.emit('deleteFile', {
+                                                bucketName: decDirectory[0],
+                                                subDirectory: decDirectory[1],
+                                                fileName: (fileList.length > 1) ? ['Download.zip'] : fileList
+                                            })
+    
+                                            Swal.fire({
+                                                title: '다운로드가 시작됩니다!',
+                                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                                confirmButtonText: '확인',
+                                                allowOutsideClick: false
+                                            }).then((result) => {
+                                                if (result.isConfirmed) history.back();
+                                            })
+                                        }
+                                    })
+
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                    timerInterval = setInterval(() => {
+                                        var seconds = parseInt(Swal.getTimerLeft() / 1000);
+                                        var minute = parseInt((seconds % 3600) / 60);
+                                        var sec = seconds % 60;
+                                        b.textContent = minute + '분 ' + sec + '초'
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    console.log('asdadsdas')
+                                }
+                            })
+                        }
                     }
                 })
             }
         }
-
-        reloadProgress();
+        setTimeout(reloadProgress, 100);
     },
 
     video: function () {
@@ -312,19 +435,19 @@ init = {
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'file');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
-                console.log(fileCount);
-            }, 100);
+                console.log(fileCount)
+            }, 200);
         });
 
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, videoDuration] = fileModule.getFileList('video', 'folder');
+            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
-            }, 100);
+            }, 200);
         });
 
         $(document).on("click", ".uploadDelete", function () {
@@ -368,55 +491,60 @@ init = {
         });
 
         $(document).on("click", ".nextBtn", function () {
-            if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
+            if (fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html:
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var body = $('#file-' + i + ' .selectObject')[0].children[2].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
                     var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
 
                     var select = ''
-                    select = (head) ? select += '1' : select += '0'
                     select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
-                    console.log(encryptObject);
                 }
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
+                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
             }
         });
-
-        // $(document).on("click", ".nextBtn", function () {
-        //     if(fileCount == 0) Swal.fire('파일 선택 후 다음으로 넘어가 주세요.', '', 'warning');
-        //     else fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject);
-        // });
     },
 
     detail: function () {
         var socket = io();
-        
+
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
 
-        var encDirectory = [];
-        var fileList = [];
-        [encDirectory, fileList] = resultLoader.getFileInfo(eventIndex);
+        var selectedFile = []
+        // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
+        var encFileInfo = resultLoader.getEncFileInfo(eventIndex);
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
         var infoHtml = resultLoader.getInfoHtml(eventIndex);
         $('.infoArea')[0].innerHTML = infoHtml;
 
         $(document).ready(function () {
             var rest = $(".rest_info").text()
-            if(rest == "X"){
-                $(".file_recoConfirm").addClass("hide")
-                $(".select_recoConfirm").addClass("hide")
+            if (rest == "O") {
+                $(".file_recoConfirm").removeClass("hide")
+                $(".select_recoConfirm").removeClass("hide")
             }
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
+            $('.recoConfirm').attr('data-value', $(this).data('value'));
             $("#recoData").addClass('active')
         });
 
@@ -430,9 +558,29 @@ init = {
             $('.pemUpload').val(fileName);
         });
 
+        $("#select_file").on('change', function () {
+            var file = document.getElementById('select_file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
         $(document).on("click", ".recoConfirm", function () {
             var keyName = $('.file_key')[0].children[1].innerHTML
-            fileModule.verifyKey(keyName, eventIndex);
+            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type);
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                if(selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type);
+                else if(selected == 'select'){
+                    if(selectedFile.length == 0) Swal.fire({
+                        title: '선택된 파일이 없습니다',
+                        text: '복호화할 파일을 선택해 주세요.',
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'error'
+                    })
+                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
+                }
+            }
         });
 
         if (type == 'image') {
@@ -445,6 +593,13 @@ init = {
             }
             else if (mode == 'group') {
                 $(document).on("click", ".select_recoConfirm", function () {
+                    $('.recoConfirm').attr('data-value', $(this).data('value'));
+                    selectedFile = [];
+                    var imgDivList = document.getElementsByClassName('albumImg');
+                    var len = imgDivList.length;
+                    for (var i = 0; i < len; i++) {
+                        if (imgDivList[i].className == 'albumImg active') selectedFile.push(fileList[i])
+                    }
                     $("#select_recoData").addClass('active')
                 });
 
@@ -458,6 +613,16 @@ init = {
                 });
 
                 $(document).on("click", ".plusBtn", function () {
+                    var imgnum = $(this).data("num")
+                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
+                        <p>이미지 다운로드</p>\
+                    </a>\
+                    <div class="cancel">\
+                        <p>취소</p>\
+                    </div>'
+                    document.getElementById('selectImgArea').innerHTML = imgtag
+                    document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
                 });
 
@@ -473,7 +638,7 @@ init = {
                         fileName: fileList              //참조할 object filename 목록
                     });
                     socket.on('compress', function (data) {
-                        if(data.log == '압축 완료') {
+                        if (data.log == '압축 완료') {
                             new Promise((resolve, reject) => {
                                 //파일 다운로드 경로 획득
                                 var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
@@ -483,8 +648,13 @@ init = {
                                 new Promise((resolve, reject) => {
                                     //다운로드 후 zip 파일 삭제
                                     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                    var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
-                                    resolve(complete);
+                                    // var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
+                                    socket.emit('deleteFile', {
+                                        bucketName: encDirectory[0],
+                                        subDirectory: encDirectory[1],
+                                        fileName: ['Download.zip']
+                                    })
+                                    // resolve(complete);
                                 })
                             })
                         }
@@ -495,34 +665,23 @@ init = {
         }
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            // var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
             $('#signedUrl').attr('href', signedUrl[0]);
         }
     },
 
     log: function () {
-        $(document).on("click", ".detailInfo", function () {
-            var type = $(this).parent().parent().children()[1].textContent
-            if (type == '영상') {
-                location.href = "/video_detail"
-            }
-            else if (type == '이미지') {
-                location.href = "/image_detail"
-            }
-            else if (type == '이미지 그룹') {
-                location.href = "/album_detail"
-            }
-        });
-
         $(document).on("click", ".filter_video", function () {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("video")
+                $(".group_file").val(0)
             }
         });
 
@@ -530,11 +689,13 @@ init = {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("image")
+                $(".group_file").val(0)
             }
         });
 
@@ -542,11 +703,13 @@ init = {
             if ($(this).hasClass("active")) {
                 $(this).removeClass('active')
                 $(".filter_file").val("")
+                $(".group_file").val("")
             }
             else {
                 $(".file_filter").removeClass('active')
                 $(this).addClass('active')
                 $(".filter_file").val("album")
+                $(".group_file").val(1)
             }
         });
 
@@ -639,7 +802,7 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
             if (type == '영상') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id');
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
             }
             else if (type == '이미지') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
@@ -663,10 +826,6 @@ init = {
             var new_passConfig = $(".new_passConfig").val()
             // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
             userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
-        });
-
-        $(document).on("click", ".infoCancel", function () {
-            location.href = "/myinfo"
         });
 
         var infoArea = userinfo.getUserInfo()
@@ -718,6 +877,44 @@ init = {
 
         $(document).on("click", ".pass_modi", function () {
             $("#passModi").addClass('active')
+        });
+
+        $(document).on("click", ".auth_modi", function () {
+            var accountName = $(this).data("account");
+            $(".subid").val(accountName)
+            var authArea = subaccount.getAuthList(accountName);
+            $(".authArea").html(authArea);
+            $("#authModi").addClass('active')
+        });
+
+        $(document).on("click", ".authConfig", function () {
+            var bucketAuth = ""
+            var dbAuth = ""
+
+            if ($('.bdownloadAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+            if ($('.buploadAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+            if ($('.bdeleteAuth').is(':checked')) bucketAuth += "1"
+            else bucketAuth += "0"
+
+            if ($('.dcreateAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if ($('.dreadAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if ($('.dupdateAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+            if ($('.ddeleteAuth').is(':checked')) dbAuth += "1"
+            else dbAuth += "0"
+
+            if ($('.encAuth').is(':checked')) var enc = 1
+            else var enc = 0
+            if ($('.decAuth').is(':checked')) var dec = 1
+            else var dec = 0
+
+            var accountName = $(".subid").val()
+
+            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, accountName)
         });
 
         $(document).on("click", ".cancel", function () {
@@ -784,19 +981,19 @@ init = {
             telephone: /^[0-9]{11}$/,
             verify_number: /^[0-9]{6}$/
         };
-    
+
         const inputs = document.querySelectorAll('input');
-    
+
         function validate(input, regex) {
             return regex.test(input.value) ? 'valid' : 'invalid';
         }
-    
+
         inputs.forEach((input) => {
             input.addEventListener('keyup', (event) => {
                 input.className = validate(event.target, patterns[event.target.attributes.name.value]);
             });
         });
-    
+
         var verify = false;
         var verifyCode = null;
         $(document).on("click", "#email_send", function () {
@@ -809,7 +1006,7 @@ init = {
             else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
-    
+
         $(document).on("click", "#email_verify", function () {
             if (!$(this).hasClass('click')) {
                 if ($("#verify_number").val() == verifyCode) {
@@ -823,7 +1020,7 @@ init = {
                 }
             }
         });
-    
+
         $(document).on("click", "#tenant_register", function () {
             if (!verify) Swal.fire('인증 실패', '이메일 인증을 완료해 주세요', 'error');
             else {

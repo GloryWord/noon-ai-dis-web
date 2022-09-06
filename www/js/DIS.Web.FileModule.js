@@ -21,6 +21,7 @@ fileModule = {
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
+        var fileCount = 0;
 
         const dataTransfer = new DataTransfer();
         let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
@@ -44,11 +45,13 @@ fileModule = {
                     // alert(img.width + " " + img.height);
                     fileWidth.push(img.width);
                     fileHeight.push(img.height);
+                    fileCount += 1;
                 }
             }
             else if (fileType[i] == 'video') {
                 const video = document.createElement('video');
                 video.addEventListener('loadedmetadata', event => {
+                    fileCount += 1;
                     fileWidth.push(video.videoWidth);
                     fileHeight.push(video.videoHeight);
                     videoDuration.push(video.duration);
@@ -76,8 +79,8 @@ fileModule = {
                                         <th>파일명</th>\
                                         <th>용량</th>\
                                         <th>객체 선택<br>\
-                                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;\
                                             <input class="allbody" type="checkbox"><label>사람-몸</label>&nbsp;\
+                                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;\
                                             <input class="allcar" type="checkbox"><label>자동차 번호판</label>\
                                         </th>\
                                         <th>파일 삭제</th>\
@@ -87,9 +90,9 @@ fileModule = {
                         <td>'+ files[i].name + '</td>\
                         <td>'+ formatBytes(files[i].size) + '</td>\
                         <td class="selectObject">\
-                            <input type="checkbox" name="head"><label>사람-얼굴</label>&nbsp;\
-                            <input type="checkbox" name="body"><label>사람-몸</label>&nbsp;\
-                            <input type="checkbox" name="lp"><label>자동차 번호판</label>\
+                            <input class="body" type="checkbox" name="body"><label>사람-몸</label>&nbsp;\
+                            <input class="face" type="checkbox" name="head"><label>사람-얼굴</label>&nbsp;\
+                            <input class="car" type="checkbox" name="lp"><label>자동차 번호판</label>\
                         </td>\
                         <td>\
                             <div class="uploadDelete" value='+ i + '>\
@@ -99,7 +102,8 @@ fileModule = {
                     </tr>'
         }
         html += '</table>';
-        return [html, fileWidth, fileHeight, videoDuration];
+
+        return [html, fileWidth, fileHeight, fileCount, videoDuration];
     },
 
     deleteFile: function (index) {
@@ -113,7 +117,7 @@ fileModule = {
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
     },
 
-    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject) {
+    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject, fileType) {
         var curTime = getTime();
         var fileNameList = getFiles();
         var fileWidthObj = Object.assign({}, fileWidth)
@@ -166,8 +170,14 @@ fileModule = {
                     }
                 }
                 xhr.onerror = function (e) {
-                    console.log('Error');
                     console.log(e);
+                    Swal.fire({
+                        title: '업로드 에러',
+                        text: '파일 업로드에 실패하였습니다.',
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'error'
+                    })
                 };
                 xhr.onload = function () {
                     new Promise((resolve, reject) => {
@@ -211,7 +221,7 @@ fileModule = {
                                 confirmButtonText: '확인',
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    location.href = '/encrypt/loading';
+                                    location.href = '/loading?type='+fileType+'&service=encrypt';
                                 }
                             })
                         })
@@ -226,16 +236,24 @@ fileModule = {
         });
     },
 
-    verifyKey: function (keyName, index) {
+    verifyKey: function (keyName, index, fileList, fileType) {
         var formData = new FormData();
         var file = document.getElementById('file').files[0];
-        var fileName = file.name;
+        if (file == undefined) file = document.getElementById('select_file').files[0];
+        var fileName;
         var valid = false;
 
         if (file == undefined) {
-            alert("키 파일을 선택해 주세요")
+            Swal.fire({
+                title: '키 파일이 없습니다!',
+                text: '키 파일을 업로드했는지 확인해주세요.',
+                confirmButtonText: '확인',
+                allowOutsideClick: false,
+                icon: 'error'
+            })
         }
         else {
+            fileName = file.name;
             formData.append('file', file);
             var xhr = new XMLHttpRequest();
             xhr.open('post', '/api/uploadNAS', true);
@@ -270,7 +288,15 @@ fileModule = {
                     });
                     resolve(valid)
                 }).then((valid) => {
-                    if (!valid) alert('비식별화시 사용된 키 파일 정보와 일치하지 않습니다.');
+                    if (!valid) {
+                        Swal.fire({
+                            title: '복호화 키 불일치',
+                            text: '비식별화시 사용된 키 파일 정보와 일치하지 않습니다.',
+                            showCancelButton: false,
+                            confirmButtonText: '확인',
+                            icon: 'error'
+                        })
+                    }
                     else {
                         new Promise((resolve, reject) => {
                             var userAuth = comm.getAuth();
@@ -280,12 +306,14 @@ fileModule = {
                                 url: "/api/request/decrypt",
                                 dataType: "json",
                                 data: {
-                                    'enc_request_id': index,
-                                    'account_auth_id': userAuth.id
+                                    enc_request_id: index,
+                                    account_auth_id: userAuth.id,
+                                    fileList: JSON.stringify(fileList),
                                 },
                                 async: false,
                                 success: function (data) {
                                     result = data;
+                                    console.log(result);
                                 },
                                 error: function (xhr, status) {
                                     // alert(xhr + " : " + status);
@@ -296,6 +324,7 @@ fileModule = {
                         }).then((result) => {
                             var reqInfo = result['decReqInfo']['reqInfo'];
                             var msgTemplate = result['decReqInfo'];
+                            var decRequestId = result['dec_request_list_id'];
                             delete msgTemplate.reqInfo;
                             $.ajax({
                                 method: "post",
@@ -316,8 +345,15 @@ fileModule = {
                             new Promise((resolve, reject) => {
                                 resolve()
                             }).then(() => {
-                                alert('복호화 요청 완료');
-                                location.reload();
+                                Swal.fire({
+                                    title: '복호화 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = '/loading?type='+fileType+'&id='+decRequestId+'&service=decrypt';
+                                    }
+                                })
                             })
                         })
                     }

@@ -15,7 +15,8 @@
     <script type="text/javascript" src="../../js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.UserInfo.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.ResultLoader.js"></script>
-    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+    <script type="text/javascript" src="../../js/DIS.Web.FileModule.js"></script>
+    <script src="../../static/js/socket.io/socket.io.min.js"></script>
     <script src="../../static/js/sweetalert/sweetalert.js"></script>
     <script src="../../static/js/common/common.js"></script>
     <script src="../../static/js/common/header.js"></script>
@@ -28,6 +29,8 @@
                 <div class="logo"></div>
             </a>
             <div class="flow">
+            </div>
+            <div class="login_user">
             </div>
             <div class="menuBtn">
                 <div id="myDropdown" class="dropdown-content">
@@ -217,11 +220,11 @@
                     </div>
                     <div class="recoBody">
                         <div class="recoMiddle">
-                            <input class="pemUpload" value="abc.pem" readonly>
+                            <input class="pemUpload" value="" readonly>
                             <label class="uploadBtn" for="file">
                                 <p>파일 업로드</p>
                             </label>
-                            <input type="file" id="file">
+                            <input type="file" id="file" value="키 선택" name="file" accept=".pem" />
                         </div>
                         <div class="recoFooter">
                             <div class="recoConfirm">
@@ -248,11 +251,11 @@
                     </div>
                     <div class="recoBody">
                         <div class="recoMiddle">
-                            <input class="pemUpload" value="abc.pem" readonly>
+                            <input class="pemUpload" value="" readonly>
                             <label class="uploadBtn" for="select_file">
                                 <p>파일 업로드</p>
                             </label>
-                            <input type="file" id="select_file">
+                            <input type="file" id="select_file" value="키 선택" name="file" accept=".pem" />
                         </div>
                         <div class="recoFooter">
                             <div class="recoConfirm">
@@ -274,13 +277,13 @@
         <div class="layerPopupBox active">
             <div class="img_inner">
                 <div class="imgContent">
-                    <div class="imgHeader">
+                    <div class="imgHeader" id="selectImgArea">
                         <!-- <img class="viewImg" src="../../static/imgs/1920main_bg.png"> -->
                     </div>
-                    <div class="imgFooter">
-                        <div class="imgConfirm">
+                    <div class="imgFooter" id="selectBtnArea">
+                        <a class="imgConfirm">
                             <p>이미지 다운로드</p>
-                        </div>
+                        </a>
                         <div class="cancel">
                             <p>취소</p>
                         </div>

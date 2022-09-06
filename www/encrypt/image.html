@@ -40,6 +40,8 @@
                     </div>
                 </div>
             </div>
+            <div class="login_user">
+            </div>
             <div class="menuBtn">                
                 <div id="myDropdown" class="dropdown-content">
                     <a href="/main">홈</a>
@@ -91,8 +93,8 @@
                         <th>용량</th>
                         <!-- <th>영상 종류</th> -->
                         <th>객체 선택<br>
-                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;
                             <input class="allbody" type="checkbox"><label>사람-몸</label>&nbsp;
+                            <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;
                             <input class="allcar" type="checkbox"><label>자동차 번호판</label>
                         </th>
                         <th>파일 삭제</th>
@@ -259,7 +261,7 @@
                         <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">신규 KEY 생성 및 다운로드</label>
                         <div class="createKey">
                             <p>KEY 입력 : </p>
-                            <input class="keyCreate">
+                            <input class="keyCreate" id="genKeyName">
                             <div class="keyCD" id="generateKey">
                                 <p>KEY 파일 생성 및 다운로드</p>
                             </div>
