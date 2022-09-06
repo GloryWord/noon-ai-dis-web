@@ -1047,28 +1047,7 @@ init = {
 
         $(document).on("click", "#email_send", function () {
             var email = $("#account_name").val();
-            if (email) {
-                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
-                    // verifyCode = signup.sendMail(email);
-                    login.forgetPassword(email);
-                })
-            }
-            // else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
-            // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
-        });
-
-        $(document).on("click", "#email_verify", function () {
-            if (!$(this).hasClass('click')) {
-                if ($("#verify_number").val() == verifyCode) {
-                    Swal.fire('인증이 완료되었습니다.', '', 'success');
-                    verify = true;
-                    $(this).addClass('click');
-                    $("#account_name").attr('disabled', true); // or false
-                }
-                else {
-                    Swal.fire('인증번호가 일치하지 않습니다.', '', 'error');
-                }
-            }
+            if (email) login.forgetPassword(email);
         });
     },
 

@@ -111,7 +111,28 @@ login = {
                 accountName
             },
             success: function (data) {
-                console.log(data);
+                if(data.message == 'success') {
+                    Swal.fire({
+                        title: '메일 발송 완료',
+                        text: '등록되어 있는 이메일 주소로 메일이 발송되었습니다.',
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) location.reload();
+                    })
+                }
+                else if(data.message == 'error') {
+                    Swal.fire({
+                        title: 'ID를 다시 입력해 주세요',
+                        text: data.log,
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'error'
+                    }).then((result) => {
+                        if (result.isConfirmed) location.reload();
+                    })
+                }
             }, // success 
             error: function (xhr, status) {
                 alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
