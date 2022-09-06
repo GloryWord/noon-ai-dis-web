@@ -1,0 +1,233 @@
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-8Heavy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Thin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Thin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.footer {
+    width: 100%;
+    height: 336px;
+    display: flex;
+    background-color: #16284d;
+}
+
+.footer .logo {
+    width: 198px;
+    height: 28px;
+    margin: 90px 54px auto auto;
+}
+
+.footer .textArea {
+    width: 736px;
+    height: auto;
+    margin: 94px auto auto 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer .textArea .footer_menu {
+    width: auto;
+    height: auto;
+    margin: 0 0 24px;
+    display: flex;
+}
+
+.footer .textArea .footer_menu label {  
+    margin: 0;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #fff;
+}
+
+.footer .textArea .footer_menu p {  
+    margin: 0 12px;
+    font-family: SpoqaHanSansNeo-Thin;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #fff;
+}
+
+.footer .textArea .companyInfo {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 24px;
+}
+
+.footer .textArea .companyInfo .loc {  
+    margin: 0 0 8px;
+}
+
+.footer .textArea .companyInfo .loc p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #c2c2c2;
+    margin: 0;
+}
+
+.footer .textArea .companyInfo .ceo_num {  
+    display: flex;
+    margin: 0 0 8px;
+}
+
+.footer .textArea .companyInfo .ceo_num label {    
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #c2c2c2;
+    margin: 0;
+}
+
+.footer .textArea .companyInfo .ceo_num .info {
+    margin: 0;
+}
+
+.footer .textArea .companyInfo .ceo_num p {    
+    font-family: SpoqaHanSansNeo-Thin;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #c2c2c2;
+    margin: 0 12px;
+}
+
+.footer .textArea .call_num {
+    display : flex;
+    margin : 0 0 24px
+}
+
+.footer .textArea .call_num label {
+    font-family: SpoqaHanSansNeo-Thin;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #c2c2c2;
+    margin: 0 12px;
+}
+
+.footer .textArea .call_num .num {
+    margin: 0;
+}
+
+.footer .textArea .call_num p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #c2c2c2;
+    margin: 0 12px;
+}
+
+.footer .textArea .inc {
+    display: flex;
+}
+
+.footer .textArea .inc p {  
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: 0;
+}

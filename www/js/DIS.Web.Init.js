@@ -30,6 +30,14 @@ function dateFormat(date) {
     return dateFormat2;
 }
 
+function underTen(data) {
+    let underTen;
+    if(Number(data)<=9){
+        underTen = "0"+data
+    }
+    return underTen;
+}
+
 function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
 
@@ -166,7 +174,7 @@ init = {
             }
         }
 
-        // reloadProgress();
+        reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -181,10 +189,10 @@ init = {
 
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
-            if (type == '영상') {
+            if (type == '동영상 파일') {
                 location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
-            else if (type == '이미지') {
+            else if (type == '이미지 파일') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {

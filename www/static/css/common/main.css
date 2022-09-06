@@ -56,148 +56,305 @@
 
 .select_area{
     width: 100%;
-    height: auto;
-    margin: 200px 0 0;
+    height: 380px;
     display: flex;
 }
 
-.video_select,
-.image_select {
-    width: 200px;
-    height: 100px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    background-color: midnightblue;
-    cursor: pointer;
-}
-
+.image_select,
 .video_select {
-    margin: auto 40px auto auto;
+    width: 372px;
+    height: 180px;
+    border-radius: 24px;
+    display: flex;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+} 
+
+.image_select:hover,
+.video_select:hover {
+    transform: translateY(-14px);
 }
 
-.image_select { 
-    margin: auto auto auto 40px;
+.image_select {
+    margin: auto 42px auto auto;
 }
 
-.video_select p,
-.image_select p {
-    color: white;
-    margin: auto;
-    font-family: S-CoreDream-6Bold;
-    font-size: 18px;
+.video_select { 
+    margin: auto auto auto 42px;
+}
+
+.image_select img,
+.video_select img {
+    width: 120px;
+    height: 120px;
+    margin: auto 8px auto 40px;
+}
+
+.image_select .textArea,
+.video_select .textArea {
+    display: flex;
+    width: auto;
+    height: auto;
+    flex-direction: column;
+}
+
+.video_select .textArea p,
+.image_select .textArea p {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    margin: 64px auto 2px 0;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+}
+
+.video_select .textArea h1,
+.image_select .textArea h1 {    
+    font-family: SpoqaHanSansNeo;
+    font-size: 32px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    margin: 0;
+    letter-spacing: -0.8px;
+    text-align: center;
+    color: #16284d;
 }
 
 .logTable {
+    width: 100%;
+    height: 616px;
     display: flex;
-    flex-direction: column;
-    margin: 80px 0 0;
+    flex-direction: column;  
+    background-color: #e9f6ff;
 }
 
-.logTable .logHeader {
-    width: 1000px;
-    height: 80px;
+.logTable .titleArea {
+    width: 988px;
+    height: auto;
+    display: flex;
+    margin: 90px auto 20px
+}
+
+.logTable .titleArea .title {
+    margin: 0 auto 0 0;
+    display: flex;
+}
+
+.logTable .titleArea .title img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+}
+
+.logTable .titleArea .title .login_user {
+    margin: 0;
+    width: auto;
+}
+
+.logTable .titleArea .title p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    margin: auto 0;
+    color: #595959;
+}
+
+.logTable .titleArea .plusArea {
+    margin: 0 8px 0 auto;
+    display: flex;
+}
+
+.logTable .titleArea .plusArea a {
+    display: flex;
+}
+
+.logTable .titleArea .plusArea a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    margin: auto 2px auto 0;
+    color: #595959;
+}
+
+.logTable .titleArea .plusArea a img {
+    width: 26px;
+    height: 26px;
+    margin: auto 0;
+}
+
+.logTable .logArea {
+    width: 988px;
+    height: 376px;
+    margin: 0 auto;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+}
+
+.logTable .logArea .logHeader {
+    width: 940px;
+    height: 62px;
     margin: 0 auto;
     display: flex;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #707070;
 }
 
-.logTable .mainLog {
-    width: 1000px;
-    height: 320px;
+.logTable .logArea .logHeader h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.logTable .logArea .mainLog {
+    width: 940px;
+    height: auto;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
 
-
-.logTable .mainLog .logContent {
+.logTable .logArea .mainLog .logContent {
     display: flex;
-    height: 60px;
-    border-bottom: 1px solid;
+    height: 58px;  
+    border-bottom: solid 1px #bcc5cb;
 }
 
+.logTable .logArea .mainLog .logContent p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+}
 
-.logTable .logHeader .id_content,
-.logTable .mainLog .logContent .id_content {
-    width: 100px;
+.logTable .logArea .logHeader .id_content,
+.logTable .logArea .mainLog .logContent .id_content {
+    width: 68px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .logHeader .name_content,
-.logTable .mainLog .logContent .name_content {
-    width: 300px;
+.logTable .logArea .logHeader .type_content,
+.logTable .logArea .mainLog .logContent .type_content {
+    width: 88px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .mainLog .logContent .name_content p {
+.logTable .logArea .logHeader .name_content,
+.logTable .logArea .mainLog .logContent .name_content {
+    width: 360px;
+    margin: auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.logTable .logArea .mainLog .logContent .name_content p {
+    width: auto;
+    margin: auto 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.logTable .logHeader .type_content,
-.logTable .mainLog .logContent .type_content {
-    width: 100px;
+.logTable .logArea .mainLog .logContent .name_content label {
+    width: 62px;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    margin: 0 0 0 4px;
+    color: #595959;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.logTable .logArea .logHeader .date_content,
+.logTable .logArea .mainLog .logContent .date_content {
+    width: 96px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .logHeader .date_content,
-.logTable .mainLog .logContent .date_content {
-    width: 120px;
+.logTable .logArea .logHeader .rest_content,
+.logTable .logArea .mainLog .logContent .rest_content {
+    width: 96px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .logHeader .progress_content,
-.logTable .mainLog .logContent .progress_content {
-    width: 80px;
+.logTable .logArea .logHeader .status_content,
+.logTable .logArea .mainLog .logContent .status_content {
+    width: 96px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .logHeader .status_content,
-.logTable .mainLog .logContent .status_content {
-    width: 80px;
+.logTable .logArea .logHeader .detail_content,
+.logTable .logArea .mainLog .logContent .detail_content {
+    width: 66px;
     margin: auto;
     text-align: center;
 }
 
-.logTable .logHeader .rest_content,
-.logTable .mainLog .logContent .rest_content {
-    width: 80px;
+.logTable .logArea .mainLog .logContent .detail_content .detailInfo {
+    width: 64px;
+    height: 24px;
     margin: auto;
-    text-align: center;
-}
-
-.logTable .logHeader .detail_content,
-.logTable .mainLog .logContent .detail_content {
-    width: 140px;
-    margin: auto;
-    text-align: center;
-}
-
-.logTable .mainLog .logContent .detail_content .detailInfo {
-    width: 120px;
-    height: 40px;
-    background-color: deepskyblue;
+    border-radius: 13px;
     display: flex;
-    margin: auto;
-    border-radius: 5px;
-    cursor: pointer;
+    cursor: pointer;  
+    background-color: #3fa9f5;
 }
 
-.logTable .mainLog .logContent .detail_content .detailInfo.disable {
+.logTable .logArea .mainLog .logContent .detail_content .detailInfo.disable {
     pointer-events: none;
-    background-color: #909090;
+    background-color: #595959;
 }
 
-.logTable .mainLog .logContent .detail_content .detailInfo p {
+.logTable .logArea .mainLog .logContent .detail_content .detailInfo p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    color: white;
-    font-family: S-CoreDream-6Bold;
 }
