@@ -255,33 +255,40 @@ requestTable = {
                 var restoration = "X"
             }
 
-            if (requestList[i]['file_type'] == "video") {
-                var type = "영상"
-            }
-            else if (requestList[i]['file_type'] == "image") {
-                var type = "이미지"
-            }
+            // if (requestList[i]['file_type'] == "video") {
+            //     var type = "영상"
+            // }
+            // else if (requestList[i]['file_type'] == "image") {
+            //     var type = "이미지"
+            // }
 
-            if(requestList[i]['file_count']>1){
-                var group = " 그룹"
-            }
-            else{
-                var group = ""
-            }
+            // if(requestList[i]['file_count']>1){
+            //     var group = " 그룹"
+            // }
+            // else{
+            //     var group = ""
+            // }
+            var fileList = requestList[i]['request_file_list'].split('\n');
+            fileList = fileList.splice(0, fileList.length - 1);
 
-            var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'
+            var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'   
+
+            if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
+            else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
+            if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+
             if(status=="완료") var css = ""
             else var css = "disable"
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
                             <div class="name_content"><p>'+ name + '</p></div>\
-                            <div class="type_content"><p>'+ type + group +'</p></div>\
+                            <div class="type_content"><p>'+ type +'</p></div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="progress_content" id="progress"><p>-</p></div>\
                             <div class="status_content"><p>'+ status + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + group +'" class="detailInfo '+css+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type +'" class="detailInfo '+css+'">\
                                     <p>상세보기</p>\
                                 </div>\
                             </div>\

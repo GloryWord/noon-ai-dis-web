@@ -296,9 +296,12 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
-                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[4].checked
+                    // var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
+                    // var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
+                    // var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
 
                     var select = ''
                     select = (body) ? select += '1' : select += '0'
@@ -472,15 +475,21 @@ init = {
         });
 
         var restoration = 0;
-        $('input[type=checkbox][name=restoration]').on('change', function () {
-            switch ($(this)[0].checked) {
-                case true:
-                    restoration = 1;
-                    break;
-                case false:
-                    restoration = 0;
-                    break;
+        $('input[type=radio][name=restoration]').on('change', function () {
+            if($('input[name=restoration]:checked').val()=="true"){
+                restoration = 1;
             }
+            else{
+                restoration = 0;
+            }
+            // switch ($(this)[0].checked) {
+            //     case true:
+            //         restoration = 1;
+            //         break;
+            //     case false:
+            //         restoration = 0;
+            //         break;
+            // }
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -514,9 +523,9 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
 
                     var select = ''
                     select = (body) ? select += '1' : select += '0'
@@ -826,10 +835,10 @@ init = {
 
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
-            if (type == '영상') {
+            if (type == '동영상 파일') {
                 location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
             }
-            else if (type == '이미지') {
+            else if (type == '이미지 파일') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {

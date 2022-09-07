@@ -56,7 +56,7 @@ comm = {
 
     getKeyList: function () {
         var result = '';
-        var resultStr = '<option value="0">----</option>';
+        var resultStr = '';
         $.ajax({
             method: "get",
             url: "/api/key",
@@ -71,7 +71,7 @@ comm = {
 
         if (!result.keyList) {
             for (var i = 0; i < result.length; i++) {
-                resultStr += "<option value=" + result[i]['id'] + ">" + result[i]['key_name'] + "</option>"
+                resultStr += "<div class='dropdown_content' data-idx=" + result[i]['id'] + "><p>" + result[i]['key_name'] + "</p></div>"
             }
         }
         return resultStr;
