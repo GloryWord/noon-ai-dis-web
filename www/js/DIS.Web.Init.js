@@ -219,6 +219,7 @@ init = {
 
         $("#selectKeyName").html(comm.getKeyList());
 
+        // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
             [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
@@ -229,6 +230,7 @@ init = {
             }, 200)
         });
 
+        // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#folder").on('change', function () {
             [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function () {
@@ -239,6 +241,7 @@ init = {
             }, 200)
         });
 
+        // 파일 삭제버튼 누를경우 작동 (튼튼함)
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
             fileModule.deleteFile(idx);
@@ -248,6 +251,7 @@ init = {
             })
         });
 
+        // 키 발급 만약 에러뜬다면 genKeyName val == '' 확인, 에러확률 거의 없음
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
             comm.generateKey(genKeyName, null);
@@ -309,6 +313,8 @@ init = {
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
+
+                //파일 업로드 후 최종 요청하는 내용(비식별화)
                 fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
             }
         });
@@ -369,6 +375,8 @@ init = {
                                     const downloadLink = $('#signedUrl');
 
                                     if (fileList.length == 1) {
+                                        //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
+                                        //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
                                         signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
                                         downloadLink.href = signedUrl[0]
                                     }
@@ -549,10 +557,10 @@ init = {
 
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
-        var encFileInfo = resultLoader.getEncFileInfo(eventIndex);
+        var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
         var encDirectory = encFileInfo.encDirectory;
         var fileList = encFileInfo.fileList;
-        var infoHtml = resultLoader.getInfoHtml(eventIndex);
+        var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
         $('.infoArea')[0].innerHTML = infoHtml;
 
         $(document).ready(function () {
@@ -572,18 +580,21 @@ init = {
             $('.modal').removeClass('active')
         });
 
+        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#file").on('change', function () {
             var file = document.getElementById('file').files[0];
             var fileName = file.name;
             $('.pemUpload').val(fileName);
         });
 
+        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#select_file").on('change', function () {
             var file = document.getElementById('select_file').files[0];
             var fileName = file.name;
             $('.pemUpload').val(fileName);
         });
 
+        //이게 복호화 요청 확인 누르면
         $(document).on("click", ".recoConfirm", function () {
             var keyName = $('.file_key')[0].children[1].innerHTML
             if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type);

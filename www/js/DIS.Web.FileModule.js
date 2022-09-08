@@ -135,6 +135,7 @@ fileModule = {
             keyName = $('.selectText').text()
         }
 
+        // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
         var postData = {
             'requestType': 'encrypt',
             'fileNameList': fileNameList,
@@ -151,7 +152,7 @@ fileModule = {
 
         $.ajax({
             method: "post",
-            url: "/api/syncTime",
+            url: "/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
             dataType: "json",
             data: {
                 'curTime': curTime
@@ -273,29 +274,31 @@ fileModule = {
             };
             xhr.onload = function () {
                 new Promise((resolve, reject) => {
+                    var msg = '';
                     $.ajax({
                         method: "post",
                         url: "/api/key/verify",
                         dataType: "json",
                         data: {
-                            'fileName': fileName,
-                            'keyName': keyName
+                            'fileName': fileName, // 남자향수.pem -> 이민형.pem
+                            'keyName': keyName // DB에서 비교해볼 키 네임
                         },
                         async: false,
                         success: function (data) {
-                            if (data['log'] == 'valid') valid = true;
+                            if (data['result'] == 'valid') valid = true;
+                            msg = data.log;
                         },
                         error: function (xhr, status) {
                             // alert(xhr + " : " + status);
                             alert(JSON.stringify(xhr));
                         }
                     });
-                    resolve(valid)
-                }).then((valid) => {
+                    resolve({valid, msg})
+                }).then(({valid, msg}) => {
                     if (!valid) {
                         Swal.fire({
                             title: '복호화 키 불일치',
-                            text: '비식별화시 사용된 키 파일 정보와 일치하지 않습니다.',
+                            text: msg,
                             showCancelButton: false,
                             confirmButtonText: '확인',
                             icon: 'error'
@@ -307,7 +310,7 @@ fileModule = {
                             var result = '';
                             $.ajax({
                                 method: "post",
-                                url: "/api/request/decrypt",
+                                url: "/api/request/decrypt", //DB에 복호화 요청정보 저장
                                 dataType: "json",
                                 data: {
                                     enc_request_id: index,
@@ -332,7 +335,7 @@ fileModule = {
                             delete msgTemplate.reqInfo;
                             $.ajax({
                                 method: "post",
-                                url: "/api/sendMessage/decrypt",
+                                url: "/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
                                 dataType: "json",
                                 data: {
                                     'msgTemplate': JSON.stringify(msgTemplate),
