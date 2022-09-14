@@ -241,6 +241,12 @@ init = {
             }, 200)
         });
 
+        // 전체 삭제
+        $(document).on("click", ".allDelete", function () {
+            fileModule.alldeleteFile();
+            fileCount = 0;
+        });
+
         // 파일 삭제버튼 누를경우 작동 (튼튼함)
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
@@ -716,130 +722,96 @@ init = {
 
         reloadProgress();
 
-        $(document).on("click", ".filter_video", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
+        $(document).on("click", ".allSearch", function () {
+            if($('.allSearch').is(':checked')){
+                $(".filter_video").prop("checked", true);
+                $(".filter_image").prop("checked", true);
+                $(".filter_album").prop("checked", true);
+                $(".filter_rest").prop("checked", true);
+                $(".filter_norest").prop("checked", true);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
             }
-            else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("video")
-                $(".group_file").val(0)
+            else{
+                $(".filter_video").prop("checked", false);
+                $(".filter_image").prop("checked", false);
+                $(".filter_album").prop("checked", false);
+                $(".filter_rest").prop("checked", false);
+                $(".filter_norest").prop("checked", false);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
             }
-        });
-
-        $(document).on("click", ".filter_image", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
-            }
-            else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("image")
-                $(".group_file").val(0)
-            }
-        });
-
-        $(document).on("click", ".filter_album", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
-            }
-            else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("album")
-                $(".group_file").val(1)
-            }
-        });
-
-        $(document).on("click", ".filter_rest", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_rest").val("")
-            }
-            else {
-                $(".rest_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_rest").val(1)
-            }
-        });
-
-        $(document).on("click", ".filter_norest", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_rest").val("")
-            }
-            else {
-                $(".rest_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_rest").val(0)
-            }
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            start.disabled = true;
+            end.disabled = true;
         });
 
         $(document).on("click", ".date_filter", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
+            var date = $(this).val()
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            if(date == "select"){
+                start.disabled = false;
+                end.disabled = false;
             }
-            else {
-                $(".date_filter").removeClass('active')
-                $(this).addClass('active')
-                if ($(this).children().text() == "오늘") {
-                    $(".startVal").val(today());
-                    $(".endVal").val(today());
-                }
-                else if ($(this).children().text() == "어제") {
-                    $(".startVal").val(yesterday());
-                    $(".endVal").val(yesterday());
-                }
-                else if ($(this).children().text() == "일주일") {
-                    $(".startVal").val(week());
-                    $(".endVal").val(today());
-                }
-                else if ($(this).children().text() == "한달") {
-                    $(".startVal").val(month());
-                    $(".endVal").val(today());
-                }
+            else if(date == "yesterday"){
+                $("#startVal").val(yesterday())
+                $("#endVal").val(yesterday())
+                start.disabled = true;
+                end.disabled = true;
             }
-        });
-
-        $(document).on("click", ".clear", function () {
-            $(".file_filter").removeClass('active')
-            $(".rest_filter").removeClass('active')
-            $(".date_filter").removeClass('active')
-            $(".filter_file").val("")
-            $(".filter_rest").val("")
-            $(".startVal").val("");
-            $(".endVal").val("");
-        });
-
-        $(document).on("click", ".allSearch", function () {
-            $(".file_filter").removeClass('active')
-            $(".rest_filter").removeClass('active')
-            $(".date_filter").removeClass('active')
-            $(".filter_file").val("")
-            $(".filter_rest").val("")
-            $(".startVal").val("");
-            $(".endVal").val("");
-            var mainLog = requestTable.getAllEncRequestList()
-            $(".mainLog").html(mainLog);
+            else if(date == "today"){
+                $("#startVal").val(today())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "week"){
+                $("#startVal").val(week())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "month"){
+                $("#startVal").val(month())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
         });
 
         $(document).on("click", ".search", function () {
-            var filter_file = $(".filter_file").val();
-            var filter_rest = $(".filter_rest").val();
-            var startDate = $(".startVal").val();
-            var endDate = $(".endVal").val();
-            if (filter_file == "" && filter_rest == "" && startDate == "" && endDate == "") {
+            var filter_video = $('.filter_video').is(':checked')
+            var filter_image = $('.filter_image').is(':checked')
+            var filter_album = $('.filter_album').is(':checked')
+            var filter_reco = $('.filter_rest').is(':checked')
+            var filter_norest = $('.filter_norest').is(':checked')
+            var startDate = $("#startVal").val();
+            var endDate = $("#endVal").val();
+
+            if(filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true){
+                var filter_file = ""
+            }
+            else {
+                var filter_file = "no"
+            }
+
+            if(filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true){
+                var filter_rest = ""
+            }
+            else {
+                var filter_rest = "no"
+            }
+
+            if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
                 Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
             }
             else {
-                var mainLog = requestTable.postDataSearch(filter_file, filter_rest, startDate, endDate)
+                console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
+                var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 $(".mainLog").html(mainLog);
             }
         });

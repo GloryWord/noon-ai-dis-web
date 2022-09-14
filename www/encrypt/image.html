@@ -74,8 +74,8 @@
             <div class="uploadBtnArea">
                 <label class="fileUpload uploadBtn active" for="file"><p>파일 선택</p></label> 
                 <input type="file" id="file" accept="image/*" multiple>
-                <label class="folderUpload uploadBtn active" for="folder"><p>폴더 선택</p></label> 
-                <input type="file" id="folder" webkitdirectory>
+                <!-- <label class="folderUpload uploadBtn active" for="folder"><p>폴더 선택</p></label> 
+                <input type="file" id="folder" webkitdirectory> -->
             </div>
         </div>
 
@@ -84,8 +84,19 @@
                 <div class="file_header">
                     <div class="name_header"><p>파일명</p></div>
                     <div class="size_header"><p>용량</p></div>
-                    <div class="object_header"><p>객체 선택</p></div>
-                    <div class="delete_header"></div>
+                    <div class="object_header">
+                        <p>비식별 처리할 객체 선택</p>
+                        <div class="allObject">
+                            <input class="allbody" type="checkbox"><label class="bodylabel">사람 - 얼굴</label>
+                            <input class="allface" type="checkbox"><label class="facelabel">사람 - 전신</label>
+                            <input class="allcar" type="checkbox"><label class="carlabel">차량 번호판</label>
+                        </div>
+                    </div>
+                    <div class="delete_header">
+                        <div class="allDelete">
+                            <p>전체삭제</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="imgContent">
                     <div class="file_content"></div>

@@ -47,233 +47,444 @@
 
 .log_content .search_area {
     display: flex;
-    margin: 60px auto 40px;
-}
-
-.log_content .search_area .searchFile {
-    display: flex;
     flex-direction: column;
-    background-color: #909090;
-    border-radius: 5px;
-    margin: 0 12px 0 0;
-}
-
-.log_content .search_area .searchFile h1 {
-    margin: 12px auto 0;
-    font-family: S-CoreDream-6Bold;
-    font-size: 24px;
-    color: white;
-}
-
-.log_content .search_area .searchFile div {
-    display: flex;
-    border-radius: 5px;
-    background-color: deepskyblue;
-    margin: auto;
-    width: 120px;
-    height: 60px;
-    margin: auto 24px;
-    cursor: pointer;
-}
-
-.log_content .search_area .file_filter.active {
-    background-color: darkblue;
-}
-
-.log_content .search_area .rest_filter.active {
-    background-color: darkblue;
-}
-
-.log_content .search_area .searchFile div p {
-    font-family: S-CoreDream-6Bold;
-    color: white;
-    margin: auto;
-    font-size: 18px;
-}
-
-.log_content .search_area .searchRestore {
-    display: flex;
-    flex-direction: column;
-    background-color: #909090;
-    border-radius: 5px;
-    margin: 0 12px 0 0;
-    height: 300px;
-}
-
-.log_content .search_area .searchRestore h1 {
-    margin: 12px auto 0;
-    font-family: S-CoreDream-6Bold;
-    font-size: 24px;
-    color: white;
-}
-
-.log_content .search_area .searchRestore div {
-    display: flex;
-    border-radius: 5px;
-    background-color: deepskyblue;
-    margin: auto 24px;
-    width: 120px;
-    height: 60px;
-    cursor: pointer;
-}
-
-.log_content .search_area .searchRestore div p {
-    font-family: S-CoreDream-6Bold;
-    color: white;
-    margin: auto;
-    font-size: 18px;
-}
-
-.log_content .search_area .searchDate {
-    display: flex;
-    flex-direction: column;
-    background-color: #909090;
-    border-radius: 5px;
-    margin: 0 12px 0 0;
-    height: 300px;
-}
-
-.log_content .search_area .searchDate h1 {
-    margin: 12px auto 0;
-    font-family: S-CoreDream-6Bold;
-    font-size: 24px;
-    color: white;
-}
-
-.log_content .search_area .searchDate .dateTop {
-    display: flex;
-    margin: auto 24px;
-}
-
-.log_content .search_area .searchDate .dateTop .today {
-    margin: auto 12px auto 0;
-}
-
-.log_content .search_area .searchDate .dateTop .date_filter.active {
-    background-color: darkblue;
-}
-
-.log_content .search_area .searchDate .dateTop div {
-    display: flex;
-    border-radius: 5px;
-    background-color: deepskyblue;
-    margin: auto;
-    width: 120px;
-    height: 60px;
-    cursor: pointer;
-}
-
-.log_content .search_area .searchDate .dateTop div p {
-    font-family: S-CoreDream-6Bold;
-    color: white;
-    margin: auto;
-    font-size: 18px;
-}
-
-.log_content .search_area .searchDate .dateMiddle {
-    display: flex;
-    margin: auto 24px;
-}
-
-.log_content .search_area .searchDate .dateMiddle .week {
-    margin: auto 12px auto 0;
-}
-
-.log_content .search_area .searchDate .dateMiddle div {
-    display: flex;
-    border-radius: 5px;
-    background-color: deepskyblue;
-    margin: auto;
-    width: 120px;
-    height: 60px;
-    cursor: pointer;
-}
-
-.log_content .search_area .searchDate .dateMiddle .date_filter.active {
-    background-color: darkblue;
-}
-
-.log_content .search_area .searchDate .dateMiddle div p {
-    font-family: S-CoreDream-6Bold;
-    color: white;
-    margin: auto;
-    font-size: 18px;
-}
-
-.log_content .search_area .searchDate .dateBottom {
-    display: flex;
-    margin: auto;
-}
-
-.log_content .search_area .searchDate .dateBottom .startDate,
-.log_content .search_area .searchDate .dateBottom .endDate {
-    display: flex;
-    margin: auto;
-    width: 120px;
-}
-
-.log_content .search_area .searchDate .dateBottom .startDate {
-    margin: auto 12px auto 0;
-}
-
-.log_content .search_area .searchDate .dateBottom .startDate input,
-.log_content .search_area .searchDate .dateBottom .endDate input {
-    display: flex;
-    margin: auto;
     width: 100%;
+    height: 388px;
 }
 
-.log_content .search_area .searchBtn {
+.log_content .search_area .searchHeader {
+    width: 988px;
+    display: flex;
+    margin: 100px auto 20px;
+}
+
+.log_content .search_area .searchHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+}
+
+.log_content .search_area .searchHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader .login_user {
+    width: auto;
+    height: auto;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader label {
+    font-family: SpoqaHanSansNeo-Regular;
+    height: 15px;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0 8px 8px;
+}
+
+.log_content .search_area .searchContent {
+    width: 988px;
+    margin: 0 auto 38px;
     display: flex;
     flex-direction: column;
-    width: 120px;
-    height: 300px;
 }
 
-.log_content .search_area .searchBtn .clear,
-.log_content .search_area .searchBtn .allSearch,
-.log_content .search_area .searchBtn .search {
+.log_content .search_area .searchContent .searchFirst {
+    width: 100%;
     display: flex;
+    margin: 0 auto 4px;
+}
+
+.log_content .search_area .searchContent .searchFirst h1 {
+    margin: auto auto auto 20px;
+    height: 22px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea {
+    display: flex;
+    margin: 0 20px 0 auto;
+    height: 26px;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea a {
+    width: 26px;
+    height: 26px;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea a img {
+    width: 100%;
+    height: 100%;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond {
+    width: 100%;
+    height: 104px;
+    margin: auto 0;
+    border-top: solid 1px #707070;
+    border-bottom: solid 1px #707070;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .searchContent input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    border-radius: 2px;  
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    margin: auto 8px auto 0;
+    transition: 0.2s;
+}
+
+.log_content .search_area .searchContent input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.log_content .search_area .searchContent input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.log_content .search_area .searchContent input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    border: none;
+    content: "\2713";
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop {
+    display: flex;
+    margin: 24px auto 16px 24px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile {
+    display: flex;
+    height: 18px;
+    margin: 0 146px 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile h1 {
+    width: 72px;
+    height: 18px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 20px 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile label {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 28px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile .albumlabel {
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchRestore {
+    display: flex;
+    height: 18px;
+    margin: 0 auto 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchRestore h1 {
+    width: 72px;
+    height: 18px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 34px 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchRestore label {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 28px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchRestore .norestlabel {
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom {
+    display: flex;
+    margin: 0 auto 16px 24px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate {
+    display: flex;
+    height: 30px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate h1 {
+    width: 72px;
+    height: 18px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 20px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst {
+    display: flex;
+    margin: auto auto auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 8px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    top: 45%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type="radio"]:checked {
+    background: none;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst label {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 28px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst .selectlabel {
+    margin: auto 10px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst #startVal,
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst #endVal {
+    width: 164px;
+    height: 30px;
+    margin: 0;
     border-radius: 5px;
-    background-color: deepskyblue;
-    width: 120px;
-    height: 60px;
+    border: solid 1px #bcc5cb;
+    background-color: #fff;
+    padding: 0 8px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-text { 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-month-field{ 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-day-field {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-year-field { 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #bcc5cb;
+    margin: auto 4px;
+}
+
+.log_content .search_area .searchContent .searchThird {
+    display: flex;
+    height: 30px;
+    margin: 14px 20px 40px auto;
+}
+
+.log_content .search_area .searchContent .searchThird label {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 24px auto 0;
+}
+
+.log_content .search_area .searchContent .searchThird .search {
+    width: 90px;
+    height: 30px;
+    margin: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
     cursor: pointer;
 }
 
-.log_content .search_area .searchBtn .clear {
-    margin: auto auto 12px auto;
-}
-
-.log_content .search_area .searchBtn .allSearch{
-    margin: 0 auto 12px auto;
-}
-
-.log_content .search_area .searchBtn .search {
-    margin: 0 auto;
-}
-
-.log_content .search_area .searchBtn .clear p,
-.log_content .search_area .searchBtn .allSearch p,
-.log_content .search_area .searchBtn .search p {
-    font-family: S-CoreDream-6Bold;
-    color: white;
+.log_content .search_area .searchContent .searchThird .search p  {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-size: 18px;
 }
 
 .logArea {
     width: 100%;
-    height: 616px;
+    height: 624px;
     display: flex;
     flex-direction: column;  
     background-color: #e9f6ff;
 }
 
 .logTable {
-    width: 994px;
+    width: 988px;
     height: 376px;
-    margin: 150px auto 0;
+    margin: 60px auto 188px;
     border-radius: 24px;
     box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;

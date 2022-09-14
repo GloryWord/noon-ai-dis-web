@@ -96,7 +96,7 @@
 }
 
 .uploadArea .uploadSelect .textArea {
-    margin: auto auto auto 0;
+    margin: 0 auto 0 0;
     display: flex;
 }
 
@@ -136,7 +136,7 @@
 .uploadArea .uploadSelect .uploadBtnArea {
     display: flex;
     flex-direction: column;
-    margin: 12px 12px 12px 120px;
+    margin: 0;
 }
 
 /* .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
@@ -246,19 +246,19 @@
     display: flex;
     width: 360px;
     height: 18px;
-    margin: 24px 12px auto 0;
+    margin: 24px 10px auto 20px;
 }
 
 .uploadArea .videoUpload .file_header .size_header {
     display: flex;
     width: 68px;
     height: 18px;
-    margin: 24px 12px auto 0;
+    margin: 24px 50px auto 0;
 }
 
 .uploadArea .videoUpload .file_header .object_header {
     display: flex;
-    width: 400px;
+    width: 308px;
     height: 18px;
     margin: 24px 0 auto;
 }
@@ -280,18 +280,18 @@
 .uploadArea .videoUpload .file_content .name_content {
     display: flex;
     width: 360px;
-    margin: auto 12px auto 0;
+    margin: auto 10px auto 20px;
 }
 
 .uploadArea .videoUpload .file_content .size_content {
     display: flex;
     width: 68px;
-    margin: auto 12px auto 0;
+    margin: auto 50px auto 0;
 }
 
 .uploadArea .videoUpload .file_content .selectObject {
     display: flex;
-    width: 400px;
+    width: 308px;
     margin: auto 0 auto;
 }
 
@@ -300,10 +300,35 @@
     margin: auto;
 }
 
-.uploadArea .videoUpload .file_content .selectObject .checkList input[type="radio"] {
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"] {
     width: 14px;
     height: 14px;
     margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]:checked {
+    background: #3fa9f5;
 }
 
 .uploadArea .videoUpload .file_content .selectObject .checkList label {
@@ -321,11 +346,25 @@
 
 .uploadArea .videoUpload .file_content .delete_content {
     display: flex;
-    width: 88px;
-    margin: auto 0;
+    width: 64px;
+    margin: auto 20px auto auto;
 }
 
-.uploadArea .videoUpload .file_content .name_content p,
+.uploadArea .videoUpload .file_content .name_content p {
+    width: 100%;
+    display: flex;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto;
+}
+
 .uploadArea .videoUpload .file_content .size_content p {
     display: flex;
     font-family: SpoqaHanSansNeo-Medium;
@@ -349,7 +388,7 @@
 .uploadArea .videoUpload .file_content .delete_content .uploadDelete {
     width: 64px;
     height: 24px;
-    margin: auto 0 auto auto;
+    margin: auto auto auto auto;
     border-radius: 13px;
     background-color: #595959;
     cursor: pointer;
@@ -406,10 +445,42 @@
     margin: auto 26px auto 0;
 }
 
-.uploadFooter .restBtnArea .checkArea .restore {
+/* .uploadFooter .restBtnArea .checkArea .restore {
     width: 14px;
     height: 14px;
     margin: auto 6px auto 0;
+} */
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    overflow: hidden;
+    top: 40%;
+    left: 50%;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked {
+    background: none;
 }
 
 .uploadFooter .restBtnArea .checkArea label {
@@ -463,11 +534,42 @@
     height: 30px;
 }
 
-.uploadFooter .restoreKey .sKeyArea .keySelect {
+.uploadFooter .restoreKey .sKeyArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    align-content: center;
+    top: 40%;
+    left: 52%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked {
+    background: none;
+}
+
+/* .uploadFooter .restoreKey .sKeyArea .keySelect {
     margin: 8px 6px auto 0;
     width: 14px;
     height: 14px;
-}
+} */
 
 .uploadFooter .restoreKey .sKeyArea label {  
     width: 230px;
@@ -575,11 +677,43 @@
     height: 56px;
 }
 
-.uploadFooter .restoreKey .cKeyArea .keySelect {
+.uploadFooter .restoreKey .cKeyArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: 8px 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    overflow: hidden;
+    top: 40%;
+    left: 52%;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked {
+    background: none;
+}
+
+/* .uploadFooter .restoreKey .cKeyArea .keySelect {
     margin: 8px 6px auto 0;
     width: 14px;
     height: 14px;
-}
+} */
 
 .uploadFooter .restoreKey .cKeyArea label {  
     width: 230px;

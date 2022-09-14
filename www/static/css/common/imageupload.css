@@ -97,7 +97,7 @@
 }
 
 .uploadArea .uploadSelect .textArea {
-    margin: auto auto auto 0;
+    margin: 0 auto 0 0;
     display: flex;
 }
 
@@ -136,9 +136,9 @@
 
 .uploadArea .uploadSelect .uploadBtnArea {
     display: flex;
-    margin: 12px 12px 12px 120px;
-    background-color: #595959;
-    border-radius: 15px;
+    margin: 0 0 0 120px;
+    /* background-color: #595959;
+    border-radius: 15px; */
 }
 
 /* .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
@@ -147,8 +147,8 @@
 
 .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
     display: flex;
-    background-color: #595959;
-    /* background-color: #3fa9f5; */
+    /* background-color: #595959; */
+    background-color: #3fa9f5;
     margin: auto 0 auto auto;
     width: 88px;
     height: 30px;
@@ -156,9 +156,9 @@
     cursor: pointer;
 }
 
-.uploadArea .uploadSelect .uploadBtnArea .uploadBtn:hover {
+/* .uploadArea .uploadSelect .uploadBtnArea .uploadBtn:hover {
     background-color: #3fa9f5;
-}
+} */
 
 .uploadArea .uploadSelect .uploadBtnArea .uploadBtn p {
     font-family: SpoqaHanSansNeo-Bold;
@@ -217,28 +217,110 @@
     display: flex;
     width: 360px;
     height: 18px;
-    margin: 24px 12px auto 0;
+    margin: 24px 10px auto 20px;
 }
 
 .uploadArea .imgUpload .file_header .size_header {
     display: flex;
     width: 68px;
     height: 18px;
-    margin: 24px 12px auto 0;
+    margin: 24px 34px auto 0;
 }
 
 .uploadArea .imgUpload .file_header .object_header {
     display: flex;
-    width: 400px;
+    width: 314px;
     height: 18px;
-    margin: 24px 0 auto;
+    margin: 14px 0 auto;
+    flex-direction: column;
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject {
+    display: flex;
+    width: 314px;
+    height: 18px;
+    margin: 6px 0 0;
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    position: relative;
+    border: solid 1px #595959;
+    border-radius: 2px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    content: "\2713";
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject label {
+    width: 72px;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+    margin: 0 22px 0 0;
+}
+
+.uploadArea .imgUpload .file_header .object_header .allObject .carlabel {
+    margin: 0;
 }
 
 .uploadArea .imgUpload .file_header .delete_header {
     display: flex;
-    width: 84px;
-    height: 18px;
-    margin: 24px 0 auto;
+    width: 64px;
+    height: 24px;
+    margin: 22px 20px auto 50px;
+}
+
+.uploadArea .imgUpload .file_header .delete_header .allDelete {
+    width: 64px;
+    height: 24px;
+    margin: auto 0;
+    border-radius: 13px;
+    background-color: #16284d;
+    display: flex;
+    cursor: pointer;
+}
+
+.uploadArea .imgUpload .file_header .delete_header .allDelete p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
 }
 
 .uploadArea .imgUpload .imgContent {
@@ -260,18 +342,19 @@
 .uploadArea .imgUpload .imgContent .file_content .name_content {
     display: flex;
     width: 360px;
-    margin: auto 12px auto 0;
+    margin: auto 10px auto 20px;
 }
 
 .uploadArea .imgUpload .imgContent .file_content .size_content {
     display: flex;
-    width: 68px;
-    margin: auto 12px auto 0;
+    width: auto;
+    min-width: 68px;
+    margin: auto 34px auto 0;
 }
 
 .uploadArea .imgUpload .imgContent .file_content .selectObject {
     display: flex;
-    width: 400px;
+    width: 314px;
     margin: auto 0 auto;
 }
 
@@ -280,10 +363,46 @@
     margin: auto;
 }
 
-.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="radio"] {
-    width: 14px;
-    height: 14px;
-    margin: auto 6px auto 0;
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    border-radius: 50%;  
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+}
+
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    content: "\2713";
+}
+
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList .body,
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList .face {
+    margin: auto 90px auto 0;
+}
+
+.uploadArea .imgUpload .imgContent .file_content .selectObject .checkList .car {
+    margin: auto 0;
 }
 
 .uploadArea .imgUpload .imgContent .file_content .selectObject .checkList label {
@@ -301,11 +420,25 @@
 
 .uploadArea .imgUpload .imgContent .file_content .delete_content {
     display: flex;
-    width: 88px;
-    margin: auto 0;
+    width: 64px;
+    margin: auto 20px auto 50px;
 }
 
-.uploadArea .imgUpload .imgContent .file_content .name_content p,
+.uploadArea .imgUpload .imgContent .file_content .name_content p {
+    width: 100%;
+    display: flex;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto;
+}
+
 .uploadArea .imgUpload .imgContent .file_content .size_content p {
     display: flex;
     font-family: SpoqaHanSansNeo-Medium;
@@ -329,7 +462,7 @@
 .uploadArea .imgUpload .imgContent .file_content .delete_content .uploadDelete {
     width: 64px;
     height: 24px;
-    margin: auto 0 auto auto;
+    margin: auto 0;
     border-radius: 13px;
     background-color: #595959;
     cursor: pointer;
@@ -392,6 +525,37 @@
     margin: auto 6px auto 0;
 }
 
+.uploadFooter .restBtnArea .checkArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    align-content: center;
+    top: 40%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked {
+    background: none;
+}
+
 .uploadFooter .restBtnArea .checkArea label {
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
@@ -443,10 +607,35 @@
     height: 30px;
 }
 
-.uploadFooter .restoreKey .sKeyArea .keySelect {
-    margin: 8px 6px auto 0;
+.uploadFooter .restoreKey .sKeyArea input[type="radio"] {
     width: 14px;
     height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    align-content: center;
+    top: 40%;
+    left: 52%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked {
+    background: none;
 }
 
 .uploadFooter .restoreKey .sKeyArea label {  
@@ -555,10 +744,36 @@
     height: 56px;
 }
 
-.uploadFooter .restoreKey .cKeyArea .keySelect {
-    margin: 8px 6px auto 0;
+.uploadFooter .restoreKey .cKeyArea input[type="radio"] {
     width: 14px;
     height: 14px;
+    margin: 8px 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    overflow: hidden;
+    top: 40%;
+    left: 52%;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked {
+    background: none;
 }
 
 .uploadFooter .restoreKey .cKeyArea label {  

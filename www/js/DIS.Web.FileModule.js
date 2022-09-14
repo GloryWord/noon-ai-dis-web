@@ -70,41 +70,74 @@ fileModule = {
         var html = '<div class="file_header">\
                         <div class="name_header"><p>파일명</p></div>\
                         <div class="size_header"><p>용량</p></div>\
-                        <div class="object_header"><p>객체 선택</p></div>\
+                        <div class="object_header"><p>비식별 처리할 객체 선택</p></div>\
                         <div class="delete_header"></div>\
                     </div>';
         if (type == 'image') html = '<div class="file_header">\
                                         <div class="name_header"><p>파일명</p></div>\
                                         <div class="size_header"><p>용량</p></div>\
-                                        <div class="object_header"><p>객체 선택</p><br>\
-                                            <input class="allbody" type="checkbox"><label>사람 전신 영역</label>\
-                                            <input class="allface" type="checkbox"><label>사람 얼굴 영역</label>\
-                                            <input class="allcar" type="checkbox"><label>차량 번호판 영역</label>\
+                                        <div class="object_header">\
+                                            <p>비식별 처리할 객체 선택</p>\
+                                            <div class="allObject">\
+                                                <input class="allbody" type="checkbox"><label class="bodylabel">사람 - 얼굴</label>\
+                                                <input class="allface" type="checkbox"><label class="facelabel">사람 - 전신</label>\
+                                                <input class="allcar" type="checkbox"><label class="carlabel">차량 번호판</label>\
+                                            </div>\
                                         </div>\
-                                        <div class="delete_header"></div>\
+                                        <div class="delete_header">\
+                                            <div class="allDelete">\
+                                                <p>전체삭제</p>\
+                                            </div>\
+                                        </div>\
                                     </div>\
                                     <div class="imgContent">';
-        for (var i = 0; i < files.length; i++) {
-            html += '<div class="file_content" id=file-' + [i] + '>\
-                        <div class="name_content"><p>'+ files[i].name + '</p></div>\
-                        <div class="size_content"><p>'+ formatBytes(files[i].size) + '</p></div>\
-                        <div class="selectObject">\
-                            <div class="checkList">\
-                                <input class="body" type="checkbox" name="body"><label>사람 전신 영역</label>\
-                                <input class="face" type="checkbox" name="head"><label>사람 얼굴 영역</label>\
-                                <input class="car" type="checkbox" name="lp"><label>차량 번호판 영역</label>\
+        if (type == 'image'){
+            for (var i = 0; i < files.length; i++) {
+                html += '<div class="file_content" id=file-' + [i] + '>\
+                            <div class="name_content"><p>'+ files[i].name + '</p></div>\
+                            <div class="size_content"><p>'+ formatBytes(files[i].size) + '</p></div>\
+                            <div class="selectObject">\
+                                <div class="checkList">\
+                                    <input class="body" type="checkbox" name="body">\
+                                    <input class="face" type="checkbox" name="head">\
+                                    <input class="car" type="checkbox" name="lp">\
+                                </div>\
                             </div>\
-                        </div>\
-                        <div class="delete_content">\
-                            <div class="uploadDelete" value='+ i + '>\
-                                <p>삭제하기</p>\
+                            <div class="delete_content">\
+                                <div class="uploadDelete" value='+ i + '>\
+                                    <p>삭제하기</p>\
+                                </div>\
                             </div>\
-                        </div>\
-                    </div>'
+                        </div>'
+            }
+        }
+        else {
+            for (var i = 0; i < files.length; i++) {
+                html += '<div class="file_content" id=file-' + [i] + '>\
+                            <div class="name_content"><p>'+ files[i].name + '</p></div>\
+                            <div class="size_content"><p>'+ formatBytes(files[i].size) + '</p></div>\
+                            <div class="selectObject">\
+                                <div class="checkList">\
+                                    <input class="body" type="checkbox" name="body"><label>사람 - 얼굴</label>\
+                                    <input class="face" type="checkbox" name="head"><label>사람 - 전신</label>\
+                                    <input class="car" type="checkbox" name="lp"><label>차량 번호판</label>\
+                                </div>\
+                            </div>\
+                            <div class="delete_content">\
+                                <div class="uploadDelete" value='+ i + '>\
+                                    <p>삭제하기</p>\
+                                </div>\
+                            </div>\
+                        </div>'
+            }
         }
         if (type == 'image') html += '</div>'
 
         return [html, fileWidth, fileHeight, fileCount, videoDuration];
+    },
+
+    alldeleteFile: function () {
+        $("div").remove(".file_content");
     },
 
     deleteFile: function (index) {

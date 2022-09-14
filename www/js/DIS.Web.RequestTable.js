@@ -122,8 +122,14 @@ requestTable = {
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
                 var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
-                if(status=="<p>완료</p>") var css = ""
-                else var css = "disable"
+                if(status=="<p>완료</p>"){
+                    var css = ""; 
+                    var text = "상세보기";
+                }
+                else{
+                    var css = "disable"; 
+                    var text= "진행중";
+                }
                 htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                             <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
                             <div class="type_content"><p>'+ type + '</p></div>\
@@ -133,7 +139,7 @@ requestTable = {
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
                                 <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
-                                    <p>상세보기</p>\
+                                    <p>'+text+'</p>\
                                 </div>\
                             </div>\
                         </div>'
@@ -193,8 +199,14 @@ requestTable = {
             if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
             var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
-            if(status=="<p>완료</p>") var css = ""
-            else var css = "disable"
+            if(status=="<p>완료</p>"){
+                var css = ""; 
+                var text = "상세보기";
+            }
+            else{
+                var css = "disable"; 
+                var text= "진행중";
+            }
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
                         <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
                         <div class="type_content"><p>'+ type + '</p></div>\
@@ -204,7 +216,7 @@ requestTable = {
                         <div class="status_content">'+ status + '</div>\
                         <div class="detail_content">\
                             <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
-                                <p>상세보기</p>\
+                                <p>'+text+'</p>\
                             </div>\
                         </div>\
                     </div>'
@@ -212,8 +224,8 @@ requestTable = {
         return htmlStr;
     },
 
-    postDataSearch: function (filter_file, filter_rest, startDate, endDate) {
-        var postdata = { filter_file: filter_file, filter_rest: filter_rest, startDate: startDate, endDate: endDate }
+    postDataSearch: function (filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate) {
+        var postdata = { filter_video:filter_video, filter_image:filter_image, filter_album:filter_album, filter_reco: filter_reco, filter_norest:filter_norest, filter_file: filter_file, filter_rest:filter_rest, startDate: startDate, endDate: endDate }
         var requestList = ''
         $.ajax({
             method: "post",
@@ -232,69 +244,53 @@ requestTable = {
 
         var htmlStr = ''
 
-        var count = 0;
         for (var i = 0; i < requestList.length; i++) {
-            // if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
-            // if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
-
             var date = new Date(requestList[i]['request_date'])
+
             var namelist = requestList[i]['request_file_list'].split('\n')
             namelist = namelist.splice(0, namelist.length - 1);
-
+    
             if(namelist.length > 1){
-                var name = namelist[0] + " 외 " +(Number(namelist.length)-1)+"개"
+                var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                var css = ""
             }
             else {
-                var name = namelist[0]
+                var list = ""
+                var css = 'style="margin:auto 0 auto auto"'
             }
+            
+            if (requestList[i]['restoration'] == 1) var restoration = "복원 가능"
+            else var restoration = "복원 불가능"
 
-            if (requestList[i]['restoration'] == 1) {
-                var restoration = "O"
-            }
-            else {
-                var restoration = "X"
-            }
-
-            // if (requestList[i]['file_type'] == "video") {
-            //     var type = "영상"
-            // }
-            // else if (requestList[i]['file_type'] == "image") {
-            //     var type = "이미지"
-            // }
-
-            // if(requestList[i]['file_count']>1){
-            //     var group = " 그룹"
-            // }
-            // else{
-            //     var group = ""
-            // }
             var fileList = requestList[i]['request_file_list'].split('\n');
             fileList = fileList.splice(0, fileList.length - 1);
-
-            var status = (requestList[i]['complete'] == 1) ? '완료' : '진행중'   
 
             if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
             else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
             if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
-            if(status=="완료") var css = ""
-            else var css = "disable"
+            var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+            if(status=="<p>완료</p>"){
+                var css = ""; 
+                var text = "상세보기";
+            }
+            else{
+                var css = "disable"; 
+                var text= "진행중";
+            }
             htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                            <div class="id_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ name + '</p></div>\
-                            <div class="type_content"><p>'+ type +'</p></div>\
-                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="progress_content" id="progress"><p>-</p></div>\
-                            <div class="status_content"><p>'+ status + '</p></div>\
-                            <div class="rest_content"><p>'+ restoration + '</p></div>\
-                            <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type +'" class="detailInfo '+css+'">\
-                                    <p>상세보기</p>\
-                                </div>\
+                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                        <div class="type_content"><p>'+ type + '</p></div>\
+                        <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                        <div class="status_content">'+ status + '</div>\
+                        <div class="detail_content">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
+                                <p>'+text+'</p>\
                             </div>\
-                        </div>'
-            // count += 1;
-            // if (count == 5) break;
+                        </div>\
+                    </div>'
         }
         return htmlStr;
     },
