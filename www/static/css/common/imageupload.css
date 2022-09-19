@@ -20,6 +20,13 @@
 }
 
 @font-face {
+    font-family: 'SpoqaHanSansNeo-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'SpoqaHanSansNeo-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
     font-weight: normal;
@@ -42,14 +49,15 @@
 
 .btnArea {
     display: flex;
-    height: 246px;
+    height: 170px;
+    background-color: #f2f2f2;
 }
 
  .btnArea .prevBtn,
  .btnArea .nextBtn {  
     width: 90px;
     height: 30px;
-    margin: 100px 118px 116px auto;
+    margin: 100px 118px 40px auto;
     border-radius: 15px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
     background-color: #595959;
@@ -58,7 +66,7 @@
 }
 
  .btnArea .nextBtn {
-    margin: 100px auto 116px 118px;
+    margin: 100px auto 40px 130px;
 }
 
 .btnArea .prevBtn p,
@@ -92,7 +100,7 @@
 .uploadArea .uploadSelect {
     width: 988px;
     height: auto;
-    margin: 90px auto 20px;
+    margin: 0 auto 20px;
     display: flex;
 }
 
@@ -136,7 +144,7 @@
 
 .uploadArea .uploadSelect .uploadBtnArea {
     display: flex;
-    margin: 0 0 0 120px;
+    margin: 0 24px 0 0;
     /* background-color: #595959;
     border-radius: 15px; */
 }
@@ -273,6 +281,7 @@
 .uploadArea .imgUpload .file_header .object_header .allObject input[type="checkbox"]:checked {
     background: #3fa9f5;
     content: "\2713";
+    border: solid 1px #3fa9f5;
 }
 
 .uploadArea .imgUpload .file_header .object_header .allObject label {
@@ -297,7 +306,7 @@
     display: flex;
     width: 64px;
     height: 24px;
-    margin: 22px 20px auto 50px;
+    margin: 22px 0px auto 74px;
 }
 
 .uploadArea .imgUpload .file_header .delete_header .allDelete {
@@ -394,6 +403,7 @@
 .uploadArea .imgUpload .imgContent .file_content .selectObject .checkList input[type="checkbox"]:checked {
     background: #3fa9f5;
     content: "\2713";
+    border: solid 1px #3fa9f5;
 }
 
 .uploadArea .imgUpload .imgContent .file_content .selectObject .checkList .body,
@@ -421,7 +431,7 @@
 .uploadArea .imgUpload .imgContent .file_content .delete_content {
     display: flex;
     width: 64px;
-    margin: auto 20px auto 50px;
+    margin: auto 0px auto 74px;
 }
 
 .uploadArea .imgUpload .imgContent .file_content .name_content p {
@@ -831,7 +841,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
     text-align: center;
-    font-family: SpoqaHanSansNeo;
+    font-family: SpoqaHanSansNeo-Light;
     font-size: 14px;
     font-weight: 500;
     font-stretch: normal;
@@ -863,4 +873,33 @@
     text-align: left;
     color: #fff;
     margin: auto;
+}
+
+.uploadFooter .footerbtnArea {
+    margin: 36px auto auto;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn {  
+   width: 180px;
+   height: 60px;
+   margin: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+   background-color: #595959;
+   cursor: pointer;
+   display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn p {
+   font-family: SpoqaHanSansNeo-Bold;
+   font-size: 18px;
+   font-weight: bold;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.29;
+   letter-spacing: normal;
+   text-align: left;
+   color: #fff;
+   margin: auto;
 }

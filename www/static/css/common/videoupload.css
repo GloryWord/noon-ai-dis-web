@@ -42,14 +42,15 @@
 
 .btnArea {
     display: flex;
-    height: 246px;
+    height: 170px;
+    background-color: #f2f2f2;
 }
 
  .btnArea .prevBtn,
  .btnArea .nextBtn {  
     width: 90px;
     height: 30px;
-    margin: 100px 118px 116px auto;
+    margin: 100px 118px 40px auto;
     border-radius: 15px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
     background-color: #595959;
@@ -58,7 +59,7 @@
 }
 
  .btnArea .nextBtn {
-    margin: 100px auto 116px 118px;
+    margin: 100px auto 40px 130px;
 }
 
 .btnArea .prevBtn p,
@@ -91,7 +92,7 @@
 .uploadArea .uploadSelect {
     width: 988px;
     height: auto;
-    margin: 90px auto 20px;
+    margin: 0 auto 20px;
     display: flex;
 }
 
@@ -136,7 +137,7 @@
 .uploadArea .uploadSelect .uploadBtnArea {
     display: flex;
     flex-direction: column;
-    margin: 0;
+    margin: 0 24px 0 0;
 }
 
 /* .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
@@ -307,6 +308,7 @@
     border: solid 1px #595959;
     appearance: none;
     cursor: pointer;
+    border-radius: 2px;
     position: relative;
 }
 
@@ -329,6 +331,7 @@
 
 .uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]:checked {
     background: #3fa9f5;
+    border: solid 1px #3fa9f5;
 }
 
 .uploadArea .videoUpload .file_content .selectObject .checkList label {
@@ -347,7 +350,7 @@
 .uploadArea .videoUpload .file_content .delete_content {
     display: flex;
     width: 64px;
-    margin: auto 20px auto auto;
+    margin: auto 0px auto auto;
 }
 
 .uploadArea .videoUpload .file_content .name_content p {
@@ -802,4 +805,33 @@
     text-align: left;
     color: #fff;
     margin: auto;
+}
+
+.uploadFooter .footerbtnArea {
+    margin: 36px auto auto;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn {  
+   width: 180px;
+   height: 60px;
+   margin: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+   background-color: #595959;
+   cursor: pointer;
+   display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn p {
+   font-family: SpoqaHanSansNeo-Bold;
+   font-size: 18px;
+   font-weight: bold;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.29;
+   letter-spacing: normal;
+   text-align: left;
+   color: #fff;
+   margin: auto;
 }

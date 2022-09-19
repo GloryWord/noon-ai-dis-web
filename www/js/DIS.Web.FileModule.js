@@ -79,8 +79,8 @@ fileModule = {
                                         <div class="object_header">\
                                             <p>비식별 처리할 객체 선택</p>\
                                             <div class="allObject">\
-                                                <input class="allbody" type="checkbox"><label class="bodylabel">사람 - 얼굴</label>\
-                                                <input class="allface" type="checkbox"><label class="facelabel">사람 - 전신</label>\
+                                                <input class="allbody" type="checkbox"><label class="bodylabel">사람 - 전신</label>\
+                                                <input class="allface" type="checkbox"><label class="facelabel">사람 - 얼굴</label>\
                                                 <input class="allcar" type="checkbox"><label class="carlabel">차량 번호판</label>\
                                             </div>\
                                         </div>\
@@ -118,8 +118,8 @@ fileModule = {
                             <div class="size_content"><p>'+ formatBytes(files[i].size) + '</p></div>\
                             <div class="selectObject">\
                                 <div class="checkList">\
-                                    <input class="body" type="checkbox" name="body"><label>사람 - 얼굴</label>\
-                                    <input class="face" type="checkbox" name="head"><label>사람 - 전신</label>\
+                                    <input class="body" type="checkbox" name="body"><label>사람 - 전신</label>\
+                                    <input class="face" type="checkbox" name="head"><label>사람 - 얼굴</label>\
                                     <input class="car" type="checkbox" name="lp"><label>차량 번호판</label>\
                                 </div>\
                             </div>\

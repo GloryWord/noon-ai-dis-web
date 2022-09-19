@@ -173,7 +173,7 @@
 }
 
 .logTable .titleArea .plusArea {
-    margin: 0 8px 0 auto;
+    margin: 0 24px 0 auto;
     display: flex;
 }
 
@@ -240,7 +240,7 @@
 
 .logTable .logArea .mainLog .logContent {
     display: flex;
-    height: 58px;  
+    height: 57px;  
     border-bottom: solid 1px #bcc5cb;
 }
 
@@ -309,7 +309,6 @@
     margin: auto;
     text-align: center;
 }
-
 .logTable .logArea .logHeader .rest_content,
 .logTable .logArea .mainLog .logContent .rest_content {
     width: 96px;
@@ -330,6 +329,19 @@
     margin: auto;
     text-align: center;
 }
+
+
+
+.logTable .logArea .logHeader .id_content,
+.logTable .logArea .logHeader .type_content,
+.logTable .logArea .logHeader .name_content,
+.logTable .logArea .logHeader .date_content,
+.logTable .logArea .logHeader .rest_content,
+.logTable .logArea .logHeader .status_content,
+.logTable .logArea .logHeader .detail_content {
+    margin: 24px auto 20px;
+}
+
 
 .logTable .logArea .mainLog .logContent .detail_content .detailInfo {
     width: 64px;

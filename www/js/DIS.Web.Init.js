@@ -26,7 +26,7 @@ function getTime() {
 }
 
 function dateFormat(date) {
-    let dateFormat2 = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+    let dateFormat2 = date.getFullYear() + '.' + ("0" + (date.getMonth() + 1)).slice(-2) + '.' + ("0" + date.getDate()).slice(-2);
     return dateFormat2;
 }
 
@@ -307,8 +307,8 @@ init = {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
                     var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
-                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
-                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[4].checked
+                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
+                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
                     // var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
                     // var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
                     // var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
@@ -571,9 +571,11 @@ init = {
 
         $(document).ready(function () {
             var rest = $(".rest_info").text()
-            if (rest == "O") {
+            if (rest == "복원 가능") {
                 $(".file_recoConfirm").removeClass("hide")
                 $(".select_recoConfirm").removeClass("hide")
+                $(".check_reco").removeClass("hide")
+                $(".allselect").removeClass("hide")
             }
         });
 
@@ -632,24 +634,21 @@ init = {
                 $(document).on("click", ".select_recoConfirm", function () {
                     $('.recoConfirm').attr('data-value', $(this).data('value'));
                     selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('albumImg');
+                    var imgDivList = document.getElementsByClassName('check_reco');
                     var len = imgDivList.length;
                     for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].className == 'albumImg active') selectedFile.push(fileList[i])
+                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
                     }
                     $("#select_recoData").addClass('active')
                 });
 
                 $(document).on("click", ".albumImg", function () {
-                    if ($(this).hasClass("active")) {
-                        $(this).removeClass('active')
-                    }
-                    else {
-                        $(this).addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".plusBtn", function () {
+                    // if ($(this).hasClass("active")) {
+                    //     $(this).removeClass('active')
+                    // }
+                    // else {
+                    //     $(this).addClass('active')
+                    // }
                     var imgnum = $(this).data("num")
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
@@ -661,6 +660,45 @@ init = {
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
+                });
+
+                // $(document).on("click", ".plusBtn", function () {
+                //     var imgnum = $(this).data("num")
+                //     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                //     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
+                //         <p>이미지 다운로드</p>\
+                //     </a>\
+                //     <div class="cancel">\
+                //         <p>취소</p>\
+                //     </div>'
+                //     document.getElementById('selectImgArea').innerHTML = imgtag
+                //     document.getElementById('selectBtnArea').innerHTML = downloadArea
+                //     $("#imgView").addClass('active')
+                // });
+
+                $(document).on("click", ".allselect", function () {
+                    if($('.allselect').is(":checked")){
+                        $("input:checkbox[class=check_reco]").prop("checked", true);
+                    }
+                    else{
+                        $('input[class=check_reco]:checked').prop('checked', false)
+                    }
+                });
+
+                $(document).on("click", ".check_reco", function () {
+                    if(!$(this).is(":checked")){
+                        $("input:checkbox[class=allselect]").prop("checked",false);
+                    }
+                });
+
+                $(document).on("mouseover", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("."+num+"").removeClass("hide")
+                });
+
+                $(document).on("mouseleave", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("."+num+"").addClass("hide")
                 });
 
                 $(document).on("click", ".recoConfirm", function () {
@@ -704,6 +742,7 @@ init = {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
             $('#signedUrl').attr('href', signedUrl[0]);
+            $('.fullname').text($('.file_fullname').text())
         }
     },
 
@@ -813,6 +852,7 @@ init = {
                 console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 $(".mainLog").html(mainLog);
+                load('.mainLog', '5');
             }
         });
 
@@ -829,8 +869,26 @@ init = {
             }
         });
 
-        var mainLog = requestTable.getAllEncRequestList()
-        $(".mainLog").html(mainLog);
+        var requestList = requestTable.getAllEncRequestList()
+        $(".mainLog").html(requestList);
+
+        load('.mainLog', '5');
+        $(document).on("click", "#enc_more .morebutton", function () {
+            load('.mainLog', '5', '#enc_more');
+        })
+
+        function load(id, cnt, btn) {
+            var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
     },
 
     myinfo: function () {

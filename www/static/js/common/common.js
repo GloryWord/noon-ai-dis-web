@@ -91,4 +91,18 @@ $(document).ready(function () {
         $('.selectKey').data("idx", keyIndex)
         console.log($('.selectKey').data("idx"))
     });
+
+    $(document).on("click", ".logo", function () {
+        location.href = "/main"
+    });
+
+    $(document).ready(function() {
+        var auth = comm.adminonly();
+        if(auth == "master"){
+            $(".admin_only").removeClass('hide')
+        }
+        else if(auth == "sub"){
+            $(".admin_only").addClass('hide')
+        }
+    });
 });
