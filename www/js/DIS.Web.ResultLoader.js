@@ -38,12 +38,14 @@ resultLoader = {
         }
 
         var fileList = result.fileList.split('\n');
-        fileList = fileList.splice(0, fileList.length-1);
+        
+        if(fileList[fileList.length-1] == '') fileList = fileList.splice(0, fileList.length-1);
         
         result = {
             encDirectory: encDirectory,
             fileList: fileList
         }
+  
         // return [encDirectory, fileList];
         return result
     },
