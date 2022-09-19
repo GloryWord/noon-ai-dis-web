@@ -916,11 +916,12 @@ init = {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
             var phone = $(".view_phone").val()
+            var login_alias = $(".view_subaccess").val()
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
             // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
-            userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
+            userinfo.infoModi(name, email, phone, login_alias, now_pass, new_pass, new_passConfig)
         });
 
         var infoArea = userinfo.getUserInfo()

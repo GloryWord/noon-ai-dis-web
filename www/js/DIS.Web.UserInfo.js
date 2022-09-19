@@ -42,6 +42,13 @@ userinfo = {
             var telephone = requestList[0]['telephone']
         }
 
+        if(requestList[0]['login_alias']==null || requestList[0]['login_alias']==""){
+            var login_alias = ""
+        }
+        else{
+            var login_alias = requestList[0]['login_alias']
+        }
+
         htmlStr += '<h1>내 정보</h1>\
                     <div class="infoBody">\
                         <p>아이디 : </p>\
@@ -58,6 +65,10 @@ userinfo = {
                     <div class="infoBody">\
                         <p>전화번호 : </p>\
                         <input class="view_phone" value="'+telephone+'" placeholder="- 를 제외하고 입력해주세요.">\
+                    </div>\
+                    <div class="infoBody admin_only">\
+                        <p>접속 키 : </p>\
+                        <input class="view_subaccess" value="'+login_alias+'">\
                     </div>\
                     <div class="infoBody">\
                         <p>현재 비밀번호 : </p>\
@@ -82,8 +93,8 @@ userinfo = {
         return htmlStr;
     },
     
-    infoModi: function(name, email, phone, now_pass, new_pass, new_passConfig) {
-        var postdata = {name:name, email:email, phone:phone, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
+    infoModi: function(name, email, phone, login_alias, now_pass, new_pass, new_passConfig) {
+        var postdata = {name:name, email:email, phone:phone, login_alias:login_alias, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
         $.ajax({
             method: "put",
             url: "/api/user/info",
@@ -93,6 +104,14 @@ userinfo = {
                 if(data.message == "success"){
                     Swal.fire('내 정보 수정이 완료됐습니다.', '', 'success').then(() => {
                         location.href = '/myinfo';
+                    })
+                }
+                else if(data.message == "access_null"){
+                    Swal.fire('접속 키를 입력해주세요.', '', 'error').then(() => {
+                    })
+                }
+                else if(data.message == "access_error"){
+                    Swal.fire('해당 접속 키가 이미 존재해요.', '', 'error').then(() => {
                     })
                 }
                 else{
