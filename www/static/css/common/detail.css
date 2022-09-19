@@ -42,48 +42,345 @@
 
 .detailArea {
     display: flex;
-    width: 100vw;
-    margin: 80px 0 0;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+}
+
+.detailArea .infoContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 394px;
+}
+
+.detailArea .infoContent .infoHeader {
+    display: flex;
+    width: 988px;
+    height: 40px;
+    margin: 100px auto 30px;
+}
+
+.detailArea .infoContent .infoHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.detailArea .infoContent .infoHeader h1 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px 3px 0;
+}
+
+.detailArea .infoContent .infoHeader p {    
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px 0 8px;
+}
+
+.detailArea .infoArea {
+    width: 940px;
+    height: auto;
+    padding: 24px 20px 2px;
+    display: flex;
+    border-top: solid 1px #707070;
+    border-bottom: solid 1px #707070;
+    margin: 0 auto 40px;
+}
+
+.detailArea .infoArea .file_first {
+    margin: 0 60px 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailArea .infoArea .file_second {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailArea .infoArea .file_name,
+.detailArea .infoArea .file_type,
+.detailArea .infoArea .file_reco,
+.detailArea .infoArea .file_key,
+.detailArea .infoArea .file_date,
+.detailArea .infoArea .file_time,
+.detailArea .infoArea .file_user,
+.detailArea .infoArea .file_download {
+    display: flex;
+    margin: 0 0 20px;
+}
+
+.detailArea .infoArea .file_user.admin_only.hide{
+    display: none;
+}
+
+.detailArea .infoArea .file_name .title,
+.detailArea .infoArea .file_type .title,
+.detailArea .infoArea .file_reco .title,
+.detailArea .infoArea .file_key .title,
+.detailArea .infoArea .file_user .title,
+.detailArea .infoArea .file_date .title,
+.detailArea .infoArea .file_time .title {
+    margin: 0 4px auto 0;
+    width: 88px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+}
+
+.detailArea .infoArea .file_name p,
+.detailArea .infoArea .file_type p,
+.detailArea .infoArea .file_reco p,
+.detailArea .infoArea .file_key p,
+.detailArea .infoArea .file_user p,
+.detailArea .infoArea .file_date p,
+.detailArea .infoArea .file_time p {
+    width: 328px;
+    margin: 0 0 auto;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    max-height: 62px;
+    word-wrap:break-word;
+}
+
+.detailArea .infoArea .file_download {
+    display: flex;
+    width: 180px;
+    height: 40px;
+    margin: 0 auto 12px;
+    background-color: darkseagreen;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detailArea .infoArea .file_download p {
+    margin: auto;
+    color: white;
+    font-family: S-CoreDream-6Bold;
+}
+
+.detailArea .viewContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;  
+    background-color: #e9f6ff;
+}
+
+.detailArea .viewContent .viewHeader {
+    display: flex;
+    width: 940px;
+    height: 30px;
+    margin: 60px auto 14px;
+}
+
+.detailArea .viewContent .viewHeader .file_download {
+    display: flex;
+    width: 160px;
+    height: 30px;
+    margin: 0 auto 0 0;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    cursor: pointer;
+}
+
+.detailArea .viewContent .viewHeader .file_download p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.detailArea .viewContent .viewHeader input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 8px auto auto;
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 2px;
+    position: relative;
+}
+
+.detailArea .viewContent .viewHeader input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.detailArea .viewContent .viewHeader input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.detailArea .viewContent .viewHeader input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    border: solid 1px #3fa9f5;
+}
+
+.detailArea .viewContent .viewHeader label {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto 24px auto 0;
+}
+
+.detailArea .viewContent .viewHeader .file_recoConfirm,
+.detailArea .viewContent .viewHeader .select_recoConfirm {
+    display: flex;
+    width: 160px;
+    height: 30px;
+    margin: 0 0 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
+    cursor: pointer;
+}
+
+.detailArea .viewContent .viewHeader .select_recoConfirm {
+    margin: 0;
+}
+
+.detailArea .viewContent .viewHeader .file_recoConfirm p,
+.detailArea .viewContent .viewHeader .select_recoConfirm p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.detailArea .viewContent .viewHeader .file_recoConfirm.hide,
+.detailArea .viewContent .viewHeader .select_recoConfirm.hide,
+.detailArea .viewContent .viewHeader .allselect.hide {
+    display: none;
 }
 
 .detailArea .viewArea {
+    width: 916px;
+    height: auto;
     display: flex;
     flex-direction: column;
-    margin: 0 48px 0 auto;
-    background-color: #909090;
-    border-radius: 5px;
-    padding: 24px;
+    margin: 0 auto 238px;  
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    padding: 36px;
 }
 
 .detailArea .viewArea .lockData {
-    width: 960px;
-    height: 540px;
+    width: 916px;
+    height: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailArea .viewArea .video-js {
+    width: 916px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailArea .viewArea .fileFullName {
+    width: 896px;
+    height: auto;
+    word-wrap: break-word;
+    margin: 10px 10px 0;
+}
+
+.detailArea .viewArea .fileFullName p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0;
 }
 
 .detailArea .albumArea {
-    margin: 0 48px 0 auto;
-    background-color: #909090;
-    border-radius: 5px;
-    padding: 24px;
-    width: 960px;
-    height: 540px;
+    margin: 0 auto 238px;  
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    padding: 36px;
+    width: 916px;
+    height: auto;
     display: flex;
     flex-direction: column;
 }
 
 .detailArea .albumArea .lockDataList {
-    width: 960px;
-    height: 480px;
+    width: 916px;
+    height: auto;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .detailArea .albumArea .threeArea {
-    width: 960px;
-    height: 210px;
-    margin: 0 0 24px 0;
+    width: 916px;
+    height: auto;
+    margin: 0 0 28px 0;
     display: flex;
 }
 
@@ -91,14 +388,93 @@
     display: flex;
     flex-direction: column;
     float: left;
-    width: 260px;
+    width: 288px;
+    margin: 0 26px 0 0;
+    position: relative;
+}
+
+.detailArea .albumArea .albumlist .hoverdiv {
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0;
+    width: 288px;
+    height: 180px;
+    background-color: rgba(63, 169, 245, 0.8);
+    z-index: 5;
+}
+
+.detailArea .albumArea .albumlist .hoverdiv p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
     margin: auto;
+}
+
+.detailArea .albumArea .albumlist .hoverdiv.hide {
+    display: none;
+}
+
+.detailArea .albumArea .albumlist input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    border: solid 1px #595959;
+    margin: 0;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 2px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.detailArea .albumArea .albumlist input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.detailArea .albumArea .albumlist input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.detailArea .albumArea .albumlist input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    border: solid 1px #3fa9f5;
+}
+
+.detailArea .albumArea .albumlist .check_reco.hide{
+    display: none;
+}
+
+.detailArea .albumArea .albumlist:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+    float: left;
+    width: 288px;
+    margin: 0;
 }
 
 .detailArea .albumArea .albumlist .albumImg {
     width: 100%;
     height: 180px;
     cursor: pointer;
+    z-index: 1;
 }
 
 .detailArea .albumArea .albumlist .albumImg.active {
@@ -107,10 +483,23 @@
 
 .detailArea .albumArea .albumlist .albumFooter {
     display: flex;
+    width: 288px;
 }
 
 .detailArea .albumArea .albumlist .albumFooter p {
-    margin: 4px 12px 4px auto;
+    width: 288px;
+    text-align: center;
+    margin: 4px auto;
+    word-wrap: break-word;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    /* text-align: left; */
+    color: #595959;
 }
 
 .detailArea .albumArea .albumlist .albumFooter .plusBtn {
@@ -151,107 +540,6 @@
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
-}
-
-.detailArea .infoArea {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto 0 48px;
-    background-color: #909090;
-    border-radius: 5px;
-    padding: 24px;
-    height: min-content;
-}
-
-.detailArea .infoArea .file_name,
-.detailArea .infoArea .file_type,
-.detailArea .infoArea .file_reco,
-.detailArea .infoArea .file_key,
-.detailArea .infoArea .file_date,
-.detailArea .infoArea .file_time,
-.detailArea .infoArea .file_user,
-.detailArea .infoArea .file_download,
-.detailArea .infoArea .file_recoConfirm,
-.detailArea .infoArea .select_recoConfirm {
-    display: flex;
-    margin: 0 auto 12px 0;
-}
-
-.detailArea .infoArea .file_name .title,
-.detailArea .infoArea .file_type .title,
-.detailArea .infoArea .file_reco .title,
-.detailArea .infoArea .file_key .title,
-.detailArea .infoArea .file_user .title,
-.detailArea .infoArea .file_date .title,
-.detailArea .infoArea .file_time .title {
-    margin: 0 8px 0 0;
-    text-align: right;
-    width: 100px;
-    font-family: SpoqaHanSansNeo-Regular;
-}
-
-.detailArea .infoArea .file_name p,
-.detailArea .infoArea .file_type p,
-.detailArea .infoArea .file_reco p,
-.detailArea .infoArea .file_key p,
-.detailArea .infoArea .file_user p,
-.detailArea .infoArea .file_date p,
-.detailArea .infoArea .file_time p {
-    margin: 0 8px 0 0;
-    font-family: SpoqaHanSansNeo-Regular;
-}
-
-.detailArea .infoArea .file_download {
-    display: flex;
-    width: 180px;
-    height: 40px;
-    margin: 0 auto 12px;
-    background-color: darkseagreen;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.detailArea .infoArea .file_download p {
-    margin: auto;
-    color: white;
-    font-family: S-CoreDream-6Bold;
-}
-
-.detailArea .infoArea .file_recoConfirm {
-    display: flex;
-    width: 180px;
-    height: 40px;
-    margin: 0 auto 12px;
-    background-color: darkorchid;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.detailArea .infoArea .file_recoConfirm p {
-    margin: auto;
-    color: white;
-    font-family: S-CoreDream-6Bold;
-}
-
-.detailArea .infoArea .select_recoConfirm {
-    display: flex;
-    width: 180px;
-    height: 40px;
-    margin: 0 auto 12px;
-    background-color: darkcyan;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.detailArea .infoArea .select_recoConfirm p {
-    margin: auto;
-    color: white;
-    font-family: S-CoreDream-6Bold;
-}
-
-.detailArea .infoArea .file_recoConfirm.hide,
-.detailArea .infoArea .select_recoConfirm.hide {
-    display: none;
 }
 
 .layerPopupBox .inner {

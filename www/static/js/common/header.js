@@ -20,16 +20,6 @@ $(document).ready(function () {
         $('.cur_password').val("")
     });
 
-    $(document).ready(function() {
-        var auth = comm.adminonly();
-        if(auth == "master"){
-            $(".admin_only").removeClass('hide')
-        }
-        else if(auth == "sub"){
-            $(".admin_only").addClass('hide')
-        }
-    });
-
     $(document).on("click", ".infoConfir", function () {
         // location.href="/myinfo"
         var cur_password = $(".cur_password").val()

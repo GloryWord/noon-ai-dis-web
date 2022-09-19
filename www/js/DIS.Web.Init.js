@@ -26,8 +26,19 @@ function getTime() {
 }
 
 function dateFormat(date) {
-    let dateFormat2 = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+    let dateFormat2 = date.getFullYear() + '.' + ("0" + (date.getMonth() + 1)).slice(-2) + '.' + ("0" + date.getDate()).slice(-2);
     return dateFormat2;
+}
+
+function underTen(data) {
+    let underTen;
+    if(Number(data)<=9){
+        underTen = "0"+data
+    }
+    else{
+        underTen = data
+    }
+    return underTen;
 }
 
 function formatBytes(bytes, decimals = 2) {
@@ -171,7 +182,7 @@ init = {
             }
         }
 
-        // reloadProgress();
+        reloadProgress();
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -186,10 +197,10 @@ init = {
 
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
-            if (type == '영상') {
+            if (type == '동영상 파일') {
                 location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
-            else if (type == '이미지') {
+            else if (type == '이미지 파일') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {
@@ -230,6 +241,12 @@ init = {
             }, 200)
         });
 
+        // 전체 삭제
+        $(document).on("click", ".allDelete", function () {
+            fileModule.alldeleteFile();
+            fileCount = 0;
+        });
+
         // 파일 삭제버튼 누를경우 작동 (튼튼함)
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
@@ -247,7 +264,7 @@ init = {
         });
 
         var restoration = 0;
-        $('input[type=checkbox][name=restoration]').on('change', function () {
+        $('input[type=radio][name=restoration]').on('change', function () {
             switch ($(this)[0].checked) {
                 case true:
                     restoration = 1;
@@ -289,9 +306,12 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
-                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
+                    var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
+                    // var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
+                    // var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
+                    // var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
 
                     var select = ''
                     select = (body) ? select += '1' : select += '0'
@@ -469,15 +489,21 @@ init = {
         });
 
         var restoration = 0;
-        $('input[type=checkbox][name=restoration]').on('change', function () {
-            switch ($(this)[0].checked) {
-                case true:
-                    restoration = 1;
-                    break;
-                case false:
-                    restoration = 0;
-                    break;
+        $('input[type=radio][name=restoration]').on('change', function () {
+            if($('input[name=restoration]:checked').val()=="true"){
+                restoration = 1;
             }
+            else{
+                restoration = 0;
+            }
+            // switch ($(this)[0].checked) {
+            //     case true:
+            //         restoration = 1;
+            //         break;
+            //     case false:
+            //         restoration = 0;
+            //         break;
+            // }
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -511,9 +537,9 @@ init = {
             else {
                 var encryptObject = []
                 for (var i = 0; i < fileCount; i++) {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[4].checked
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
 
                     var select = ''
                     select = (body) ? select += '1' : select += '0'
@@ -545,9 +571,11 @@ init = {
 
         $(document).ready(function () {
             var rest = $(".rest_info").text()
-            if (rest == "O") {
+            if (rest == "복원 가능") {
                 $(".file_recoConfirm").removeClass("hide")
                 $(".select_recoConfirm").removeClass("hide")
+                $(".check_reco").removeClass("hide")
+                $(".allselect").removeClass("hide")
             }
         });
 
@@ -606,24 +634,21 @@ init = {
                 $(document).on("click", ".select_recoConfirm", function () {
                     $('.recoConfirm').attr('data-value', $(this).data('value'));
                     selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('albumImg');
+                    var imgDivList = document.getElementsByClassName('check_reco');
                     var len = imgDivList.length;
                     for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].className == 'albumImg active') selectedFile.push(fileList[i])
+                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
                     }
                     $("#select_recoData").addClass('active')
                 });
 
                 $(document).on("click", ".albumImg", function () {
-                    if ($(this).hasClass("active")) {
-                        $(this).removeClass('active')
-                    }
-                    else {
-                        $(this).addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".plusBtn", function () {
+                    // if ($(this).hasClass("active")) {
+                    //     $(this).removeClass('active')
+                    // }
+                    // else {
+                    //     $(this).addClass('active')
+                    // }
                     var imgnum = $(this).data("num")
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
@@ -635,6 +660,65 @@ init = {
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".hoverdiv", function () {
+                    // if ($(this).hasClass("active")) {
+                    //     $(this).removeClass('active')
+                    // }
+                    // else {
+                    //     $(this).addClass('active')
+                    // }
+                    var imgnum = $(this).data("num")
+                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
+                        <p>이미지 다운로드</p>\
+                    </a>\
+                    <div class="cancel">\
+                        <p>취소</p>\
+                    </div>'
+                    document.getElementById('selectImgArea').innerHTML = imgtag
+                    document.getElementById('selectBtnArea').innerHTML = downloadArea
+                    $("#imgView").addClass('active')
+                });
+
+                // $(document).on("click", ".plusBtn", function () {
+                //     var imgnum = $(this).data("num")
+                //     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                //     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
+                //         <p>이미지 다운로드</p>\
+                //     </a>\
+                //     <div class="cancel">\
+                //         <p>취소</p>\
+                //     </div>'
+                //     document.getElementById('selectImgArea').innerHTML = imgtag
+                //     document.getElementById('selectBtnArea').innerHTML = downloadArea
+                //     $("#imgView").addClass('active')
+                // });
+
+                $(document).on("click", ".allselect", function () {
+                    if($('.allselect').is(":checked")){
+                        $("input:checkbox[class=check_reco]").prop("checked", true);
+                    }
+                    else{
+                        $('input[class=check_reco]:checked').prop('checked', false)
+                    }
+                });
+
+                $(document).on("click", ".check_reco", function () {
+                    if(!$(this).is(":checked")){
+                        $("input:checkbox[class=allselect]").prop("checked",false);
+                    }
+                });
+
+                $(document).on("mouseover", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("."+num+"").removeClass("hide")
+                });
+
+                $(document).on("mouseleave", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("."+num+"").addClass("hide")
                 });
 
                 $(document).on("click", ".recoConfirm", function () {
@@ -678,144 +762,126 @@ init = {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
             $('#signedUrl').attr('href', signedUrl[0]);
+            $('.fullname').text($('.file_fullname').text())
         }
     },
 
     log: function () {
-        $(document).on("click", ".filter_video", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
-            }
+    
+        function reloadProgress() {
+            var encProgress = requestTable.getEncProgress();
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("video")
-                $(".group_file").val(0)
+                var mainLog = requestTable.getAllEncRequestList()
+                $(".mainLog").html(mainLog);
             }
-        });
+        }
 
-        $(document).on("click", ".filter_image", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
-            }
-            else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("image")
-                $(".group_file").val(0)
-            }
-        });
+        reloadProgress();
 
-        $(document).on("click", ".filter_album", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_file").val("")
-                $(".group_file").val("")
+        $(document).on("click", ".allSearch", function () {
+            if($('.allSearch').is(':checked')){
+                $(".filter_video").prop("checked", true);
+                $(".filter_image").prop("checked", true);
+                $(".filter_album").prop("checked", true);
+                $(".filter_rest").prop("checked", true);
+                $(".filter_norest").prop("checked", true);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
             }
-            else {
-                $(".file_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_file").val("album")
-                $(".group_file").val(1)
+            else{
+                $(".filter_video").prop("checked", false);
+                $(".filter_image").prop("checked", false);
+                $(".filter_album").prop("checked", false);
+                $(".filter_rest").prop("checked", false);
+                $(".filter_norest").prop("checked", false);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
             }
-        });
-
-        $(document).on("click", ".filter_rest", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_rest").val("")
-            }
-            else {
-                $(".rest_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_rest").val(1)
-            }
-        });
-
-        $(document).on("click", ".filter_norest", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
-                $(".filter_rest").val("")
-            }
-            else {
-                $(".rest_filter").removeClass('active')
-                $(this).addClass('active')
-                $(".filter_rest").val(0)
-            }
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            start.disabled = true;
+            end.disabled = true;
         });
 
         $(document).on("click", ".date_filter", function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass('active')
+            var date = $(this).val()
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            if(date == "select"){
+                start.disabled = false;
+                end.disabled = false;
             }
-            else {
-                $(".date_filter").removeClass('active')
-                $(this).addClass('active')
-                if ($(this).children().text() == "오늘") {
-                    $(".startVal").val(today());
-                    $(".endVal").val(today());
-                }
-                else if ($(this).children().text() == "어제") {
-                    $(".startVal").val(yesterday());
-                    $(".endVal").val(yesterday());
-                }
-                else if ($(this).children().text() == "일주일") {
-                    $(".startVal").val(week());
-                    $(".endVal").val(today());
-                }
-                else if ($(this).children().text() == "한달") {
-                    $(".startVal").val(month());
-                    $(".endVal").val(today());
-                }
+            else if(date == "yesterday"){
+                $("#startVal").val(yesterday())
+                $("#endVal").val(yesterday())
+                start.disabled = true;
+                end.disabled = true;
             }
-        });
-
-        $(document).on("click", ".clear", function () {
-            $(".file_filter").removeClass('active')
-            $(".rest_filter").removeClass('active')
-            $(".date_filter").removeClass('active')
-            $(".filter_file").val("")
-            $(".filter_rest").val("")
-            $(".startVal").val("");
-            $(".endVal").val("");
-        });
-
-        $(document).on("click", ".allSearch", function () {
-            $(".file_filter").removeClass('active')
-            $(".rest_filter").removeClass('active')
-            $(".date_filter").removeClass('active')
-            $(".filter_file").val("")
-            $(".filter_rest").val("")
-            $(".startVal").val("");
-            $(".endVal").val("");
-            var mainLog = requestTable.getAllEncRequestList()
-            $(".mainLog").html(mainLog);
+            else if(date == "today"){
+                $("#startVal").val(today())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "week"){
+                $("#startVal").val(week())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "month"){
+                $("#startVal").val(month())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
         });
 
         $(document).on("click", ".search", function () {
-            var filter_file = $(".filter_file").val();
-            var filter_rest = $(".filter_rest").val();
-            var startDate = $(".startVal").val();
-            var endDate = $(".endVal").val();
-            if (filter_file == "" && filter_rest == "" && startDate == "" && endDate == "") {
+            var filter_video = $('.filter_video').is(':checked')
+            var filter_image = $('.filter_image').is(':checked')
+            var filter_album = $('.filter_album').is(':checked')
+            var filter_reco = $('.filter_rest').is(':checked')
+            var filter_norest = $('.filter_norest').is(':checked')
+            var startDate = $("#startVal").val();
+            var endDate = $("#endVal").val();
+
+            if(filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true){
+                var filter_file = ""
+            }
+            else {
+                var filter_file = "no"
+            }
+
+            if(filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true){
+                var filter_rest = ""
+            }
+            else {
+                var filter_rest = "no"
+            }
+
+            if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
                 Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
             }
             else {
-                var mainLog = requestTable.postDataSearch(filter_file, filter_rest, startDate, endDate)
+                console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
+                var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 $(".mainLog").html(mainLog);
+                load('.mainLog', '5');
             }
         });
 
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
-            if (type == '영상') {
+            if (type == '동영상 파일') {
                 location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
             }
-            else if (type == '이미지') {
+            else if (type == '이미지 파일') {
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {
@@ -823,8 +889,26 @@ init = {
             }
         });
 
-        var mainLog = requestTable.getAllEncRequestList()
-        $(".mainLog").html(mainLog);
+        var requestList = requestTable.getAllEncRequestList()
+        $(".mainLog").html(requestList);
+
+        load('.mainLog', '5');
+        $(document).on("click", "#enc_more .morebutton", function () {
+            load('.mainLog', '5', '#enc_more');
+        })
+
+        function load(id, cnt, btn) {
+            var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
     },
 
     myinfo: function () {

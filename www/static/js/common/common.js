@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('.restore').click(function () {
-        if($('.restore').is(":checked")){
+        if($('input[name=restoration]:checked').val()=="true"){
             $('.restoreKey').addClass('on')
         }
         else{
@@ -64,6 +64,45 @@ $(document).ready(function () {
     $(document).on("click", ".car", function () {
         if(!$(this).is(":checked")){
             $("input:checkbox[class=allcar]").prop("checked",false);
+        }
+    });
+
+    $(document).on("click", ".keySelect", function () {
+        $('.selectText').text("Key 선택하기")
+        $('.selectKey').data("idx", "")
+        $("#genKeyName").val("")
+    });
+
+    $(document).on("click", ".selectKey", function () {
+        if($('#selectKeyName').hasClass("active")){
+            $('#selectKeyName').removeClass('active')
+            $(".select_img").css('transform','rotate(0deg)');
+        }
+        else{
+            $('#selectKeyName').addClass('active')
+            $(".select_img").css('transform','rotate(-180deg)');
+        }
+    });
+
+    $(document).on("click", ".dropdown_content", function () {
+        var keyIndex = $(this).data("idx")
+        var keyName = $(this).children().text()
+        $('.selectText').text(keyName)
+        $('.selectKey').data("idx", keyIndex)
+        console.log($('.selectKey').data("idx"))
+    });
+
+    $(document).on("click", ".logo", function () {
+        location.href = "/main"
+    });
+
+    $(document).ready(function() {
+        var auth = comm.adminonly();
+        if(auth == "master"){
+            $(".admin_only").removeClass('hide')
+        }
+        else if(auth == "sub"){
+            $(".admin_only").addClass('hide')
         }
     });
 });

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/manage.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
 
     <script type="text/javascript" src="js/jquery.js"></script>
@@ -22,23 +23,26 @@
 <body>
     <div class="header">
         <div class="header_content">
-            <a href="/main">
-                <div class="logo"></div>
-            </a>
-            <div class="flow">
+            <div class="logo">
+              <a href="/main">
+                <img src="./static/imgs/common/header_logo.png">
+              </a>
             </div>
-            <div class="login_user">
+          <div class="flow">
+          </div>
+          <div class="login_user">
+          </div>
+          <div class="menuBtn">
+            <img src="./static/imgs/common/header_menu.png">
+            <div id="myDropdown" class="dropdown-content">
+              <a href="/main">홈</a>
+              <a href="/log">기록 열람</a>
+              <a href="/key">KEY 관리</a>
+              <a class="infoMove">내 정보</a>
+              <a class="admin_only" href="/submanage">서브 계정 관리</a>
+              <div id="logout">로그아웃</div>
             </div>
-            <div class="menuBtn">
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="/main">홈</a>
-                    <a href="/log">기록 열람</a>
-                    <a href="/key">KEY 관리</a>
-                    <a class="infoMove">내 정보</a>
-                    <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                    <div id="logout">로그아웃</div>
-                </div>
-            </div>
+          </div>
         </div>
     </div>
     <div class="sub_content">
@@ -76,74 +80,43 @@
                     </div>
                 </div>
                 <div class="listContent">
-                    <!-- <div class="tableContent">
-                        <div class="number_content"><p>5</p></div>
-                        <div class="id_content"><p>asdf</p></div>
-                        <div class="name_content"><p>홍길동</p></div>
-                        <div class="last_content"><p>2022.08.22</p></div>
-                        <div class="create_content"><p>2022.08.15</p></div>
-                        <div class="pass_content">
-                            <div class="pass_modi"><p>재설정</p></div>
-                        </div>
-                        <div class="del_content">
-                            <div class="delBtn"><p>삭제하기</p></div>
-                        </div>
-                    </div>
-                    <div class="tableContent">
-                        <div class="number_content"><p>4</p></div>
-                        <div class="id_content"><p>qwerfsda</p></div>
-                        <div class="name_content"><p>박길동</p></div>
-                        <div class="last_content"><p>2022.08.21</p></div>
-                        <div class="create_content"><p>2022.08.14</p></div>
-                        <div class="pass_content">
-                            <div class="pass_modi"><p>재설정</p></div>
-                        </div>
-                        <div class="del_content">
-                            <div class="delBtn"><p>삭제하기</p></div>
-                        </div>
-                    </div>
-                    <div class="tableContent">
-                        <div class="number_content"><p>3</p></div>
-                        <div class="id_content"><p>hsdhd</p></div>
-                        <div class="name_content"><p>최길동</p></div>
-                        <div class="last_content"><p>2022.08.20</p></div>
-                        <div class="create_content"><p>2022.08.13</p></div>
-                        <div class="pass_content">
-                            <div class="pass_modi"><p>재설정</p></div>
-                        </div>
-                        <div class="del_content">
-                            <div class="delBtn"><p>삭제하기</p></div>
-                        </div>
-                    </div>
-                    <div class="tableContent">
-                        <div class="number_content"><p>2</p></div>
-                        <div class="id_content"><p>wrqwtgw</p></div>
-                        <div class="name_content"><p>이길동</p></div>
-                        <div class="last_content"><p>2022.08.19</p></div>
-                        <div class="create_content"><p>2022.08.12</p></div>
-                        <div class="pass_content">
-                            <div class="pass_modi"><p>재설정</p></div>
-                        </div>
-                        <div class="del_content">
-                            <div class="delBtn"><p>삭제하기</p></div>
-                        </div>
-                    </div>
-                    <div class="tableContent">
-                        <div class="number_content"><p>1</p></div>
-                        <div class="id_content"><p>cvbnvn</p></div>
-                        <div class="name_content"><p>김길동</p></div>
-                        <div class="last_content"><p>2022.08.18</p></div>
-                        <div class="create_content"><p>2022.08.11</p></div>
-                        <div class="pass_content">
-                            <div class="pass_modi"><p>재설정</p></div>
-                        </div>
-                        <div class="del_content">
-                            <div class="delBtn"><p>삭제하기</p></div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
+    </div>
+    <div class="footer">
+      <div class="logo">
+        <img src="./static/imgs/common/footer_logo.png">
+      </div>
+      <div class="textArea">
+        <div class="footer_menu">
+          <label>개인정보처리방침</label>
+          <p>|</p>
+          <label>서비스이용약관</label>
+          <p>|</p>
+          <label>이메일무단수집거부</label>
+        </div>
+        <div class="companyInfo">
+          <div class="loc">
+            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+          </div>
+          <div class="ceo_num">
+            <p class="info">대표 :&nbsp;<label>조판희</label></p>
+            <p>|</p>
+            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+            <p>|</p>
+            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+          </div>
+          <div class="call_num">
+            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+            <p>|</p>
+            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+          </div>
+          <div class="inc">
+            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
+          </div>
+        </div>
+      </div>
     </div>
 </body>
 

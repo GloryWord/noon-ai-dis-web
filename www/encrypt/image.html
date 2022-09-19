@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../static/css/common/base.css" type="text/css" />
     <link rel="stylesheet" href="../static/css/common/imageupload.css" type="text/css" />
     <link rel="stylesheet" href="../static/css/common/header.css" type="text/css" />
+    <link rel="stylesheet" href="../static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="../static/css/common/modal.css" type="text/css" />
 
     <script type="text/javascript" src="../js/jquery.js"></script>
@@ -24,74 +25,86 @@
 <body>
     <div class="header">
         <div class="header_content">
-            <a href="/main"><div class="logo"></div></a>
-            <div class="flow">
-                <div class="circleArea">
-                    <div class="stepArea">
-                        <div class="circle on"></div>
-                        <p class="circleText1">파일 업로드</p>
-                    </div>
-                    <div class="line"></div>
-                    <div class="s_circle"></div>
-                    <div class="line"></div>
-                    <div class="stepArea">
-                        <div class="circle"></div>
-                        <p class="circleText3">AI 비식별화 진행</p>
-                    </div>
-                </div>
+            <div class="logo">
+              <a href="/main">
+                <img src="../static/imgs/common/header_logo.png">
+              </a>
             </div>
-            <div class="login_user">
+          <div class="flow">
+          </div>
+          <div class="login_user">
+          </div>
+          <div class="menuBtn">
+            <img src="../static/imgs/common/header_menu.png">
+            <div id="myDropdown" class="dropdown-content">
+              <a href="/main">홈</a>
+              <a href="/log">기록 열람</a>
+              <a href="/key">KEY 관리</a>
+              <a class="infoMove">내 정보</a>
+              <a class="admin_only" href="/submanage">서브 계정 관리</a>
+              <div id="logout">로그아웃</div>
             </div>
-            <div class="menuBtn">                
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="/main">홈</a>
-                    <a href="/log">기록 열람</a>
-                    <a href="/key">KEY 관리</a>
-                    <a class="infoMove">내 정보</a>
-                    <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                    <div id="logout">로그아웃</div>
-                </div>
-            </div>
+          </div>
         </div>
     </div>
+    <div class="btnArea">
+        <!-- <div class="prevBtn">
+            <p>이 전</p>
+        </div> -->
+        <div class="stepArea"></div>
+        <!-- <div class="nextBtn">
+            <p>다 음</p>
+        </div> -->
+    </div>
     <div class="uploadArea">
-        <div class="btnArea">
-            <div class="prevBtn">
-                <p>PREV</p>
+        <div class="uploadSelect">
+            <!-- <div class="fileSelect active">
+                <p>파일 선택</p>
             </div>
-            <div class="nextBtn">
-                <p>NEXT</p>
+            <div class="folderSelect">
+                <p>
+                    폴더 선택
+                </p>
+            </div> -->
+            <div class="textArea">
+                <img src="../static/imgs/upload/upload_icon.png">
+                <h1>이미지 업로드</h1>
+                <p>※ 이미지의 경우 10개의 파일만 선택 할 수 있습니다.</p>
+            </div>
+            <div class="uploadBtnArea">
+                <label class="fileUpload uploadBtn active" for="file"><p>파일 선택</p></label> 
+                <input type="file" id="file" accept="image/*" multiple>
+                <!-- <label class="folderUpload uploadBtn active" for="folder"><p>폴더 선택</p></label> 
+                <input type="file" id="folder" webkitdirectory> -->
             </div>
         </div>
+
         <div class="imgUpload">
-            <div class="uploadSelect">
-                <div class="fileSelect active">
-                    <p>파일 선택</p>
-                </div>
-                <div class="folderSelect">
-                    <p>
-                        폴더 선택
-                    </p>
-                </div>
-            </div>
-            <div class="uploadHeader">
-                <div class="textArea">
-                    <h1>이미지 업로드</h1>
-                    <p>※ 이미지의 경우 10개의 파일만 선택 할 수 있습니다.</p>
-                </div>
-                <div class="uploadBtnArea">
-                    <label class="fileUpload uploadBtn active" for="file"><p>파일 업로드</p></label> 
-                    <input type="file" id="file" accept="image/*" multiple>
-                    <label class="folderUpload uploadBtn" for="folder"><p>폴더 업로드</p></label> 
-                    <input type="file" id="folder" webkitdirectory>
-                </div>
-            </div>
             <div class="uploadContent">
-                <table>
+                <div class="file_header">
+                    <div class="name_header"><p>파일명</p></div>
+                    <div class="size_header"><p>용량</p></div>
+                    <div class="object_header">
+                        <p>비식별 처리할 객체 선택</p>
+                        <div class="allObject">
+                            <input class="allbody" type="checkbox"><label class="bodylabel">사람 - 전신</label>
+                            <input class="allface" type="checkbox"><label class="facelabel">사람 - 얼굴</label>
+                            <input class="allcar" type="checkbox"><label class="carlabel">차량 번호판</label>
+                        </div>
+                    </div>
+                    <div class="delete_header">
+                        <div class="allDelete">
+                            <p>전체삭제</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="imgContent">
+                    <div class="file_content"></div>
+                </div>
+                <!-- <table>
                     <tr>
                         <th>파일명</th>
                         <th>용량</th>
-                        <!-- <th>영상 종류</th> -->
                         <th>객체 선택<br>
                             <input class="allbody" type="checkbox"><label>사람-몸</label>&nbsp;
                             <input class="allface" type="checkbox"><label>사람-얼굴</label>&nbsp;
@@ -99,177 +112,84 @@
                         </th>
                         <th>파일 삭제</th>
                     </tr>
-                    <!-- <tr>
-                        <td>123.png</td>
-                        <td>235.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>456.png</td>
-                        <td>237.68kb</td>
-                        <td>
-                            <input class="face" type="checkbox"><label>사람-얼굴</label>&nbsp;
-                            <input class="body" type="checkbox"><label>사람-몸</label>&nbsp;
-                            <input class="car" type="checkbox"><label>자동차 번호판</label>
-                        </td>
-                        <td>
-                            <div class="uploadDelete">
-                                <p>삭제하기</p>
-                            </div>
-                        </td>
-                    </tr> -->
-                </table>
+                </table> -->
             </div>
-            <div class="uploadFooter">
-                <input class="restore" type="checkbox" name="restoration" value="true"><label for="restore">추후 복호화 진행</label>
-                <h3>※&nbsp;선택하거나 생성한 KEY를 활용하여 추후 파일 복원 시 사용됩니다.</h3>
-                <div class="restoreKey">
-                    <div class="sKeyArea">
-                        <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">발급 받은 비식별화 시 사용할 KEY 선택</label>
-                        <div class="selectKey">
-                            <p>KEY 선택 : </p>
-                            <select id="selectKeyName">
-                                <option value="aaa">aaa</option>
-                                <option value="bbb">bbb</option>
-                                <option value="ccc">ccc</option>
-                                <option value="ddd">ddd</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="cKeyArea">
-                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">신규 KEY 생성 및 다운로드</label>
-                        <div class="createKey">
-                            <p>KEY 입력 : </p>
-                            <input class="keyCreate" id="genKeyName">
-                            <div class="keyCD" id="generateKey">
-                                <p>KEY 파일 생성 및 다운로드</p>
-                            </div>
+        </div>
+        <div class="uploadFooter">
+            <div class="restBtnArea">
+                <div class="checkArea">
+                    <img src="../static/imgs/upload/rest_icon.png">
+                    <p>복호화 진행 여부</p>
+                    <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를 진행합니다.</label>
+                    <input class="restore" type="radio" name="restoration" value="false"><label for="false">진행하지 않겠습니다.</label>
+                </div>
+                <div class="textArea">
+                    <p>복호화란? 비식별화 진행 시 암호화 Key를 선택하여 비식별화된 파일을 추후 원본으로 복원하는 기능입니다.</p>
+                </div>
+            </div>
+            <div class="restoreKey">
+                <div class="sKeyArea">
+                    <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를 사용합니다.</label>
+                    <div class="selectKey">
+                        <p class="selectText">Key 선택하기</p>
+                        <img class="select_img" src="../static/imgs/upload/selectBox_icon.png">
+                        <div id="selectKeyName">
                         </div>
                     </div>
                 </div>
+                <div class="cKeyArea">
+                    <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아 사용합니다.</label>
+                    <div class="createKey">
+                        <div class="createArea">
+                            <input class="keyCreate" id="genKeyName" placeholder="Key 이름을 작성해 주세요">
+                            <div class="keyCD" id="generateKey">
+                                <h3>Key 생성 및 다운로드</h3>
+                            </div>
+                        </div>
+                        <p>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footerbtnArea">
+                <div class="nextBtn">
+                    <p>다 음</p>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="footer">
+      <div class="logo">
+        <img src="../static/imgs/common/footer_logo.png">
+      </div>
+      <div class="textArea">
+        <div class="footer_menu">
+          <label>개인정보처리방침</label>
+          <p>|</p>
+          <label>서비스이용약관</label>
+          <p>|</p>
+          <label>이메일무단수집거부</label>
+        </div>
+        <div class="companyInfo">
+          <div class="loc">
+            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+          </div>
+          <div class="ceo_num">
+            <p class="info">대표 :&nbsp;<label>조판희</label></p>
+            <p>|</p>
+            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+            <p>|</p>
+            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+          </div>
+          <div class="call_num">
+            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+            <p>|</p>
+            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+          </div>
+          <div class="inc">
+            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
+          </div>
+        </div>
+      </div>
     </div>
 </body>
 

@@ -108,7 +108,10 @@ resultLoader = {
         var html = ''
         if (mode == 'single') {
             for (var i = 0; i < urlList.length; i++) {
-                html += '<img src="' + urlList[i] + '">'
+                html += '<img src="' + urlList[i] + '">\
+                <div class="fileFullName">\
+                    <p>'+objectName[0]+'</p>\
+                </div>'
             }
         }
         else if (mode == 'group') {
@@ -119,13 +122,12 @@ resultLoader = {
                     html += '<div class="threeArea">';
                 }
                 html += '<div class ="albumlist">\
-                            <img class="albumImg" src="'+urlList[i]+'">\
+                            <img data-num='+i+' class="albumImg" src="'+urlList[i]+'">\
                             <div class="albumFooter">\
                                 <p>'+objectName[i]+'</p>\
-                                <div data-num='+i+' class="plusBtn">\
-                                    <img class="plus_img" src="../../static/imgs/plusBtn.png">\
-                                </div>\
                             </div>\
+                            <input class="check_reco hide" type="checkbox">\
+                            <div class="'+i+' hoverdiv hide" data-num='+i+'><p>이미지 크게 보기</p></div>\
                         </div>'
                 if (cur == i - 2 || i == urlList.length - 1) html += '</div>';
             }
@@ -167,66 +169,72 @@ resultLoader = {
         var fileNameArray = result.request_file_list.split('\n');
         fileNameArray = fileNameArray.splice(0, fileNameArray.length - 1);
         var count = fileNameArray.length;
-        var nameCount = (fileNameArray.length > 1) ? ' 외 '+count+'장' : '';
+        var nameCount = (fileNameArray.length > 1) ? ' 외 '+(count-1)+'장' : '';
         var type = (result.file_type == 'image') ? '이미지' : '비디오'
         var group = (count > 1) ? '그룹' : '';
-        var restoration = (result.restoration == 1) ? 'O' : 'X';
+        var restoration = (result.restoration == 1) ? '복원 가능' : '복원 불가능';
         var date = new Date(result.request_date)
         var userName = result.user_name;
-        html = '<div class="file_name">\
-                    <p class="title">파일명 : </p>\
-                    <p>'+fileNameArray[0]+ nameCount +'</p>\
-                </div>\
-                <div class="file_type">\
-                    <p class="title">파일 타입 : </p>\
-                    <p>'+type+' '+group+'</p>\
-                </div>\
-                <div class="file_reco">\
-                    <p class="title">복호화 여부 : </p>\
-                    <p class="rest_info">'+restoration+'</p>\
+        html = '<div class="file_first">\
+                    <div class="file_type">\
+                        <p class="title">파일 타입</p>\
+                        <p>'+type+' '+group+'</p>\
+                    </div>\
+                    <div class="file_name">\
+                        <p class="title">파일명</p>\
+                        <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
+                    </div>\
+                    <div class="file_date">\
+                        <p class="title">업로드 일자</p>\
+                        <p>'+dateFormat(date)+' '+result.request_time+'</p>\
+                    </div>\
                 </div>';
         
-        if(restoration == 'O') {
-            html += '<div class="file_key">\
-                        <p class="title">복호화 키 : </p>\
-                        <p>'+result.key_name+'</p>\
-                    </div>';
-        }
 
-        html += '<div class="file_date">\
-                    <p class="title">날짜 : </p>\
-                    <p>'+dateFormat(date)+'</p>\
-                </div>\
-                <div class="file_time">\
-                    <p class="title">시간 : </p>\
-                    <p>'+result.request_time+'</p>\
-                </div>\
-                <div class="file_user">\
-                    <p class="title">담당자 : </p>\
-                    <p>'+userName+'</p>\
-                </div>'
+        html += '<div class="file_second">\
+                    <div class="file_user admin_only">\
+                        <p class="title">담당자</p>\
+                        <p>'+userName+'</p>\
+                    </div>\
+                    <div class="file_reco">\
+                        <p class="title">복호화 여부</p>\
+                        <p class="rest_info">'+restoration+'</p>\
+                    </div>'
+            if(restoration == '복원 가능') {
+                html += '<div class="file_key">\
+                            <p class="title">복호화 키</p>\
+                            <p>'+result.key_name+'</p>\
+                        </div>';
+            }
+            else{
+                html += '<div class="file_key">\
+                            <p class="title">복호화 키</p>\
+                            <p>복호화 키 지정 안됨</p>\
+                        </div>';
+            }
+        html += '</div>';
 
-        if (group == '그룹' && type == '이미지') {
-            html += '<div class="file_download" id="signedUrl">\
-                        <p>이미지 일괄 다운로드</p>\
-                    </div>\
-                    <div class="file_recoConfirm hide" data-value="all">\
-                        <p>전체 원본 복원하기</p>\
-                    </div>\
-                    <div class="select_recoConfirm hide" data-value="select">\
-                        <p>선택 원본 복원하기</p>\
-                    </div>'
-        }
-        else {
-            html += '<a href="" id="signedUrl" download>\
-                        <div class="file_download">\
-                            <p>'+type+' 다운로드</p>\
-                        </div>\
-                    </a>\
-                    <div class="file_recoConfirm hide">\
-                        <p>원본 복원하기</p>\
-                    </div>'
-        }
+        // if (group == '그룹' && type == '이미지') {
+        //     html += '<div class="file_download" id="signedUrl">\
+        //                 <p>이미지 일괄 다운로드</p>\
+        //             </div>\
+        //             <div class="file_recoConfirm hide" data-value="all">\
+        //                 <p>전체 원본 복원하기</p>\
+        //             </div>\
+        //             <div class="select_recoConfirm hide" data-value="select">\
+        //                 <p>선택 원본 복원하기</p>\
+        //             </div>'
+        // }
+        // else {
+        //     html += '<a href="" id="signedUrl" download>\
+        //                 <div class="file_download">\
+        //                     <p>'+type+' 다운로드</p>\
+        //                 </div>\
+        //             </a>\
+        //             <div class="file_recoConfirm hide">\
+        //                 <p>원본 복원하기</p>\
+        //             </div>'
+        // }
 
         return html
     },

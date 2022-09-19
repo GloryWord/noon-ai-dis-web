@@ -129,10 +129,22 @@ subaccount = {
             }
         })
 
-        var bucket = result[0]['bucket_access_auth'].split("")
-        var db = result[0]['db_access_auth'].split("")
-        var enc = result[0]['encrypt_auth']
-        var dec = result[0]['decrypt_auth']
+        if(result[0]==null){
+            var bucket = 0
+            var db = 0
+            var enc = 0
+            var dec = 0
+        }
+        else{
+            if(result[0]['bucket_access_auth']==null) var bucket = "0"
+            else var bucket = result[0]['bucket_access_auth'].split("")
+            if(result[0]['db_access_auth']==null) var db = "0"
+            else var db = result[0]['db_access_auth'].split("")
+            if(result[0]['encrypt_auth']==null) var enc = "0"
+            else var enc = result[0]['encrypt_auth']
+            if(result[0]['decrypt_auth']==null) var dec = "0"
+            else var dec = result[0]['decrypt_auth']
+        }
 
         if(bucket[0]=="1") var bucket_c = "checked"
         else var bucket_c = ""
