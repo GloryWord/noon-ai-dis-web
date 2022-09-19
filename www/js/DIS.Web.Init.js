@@ -264,7 +264,7 @@ init = {
         });
 
         var restoration = 0;
-        $('input[type=checkbox][name=restoration]').on('change', function () {
+        $('input[type=radio][name=restoration]').on('change', function () {
             switch ($(this)[0].checked) {
                 case true:
                     restoration = 1;
@@ -643,6 +643,26 @@ init = {
                 });
 
                 $(document).on("click", ".albumImg", function () {
+                    // if ($(this).hasClass("active")) {
+                    //     $(this).removeClass('active')
+                    // }
+                    // else {
+                    //     $(this).addClass('active')
+                    // }
+                    var imgnum = $(this).data("num")
+                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
+                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
+                        <p>이미지 다운로드</p>\
+                    </a>\
+                    <div class="cancel">\
+                        <p>취소</p>\
+                    </div>'
+                    document.getElementById('selectImgArea').innerHTML = imgtag
+                    document.getElementById('selectBtnArea').innerHTML = downloadArea
+                    $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".hoverdiv", function () {
                     // if ($(this).hasClass("active")) {
                     //     $(this).removeClass('active')
                     // }

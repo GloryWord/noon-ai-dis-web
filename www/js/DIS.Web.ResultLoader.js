@@ -127,7 +127,7 @@ resultLoader = {
                                 <p>'+objectName[i]+'</p>\
                             </div>\
                             <input class="check_reco hide" type="checkbox">\
-                            <div class="'+i+' hoverdiv hide"><p>이미지 크게 보기</p></div>\
+                            <div class="'+i+' hoverdiv hide" data-num='+i+'><p>이미지 크게 보기</p></div>\
                         </div>'
                 if (cur == i - 2 || i == urlList.length - 1) html += '</div>';
             }
