@@ -40,64 +40,143 @@
     font-style: normal;
 }
 
+.btnArea {
+    display: flex;
+    height: 170px;
+    background-color: #f2f2f2;
+}
+
+ .btnArea .prevBtn,
+ .btnArea .nextBtn {  
+    width: 90px;
+    height: 30px;
+    margin: 100px 118px 40px auto;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+    background-color: #595959;
+    cursor: pointer;
+    display: flex;
+}
+
+ .btnArea .nextBtn {
+    margin: 100px auto 40px 130px;
+}
+
+.btnArea .prevBtn p,
+.btnArea .nextBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: auto;
+}
+
+.btnArea .stepArea {
+    display: flex;
+    width: 560px;
+}
+
 .uploadArea {
+    width: 100%;
+    height: 564px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    background-color: #f2f2f2;
 }
 
-.uploadArea .btnArea {
+.uploadArea .uploadSelect {
+    width: 988px;
+    height: auto;
+    margin: 0 auto 20px;
     display: flex;
 }
 
-.uploadArea .btnArea .prevBtn,
-.uploadArea .btnArea .nextBtn {
-    width: 200px;
-    height: 80px;
+.uploadArea .uploadSelect .textArea {
+    margin: 0 auto 0 0;
     display: flex;
-    justify-content: center;
-    background-color: deepskyblue;
-    border-radius: 5px;
-    margin: 30px auto 0 60px;
+}
+
+.uploadArea .uploadSelect .textArea img {
+    width: 40px;
+    height: 40px;
+    margin: auto 4px auto 0;
+    object-fit: contain;
+}
+
+.uploadArea .uploadSelect .textArea h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 8px auto 0;
+}
+
+.uploadArea .uploadSelect .textArea p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0;
+}
+
+.uploadArea .uploadSelect .uploadBtnArea {
+    display: flex;
+    flex-direction: column;
+    margin: 0 24px 0 0;
+}
+
+/* .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
+    display: none;
+} */
+
+.uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
+    display: flex;
+    background-color: #3fa9f5;
+    margin: auto 0 auto auto;
+    width: 88px;
+    height: 30px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
-.uploadArea .btnArea .nextBtn {
-    margin: 30px 60px 0 auto;
-}
-
-.uploadArea .btnArea .prevBtn p,
-.uploadArea .btnArea .nextBtn p {
-    font-family: S-CoreDream-6Bold;
-    font-size: 24px;
+.uploadArea .uploadSelect .uploadBtnArea .uploadBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
     margin: auto;
-    color: white;
 }
 
-.uploadArea .videoUpload {
-    width: auto;
-    height: auto;
-    margin: 100px auto 0;
-    background-color: darkgray;
-    border-radius: 5px;
-    border-top-right-radius: 0px;
-    position: relative;
-}
-
-.uploadArea .videoUpload .uploadHeader {
-    display: flex;
-    width: auto;
-    height: auto;
-}
-
-.uploadArea .videoUpload .uploadSelect {
-    display: flex;
+.uploadArea .uploadSelect .uploadBtnArea input[type="file"] {
     position: absolute;
-    right: 0px;
-    top: -40px;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
 }
 
-.uploadArea .videoUpload .uploadSelect .fileSelect {
+/* .uploadArea .videoUpload .uploadSelect .fileSelect {
     display: flex;
     border-top-left-radius: 5px;
     width: 80px;
@@ -131,184 +210,628 @@
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
-}
+} */
 
-.uploadArea .videoUpload .uploadHeader {
-    display: flex;
-    width: auto;
+.uploadArea .videoUpload {
+    width: 988px;
     height: auto;
+    min-height: 128px;
+    margin: 0 auto 24px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
 }
 
-.uploadArea .videoUpload .uploadHeader .textArea {
-    display: flex;
-    flex-direction: column;
-    margin: 12px auto 12px 12px;
-}
-
-.uploadArea .videoUpload .uploadHeader .textArea h1 {
-    font-size: 24px;
-    font-family: S-CoreDream-6Bold;
-    color: black;
-    margin: 0;
-}
-
-.uploadArea .videoUpload .uploadHeader .textArea p {
-    font-size: 12px;
-    font-family: S-CoreDream-4Regular;
-    font-weight: normal;
-    color: red;
-    margin: 6px 0 0;
-}
-
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea {
-    display: flex;
-    flex-direction: column;
-    margin: 12px 12px 12px 120px;
-}
-
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn {
-    display: none;
-}
-
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active {
-    display: flex;
-    background-color: deepskyblue;
-    margin: auto 0;
-    width: 120px;
-    height: 40px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea .uploadBtn.active p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
-    margin: auto;
-}
-
-.uploadArea .videoUpload .uploadHeader .uploadBtnArea input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
-
-.uploadArea .videoUpload .uploadContent {
-    margin: 0 12px 12px 12px;
-    background-color: white;
-    width: auto;
-    height: auto;
-    border-radius: 5px;
-}
-
-.uploadArea .videoUpload .uploadContent table {
-    width: 800px;
-}
-
-.uploadArea .videoUpload .uploadContent table th {
-    height: 60px;
-    border-bottom: 1px solid;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.uploadArea .videoUpload .uploadContent table td {
+.uploadArea .videoUpload .file_header {
+    width: 940px;
+    height: 62px;
     margin: 0 auto;
+    border-bottom: solid 1px #707070;
+    display: flex;
+}
+
+.uploadArea .videoUpload .file_header p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
     text-align: center;
-    height: 60px;
-    border-bottom: 1px solid;
+    color: #16284d;
+    margin: auto;
+}
+
+.uploadArea .videoUpload .file_header .name_header {
+    display: flex;
+    width: 360px;
+    height: 18px;
+    margin: 24px 10px auto 20px;
+}
+
+.uploadArea .videoUpload .file_header .size_header {
+    display: flex;
+    width: 68px;
+    height: 18px;
+    margin: 24px 50px auto 0;
+}
+
+.uploadArea .videoUpload .file_header .object_header {
+    display: flex;
+    width: 308px;
+    height: 18px;
+    margin: 24px 0 auto;
+}
+
+.uploadArea .videoUpload .file_header .delete_header {
+    display: flex;
+    width: 84px;
+    height: 18px;
+    margin: 24px 0 auto;
+}
+
+.uploadArea .videoUpload .file_content {
+    width: 940px;
+    height: 64px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.uploadArea .videoUpload .file_content .name_content {
+    display: flex;
+    width: 360px;
+    margin: auto 10px auto 20px;
+}
+
+.uploadArea .videoUpload .file_content .size_content {
+    display: flex;
+    width: 68px;
+    margin: auto 50px auto 0;
+}
+
+.uploadArea .videoUpload .file_content .selectObject {
+    display: flex;
+    width: 308px;
+    margin: auto 0 auto;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList {
+    display: flex;
+    margin: auto;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 2px;
+    position: relative;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
     overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    border: solid 1px #3fa9f5;
+}
+
+.uploadArea .videoUpload .file_content .selectObject .checkList label {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto 12px auto 0;
+}
+
+.uploadArea .videoUpload .file_content .delete_content {
+    display: flex;
+    width: 64px;
+    margin: auto 0px auto auto;
+}
+
+.uploadArea .videoUpload .file_content .name_content p {
+    width: 100%;
+    display: flex;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto;
+}
+
+.uploadArea .videoUpload .file_content .size_content p {
+    display: flex;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}
+
+.uploadArea .videoUpload .file_content .name_content p {
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.uploadArea .videoUpload .uploadContent table td p {
-    margin: auto;
-}
-
-.uploadArea .videoUpload .uploadContent table td .uploadDelete {
-    width: 120px;
-    height: 40px;
-    background-color: #909090;
-    border-radius: 5px;
-    display: flex;
-    margin: auto;
+.uploadArea .videoUpload .file_content .delete_content .uploadDelete {
+    width: 64px;
+    height: 24px;
+    margin: auto auto auto auto;
+    border-radius: 13px;
+    background-color: #595959;
     cursor: pointer;
+    display: flex;
 }
 
-.uploadArea .videoUpload .uploadContent table td .uploadDelete p {
+.uploadArea .videoUpload .file_content .delete_content .uploadDelete p {
     margin: auto;
-    color: white;
-    font-family: S-CoreDream-6Bold;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
 }
 
 .uploadFooter {
-    margin: 0 0 12px 12px;
-    font-family: S-CoreDream-4Regular;
+    width: 988px;
+    margin: 0 auto 90px;
+    display: flex;
+    flex-direction: column;
 }
 
-.uploadFooter h3 {
-    font-size: 12px;
-    font-family: S-CoreDream-4Regular;
-    color: red;
-    margin: 2px 0 0 4px;
+.uploadFooter .restBtnArea {
+    display: flex;
+    flex-direction: column;
+}
+
+.uploadFooter .restBtnArea .checkArea {
+    display: flex;
+    margin: 0 auto 8px 0;
+}
+
+.uploadFooter .restBtnArea .checkArea img {
+    width: 40px;
+    height: 40px;
+    margin: auto 4px auto 0;
+    object-fit: contain;
+}
+
+.uploadFooter .restBtnArea .checkArea p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 26px auto 0;
+}
+
+/* .uploadFooter .restBtnArea .checkArea .restore {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+} */
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    overflow: hidden;
+    top: 40%;
+    left: 50%;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restBtnArea .checkArea input[type="radio"]:checked {
+    background: none;
+}
+
+.uploadFooter .restBtnArea .checkArea label {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
     font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto 12px auto 0;
+}
+
+.uploadFooter .restBtnArea .textArea {
+    display: flex;
+    margin: 0 auto 24px 44px;
+}
+
+.uploadFooter .restBtnArea .textArea p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
 }
 
 .uploadFooter .restoreKey {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
 }
 
 .uploadFooter .restoreKey.on {
+    visibility: visible;
+    opacity: 1;
     display: flex;
     flex-direction: column;
-    margin: 12px 0 0 12px;
+    margin: 0 0 0 44px;
 }
 
-.uploadFooter .restoreKey.on .sKeyArea {
-    margin: 0 0 8px;
-}
-
-.uploadFooter .restoreKey .selectKey,
-.uploadFooter .restoreKey .createKey {
-    display: none;
-}
-
-.uploadFooter .restoreKey .selectKey.on,
-.uploadFooter .restoreKey .createKey.on {
+.uploadFooter .restoreKey .sKeyArea {
+    margin: 0 0 12px;
     display: flex;
-    margin: 8px 0 8px 24px;
+    height: 30px;
 }
 
-.uploadFooter .restoreKey .selectKey.on p,
-.uploadFooter .restoreKey .createKey.on p {
-    margin: auto 8px auto 0;
-    font-family: S-CoreDream-4Regular;
+.uploadFooter .restoreKey .sKeyArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
 }
 
-.uploadFooter .restoreKey .selectKey.on select {
-    width: 200px;
-    height: 40px;
-    font-family: S-CoreDream-4Regular;
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    align-content: center;
+    top: 40%;
+    left: 52%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
 }
 
-.uploadFooter .restoreKey .createKey.on .keyCreate {
-    margin: 0 8px 0 0;
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
 }
 
-.uploadFooter .restoreKey .createKey.on .keyCD {
-    width: 220px;
-    height: 40px;
-    background-color: deepskyblue;
+.uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked {
+    background: none;
+}
+
+/* .uploadFooter .restoreKey .sKeyArea .keySelect {
+    margin: 8px 6px auto 0;
+    width: 14px;
+    height: 14px;
+} */
+
+.uploadFooter .restoreKey .sKeyArea label {  
+    width: 230px;
+    margin: 6px 0 auto 6px;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
     display: flex;
+    width: 182px;
+    height: 30px;
+    margin: 0 0 30px;
     border-radius: 5px;
-    font-family: S-CoreDream-4Regular;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey.on {
+    visibility: visible;
+    opacity: 1;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey .select_img {
+    width: 18px;
+    height: 18px;
+    margin: auto 8px auto 0;
+    object-fit: contain;
+    transition: all ease 1s;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    display: flex;
+    flex-direction: column;  
+    width: 182px;
+    height: auto;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    position: absolute;
+    top:30px;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName .dropdown_content {
+    width: 182px;
+    height: 26px;
+    display: flex;
+    background-color: #fff;
     cursor: pointer;
 }
 
-.uploadFooter .restoreKey .createKey.on .keyCD p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
+.uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName .dropdown_content p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: center;
+    color: #595959;
     margin: auto;
+}
+
+.uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName .dropdown_content:hover {
+    background-color: #e9f6ff;
+}
+
+.uploadFooter .restoreKey .cKeyArea {
+    margin: 0 0 8px;
+    display: flex;
+    height: 56px;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: 8px 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]::before {
+    content: "●";
+    position: absolute;
+    color: #3fa9f5;
+    overflow: hidden;
+    top: 40%;
+    left: 52%;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked::before {
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.uploadFooter .restoreKey .cKeyArea input[type="radio"]:checked {
+    background: none;
+}
+
+/* .uploadFooter .restoreKey .cKeyArea .keySelect {
+    margin: 8px 6px auto 0;
+    width: 14px;
+    height: 14px;
+} */
+
+.uploadFooter .restoreKey .cKeyArea label {  
+    width: 230px;
+    margin: 6px 0 auto 6px;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey.on {
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey p {  
+    font-family: SpoqaHanSansNeo;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 10px 0 0;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey .createArea {
+    display: flex;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCreate {
+    width: 182px;
+    height: 30px;
+    margin: 0 12px 0 0;
+    padding: 0 4px;
+    border-radius: 5px;
+    border: solid 0.1px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    text-align: center;
+    font-family: SpoqaHanSansNeo;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    color: #595959;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCD {
+    width: 160px;
+    height: 30px;
+    margin: 0 54px 0 12px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    cursor: pointer;
+    display: flex;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCD h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: auto;
+}
+
+.uploadFooter .footerbtnArea {
+    margin: 36px auto auto;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn {  
+   width: 180px;
+   height: 60px;
+   margin: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+   background-color: #595959;
+   cursor: pointer;
+   display: flex;
+}
+
+.uploadFooter .footerbtnArea .nextBtn p {
+   font-family: SpoqaHanSansNeo-Bold;
+   font-size: 18px;
+   font-weight: bold;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.29;
+   letter-spacing: normal;
+   text-align: left;
+   color: #fff;
+   margin: auto;
 }
