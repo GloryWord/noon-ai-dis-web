@@ -168,6 +168,8 @@ fileModule = {
             keyName = $('.selectText').text()
         }
 
+        alert(keyIndex);
+
         // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
         var postData = {
             'requestType': 'encrypt',
