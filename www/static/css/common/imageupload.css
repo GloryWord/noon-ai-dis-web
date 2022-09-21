@@ -546,7 +546,7 @@
     position: relative;
 }
 
-.uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
+/* .uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
     content: "●";
     position: absolute;
     color: #3fa9f5;
@@ -564,7 +564,7 @@
 
 .uploadFooter .restBtnArea .checkArea input[type="radio"]:checked {
     background: none;
-}
+} */
 
 .uploadFooter .restBtnArea .checkArea label {
     font-family: SpoqaHanSansNeo-Regular;
@@ -628,7 +628,7 @@
     position: relative;
 }
 
-.uploadFooter .restoreKey .sKeyArea input[type="radio"]::before {
+/* .uploadFooter .restoreKey .sKeyArea input[type="radio"]::before {
     content: "●";
     position: absolute;
     color: #3fa9f5;
@@ -646,7 +646,7 @@
 
 .uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked {
     background: none;
-}
+} */
 
 .uploadFooter .restoreKey .sKeyArea label {  
     width: 230px;

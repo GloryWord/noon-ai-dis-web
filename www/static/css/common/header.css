@@ -48,7 +48,7 @@
     transition: top 0.2s ease-in-out;
     width: 100%;
     display: flex;
-    z-index: 1;
+    z-index: 15;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
 }
 
@@ -205,9 +205,14 @@
     margin: auto auto auto 0;
     cursor: pointer;
     border-radius: 50%;
+    /* background-color: #f9f9f9; */
     background-color: #3fa9f5;
     position: relative;
 }
+
+/* .menuBtn:hover {
+    background-color: #3fa9f5;
+} */
 
 .menuBtn img {
     width: 26px;

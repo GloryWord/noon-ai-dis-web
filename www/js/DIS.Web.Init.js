@@ -265,13 +265,11 @@ init = {
 
         var restoration = 0;
         $('input[type=radio][name=restoration]').on('change', function () {
-            switch ($(this)[0].checked) {
-                case true:
-                    restoration = 1;
-                    break;
-                case false:
-                    restoration = 0;
-                    break;
+            if($(this).val()=='true') {
+                restoration = 1;
+            }
+            else{
+                restoration = 0;
             }
         });
 
@@ -490,21 +488,21 @@ init = {
 
         var restoration = 0;
         $('input[type=radio][name=restoration]').on('change', function () {
-            if($('input[name=restoration]:checked').val()=="true"){
+            if($(this).val()=='true') {
                 restoration = 1;
             }
             else{
                 restoration = 0;
             }
-            // switch ($(this)[0].checked) {
-            //     case true:
-            //         restoration = 1;
-            //         break;
-            //     case false:
-            //         restoration = 0;
-            //         break;
-            // }
         });
+        // $('input[type=radio][name=restoration]').on('change', function () {
+        //     if($('input[name=restoration]:checked').val()=="true"){
+        //         restoration = 1;
+        //     }
+        //     else{
+        //         restoration = 0;
+        //     }
+        // });
 
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
@@ -653,10 +651,7 @@ init = {
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
                         <p>이미지 다운로드</p>\
-                    </a>\
-                    <div class="cancel">\
-                        <p>취소</p>\
-                    </div>'
+                    </a>'
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
@@ -673,10 +668,7 @@ init = {
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum] + '" download>\
                         <p>이미지 다운로드</p>\
-                    </a>\
-                    <div class="cancel">\
-                        <p>취소</p>\
-                    </div>'
+                    </a>'
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
