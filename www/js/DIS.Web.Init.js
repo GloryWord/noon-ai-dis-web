@@ -272,6 +272,10 @@ init = {
             }
         });
 
+        $('input[type=radio][name=keySelect]').on('change', function () {
+            if($(this).val()=='skey') $("#genKeyName").attr("disabled", false);
+        });
+
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
