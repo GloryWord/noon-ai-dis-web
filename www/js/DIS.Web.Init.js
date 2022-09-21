@@ -907,16 +907,21 @@ init = {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
             var phone = $(".view_phone").val()
-            var login_alias = $(".view_subaccess").val()
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
             // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
-            userinfo.infoModi(name, email, phone, login_alias, now_pass, new_pass, new_passConfig)
+            userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
         });
 
-        var infoArea = userinfo.getUserInfo()
-        $(".infoArea").html(infoArea);
+        var getFirtstInfo = userinfo.getFirtstInfo()
+        $(".userinfoFirst").html(getFirtstInfo);
+
+        var getSecondInfo = userinfo.getSecondInfo()
+        $(".userinfoSecond").html(getSecondInfo);
+
+        var getloginAlias = userinfo.getloginAlias()
+        $(".login_alias").html(getloginAlias);
     },
 
     key: function () {
@@ -1165,21 +1170,18 @@ init = {
     },
 
     test: function () {
-        $(document).on("click", "#user", function () {
-            // $.ajax({
-            //     method: "get",
-            //     url: "/api/socket",
-            //     async: false,
-            //     success: function (data) {
-            //         if (data.message == 'success') {
-            //             console.log(data);
-            //         }
-            //         // else alert(JSON.stringify(data));
-            //     }, // success 
-            //     error: function (xhr, status) {
-            //         alert("error : " + xhr + " : " + JSON.stringify(status));
-            //     }
-            // })
+        $(document).on("click", "#loginButton", function () {
+            var loginAlias = $("#loginAlias").val();
+            var accountName = $("#name").val();
+            var password = $("#pass").val();
+            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
+            else {
+                if (loginAlias == '') var msg = '접속키'
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+            }
         });
     }
 };

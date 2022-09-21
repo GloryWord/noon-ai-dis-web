@@ -20,6 +20,13 @@
 }
 
 @font-face {
+    font-family: 'SpoqaHanSansNeo-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'SpoqaHanSansNeo-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
     font-weight: normal;
@@ -41,82 +48,216 @@
 }
 
 .info_content {
-    width: auto;
+    width: 100%;
     height: auto;
     display: flex;
+    flex-direction: column;
+}
+
+.info_content .infoHeader {
+    width: 988px;
+    height: 40px;
+    margin: 100px auto 30px;
+    display: flex;
+}
+
+.info_content .infoHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.info_content .infoHeader h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px 3px 0;
+}
+
+.info_content .infoHeader p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px 0 8px;
 }
 
 .info_content .infoArea {
-    width: 500px;
+    width: 940px;
     height: auto;
+    border-top: solid 1px #707070;
+    border-bottom: solid 1px #707070;
     display: flex;
-    margin: 200px auto 0;
-    flex-direction: column;
-    background-color: #CCCCCC;
-    border-radius: 5px;
+    margin: 0 auto 30px;
 }
 
-.info_content .infoArea h1 {
-    margin: 24px auto 12px;
-    font-family: S-CoreDream-6Bold;
+.info_content .infoArea .userinfoFirst {
+    width: auto;
+    height: auto;
+    margin: 30px 108px 14px 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info_content .infoArea .userinfoSecond {
+    width: auto;
+    height: auto;
+    margin: 30px 22px 14px 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .info_content .infoArea .infoBody {
     display: flex;
-    margin: auto auto 12px;
-    width: 400px;
+    height: auto;
 }
 
-.info_content .infoArea .infoBody p {
-    margin: 0 12px 0 0;
-    text-align: right;
-    width: 136px;
+.info_content .infoArea .userinfoFirst .infoBody p {
+    width: 88px;
+    height: 18px;
+    margin: 11px 0;
     font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
 }
 
-.info_content .infoArea .infoBody.admin_only.hide {
-    display: none;
+.info_content .infoArea .userinfoSecond .infoBody p {
+    width: 100px;
+    height: 18px;
+    margin: 11px 12px 11px 0;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+}
+
+.info_content .infoArea .infoBody.head p {
+    margin-top: 2px;
+    margin-bottom: 1px;
+}
+
+.info_content .infoArea .infoBody h1 {
+    width: 294px;
+    height: 21px;
+    margin: 0 0 23px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
 }
 
 .info_content .infoArea .infoBody input {
-    width: 200px;
-}
-
-.info_content .infoArea .btnArea {
-    display: flex;
-    margin: auto;
-    margin: 12px auto 24px;
-}
-
-.info_content .infoArea .btnArea .infoSave {
-    width: 120px;
-    height: 30px;
-    background-color: deepskyblue;
+    width: 272px;
+    height: 12px;
+    padding: 11px 12px;
+    margin: 0 0 30px;
     border-radius: 5px;
-    margin: 0 48px 0 0;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    border: solid 0.1px rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+}
+
+.info_content .infoArea .infoBody input::placeholder {  
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
+}
+
+.info_content .btnArea {
     display: flex;
+    height: 30px;
+    margin: 0 auto 122px;
+}
+
+.info_content .btnArea .infoSave {
+    width: 160px;
+    height: 30px;
+    margin: 0 24px 0 0;
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
     cursor: pointer;
 }
 
-.info_content .infoArea .btnArea .infoSave p {
+.info_content .btnArea .infoSave p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
-.info_content .infoArea .btnArea .infoCancel {
-    width: 120px;
+.info_content .btnArea .infoCancel {
+    width: 160px;
     height: 30px;
-    background-color: #909090;
-    border-radius: 5px;
+    margin: 0;
     display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
     cursor: pointer;
 }
 
-.info_content .infoArea .btnArea .infoCancel p {
+.info_content .btnArea .infoCancel p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 .layerPopupBox .inner {
