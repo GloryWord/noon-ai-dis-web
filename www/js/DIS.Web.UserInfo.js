@@ -12,7 +12,7 @@ DIS.Web.UserInfo = DIS.Web.UserInfo || {};
  */
 var userinfo = DIS.Web.UserInfo;
 userinfo = {
-    getUserInfo: function() {
+    getFirtstInfo: function() {
         var requestList = ''
         $.ajax({
             method: "get",
@@ -20,12 +20,12 @@ userinfo = {
             async: false,
             success: function (data) {
                 requestList = data;
+                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
-        console.log(requestList)
         var htmlStr = ''
 
         if(requestList[0]['email']==null || requestList[0]['email']==""){
@@ -42,6 +42,40 @@ userinfo = {
             var telephone = requestList[0]['telephone']
         }
 
+        htmlStr += '<div class="infoBody head">\
+                        <p>아이디</p>\
+                        <h1>'+requestList[0]['account_name']+'</h1>\
+                    </div>\
+                    <div class="infoBody">\
+                        <p>이름</p>\
+                        <input class="view_name" value="'+requestList[0]['user_name']+'" placeholder="이름을 입력해 주세요">\
+                    </div>\
+                    <div class="infoBody">\
+                        <p>이메일</p>\
+                        <input class="view_email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
+                    </div>\
+                    <div class="infoBody">\
+                        <p>전화번호</p>\
+                        <input class="view_phone" value="'+telephone+'" placeholder="- 없이 입력해 주세요">\
+                    </div>'
+        return htmlStr;
+    },
+
+    getSecondInfo: function() {
+        var requestList = ''
+        $.ajax({
+            method: "get",
+            url: "/api/user/info",
+            async: false,
+            success: function (data) {
+                requestList = data;
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        var htmlStr = ''
+
         if(requestList[0]['login_alias']==null || requestList[0]['login_alias']==""){
             var login_alias = ""
         }
@@ -49,52 +83,46 @@ userinfo = {
             var login_alias = requestList[0]['login_alias']
         }
 
-        htmlStr += '<h1>내 정보</h1>\
-                    <div class="infoBody">\
-                        <p>아이디 : </p>\
-                        <input class="view_id" value="'+requestList[0]['account_name']+'" disabled>\
+        htmlStr += '<div class="infoBody head">\
+                        <p>접속 키</p>\
+                        <h1 class="login_alias">'+login_alias+'</h1>\
                     </div>\
                     <div class="infoBody">\
-                        <p>이름 : </p>\
-                        <input class="view_name" value="'+requestList[0]['user_name']+'">\
+                        <p>현재 비밀번호</p>\
+                        <input class="now_pass" type="password" placeholder="기존의 비밀번호를 입력해 주세요">\
                     </div>\
                     <div class="infoBody">\
-                        <p>이메일 : </p>\
-                        <input class="view_email" value="'+email+'">\
+                        <p>새 비밀번호</p>\
+                        <input class="new_pass" type="password" placeholder="영문 소문자 + 숫자 혼합 8자 이상~16자이내">\
                     </div>\
                     <div class="infoBody">\
-                        <p>전화번호 : </p>\
-                        <input class="view_phone" value="'+telephone+'" placeholder="- 를 제외하고 입력해주세요.">\
-                    </div>\
-                    <div class="infoBody admin_only">\
-                        <p>접속 키 : </p>\
-                        <input class="view_subaccess" value="'+login_alias+'">\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>현재 비밀번호 : </p>\
-                        <input class="now_pass" type="password">\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>새 비밀번호 : </p>\
-                        <input class="new_pass" type="password">\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>새 비밀번호 확인 : </p>\
-                        <input class="new_passConfig" type="password">\
-                    </div>\
-                    <div class="btnArea">\
-                        <div class="infoSave">\
-                            <p>저장</p>\
-                        </div>\
-                        <div class="infoCancel" onclick="window.history.back()">\
-                            <p>취소</p>\
-                        </div>\
+                        <p>새 비밀번호 확인</p>\
+                        <input class="new_passConfig" type="password" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
                     </div>'
         return htmlStr;
     },
     
-    infoModi: function(name, email, phone, login_alias, now_pass, new_pass, new_passConfig) {
-        var postdata = {name:name, email:email, phone:phone, login_alias:login_alias, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
+    getloginAlias: function() {
+        var requestList = ''
+        $.ajax({
+            method: "get",
+            url: "/api/user/alias",
+            async: false,
+            success: function (data) {
+                requestList = data;
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        var htmlStr = ''
+
+        htmlStr += ''+requestList[0]['login_alias']+''
+        return htmlStr;
+    },
+    
+    infoModi: function(name, email, phone, now_pass, new_pass, new_passConfig) {
+        var postdata = {name:name, email:email, phone:phone, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
         $.ajax({
             method: "put",
             url: "/api/user/info",

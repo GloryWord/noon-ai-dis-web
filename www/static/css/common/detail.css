@@ -742,7 +742,7 @@
 }
 
 .layerPopupBox .img_inner .imgContent {
-    margin: 0 34px 34px;
+    margin: 0 auto 34px;
     width: 1012px;
     height: auto;
     max-height: 702px;
@@ -756,12 +756,12 @@
 }
 
 .layerPopupBox .img_inner .imgContent::-webkit-scrollbar-track {
-    background-color: transparent;
+    background-color: #bcc5cb;
 }
 
 .layerPopupBox .img_inner .imgContent::-webkit-scrollbar-thumb {
     border-radius: 3px;
-    background-color: gray;
+    background-color: #707070;
 }
 
 .layerPopupBox .img_inner .imgContent::-webkit-scrollbar-button {

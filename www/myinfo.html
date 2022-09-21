@@ -51,47 +51,21 @@
         </div>
     </div>
     <div class="info_content">
+        <div class="infoHeader">
+            <img src="./static/imgs/info/info_icon.png">
+            <h1>계정 정보</h1>
+            <p>내 계정 정보를 확인하고, 수정하실 수 있습니다.</p>
+        </div>
         <div class="infoArea">
-            <h1>내 정보</h1>
-            <div class="infoBody">
-                <p>아이디 : </p>
-                <input class="view_id" value="asdf" disabled>
+            <div class="userinfoFirst"></div>
+            <div class="userinfoSecond"></div>
+        </div>
+        <div class="btnArea">
+            <div class="infoSave">
+                <p>저장</p>
             </div>
-            <div class="infoBody">
-                <p>이름 : </p>
-                <input class="view_name" value="홍길동">
-            </div>
-            <div class="infoBody">
-                <p>이메일 : </p>
-                <input class="view_email" value="asdf@asd.com">
-            </div>
-            <div class="infoBody">
-                <p>전화번호 : </p>
-                <input class="view_phone" value="01011111111">
-            </div>
-            <div class="infoBody admin_only">
-                <p>접속 키 : </p>
-                <input class="view_subaccess" value="">
-            </div>
-            <div class="infoBody">
-                <p>현재 비밀번호 : </p>
-                <input class="now_pass" type="password">
-            </div>
-            <div class="infoBody">
-                <p>새 비밀번호 : </p>
-                <input class="new_pass" type="password">
-            </div>
-            <div class="infoBody">
-                <p>새 비밀번호 확인 : </p>
-                <input class="new_passConfig" type="password">
-            </div>
-            <div class="btnArea">
-                <div class="infoSave">
-                    <p>저장</p>
-                </div>
-                <div class="infoCancel">
-                    <p>취소</p>
-                </div>
+            <div class="infoCancel" onclick="window.history.back()">
+                <p>취소</p>
             </div>
         </div>
     </div>
