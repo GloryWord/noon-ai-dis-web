@@ -172,7 +172,7 @@ resultLoader = {
         fileNameArray = fileNameArray.splice(0, fileNameArray.length - 1);
         var count = fileNameArray.length;
         var nameCount = (fileNameArray.length > 1) ? ' 외 '+(count-1)+'장' : '';
-        var type = (result.file_type == 'image') ? '이미지' : '비디오'
+        var type = (result.file_type == 'image') ? '이미지' : '동영상'
         var group = (count > 1) ? '그룹' : '';
         var restoration = (result.restoration == 1) ? '복원 가능' : '복원 불가능';
         var date = new Date(result.request_date)

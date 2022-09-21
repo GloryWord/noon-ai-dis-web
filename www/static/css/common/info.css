@@ -74,6 +74,10 @@
     font-family: SpoqaHanSansNeo-Regular;
 }
 
+.info_content .infoArea .infoBody.admin_only.hide {
+    display: none;
+}
+
 .info_content .infoArea .infoBody input {
     width: 200px;
 }

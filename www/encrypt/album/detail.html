@@ -207,18 +207,19 @@
     <div id="wrap">
         <div class="layerPopupBox active">
             <div class="img_inner">
-                <div class="imgContent">
-                    <div class="imgHeader" id="selectImgArea">
-                        <!-- <img class="viewImg" src="../../static/imgs/1920main_bg.png"> -->
-                    </div>
-                    <div class="imgFooter" id="selectBtnArea">
+                <div class="imgHeader">
+                    <div class="btnArea" id="selectBtnArea">
                         <a class="imgConfirm">
                             <p>이미지 다운로드</p>
                         </a>
-                        <div class="cancel">
-                            <p>취소</p>
-                        </div>
                     </div>
+                    <div class="cancel">
+                        <img class="cancel_nohover" src="../../static/imgs/common/cancel_icon.png">
+                        <img class="cancel_hover" src="../../static/imgs/common/cancel_hover_icon.png">
+                    </div>
+                </div>
+                <div class="imgContent" id="selectImgArea">
+                        <!-- <img class="viewImg" src="../../static/imgs/1920main_bg.png"> -->
                 </div>
             </div>
         </div>
