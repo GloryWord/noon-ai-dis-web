@@ -93,8 +93,8 @@ requestTable = {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
-            var count = 0;
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < requestList.length; i++) {
+                if (i == 5) break;
                 if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
                 if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
 
@@ -154,8 +154,6 @@ requestTable = {
                                 </div>\
                             </div>\
                         </div>'
-                count += 1;
-                if (count == 5) break;
             }
         }
 
