@@ -41,7 +41,7 @@ userinfo = {
         else{
             var telephone = requestList[0]['telephone']
         }
-
+        var onlu_num = "this.value.replace(/[^0-9]/g,'')"
         htmlStr += '<div class="infoBody head">\
                         <p>아이디</p>\
                         <h1>'+requestList[0]['account_name']+'</h1>\
@@ -52,11 +52,13 @@ userinfo = {
                     </div>\
                     <div class="infoBody">\
                         <p>이메일</p>\
-                        <input class="view_email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
+                        <input class="view_email" type="email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
+                        <h3 class="email_error">메일 주소를 다시 확인해 주세요</h3>\
                     </div>\
                     <div class="infoBody">\
                         <p>전화번호</p>\
-                        <input class="view_phone" value="'+telephone+'" placeholder="- 없이 입력해 주세요">\
+                        <input class="view_phone" value="'+telephone+'" maxlength="11" onKeyup="this.value='+onlu_num+';" placeholder="- 없이 입력해 주세요">\
+                        <h3 class="phone_error">휴대폰 번호를 확인해 주세요</h3>\
                     </div>'
         return htmlStr;
     },
@@ -82,22 +84,22 @@ userinfo = {
         else{
             var login_alias = requestList[0]['login_alias']
         }
-
+        var b = "this.value.replace(/[^a-z0-9]/g,'')"
         htmlStr += '<div class="infoBody head">\
                         <p>접속 키</p>\
                         <h1 class="login_alias">'+login_alias+'</h1>\
                     </div>\
                     <div class="infoBody">\
                         <p>현재 비밀번호</p>\
-                        <input class="now_pass" type="password" placeholder="기존의 비밀번호를 입력해 주세요">\
+                        <input class="now_pass" type="password" style="ime-mode:inactive" placeholder="기존의 비밀번호를 입력해 주세요">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호</p>\
-                        <input class="new_pass" type="password" placeholder="영문 소문자 + 숫자 혼합 8자 이상~16자이내">\
+                        <input class="new_pass" type="password" style="ime-mode:inactive" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호 확인</p>\
-                        <input class="new_passConfig" type="password" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
+                        <input class="new_passConfig" type="password" style="ime-mode:inactive" maxlength="16" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
                     </div>'
         return htmlStr;
     },

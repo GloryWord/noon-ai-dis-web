@@ -130,6 +130,29 @@ function month() {
     return month
 }
 
+function validEmail(obj){
+    if(validEmailCheck(obj)==false){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+function validEmailCheck(obj){
+    var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    return (obj.value.match(pattern)!=null)
+}
+
+function validPhone(obj){
+    if(obj.length==11){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 var init = DIS.Web.Init;
 init = {
 
@@ -912,6 +935,30 @@ init = {
             var new_passConfig = $(".new_passConfig").val()
             // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
             userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
+        });
+
+        $(document).on("change", ".view_email", function () {
+            if($(this).val()!=""){
+                var validemail = validEmail(this)
+                if(validemail==false){
+                    $(".email_error").addClass('active')
+                }
+                else{
+                    $(".email_error").removeClass('active')
+                }
+            }
+        });
+
+        $(document).on("change", ".view_phone", function () {
+            if($(this).val()!=""){
+                var validphone = validPhone(this)
+                if(validphone==false){
+                    $(".phone_error").addClass('active')
+                }
+                else{
+                    $(".phone_error").removeClass('active')
+                }
+            }
         });
 
         var getFirtstInfo = userinfo.getFirtstInfo()

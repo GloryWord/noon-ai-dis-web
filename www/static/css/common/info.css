@@ -122,6 +122,7 @@
 .info_content .infoArea .infoBody {
     display: flex;
     height: auto;
+    position: relative;
 }
 
 .info_content .infoArea .userinfoFirst .infoBody p {
@@ -152,6 +153,30 @@
     letter-spacing: normal;
     text-align: left;
     color: #595959;
+    position: relative;
+}
+
+.info_content .infoArea .infoBody .email_error,
+.info_content .infoArea .infoBody .phone_error {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
+    display: none;
+    position: absolute;
+    left: 100px;
+    top: 42px;
+}
+
+.info_content .infoArea .infoBody .email_error.active,
+.info_content .infoArea .infoBody .phone_error.active {
+    display: block;
 }
 
 .info_content .infoArea .infoBody.head p {
@@ -175,13 +200,13 @@
 }
 
 .info_content .infoArea .infoBody input {
-    width: 272px;
+    width: 268px;
     height: 12px;
     padding: 11px 12px;
     margin: 0 0 30px;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
-    border: solid 0.1px rgba(0, 0, 0, 0.16);
+    border: none;
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
@@ -209,7 +234,7 @@
 .info_content .btnArea {
     display: flex;
     height: 30px;
-    margin: 0 auto 122px;
+    margin: 0 auto 129px;
 }
 
 .info_content .btnArea .infoSave {
