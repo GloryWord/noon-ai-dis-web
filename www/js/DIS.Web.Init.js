@@ -938,16 +938,21 @@ init = {
 
         $(document).on("click", ".memo_modi", function () {
             var key_idx = $(this).data("id")
-            var keymemo_modi = requestTable.postSelectKeyMemo(key_idx)
+            var keymemo_modi = requestTable.getKeyMemo(key_idx)
             $(".keymemo_modi").val(keymemo_modi)
             // $(".bodyMiddle").html(keymemo_modi)
             $("#memoModi").addClass('active')
+
+            $(document).on("click", ".memosave", function () {
+                var key_memo = $(".keymemo_modi").val()
+                requestTable.updateKeyMemo(key_idx, key_memo)
+            });
         });
 
-        $(document).on("click", ".memosave", function () {
-            var key_memo = $(".keymemo_modi").val()
-            requestTable.postUpdateKeyMemo(key_memo)
-        });
+        // $(document).on("click", ".memosave", function () {
+        //     var key_memo = $(".keymemo_modi").val()
+        //     requestTable.postUpdateKeyMemo(key_memo)
+        // });
 
         $(document).on("click", ".cancel", function () {
             $('.modal').removeClass('active')
