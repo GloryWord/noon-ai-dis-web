@@ -20,7 +20,6 @@ resultLoader = {
             url: "/api/encrypt/result/"+index,
             async: false,
             success: function (data) {
-                console.log(data);
                 if (data.message == 'success') {
                     result = data.result;
                 }
