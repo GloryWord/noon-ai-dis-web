@@ -295,6 +295,10 @@ init = {
             }
         });
 
+        $('input[type=radio][name=keySelect]').on('change', function () {
+            if($(this).val()=='skey') $("#genKeyName").attr("disabled", false);
+        });
+
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
             $(".fileUpload").addClass('active')
@@ -600,11 +604,15 @@ init = {
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
             $('.recoConfirm').attr('data-value', $(this).data('value'));
             $("#recoData").addClass('active')
         });
 
         $(document).on("click", ".cancel", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
             $('.modal').removeClass('active')
         });
 
@@ -981,16 +989,21 @@ init = {
 
         $(document).on("click", ".memo_modi", function () {
             var key_idx = $(this).data("id")
-            var keymemo_modi = requestTable.postSelectKeyMemo(key_idx)
+            var keymemo_modi = requestTable.getKeyMemo(key_idx)
             $(".keymemo_modi").val(keymemo_modi)
             // $(".bodyMiddle").html(keymemo_modi)
             $("#memoModi").addClass('active')
+
+            $(document).on("click", ".memosave", function () {
+                var key_memo = $(".keymemo_modi").val()
+                requestTable.updateKeyMemo(key_idx, key_memo)
+            });
         });
 
-        $(document).on("click", ".memosave", function () {
-            var key_memo = $(".keymemo_modi").val()
-            requestTable.postUpdateKeyMemo(key_memo)
-        });
+        // $(document).on("click", ".memosave", function () {
+        //     var key_memo = $(".keymemo_modi").val()
+        //     requestTable.postUpdateKeyMemo(key_memo)
+        // });
 
         $(document).on("click", ".cancel", function () {
             $('.modal').removeClass('active')
@@ -1076,22 +1089,25 @@ init = {
             var userName = $(".sub_username").val();
             var email = $(".sub_email").val();
 
-            if (password == repassword) {
-                var subAccountInfo = {
-                    account_name: accountName,
-                    password: password,
-                    user_name: userName,
-                    email: email
-                }
-                var result = subaccount.addSubAccount(subAccountInfo);
-                if (result) {
-                    Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
-                        location.href = '/submanage';
-                    })
-                }
-            }
+            if (accountName == '' || password == '' || repassword == '' || userName == '' || email == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
             else {
-                Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error')
+                if (password == repassword) {
+                    var subAccountInfo = {
+                        account_name: accountName,
+                        password: password,
+                        user_name: userName,
+                        email: email
+                    }
+                    var result = subaccount.addSubAccount(subAccountInfo);
+                    if (result) {
+                        Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
+                            location.href = '/submanage';
+                        })
+                    }
+                }
+                else {
+                    Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error')
+                }
             }
         });
 
@@ -1138,9 +1154,15 @@ init = {
         $(document).on("click", "#email_send", function () {
             var email = $("#account_name").val();
             if (email) {
-                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
-                    verifyCode = signup.sendMail(email);
-                })
+                var exist = signup.checkDuplicate(email);
+                if(!exist) {
+                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                        verifyCode = signup.sendMail(email);
+                    })
+                }
+                else {
+                    Swal.fire('이미 사용중인 계정입니다.', '', 'warning')
+                }
             }
             else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
@@ -1170,6 +1192,7 @@ init = {
                 var ownerName = $("#owner_name").val();
                 var telePhone = $("#telephone").val();
                 if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
+                else if (password == '' || repassword == '' || companyName == '' || ownerName == '' || telePhone == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
                 else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
             }
         });
@@ -1186,7 +1209,16 @@ init = {
 
         $(document).on("click", "#email_send", function () {
             var email = $("#account_name").val();
-            if (email) login.forgetPassword(email);
+            if (email) {
+                var exist = signup.checkDuplicate(email);
+                if(exist) {
+                    login.forgetPassword(email);
+                }
+                else {
+                    Swal.fire('가입된 정보가 없습니다.', '', 'warning')
+                }
+            }
+            else Swal.fire('빈 칸을 입력해 주세요.', '', 'warning')
         });
     },
 

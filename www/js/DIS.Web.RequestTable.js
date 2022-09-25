@@ -93,8 +93,8 @@ requestTable = {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
-            var count = 0;
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < requestList.length; i++) {
+                if (i == 5) break;
                 if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
                 if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
 
@@ -154,8 +154,6 @@ requestTable = {
                                 </div>\
                             </div>\
                         </div>'
-                count += 1;
-                if (count == 5) break;
             }
         }
 
@@ -398,13 +396,11 @@ requestTable = {
         return htmlStr;
     },
 
-    postSelectKeyMemo: function (key_idx) {
-        var postdata = { key_idx: key_idx }
+    getKeyMemo: function (key_idx) {
         var requestList = ''
         $.ajax({
-            method: "post",
-            url: "/api/key/memo",
-            data: postdata,
+            method: "get",
+            url: "/api/key/memo/" + key_idx,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -427,11 +423,11 @@ requestTable = {
         return memo;
     },
 
-    postUpdateKeyMemo: function (key_memo) {
+    updateKeyMemo: function (key_idx, key_memo) {
         var postdata = { key_memo: key_memo }
         $.ajax({
             method: "put",
-            url: "/api/key/memo",
+            url: "/api/key/memo/" + key_idx,
             data: postdata,
             async: false,
             success: function (data) {
