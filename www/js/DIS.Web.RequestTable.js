@@ -331,6 +331,7 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
+                console.log(requestList)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -338,28 +339,45 @@ requestTable = {
         });
 
         var htmlStr = ''
-
-        for (var i = 0; i < requestList.length; i++) {
-            var date = new Date(requestList[i]['generated_date'])
-            if (requestList[i]['key_memo'] == null || requestList[i]['key_memo'] == "") {
-                var memo = ""
-            }
-            else {
-                var memo = requestList[i]['key_memo']
-            }
-            htmlStr += '<div class="tableContent" id=key_index-' + requestList[i]['id'] + '>\
-                            <div class="number_content"><p>'+ requestList[i]['id'] + '</p></div>\
-                            <div class="name_content"><p>'+ requestList[i]['key_name'] + '</p></div>\
-                            <div class="user_content"><p>'+ requestList[i]['account_name'] + '</p></div>\
-                            <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="memo_content">\
-                                <p class="memo_text">'+ memo + '</p>\
-                                <div data-id="'+ requestList[i]['id'] + '" class="memo_modi">\
-                                    <p>수정</p>\
-                                </div>\
-                            </div>\
+        if(requestList.message == "No keyList found"){
+            htmlStr += '<div class="tableContent">\
+                            <p>생성된 Key가 없어요</p>\
                         </div>'
         }
+        else{
+            for (var i = 0; i < requestList['keyList'].length; i++) {
+                var date = new Date(requestList['keyList'][i]['generated_date'])
+                if (requestList['keyList'][i]['key_memo'] == null || requestList['keyList'][i]['key_memo'] == "") {
+                    var memo = ""
+                }
+                else {
+                    var memo = requestList['keyList'][i]['key_memo']
+                }
+
+                if(requestList['account']!=requestList['keyList'][i]['account_name']){
+                    var modi = "hide"
+                }
+                else{
+                    var modi = ""
+                }
+
+                htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
+                                <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
+                                <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
+                                <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
+                                <div class="memo_content">\
+                                    <p class="memo_text">'+ memo + '</p>\
+                                </div>\
+                                <div class="modi_content">\
+                                    <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
+                                        <p>수정</p>\
+                                    </div>\
+                                </div>\
+                            </div>'
+            }
+        }
+
         return htmlStr;
     },
 
@@ -379,7 +397,7 @@ requestTable = {
             }
         });
 
-        if (requestList[0]['key_memo'] == "" || requestList[0]['key_memo'] == null) {
+        if (requestList.message == "No request list found") {
             var memo = ""
         }
         else {
