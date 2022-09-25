@@ -176,7 +176,7 @@ init = {
             $('#progress').html(progress);
             if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                var mainLog = requestTable.getEncRequestList()
+                var mainLog = requestTable.getRecentRequest('encrypt');
                 $(".mainLog").html(mainLog);
             }
         }
@@ -191,7 +191,7 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        var mainLog = requestTable.getEncRequestList()
+        var mainLog = requestTable.getRecentRequest('encrypt');
         $(".mainLog").html(mainLog);
 
         $(document).on("click", ".detailInfo", function () {
@@ -1187,16 +1187,21 @@ init = {
         $(document).on("click", "#confirm", function () {
             var password = $('#password').val();
             var repassword = $('#repassword').val();
-        
-            if (password != repassword) Swal.fire({
-                title: '비밀번호 불일치',
-                text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
-                confirmButtonText: '확인',
-                allowOutsideClick: false,
-                icon: 'warning'
-            })
+            
+            if (password == '') {
+                Swal.fire('변경할 비밀번호를 입력해주세요.', '', 'warning');
+            }
             else {
-                login.resetPassword(accountName, password);
+                if (password != repassword) Swal.fire({
+                    title: '비밀번호 불일치',
+                    text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'warning'
+                })
+                else {
+                    login.resetPassword(accountName, password);
+                }
             }
         })
     },
