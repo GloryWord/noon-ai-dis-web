@@ -43,35 +43,54 @@
 .sub_content {
     display: flex;
     flex-direction: column;
-    margin: 120px auto 0;
+    width: 100%;
+    height: auto;
 }
 
-.sub_add {
-    margin: 0 auto 24px;
-    background-color: deepskyblue;
-    border-radius: 5px;
-    width: 180px;
+.subHeader {
+    margin: 100px auto 20px;
+    width: 988px;
     height: 40px;
+    display: flex;
+}
+
+.subHeader .sub_add {
+    margin: auto 0 auto auto;
+    width: 160px;
+    height: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
     display: flex;
     cursor: pointer;
 }
 
-.sub_add p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
+.subHeader .sub_add p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
     margin: auto;
 }
 
 .sub_table {
-    display: flex;
-    margin: 0 auto;
+    width: 988px;
     height: auto;
-    overflow-y: auto;
-    border-top: 1px solid;
+    min-height: 376px;
+    display: flex;
+    margin: 0 auto 105px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
 }
 
 .sub_table .subList {
-    width: 1000px;
+    width: 988px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -79,15 +98,16 @@
 
 .sub_table .subList .listHeader {
     width: 100%;
-    height: 80px;
+    height: auto;
     display: flex;
 }
 
 .sub_table .subList .listHeader .headArea {
-    width: 100%;
-    height: 100%;
+    width: 940px;
+    height: 62px;
     display: flex;
-    border-bottom: 1px solid;
+    border-bottom: solid 1px #707070;
+    margin: 0 auto;
 }
 
 .sub_table .subList .listHeader .headArea .number_head,
@@ -98,9 +118,9 @@
 .sub_table .subList .listHeader .headArea .pass_head,
 .sub_table .subList .listHeader .headArea .auth_head,
 .sub_table .subList .listHeader .headArea .del_head {
-    height: 100%;
+    height: 18px;
     display: flex;
-    margin: auto;
+    margin: 24px auto 20px;
 }
 
 .sub_table .subList .listHeader .headArea .number_head {
@@ -136,22 +156,32 @@
 }
 
 .sub_table .subList .listHeader .headArea h3 {
-    margin: auto;
+    height: 18px;
+    margin: auto;  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
 }
 
 .sub_table .subList .listContent {
+    width: 940px;
     height: auto;
-    max-height: 550px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    margin: 0 auto 24px;
 }
 
 .sub_table .subList .listContent .tableContent {
     width: 100%;
-    height: 60px;
+    height: 57px;
     display: flex;
-    border-bottom: 1px solid;
+    border-bottom: solid 1px #bcc5cb;
 }
 
 .sub_table .subList .listContent .tableContent .number_content,
@@ -162,7 +192,7 @@
 .sub_table .subList .listContent .tableContent .pass_content,
 .sub_table .subList .listContent .tableContent .auth_content,
 .sub_table .subList .listContent .tableContent .del_content {
-    height: 60px;
+    height: 57px;
     display: flex;
     margin: auto;
 }
@@ -200,54 +230,84 @@
 }
 
 .sub_table .subList .listContent .tableContent p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
     margin: auto;
 }
 
 .sub_table .subList .listContent .tableContent .pass_content .pass_modi {
-    display: flex;
-    width: 80px;
-    height: 40px;
+    width: 64px;
+    height: 24px;
     margin: auto;
-    background-color: deepskyblue;
-    border-radius: 5px;
+    border-radius: 13px;
+    background-color: #3fa9f5;
+    display: flex;
     cursor: pointer;
 }
 
 .sub_table .subList .listContent .tableContent .pass_content .pass_modi p {
-    color: white;
     font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
 .sub_table .subList .listContent .tableContent .auth_content .auth_modi {
-    display: flex;
-    width: 80px;
-    height: 40px;
+    width: 64px;
+    height: 24px;
     margin: auto;
-    background-color:seagreen;
-    border-radius: 5px;
+    border-radius: 13px;
+    background-color: #16284d;
+    display: flex;
     cursor: pointer;
 }
 
 .sub_table .subList .listContent .tableContent .auth_content .auth_modi p {
-    color: white;
     font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
 .sub_table .subList .listContent .tableContent .del_content .delBtn {
-    display: flex;
-    width: 80px;
-    height: 40px;
+    width: 64px;
+    height: 24px;
     margin: auto;
-    background-color: #909090;
-    border-radius: 5px;
+    border-radius: 13px;
+    background-color: #595959;
+    display: flex;
     cursor: pointer;
 }
 
 .sub_table .subList .listContent .tableContent .del_content .delBtn p {
-    color: white;
     font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
