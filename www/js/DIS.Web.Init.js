@@ -890,6 +890,12 @@ init = {
             if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
                 Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
             }
+            else if(startDate>today() || endDate>today()){
+                Swal.fire('오늘날짜보다 크게 설정 할 수 없어요.', '', 'error')
+            }
+            else if(startDate>endDate){
+                Swal.fire('시작날짜를 종료날짜보다 크게 할 수 없어요.', '', 'error')
+            }
             else {
                 console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
@@ -1016,9 +1022,14 @@ init = {
         });
 
         $(document).on("click", "#generateKey", function () {
-            var genKeyName = $("#genKeyName").val();
-            var keyMemo = $("#keyMemo").val();
-            comm.generateKey(genKeyName, keyMemo);
+            if($("#genKeyName").val()==""){
+                Swal.fire('Key 이름을 입력해주세요.', '', 'warning');
+            }
+            else{
+                var genKeyName = $("#genKeyName").val();
+                var keyMemo = $("#keyMemo").val();
+                comm.generateKey(genKeyName, keyMemo);
+            }
         });
     },
 
