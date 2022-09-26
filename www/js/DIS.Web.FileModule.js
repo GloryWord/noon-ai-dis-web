@@ -164,11 +164,18 @@ fileModule = {
         if (restoration == 1) {
             // keyIndex = $('#selectKeyName').val()
             // keyName = $('#selectKeyName option:checked').text()
-            keyIndex = $('.selectKey').data("idx")
-            keyName = $('.selectText').text()
+            if ($('input[type=radio][name=keySelect]')[0].checked) {
+                keyIndex = $('.selectKey').data("idx")
+                keyName = $('.selectText').text()
+            }
+            else {
+                keyName = $('#genKeyName').val();
+                for(var i = 0; i < $('.dropdown_content').length; i++) {
+                    console.log($('.dropdown_content')[i].innerText)
+                    if($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
+                }
+            }
         }
-
-        alert(keyIndex);
 
         // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
         var postData = {

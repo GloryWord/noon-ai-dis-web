@@ -398,13 +398,11 @@ requestTable = {
         return htmlStr;
     },
 
-    postSelectKeyMemo: function (key_idx) {
-        var postdata = { key_idx: key_idx }
+    getKeyMemo: function (key_idx) {
         var requestList = ''
         $.ajax({
-            method: "post",
-            url: "/api/key/memo",
-            data: postdata,
+            method: "get",
+            url: "/api/key/memo/" + key_idx,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -427,11 +425,11 @@ requestTable = {
         return memo;
     },
 
-    postUpdateKeyMemo: function (key_memo) {
+    updateKeyMemo: function (key_idx, key_memo) {
         var postdata = { key_memo: key_memo }
         $.ajax({
             method: "put",
-            url: "/api/key/memo",
+            url: "/api/key/memo/" + key_idx,
             data: postdata,
             async: false,
             success: function (data) {
