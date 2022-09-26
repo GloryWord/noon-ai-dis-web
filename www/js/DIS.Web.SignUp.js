@@ -72,5 +72,29 @@ signup = {
         })
 
         return result;
+    },
+
+    checkDuplicate: function (email) {
+        var result = ''
+
+        $.ajax({
+            method: "post",
+            url: "/api/signup/duplicate",
+            data: {
+                email_address: email
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    if (data.result == 'true') result = true;
+                    else if (data.result == 'false') result = false;
+                }
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return result;
     }
 }

@@ -133,8 +133,13 @@ comm = {
                     resolve();
                 }).then(() => {
                     Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
-                        $("#selectKeyName").html(comm.getKeyList());
-                        $("#genKeyName").attr("disabled", true);
+                        if(window.location.pathname == '/key') {
+                            location.reload();
+                        }
+                        else {
+                            $("#selectKeyName").html(comm.getKeyList());
+                            $("#genKeyName").attr("disabled", true);    
+                        }
                     })
                 })
             },

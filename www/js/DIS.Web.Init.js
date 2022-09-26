@@ -199,7 +199,7 @@ init = {
             $('#progress').html(progress);
             if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                var mainLog = requestTable.getEncRequestList()
+                var mainLog = requestTable.getRecentRequest('encrypt');
                 $(".mainLog").html(mainLog);
             }
         }
@@ -214,7 +214,7 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        var mainLog = requestTable.getEncRequestList()
+        var mainLog = requestTable.getRecentRequest('encrypt');
         $(".mainLog").html(mainLog);
 
         $(document).on("click", ".detailInfo", function () {
@@ -604,11 +604,15 @@ init = {
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
             $('.recoConfirm').attr('data-value', $(this).data('value'));
             $("#recoData").addClass('active')
         });
 
         $(document).on("click", ".cancel", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
             $('.modal').removeClass('active')
         });
 
@@ -1085,22 +1089,25 @@ init = {
             var userName = $(".sub_username").val();
             var email = $(".sub_email").val();
 
-            if (password == repassword) {
-                var subAccountInfo = {
-                    account_name: accountName,
-                    password: password,
-                    user_name: userName,
-                    email: email
-                }
-                var result = subaccount.addSubAccount(subAccountInfo);
-                if (result) {
-                    Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
-                        location.href = '/submanage';
-                    })
-                }
-            }
+            if (accountName == '' || password == '' || repassword == '' || userName == '' || email == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
             else {
-                Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error')
+                if (password == repassword) {
+                    var subAccountInfo = {
+                        account_name: accountName,
+                        password: password,
+                        user_name: userName,
+                        email: email
+                    }
+                    var result = subaccount.addSubAccount(subAccountInfo);
+                    if (result) {
+                        Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
+                            location.href = '/submanage';
+                        })
+                    }
+                }
+                else {
+                    Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error')
+                }
             }
         });
 
@@ -1147,9 +1154,15 @@ init = {
         $(document).on("click", "#email_send", function () {
             var email = $("#account_name").val();
             if (email) {
-                Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
-                    verifyCode = signup.sendMail(email);
-                })
+                var exist = signup.checkDuplicate(email);
+                if(!exist) {
+                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                        verifyCode = signup.sendMail(email);
+                    })
+                }
+                else {
+                    Swal.fire('이미 사용중인 계정입니다.', '', 'warning')
+                }
             }
             else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
@@ -1179,6 +1192,7 @@ init = {
                 var ownerName = $("#owner_name").val();
                 var telePhone = $("#telephone").val();
                 if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
+                else if (password == '' || repassword == '' || companyName == '' || ownerName == '' || telePhone == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
                 else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
             }
         });
@@ -1195,7 +1209,16 @@ init = {
 
         $(document).on("click", "#email_send", function () {
             var email = $("#account_name").val();
-            if (email) login.forgetPassword(email);
+            if (email) {
+                var exist = signup.checkDuplicate(email);
+                if(exist) {
+                    login.forgetPassword(email);
+                }
+                else {
+                    Swal.fire('가입된 정보가 없습니다.', '', 'warning')
+                }
+            }
+            else Swal.fire('빈 칸을 입력해 주세요.', '', 'warning')
         });
     },
 
@@ -1211,16 +1234,21 @@ init = {
         $(document).on("click", "#confirm", function () {
             var password = $('#password').val();
             var repassword = $('#repassword').val();
-        
-            if (password != repassword) Swal.fire({
-                title: '비밀번호 불일치',
-                text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
-                confirmButtonText: '확인',
-                allowOutsideClick: false,
-                icon: 'warning'
-            })
+            
+            if (password == '') {
+                Swal.fire('변경할 비밀번호를 입력해주세요.', '', 'warning');
+            }
             else {
-                login.resetPassword(accountName, password);
+                if (password != repassword) Swal.fire({
+                    title: '비밀번호 불일치',
+                    text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'warning'
+                })
+                else {
+                    login.resetPassword(accountName, password);
+                }
             }
         })
     },

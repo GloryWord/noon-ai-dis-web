@@ -57,12 +57,12 @@ requestTable = {
         return result;
     },
 
-    getEncRequestList: function (mode) {
+    getRecentRequest: function (requestType) {
         var requestList = ''
 
         $.ajax({
             method: "get",
-            url: "/api/request/encrypt",
+            url: `/api/request/${requestType}/recent`,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -74,29 +74,14 @@ requestTable = {
             }
         });
 
-        // var htmlStr = '<thead>\
-        //                 <tr>\
-        //                     <th class="col-xs-3">요청 번호</th>\
-        //                     <th class="col-xs-6">파일명</th>\
-        //                     <th class="col-xs-6">파일 타입</th>\
-        //                     <th class="col-xs-6">요청 날짜</th>\
-        //                     <th class="col-xs-6">진행률</th>\
-        //                     <th class="col-xs-6">상태</th>\
-        //                     <th class="col-xs-6">복호화</th>\
-        //                     <th class="col-xs-3">상세보기</th>\
-        //                 </tr>\
-        //                 </thead>'
-
         var htmlStr = ''
 
         if (requestList.message == 'error') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
-            var count = 0;
-            for (var i = 0; i < 5; i++) {
-                if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
-                if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
+            for (var i = 0; i < requestList.length; i++) {
+                if (i == 5) break;
 
                 var date = new Date(requestList[i]['request_date'])
 
@@ -154,8 +139,6 @@ requestTable = {
                                 </div>\
                             </div>\
                         </div>'
-                count += 1;
-                if (count == 5) break;
             }
         }
 
