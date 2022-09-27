@@ -286,6 +286,7 @@ init = {
         });
 
         var restoration = 0;
+        var keyselect = '';
         $('input[type=radio][name=restoration]').on('change', function () {
             if($(this).val()=='true') {
                 restoration = 1;
@@ -296,7 +297,11 @@ init = {
         });
 
         $('input[type=radio][name=keySelect]').on('change', function () {
-            if($(this).val()=='skey') $("#genKeyName").attr("disabled", false);
+            if($(this).val()=='skey') {
+                $("#genKeyName").attr("disabled", false);
+                keyselect = $(this).val();
+            }
+            else keyselect = $(this).val();
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -323,6 +328,15 @@ init = {
                     title: '파일 오류',
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
+            else if (keyselect == '' && restoration == 1) {
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     icon: 'warning',
                 });
@@ -511,8 +525,9 @@ init = {
             var genKeyName = $("#genKeyName").val();
             comm.generateKey(genKeyName, null);
         });
-
+        
         var restoration = 0;
+        var keyselect = '';
         $('input[type=radio][name=restoration]').on('change', function () {
             if($(this).val()=='true') {
                 restoration = 1;
@@ -521,14 +536,14 @@ init = {
                 restoration = 0;
             }
         });
-        // $('input[type=radio][name=restoration]').on('change', function () {
-        //     if($('input[name=restoration]:checked').val()=="true"){
-        //         restoration = 1;
-        //     }
-        //     else{
-        //         restoration = 0;
-        //     }
-        // });
+
+        $('input[type=radio][name=keySelect]').on('change', function () {
+            if($(this).val()=='skey') {
+                $("#genKeyName").attr("disabled", false);
+                keyselect = $(this).val();
+            }
+            else keyselect = $(this).val();
+        });
 
         $(document).on("click", ".fileSelect", function () {
             $(".folderUpload").removeClass('active')
@@ -554,6 +569,15 @@ init = {
                     title: '파일 오류',
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    icon: 'warning',
+                });
+            }
+            else if (keyselect == '' && restoration == 1) {
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     icon: 'warning',
                 });
