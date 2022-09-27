@@ -215,15 +215,13 @@
 }
 
 .info_content .infoArea .infoBody input {
-    width: 268px;
-    width: 272px;
+    width: 266px;
     height: 12px;
     padding: 11px 12px;
     margin: 0 0 30px;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     border: none;
-    border: solid 0.1px rgba(0, 0, 0, 0.16);
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;

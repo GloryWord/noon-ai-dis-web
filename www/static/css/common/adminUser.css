@@ -41,17 +41,17 @@
 }
 
 body {
-    background-image: url('../../imgs/1920main_bg.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-    font-family: "Roboto", sans-serif;
-    overflow: hidden;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
 }
 
 .registerContent,
 .findContent {
+    background: url(../../imgs/login/login_back.png);
+    background-size: 100%;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -62,8 +62,9 @@ body {
     width: auto;
     height: auto;
     margin: auto;
-    background-color: white;
-    border-radius: 10px;
+    border-radius: 24px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
     display: flex;
     flex-direction: column;
 }
@@ -71,7 +72,7 @@ body {
 .registerContent .registerBox h1,
 .findContent .findBox h1 {
     font-family: S-CoreDream-6Bold;
-    margin: 24px auto;
+    margin: 24px auto 12px;
 }
 
 .registerContent .registerBox .regiBody,
@@ -81,21 +82,67 @@ body {
 }
 
 .registerContent .registerBox .regiBody p {
-    margin: 0 8px 0 0;
-    font-family: SpoqaHanSansNeo-Regular;
-    text-align: right;
     width: 100px;
+    height: 18px;
+    margin: 11px 12px 11px 0;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
 }
 
 .findContent .findBox .findBody p {
-    margin: 0 8px 0 0;
+    width: 100px;
+    height: 18px;
+    margin: 11px 12px 11px 0;
     font-family: SpoqaHanSansNeo-Regular;
-    text-align: right;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #595959;
 }
 
 .registerContent .registerBox .regiBody input,
-.findContent .findBox .findBody input {
-    width: 200px;
+.findContent .findBox .findBody input {    
+    width: 266px;
+    height: 12px;
+    padding: 11px 12px;
+    margin: 0 0 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    border: none;
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+}
+
+.registerContent .registerBox .regiBody input::placeholder,
+.findContent .findBox .findBody input::placeholder {  
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
 }
 
 .registerContent .registerBox .regiBody .emailArea,
@@ -108,10 +155,13 @@ body {
 .registerContent .registerBox .regiBody .authArea .auth_confirm,
 .findContent .findBox .findBody .emailArea .auth_send {
     display: flex;
-    background-color: deepskyblue;
-    border-radius: 5px;
+    background-color: #3fa9f5;
+    border-radius: 15px;
     width: 80px;
+    height: 30px;
+    margin: 2px 0 auto 8px;
     cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
 }
 
 .registerContent .registerBox .regiBody .authArea .auth_confirm.click {
@@ -131,34 +181,44 @@ body {
 .registerContent .registerBox .btnArea,
 .findContent .findBox .btnArea {
     display: flex;
-    margin: 12px auto 24px;
+    margin: 0 auto 24px;
 }
 
 .registerContent .registerBox .btnArea .regiSave,
 .findContent .findBox .btnArea .findSave {
-    width: 120px;
-    height: 40px;
-    background-color: #16284d;
-    border-radius: 5px;
-    display: flex;
+    width: 160px;
+    height: 30px;
     margin: 0 24px 0 0;
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #3fa9f5;
     cursor: pointer;
 }
 
 .registerContent .registerBox .btnArea .regiSave p,
 .findContent .findBox .btnArea .findSave p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 .registerContent .registerBox .btnArea .regiCancel,
 .findContent .findBox .btnArea .findCancel {
-    width: 120px;
-    height: 40px;
-    background-color: #909090;
-    border-radius: 5px;
+    width: 160px;
+    height: 30px;
+    margin: 0;
     display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
     cursor: pointer;
 }
 
@@ -170,9 +230,16 @@ body {
 
 .registerContent .registerBox .btnArea .regiCancel p,
 .findContent .findBox .btnArea .findCancel p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 #changePassForm {
@@ -189,19 +256,56 @@ body {
 
 #changePassForm .passform {
     display: flex;
-    margin: 0 auto 12px;
+    margin: 0 auto;
 }
 
 #changePassForm .passform p {
-    width: 120px;
+    width: 100px;
+    height: 18px;
+    margin: 11px 12px 11px 0;
     font-family: SpoqaHanSansNeo-Regular;
-    margin: 0 8px 0 0;
-    text-align: right;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
 }
 
 #changePassForm .passform input {
-    width: 200px;
+    width: 266px;
+    height: 12px;
+    padding: 11px 12px;
+    margin: 0 0 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    border: none;
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
 }
+
+#changePassForm .passform input::placeholder {  
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
+}
+
 
 .btn {
     margin: 0 auto;
@@ -209,27 +313,37 @@ body {
 }
 
 .btn #confirm {
-    width: 120px;
-    height: 40px;
-    background-color: #16284d;
-    border-radius: 5px;
-    display: flex;
+    width: 160px;
+    height: 30px;
     margin: 0 24px 0 0;
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #3fa9f5;
     cursor: pointer;
 }
 
 .btn #confirm p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 .btn #cancel {
-    width: 120px;
-    height: 40px;
-    background-color: #909090;
-    border-radius: 5px;
+    width: 160px;
+    height: 30px;
+    margin: 0;
     display: flex;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
     cursor: pointer;
 }
 
@@ -241,7 +355,14 @@ body {
 }
 
 .btn #cancel a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
