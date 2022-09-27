@@ -223,7 +223,7 @@ a {
 }
 
 .loginArea .loginContent .loginFooter .passfind {
-    margin: auto 0;
+    margin: auto 0 auto 54px;
 }
 
 .loginArea .loginContent .loginFooter .register {

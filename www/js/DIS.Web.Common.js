@@ -69,9 +69,9 @@ comm = {
             }
         });
 
-        if (!result.keyList) {
-            for (var i = 0; i < result.length; i++) {
-                resultStr += "<div class='dropdown_content' data-idx=" + result[i]['id'] + "><p>" + result[i]['key_name'] + "</p></div>"
+        if (result.keyList) {
+            for (var i = 0; i < result['keyList'].length; i++) {
+                resultStr += "<div class='dropdown_content' data-idx=" + result['keyList'][i]['id'] + "><p>" + result['keyList'][i]['key_name'] + "</p></div>"
             }
         }
         return resultStr;
