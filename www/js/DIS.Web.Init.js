@@ -1209,6 +1209,10 @@ init = {
         });
     },
 
+    findid: function () {
+        
+    },
+
     findpwd: function () {
         $(document).on("click", ".findSave", function () {
             location.href = "/"
