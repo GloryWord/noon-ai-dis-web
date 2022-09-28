@@ -222,4 +222,59 @@ subaccount = {
         
         return 0
     },
+
+    getAccessKey: function () {
+        var result = ""
+        var resultStr = ""
+        $.ajax({
+            method: "get",
+            url: "/api/subaccount/key",
+            async: false,
+            success: function (data) {
+                result = data
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        resultStr += "<p>접속 키</p>\
+        <input class='accessKey' value='"+result[0]["login_alias"]+"'>"
+        
+        return resultStr
+    },
+
+    putAccessKey: function (accessKey) {
+        var postdata = { accessKey:accessKey }
+        $.ajax({
+            method: "put",
+            url: "/api/subaccount/key",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                if(data.message == "access_null"){
+                    Swal.fire('접속 키를 입력해주세요.', '', 'warning').then(() => {
+                    })
+                }
+                else if(data.message == "access_error"){
+                    Swal.fire('존재하는 접속 키에요.', '', 'warning').then(() => {
+                    })
+                }
+                else if(data.message == "error"){
+                    Swal.fire('접속 키를 다시 확인해주세요.', '', 'warning').then(() => {
+                    })
+                }
+                else if(data.message == "success"){
+                    Swal.fire('접속 키를 변경했어요.', '', 'success').then(() => {
+                        location.href = "/submanage"
+                    })
+                }
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+        
+        return 0
+    },
 }

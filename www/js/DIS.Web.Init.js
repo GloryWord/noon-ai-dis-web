@@ -1062,6 +1062,17 @@ init = {
             location.href = "/submanage/add"
         });
 
+        $(document).on("click", ".subkey_modi", function () {
+            var accessInput = subaccount.getAccessKey();
+            $(".keyArea").html(accessInput);
+            $("#subKeyModi").addClass('active')
+        });
+
+        $(document).on("click", ".keyConfig", function () {
+            var accessKey = $(".accessKey").val();
+            subaccount.putAccessKey(accessKey)
+        });
+
         $(document).on("click", ".pass_modi", function () {
             $("#passModi").addClass('active')
         });
