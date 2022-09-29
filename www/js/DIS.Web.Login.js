@@ -36,9 +36,9 @@ login = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/api/login/secondary",
+            url: "/api/user/check",
             data: {
-                password
+                cur_password: password
             },
             async: false,
             success: function (data) {

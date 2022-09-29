@@ -317,6 +317,7 @@ fileModule = {
             xhr.onload = function () {
                 new Promise((resolve, reject) => {
                     var msg = '';
+                    var keyPath = '';
                     $.ajax({
                         method: "post",
                         url: "/api/key/verify",
@@ -329,14 +330,15 @@ fileModule = {
                         success: function (data) {
                             if (data['result'] == 'valid') valid = true;
                             msg = data.log;
+                            keyPath = data.keyPath;
                         },
                         error: function (xhr, status) {
                             // alert(xhr + " : " + status);
                             alert(JSON.stringify(xhr));
                         }
                     });
-                    resolve({valid, msg})
-                }).then(({valid, msg}) => {
+                    resolve({valid, msg, keyPath})
+                }).then(({valid, msg, keyPath}) => {
                     if (!valid) {
                         Swal.fire({
                             title: '복호화 키 불일치',
@@ -358,6 +360,7 @@ fileModule = {
                                     enc_request_id: index,
                                     account_auth_id: userAuth.id,
                                     fileList: JSON.stringify(fileList),
+                                    keyPath: keyPath
                                 },
                                 async: false,
                                 success: function (data) {
