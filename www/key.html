@@ -56,7 +56,7 @@
                     <div class="headArea">
                         <div class="number_head"><h3>생성 번호</h3></div>
                         <div class="name_head"><h3>KEY 이름</h3></div>
-                        <div class="user_head"><h3>담당자</h3></div>
+                        <div class="user_head"><h3>생성자</h3></div>
                         <div class="create_head"><h3>KEY 생성일</h3></div>
                         <div class="memo_head"><h3>메모</h3></div>
                         <div class="modi_head"><h3>메모 수정</h3></div>
@@ -126,7 +126,7 @@
                     <div class="addBody">
                         <div class="bodyHeader">
                             <p>KEY 이름 : </p>
-                            <input class="keyname" id="genKeyName">
+                            <input class="keyname" id="genKeyName" onKeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" autofocus>
                         </div>
                         <div class="bodyMiddle">
                             <p>KEY 메모 : </p>
@@ -161,7 +161,7 @@
                     <div class="saveBody">
                         <div class="bodyHeader">
                             <p>현재 비밀번호 : </p>
-                            <input type="password" class="cur_password">
+                            <input type="password" class="cur_password" autofocus>
                         </div>
                         <div class="saveFooter">
                             <div class="infoConfir">
@@ -210,5 +210,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#keyAdd").keypress(function (e) {
+        if (e.keyCode == 13) {
+            $("#generateKey").click();
+        }
+    });
+</script>
 
 </html>

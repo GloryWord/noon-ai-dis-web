@@ -1015,6 +1015,7 @@ init = {
 
         $(document).on("click", ".key_add", function () {
             $("#keyAdd").addClass('active')
+            $("#keyAdd").find('[autofocus]').focus();
         });
 
         $(document).on("click", ".memo_modi", function () {
@@ -1075,6 +1076,7 @@ init = {
 
         $(document).on("click", ".pass_modi", function () {
             $("#passModi").addClass('active')
+            $("#passModi").find('[autofocus]').focus();
         });
 
         $(document).on("click", ".auth_modi", function () {
@@ -1117,6 +1119,7 @@ init = {
 
         $(document).on("click", ".cancel", function () {
             $('.modal').removeClass('active')
+            $('.modi_password').val("");
         });
 
         var subAccountList = subaccount.getList();

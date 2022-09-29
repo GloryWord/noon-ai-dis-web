@@ -246,12 +246,6 @@
     color: #707070;
 }
 
-.info_content .btnArea {
-    display: flex;
-    height: 30px;
-    margin: 0 auto 129px;
-}
-
 .info_content .infoArea .infoBody input::placeholder {  
     font-family: SpoqaHanSansNeo-Light;
     font-size: 14px;
@@ -267,7 +261,7 @@
 .info_content .btnArea {
     display: flex;
     height: 30px;
-    margin: 0 auto 122px;
+    margin: 0 auto 129px;
 }
 
 .info_content .btnArea .infoSave {

@@ -72,12 +72,12 @@ a {
 .registerContent .registerBox h1,
 .findContent .findBox h1 {
     font-family: S-CoreDream-6Bold;
-    margin: 24px auto 12px;
+    margin: 36px auto 12px;
 }
 
 .registerContent .registerBox .regiBody,
 .findContent .findBox .findBody {
-    margin: 0 24px 12px;
+    margin: 0 36px 12px;
     display: flex;
 }
 
@@ -181,7 +181,7 @@ a {
 .registerContent .registerBox .btnArea,
 .findContent .findBox .btnArea {
     display: flex;
-    margin: 0 auto 24px;
+    margin: 0 auto 36px;
 }
 
 .registerContent .registerBox .btnArea .regiSave,

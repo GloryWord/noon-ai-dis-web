@@ -136,7 +136,7 @@
                     <div class="passBody">
                         <div class="bodyHeader">
                             <p>비밀번호 : </p>
-                            <input type="password" class="modi_password">
+                            <input type="password" class="modi_password" autofocus>
                         </div>
                         <div class="passFooter">
                             <div class="passConfig">
@@ -237,7 +237,7 @@
                     <div class="saveBody">
                         <div class="bodyHeader">
                             <p>현재 비밀번호 : </p>
-                            <input type="password" class="cur_password">
+                            <input type="password" class="cur_password" autofocus>
                         </div>
                         <div class="saveFooter">
                             <div class="infoConfir">
@@ -255,6 +255,18 @@
 </div>
 
 <script>
+    $("#subKeyModi").keypress(function (e) {
+        if (e.keyCode == 13) {
+            $(".keyConfig").click();
+        }
+    });
+
+    $("#passModi").keypress(function (e) {
+        if (e.keyCode == 13) {
+            $(".passConfig").click();
+        }
+    });
+
     $(document).on("click", ".pass_modi", function () {
         var Idx = $(this).attr('value')
 
