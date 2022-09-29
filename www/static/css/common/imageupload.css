@@ -49,7 +49,7 @@
 
 .btnArea {
     display: flex;
-    height: 170px;
+    height: 90px;
     background-color: #f2f2f2;
 }
 
@@ -849,6 +849,7 @@
     line-height: 1.29;
     letter-spacing: -0.14px;
     color: #595959;
+    ime-mode:inactive;
 }
 
 .uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCD {

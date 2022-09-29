@@ -13,6 +13,13 @@ $(document).ready(function () {
 
     $(document).on("click", ".infoMove", function () {
         $("#saveConfir").addClass('active')
+        $("#saveConfir").find('[autofocus]').focus();
+    });
+
+    $("#saveConfir").keypress(function (e) {
+        if (e.keyCode == 13) {
+            $(".infoConfir").click();
+        }
     });
 
     $(document).on("click", ".cancel", function () {

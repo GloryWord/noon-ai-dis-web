@@ -78,61 +78,28 @@ userinfo = {
         });
         var htmlStr = ''
 
-        htmlStr += '<div class="infoBody head">\
-                        <p>아이디</p>\
-                        <h1>'+requestList[0]['account_name']+'</h1>\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>이름</p>\
-                        <input class="view_name" value="'+requestList[0]['user_name']+'" placeholder="이름을 입력해 주세요">\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>이메일</p>\
-                        <input class="view_email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>전화번호</p>\
-                        <input class="view_phone" value="'+telephone+'" placeholder="- 없이 입력해 주세요">\
-                    </div>'
-        return htmlStr;
-    },
-
-    getSecondInfo: function() {
-        var requestList = ''
-        $.ajax({
-            method: "get",
-            url: "/api/user/info",
-            async: false,
-            success: function (data) {
-                requestList = data;
-            },
-            error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        });
-        var htmlStr = ''
-
         if(requestList[0]['login_alias']==null || requestList[0]['login_alias']==""){
             var login_alias = ""
         }
         else{
             var login_alias = requestList[0]['login_alias']
         }
+        var pattern = "this.value.replace(/[^a-zA-Z0-9]/g,'')"
         htmlStr += '<div class="infoBody head">\
                         <p>접속 키</p>\
                         <h1 class="login_alias">'+login_alias+'</h1>\
                     </div>\
                     <div class="infoBody">\
                         <p>현재 비밀번호</p>\
-                        <input class="now_pass" type="password" style="ime-mode:inactive" placeholder="기존의 비밀번호를 입력해 주세요">\
+                        <input class="now_pass" type="password" onKeyup="this.value='+pattern+';" placeholder="기존의 비밀번호를 입력해 주세요">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호</p>\
-                        <input class="new_pass" type="password" style="ime-mode:inactive" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
+                        <input class="new_pass" type="password" onKeyup="this.value='+pattern+';" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호 확인</p>\
-                        <input class="new_passConfig" type="password" style="ime-mode:inactive" maxlength="16" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
+                        <input class="new_passConfig" type="password" onKeyup="this.value='+pattern+';" maxlength="16" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
                     </div>'
         return htmlStr;
     },
