@@ -343,6 +343,7 @@ init = {
             }
             else {
                 var encryptObject = []
+                var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
                     var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
                     var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
@@ -357,9 +358,28 @@ init = {
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
-
-                //파일 업로드 후 최종 요청하는 내용(비식별화)
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
+                for(var j = 0; j < encryptObject.length; j++){
+                    if(encryptObject[j]=="000"){
+                        allCheck = "false"
+                        break;
+                    }
+                    else{
+                        allCheck = "true"
+                    }
+                }
+                if(allCheck=="true"){
+                    //파일 업로드 후 최종 요청하는 내용(비식별화)
+                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
+                }
+                else{
+                    Swal.fire({
+                        title: '비식별 객체 선택 오류',
+                        html:
+                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        icon: 'warning',
+                    });
+                }
             }
         });
     },
@@ -584,6 +604,7 @@ init = {
             }
             else {
                 var encryptObject = []
+                var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
                     var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
                     var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
@@ -595,7 +616,27 @@ init = {
                     select = (lp) ? select += '1' : select += '0'
                     encryptObject.push(select)
                 }
-                fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
+                for(var j = 0; j < encryptObject.length; j++){
+                    if(encryptObject[j]=="000"){
+                        allCheck = "false"
+                        break;
+                    }
+                    else{
+                        allCheck = "true"
+                    }
+                }
+                if(allCheck=="true"){
+                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
+                }
+                else{
+                    Swal.fire({
+                        title: '비식별 객체 선택 오류',
+                        html:
+                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        icon: 'warning',
+                    });
+                }
             }
         });
     },
@@ -955,6 +996,7 @@ init = {
             var enc_total_cnt;
             if (cnt < enc_length) {
                 enc_total_cnt = cnt;
+                $('#enc_more').show()
             } else {
                 enc_total_cnt = enc_length;
                 $('#enc_more').hide()
@@ -1174,6 +1216,30 @@ init = {
     join: function () {
         $(document).on("click", ".regiCancel", function () {
             location.href = "/"
+        });
+
+        $(document).on("change", ".regi_id", function () {
+            if($(this).val()!=""){
+                var validemail = validEmail(this)
+                if(validemail==false){
+                    $(".email_error").addClass('active')
+                }
+                else{
+                    $(".email_error").removeClass('active')
+                }
+            }
+        });
+
+        $(document).on("change", ".regi_phone", function () {
+            if($(this).val()!=""){
+                var validphone = validPhone(this)
+                if(validphone==false){
+                    $(".phone_error").addClass('active')
+                }
+                else{
+                    $(".phone_error").removeClass('active')
+                }
+            }
         });
 
         const patterns = {
