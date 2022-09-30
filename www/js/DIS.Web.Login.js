@@ -19,7 +19,7 @@ login = {
         var postdata = { account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/api/login",
+            url: "/util-module/api/login",
             data: postdata,
             success: function (data) {
                 console.log(JSON.stringify(data));
@@ -36,7 +36,7 @@ login = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/api/user/check",
+            url: "/util-module/api/user/check",
             data: {
                 cur_password: password
             },
@@ -56,7 +56,7 @@ login = {
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/api/subLogin",
+            url: "/util-module/api/subLogin",
             data: postdata,
             success: function (data) {
                 console.log(data);
@@ -97,7 +97,7 @@ login = {
         var html;
         $.ajax({
             method: "get",
-            url: "/api/token/verify/"+accountName+"/"+token,
+            url: "/util-module/api/token/verify/"+accountName+"/"+token,
             async: false,
             success: function (data) {
                 console.log(data);
@@ -114,7 +114,7 @@ login = {
     forgetPassword: function (accountName) {
         $.ajax({
             method: "post",
-            url: "/api/forget-password",
+            url: "/util-module/api/forget-password",
             data: {
                 accountName
             },
@@ -151,7 +151,7 @@ login = {
     resetPassword: function (accountName, password) {
         $.ajax({
             method: "post",
-            url: "/api/reset-password",
+            url: "/util-module/api/reset-password",
             data: {
                 accountName,
                 password

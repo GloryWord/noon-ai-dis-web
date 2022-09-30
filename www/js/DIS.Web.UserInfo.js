@@ -16,7 +16,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/api/user/info",
+            url: "/user-info-module/api/user/info",
             async: false,
             success: function (data) {
                 requestList = data;
@@ -67,7 +67,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/api/user/info",
+            url: "/user-info-module/api/user/info",
             async: false,
             success: function (data) {
                 requestList = data;
@@ -108,7 +108,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/api/user/alias",
+            url: "/user-info-module/api/user/alias",
             async: false,
             success: function (data) {
                 requestList = data;
@@ -127,7 +127,7 @@ userinfo = {
         var postdata = {name:name, email:email, phone:phone, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
         $.ajax({
             method: "put",
-            url: "/api/user/info",
+            url: "/user-info-module/api/user/info",
             data: postdata,
             async: false,
             success: function (data) {

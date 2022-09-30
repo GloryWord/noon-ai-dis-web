@@ -17,7 +17,7 @@ resultLoader = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/api/encrypt/result/"+index,
+            url: "/encrypt-module/api/encrypt/result/"+index,
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
@@ -53,7 +53,7 @@ resultLoader = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/api/decrypt/result/"+index,
+            url: "/decrypt-module/api/decrypt/result/"+index,
             async: false,
             success: function (data) {
                 console.log(data);
@@ -84,7 +84,7 @@ resultLoader = {
         for(var i = 0; i < objectName.length; i++) {
             $.ajax({
                 method: "post",
-                url: "/api/result/url",
+                url: "/util-module/api/result/url",
                 data: {
                     'bucketName': bucketName,
                     'objectName': subDirectory + '/' + objectName[i],
@@ -154,7 +154,7 @@ resultLoader = {
         var html = ''
         $.ajax({
             method: "get",
-            url: "/api/request/encrypt/" + index,
+            url: "/encrypt-module/api/request/encrypt?id=" + index,
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
@@ -247,7 +247,7 @@ resultLoader = {
 
         $.ajax({
             method: "post",
-            url: "/api/encrypt/result/file/zip",
+            url: "/encrypt-module/api/encrypt/result/file/zip",
             data: {
                 bucketName,
                 subDirectory,
@@ -272,7 +272,7 @@ resultLoader = {
         var result = false;
         $.ajax({
             method: "delete",
-            url: "/api/encrypt/result/file/zip" + parameter,
+            url: "/encrypt-module/api/encrypt/result/file/zip" + parameter,
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
