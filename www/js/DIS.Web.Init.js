@@ -996,6 +996,7 @@ init = {
             var enc_total_cnt;
             if (cnt < enc_length) {
                 enc_total_cnt = cnt;
+                $('#enc_more').show()
             } else {
                 enc_total_cnt = enc_length;
                 $('#enc_more').hide()
