@@ -16,7 +16,7 @@ subaccount = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/api/subaccount",
+            url: "/sub-account-module/api/subaccount",
             async: false,
             success: function (data) {
                 result = data;
@@ -69,7 +69,7 @@ subaccount = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/api/subaccount/password",
+            url: "/sub-account-module/api/subaccount/password",
             data: {
                 index,
                 newPassword
@@ -90,7 +90,7 @@ subaccount = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/api/subaccount",
+            url: "/sub-account-module/api/subaccount",
             data: subAccountInfo,
             async: false,
             success: function (data) {
@@ -108,7 +108,7 @@ subaccount = {
         var result = false;
         $.ajax({
             method: "delete",
-            url: "/api/subaccount/"+index,
+            url: "/sub-account-module/api/subaccount/"+index,
             async: false,
             success: function (data) {
                 console.log(data);
@@ -126,7 +126,7 @@ subaccount = {
         var postdata = { accountName:accountName }
         $.ajax({
             method: "post",
-            url: "/api/subaccount/auth",
+            url: "/sub-account-module/api/subaccount/auth",
             data: postdata,
             async: false,
             success: function (data) {
@@ -201,7 +201,7 @@ subaccount = {
         var postdata = { bucketAuth:bucketAuth, dbAuth:dbAuth, enc:enc, dec:dec, accountName:accountName }
         $.ajax({
             method: "put",
-            url: "/api/subaccount/auth",
+            url: "/sub-account-module/api/subaccount/auth",
             data: postdata,
             async: false,
             success: function (data) {
@@ -227,7 +227,7 @@ subaccount = {
         var resultStr = ""
         $.ajax({
             method: "get",
-            url: "/api/subaccount/key",
+            url: "/sub-account-module/api/subaccount/key",
             async: false,
             success: function (data) {
                 result = data
@@ -247,7 +247,7 @@ subaccount = {
         var postdata = { accessKey:accessKey }
         $.ajax({
             method: "put",
-            url: "/api/subaccount/key",
+            url: "/sub-account-module/api/subaccount/key",
             data: postdata,
             async: false,
             success: function (data) {

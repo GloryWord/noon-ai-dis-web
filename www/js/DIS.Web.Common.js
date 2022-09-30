@@ -36,7 +36,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/api/user",
+            url: "/util-module/api/user",
             async: false,
             success: function (data) {
                 result = data
@@ -59,7 +59,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/api/key",
+            url: "/key-module/api/key",
             async: false,
             success: function (data) {
                 result = data
@@ -81,7 +81,7 @@ comm = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/api/user/auth",
+            url: "/util-module/api/user/auth",
             async: false,
             success: function (data) {
                 result = data
@@ -122,7 +122,7 @@ comm = {
     generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
-            url: "/api/key",
+            url: "/key-module/api/key",
             data: { 
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
@@ -152,7 +152,7 @@ comm = {
     logout: function () {
         $.ajax({
             method: "get",
-            url: "/api/logout",
+            url: "/util-module/api/logout",
             success: function (data) {
                 location.href = '/';
             }, // success 
@@ -166,7 +166,7 @@ comm = {
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "/api/user/check",
+            url: "/util-module/api/user/check",
             data: postdata,
             async: false,
             success: function (data) {
@@ -190,7 +190,7 @@ comm = {
         var auth = ''
         $.ajax({
             method: "get",
-            url: "/api/get-auth",
+            url: "/util-module/api/get-auth",
             async: false,
             success: function (data) {
                 auth = data.auth

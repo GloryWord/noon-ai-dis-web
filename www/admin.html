@@ -48,7 +48,7 @@
     var keyName = $("#keyName").val();
     $.ajax({
       method: "post",
-      url: "/api/key",
+      url: "/key-module/api/key",
       data: { 'keyName': keyName },
       success: function (data) {
         // alert(JSON.stringify(data));

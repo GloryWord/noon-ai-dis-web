@@ -194,7 +194,7 @@ fileModule = {
 
         $.ajax({
             method: "post",
-            url: "/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+            url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
             dataType: "json",
             data: {
                 'curTime': curTime
@@ -207,7 +207,7 @@ fileModule = {
                 for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
                 // formData.append('file', file);
                 var xhr = new XMLHttpRequest();
-                xhr.open('post', '/api/uploadNAS' + mode, true);
+                xhr.open('post', '/util-module/api/uploadNAS' + mode, true);
                 xhr.upload.onprogress = function (e) {
                     console.log(e);
                     if (e.lengthComputable) {
@@ -230,7 +230,7 @@ fileModule = {
                         var requestIndex = ''
                         $.ajax({
                             method: "post",
-                            url: "/api/request/encrypt",
+                            url: "/encrypt-module/api/request/encrypt",
                             dataType: "json",
                             data: postData,
                             async: false,
@@ -247,7 +247,7 @@ fileModule = {
                     }).then(() => {
                         $.ajax({
                             method: "post",
-                            url: "/api/sendMessage/encrypt",
+                            url: "/encrypt-module/api/sendMessage/encrypt",
                             dataType: "json",
                             data: postData,
                             success: function (data) {
@@ -303,7 +303,7 @@ fileModule = {
             fileName = file.name;
             formData.append('file', file);
             var xhr = new XMLHttpRequest();
-            xhr.open('post', '/api/uploadNAS', true);
+            xhr.open('post', '/util-module/api/uploadNAS', true);
             xhr.upload.onprogress = function (e) {
                 if (e.lengthComputable) {
                     var percentage = (e.loaded / e.total) * 100;
@@ -320,7 +320,7 @@ fileModule = {
                     var keyPath = '';
                     $.ajax({
                         method: "post",
-                        url: "/api/key/verify",
+                        url: "/key-module/api/key/verify",
                         dataType: "json",
                         data: {
                             'fileName': fileName, // 남자향수.pem -> 이민형.pem
@@ -354,7 +354,7 @@ fileModule = {
                             var result = '';
                             $.ajax({
                                 method: "post",
-                                url: "/api/request/decrypt", //DB에 복호화 요청정보 저장
+                                url: "/decrypt-module/api/request/decrypt", //DB에 복호화 요청정보 저장
                                 dataType: "json",
                                 data: {
                                     enc_request_id: index,
@@ -380,7 +380,7 @@ fileModule = {
                             delete msgTemplate.reqInfo;
                             $.ajax({
                                 method: "post",
-                                url: "/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+                                url: "/decrypt-module/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
                                 dataType: "json",
                                 data: {
                                     'msgTemplate': JSON.stringify(msgTemplate),

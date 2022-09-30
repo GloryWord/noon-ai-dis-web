@@ -20,7 +20,7 @@ requestTable = {
         }
         $.ajax({
             method: "get",
-            url: "/api/progress/encrypt",
+            url: "/util-module/api/progress/encrypt",
             async: false,
             success: function (data) {
                 result['progress'] = data['encrypt_progress'];
@@ -43,7 +43,7 @@ requestTable = {
         }
         $.ajax({
             method: "get",
-            url: "/api/progress/decrypt",
+            url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
                 result['progress'] = data['decrypt_progress'];
@@ -58,11 +58,12 @@ requestTable = {
     },
 
     getRecentRequest: function (requestType) {
+        var apiUrl = `/${requestType}-module/api/request/${requestType}/recent`
         var requestList = ''
 
         $.ajax({
             method: "get",
-            url: `/api/request/${requestType}/recent`,
+            url: apiUrl,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -150,7 +151,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/api/request/encrypt",
+            url: "/encrypt-module/api/request/encrypt/all",
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -240,7 +241,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "/api/search",
+            url: "/encrypt-module/api/search/encrypt",
             data: postdata,
             async: false,
             success: function (data) {
@@ -326,7 +327,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/api/key/all",
+            url: "/key-module/api/key/all",
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -385,7 +386,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/api/key/memo/" + key_idx,
+            url: "/key-module/api/key/memo/" + key_idx,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -412,7 +413,7 @@ requestTable = {
         var postdata = { key_memo: key_memo }
         $.ajax({
             method: "put",
-            url: "/api/key/memo/" + key_idx,
+            url: "/key-module/api/key/memo/" + key_idx,
             data: postdata,
             async: false,
             success: function (data) {

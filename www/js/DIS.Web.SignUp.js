@@ -15,7 +15,7 @@ signup = {
     tenantSignUp: function (account_name, password, company_name, owner_name, telephone) {
         $.ajax({
             method: "post",
-            url: "/api/signup/tenant",
+            url: "/util-module/api/signup/tenant",
             data: {
                 account_name,
                 password,
@@ -56,7 +56,7 @@ signup = {
         var result = ''
         $.ajax({
             method: "post",
-            url: "/api/mail/verify",
+            url: "/util-module/api/mail/verify",
             data: postdata,
             async: false,
             success: function (data) {
@@ -79,7 +79,7 @@ signup = {
 
         $.ajax({
             method: "post",
-            url: "/api/signup/duplicate",
+            url: "/util-module/api/signup/duplicate",
             data: {
                 email_address: email
             },
