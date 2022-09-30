@@ -1217,6 +1217,30 @@ init = {
             location.href = "/"
         });
 
+        $(document).on("change", ".regi_id", function () {
+            if($(this).val()!=""){
+                var validemail = validEmail(this)
+                if(validemail==false){
+                    $(".email_error").addClass('active')
+                }
+                else{
+                    $(".email_error").removeClass('active')
+                }
+            }
+        });
+
+        $(document).on("change", ".regi_phone", function () {
+            if($(this).val()!=""){
+                var validphone = validPhone(this)
+                if(validphone==false){
+                    $(".phone_error").addClass('active')
+                }
+                else{
+                    $(".phone_error").removeClass('active')
+                }
+            }
+        });
+
         const patterns = {
             account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
             password: /^[\w@-]{8,20}$/,

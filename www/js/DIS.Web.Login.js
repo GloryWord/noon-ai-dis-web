@@ -74,11 +74,11 @@ login = {
                     <br>\
                     <div class="passform">\
                         <p>새 비밀번호</p>\
-                        <input type="password" id="password" placeholder="신규 비밀번호를 입력해 주세요">\
+                        <input type="password" id="password" maxlength="16" placeholder="신규 비밀번호를 입력해 주세요">\
                     </div>\
                     <div class="passform">\
                         <p>새 비밀번호 확인</p>\
-                        <input type="password" id="repassword" placeholder="신규 비밀번호를 확인해 주세요">\
+                        <input type="password" id="repassword" maxlength="16" placeholder="신규 비밀번호를 확인해 주세요">\
                     </div>\
                     <div class="btnArea">\
                         <div id="confirm">\
