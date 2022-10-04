@@ -103,7 +103,7 @@ userinfo = {
                     </div>'
         return htmlStr;
     },
-    
+
     getloginAlias: function() {
         var requestList = ''
         $.ajax({

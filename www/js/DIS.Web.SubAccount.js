@@ -95,7 +95,18 @@ subaccount = {
             async: false,
             success: function (data) {
                 console.log(data);
-                if(data.message == 'success') result = true;
+                if(data.message == 'success') {
+                    result = true;
+                }
+                else if(data.message == 'check_error') {
+                    result = "length_error"
+                }
+                else if(data.message == 'check_error') {
+                    result = "length_error"
+                }
+                else {
+                    result = false
+                }
             }, // success 
             error: function (xhr, status) {
                 alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
