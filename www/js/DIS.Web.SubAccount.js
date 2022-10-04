@@ -112,7 +112,7 @@ subaccount = {
                 alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
-        return true;
+        return result;
     },
 
     deleteSubAccount: function(index) {
