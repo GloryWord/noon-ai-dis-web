@@ -136,12 +136,12 @@ userinfo = {
                         location.href = '/myinfo';
                     })
                 }
-                else if(data.message == "access_null"){
-                    Swal.fire('접속 키를 입력해주세요.', '', 'error').then(() => {
+                else if(data.message == 'check_error') {
+                    Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
                     })
                 }
-                else if(data.message == "access_error"){
-                    Swal.fire('해당 접속 키가 이미 존재해요.', '', 'error').then(() => {
+                else if(data.message == 'check_error') {
+                    Swal.fire('비밀번호는 영문, 숫자를 혼합하여 입력해주세요.', '', 'warning').then(() => {
                     })
                 }
                 else{
