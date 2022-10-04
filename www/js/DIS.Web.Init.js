@@ -1013,7 +1013,6 @@ init = {
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
-            // console.log(name, email, phone, now_pass, new_pass, new_passConfig)
             userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
         });
 
@@ -1190,9 +1189,21 @@ init = {
                         email: email
                     }
                     var result = subaccount.addSubAccount(subAccountInfo);
-                    if (result) {
+                    if (result==true) {
                         Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
                             location.href = '/submanage';
+                        })
+                    }
+                    else if(result == "length_error"){
+                        Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
+                        })
+                    }
+                    else if(result == "check_error"){
+                        Swal.fire('비밀번호는 영문, 숫자를 혼합하여 입력해주세요.', '', 'warning').then(() => {
+                        })
+                    }
+                    else{
+                        Swal.fire('비밀번호를 다시 한번 확인해주세요.', '', 'warning').then(() => {
                         })
                     }
                 }
