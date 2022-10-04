@@ -136,7 +136,7 @@ userinfo = {
                         location.href = '/myinfo';
                     })
                 }
-                else if(data.message == 'check_error') {
+                else if(data.message == 'length_error') {
                     Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
                     })
                 }
