@@ -98,11 +98,11 @@ subaccount = {
                 if(data.message == 'success') {
                     result = true;
                 }
-                else if(data.message == 'check_error') {
+                else if(data.message == 'length_error') {
                     result = "length_error"
                 }
                 else if(data.message == 'check_error') {
-                    result = "length_error"
+                    result = "check_error"
                 }
                 else {
                     result = false
