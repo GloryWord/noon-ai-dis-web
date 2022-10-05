@@ -1012,6 +1012,158 @@ init = {
         }
     },
 
+    decrypt_log: function () {
+    
+        function reloadProgress() {
+            var encProgress = requestTable.getDecProgress();
+            var progress = encProgress['progress']
+            $('#progress').html(progress);
+            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            else {
+                var mainLog = requestTable.getAllDecRequestList()
+                $(".mainLog").html(mainLog);
+            }
+        }
+
+        reloadProgress();
+
+        $(document).on("click", ".allSearch", function () {
+            if($('.allSearch').is(':checked')){
+                // $(".filter_video").prop("checked", true);
+                // $(".filter_image").prop("checked", true);
+                // $(".filter_album").prop("checked", true);
+                // $(".filter_rest").prop("checked", true);
+                // $(".filter_norest").prop("checked", true);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
+            }
+            else{
+                // $(".filter_video").prop("checked", false);
+                // $(".filter_image").prop("checked", false);
+                // $(".filter_album").prop("checked", false);
+                // $(".filter_rest").prop("checked", false);
+                // $(".filter_norest").prop("checked", false);
+                $(".date_filter").prop("checked", false);
+                $("#startVal").val("")
+                $("#endVal").val("")
+            }
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            start.disabled = true;
+            end.disabled = true;
+        });
+
+        $(document).on("click", ".date_filter", function () {
+            var date = $(this).val()
+            var start = document.getElementById('startVal')
+            var end = document.getElementById('endVal')
+            if(date == "select"){
+                start.disabled = false;
+                end.disabled = false;
+            }
+            else if(date == "yesterday"){
+                $("#startVal").val(yesterday())
+                $("#endVal").val(yesterday())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "today"){
+                $("#startVal").val(today())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "week"){
+                $("#startVal").val(week())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+            else if(date == "month"){
+                $("#startVal").val(month())
+                $("#endVal").val(today())
+                start.disabled = true;
+                end.disabled = true;
+            }
+        });
+
+        // $(document).on("click", ".search", function () {
+        //     // var filter_video = $('.filter_video').is(':checked')
+        //     // var filter_image = $('.filter_image').is(':checked')
+        //     // var filter_album = $('.filter_album').is(':checked')
+        //     // var filter_reco = $('.filter_rest').is(':checked')
+        //     // var filter_norest = $('.filter_norest').is(':checked')
+        //     var startDate = $("#startVal").val();
+        //     var endDate = $("#endVal").val();
+
+        //     // if(filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true){
+        //     //     var filter_file = ""
+        //     // }
+        //     // else {
+        //     //     var filter_file = "no"
+        //     // }
+
+        //     // if(filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true){
+        //     //     var filter_rest = ""
+        //     // }
+        //     // else {
+        //     //     var filter_rest = "no"
+        //     // }
+
+        //     // if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
+        //     //     Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
+        //     // }
+        //     if(startDate>today() || endDate>today()){
+        //         Swal.fire('오늘날짜보다 크게 설정 할 수 없어요.', '', 'error')
+        //     }
+        //     else if(startDate>endDate){
+        //         Swal.fire('시작날짜를 종료날짜보다 크게 할 수 없어요.', '', 'error')
+        //     }
+        //     else {
+        //         // console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
+        //         var mainLog = requestTable.postDataSearch(startDate, endDate)
+        //         $(".mainLog").html(mainLog);
+        //         load('.mainLog', '5');
+        //     }
+        // });
+
+        $(document).on("click", ".detailInfo", function () {
+            var type = $(this).data('type')
+            if (type == '동영상 파일') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+            }
+            else if (type == '이미지 파일') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
+
+        var requestList = requestTable.getAllDecRequestList()
+        $(".mainLog").html(requestList);
+
+        load('.mainLog', '5');
+        $(document).on("click", "#enc_more .morebutton", function () {
+            load('.mainLog', '5', '#enc_more');
+        })
+
+        function load(id, cnt, btn) {
+            var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('#enc_more').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
+    },
+
     myinfo: function () {
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
