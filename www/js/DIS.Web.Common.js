@@ -101,7 +101,7 @@ comm = {
             inputLabel: '정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다',
             inputPlaceholder: '비밀번호를 입력해 주세요',
             inputAttributes: {
-                maxlength: 10,
+                maxlength: 16,
                 autocapitalize: 'off',
                 autocorrect: 'off'
             },

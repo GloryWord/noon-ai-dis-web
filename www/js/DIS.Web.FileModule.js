@@ -203,6 +203,7 @@ fileModule = {
                 var formData = new FormData();
                 var file = document.getElementById('file').files;
                 var mode = ''
+                var a = 0;
                 if (file.length > 1) mode = '/multiple';
                 for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
                 // formData.append('file', file);
@@ -211,8 +212,9 @@ fileModule = {
                 xhr.upload.onprogress = function (e) {
                     console.log(e);
                     if (e.lengthComputable) {
-                        var percentage = (e.loaded / e.total) * 100;
-                        console.log(percentage + "%");
+                        var per = (e.loaded / e.total) * 100;
+                        progressBar(per);
+                        console.log(per + "%");
                     }
                 }
                 xhr.onerror = function (e) {

@@ -152,7 +152,14 @@ function validPhone(obj){
         return false;
     }
 }
-
+function progressBar(per){
+    if(per > 55){
+        $(".progressPer").css("color", "#fff");
+    }
+    per = per.toFixed(1);
+    $(".progressPer").text(per+" %");
+    $(".progressNow").css("width", "calc(" + per + "% - 20px)");
+}
 var init = DIS.Web.Init;
 init = {
 

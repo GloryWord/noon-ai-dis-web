@@ -876,6 +876,37 @@
     margin: auto;
 }
 
+.progressContainer{
+    position:relative;
+    width: 450px;
+    padding: 20px 10px;
+    margin: auto;
+    height:20px;
+}
+
+.progress{
+    position:absolute;
+    width: calc(100% - 20px);
+    height: 20px;
+}
+
+.progressTotal{
+    background: #909090;
+    border-radius: 10px;
+}
+
+.progressNow{
+    width: calc(0% - 20px);
+    background: #16284d;
+    border-radius: 10px;
+}
+
+.progressPer{
+    background: transparent;
+    text-align:center;
+    color: white;
+}
+
 .uploadFooter .footerbtnArea {
     margin: 36px auto auto;
     display: flex;
