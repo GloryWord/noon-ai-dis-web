@@ -84,26 +84,26 @@ userinfo = {
         else{
             var login_alias = requestList[0]['login_alias']
         }
-        var pattern = "this.value.replace(/[^a-zA-Z0-9]/g,'')"
+        // var pattern = "this.value.replace(/[^a-zA-Z0-9]/g,'')"
         htmlStr += '<div class="infoBody head">\
                         <p>접속 키</p>\
                         <h1 class="login_alias">'+login_alias+'</h1>\
                     </div>\
                     <div class="infoBody">\
                         <p>현재 비밀번호</p>\
-                        <input class="now_pass" type="password" onKeyup="this.value='+pattern+';" placeholder="기존의 비밀번호를 입력해 주세요">\
+                        <input class="now_pass" type="password" placeholder="기존의 비밀번호를 입력해 주세요">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호</p>\
-                        <input class="new_pass" type="password" onKeyup="this.value='+pattern+';" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
+                        <input class="new_pass" type="password" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호 확인</p>\
-                        <input class="new_passConfig" type="password" onKeyup="this.value='+pattern+';" maxlength="16" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
+                        <input class="new_passConfig" type="password" maxlength="16" placeholder="새 비밀번호를 한번 더 입력해 주세요">\
                     </div>'
         return htmlStr;
     },
-    
+
     getloginAlias: function() {
         var requestList = ''
         $.ajax({
@@ -136,12 +136,12 @@ userinfo = {
                         location.href = '/myinfo';
                     })
                 }
-                else if(data.message == "access_null"){
-                    Swal.fire('접속 키를 입력해주세요.', '', 'error').then(() => {
+                else if(data.message == 'length_error') {
+                    Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
                     })
                 }
-                else if(data.message == "access_error"){
-                    Swal.fire('해당 접속 키가 이미 존재해요.', '', 'error').then(() => {
+                else if(data.message == 'check_error') {
+                    Swal.fire('비밀번호는 영문, 숫자를 혼합하여 입력해주세요.', '', 'warning').then(() => {
                     })
                 }
                 else{
