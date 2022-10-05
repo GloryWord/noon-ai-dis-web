@@ -401,6 +401,79 @@ init = {
 
         var progressObject = ''
 
+        function downloadAlert(typeStr, downloadURL, decDirectory, fileList) {
+            let timerInterval;
+            Swal.fire({
+                title: '원본 ' + typeStr + ' 다운로드',
+                html:
+                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
+                    '<a href="" id="signedUrl" download>' +
+                    '<div id="download" class="btn">' +
+                    '<p>다운로드</p>' +
+                    '</div>' +
+                    '</a>',
+                // timer: 60000 * 15,
+                timer: 60000 * 15,
+                timerProgressBar: true,
+                icon: 'info',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    const content = Swal.getHtmlContainer()
+                    const $ = content.querySelector.bind(content)
+
+                    Swal.showLoading()
+
+                    const download = $('#download');
+                    const downloadLink = $('#signedUrl');
+                    downloadLink.href = downloadURL;
+            
+                    download.addEventListener('click', () => {
+                        if(downloadLink.href == '') {
+                            Swal.fire({
+                                title: '다운로드 링크 생성중',
+                                text: '잠시만 기다려주세요! 서버에서 다운로드 링크를 생성중입니다.',
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'info'
+                            })
+                            downloadAlert(typeStr, downloadURL, decDirectory, fileList);
+                        }
+                        else {
+                            socket.emit('deleteFile', {
+                                bucketName: decDirectory[0],
+                                subDirectory: decDirectory[1],
+                                fileName: (fileList.length > 1) ? ['Download.zip'] : fileList
+                            })
+
+                            Swal.fire({
+                                title: '다운로드가 시작됩니다!',
+                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false
+                            }).then((result) => {
+                                if (result.isConfirmed) history.back();
+                            })
+                        }
+                    })
+
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        var seconds = parseInt(Swal.getTimerLeft() / 1000);
+                        var minute = parseInt((seconds % 3600) / 60);
+                        var sec = seconds % 60;
+                        b.textContent = minute + '분 ' + sec + '초'
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('asdadsdas')
+                }
+            })
+        }
+
         function reloadProgress() {
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
@@ -420,96 +493,32 @@ init = {
                         if (service == 'decrypt') {
                             let timerInterval;
                             var typeStr = (type == 'image') ? '이미지' : '영상';
-                            Swal.fire({
-                                title: '원본 ' + typeStr + ' 다운로드',
-                                html:
-                                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
-                                    '<a href="" id="signedUrl" download>' +
-                                    '<div id="download" class="btn">' +
-                                    '<p>다운로드</p>' +
-                                    '</div>' +
-                                    '</a>',
-                                // timer: 60000 * 15,
-                                timer: 60000 * 15,
-                                timerProgressBar: true,
-                                icon: 'info',
-                                allowOutsideClick: false,
-                                didOpen: () => {
-                                    const content = Swal.getHtmlContainer()
-                                    const $ = content.querySelector.bind(content)
+                            let decDirectory, fileList, signedUrl;
+                            [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
 
-                                    Swal.showLoading()
-                                    let decDirectory, fileList, signedUrl;
-                                    [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
-
-                                    const download = $('#download');
-                                    const downloadLink = $('#signedUrl');
-
-                                    if (fileList.length == 1) {
-                                        //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
-                                        //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
-                                        signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
-                                        downloadLink.href = signedUrl[0]
+                            if (fileList.length == 1) {
+                                //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
+                                //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
+                                signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
+                                // downloadLink.href = signedUrl[0]
+                                downloadAlert(typeStr, signedUrl[0], decDirectory, fileList);
+                            }
+                            else if (fileList.length > 1) {
+                                resultLoader.fileToZip({
+                                    id: eventIndex,
+                                    bucketName: decDirectory[0],    //참조할 버킷 이름
+                                    subDirectory: decDirectory[1],  //참조할 object의 세부 경로
+                                    fileName: fileList              //참조할 object filename 목록
+                                });
+                                
+                                socket.on('compress', function (data) {
+                                    if (data.log == '압축 완료') {
+                                        signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
+                                        // downloadLink.href = signedUrl[0]
+                                        downloadAlert(typeStr, signedUrl[0], decDirectory, fileList);
                                     }
-                                    else if (fileList.length > 1) {
-                                        resultLoader.fileToZip({
-                                            id: eventIndex,
-                                            bucketName: decDirectory[0],    //참조할 버킷 이름
-                                            subDirectory: decDirectory[1],  //참조할 object의 세부 경로
-                                            fileName: fileList              //참조할 object filename 목록
-                                        });
-
-                                        socket.on('compress', function (data) {
-                                            if (data.log == '압축 완료') {
-                                                signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
-                                                downloadLink.href = signedUrl;
-                                            }
-                                        });
-                                    }
-                                    download.addEventListener('click', () => {
-                                        if(downloadLink.href == '') {
-                                            Swal.fire({
-                                                title: '다운로드 링크 생성중',
-                                                text: '잠시만 기다려주세요! 서버에서 다운로드 링크를 생성중입니다.',
-                                                confirmButtonText: '확인',
-                                                allowOutsideClick: false,
-                                                icon: 'info'
-                                            })
-                                        }
-                                        else {
-                                            socket.emit('deleteFile', {
-                                                bucketName: decDirectory[0],
-                                                subDirectory: decDirectory[1],
-                                                fileName: (fileList.length > 1) ? ['Download.zip'] : fileList
-                                            })
-    
-                                            Swal.fire({
-                                                title: '다운로드가 시작됩니다!',
-                                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
-                                                confirmButtonText: '확인',
-                                                allowOutsideClick: false
-                                            }).then((result) => {
-                                                if (result.isConfirmed) history.back();
-                                            })
-                                        }
-                                    })
-
-                                    const b = Swal.getHtmlContainer().querySelector('b')
-                                    timerInterval = setInterval(() => {
-                                        var seconds = parseInt(Swal.getTimerLeft() / 1000);
-                                        var minute = parseInt((seconds % 3600) / 60);
-                                        var sec = seconds % 60;
-                                        b.textContent = minute + '분 ' + sec + '초'
-                                    }, 100)
-                                },
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                }
-                            }).then((result) => {
-                                if (result.dismiss === Swal.DismissReason.timer) {
-                                    console.log('asdadsdas')
-                                }
-                            })
+                                });
+                            }
                         }
                     }
                 })
@@ -820,6 +829,27 @@ init = {
                 });
 
                 $(document).on("click", "#signedUrl", function () {
+                    let timerInterval
+                    Swal.fire({
+                        title: '파일 다운로드 준비중',
+                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
+                        timer: 99999999999,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                        }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            console.log('I was closed by the timer')
+                        }
+                    })
                     resultLoader.fileToZip({
                         id: eventIndex,
                         bucketName: encDirectory[0],    //참조할 버킷 이름
