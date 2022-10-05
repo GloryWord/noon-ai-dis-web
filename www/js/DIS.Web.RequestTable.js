@@ -322,6 +322,81 @@ requestTable = {
         return htmlStr;
     },
 
+    getAllDecRequestList: function () {
+        var requestList = ''
+
+        $.ajax({
+            method: "get",
+            url: "/decrypt-module/api/request/decrypt/all",
+            async: false,
+            success: function (data) {
+                // result = data['progress']
+                requestList = data;
+                console.log(data)
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        var htmlStr = ''
+
+        if (requestList.message == 'error') {
+            htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
+        }
+        else{
+            for (var i = 0; i < requestList.length; i++) {
+                var date = new Date(requestList[i]['request_date'])
+    
+                var namelist = requestList[i]['request_file_list'].split('\n')
+                namelist = namelist.splice(0, namelist.length - 1);
+        
+                if(namelist.length > 1){
+                    var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                    var css = ""
+                }
+                else {
+                    var list = ""
+                    var css = 'style="margin:auto 0 auto auto"'
+                }
+    
+                var fileList = requestList[i]['request_file_list'].split('\n');
+                fileList = fileList.splice(0, fileList.length - 1);
+    
+                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                // if(requestList[i]['complete'] == 1){
+                //     var status = '<p>완료</p>'
+                // }
+                // else if(requestList[i]['complete'] == 0){
+                //     var status = '<p>오류발생</p>'
+                // }
+                // else{
+                //     var status = '<p id="progress"></p>'
+                // }
+    
+                if(status=="<p>완료</p>"){
+                    var css = ""; 
+                    var text = "상세정보";
+                }
+                else{
+                    var css = "disable"; 
+                    var text= "진행중";
+                }
+                htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
+                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                            <div class="type_content"><p></p></div>\
+                            <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                            <div class="rest_content"><p></p></div>\
+                            <div class="status_content">'+ status + '</div>\
+                        </div>'
+            }
+        }
+
+        return htmlStr;
+        // return requestList;
+    },
+
     getAllKeyList: function () {
         var requestList = ''
 

@@ -647,6 +647,7 @@
 .uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName.active {
     visibility: visible;
     opacity: 1;
+    z-index: 3;
 }
 
 .uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName .dropdown_content {
