@@ -54,12 +54,7 @@ userinfo = {
                         <p>이메일</p>\
                         <input class="view_email" type="email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
                         <h3 class="email_error">메일 주소를 다시 확인해 주세요</h3>\
-                    </div>\
-                    <div class="infoBody">\
-                        <p>전화번호</p>\
-                        <input class="view_phone" value="'+telephone+'" maxlength="11" onKeyup="this.value='+onlu_num+';" placeholder="- 없이 입력해 주세요">\
-                        <h3 class="phone_error">휴대폰 번호를 확인해 주세요</h3>\
-                    </div>'
+                    </div>';
         return htmlStr;
     },
 
@@ -123,8 +118,8 @@ userinfo = {
         return htmlStr;
     },
     
-    infoModi: function(name, email, phone, now_pass, new_pass, new_passConfig) {
-        var postdata = {name:name, email:email, phone:phone, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
+    infoModi: function(name, email, now_pass, new_pass, new_passConfig) {
+        var postdata = {name:name, email:email, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig}
         $.ajax({
             method: "put",
             url: "/user-info-module/api/user/info",
