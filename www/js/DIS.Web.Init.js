@@ -1198,11 +1198,10 @@ init = {
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
-            var phone = $(".view_phone").val()
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
-            userinfo.infoModi(name, email, phone, now_pass, new_pass, new_passConfig)
+            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig)
         });
 
         $(document).on("change", ".view_email", function () {
@@ -1430,25 +1429,12 @@ init = {
             }
         });
 
-        $(document).on("change", ".regi_phone", function () {
-            if($(this).val()!=""){
-                var validphone = validPhone(this)
-                if(validphone==false){
-                    $(".phone_error").addClass('active')
-                }
-                else{
-                    $(".phone_error").removeClass('active')
-                }
-            }
-        });
-
         const patterns = {
             account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
             password: /^[\w@-]{8,20}$/,
             repassword: /^[\w@-]{8,20}$/,
             company_name: /^[a-z\d]{1,20}$/i,
             owner_name: /^[a-z\d]{1,20}$/i,
-            telephone: /^[0-9]{11}$/,
             verify_number: /^[0-9]{6}$/
         };
 
@@ -1505,10 +1491,9 @@ init = {
                 var repassword = $("#repassword").val();
                 var companyName = $("#company_name").val();
                 var ownerName = $("#owner_name").val();
-                var telePhone = $("#telephone").val();
                 if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
-                else if (password == '' || repassword == '' || companyName == '' || ownerName == '' || telePhone == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
-                else signup.tenantSignUp(accountName, password, companyName, ownerName, telePhone);
+                else if (password == '' || repassword == '' || companyName == '' || ownerName == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
+                else signup.tenantSignUp(accountName, password, companyName, ownerName);
             }
         });
     },

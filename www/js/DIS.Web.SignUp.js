@@ -12,7 +12,7 @@ DIS.Web.SignUp = DIS.Web.SignUp || {};
  */
 var signup = DIS.Web.SignUp;
 signup = {
-    tenantSignUp: function (account_name, password, company_name, owner_name, telephone) {
+    tenantSignUp: function (account_name, password, company_name, owner_name) {
         $.ajax({
             method: "post",
             url: "/util-module/api/signup/tenant",
@@ -20,27 +20,17 @@ signup = {
                 account_name,
                 password,
                 company_name,
-                owner_name,
-                telephone
+                owner_name
             },
             success: function (data) {
                 if (data.message == 'success') {
-                    // $.ajax({
-                    //     method: "post",
-                    //     url: "/api/createBucket",
-                    //     data: {
-                    //         account_name
-                    //     },
-                    //     success: function (data) {
-                    //         console.log(data.log)
-                    //     },
-                    //     error: function (xhr, status) {
-                    //         alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-                    //     }
-                    // })
-                    Swal.fire('회원가입 요청이 완료되었습니다.\n 1 영업일 이내로 요청 확인 후 승인 절차가 이루어집니다.').then(() => {
+                    Swal.fire({
+                        title: '회원가입 요청 완료',
+                        html: '1 영업일 이내로 요청 확인 후 승인 절차가 이루어집니다.',
+                        icon: 'info',
+                    }).then(()=> {
                         window.location = '/';
-                    })
+                    });
                 } else {
                     alert(JSON.stringify(data));
                 }
