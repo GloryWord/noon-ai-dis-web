@@ -93,7 +93,7 @@ resultLoader = {
                 async: false,
                 success: function (data) {
                     if (data.message == 'success') {
-                        result.push(data.result);
+                        result.push([data.result, data.fileSize]);
                     }
                     // else alert(JSON.stringify(data));
                 }, // success 
@@ -102,6 +102,7 @@ resultLoader = {
                 }
             })
         }
+        console.log(result)
         return result;
     },
 
@@ -109,7 +110,7 @@ resultLoader = {
         var html = ''
         if (mode == 'single') {
             for (var i = 0; i < urlList.length; i++) {
-                html += '<img src="' + urlList[i] + '">\
+                html += '<img src="' + urlList[i][0] + '">\
                 <div class="fileFullName">\
                     <p>'+objectName[0]+'</p>\
                 </div>'
@@ -123,7 +124,7 @@ resultLoader = {
                     html += '<div class="threeArea">';
                 }
                 html += '<div class ="albumlist">\
-                            <img data-num='+i+' class="albumImg" src="'+urlList[i]+'">\
+                            <img data-num='+i+' class="albumImg" src="'+urlList[i][0]+'">\
                             <div class="albumFooter">\
                                 <p>'+objectName[i]+'</p>\
                             </div>\
