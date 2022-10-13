@@ -227,12 +227,34 @@ comm = {
         });
     },
 
-    meterEncDownload: function (requestIndex, fileName, fileSize) {
+    meterEncDownload: function (requestIndex, fileType, fileName, fileSize) {
         $.ajax({
             method: "post",
             url: "/encrypt-module/api/meterUsage/encrypt/download",
             data: {
                 requestIndex,
+                fileType,
+                fileName,
+                fileSize
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    meterDecDownload: function (requestIndex, fileType, fileName, fileSize) {
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/meterUsage/decrypt/download",
+            data: {
+                requestIndex,
+                fileType,
                 fileName,
                 fileSize
             },

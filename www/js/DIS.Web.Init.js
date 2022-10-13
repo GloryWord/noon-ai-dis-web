@@ -403,7 +403,7 @@ init = {
 
         var progressObject = ''
 
-        function downloadAlert(typeStr, downloadURL, decDirectory, fileList) {
+        function downloadAlert(typeStr, downloadURL, decDirectory, fileList, fileSize) {
             let timerInterval;
             Swal.fire({
                 title: '원본 ' + typeStr + ' 다운로드',
@@ -438,7 +438,7 @@ init = {
                                 allowOutsideClick: false,
                                 icon: 'info'
                             })
-                            downloadAlert(typeStr, downloadURL, decDirectory, fileList);
+                            downloadAlert(typeStr, downloadURL, decDirectory, fileList, fileSize);
                         }
                         else {
                             socket.emit('deleteFile', {
@@ -446,6 +446,9 @@ init = {
                                 subDirectory: decDirectory[1],
                                 fileName: (fileList.length > 1) ? ['Download.zip'] : fileList
                             })
+
+                            var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
+                            comm.meterDecDownload(eventIndex, type, fileName, fileSize);
 
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
@@ -495,7 +498,7 @@ init = {
                         if (service == 'decrypt') {
                             let timerInterval;
                             var typeStr = (type == 'image') ? '이미지' : '영상';
-                            let decDirectory, fileList, signedUrl;
+                            let decDirectory, fileList, signedUrl, fileUrl, fileSize;
                             [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
 
                             if (fileList.length == 1) {
@@ -503,7 +506,9 @@ init = {
                                 //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
                                 signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
                                 // downloadLink.href = signedUrl[0]
-                                downloadAlert(typeStr, signedUrl[0], decDirectory, fileList);
+                                fileUrl = signedUrl[0][0];
+                                fileSize = signedUrl[0][1];
+                                downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
                             }
                             else if (fileList.length > 1) {
                                 resultLoader.fileToZip({
@@ -516,8 +521,9 @@ init = {
                                 socket.on('compress', function (data) {
                                     if (data.log == '압축 완료') {
                                         signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
-                                        // downloadLink.href = signedUrl[0]
-                                        downloadAlert(typeStr, signedUrl[0], decDirectory, fileList);
+                                        fileUrl = signedUrl[0][0];
+                                        fileSize = signedUrl[0][1];
+                                        downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
                                     }
                                 });
                             }
@@ -526,7 +532,7 @@ init = {
                 })
             }
         }
-        setTimeout(reloadProgress, 100);
+        setTimeout(reloadProgress, 300);
     },
 
     video: function () {
@@ -740,6 +746,12 @@ init = {
             if (mode == 'single') {
                 $('.lockData')[0].innerHTML = html;
                 $('#signedUrl').attr('href', signedUrl[0][0]);
+                var fileSize = signedUrl[0][1];
+                var fileName = fileList[0];
+                
+                $(document).on("click", "#signedUrl", function () {
+                    comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+                })
             }
             else if (mode == 'group') {
                 $(document).on("click", ".select_recoConfirm", function () {
@@ -754,12 +766,6 @@ init = {
                 });
 
                 $(document).on("click", ".albumImg", function () {
-                    // if ($(this).hasClass("active")) {
-                    //     $(this).removeClass('active')
-                    // }
-                    // else {
-                    //     $(this).addClass('active')
-                    // }
                     var imgnum = $(this).data("num")
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
@@ -771,12 +777,6 @@ init = {
                 });
 
                 $(document).on("click", ".hoverdiv", function () {
-                    // if ($(this).hasClass("active")) {
-                    //     $(this).removeClass('active')
-                    // }
-                    // else {
-                    //     $(this).addClass('active')
-                    // }
                     var imgnum = $(this).data("num")
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
@@ -854,13 +854,12 @@ init = {
                                     var fileSize = signedUrl[0][1];
                                     location.href = fileUrl;
 
-                                    comm.meterEncDownload(eventIndex, 'Download.zip', fileSize);
+                                    comm.meterEncDownload(eventIndex, type, 'Download.zip', fileSize);
                                     resolve();
                                 }).then(() => {
                                     new Promise((resolve, reject) => {
                                         //다운로드 후 zip 파일 삭제
                                         Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                        // var complete = resultLoader.deleteZipFile(encDirectory[0], encDirectory[1]);
                                         socket.emit('deleteFile', {
                                             bucketName: encDirectory[0],
                                             subDirectory: encDirectory[1],
@@ -879,8 +878,15 @@ init = {
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', signedUrl[0]);
+            $('#signedUrl').attr('href', signedUrl[0][0]);
             $('.fullname').text($('.file_fullname').text())
+
+            var fileSize = signedUrl[0][1];
+            var fileName = fileList[0];
+            
+            $(document).on("click", "#signedUrl", function () {
+                comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+            })
         }
     },
 
