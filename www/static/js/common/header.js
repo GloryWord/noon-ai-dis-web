@@ -11,14 +11,14 @@ $(document).ready(function () {
         }
     })
     
-    document.addEventListener('mouseup', function(e) {
-        if($('.dropdown-content').hasClass('on')){
-            var container = document.getElementById('myDropdown');
-            if (!container.contains(e.target)) {
-                $('.dropdown-content').removeClass('on')
-            }
-        }
-    });
+    // document.addEventListener('mouseup', function(e) {
+    //     if($('.dropdown-content').hasClass('on')){
+    //         var container = document.getElementById('myDropdown');
+    //         if (!container.contains(e.target)) {
+    //             $('.dropdown-content').removeClass('on')
+    //         }
+    //     }
+    // });
 
     $(document).on("click", ".infoMove", function () {
         $("#saveConfir").addClass('active')

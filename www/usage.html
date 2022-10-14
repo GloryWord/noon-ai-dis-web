@@ -15,7 +15,6 @@
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
-    <script type="text/javascript" src="js/DIS.Web.ResultLoader.js"></script>
     <script src="./static/js/sweetalert/sweetalert.js"></script>
     <script src="./static/js/common/common.js"></script>
     <script src="./static/js/common/header.js"></script>
@@ -39,7 +38,7 @@
             <div id="myDropdown" class="dropdown-content">
               <a href="/main">홈</a>
               <a href="/log">기록 열람</a>
-          <a href="/usage">사용량 조회</a>
+                <a href="/usage">사용량 조회</a>
               <a href="/key">KEY 관리</a>
               <a class="infoMove">내 정보</a>
               <a class="admin_only" href="/submanage">서브 계정 관리</a>
@@ -54,7 +53,7 @@
                 <img src="./static/imgs/log/log_icon.png">
                 <div class="login_user"></div>
                 <p>의 최근 DIS 사용 기록</p>
-                <label>진행한 모든 원본 복원 처리 내역을 확인하실 수 있습니다.</label>
+                <label>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label>
             </div>
             <div class="searchContent">
                 <div class="searchFirst">
@@ -68,9 +67,9 @@
                     <div class="searchTop">
                         <div class="searchFile">
                             <h1>파일 타입</h1>
-                            <!-- <input class="filter_video" type="checkbox"><label class="videolabel">영상</label>
+                            <input class="filter_video" type="checkbox"><label class="videolabel">영상</label>
                             <input class="filter_image" type="checkbox"><label class="imagelabel">이미지</label>
-                            <input class="filter_album" type="checkbox"><label class="albumlabel">이미지 그룹</label> -->
+                            <input class="filter_album" type="checkbox"><label class="albumlabel">이미지 그룹</label>
                             <!-- <div class="filter_video file_filter">
                                 <p>동영상 파일</p>
                             </div>
@@ -85,8 +84,8 @@
                         </div>
                         <div class="searchRestore">
                             <h1>복호화 여부</h1>
-                            <!-- <input class="filter_rest" type="checkbox"><label class="restlabel">복원 가능</label>
-                            <input class="filter_norest" type="checkbox"><label class="norestlabel">복원 불가능</label> -->
+                            <input class="filter_rest" type="checkbox"><label class="restlabel">복원 가능</label>
+                            <input class="filter_norest" type="checkbox"><label class="norestlabel">복원 불가능</label>
                             <!-- <div class="filter_rest rest_filter">
                                 <p>복원 가능</p>
                             </div>
@@ -142,13 +141,12 @@
             <div class="logTable">
                 <div class="logHeader">
                     <div class="id_content"><h3>NO.</h3></div>
-                    <!-- <div class="type_content"><h3>분류</h3></div> -->
-                    <div class="type_content"><h3></h3></div>
+                    <div class="type_content"><h3>분류</h3></div>
                     <div class="name_content"><h3>파일명</h3></div>
                     <div class="date_content"><h3>업로드 일자</h3></div>
-                    <!-- <div class="rest_content"><h3>복호화 여부</h3></div> -->
-                    <div class="rest_content"><h3></h3></div>
+                    <div class="rest_content"><h3>복호화 여부</h3></div>
                     <div class="status_content"><h3>진행도</h3></div>
+                    <div class="detail_content"></div>
                 </div>
                 <div class="mainLog">
                 </div>

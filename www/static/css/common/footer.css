@@ -81,6 +81,10 @@
     margin: 90px 54px auto auto;
 }
 
+.footer .upBtn {
+    display: none;
+}
+
 .footer .textArea {
     width: 736px;
     height: auto;
@@ -230,4 +234,121 @@
     text-align: left;
     color: #fff;
     margin: 0;
+}
+
+@media(max-width:600px){
+    .footer {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: #16284d;
+        position: relative;
+    }
+
+    .footer .upBtn {
+        display: flex;
+        width: 36px;
+        height: 36px;
+        border-radius: 22px;
+        background-color: #3fa9f5;
+        position: absolute;
+        top: 30px;
+        right: 16px;;
+    }
+
+    .footer .upBtn img {  
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin: auto;
+    }
+
+    
+    .footer .logo {
+        display: flex;
+        width: auto;
+        height: 36px;
+        margin: 30px 16px 8px;
+    }
+
+    .footer .logo img {
+        width: 142px;
+        height: 20px;
+        margin: auto auto auto 0;
+        object-fit: contain;
+    }
+
+    .footer .textArea {
+        width: auto;
+        height: auto;
+        margin: 0 16px 40px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .textArea .footer_menu {
+        width: auto;
+        height: auto;
+        margin: 0 0 16px;
+        display: block;
+    }
+
+    .footer .textArea .footer_menu label {
+        margin: 0;
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #fff;
+        float: left;
+    }
+
+    .footer .textArea .footer_menu p {
+        margin: 0 12px;
+        font-family: SpoqaHanSansNeo-Thin;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #fff;
+        float: left;
+    }
+
+    .footer .textArea .companyInfo {
+        margin: 0;
+    }
+
+    .footer .textArea .companyInfo .loc {
+        margin: 0 0 12px;
+    }
+
+    .footer .textArea .companyInfo .ceo_num {
+        display: block;
+        margin: 0 0 12px;
+    }
+
+    .footer .textArea .companyInfo .ceo_num p {
+        float: left;
+    }
+
+    .footer .textArea .companyInfo .ceo_num p:nth-child(4n) {
+        display: none;
+    }
+
+    .footer .textArea .companyInfo .ceo_num p:nth-child(3n) {
+        margin: 0 20px 0 0;
+    }
+
+    .footer .textArea .call_num {
+        display: flex;
+        margin: 0 0 16px;
+    }
 }

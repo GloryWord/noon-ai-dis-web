@@ -236,6 +236,19 @@ init = {
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
+
+        $(document).on("click", ".m_logContent", function () {
+            var type = $(this).data('type')
+            if (type == '동영상 파일') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).data('id') + "&mode=single";
+            }
+            else if (type == '이미지 파일') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
     },
 
     image: function () {
@@ -1040,6 +1053,10 @@ init = {
             }
             $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
         }
+    },
+
+    usage: function () {
+        
     },
 
     decrypt_log: function () {

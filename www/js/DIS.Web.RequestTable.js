@@ -127,19 +127,33 @@ requestTable = {
                     var css = "disable"; 
                     var text= "진행중";
                 }
-                htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                            <div class="type_content"><p>'+ type + '</p></div>\
-                            <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
-                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="rest_content"><p>'+ restoration + '</p></div>\
-                            <div class="status_content">'+ status + '</div>\
-                            <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
-                                    <p>'+text+'</p>\
-                                </div>\
+                if(screen.width<=600){
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+css+'>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                                    <div class="etc_content">\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                    </div>\
+                            </div>'
+                }
+                else{
+                    htmlStr += '<div class="logContent">\
+                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                        <div class="type_content"><p>'+ type + '</p></div>\
+                        <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                        <div class="status_content">'+ status + '</div>\
+                        <div class="detail_content">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
+                                <p>'+text+'</p>\
                             </div>\
+                        </div>\
                         </div>'
+                }
+
             }
         }
 
