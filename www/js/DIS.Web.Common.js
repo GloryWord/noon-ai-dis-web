@@ -201,4 +201,72 @@ comm = {
         })
         return auth
     },
+
+    meterEncUpload: function (fileNameList, fileWidth, fileHeight, requestIndex, restoration) {
+        // var fileNameList = getFiles();
+        var strFileWidth = JSON.stringify(fileWidth)
+        var strFileHeight = JSON.stringify(fileHeight)
+        $.ajax({
+            method: "post",
+            url: "/encrypt-module/api/meterUsage/encrypt/upload",
+            data: {
+                fileNameList,
+                strFileWidth,
+                strFileHeight,
+                requestIndex,
+                restoration
+            },
+            async: false,
+            success: function (data) {
+                if(data.message == "success"){
+                    
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    meterEncDownload: function (requestIndex, fileType, fileName, fileSize) {
+        $.ajax({
+            method: "post",
+            url: "/encrypt-module/api/meterUsage/encrypt/download",
+            data: {
+                requestIndex,
+                fileType,
+                fileName,
+                fileSize
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    meterDecDownload: function (requestIndex, fileType, fileName, fileSize) {
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/meterUsage/decrypt/download",
+            data: {
+                requestIndex,
+                fileType,
+                fileName,
+                fileSize
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    }
 }
