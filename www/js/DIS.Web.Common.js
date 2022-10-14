@@ -202,7 +202,7 @@ comm = {
         return auth
     },
 
-    meterEncUpload: function (fileNameList, fileWidth, fileHeight, requestIndex) {
+    meterEncUpload: function (fileNameList, fileWidth, fileHeight, requestIndex, restoration) {
         // var fileNameList = getFiles();
         var strFileWidth = JSON.stringify(fileWidth)
         var strFileHeight = JSON.stringify(fileHeight)
@@ -213,7 +213,8 @@ comm = {
                 fileNameList,
                 strFileWidth,
                 strFileHeight,
-                requestIndex
+                requestIndex,
+                restoration
             },
             async: false,
             success: function (data) {
