@@ -129,7 +129,7 @@ requestTable = {
                 }
                 if(screen.width<=600){
                     htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+css+'>\
-                                    <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
                                     <div class="etc_content">\
                                         <div class="type_content"><p>'+ type + '</p></div>\
                                         <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
@@ -516,5 +516,134 @@ requestTable = {
         });
 
         return 0;
+    },
+
+    getMonthUsage: function (searchMonth) {
+        var postdata = { searchMonth:searchMonth }
+        var requestList = ''
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/usage/count",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                // result = data['progress']
+                requestList = data;
+                console.log(data)
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        var htmlStr = ""
+
+        var userName = []
+
+        for(var i=0;i<requestList[0].length;i++){
+            userName.push(requestList[0][i]["user_name"])
+        }
+        userName = new Set(userName)
+        userName = Array.from(userName)
+        console.log(userName)
+
+        var usageObject = {}
+        var detailUsage = {
+            encrypt_request: 0,
+            decrypt_request: 0,
+            encrypt_download: 0,
+            total_download: 0
+        }
+        for (var i = 0; i < userName.length; i++) {
+            usageObject[userName[i]] = detailUsage;
+        }
+
+        for (var i = 0; i < requestList[0].length; i++) {
+            console.log(usageObject);
+            var request_type = requestList[0][i]['request_type'];
+            var download = requestList[0][i]['download'];
+            var upload = requestList[0][i]['upload'];
+
+            if(request_type == 'encrypt' && upload == 1) {
+                usageObject[requestList[0][i]['user_name']]['encrypt_request'] = requestList[0][i]['count(*)']
+
+                console.log("==============")
+                console.log(`${requestList[0][i]['user_name']} 비식별화 요청 = ${requestList[0][i]['count(*)']}`)
+                console.log(usageObject)
+                console.log("==============")
+            }
+            else if(request_type == 'encrypt' && download == 1) {
+                usageObject[requestList[0][i]['user_name']]['encrypt_download'] = requestList[0][i]['count(*)']
+                console.log("==============")
+                console.log(`${requestList[0][i]['user_name']} 비식별화 다운 = ${requestList[0][i]['count(*)']}`)
+                console.log(usageObject)
+                console.log("==============")
+            }
+            else if(request_type == 'decrypt') {
+                usageObject[requestList[0][i]['user_name']]['decrypt_request'] = requestList[0][i]['count(*)']
+                console.log("==============")
+                console.log(`${requestList[0][i]['user_name']} 복호화 요청 = ${requestList[0][i]['count(*)']}`)
+                console.log(usageObject)
+                console.log("==============")
+            }
+        }
+
+        console.log(usageObject)
+
+        // for(var i=0;i<requestList[0].length;i++){
+        //     userName.push(requestList[0][i]["user_name"])
+        // }
+        // userName = new Set(userName)
+        // userName = Array.from(userName)
+        // console.log(userName)
+        // htmlStr += "<div class='usageBox'>\
+        //                 <div class='textArea'>\
+        //                     <p>월별 총 사용량</p>\
+        //                 </div>\
+        //                 <div class='tbHeader'>\
+        //                     <div class='user_header'><h3>담당자</h3></div>\
+        //                     <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+        //                     <div class='decrypt_upload_header'><h3>원본 복원 요청 건수</h3></div>\
+        //                     <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+        //                     <div class='download_size_header'><h3>총 다운로드 용량</h3></div>\
+        //                 </div>\
+        //                 <div class='tbBody'>"
+        // for(var i=0;i<userName.length;i++){
+        //     var data = []
+        //     for(var j=0;j<requestList[0].length;j++){
+        //         if(requestList[0][j]["user_name"]==userName[i]){
+        //             if(requestList[0][j]["request_type"]=="encrypt"&&requestList[0][j]["upload"]==1){
+        //                 data.push(requestList[0][j]["count(*)"])
+        //             }
+        //             else{
+        //                 data.push(0)
+        //             }
+        //             if(requestList[0][j]["request_type"]=="encrypt"&&requestList[0][j]["download"]==1){
+        //                 data.push(requestList[0][j]["count(*)"])
+        //             }
+        //             else{
+        //                 data.push(0)
+        //             }
+        //             if(requestList[0][j]["request_type"]=="decrypt"){
+        //                 data.push(requestList[0][j]["count(*)"])
+        //             }
+        //             else{
+        //                 data.push(0)
+        //             }
+        //         }
+        //         console.log(data)
+        //     }
+        //     htmlStr += "<div class='tbContent'>\
+        //                     <div class='user_content'><p>"+userName[i]+"</p></div>\
+        //                     <div class='encrypt_upload_content'><p>"+data[0]+"</p></div>\
+        //                     <div class='decrypt_upload_content'><p>"+data[1]+"</p></div>\
+        //                     <div class='encrypt_upload_content'><p>"+data[2]+"</p></div>\
+        //                </div>"
+        //                 // <div class='download_size_content'><p>총 다운로드 용량</p></div>\
+        // }
+        // htmlStr += "    </div>\
+        //             </div>"
+
+        return htmlStr;
     },
 }
