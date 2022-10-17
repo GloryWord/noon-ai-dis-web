@@ -1,0 +1,563 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.log_content {
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 388px;
+}
+
+.log_content .search_area .searchHeader {
+    width: 988px;
+    display: flex;
+    margin: 100px auto 20px;
+}
+
+.log_content .search_area .searchHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+}
+
+.log_content .search_area .searchHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader .login_user {
+    width: auto;
+    height: auto;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader label {
+    font-family: SpoqaHanSansNeo-Regular;
+    height: 15px;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0 8px 8px;
+}
+
+.log_content .search_area .searchContent {
+    width: 988px;
+    margin: 0 auto 38px;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .searchContent .searchFirst {
+    width: 100%;
+    display: flex;
+    margin: 0 auto 4px;
+}
+
+.log_content .search_area .searchContent .searchFirst h1 {
+    margin: auto auto auto 20px;
+    height: 22px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea {
+    display: flex;
+    margin: 0 20px 0 auto;
+    height: 26px;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea a {
+    width: 26px;
+    height: 26px;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchFirst .refreshArea a img {
+    width: 100%;
+    height: 100%;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond {
+    width: 100%;
+    height: 104px;
+    margin: auto 0;
+    border-top: solid 1px #707070;
+    border-bottom: solid 1px #707070;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop {
+    display: flex;
+    margin: 24px auto 16px 24px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile {
+    display: flex;
+    height: 18px;
+    margin: 0 146px 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile h1 {
+    width: 72px;
+    height: 18px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 20px 0 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+    border: solid 1px #595959;
+    border-radius: 50%;
+    /* appearance: none; */
+    cursor: pointer;
+    position: relative;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchTop .searchFile label {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 28px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom {
+    display: flex;
+    margin: 0 auto 16px 24px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate {
+    display: flex;
+    height: 30px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate h1 {
+    width: 72px;
+    height: 18px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 20px auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst {
+    display: flex;
+    margin: auto auto auto 0;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst #startVal {
+    width: 164px;
+    height: 30px;
+    margin: 0;
+    border-radius: 5px;
+    border: solid 1px #bcc5cb;
+    background-color: #fff;
+    padding: 0 8px;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-text { 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-month-field{ 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-day-field {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+} 
+  
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst input[type=date]::-webkit-datetime-edit-year-field { 
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+}
+
+.log_content .search_area .searchContent .searchSecond .searchBottom .searchDate .dateFirst p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #bcc5cb;
+    margin: auto 4px;
+}
+
+.log_content .search_area .searchContent .searchThird {
+    display: flex;
+    height: 30px;
+    margin: 14px 20px 40px auto;
+}
+
+.log_content .search_area .searchContent .searchThird label {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 24px auto 0;
+}
+
+.log_content .search_area .searchContent .searchThird .search {
+    width: 90px;
+    height: 30px;
+    margin: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    cursor: pointer;
+}
+
+.log_content .search_area .searchContent .searchThird .search p  {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.logArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;  
+    background-color: #e9f6ff;
+    padding: 60px 0 113px;
+}
+
+.usageBox {
+    width: 988px;
+    height: auto;
+    margin: 0 auto 30px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.usageBox .textArea {
+    width: auto;
+    height: 22px;
+    margin: 24px auto 8px 44px;
+    display: flex;
+}
+
+.usageBox .textArea p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0;
+}
+
+.usageBox .tbHeader {
+    width: 940px;
+    height: 42px;
+    display: flex;
+    margin: 0 auto;
+    background-color: #f2f2f2;
+    border: solid 1px #707070;
+}
+
+.usageBox .tbHeader div {
+    display: flex;
+    background-color: #f2f2f2;
+    border-right: solid 1px #bcc5cb;
+}
+
+.usageBox .tbHeader .user_header {
+    width: 120px;
+    height: 100%;
+}
+
+.usageBox .tbHeader .encrypt_upload_header {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbHeader .decrypt_upload_header {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbHeader .encrypt_download_header {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbHeader .total_download_header {
+    width: 200px;
+    height: 100%;
+    border-right: none;
+}
+
+
+.usageBox .tbHeader .encrypt_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .decrypt_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .download_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .total_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+    border-right: none;
+}
+
+
+.usageBox .tbHeader div h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.usageBox .tbBody {
+    width: 940px;
+    height: auto;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-direction: column;
+    border-right: solid 1px #707070;
+    border-left: solid 1px #707070;
+    border-bottom: solid 1px #707070;
+}
+
+.usageBox .tbBody .tbContent {
+    width: 100%;
+    height: 38px;
+    margin: 0 auto;
+    display: flex;
+    border-bottom: solid 1px #bcc5cb;
+}
+
+.usageBox .tbBody .tbContent div {
+    display: flex;
+    border-right: solid 1px #bcc5cb;
+}
+
+.usageBox .tbBody .tbContent .user_content {
+    width: 120px;
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .encrypt_upload_content {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .decrypt_upload_content {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .encrypt_download_content {
+    width: 200px;
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .total_download_content {
+    width: 200px;
+    height: 100%;
+    border-right: none;
+}
+
+
+.usageBox .tbBody .tbContent .encrypt_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .decrypt_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .download_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .total_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+    border-right: none;
+}
+
+
+.usageBox .tbBody .tbContent div p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}

@@ -92,8 +92,13 @@ $(document).ready(function () {
         console.log($('.selectKey').data("idx"))
     });
 
-    $(document).on("click", ".logo", function () {
-        location.href = "/main"
+    // $(document).on("click", ".logo", function () {
+    //     location.href = "/main"
+    // });
+
+    $(document).on("click", ".upBtn", function () {
+        var offset = $('body').offset();
+        $('html').animate({scrollTop : offset.top}, 400);
     });
 
     $(document).ready(function() {

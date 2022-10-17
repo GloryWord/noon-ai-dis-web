@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/log.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/usage.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
@@ -15,7 +15,6 @@
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
-    <script type="text/javascript" src="js/DIS.Web.ResultLoader.js"></script>
     <script src="./static/js/sweetalert/sweetalert.js"></script>
     <script src="./static/js/common/common.js"></script>
     <script src="./static/js/common/header.js"></script>
@@ -51,87 +50,38 @@
     <div class="log_content">
         <div class="search_area">
             <div class="searchHeader">
-                <img src="./static/imgs/log/log_icon.png">
-                <div class="login_user"></div>
-                <p>의 최근 DIS 사용 기록</p>
-                <label>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label>
+                <img src="./static/imgs/log/usage_icon.png">
+                <p>서비스 이용 관리</p>
+                <label>진행한 모든 기능에 대한 사용량을 확인 할 수 있습니다.</label>
             </div>
             <div class="searchContent">
                 <div class="searchFirst">
-                    <h1>상세검색</h1>
+                    <h1>검색</h1>
                     <div class="refreshArea">
                         <p>검색초기화</p>
-                        <a href="/log"><img src="./static/imgs/log/refresh_icon.png"></a>
+                        <a href="/usage"><img src="./static/imgs/log/refresh_icon.png"></a>
                     </div>
                 </div>
                 <div class="searchSecond">
                     <div class="searchTop">
                         <div class="searchFile">
-                            <h1>파일 타입</h1>
-                            <input class="filter_video" type="checkbox"><label class="videolabel">동영상</label>
-                            <input class="filter_image" type="checkbox"><label class="imagelabel">이미지</label>
-                            <input class="filter_album" type="checkbox"><label class="albumlabel">이미지 그룹</label>
-                            <!-- <div class="filter_video file_filter">
-                                <p>동영상 파일</p>
-                            </div>
-                            <div class="filter_image file_filter">
-                                <p>이미지 파일</p>
-                            </div>
-                            <div class="filter_album file_filter">
-                                <p>이미지 그룹</p>
-                            </div>
-                            <input class="filter_file" value="" style="display: none;">
-                            <input class="group_file" value="" style="display: none;"> -->
-                        </div>
-                        <div class="searchRestore">
-                            <h1>복호화 여부</h1>
-                            <input class="filter_rest" type="checkbox"><label class="restlabel">복원 가능</label>
-                            <input class="filter_norest" type="checkbox"><label class="norestlabel">복원 불가능</label>
-                            <!-- <div class="filter_rest rest_filter">
-                                <p>복원 가능</p>
-                            </div>
-                            <div class="filter_norest rest_filter">
-                                <p>복원 불가</p>
-                            </div>
-                            <input class="filter_rest" value="" style="display: none;"> -->
+                            <h1>타입</h1>
+                            <input class="search_filter" type="radio" name="search_filter" value="encrypt_upload"><label class="encrypt_upload" for="encrypt_upload">비식별화 요청</label>
+                            <input class="search_filter" type="radio" name="search_filter" value="encrypt_download"><label class="encrypt_download" for="encrypt_download">비식별화 파일 다운로드</label>
+                            <input class="search_filter" type="radio" name="search_filter" value="decrypt_upload"><label class="decrypt_upload" for="decrypt_upload">복호화 요청</label>
+                            <input class="search_filter" type="radio" name="search_filter" value="all_count" checked><label class="all_count" for="all_count">월별 사용량</label>
                         </div>
                     </div>
                     <div class="searchBottom">
                         <div class="searchDate">
-                            <h1>작업 날짜</h1>
+                            <h1>날짜</h1>
                             <div class="dateFirst">
-                                <!-- <div class="today date_filter">
-                                    <p>오늘</p>
-                                </div>
-                                <div class="yesterday date_filter">
-                                    <p>어제</p>
-                                </div>
-                                <div class="week date_filter">
-                                    <p>일주일</p>
-                                </div>
-                                <div class="month date_filter">
-                                    <p>한달</p>
-                                </div> -->
-                                <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
-                                <input id="startVal" data-placeholder="시작날짜  YYYY.MM.DD" type="date" disabled>
-                                <p>-</p>
-                                <input id="endVal" data-placeholder="시작날짜  YYYY.MM.DD" type="date" disabled>
+                                <input id="startVal" data-placeholder="YYYY.MM" type="month">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="searchThird">
-                    <!-- <div class="clear">
-                        <p>필터 초기화</p>
-                    </div>
-                    <div class="allSearch">
-                        <p>전체 기록 검색</p>
-                    </div> -->
-                    <input class="allSearch" type="checkbox"><label>전체 선택</label>
                     <div class="search">
                         <p>검 색</p>
                     </div>
@@ -139,7 +89,7 @@
             </div>
         </div>
         <div class="logArea">
-            <div class="logTable">
+            <!-- <div class="logTable">
                 <div class="logHeader">
                     <div class="id_content"><h3>NO.</h3></div>
                     <div class="type_content"><h3>분류</h3></div>
@@ -152,7 +102,7 @@
                 <div class="mainLog">
                 </div>
                 <div id="enc_more" class="btn-wrap"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="./static/imgs/main/plus_icon.png"></a></div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="footer">

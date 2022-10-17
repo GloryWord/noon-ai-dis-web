@@ -237,6 +237,19 @@ init = {
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
+
+        $(document).on("click", ".m_logContent", function () {
+            var type = $(this).data('type')
+            if (type == '동영상 파일') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).data('id') + "&mode=single";
+            }
+            else if (type == '이미지 파일') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
     },
 
     image: function () {
@@ -1021,6 +1034,52 @@ init = {
 
         var requestList = requestTable.getAllEncRequestList()
         $(".mainLog").html(requestList);
+
+        load('.mainLog', '5');
+        $(document).on("click", "#enc_more .morebutton", function () {
+            load('.mainLog', '5', '#enc_more');
+        })
+
+        function load(id, cnt, btn) {
+            var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('#enc_more').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
+    },
+
+    usage: function () {
+        var d = new Date();
+        var sel_month = -1; // 월을 조절하시면 됩니다. -1이면 전달을 +1이면 다음달을..
+        d.setMonth(d.getMonth() + sel_month ); 
+        
+        var year    = d.getFullYear();
+        var month   = ('0' + (d.getMonth() +  1 )).slice(-2);
+        var searchMonth = year+"-"+month;
+
+        var getMonthUsage = requestTable.getMonthUsage(searchMonth)
+        $(".logArea").html(getMonthUsage);
+
+        $(document).on("click", ".search", function () {
+            var type = $("input[type=radio][name=search_filter]:checked").val();
+            var date = $("#startVal").val();
+            if(type="all_count"){
+                var getMonthUsage = requestTable.getMonthUsage(date)
+                $(".logArea").html(getMonthUsage);
+            }
+            else{
+                console.log("no all_count")
+                // var getLogUsage = requestTable.getLogUsage(type, date)
+                // $(".logArea").html(getLogUsage);
+            }
+        });
 
         load('.mainLog', '5');
         $(document).on("click", "#enc_more .morebutton", function () {
