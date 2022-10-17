@@ -365,7 +365,7 @@
     display: flex;
     flex-direction: column;  
     background-color: #e9f6ff;
-    padding-top: 60px;
+    padding: 60px 0 113px;
 }
 
 .usageBox {
@@ -381,7 +381,7 @@
 
 .usageBox .textArea {
     width: auto;
-    height: 44px;
+    height: 22px;
     margin: 24px auto 8px 44px;
     display: flex;
 }
@@ -434,11 +434,34 @@
     height: 100%;
 }
 
-.usageBox .tbHeader .download_size_header {
+.usageBox .tbHeader .total_download_header {
     width: 200px;
     height: 100%;
     border-right: none;
 }
+
+
+.usageBox .tbHeader .encrypt_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .decrypt_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .download_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbHeader .total_charge_header {
+    width: calc(988px/4);
+    height: 100%;
+    border-right: none;
+}
+
 
 .usageBox .tbHeader div h3 {
     font-family: SpoqaHanSansNeo-Bold;
@@ -497,11 +520,34 @@
     height: 100%;
 }
 
-.usageBox .tbBody .tbContent .download_size_content {
+.usageBox .tbBody .tbContent .total_download_content {
     width: 200px;
     height: 100%;
     border-right: none;
 }
+
+
+.usageBox .tbBody .tbContent .encrypt_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .decrypt_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .download_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+}
+
+.usageBox .tbBody .tbContent .total_charge_content {
+    width: calc(988px/4);
+    height: 100%;
+    border-right: none;
+}
+
 
 .usageBox .tbBody .tbContent div p {
     font-family: SpoqaHanSansNeo-Regular;
