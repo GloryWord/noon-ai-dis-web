@@ -1061,6 +1061,19 @@ init = {
             }
         });
 
+        $(document).on("click", ".m_logContent", function () {
+            var type = $(this).data('type')
+            if (type == '동영상 파일') {
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+            }
+            else if (type == '이미지 파일') {
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            }
+            else if (type == '이미지 그룹') {
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            }
+        });
+
         if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
         else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
         $(".mainLog").html(mainLog);
