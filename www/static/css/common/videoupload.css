@@ -867,3 +867,489 @@
    color: #fff;
    margin: auto;
 }
+
+@media(max-width:600px){
+    .btnArea {
+        display: none;
+    }
+
+    .uploadArea .uploadSelect {
+        width: 288px;
+        height: auto;
+        margin: 28px auto 12px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .uploadArea .uploadSelect .textArea {
+        margin: 0 0 12px;
+        display: flex;
+    }
+
+    .uploadArea .uploadSelect .textArea img {
+        width: 40px;
+        height: 40px;
+        margin: 0 4px auto 0;
+        object-fit: contain;
+    }
+
+    .uploadArea .uploadSelect .textArea h1 {
+        display: none;
+    }
+    
+    .uploadArea .uploadSelect .textArea p {
+        display: none;
+    }
+    
+    .uploadArea .uploadSelect .textArea .m_textArea {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .uploadArea .uploadSelect .textArea .m_textArea p1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 8px 0 2px;
+    }
+    
+    .uploadArea .uploadSelect .textArea .m_textArea label1 {
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #3fa9f5;
+        margin: 0;
+    }
+
+    .uploadArea .uploadSelect .uploadBtnArea {
+        display: flex;
+        margin: 0 auto 0;
+    }
+
+    .uploadArea .uploadSelect .uploadBtnArea .uploadBtn {
+        display: flex;
+        background-color: #3fa9f5;
+        margin: auto 0 auto auto;
+        width: 240px;
+        height: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        cursor: pointer;
+    }
+
+    .uploadArea .videoUpload {
+        width: 240px;
+        height: auto;
+        padding: 0 16px 12px;
+        min-height: 184px;
+        margin: 0 auto 28px;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgba(89, 89, 89, 0.3);
+        background-color: #fff;
+    }
+
+    .uploadArea .videoUpload .file_header {
+        display: none;
+    }
+
+    .uploadArea .videoUpload .uploadContent {
+        width: 240px;
+        height: auto;
+        min-height: 0px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content {
+        width: 240px;
+        height: auto;
+        margin: 16px auto 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .name_content {
+        display: flex;
+        flex-direction: column;
+        width: 236px;
+        height: auto;
+        margin: 0 auto 11px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .name_content h1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #16284d;
+        margin: 0 0 4px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .name_content .file_name_text {
+        width: 236px;
+        height: 40px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .name_content p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+        line-height: 1.429em;
+        height: 2.858em;
+        margin: 0;
+        white-space: normal;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .second_info {
+        display: flex;
+        width: 236px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        margin: auto 22px auto 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject p {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #16284d;
+        margin: 0 0 4px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList .check_box {
+        display: flex;
+        margin: 0 0 4px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        border-radius: 50%;
+        margin: auto 6px auto 0;
+    }
+    
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList .body,
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList .face,
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList .car {
+        margin: 0 6px 0 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .selectObject .checkList label {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+        margin: 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .size_btn_area {
+        display: flex;
+        flex-direction: column;
+        width: 120px;
+        margin: 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .size_btn_area .size_content {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        min-width: 0px;
+        margin: 0 0 21px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .size_content h1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #16284d;
+        margin: 0 0 4px;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .size_content p {
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.57;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+        margin: 0;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .delete_content {
+        display: flex;
+        width: 64px;
+        height: 24px;
+        margin: 0 0 0 auto;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .delete_content .uploadDelete {
+        width: 64px;
+        height: 24px;
+        margin: 0;
+        border-radius: 13px;
+        background-color: #595959;
+        display: flex;
+    }
+
+    .uploadArea .videoUpload .uploadContent .file_content .delete_content .uploadDelete p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
+        margin: auto;
+    }
+
+    .uploadFooter {
+        width: 288px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .uploadFooter .restBtnArea .checkArea {
+        display: flex;
+        margin: 0 auto 2px 0;
+        flex-direction: column;
+    }
+
+    .uploadFooter .restBtnArea .checkArea .checkAreaHeader {
+        display: flex;
+        margin: 0 0 10px;
+    }
+
+    .uploadFooter .restBtnArea .checkArea p {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: auto 0;
+    }
+    
+    .uploadFooter .restBtnArea .checkArea .rest_btn_area {
+        display: flex;
+        margin: 0 0 12px 44px;
+    }
+    
+    .uploadFooter .restBtnArea .textArea {
+        width: 210px;
+        display: flex;
+        margin: 0 0 17px 44px;
+    }
+
+    .uploadFooter .restoreKey {
+        height: 0px;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .uploadFooter .restoreKey.on {
+        visibility: visible;
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        width: 272px;
+        height: auto;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgba(89, 89, 89, 0.3);
+        background-color: #fff;
+    }
+
+    .uploadFooter .restoreKey .sKeyArea {
+        margin: 16px 6px 14px 16px;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .uploadFooter .restoreKey .sKeyArea label {
+        width: 230px;
+        margin: 0 0 0 6px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+    }
+
+    .uploadFooter .restoreKey .sKeyArea .selectKey {
+        height: 0px;
+    }
+    
+    .uploadFooter .restoreKey .sKeyArea .selectKey.on {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+        width: 200px;
+        height: 30px;
+        margin: 10px auto 0;
+        border-radius: 5px;
+        border: solid 1px #707070;
+        background-color: #fff;
+    }
+
+    .uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName {
+        width: 200px;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea {
+        margin: 0 6px 14px 16px;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey {
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.5s;
+        height: 0px;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey.on {
+        visibility: visible;
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        height: auto;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey .createArea {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCreate {
+        width: 182px;
+        height: 18px;
+        margin: 10px auto 6px;
+        padding: 6px 4px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #fff;
+        font-size: 14px;
+        font-weight: 300;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCD {
+        width: 240px;
+        height: 30px;
+        margin: 12px auto 0 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        cursor: pointer;
+        display: flex;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey p1 {  
+        width: 210px;  
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #3fa9f5;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .uploadFooter .restoreKey .cKeyArea .createKey p {
+        display: none;
+    }
+
+    .uploadFooter .upload_footer {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .uploadFooter .footerbtnArea {
+        margin: 28px auto 40px;
+        display: flex;
+    }
+
+    .progressContainer {
+        position: relative;
+        width: 272px;
+        padding: 20px 10px;
+        margin: 0 auto 37px;
+        height: 18px;
+    }
+}

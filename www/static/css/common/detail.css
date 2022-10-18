@@ -57,7 +57,6 @@
 .detailArea .infoContent .infoHeader {
     display: flex;
     width: 988px;
-    height: 40px;
     margin: 100px auto 30px;
 }
 
@@ -92,6 +91,10 @@
     text-align: left;
     color: #3fa9f5;
     margin: 17px 0 8px;
+}
+
+.detailArea .infoContent .infoHeader .m_textArea {
+    display: none;
 }
 
 .detailArea .infoArea {
@@ -498,7 +501,6 @@
     font-style: normal;
     line-height: 1.29;
     letter-spacing: normal;
-    /* text-align: left; */
     color: #595959;
 }
 
@@ -804,4 +806,239 @@
     margin: auto;
     color: white;
     font-family: S-CoreDream-6Bold;
+}
+
+@media(max-width:600px){
+    .detailArea .infoContent {
+        display: flex;
+        flex-direction: column;
+        width: 288px;
+        height: auto;
+        margin: 0 auto 28px;
+    }
+    
+    .detailArea .infoContent .infoHeader {
+        width: 288px;
+        display: flex;
+        margin: 28px auto 11px;
+    }
+
+    .detailArea .infoContent .infoHeader h1 {  
+        display: none;
+    }
+    
+    .detailArea .infoContent .infoHeader p {    
+        display: none;
+    }
+    
+    .detailArea .infoContent .infoHeader .m_textArea {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detailArea .infoContent .infoHeader .m_textArea p1 {  
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 8px 0 2px;
+    }
+    
+    .detailArea .infoContent .infoHeader .m_textArea label1 {    
+        width: 210px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #3fa9f5;
+    }
+
+    .detailArea .infoArea {
+        width: 100%;
+        height: auto;
+        margin: auto 0;
+        border-top: solid 1px #707070;
+        border-bottom: solid 1px #707070;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .detailArea .infoArea .file_first {
+        margin: 19px 8px 16px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .detailArea .infoArea .file_second {
+        margin: 0 8px 4px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detailArea .infoArea .file_type {
+        display: flex;
+        flex-direction: column;
+        margin: 0 64px 0 0;
+    }
+
+    .detailArea .infoArea .file_user {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .detailArea .infoArea .file_name {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 16px;
+    }
+
+    .detailArea .infoArea .file_date,
+    .detailArea .infoArea .file_reco,
+    .detailArea .infoArea .file_key {
+        display: flex;
+        margin: 0 0 16px;
+    }
+
+    .detailArea .infoArea .file_type .title,
+    .detailArea .infoArea .file_user .title,
+    .detailArea .infoArea .file_name .title {
+        width: auto;
+        line-height: 1.29;
+        margin: 0 0 4px;
+    }
+
+    .detailArea .infoArea .file_date .title,
+    .detailArea .infoArea .file_reco .title,
+    .detailArea .infoArea .file_key .title {
+        width: 88px;
+        line-height: 1.29;
+        margin: 0 4px 0 0;
+    }
+
+    .detailArea .infoArea .file_type p,
+    .detailArea .infoArea .file_user p {
+        width: auto;
+        line-height: 1.29;
+    }
+
+    .detailArea .infoArea .file_name p {
+        width: 272px;
+        line-height: 1.29;
+    }
+
+    .detailArea .infoArea .file_date p,
+    .detailArea .infoArea .file_reco p,
+    .detailArea .infoArea .file_key p {
+        width: auto;
+        line-height: 1.29;
+    }
+
+    .detailArea .viewContent .viewHeader {
+        display: none;
+    }
+
+    .detailArea .viewArea {
+        width: 240px;
+        height: auto;
+        padding: 16px 16px 12px;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgba(89, 89, 89, 0.3);
+        background-color: #fff;
+        margin: 28px auto 38px;
+    }
+
+    .detailArea .albumArea {
+        width: 240px;
+        height: auto;
+        padding: 16px 16px 4px;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgba(89, 89, 89, 0.3);
+        background-color: #fff;
+        margin: 28px auto 38px;
+    }
+
+    .detailArea .viewArea .lockData {
+        width: 240px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .detailArea .viewArea .video-js {
+        width: 240px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detailArea .albumArea .lockDataList {
+        width: 240px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .detailArea .albumArea .threeArea {
+        width: 240px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .detailArea .albumArea .albumlist {
+        width: 240px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .detailArea .albumArea .albumlist:nth-child(3) {
+        width: 240px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .detailArea .viewArea .fileFullName {
+        width: 240px;
+        height: auto;
+        word-wrap: break-word;
+        margin: 8px 0 0;
+    }
+
+    .detailArea .albumArea .albumlist .albumFooter {
+        width: 240px;
+        display: flex;
+        margin: 8px 0 12px;
+    }
+
+    .detailArea .albumArea .albumlist .albumFooter p {
+        width: 240px;
+        text-align: left;
+        margin: 0;
+    }
+
+    .detailArea .albumArea .albumlist input[type="checkbox"] {
+        display: none;
+    }
+
+    .detailArea .albumArea .albumlist .hoverdiv {
+        display: none;
+    }
 }

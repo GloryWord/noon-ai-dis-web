@@ -38,13 +38,13 @@
             <img class="menu_nohover" src="../static/imgs/common/header_menu.png">
             <img class="menu_hover" src="../static/imgs/common/header_menu_hover.png">
             <div id="myDropdown" class="dropdown-content">
-              <a href="/main">홈</a>
-              <a href="/log">기록 열람</a>
-          <a href="/usage">사용량 조회</a>
-              <a href="/key">KEY 관리</a>
-              <a class="infoMove">내 정보</a>
-              <a class="admin_only" href="/submanage">서브 계정 관리</a>
-              <div id="logout">로그아웃</div>
+                <a href="/main">홈</a>
+                <a href="/log">기록 열람</a>
+                <a href="/usage">사용량 조회</a>
+                <a href="/key">KEY 관리</a>
+                <a class="infoMove">내 정보</a>
+                <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <div id="logout">로그아웃</div>
             </div>
           </div>
         </div>
@@ -72,6 +72,10 @@
                 <img src="../static/imgs/upload/upload_icon.png">
                 <h1>동영상 업로드</h1>
                 <p>※ 동영상의 경우 1개의 파일만 선택 할 수 있습니다.</p>
+                <div class="m_textArea">
+                    <p1>동영상 업로드</p1>
+                    <label1>동영상의 경우 1개의 파일만 선택 할 수 있습니다.</label1>
+                </div>
             </div>
             <div class="uploadBtnArea">
                 <label class="fileUpload uploadBtn active" for="file"><p>파일 선택</p></label> 
@@ -94,10 +98,16 @@
         <div class="uploadFooter">
             <div class="restBtnArea">
                 <div class="checkArea">
-                    <img src="../static/imgs/upload/rest_icon.png">
-                    <p>복호화 진행 여부</p>
-                    <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를 진행합니다.</label>
-                    <input class="restore" type="radio" name="restoration" value="false" checked><label for="false">진행하지 않겠습니다.</label>
+                    <div class="checkAreaHeader">
+                        <img src="../static/imgs/upload/rest_icon.png">
+                        <p>복호화 진행 여부</p>
+                    </div>
+                    <div class="rest_btn_area">
+                        <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를 진행합니다.</label>
+                    </div>
+                    <div class="rest_btn_area">
+                        <input class="restore" type="radio" name="restoration" value="false" checked><label for="false">진행하지 않겠습니다.</label>
+                    </div>
                 </div>
                 <div class="textArea">
                     <p>복호화란? 비식별화 진행 시 암호화 Key를 선택하여 비식별화된 파일을 추후 원본으로 복원하는 기능입니다.</p>
@@ -105,7 +115,9 @@
             </div>
             <div class="restoreKey">
                 <div class="sKeyArea">
-                    <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를 사용합니다.</label>
+                    <div class="keySelectBox">
+                        <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를 사용합니다.</label>
+                    </div>
                     <div class="selectKey">
                         <p class="selectText">Key 선택하기</p>
                         <img class="select_img" src="../static/imgs/upload/selectBox_icon.png">
@@ -114,10 +126,13 @@
                     </div>
                 </div>
                 <div class="cKeyArea">
-                    <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아 사용합니다.</label>
+                    <div class="keySelectBox">
+                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아 사용합니다.</label>
+                    </div>
                     <div class="createKey">
                         <div class="createArea">
-                            <input class="keyCreate" id="genKeyName" placeholder="Key 이름을 작성해 주세요">
+                            <input class="keyCreate" id="genKeyName" style="ime-mode:inactive" placeholder="Key 이름을 작성해 주세요">
+                            <p1>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p1>
                             <div class="keyCD" id="generateKey">
                                 <h3>Key 생성 및 다운로드</h3>
                             </div>
@@ -125,15 +140,17 @@
                         <p>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p>
                     </div>
                 </div>
-            </div>	
-            <div class="progressContainer">
-                <div class="progress progressTotal"></div>
-                <div class="progress progressNow"></div>
-                <div class="progress progressPer">0 %</div>
-            </div>	
-            <div class="footerbtnArea">
-                <div class="nextBtn">
-                    <p>다 음</p>
+            </div>
+            <div class="upload_footer">
+                <div class="progressContainer">
+                    <div class="progress progressTotal"></div>
+                    <div class="progress progressNow"></div>
+                    <div class="progress progressPer">0 %</div>
+                </div>	
+                <div class="footerbtnArea">
+                    <div class="nextBtn">
+                        <p>다 음</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,6 +158,9 @@
     <div class="footer">
       <div class="logo">
         <img src="../static/imgs/common/footer_logo.png">
+        <div class="upBtn">
+          <img src="../static/imgs/common/upBtn_icon.png">
+        </div>
       </div>
       <div class="textArea">
         <div class="footer_menu">

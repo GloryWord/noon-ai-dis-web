@@ -466,7 +466,7 @@
     }
 
     .logTable .titleArea .title {
-        margin: 0 34px 0 auto;
+        margin: 0 16px 0 auto;
         display: flex;
     }
     
@@ -481,7 +481,7 @@
 
     .logTable .titleArea .title p1 {
         font-family: SpoqaHanSansNeo-Bold;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: bold;
         font-stretch: normal;
         font-style: normal;

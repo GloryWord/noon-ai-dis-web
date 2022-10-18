@@ -177,66 +177,89 @@ resultLoader = {
         var restoration = (result.restoration == 1) ? '복원 가능' : '복원 불가능';
         var date = new Date(result.request_date)
         var userName = result.user_name;
-        html = '<div class="file_first">\
-                    <div class="file_type">\
-                        <p class="title">파일 타입</p>\
-                        <p>'+type+' '+group+'</p>\
-                    </div>\
-                    <div class="file_name">\
-                        <p class="title">파일명</p>\
-                        <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
-                    </div>\
-                    <div class="file_date">\
-                        <p class="title">업로드 일자</p>\
-                        <p>'+dateFormat(date)+' '+result.request_time+'</p>\
-                    </div>\
-                </div>';
-        
 
-        html += '<div class="file_second">\
-                    <div class="file_user admin_only">\
-                        <p class="title">담당자</p>\
-                        <p>'+userName+'</p>\
-                    </div>\
-                    <div class="file_reco">\
-                        <p class="title">복호화 여부</p>\
-                        <p class="rest_info">'+restoration+'</p>\
-                    </div>'
-            if(restoration == '복원 가능') {
-                html += '<div class="file_key">\
-                            <p class="title">복호화 키</p>\
-                            <p>'+result.key_name+'</p>\
-                        </div>';
-            }
-            else{
-                html += '<div class="file_key">\
-                            <p class="title">복호화 키</p>\
-                            <p>복호화 키 지정 안됨</p>\
-                        </div>';
-            }
-        html += '</div>';
+        if(screen.width<=600){
+            html = '<div class="file_first">\
+                        <div class="file_type">\
+                            <p class="title">파일 타입</p>\
+                            <p>'+type+' '+group+'</p>\
+                        </div>\
+                        <div class="file_user admin_only">\
+                            <p class="title">담당자</p>\
+                            <p>'+userName+'</p>\
+                        </div>\
+                    </div>';
 
-        // if (group == '그룹' && type == '이미지') {
-        //     html += '<div class="file_download" id="signedUrl">\
-        //                 <p>이미지 일괄 다운로드</p>\
-        //             </div>\
-        //             <div class="file_recoConfirm hide" data-value="all">\
-        //                 <p>전체 원본 복원하기</p>\
-        //             </div>\
-        //             <div class="select_recoConfirm hide" data-value="select">\
-        //                 <p>선택 원본 복원하기</p>\
-        //             </div>'
-        // }
-        // else {
-        //     html += '<a href="" id="signedUrl" download>\
-        //                 <div class="file_download">\
-        //                     <p>'+type+' 다운로드</p>\
-        //                 </div>\
-        //             </a>\
-        //             <div class="file_recoConfirm hide">\
-        //                 <p>원본 복원하기</p>\
-        //             </div>'
-        // }
+
+            html += '<div class="file_second">\
+                        <div class="file_name">\
+                            <p class="title">파일명</p>\
+                            <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
+                        </div>\
+                        <div class="file_date">\
+                            <p class="title">업로드 일자</p>\
+                            <p>'+dateFormat(date)+' '+result.request_time+'</p>\
+                        </div>\
+                        <div class="file_reco">\
+                            <p class="title">복호화 여부</p>\
+                            <p class="rest_info">'+restoration+'</p>\
+                        </div>'
+                if(restoration == '복원 가능') {
+                    html += '<div class="file_key">\
+                                <p class="title">복호화 키</p>\
+                                <p>'+result.key_name+'</p>\
+                            </div>';
+                }
+                else{
+                    html += '<div class="file_key">\
+                                <p class="title">복호화 키</p>\
+                                <p>복호화 키 지정 안됨</p>\
+                            </div>';
+                }
+            html += '</div>';
+        }
+        else{
+            html = '<div class="file_first">\
+                        <div class="file_type">\
+                            <p class="title">파일 타입</p>\
+                            <p>'+type+' '+group+'</p>\
+                        </div>\
+                        <div class="file_name">\
+                            <p class="title">파일명</p>\
+                            <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
+                        </div>\
+                        <div class="file_date">\
+                            <p class="title">업로드 일자</p>\
+                            <p>'+dateFormat(date)+' '+result.request_time+'</p>\
+                        </div>\
+                    </div>';
+
+
+            html += '<div class="file_second">\
+                        <div class="file_user admin_only">\
+                            <p class="title">담당자</p>\
+                            <p>'+userName+'</p>\
+                        </div>\
+                        <div class="file_reco">\
+                            <p class="title">복호화 여부</p>\
+                            <p class="rest_info">'+restoration+'</p>\
+                        </div>'
+                if(restoration == '복원 가능') {
+                    html += '<div class="file_key">\
+                                <p class="title">복호화 키</p>\
+                                <p>'+result.key_name+'</p>\
+                            </div>';
+                }
+                else{
+                    html += '<div class="file_key">\
+                                <p class="title">복호화 키</p>\
+                                <p>복호화 키 지정 안됨</p>\
+                            </div>';
+                }
+            html += '</div>';
+        }
+
+
 
         return html
     },

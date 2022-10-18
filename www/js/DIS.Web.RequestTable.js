@@ -120,15 +120,17 @@ requestTable = {
                 // }
 
                 if(status=="<p>완료</p>"){
-                    var css = ""; 
+                    var disable = ""; 
+                    var m_disable = ""; 
                     var text = "상세정보";
                 }
                 else{
-                    var css = "disable"; 
+                    var disable = "disable"; 
+                    var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
                 }
                 if(screen.width<=600){
-                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+css+'>\
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
                                     <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
                                     <div class="etc_content">\
                                         <div class="type_content"><p>'+ type + '</p></div>\
@@ -147,7 +149,7 @@ requestTable = {
                         <div class="rest_content"><p>'+ restoration + '</p></div>\
                         <div class="status_content">'+ status + '</div>\
                         <div class="detail_content">\
-                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
                                 <p>'+text+'</p>\
                             </div>\
                         </div>\
@@ -223,26 +225,41 @@ requestTable = {
                 // }
     
                 if(status=="<p>완료</p>"){
-                    var css = ""; 
+                    var disable = ""; 
+                    var m_disable = ""
                     var text = "상세정보";
                 }
                 else{
-                    var css = "disable"; 
+                    var disable = "disable"; 
+                    var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
                 }
-                htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                            <div class="type_content"><p>'+ type + '</p></div>\
-                            <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
-                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="rest_content"><p>'+ restoration + '</p></div>\
-                            <div class="status_content">'+ status + '</div>\
-                            <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
-                                    <p>'+text+'</p>\
-                                </div>\
+                if(screen.width<=600){
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                    <div class="etc_content">\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                    </div>\
+                            </div>'
+                }
+                else{
+                    htmlStr += '<div class="logContent">\
+                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                        <div class="type_content"><p>'+ type + '</p></div>\
+                        <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                        <div class="status_content">'+ status + '</div>\
+                        <div class="detail_content">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <p>'+text+'</p>\
                             </div>\
+                        </div>\
                         </div>'
+                }
             }
         }
 
@@ -311,26 +328,41 @@ requestTable = {
                 // }
     
                 if(status=="<p>완료</p>"){
-                    var css = ""; 
+                    var disable = ""; 
+                    var m_disable = ""
                     var text = "상세정보";
                 }
                 else{
-                    var css = "disable"; 
+                    var disable = "disable"; 
+                    var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
                 }
-                htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                            <div class="type_content"><p>'+ type + '</p></div>\
-                            <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
-                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="rest_content"><p>'+ restoration + '</p></div>\
-                            <div class="status_content">'+ status + '</div>\
-                            <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+css+'">\
-                                    <p>'+text+'</p>\
-                                </div>\
+                if(screen.width<=600){
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                    <div class="etc_content">\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                    </div>\
+                            </div>'
+                }
+                else{
+                    htmlStr += '<div class="logContent">\
+                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                        <div class="type_content"><p>'+ type + '</p></div>\
+                        <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                        <div class="rest_content"><p>'+ restoration + '</p></div>\
+                        <div class="status_content">'+ status + '</div>\
+                        <div class="detail_content">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <p>'+text+'</p>\
                             </div>\
+                        </div>\
                         </div>'
+                }
             }
         }
         return htmlStr;
@@ -389,11 +421,13 @@ requestTable = {
                 // }
     
                 if(status=="<p>완료</p>"){
-                    var css = ""; 
+                    var disable = ""; 
+                    var m_disable = ""
                     var text = "상세정보";
                 }
                 else{
-                    var css = "disable"; 
+                    var disable = "disable"; 
+                    var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
                 }
                 htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
@@ -732,6 +766,52 @@ requestTable = {
         htmlStr += "    </div>\
                     </div>"       
 
+        return htmlStr;
+    },
+
+    getMonthTypeUsage: function (type, date) {
+        var postdata = { typet:type, date:date }
+        var requestList = ''
+        $.ajax({
+            method: "post",
+            url: "/encrypt-module/api/search/encrypt",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                // result = data['progress']
+                requestList = data;
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        var htmlStr = ''
+
+        if (requestList[0] == null) {
+            htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
+        }
+        else{
+            for (var i = 0; i < requestList.length; i++) {
+                var date = new Date(requestList[i]['request_date'])
+    
+                var namelist = requestList[i]['request_file_list'].split('\n')
+                namelist = namelist.splice(0, namelist.length - 1);
+        
+                htmlStr += '<div class="logContent">\
+                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                    <div class="type_content"><p>'+ type + '</p></div>\
+                    <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                    <div class="rest_content"><p>'+ restoration + '</p></div>\
+                    <div class="detail_content">\
+                        <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                            <p>'+text+'</p>\
+                        </div>\
+                    </div>\
+                    </div>'
+            }
+        }
         return htmlStr;
     },
 }
