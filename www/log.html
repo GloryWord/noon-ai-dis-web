@@ -55,6 +55,10 @@
                 <div class="login_user"></div>
                 <p>의 최근 DIS 사용 기록</p>
                 <label>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label>
+                <div class="m_textArea">
+                    <p1>사용 기록 열람</p1>
+                    <label1>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label1>
+                </div>
             </div>
             <div class="searchContent">
                 <div class="searchFirst">
@@ -68,58 +72,52 @@
                     <div class="searchTop">
                         <div class="searchFile">
                             <h1>파일 타입</h1>
-                            <input class="filter_video" type="checkbox"><label class="videolabel">동영상</label>
-                            <input class="filter_image" type="checkbox"><label class="imagelabel">이미지</label>
-                            <input class="filter_album" type="checkbox"><label class="albumlabel">이미지 그룹</label>
-                            <!-- <div class="filter_video file_filter">
-                                <p>동영상 파일</p>
+                            <div class="file_input">
+                                <input class="filter_video" type="checkbox"><label class="videolabel">동영상</label>
+                                <input class="filter_image" type="checkbox"><label class="imagelabel">이미지</label>
+                                <input class="filter_album" type="checkbox"><label class="albumlabel">이미지 그룹</label>
                             </div>
-                            <div class="filter_image file_filter">
-                                <p>이미지 파일</p>
-                            </div>
-                            <div class="filter_album file_filter">
-                                <p>이미지 그룹</p>
-                            </div>
-                            <input class="filter_file" value="" style="display: none;">
-                            <input class="group_file" value="" style="display: none;"> -->
                         </div>
                         <div class="searchRestore">
                             <h1>복호화 여부</h1>
-                            <input class="filter_rest" type="checkbox"><label class="restlabel">복원 가능</label>
-                            <input class="filter_norest" type="checkbox"><label class="norestlabel">복원 불가능</label>
-                            <!-- <div class="filter_rest rest_filter">
-                                <p>복원 가능</p>
+                            <div class="rest_input">
+                                <input class="filter_rest" type="checkbox"><label class="restlabel">복원 가능</label>
+                                <input class="filter_norest" type="checkbox"><label class="norestlabel">복원 불가능</label>
                             </div>
-                            <div class="filter_norest rest_filter">
-                                <p>복원 불가</p>
-                            </div>
-                            <input class="filter_rest" value="" style="display: none;"> -->
                         </div>
                     </div>
                     <div class="searchBottom">
                         <div class="searchDate">
                             <h1>작업 날짜</h1>
                             <div class="dateFirst">
-                                <!-- <div class="today date_filter">
-                                    <p>오늘</p>
+                                <div class="pc_input">
+                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
                                 </div>
-                                <div class="yesterday date_filter">
-                                    <p>어제</p>
+                                <div class="m_input">
+                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
                                 </div>
-                                <div class="week date_filter">
-                                    <p>일주일</p>
+                                <div class="pc_select">
+                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
                                 </div>
-                                <div class="month date_filter">
-                                    <p>한달</p>
-                                </div> -->
-                                <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
-                                <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
-                                <input id="startVal" data-placeholder="시작날짜  YYYY.MM.DD" type="date" disabled>
-                                <p>-</p>
-                                <input id="endVal" data-placeholder="시작날짜  YYYY.MM.DD" type="date" disabled>
+                                <div class="m_select">
+                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
+                                </div>
+                                <div class="pc_date">
+                                    <input class="startVal disable" data-placeholder="시작날짜  YYYY.MM.DD" type="date">
+                                    <p>-</p>
+                                    <input class="endVal disable" data-placeholder="시작날짜  YYYY.MM.DD" type="date">
+                                </div>
+                                <div class="m_date">
+                                    <input class="startVal disable" data-placeholder="시작날짜  YYYY.MM.DD" type="date">
+                                    <p>-</p>
+                                    <input class="endVal disable" data-placeholder="시작날짜  YYYY.MM.DD" type="date">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -158,6 +156,9 @@
     <div class="footer">
       <div class="logo">
         <img src="./static/imgs/common/footer_logo.png">
+        <div class="upBtn">
+          <img src="static/imgs/common/upBtn_icon.png">
+        </div>
       </div>
       <div class="textArea">
         <div class="footer_menu">
