@@ -921,13 +921,19 @@ init = {
 
     log: function () {
 
+        var pathname = window.location.pathname;
+        pathname = pathname.split('/');
+        var requestType = pathname[1];
+
         function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            var progress = encProgress['progress']
+            if(requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
+            else if(requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+            var progress = reqProgress['progress']
             $('#progress').html(progress);
-            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                var mainLog = requestTable.getAllEncRequestList()
+                if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
                 $(".mainLog").html(mainLog);
             }
         }
@@ -1055,21 +1061,9 @@ init = {
             }
         });
 
-        $(document).on("click", ".m_logContent", function () {
-            var type = $(this).data('type')
-            if (type == '동영상 파일') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
-            }
-            else if (type == '이미지 파일') {
-                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
-            }
-            else if (type == '이미지 그룹') {
-                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
-            }
-        });
-
-        var requestList = requestTable.getAllEncRequestList()
-        $(".mainLog").html(requestList);
+        if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        $(".mainLog").html(mainLog);
 
         
         if(screen.width<=600){
@@ -1525,10 +1519,6 @@ init = {
         });
 
         comm.secondaryLogin();
-    },
-
-    admin: function () {
-
     },
 
     join: function () {

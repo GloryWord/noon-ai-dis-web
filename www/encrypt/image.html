@@ -26,27 +26,28 @@
     <div class="header">
         <div class="header_content">
             <div class="logo">
-              <a href="/main">
-                <img src="../static/imgs/common/header_logo.png">
-              </a>
+                <a href="/main">
+                    <img src="../static/imgs/common/header_logo.png">
+                </a>
             </div>
-          <div class="flow">
-          </div>
-          <div class="login_user">
-          </div>
-          <div class="menuBtn">
-            <img class="menu_nohover" src="../static/imgs/common/header_menu.png">
-            <img class="menu_hover" src="../static/imgs/common/header_menu_hover.png">
-            <div id="myDropdown" class="dropdown-content">
-              <a href="/main">홈</a>
-              <a href="/log">기록 열람</a>
-          <a href="/usage">사용량 조회</a>
-              <a href="/key">KEY 관리</a>
-              <a class="infoMove">내 정보</a>
-              <a class="admin_only" href="/submanage">서브 계정 관리</a>
-              <div id="logout">로그아웃</div>
+            <div class="flow">
             </div>
-          </div>
+            <div class="login_user">
+            </div>
+            <div class="menuBtn">
+                <img class="menu_nohover" src="../static/imgs/common/header_menu.png">
+                <img class="menu_hover" src="../static/imgs/common/header_menu_hover.png">
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/main">홈</a>
+                    <a href="/encrypt/log">비식별화 기록 열람</a>
+                    <a href="/decrypt/log">복호화 기록 열람</a>
+                    <a href="/usage">사용량 조회</a>
+                    <a href="/key">KEY 관리</a>
+                    <a class="infoMove">내 정보</a>
+                    <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                    <div id="logout">로그아웃</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="btnArea">
@@ -78,7 +79,9 @@
                 </div>
             </div>
             <div class="uploadBtnArea">
-                <label class="fileUpload uploadBtn active" for="file"><p>파일 선택</p></label> 
+                <label class="fileUpload uploadBtn active" for="file">
+                    <p>파일 선택</p>
+                </label>
                 <input type="file" id="file" accept="image/*" multiple>
                 <!-- <label class="folderUpload uploadBtn active" for="folder"><p>폴더 선택</p></label> 
                 <input type="file" id="folder" webkitdirectory> -->
@@ -88,8 +91,12 @@
         <div class="imgUpload">
             <div class="uploadContent">
                 <div class="file_header">
-                    <div class="name_header"><p>파일명</p></div>
-                    <div class="size_header"><p>용량</p></div>
+                    <div class="name_header">
+                        <p>파일명</p>
+                    </div>
+                    <div class="size_header">
+                        <p>용량</p>
+                    </div>
                     <div class="object_header">
                         <p>비식별 처리할 객체 선택</p>
                         <div class="allObject">
@@ -196,27 +203,35 @@
           <p>|</p>
           <label>이메일무단수집거부</label>
         </div>
-        <div class="companyInfo">
-          <div class="loc">
-            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
-          </div>
-          <div class="ceo_num">
-            <p class="info">대표 :&nbsp;<label>조판희</label></p>
-            <p>|</p>
-            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
-            <p>|</p>
-            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
-          </div>
-          <div class="call_num">
-            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
-            <p>|</p>
-            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
-          </div>
-          <div class="inc">
-            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
-          </div>
+        <div class="textArea">
+            <div class="footer_menu">
+                <label>개인정보처리방침</label>
+                <p>|</p>
+                <label>서비스이용약관</label>
+                <p>|</p>
+                <label>이메일무단수집거부</label>
+            </div>
+            <div class="companyInfo">
+                <div class="loc">
+                    <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+                </div>
+                <div class="ceo_num">
+                    <p class="info">대표 :&nbsp;<label>조판희</label></p>
+                    <p>|</p>
+                    <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+                    <p>|</p>
+                    <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+                </div>
+                <div class="call_num">
+                    <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+                    <p>|</p>
+                    <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+                </div>
+                <div class="inc">
+                    <p>(주)엠에이치엔씨티 © mhncity Inc. all rights reserved</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 </body>
 
