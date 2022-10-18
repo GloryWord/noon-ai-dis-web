@@ -26,27 +26,28 @@
     <div class="header">
         <div class="header_content">
             <div class="logo">
-              <a href="/main">
-                <img src="../static/imgs/common/header_logo.png">
-              </a>
+                <a href="/main">
+                    <img src="../static/imgs/common/header_logo.png">
+                </a>
             </div>
-          <div class="flow">
-          </div>
-          <div class="login_user">
-          </div>
-          <div class="menuBtn">
-            <img class="menu_nohover" src="../static/imgs/common/header_menu.png">
-            <img class="menu_hover" src="../static/imgs/common/header_menu_hover.png">
-            <div id="myDropdown" class="dropdown-content">
-              <a href="/main">홈</a>
-              <a href="/log">기록 열람</a>
-          <a href="/usage">사용량 조회</a>
-              <a href="/key">KEY 관리</a>
-              <a class="infoMove">내 정보</a>
-              <a class="admin_only" href="/submanage">서브 계정 관리</a>
-              <div id="logout">로그아웃</div>
+            <div class="flow">
             </div>
-          </div>
+            <div class="login_user">
+            </div>
+            <div class="menuBtn">
+                <img class="menu_nohover" src="../static/imgs/common/header_menu.png">
+                <img class="menu_hover" src="../static/imgs/common/header_menu_hover.png">
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/main">홈</a>
+                    <a href="/encrypt/log">비식별화 기록 열람</a>
+                    <a href="/decrypt/log">복호화 기록 열람</a>
+                    <a href="/usage">사용량 조회</a>
+                    <a href="/key">KEY 관리</a>
+                    <a class="infoMove">내 정보</a>
+                    <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                    <div id="logout">로그아웃</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="btnArea">
@@ -74,7 +75,9 @@
                 <p>※ 동영상의 경우 1개의 파일만 선택 할 수 있습니다.</p>
             </div>
             <div class="uploadBtnArea">
-                <label class="fileUpload uploadBtn active" for="file"><p>파일 선택</p></label> 
+                <label class="fileUpload uploadBtn active" for="file">
+                    <p>파일 선택</p>
+                </label>
                 <input type="file" id="file" accept="video/*">
                 <!-- <label class="folderUpload uploadBtn" for="folder"><p>폴더 업로드</p></label> 
                 <input type="file" id="folder"webkitdirectory> -->
@@ -83,9 +86,15 @@
         <div class="videoUpload">
             <div class="uploadContent">
                 <div class="file_header">
-                    <div class="name_header"><p>파일명</p></div>
-                    <div class="size_header"><p>용량</p></div>
-                    <div class="object_header"><p>비식별 처리할 객체 선택</p></div>
+                    <div class="name_header">
+                        <p>파일명</p>
+                    </div>
+                    <div class="size_header">
+                        <p>용량</p>
+                    </div>
+                    <div class="object_header">
+                        <p>비식별 처리할 객체 선택</p>
+                    </div>
                     <div class="delete_header"></div>
                 </div>
                 <div class="file_content"></div>
@@ -96,8 +105,10 @@
                 <div class="checkArea">
                     <img src="../static/imgs/upload/rest_icon.png">
                     <p>복호화 진행 여부</p>
-                    <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를 진행합니다.</label>
-                    <input class="restore" type="radio" name="restoration" value="false" checked><label for="false">진행하지 않겠습니다.</label>
+                    <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를
+                        진행합니다.</label>
+                    <input class="restore" type="radio" name="restoration" value="false" checked><label for="false">진행하지
+                        않겠습니다.</label>
                 </div>
                 <div class="textArea">
                     <p>복호화란? 비식별화 진행 시 암호화 Key를 선택하여 비식별화된 파일을 추후 원본으로 복원하는 기능입니다.</p>
@@ -105,7 +116,8 @@
             </div>
             <div class="restoreKey">
                 <div class="sKeyArea">
-                    <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를 사용합니다.</label>
+                    <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를
+                        사용합니다.</label>
                     <div class="selectKey">
                         <p class="selectText">Key 선택하기</p>
                         <img class="select_img" src="../static/imgs/upload/selectBox_icon.png">
@@ -114,7 +126,8 @@
                     </div>
                 </div>
                 <div class="cKeyArea">
-                    <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아 사용합니다.</label>
+                    <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아
+                        사용합니다.</label>
                     <div class="createKey">
                         <div class="createArea">
                             <input class="keyCreate" id="genKeyName" placeholder="Key 이름을 작성해 주세요">
@@ -125,12 +138,12 @@
                         <p>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p>
                     </div>
                 </div>
-            </div>	
+            </div>
             <div class="progressContainer">
                 <div class="progress progressTotal"></div>
                 <div class="progress progressNow"></div>
                 <div class="progress progressPer">0 %</div>
-            </div>	
+            </div>
             <div class="footerbtnArea">
                 <div class="nextBtn">
                     <p>다 음</p>
@@ -139,38 +152,38 @@
         </div>
     </div>
     <div class="footer">
-      <div class="logo">
-        <img src="../static/imgs/common/footer_logo.png">
-      </div>
-      <div class="textArea">
-        <div class="footer_menu">
-          <label>개인정보처리방침</label>
-          <p>|</p>
-          <label>서비스이용약관</label>
-          <p>|</p>
-          <label>이메일무단수집거부</label>
+        <div class="logo">
+            <img src="../static/imgs/common/footer_logo.png">
         </div>
-        <div class="companyInfo">
-          <div class="loc">
-            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
-          </div>
-          <div class="ceo_num">
-            <p class="info">대표 :&nbsp;<label>조판희</label></p>
-            <p>|</p>
-            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
-            <p>|</p>
-            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
-          </div>
-          <div class="call_num">
-            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
-            <p>|</p>
-            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
-          </div>
-          <div class="inc">
-            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
-          </div>
+        <div class="textArea">
+            <div class="footer_menu">
+                <label>개인정보처리방침</label>
+                <p>|</p>
+                <label>서비스이용약관</label>
+                <p>|</p>
+                <label>이메일무단수집거부</label>
+            </div>
+            <div class="companyInfo">
+                <div class="loc">
+                    <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+                </div>
+                <div class="ceo_num">
+                    <p class="info">대표 :&nbsp;<label>조판희</label></p>
+                    <p>|</p>
+                    <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+                    <p>|</p>
+                    <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+                </div>
+                <div class="call_num">
+                    <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+                    <p>|</p>
+                    <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+                </div>
+                <div class="inc">
+                    <p>(주)엠에이치엔씨티 © mhncity Inc. all rights reserved</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 </body>
 

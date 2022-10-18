@@ -905,13 +905,19 @@ init = {
 
     log: function () {
 
+        var pathname = window.location.pathname;
+        pathname = pathname.split('/');
+        var requestType = pathname[1];
+
         function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            var progress = encProgress['progress']
+            if(requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
+            else if(requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+            var progress = reqProgress['progress']
             $('#progress').html(progress);
-            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+            if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                var mainLog = requestTable.getAllEncRequestList()
+                if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
                 $(".mainLog").html(mainLog);
             }
         }
@@ -1032,8 +1038,9 @@ init = {
             }
         });
 
-        var requestList = requestTable.getAllEncRequestList()
-        $(".mainLog").html(requestList);
+        if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        $(".mainLog").html(mainLog);
 
         load('.mainLog', '5');
         $(document).on("click", "#enc_more .morebutton", function () {
@@ -1465,10 +1472,6 @@ init = {
         });
 
         comm.secondaryLogin();
-    },
-
-    admin: function () {
-
     },
 
     join: function () {

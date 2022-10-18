@@ -519,12 +519,10 @@ requestTable = {
     },
 
     getMonthUsage: function (searchMonth) {
-        var postdata = { searchMonth:searchMonth }
         var requestList = ''
         $.ajax({
-            method: "post",
-            url: "/util-module/api/usage/count",
-            data: postdata,
+            method: "get",
+            url: `/util-module/api/usage?searchMonth=${searchMonth}`,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -670,16 +668,14 @@ requestTable = {
                             <div class='download_charge_header'><h3>다운로드 발생 비용</h3></div>\
                             <div class='total_charge_header'><h3>합계</h3></div>\
                         </div>\
-                        <div class='tbBody'>"
-        for(var i=0;i<userName.length;i++){
-                htmlStr += "<div class='tbContent'>\
+                        <div class='tbBody'>\
+                        <div class='tbContent'>\
                                 <div class='encrypt_charge_content'><p></p></div>\
                                 <div class='decrypt_charge_content'><p></p></div>\
                                 <div class='download_charge_content'><p></p></div>\
                                 <div class='total_charge_content'><p></p></div>\
-                            </div>"
-        }
-        htmlStr += "    </div>\
+                            </div>\
+                        </div>\
                     </div>"       
 
         //월별 이미지 파일 사용량
