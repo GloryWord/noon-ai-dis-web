@@ -514,7 +514,7 @@ init = {
                     icon: 'success',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        if (service == 'encrypt') location.href = '/log';
+                        if (service == 'encrypt') location.href = '/encrypt/log';
                         if (service == 'decrypt') {
                             let timerInterval;
                             var typeStr = (type == 'image') ? '이미지' : '영상';
