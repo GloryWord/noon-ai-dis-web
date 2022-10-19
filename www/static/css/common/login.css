@@ -103,7 +103,7 @@ a {
 .loginArea .loginContent .loginHeader .loginAuth .adminLogin,
 .loginArea .loginContent .loginHeader .loginAuth .subLogin {  
     font-family: SpoqaHanSansNeo-Light;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -116,7 +116,7 @@ a {
 
 .loginArea .loginContent .loginHeader .loginAuth p {  
     font-family: SpoqaHanSansNeo-Thin;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 100;
     font-stretch: normal;
     font-style: normal;
@@ -277,7 +277,7 @@ a {
     }
 
     .loginArea .loginContent .loginHeader {
-        margin: 28px auto 14px;
+        margin: 30px auto 14px;
     }
 
     .loginArea .loginContent .loginHeader img {
@@ -295,11 +295,11 @@ a {
 
     .loginArea .loginContent .loginHeader .loginAuth .adminLogin, 
     .loginArea .loginContent .loginHeader .loginAuth .subLogin {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .loginArea .loginContent .loginHeader .loginAuth p {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .loginArea .loginContent .loginBody #loginAlias, 
