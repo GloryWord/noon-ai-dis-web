@@ -2,61 +2,62 @@
 <html lang="kor" dir="ltr">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <meta http-equiv="refresh" content="10; url=/log"> -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <meta http-equiv="refresh" content="10; url=/log"> -->
 
-    <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/loading.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/loading.css" type="text/css" />
+  <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
 
-    <script type="text/javascript" src="./js/jquery.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.Common.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.Init.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.SubAccount.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.UserInfo.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.RequestTable.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.FileModule.js"></script>
-    <script type="text/javascript" src="./js/DIS.Web.ResultLoader.js"></script>
-    <script src="./static/js/socket.io/socket.io.min.js"></script>
-    <script src="./static/js/sweetalert/sweetalert.js"></script>
-    <script src="./static/js/common/common.js"></script>
-    <script src="./static/js/common/header.js"></script>
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.Common.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.Init.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.SubAccount.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.UserInfo.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.RequestTable.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.FileModule.js"></script>
+  <script type="text/javascript" src="./js/DIS.Web.ResultLoader.js"></script>
+  <script src="./static/js/socket.io/socket.io.min.js"></script>
+  <script src="./static/js/sweetalert/sweetalert.js"></script>
+  <script src="./static/js/common/common.js"></script>
+  <script src="./static/js/common/header.js"></script>
 </head>
 
 <body>
-    <div class="header">
-        <div class="header_content">
-            <div class="logo">
-              <a href="/main">
-                <img src="../../static/imgs/common/header_logo.png">
-              </a>
-            </div>
-          <div class="flow">
-          </div>
-          <div class="login_user">
-          </div>
-          <div class="menuBtn">
-            <img class="menu_nohover" src="../../static/imgs/common/header_menu.png">
-            <img class="menu_hover" src="../../static/imgs/common/header_menu_hover.png">
-            <div id="myDropdown" class="dropdown-content">
-              <a href="/main">홈</a>
-              <a href="/log">기록 열람</a>
+  <div class="header">
+    <div class="header_content">
+      <div class="logo">
+        <a href="/main">
+          <img src="../../static/imgs/common/header_logo.png">
+        </a>
+      </div>
+      <div class="flow">
+      </div>
+      <div class="login_user">
+      </div>
+      <div class="menuBtn">
+        <img class="menu_nohover" src="../../static/imgs/common/header_menu.png">
+        <img class="menu_hover" src="../../static/imgs/common/header_menu_hover.png">
+        <div id="myDropdown" class="dropdown-content">
+          <a href="/main">홈</a>
+          <a href="/encrypt/log">비식별화 기록 열람</a>
+          <a href="/decrypt/log">복호화 기록 열람</a>
           <a href="/usage">사용량 조회</a>
-              <a href="/key">KEY 관리</a>
-              <a class="infoMove">내 정보</a>
-              <a class="admin_only" href="/submanage">서브 계정 관리</a>
-              <div id="logout">로그아웃</div>
-            </div>
-          </div>
+          <a href="/key">KEY 관리</a>
+          <a class="infoMove">내 정보</a>
+          <a class="admin_only" href="/submanage">서브 계정 관리</a>
+          <div id="logout">로그아웃</div>
         </div>
+      </div>
     </div>
-    <div class="loadingArea">
-        <img src="../static/imgs/loading.gif">
-        <div id="progress">
-            <!-- <p>0%</p> -->
-        </div>
+  </div>
+  <div class="loadingArea">
+    <img src="../static/imgs/loading.gif">
+    <div id="progress">
+      <!-- <p>0%</p> -->
     </div>
+  </div>
 </body>
 
 </html>
