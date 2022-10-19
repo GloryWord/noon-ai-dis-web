@@ -657,8 +657,8 @@ init = {
                     }
                     else{
                         var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
-                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
                     }
 
                     var select = ''
@@ -1138,7 +1138,7 @@ init = {
         $(document).on("click", ".search", function () {
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
-            if(type="all_count"){
+            if(type=="all_count"){
                 var getMonthUsage = requestTable.getMonthUsage(date)
                 $(".logArea").html(getMonthUsage);
             }
