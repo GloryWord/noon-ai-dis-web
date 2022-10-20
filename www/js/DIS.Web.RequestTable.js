@@ -766,12 +766,16 @@ requestTable = {
     },
 
     getMonthTypeUsage: function (type, date) {
-        var postdata = { typet:type, date:date }
+        var logType = ''
+        var updown = ''
+        if(type=="encrypt_upload") logType = 'encrypt', updown = 'upload'
+        else if(type=="encrypt_download") logType = 'encrypt', updown = 'download'
+        else if(type=="decrypt_upload") logType = 'decrypt', updown = 'download'
+        var apiUrl = `/util-module/api/usage/${logType}/${updown}?date=${date}`
         var requestList = ''
         $.ajax({
-            method: "post",
-            url: "/encrypt-module/api/search/encrypt",
-            data: postdata,
+            method: "get",
+            url: apiUrl,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -784,29 +788,50 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList[0] == null) {
-            htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
+        if (requestList[0] == null) {            
+            htmlStr += "<div class='logTable'>\
+                            <div class='logHeader'>\
+                                <div class='id_header'><h3>ID</h3></div>\
+                                <div class='user_header'><h3>사용자</h3></div>\
+                                <div class='file_header'><h3>파일명</h3></div>\
+                                <div class='type_header'><h3>파일 타입</h3></div>\
+                                <div class='extension_header'><h3>파일 확장자명</h3></div>\
+                                <div class='size_header'><h3>파일 용량</h3></div>\
+                                <div class='date_content'><h3>요청 날짜</h3></div>\
+                            </div>\
+                            <div class='mainLog'>\
+                                <div class='nodata'><p>요청 기록이 존재하지 않습니다.</p></div>\
+                            </div>\
+                        </div>"
         }
         else{
-            for (var i = 0; i < requestList.length; i++) {
-                var date = new Date(requestList[i]['request_date'])
-    
-                var namelist = requestList[i]['request_file_list'].split('\n')
-                namelist = namelist.splice(0, namelist.length - 1);
-        
-                htmlStr += '<div class="logContent">\
-                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                    <div class="type_content"><p>'+ type + '</p></div>\
-                    <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
-                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                    <div class="rest_content"><p>'+ restoration + '</p></div>\
-                    <div class="detail_content">\
-                        <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
-                            <p>'+text+'</p>\
-                        </div>\
-                    </div>\
-                    </div>'
-            }
+            htmlStr += "<div class='logTable'>\
+                            <div class='logHeader'>\
+                                <div class='id_header'><h3>ID</h3></div>\
+                                <div class='user_header'><h3>사용자</h3></div>\
+                                <div class='file_header'><h3>파일명</h3></div>\
+                                <div class='type_header'><h3>파일 타입</h3></div>\
+                                <div class='extension_header'><h3>파일 확장자명</h3></div>\
+                                <div class='size_header'><h3>파일 용량</h3></div>\
+                                <div class='date_content'><h3>요청 날짜</h3></div>\
+                            </div>\
+                            <div class='mainLog'>"
+                for (var i = 0; i < requestList.length; i++) {
+                    var date = new Date(requestList[i]['request_date'])
+                
+                    htmlStr += '<div class="logContent">\
+                                    <div class="id_content"><p>'+ requestList[i]["request_id"] + '</p></div>\
+                                    <div class="user_content"><p>'+ requestList[i]["user_name"] + '</p></div>\
+                                    <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
+                                    <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
+                                    <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
+                                    <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
+                                    <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
+                                </div>'
+                }
+            htmlStr += "    </div>\
+                            <div id='enc_more' class='btn-wrap'><a href='javascript:;' class='morebutton'><p>더보기</p><img src='./static/imgs/main/plus_icon.png'></a></div>\
+                        </div>"
         }
         return htmlStr;
     },

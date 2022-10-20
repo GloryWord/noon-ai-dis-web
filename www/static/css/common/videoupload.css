@@ -134,6 +134,10 @@
     margin: auto 0;
 }
 
+.uploadArea .uploadSelect .textArea .m_textArea {
+    display: none;
+}
+
 .uploadArea .uploadSelect .uploadBtnArea {
     display: flex;
     flex-direction: column;
@@ -428,6 +432,10 @@
     margin: 0 auto 8px 0;
 }
 
+.uploadFooter .restBtnArea .checkArea .checkAreaHeader {
+    display: flex;
+}
+
 .uploadFooter .restBtnArea .checkArea img {
     width: 40px;
     height: 40px;
@@ -448,11 +456,15 @@
     margin: auto 26px auto 0;
 }
 
-/* .uploadFooter .restBtnArea .checkArea .restore {
+.uploadFooter .restBtnArea .checkArea .rest_btn_area {
+    display: flex;
+}
+
+.uploadFooter .restBtnArea .checkArea .restore {
     width: 14px;
     height: 14px;
     margin: auto 6px auto 0;
-} */
+}
 
 .uploadFooter .restBtnArea .checkArea input[type="radio"] {
     width: 14px;
@@ -464,6 +476,12 @@
     cursor: pointer;
     position: relative;
 }
+
+/* .uploadFooter .restBtnArea .checkArea .restore {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+} */
 
 /* .uploadFooter .restBtnArea .checkArea input[type="radio"]::before {
     content: "●";
@@ -537,6 +555,10 @@
     height: 30px;
 }
 
+.uploadFooter .restoreKey .keySelectBox {
+    display: flex;
+}
+
 .uploadFooter .restoreKey .sKeyArea input[type="radio"] {
     width: 14px;
     height: 14px;
@@ -566,12 +588,6 @@
 
 .uploadFooter .restoreKey .sKeyArea input[type="radio"]:checked {
     background: none;
-} */
-
-/* .uploadFooter .restoreKey .sKeyArea .keySelect {
-    margin: 8px 6px auto 0;
-    width: 14px;
-    height: 14px;
 } */
 
 .uploadFooter .restoreKey .sKeyArea label {  
@@ -627,7 +643,7 @@
     height: 18px;
     margin: auto 8px auto 0;
     object-fit: contain;
-    transition: all ease 1s;
+    transition: all ease 0.5s;
 }
 
 .uploadFooter .restoreKey .sKeyArea .selectKey #selectKeyName {
@@ -713,12 +729,6 @@
     background: none;
 } */
 
-/* .uploadFooter .restoreKey .cKeyArea .keySelect {
-    margin: 8px 6px auto 0;
-    width: 14px;
-    height: 14px;
-} */
-
 .uploadFooter .restoreKey .cKeyArea label {  
     width: 230px;
     margin: 6px 0 auto 6px;
@@ -745,6 +755,10 @@
     display: flex;
     flex-direction: column;
     margin: 0;
+}
+
+.uploadFooter .restoreKey .cKeyArea .createKey p1 {  
+    display: none;
 }
 
 .uploadFooter .restoreKey .cKeyArea .createKey p {  
@@ -774,7 +788,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
     text-align: center;
-    font-family: SpoqaHanSansNeo;
+    font-family: SpoqaHanSansNeo-Light;
     font-size: 14px;
     font-weight: 500;
     font-stretch: normal;
@@ -782,6 +796,7 @@
     line-height: 1.29;
     letter-spacing: -0.14px;
     color: #595959;
+    ime-mode:inactive;
 }
 
 .uploadFooter .restoreKey .cKeyArea .createKey .createArea .keyCD {
@@ -806,6 +821,11 @@
     text-align: left;
     color: #fff;
     margin: auto;
+}
+
+.uploadFooter .upload_footer {
+    display: flex;
+    flex-direction: column;
 }
 
 .progressContainer{
