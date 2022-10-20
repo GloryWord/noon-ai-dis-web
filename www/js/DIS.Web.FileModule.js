@@ -305,10 +305,11 @@ fileModule = {
                     Swal.fire({
                         title: '업로드 에러',
                         text: '파일 업로드에 실패하였습니다.',
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'error'
-                    })
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 };
                 xhr.onload = function () {
                     new Promise((resolve, reject) => {
@@ -352,6 +353,7 @@ fileModule = {
                                 showCancelButton: false,
                                 confirmButtonText: '확인',
                                 allowOutsideClick: false,
+                                icon:'success'
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     location.href = '/loading?type='+fileType+'&service=encrypt';
@@ -380,10 +382,11 @@ fileModule = {
             Swal.fire({
                 title: '키 파일이 없습니다!',
                 text: '키 파일을 업로드했는지 확인해주세요.',
-                confirmButtonText: '확인',
-                allowOutsideClick: false,
-                icon: 'error'
-            })
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
         }
         else {
             fileName = file.name;
@@ -430,9 +433,11 @@ fileModule = {
                             title: '복호화 키 불일치',
                             text: msg,
                             showCancelButton: false,
-                            confirmButtonText: '확인',
-                            icon: 'error'
-                        })
+                            showConfirmButton:false,
+                            showDenyButton:true,
+                            denyButtonText:"확 인",
+                            icon:"error"
+                        });
                     }
                     else {
                         new Promise((resolve, reject) => {
@@ -488,6 +493,7 @@ fileModule = {
                                     showCancelButton: false,
                                     confirmButtonText: '확인',
                                     allowOutsideClick: false,
+                                    icon:'success'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         location.href = '/loading?type='+fileType+'&id='+decRequestId+'&service=decrypt';
