@@ -20,7 +20,6 @@ userinfo = {
             async: false,
             success: function (data) {
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
