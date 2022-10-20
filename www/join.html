@@ -2,6 +2,8 @@
 <html lang="kor" dir="ltr">
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
 
     <link rel="stylesheet" href="./static/css/common/adminUser.css" type="text/css" />
@@ -26,40 +28,47 @@
 <body>
     <div class="registerContent">
         <div class="registerBox">
+            <img src="./static/imgs/login/login_logo.png">
             <h1>회원가입</h1>
             <div class="regiBody">
-                <p>ID</p>
+                <p>아이디</p>
                 <div class="emailArea">
-                    <input class="regi_id" value="" name="account_name" id="account_name">
+                    <input class="regi_id" value="" name="account_name" id="account_name" placeholder="아이디로 사용할 이메일 주소를 입력해 주세요.">
                     <div class="auth_send" id="email_send">
-                        <h3>이메일 인증</h3>
+                        <h3>이메일 인증하기</h3>
+                    </div>
+                    <div class="re_auth_send" id="re_email_send">
+                        <h3>이메일 인증 재발송</h3>
+                    </div>
+                    <div class="su_auth_send">
+                        <h3>이메일 인증이 완료되었습니다.</h3>
+                    </div>
+                    <div class="authArea">
+                        <input class="regi_auth" value="" name="verify_number" id="verify_number" placeholder="인증 번호를 입력해 주세요.">
+                        <div class="auth_confirm" id="email_verify">
+                            <h3>인증 확인</h3>
+                        </div>
+                        <div class="su_auth_confirm">
+                            <h3>인증 완료</h3>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="regiBody">
                 <p>비밀번호</p>
-                <input class="regi_pass" maxlength="16" type="password" name="password" id="password">
+                <input class="regi_pass" maxlength="16" type="password" name="password" id="password" placeholder="사용하실 비밀번호를 입력해 주세요.">
             </div>
             <div class="regiBody">
                 <p>비밀번호 확인</p>
-                <input class="regi_passConfig" maxlength="16" type="password" name="repassword" id="repassword">
+                <input class="regi_passConfig" maxlength="16" type="password" name="repassword" id="repassword" placeholder="비밀번호를 다시 한 번 입력해 주세요.">
             </div>
             <div class="regiBody">
                 <p>기관명</p>
-                <input class="regi_company" value="" name="company_name" id="company_name">
+                <input class="regi_company" value="" name="company_name" id="company_name" placeholder="기관명을 입력해 주세요.">
             </div>
             <div class="regiBody">
                 <p>이름</p>
-                <input class="regu_name" value="" name="owner_name" id="owner_name">
-            </div>
-            <div class="regiBody">
-                <p>인증번호</p>
-                <div class="authArea">
-                    <input class="regi_auth" value="" name="verify_number" id="verify_number">
-                    <div class="auth_confirm" id="email_verify">
-                        <h3>인증 확인</h3>
-                    </div>
-                </div>
+                <input class="regu_name" value="" name="owner_name" id="owner_name" placeholder="이름을 입력해 주세요.">
             </div>
             <div class="btnArea">
                 <div class="regiSave" id="tenant_register">

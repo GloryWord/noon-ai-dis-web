@@ -1579,24 +1579,47 @@ init = {
             if (email) {
                 var exist = signup.checkDuplicate(email);
                 if (!exist) {
-                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'info').then(() => {
+                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'success').then(() => {
+                        verifyCode = signup.sendMail(email);
+                        $('.auth_send').addClass('hide')
+                        $('.re_auth_send').addClass('active')
+                    })
+                }
+                else {
+                    Swal.fire('이미 사용중인 계정입니다.', '', 'error')
+                }
+            }
+            else Swal.fire('이메일 주소를 입력해 주세요', '', 'error');
+            // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
+        });
+
+        $(document).on("click", "#re_email_send", function () {
+            var email = $("#account_name").val();
+            if (email) {
+                var exist = signup.checkDuplicate(email);
+                if (!exist) {
+                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'success').then(() => {
                         verifyCode = signup.sendMail(email);
                     })
                 }
                 else {
-                    Swal.fire('이미 사용중인 계정입니다.', '', 'warning')
+                    Swal.fire('이미 사용중인 계정입니다.', '', 'error')
                 }
             }
-            else Swal.fire('이메일 주소를 입력해 주세요', '', 'warning');
+            else Swal.fire('이메일 주소를 입력해 주세요', '', 'error');
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
 
         $(document).on("click", "#email_verify", function () {
             if (!$(this).hasClass('click')) {
                 if ($("#verify_number").val() == verifyCode) {
-                    Swal.fire('인증이 완료되었습니다.', '', 'success');
+                    Swal.fire('인증이 완료되었습니다.', '', 'success').then(() => {
+                        $('.re_auth_send').removeClass('active')
+                        $('.auth_confirm').addClass('hide')
+                        $('.su_auth_send').addClass('active')
+                        $('.su_auth_confirm').addClass('active')
+                    })
                     verify = true;
-                    $(this).addClass('click');
                     $("#account_name").attr('disabled', true); // or false
                 }
                 else {
