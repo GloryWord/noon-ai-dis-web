@@ -222,7 +222,12 @@ subaccount = {
                     })
                 }
                 else{
-                    Swal.fire('권한 설정에 실패했습니다.', '', 'error').then(() => {
+                    Swal.fire({
+                        title: '권한 설정에 실패했습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
             }, // success 
@@ -263,15 +268,30 @@ subaccount = {
             async: false,
             success: function (data) {
                 if(data.message == "access_null"){
-                    Swal.fire('접속 키를 입력해주세요.', '', 'warning').then(() => {
+                    Swal.fire({
+                        title: '접속 키를 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
                 else if(data.message == "access_error"){
-                    Swal.fire('존재하는 접속 키에요.', '', 'warning').then(() => {
+                    Swal.fire({
+                        title: '존재하는 접속 키에요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
                 else if(data.message == "error"){
-                    Swal.fire('접속 키를 다시 확인해주세요.', '', 'warning').then(() => {
+                    Swal.fire({
+                        title: '접속 키를 다시 확인해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
                 else if(data.message == "success"){

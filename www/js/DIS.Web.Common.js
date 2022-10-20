@@ -98,7 +98,7 @@ comm = {
         await Swal.fire({
             title: '2차 인증',
             input: 'password',
-            inputLabel: '정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다',
+            text: '정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다',
             inputPlaceholder: '비밀번호를 입력해 주세요',
             inputAttributes: {
                 maxlength: 16,
@@ -112,7 +112,24 @@ comm = {
             if (password) {
                 var verify = login.secondaryLogin(password);
                 if (verify) Swal.fire('2차 인증이 완료되었습니다.', '', 'success')
-                else Swal.fire('2차 인증에 실패하였습니다.', '', 'error').then(() => {
+                else Swal.fire({
+                    title: '2차 인증에 실패하였습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                }).then(() => {
+                    location.href = '/submanage';
+                })
+            }
+            else{
+                Swal.fire({
+                    title: '2차 인증에 실패하였습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                }).then(() => {
                     location.href = '/submanage';
                 })
             }
@@ -174,7 +191,12 @@ comm = {
                     location.href = '/myinfo';
                 }
                 else{
-                    Swal.fire('비밀번호가 틀렸습니다.', '', 'error').then(() => {
+                    Swal.fire({
+                        title: '비밀번호가 틀렸습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
             },

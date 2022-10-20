@@ -256,6 +256,96 @@ a {
     margin: auto 0;
 }
 
+.swal2-popup {
+    width: 400px !important;
+    border-radius: 24px !important;
+    padding: 0 0 40px !important;
+}
+
+.swal2-icon {
+    margin: 50px auto 0 !important;
+}
+
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    z-index: 3 !important;
+    background-color: #fff !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 0.25em solid #3fa9f5 !important;
+    background-color: #3fa9f5 !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #f64957 !important;
+    background-color: #f64957 !important;
+    color: #fff !important;
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: #fff !important;
+}
+
+.swal2-title {
+    font-family: SpoqaHanSansNeo-Bold !important;
+    font-size: 24px !important;
+    color: #16284d !important;
+    padding: 0 !important;
+    margin: 40px auto 0 !important;
+    max-width: 294px !important;
+}
+
+.swal2-html-container {
+    max-width: 294px !important;
+    font-family: SpoqaHanSansNeo-Bold !important;
+    font-size: 24px !important;
+    color: #16284d !important;
+    margin: 0 auto !important;
+}
+
+.swal2-actions {
+    margin: 0 auto !important;
+    flex-direction: column !important;
+}
+
+.swal2-styled.swal2-confirm {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #3fa9f5 !important;
+    color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+.swal2-styled.swal2-deny {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #f64957 !important;
+    color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+}
+
 @media(max-width:600px){
     .loginArea {
         background: url(../../imgs/login/m_login_back.png);
@@ -327,5 +417,68 @@ a {
         height: auto;
         margin: 0 auto 28px;
         display: flex;
+    }
+
+    .swal2-popup {
+        width: 288px !important;
+        border-radius: 24px !important;
+        padding: 0 0 28px !important;
+    }
+    
+    .swal2-icon {
+        margin: 38px auto 0 !important;
+    }
+    
+    .swal2-icon.swal2-success [class^=swal2-success-line] {
+        z-index: 3 !important;
+        background-color: #fff !important;
+    }
+    
+    .swal2-icon.swal2-success .swal2-success-ring {
+        border: 0.25em solid #3fa9f5 !important;
+        background-color: #3fa9f5 !important;
+    }
+    
+    .swal2-icon.swal2-error {
+        border-color: #f64957 !important;
+        background-color: #f64957 !important;
+        color: #fff !important;
+    }
+    
+    .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+        background-color: #fff !important;
+    }
+    
+    .swal2-title {
+        font-family: SpoqaHanSansNeo-Bold !important;
+        font-size: 20px !important;
+        color: #16284d !important;
+        padding: 0 !important;
+        margin: 28px auto 0 !important;
+        max-width: 240px !important;
+    }
+    
+    .swal2-html-container {
+        font-family: SpoqaHanSansNeo-Bold !important;
+        font-size: 20px !important;
+        color: #16284d !important;
+        margin: 0 auto !important;
+        max-width: 240px !important;
+    }
+    
+    .swal2-actions {
+        margin: 0 auto !important;
+    }
+    
+    .swal2-styled.swal2-confirm {
+        width: 240px !important;
+        height: 40px !important;
+        margin: 31px auto 0 !important;
+    }
+    
+    .swal2-styled.swal2-deny {
+        width: 240px !important;
+        height: 40px !important;
+        margin: 31px auto 0 !important;
     }
 }

@@ -828,7 +828,12 @@
     flex-direction: column;
 }
 
+.progressContainer.hide {
+    display: none;
+}
+
 .progressContainer{
+    display: block;
     position:relative;
     width: 450px;
     padding: 20px 10px;
