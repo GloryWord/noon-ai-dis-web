@@ -366,12 +366,12 @@ init = {
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
-                    if(screen.width<=600){
+                    if (screen.width <= 600) {
                         var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[0].children[0].checked
                         var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[1].children[0].checked
                         var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[2].children[0].checked
                     }
-                    else{
+                    else {
                         var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
                         var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
                         var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
@@ -650,12 +650,12 @@ init = {
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
-                    if(screen.width<=600){
+                    if (screen.width <= 600) {
                         var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
                         var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
                         var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
                     }
-                    else{
+                    else {
                         var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
                         var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
                         var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
@@ -775,7 +775,7 @@ init = {
                 $('#signedUrl').attr('href', signedUrl[0][0]);
                 var fileSize = signedUrl[0][1];
                 var fileName = fileList[0];
-                
+
                 $(document).on("click", "#signedUrl", function () {
                     comm.meterEncDownload(eventIndex, type, fileName, fileSize);
                 })
@@ -793,7 +793,7 @@ init = {
                 });
 
                 $(document).on("click", ".albumImg", function () {
-                    if(screen.width>600){
+                    if (screen.width > 600) {
                         var imgnum = $(this).data("num")
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                         var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
@@ -875,7 +875,7 @@ init = {
                     });
                     socket.on('compress', function (data) {
                         if (data.log == '압축 완료') {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 new Promise((resolve, reject) => {
                                     //파일 다운로드 경로 획득
                                     var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
@@ -912,7 +912,7 @@ init = {
 
             var fileSize = signedUrl[0][1];
             var fileName = fileList[0];
-            
+
             $(document).on("click", "#signedUrl", function () {
                 comm.meterEncDownload(eventIndex, type, fileName, fileSize);
             })
@@ -926,14 +926,14 @@ init = {
         var requestType = pathname[1];
 
         function reloadProgress() {
-            if(requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
-            else if(requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+            if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
+            else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
             var progress = reqProgress['progress']
             $('#progress').html(progress);
             if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
             else {
-                if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+                if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
                 $(".mainLog").html(mainLog);
             }
         }
@@ -1003,11 +1003,11 @@ init = {
             var filter_album = $('.filter_album').is(':checked')
             var filter_reco = $('.filter_rest').is(':checked')
             var filter_norest = $('.filter_norest').is(':checked')
-            if(screen.width<=600){
+            if (screen.width <= 600) {
                 var startDate = $(".m_date .startVal").val();
                 var endDate = $(".m_date .endVal").val();
             }
-            else{
+            else {
                 var startDate = $(".pc_date .startVal").val();
                 var endDate = $(".pc_date .endVal").val();
             }
@@ -1039,10 +1039,10 @@ init = {
                 console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                 $(".mainLog").html(mainLog);
-                if(screen.width<=600){
+                if (screen.width <= 600) {
                     m_load('.mainLog', '5');
                 }
-                else{
+                else {
                     load('.mainLog', '5');
                 }
             }
@@ -1074,18 +1074,18 @@ init = {
             }
         });
 
-        if(requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-        else if(requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
         $(".mainLog").html(mainLog);
 
-        
-        if(screen.width<=600){
+
+        if (screen.width <= 600) {
             m_load('.mainLog', '5');
             $(document).on("click", "#enc_more .morebutton", function () {
                 m_load('.mainLog', '5', '#enc_more');
             })
         }
-        else{
+        else {
             load('.mainLog', '5');
             $(document).on("click", "#enc_more .morebutton", function () {
                 load('.mainLog', '5', '#enc_more');
@@ -1124,11 +1124,11 @@ init = {
     usage: function () {
         var d = new Date();
         var sel_month = -1; // 월을 조절하시면 됩니다. -1이면 전달을 +1이면 다음달을..
-        d.setMonth(d.getMonth() + sel_month ); 
-        
-        var year    = d.getFullYear();
-        var month   = ('0' + (d.getMonth() +  1 )).slice(-2);
-        var searchMonth = year+"-"+month;
+        d.setMonth(d.getMonth() + sel_month);
+
+        var year = d.getFullYear();
+        var month = ('0' + (d.getMonth() + 1)).slice(-2);
+        var searchMonth = year + "-" + month;
 
         $("#startVal").val(searchMonth);
 
@@ -1138,11 +1138,11 @@ init = {
         $(document).on("click", ".search", function () {
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
-            if(type="all_count"){
+            if (type = "all_count") {
                 var getMonthUsage = requestTable.getMonthUsage(date)
                 $(".logArea").html(getMonthUsage);
             }
-            else{
+            else {
                 var getMonthTypeUsage = requestTable.getMonthTypeUsage(type, date)
                 $(".logArea").html(getMonthTypeUsage);
                 load('.mainLog', '5');
@@ -1680,19 +1680,8 @@ init = {
     },
 
     test: function () {
-        $(document).on("click", "#loginButton", function () {
-            var loginAlias = $("#loginAlias").val();
-            var accountName = $("#name").val();
-            var password = $("#pass").val();
-            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
-            else {
-                if (loginAlias == '') var msg = '접속키'
-                if (accountName == '') var msg = '아이디';
-                if (password == '') var msg = '비밀번호';
-                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
-                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
-            }
-        });
+        // Part 1:
+        
     }
 };
 
