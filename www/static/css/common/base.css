@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding-top: 100px;
     overflow: auto;
+    -webkit-text-size-adjust: none;
 }
 
 a {

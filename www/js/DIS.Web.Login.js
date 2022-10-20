@@ -100,7 +100,6 @@ login = {
             url: "/util-module/api/token/verify/"+accountName+"/"+token,
             async: false,
             success: function (data) {
-                console.log(data);
                 if(data.message == 'success' && data.result == 'valid') html = validHtml;
                 else if(data.message == 'success' && data.result == 'invalid') html = invalidHtml;
             },
