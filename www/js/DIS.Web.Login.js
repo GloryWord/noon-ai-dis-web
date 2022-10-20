@@ -27,7 +27,13 @@ login = {
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
-                Swal.fire('로그인에 실패하였습니다.', '', 'error');
+                Swal.fire({
+                    title: '로그인에 실패하였습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         })
     },
@@ -46,7 +52,13 @@ login = {
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
-                Swal.fire('로그인에 실패하였습니다.', '', 'error');
+                Swal.fire({
+                    title: '로그인에 실패하였습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         })
         return result;
@@ -64,7 +76,13 @@ login = {
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-                Swal.fire('로그인에 실패하였습니다.', '', 'error');
+                Swal.fire({
+                    title: '로그인에 실패하였습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         })
     },
@@ -100,7 +118,6 @@ login = {
             url: "/util-module/api/token/verify/"+accountName+"/"+token,
             async: false,
             success: function (data) {
-                console.log(data);
                 if(data.message == 'success' && data.result == 'valid') html = validHtml;
                 else if(data.message == 'success' && data.result == 'invalid') html = invalidHtml;
             },
@@ -123,7 +140,7 @@ login = {
                     Swal.fire({
                         title: '메일 발송 완료',
                         text: '등록되어 있는 이메일 주소로 메일이 발송되었습니다.',
-                        confirmButtonText: '확인',
+                        confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'
                     }).then((result) => {
@@ -134,9 +151,10 @@ login = {
                     Swal.fire({
                         title: 'ID를 다시 입력해 주세요',
                         text: data.log,
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'error'
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     }).then((result) => {
                         if (result.isConfirmed) location.reload();
                     })
@@ -161,7 +179,7 @@ login = {
                     Swal.fire({
                         title: '비밀번호 변경 완료',
                         text: '새로운 비밀번호로 비밀번호 변경이 완료되었습니다!',
-                        confirmButtonText: '확인',
+                        confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'
                     }).then((result) => {

@@ -59,7 +59,7 @@ a {
 
 .registerContent .registerBox,
 .findContent .findBox {
-    width: auto;
+    width: 400px;
     height: auto;
     margin: auto;
     border-radius: 24px;
@@ -69,57 +69,69 @@ a {
     flex-direction: column;
 }
 
+.registerContent .registerBox img,
+.findContent .findBox img {
+    width: 294px;
+    height: 42px;
+    margin: 54px auto 42px;
+    object-fit: contain;
+}
+
 .registerContent .registerBox h1,
 .findContent .findBox h1 {
-    font-family: S-CoreDream-6Bold;
-    margin: 36px auto 12px;
+    width: 294px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto 18px;
 }
 
 .registerContent .registerBox .regiBody,
 .findContent .findBox .findBody {
-    margin: 0 36px 12px;
+    width: 294px;
+    height: auto;
     display: flex;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
-.registerContent .registerBox .regiBody p {
-    width: 100px;
-    height: 18px;
-    margin: 11px 12px 11px 0;
-    font-family: SpoqaHanSansNeo-Regular;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.29;
-    letter-spacing: normal;
-    text-align: left;
-    color: #595959;
+.registerContent .registerBox .regiBody .emailArea,
+.findContent .findBox .findBody .emailArea {
+    display: flex;
+    flex-direction: column;
 }
 
+.registerContent .registerBox .regiBody p,
 .findContent .findBox .findBody p {
-    width: 100px;
-    height: 18px;
-    margin: 11px 12px 11px 0;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
-    letter-spacing: normal;
-    text-align: center;
-    color: #595959;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #212121;
 }
 
 .registerContent .registerBox .regiBody input,
 .findContent .findBox .findBody input {    
     width: 266px;
-    height: 12px;
-    padding: 11px 12px;
-    margin: 0 0 30px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     border: none;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
@@ -145,61 +157,97 @@ a {
     color: #707070;
 }
 
-.registerContent .registerBox .regiBody .emailArea,
-.registerContent .registerBox .regiBody .authArea,
-.findContent .findBox .findBody .emailArea {
-    display: flex;
-}
-
 .registerContent .registerBox .regiBody .emailArea .auth_send,
-.registerContent .registerBox .regiBody .authArea .auth_confirm,
+.registerContent .registerBox .regiBody .emailArea .auth_confirm,
 .findContent .findBox .findBody .emailArea .auth_send {
-    display: flex;
-    background-color: #3fa9f5;
-    border-radius: 15px;
-    width: 80px;
+    width: 294px;
     height: 30px;
-    margin: 2px 0 auto 8px;
+    margin: 10px auto;
+    border-radius: 15px;
+    background-color: #3fa9f5;
+    display: flex;
     cursor: pointer;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
 }
 
-.registerContent .registerBox .regiBody .authArea .auth_confirm.click {
-    background-color: #909090;
-    cursor: default;
+.registerContent .registerBox .regiBody .emailArea .auth_send.hide,
+.registerContent .registerBox .regiBody .emailArea .auth_confirm.hide {
+    display: none;
+}
+
+.registerContent .registerBox .regiBody .emailArea .re_auth_send {
+    width: 294px;
+    height: 30px;
+    margin: 10px auto;
+    border-radius: 15px;
+    background-color: #16284d;
+    display: none;
+    cursor: pointer;
+}
+
+.registerContent .registerBox .regiBody .emailArea .su_auth_send,
+.registerContent .registerBox .regiBody .emailArea .su_auth_confirm {
+    width: 294px;
+    height: 30px;
+    margin: 10px auto;
+    border-radius: 15px;
+    background-color: #707070;
+    display: none;
+    pointer-events: none;
+}
+
+.registerContent .registerBox .regiBody .emailArea .re_auth_send.active,
+.registerContent .registerBox .regiBody .emailArea .su_auth_send.active,
+.registerContent .registerBox .regiBody .emailArea .su_auth_confirm.active {
+    display: flex;
+}
+
+.registerContent .registerBox .regiBody .emailArea .auth_confirm,
+.registerContent .registerBox .regiBody .emailArea .su_auth_confirm {
+    margin: 10px auto 0;
 }
 
 .registerContent .registerBox .regiBody .emailArea .auth_send h3,
-.registerContent .registerBox .regiBody .authArea .auth_confirm h3,
+.registerContent .registerBox .regiBody .emailArea .re_auth_send h3,
+.registerContent .registerBox .regiBody .emailArea .su_auth_send h3,
+.registerContent .registerBox .regiBody .emailArea .su_auth_confirm h3,
+.registerContent .registerBox .regiBody .emailArea .auth_confirm h3,
 .findContent .findBox .findBody .emailArea .auth_send h3 {
-    font-family: S-CoreDream-6Bold;
-    font-size: 12px;
-    color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
 .registerContent .registerBox .btnArea,
 .findContent .findBox .btnArea {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 36px;
+    margin: 6px auto 54px;
 }
 
 .registerContent .registerBox .btnArea .regiSave,
 .findContent .findBox .btnArea .findSave {
-    width: 160px;
-    height: 30px;
-    margin: 0 24px 0 0;
-    display: flex;
-    border-radius: 15px;
-    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    width: 140px;
+    height: 40px;
+    margin: 0 14px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #3fa9f5;
+    display: flex;
     cursor: pointer;
 }
 
 .registerContent .registerBox .btnArea .regiSave p,
 .findContent .findBox .btnArea .findSave p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -212,14 +260,18 @@ a {
 
 .registerContent .registerBox .btnArea .regiCancel,
 .findContent .findBox .btnArea .findCancel {
-    width: 160px;
-    height: 30px;
+    width: 140px;
+    height: 40px;
     margin: 0;
     display: flex;
-    border-radius: 15px;
-    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #16284d;
     cursor: pointer;
+}
+
+.findContent .findBox .btnArea .findCancel {
+    margin: 0 auto;
 }
 
 .findContent .findBox .btnArea .findCancel a {
@@ -231,7 +283,7 @@ a {
 .registerContent .registerBox .btnArea .regiCancel p,
 .findContent .findBox .btnArea .findCancel p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -243,45 +295,44 @@ a {
 }
 
 #changePassForm {
-    margin: 0 24px 24px;
+    width: 294px;
+    height: auto;
     display: flex;
     flex-direction: column;
-}
-
-#changePassForm span {
-    font-family: SpoqaHanSansNeo-Bold;
-    color: red;
-    margin: 0 auto 12px;
+    margin: 0 auto 18px;
 }
 
 #changePassForm .passform {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 #changePassForm .passform p {
-    width: 100px;
-    height: 18px;
-    margin: 11px 12px 11px 0;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
-    letter-spacing: normal;
+    letter-spacing: -0.14px;
     text-align: left;
-    color: #595959;
+    color: #212121;
 }
 
 #changePassForm .passform input {
     width: 266px;
-    height: 12px;
-    padding: 11px 12px;
-    margin: 0 0 30px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     border: none;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
@@ -306,26 +357,28 @@ a {
     color: #707070;
 }
 
-
 .btn {
-    margin: 0 auto;
+    width: 294px;
+    height: auto;
     display: flex;
+    margin: 6px auto 54px;
 }
 
 .btn #confirm {
-    width: 160px;
-    height: 30px;
-    margin: 0 24px 0 0;
-    display: flex;
-    border-radius: 15px;
-    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    width: 140px;
+    height: 40px;
+    margin: 0 14px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #3fa9f5;
+    display: flex;
     cursor: pointer;
 }
 
-.btn #confirm p {
+.btn #confirm p,
+.btn #cancel a p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -337,12 +390,12 @@ a {
 }
 
 .btn #cancel {
-    width: 160px;
-    height: 30px;
+    width: 140px;
+    height: 40px;
     margin: 0;
     display: flex;
-    border-radius: 15px;
-    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #16284d;
     cursor: pointer;
 }
@@ -354,15 +407,272 @@ a {
     text-decoration: none;
 }
 
-.btn #cancel a p {
+.swal2-popup {
+    width: 400px !important;
+    border-radius: 24px !important;
+    padding: 0 0 40px !important;
+}
+
+.swal2-icon {
+    margin: 50px auto 0 !important;
+}
+
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    z-index: 3 !important;
+    background-color: #fff !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 0.25em solid #3fa9f5 !important;
+    background-color: #3fa9f5 !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #f64957 !important;
+    background-color: #f64957 !important;
+    color: #fff !important;
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: #fff !important;
+}
+
+.swal2-title {
+    font-family: SpoqaHanSansNeo-Bold !important;
+    font-size: 24px !important;
+    color: #16284d !important;
+    padding: 0 !important;
+    margin: 40px auto 0 !important;
+    max-width: 294px !important;
+}
+
+.swal2-html-container {
+    font-family: SpoqaHanSansNeo-Bold !important;
+    font-size: 24px !important;
+    color: #16284d !important;
+    margin: 0 auto !important;
+    max-width: 294px !important;
+}
+
+.swal2-actions {
+    margin: 0 auto !important;
+    flex-direction: column !important;
+}
+
+.swal2-styled.swal2-confirm {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #3fa9f5 !important;
+    color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.29;
+    line-height: 1.22;
     letter-spacing: normal;
     text-align: center;
+}
+
+.swal2-styled.swal2-deny {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #f64957 !important;
     color: #fff;
-    margin: auto;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+@media (max-width:600px){
+    .registerContent, 
+    .findContent {
+        background: url(../../imgs/login/m_login_back.png);
+        background-size: 100%;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+    }
+
+    .registerContent .registerBox, 
+    .findContent .findBox {
+        width: 288px;
+        height: auto;
+        margin: auto;
+        border-radius: 24px;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.16);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .registerContent .registerBox img, 
+    .findContent .findBox img {
+        width: 240;
+        height: 34px;
+        margin: 28px auto 24px;
+        object-fit: contain;
+    }
+
+    .registerContent .registerBox h1,
+    .findContent .findBox h1 {
+        width: 240px;
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #16284d;
+        margin: 0 auto 17px;
+    }
+
+    .registerContent .registerBox .regiBody,
+    .findContent .findBox .findBody,
+    #changePassForm,
+    #changePassForm .passform {
+        width: 240px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 18px;
+    }
+
+    .registerContent .registerBox .regiBody p,
+    .findContent .findBox .findBody p,
+    #changePassForm .passform p {
+        width: 240px;
+        margin: 0 auto 12px;
+        object-fit: contain;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #212121;
+    }
+
+    .registerContent .registerBox .regiBody input, 
+    .findContent .findBox .findBody input,
+    #changePassForm .passform input {
+        width: 212px;
+        height: 18px;
+        margin: 0 auto;
+    }
+
+    .registerContent .registerBox .regiBody .emailArea .auth_send,
+    .registerContent .registerBox .regiBody .emailArea .auth_confirm,
+    .registerContent .registerBox .regiBody .emailArea .re_auth_send,
+    .registerContent .registerBox .regiBody .emailArea .su_auth_send,
+    .registerContent .registerBox .regiBody .emailArea .su_auth_confirm,
+    .findContent .findBox .findBody .emailArea .auth_send {
+        width: 240px;
+        height: 30px;
+    }
+
+    .registerContent .registerBox .btnArea, 
+    .findContent .findBox .btnArea,
+    .btn {
+        width: 240px;
+        height: auto;
+        display: flex;
+        margin: 6px auto 24px;
+    }
+
+    .registerContent .registerBox .btnArea .regiSave, 
+    .findContent .findBox .btnArea .findSave,
+    .btn #confirm {
+        width: 114px;
+        height: 40px;
+        margin: 0 12px 0 0;
+    }
+
+    .registerContent .registerBox .btnArea .regiCancel, 
+    .findContent .findBox .btnArea .findCancel,
+    .btn #cancel {
+        width: 114px;
+        height: 40px;
+    }
+
+    .swal2-popup {
+        width: 288px !important;
+        border-radius: 24px !important;
+        padding: 0 0 28px !important;
+    }
+    
+    .swal2-icon {
+        margin: 38px auto 0 !important;
+    }
+    
+    .swal2-icon.swal2-success [class^=swal2-success-line] {
+        z-index: 3 !important;
+        background-color: #fff !important;
+    }
+    
+    .swal2-icon.swal2-success .swal2-success-ring {
+        border: 0.25em solid #3fa9f5 !important;
+        background-color: #3fa9f5 !important;
+    }
+    
+    .swal2-icon.swal2-error {
+        border-color: #f64957 !important;
+        background-color: #f64957 !important;
+        color: #fff !important;
+    }
+    
+    .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+        background-color: #fff !important;
+    }
+    
+    .swal2-title {
+        font-family: SpoqaHanSansNeo-Bold !important;
+        font-size: 20px !important;
+        color: #16284d !important;
+        padding: 0 !important;
+        margin: 28px auto 0 !important;
+        max-width: 240px !important;
+    }
+    
+    .swal2-html-container {
+        font-family: SpoqaHanSansNeo-Bold !important;
+        font-size: 20px !important;
+        color: #16284d !important;
+        margin: 0 auto !important;
+        max-width: 240px !important;
+    }
+    
+    .swal2-actions {
+        margin: 0 auto !important;
+    }
+    
+    .swal2-styled.swal2-confirm {
+        width: 240px !important;
+        height: 40px !important;
+        margin: 31px auto 0 !important;
+    }
+    
+    .swal2-styled.swal2-deny {
+        width: 240px !important;
+        height: 40px !important;
+        margin: 31px auto 0 !important;
+    }
+    
 }

@@ -20,7 +20,6 @@ userinfo = {
             async: false,
             success: function (data) {
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -132,15 +131,30 @@ userinfo = {
                     })
                 }
                 else if(data.message == 'length_error') {
-                    Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
+                    Swal.fire({
+                        title: '비밀번호는 8자 이상 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
                 else if(data.message == 'check_error') {
-                    Swal.fire('비밀번호는 영문, 숫자를 혼합하여 입력해주세요.', '', 'warning').then(() => {
+                    Swal.fire({
+                        title: '비밀번호는 영문, 숫자를 혼합하여 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
                 else{
-                    Swal.fire('비밀번호를 다시 한번 확인해주세요.', '', 'error').then(() => {
+                    Swal.fire({
+                        title: '비밀번호를 다시 한번 확인해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     })
                 }
             },
