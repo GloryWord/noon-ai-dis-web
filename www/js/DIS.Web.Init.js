@@ -174,7 +174,13 @@ init = {
                 if (accountName == '') var msg = '아이디';
                 if (password == '') var msg = '비밀번호';
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
-                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+                Swal.fire({
+                    title:msg + '를 입력해 주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         });
     },
@@ -190,7 +196,14 @@ init = {
                 if (accountName == '') var msg = '아이디';
                 if (password == '') var msg = '비밀번호';
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
-                Swal.fire(msg + '를 입력해 주세요.', '', 'warning');
+                Swal.fire({
+                    title: msg + '를 입력해 주세요.',
+                    showCancelButton: false,
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         });
     },
@@ -350,7 +363,11 @@ init = {
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    icon: 'warning',
+                    showCancelButton: false,
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
                 });
             }
             else if (keyselect == '' && restoration == 1) {
@@ -359,10 +376,15 @@ init = {
                     html:
                         '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    icon: 'warning',
+                    showCancelButton: false,
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
                 });
             }
             else {
+                $(".progressContainer").removeClass('hide')
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
@@ -406,7 +428,11 @@ init = {
                         html:
                             '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
                             '확인 후 재시도해 주세요.',
-                        icon: 'warning',
+                        showCancelButton: false,
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     });
                 }
             }
@@ -634,7 +660,10 @@ init = {
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    icon: 'warning',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
                 });
             }
             else if (keyselect == '' && restoration == 1) {
@@ -643,10 +672,14 @@ init = {
                     html:
                         '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    icon: 'warning',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
                 });
             }
             else {
+                $(".progressContainer").removeClass('hide')
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
@@ -685,7 +718,10 @@ init = {
                         html:
                             '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
                             '확인 후 재시도해 주세요.',
-                        icon: 'warning',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
                     });
                 }
             }
@@ -757,10 +793,11 @@ init = {
                     if (selectedFile.length == 0) Swal.fire({
                         title: '선택된 파일이 없습니다',
                         text: '복호화할 파일을 선택해 주세요.',
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'error'
-                    })
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                     else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
                 }
             }
@@ -1027,13 +1064,31 @@ init = {
             }
 
             if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
-                Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
+                Swal.fire({
+                    title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
             else if (startDate > today() || endDate > today()) {
-                Swal.fire('오늘날짜보다 크게 설정 할 수 없어요.', '', 'error')
+                Swal.fire({
+                    title: '오늘날짜보다 크게 설정 할 수 없어요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
             else if (startDate > endDate) {
-                Swal.fire('시작날짜를 종료날짜보다 크게 할 수 없어요.', '', 'error')
+                Swal.fire({
+                    title: '시작날짜를 종료날짜보다 크게 할 수 없어요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
             else {
                 console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
@@ -1403,7 +1458,13 @@ init = {
 
         $(document).on("click", "#generateKey", function () {
             if ($("#genKeyName").val() == "") {
-                Swal.fire('Key 이름을 입력해주세요.', '', 'warning');
+                Swal.fire({
+                    title: 'Key 이름을 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
             else {
                 var genKeyName = $("#genKeyName").val();
@@ -1493,7 +1554,13 @@ init = {
             var userName = $(".sub_username").val();
             var email = $(".sub_email").val();
 
-            if (accountName == '' || password == '' || repassword == '' || userName == '' || email == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
+            if (accountName == '' || password == '' || repassword == '' || userName == '' || email == '') Swal.fire({
+                title: '빈 칸에 정보를 입력해주세요.',
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
             else {
                 if (password == repassword) {
                     var subAccountInfo = {
@@ -1509,20 +1576,41 @@ init = {
                         })
                     }
                     else if (result == "length_error") {
-                        Swal.fire('비밀번호는 8자 이상 입력해주세요.', '', 'warning').then(() => {
-                        })
+                        Swal.fire({
+                            title: '비밀번호는 8자 이상 입력해주세요.',
+                            showConfirmButton:false,
+                            showDenyButton:true,
+                            denyButtonText:"확 인",
+                            icon:"error"
+                        });
                     }
                     else if (result == "check_error") {
-                        Swal.fire('비밀번호는 영문, 숫자를 혼합하여 입력해주세요.', '', 'warning').then(() => {
-                        })
+                        Swal.fire({
+                            title: '비밀번호는 영문, 숫자를 혼합하여 입력해주세요.',
+                            showConfirmButton:false,
+                            showDenyButton:true,
+                            denyButtonText:"확 인",
+                            icon:"error"
+                        });
                     }
                     else {
-                        Swal.fire('비밀번호를 다시 한번 확인해주세요.', '', 'warning').then(() => {
-                        })
+                        Swal.fire({
+                            title: '비밀번호를 다시 한번 확인해주세요.',
+                            showConfirmButton:false,
+                            showDenyButton:true,
+                            denyButtonText:"확 인",
+                            icon:"error"
+                        });
                     }
                 }
                 else {
-                    Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error')
+                    Swal.fire({
+                        title: '비밀번호가 일치하지 않습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 }
             }
         });
@@ -1586,10 +1674,22 @@ init = {
                     })
                 }
                 else {
-                    Swal.fire('이미 사용중인 계정입니다.', '', 'error')
+                    Swal.fire({
+                        title: '이미 사용중인 계정입니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 }
             }
-            else Swal.fire('이메일 주소를 입력해 주세요', '', 'error');
+            else Swal.fire({
+                title: '이메일 주소를 입력해 주세요.',
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
 
@@ -1603,10 +1703,22 @@ init = {
                     })
                 }
                 else {
-                    Swal.fire('이미 사용중인 계정입니다.', '', 'error')
+                    Swal.fire({
+                        title: '이미 사용중인 계정입니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 }
             }
-            else Swal.fire('이메일 주소를 입력해 주세요', '', 'error');
+            else Swal.fire({
+                title: '이메일 주소를 입력해 주세요.',
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
 
@@ -1623,21 +1735,46 @@ init = {
                     $("#account_name").attr('disabled', true); // or false
                 }
                 else {
-                    Swal.fire('인증번호가 일치하지 않습니다.', '', 'error');
+                    Swal.fire({
+                        title: '인증번호가 일치하지 않습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 }
             }
         });
 
         $(document).on("click", "#tenant_register", function () {
-            if (!verify) Swal.fire('인증 실패', '이메일 인증을 완료해 주세요', 'error');
+            if (!verify) Swal.fire({
+                title: '인증 실패',
+                text:'이메일 인증을 완료해 주세요',
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
             else {
                 var accountName = $("#account_name").val();
                 var password = $("#password").val();
                 var repassword = $("#repassword").val();
                 var companyName = $("#company_name").val();
                 var ownerName = $("#owner_name").val();
-                if (password != repassword) Swal.fire('비밀번호가 일치하지 않습니다.', '', 'error');
-                else if (password == '' || repassword == '' || companyName == '' || ownerName == '') Swal.fire('빈 칸에 정보를 입력해주세요.', '', 'warning');
+                if (password != repassword) Swal.fire({
+                    title: '비밀번호가 일치하지 않습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
+                else if (password == '' || repassword == '' || companyName == '' || ownerName == '') Swal.fire({
+                    title: '빈 칸에 정보를 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
                 else signup.tenantSignUp(accountName, password, companyName, ownerName);
             }
         });
@@ -1664,10 +1801,22 @@ init = {
                     login.forgetPassword(email);
                 }
                 else {
-                    Swal.fire('가입된 정보가 없습니다.', '', 'warning')
+                    Swal.fire({
+                        title: '가입된 정보가 없습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
                 }
             }
-            else Swal.fire('빈 칸을 입력해 주세요.', '', 'warning')
+            else Swal.fire({
+                title: '빈 칸을 입력해 주세요.',
+                showConfirmButton:false,
+                showDenyButton:true,
+                denyButtonText:"확 인",
+                icon:"error"
+            });
         });
     },
 
@@ -1685,16 +1834,23 @@ init = {
             var repassword = $('#repassword').val();
 
             if (password == '') {
-                Swal.fire('변경할 비밀번호를 입력해주세요.', '', 'warning');
+                Swal.fire({
+                    title: '변경할 비밀번호를 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
             else {
                 if (password != repassword) Swal.fire({
                     title: '비밀번호 불일치',
                     text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
-                    confirmButtonText: '확인',
-                    allowOutsideClick: false,
-                    icon: 'warning'
-                })
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
                 else {
                     login.resetPassword(accountName, password);
                 }
@@ -1703,8 +1859,25 @@ init = {
     },
 
     test: function () {
-        // Part 1:
-        
+        $(document).on("click", "#loginButton", function () {
+            var loginAlias = $("#loginAlias").val();
+            var accountName = $("#name").val();
+            var password = $("#pass").val();
+            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
+            else {
+                if (loginAlias == '') var msg = '접속키'
+                if (accountName == '') var msg = '아이디';
+                if (password == '') var msg = '비밀번호';
+                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
+                Swal.fire({
+                    title: msg + '를 입력해 주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
+            }
+        });
     }
 };
 
