@@ -1,5 +1,19 @@
 'use strict';
 
+var estimated_charge_coefficient = []
+var objectCount = 0;
+$(document).on("click", ".dropdown_content", function () {
+    var keyIndex = $(this).data("idx")
+    var keyName = $(this).children().text()
+    $('.selectText').text(keyName)
+    $('.selectKey').data("idx", keyIndex)
+    console.log($('.selectKey').data("idx"))
+    objectCount = $('.selectKey').data("idx");
+
+    var estimated_charge = estimated_charge_coefficient[0]*objectCount*9000
+    $('#charge').text('예상요금 = '+estimated_charge);
+});
+
 /**
  * DIS.Web.FileModule 네임스페이스
  * @class DIS.Web.FileModule
@@ -91,8 +105,8 @@ fileModule = {
                                         </div>\
                                     </div>\
                                     <div class="imgContent">';
-        if (type == 'image'){
-            if(screen.width<=600){
+        if (type == 'image') {
+            if (screen.width <= 600) {
                 for (var i = 0; i < files.length; i++) {
                     html += '<div class="file_content" id=file-' + [i] + '>\
                                 <div class="name_content">\
@@ -131,7 +145,7 @@ fileModule = {
                             </div>'
                 }
             }
-            else{
+            else {
                 for (var i = 0; i < files.length; i++) {
                     html += '<div class="file_content" id=file-' + [i] + '>\
                                 <div class="name_content"><p>'+ files[i].name + '</p></div>\
@@ -153,7 +167,7 @@ fileModule = {
             }
         }
         else {
-            if(screen.width<=600){
+            if (screen.width <= 600) {
                 for (var i = 0; i < files.length; i++) {
                     html += '<div class="file_content" id=file-' + [i] + '>\
                                 <div class="name_content">\
@@ -192,7 +206,7 @@ fileModule = {
                             </div>'
                 }
             }
-            else{
+            else {
                 for (var i = 0; i < files.length; i++) {
                     html += '<div class="file_content" id=file-' + [i] + '>\
                                 <div class="name_content"><p>'+ files[i].name + '</p></div>\
@@ -253,9 +267,9 @@ fileModule = {
             }
             else {
                 keyName = $('#genKeyName').val();
-                for(var i = 0; i < $('.dropdown_content').length; i++) {
+                for (var i = 0; i < $('.dropdown_content').length; i++) {
                     console.log($('.dropdown_content')[i].innerText)
-                    if($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
+                    if ($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
                 }
             }
         }
@@ -312,41 +326,46 @@ fileModule = {
                     });
                 };
                 xhr.onload = function () {
-                    new Promise((resolve, reject) => {
-                        var requestIndex = ''
-                        $.ajax({
-                            method: "post",
-                            url: "/encrypt-module/api/request/encrypt",
-                            dataType: "json",
-                            data: postData,
-                            async: false,
-                            success: function (data) {
-                                requestIndex = data.enc_request_list_id;
-                                comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                            },
-                            error: function (xhr, status) {
-                                // alert(xhr + " : " + status);
-                                alert(JSON.stringify(xhr));
-                            }
-                        });
-                        postData['requestIndex'] = requestIndex;
-                        resolve();
-                    }).then(() => {
-                        $.ajax({
-                            method: "post",
-                            url: "/encrypt-module/api/sendMessage/encrypt",
-                            dataType: "json",
-                            data: postData,
-                            success: function (data) {
+                    var response = JSON.parse(this.responseText);
+                    if (response.message == 'success') {
+                        console.log(response.result.streams[0].bit_rate);
+                        var ffmpegInfo = response.result.streams;
+                        
+                        let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
+                        for(var i = 0; i < fileWidth.length; i++) {
+                            var curFile = ffmpegInfo[i]
+                            resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
+                            
+                            var avg_frame_rate = curFile.avg_frame_rate
+                            avg_frame_rate = avg_frame_rate.split('/');
+                            avg_frame_rate = Number(avg_frame_rate[0]);
+                            frame_rate_coefficient = avg_frame_rate / 30;
+                            
+                            duration_coefficient = curFile.duration / 60;
+                            bitrate_coefficient = curFile.bit_rate / ((640*640)*30);
+                            bitrate_coefficient = bitrate_coefficient / 4;
+                            estimated_charge_coefficient.push(resolution_coefficient*frame_rate_coefficient*duration_coefficient*bitrate_coefficient);
+                        }
 
-                            },
-                            error: function (xhr, status) {
-                                // alert(xhr + " : " + status);
-                                alert(JSON.stringify(xhr));
-                            }
-                        });
                         new Promise((resolve, reject) => {
-                            resolve()
+                            var requestIndex = ''
+                            $.ajax({
+                                method: "post",
+                                url: "/encrypt-module/api/request/encrypt",
+                                dataType: "json",
+                                data: postData,
+                                async: false,
+                                success: function (data) {
+                                    requestIndex = data.enc_request_list_id;
+                                    comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                                },
+                                error: function (xhr, status) {
+                                    // alert(xhr + " : " + status);
+                                    alert(JSON.stringify(xhr));
+                                }
+                            });
+                            postData['requestIndex'] = requestIndex;
+                            resolve();
                         }).then(() => {
                             Swal.fire({
                                 title: '비식별화 요청이 \n완료되었습니다.',
@@ -358,9 +377,77 @@ fileModule = {
                                 if (result.isConfirmed) {
                                     location.href = '/loading?type='+fileType+'&service=encrypt';
                                 }
+                            });
+                            new Promise((resolve, reject) => {
+                                resolve()
+                            }).then(() => {
+                                Swal.fire({
+                                    title: '비식별화 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                    allowOutsideClick: false,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = '/loading?type='+fileType+'&service=encrypt';
+                                    }
+                                })
                             })
                         })
-                    })
+
+                        // $(document).on("click", "#execute", function () {
+                        //     new Promise((resolve, reject) => {
+                        //         var requestIndex = ''
+                        //         $.ajax({
+                        //             method: "post",
+                        //             url: "/encrypt-module/api/request/encrypt",
+                        //             dataType: "json",
+                        //             data: postData,
+                        //             async: false,
+                        //             success: function (data) {
+                        //                 requestIndex = data.enc_request_list_id;
+                        //                 comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                        //             },
+                        //             error: function (xhr, status) {
+                        //                 // alert(xhr + " : " + status);
+                        //                 alert(JSON.stringify(xhr));
+                        //             }
+                        //         });
+                        //         postData['requestIndex'] = requestIndex;
+                        //         resolve();
+                        //     }).then(() => {
+                        //         $.ajax({
+                        //             method: "post",
+                        //             url: "/encrypt-module/api/sendMessage/encrypt",
+                        //             dataType: "json",
+                        //             data: postData,
+                        //             success: function (data) {
+    
+                        //             },
+                        //             error: function (xhr, status) {
+                        //                 // alert(xhr + " : " + status);
+                        //                 alert(JSON.stringify(xhr));
+                        //             }
+                        //         });
+                        //         new Promise((resolve, reject) => {
+                        //             resolve()
+                        //         }).then(() => {
+                        //             Swal.fire({
+                        //                 title: '비식별화 요청이 \n완료되었습니다.',
+                        //                 showCancelButton: false,
+                        //                 confirmButtonText: '확인',
+                        //                 allowOutsideClick: false,
+                        //             }).then((result) => {
+                        //                 if (result.isConfirmed) {
+                        //                     location.href = '/loading?type='+fileType+'&service=encrypt';
+                        //                 }
+                        //             })
+                        //         })
+                        //     })
+                        // });
+                    }
+                    else {
+                        alert('파일 업로드 실패')
+                    }
                 };
                 xhr.send(formData);
             },
@@ -426,8 +513,8 @@ fileModule = {
                             alert(JSON.stringify(xhr));
                         }
                     });
-                    resolve({valid, msg, keyPath})
-                }).then(({valid, msg, keyPath}) => {
+                    resolve({ valid, msg, keyPath })
+                }).then(({ valid, msg, keyPath }) => {
                     if (!valid) {
                         Swal.fire({
                             title: '복호화 키 불일치',
@@ -496,7 +583,7 @@ fileModule = {
                                     icon:'success'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        location.href = '/loading?type='+fileType+'&id='+decRequestId+'&service=decrypt';
+                                        location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
                                     }
                                 })
                             })
