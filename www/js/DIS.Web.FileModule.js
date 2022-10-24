@@ -255,6 +255,7 @@ fileModule = {
         var fileHeightObj = Object.assign({}, fileHeight)
         var videoDurationObj = Object.assign({}, videoDuration)
         var encryptObj = Object.assign({}, encryptObject);
+        var bitrateArray = []
 
         var keyIndex = 0;
         var keyName = 'null';
@@ -343,6 +344,7 @@ fileModule = {
 
                             duration_coefficient = curFile.duration / 60;
                             bitrate_coefficient = curFile.bit_rate / ((640 * 640) * 30);
+                            bitrateArray.push(curFile.bit_rate)
                             bitrate_coefficient = bitrate_coefficient / 4;
                             estimated_charge_coefficient.push(resolution_coefficient * frame_rate_coefficient * duration_coefficient * bitrate_coefficient);
                         }
@@ -364,6 +366,7 @@ fileModule = {
                                     alert(JSON.stringify(xhr));
                                 }
                             });
+                            postData['bitrate'] = JSON.stringify(bitrateArray);
                             postData['requestIndex'] = requestIndex;
                             resolve();
                         }).then(() => {
