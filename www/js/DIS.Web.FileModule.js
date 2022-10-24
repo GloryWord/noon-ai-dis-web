@@ -10,8 +10,8 @@ $(document).on("click", ".dropdown_content", function () {
     console.log($('.selectKey').data("idx"))
     objectCount = $('.selectKey').data("idx");
 
-    var estimated_charge = estimated_charge_coefficient[0]*objectCount*9000
-    $('#charge').text('예상요금 = '+estimated_charge);
+    var estimated_charge = estimated_charge_coefficient[0] * objectCount * 9000
+    $('#charge').text('예상요금 = ' + estimated_charge);
 });
 
 /**
@@ -319,10 +319,10 @@ fileModule = {
                     Swal.fire({
                         title: '업로드 에러',
                         text: '파일 업로드에 실패하였습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 };
                 xhr.onload = function () {
@@ -330,21 +330,21 @@ fileModule = {
                     if (response.message == 'success') {
                         console.log(response.result.streams[0].bit_rate);
                         var ffmpegInfo = response.result.streams;
-                        
+
                         let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
-                        for(var i = 0; i < fileWidth.length; i++) {
+                        for (var i = 0; i < fileWidth.length; i++) {
                             var curFile = ffmpegInfo[i]
                             resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-                            
+
                             var avg_frame_rate = curFile.avg_frame_rate
                             avg_frame_rate = avg_frame_rate.split('/');
                             avg_frame_rate = Number(avg_frame_rate[0]);
                             frame_rate_coefficient = avg_frame_rate / 30;
-                            
+
                             duration_coefficient = curFile.duration / 60;
-                            bitrate_coefficient = curFile.bit_rate / ((640*640)*30);
+                            bitrate_coefficient = curFile.bit_rate / ((640 * 640) * 30);
                             bitrate_coefficient = bitrate_coefficient / 4;
-                            estimated_charge_coefficient.push(resolution_coefficient*frame_rate_coefficient*duration_coefficient*bitrate_coefficient);
+                            estimated_charge_coefficient.push(resolution_coefficient * frame_rate_coefficient * duration_coefficient * bitrate_coefficient);
                         }
 
                         new Promise((resolve, reject) => {
@@ -367,15 +367,17 @@ fileModule = {
                             postData['requestIndex'] = requestIndex;
                             resolve();
                         }).then(() => {
-                            Swal.fire({
-                                title: '비식별화 요청이 \n완료되었습니다.',
-                                showCancelButton: false,
-                                confirmButtonText: '확인',
-                                allowOutsideClick: false,
-                                icon:'success'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.href = '/loading?type='+fileType+'&service=encrypt';
+                            $.ajax({
+                                method: "post",
+                                url: "/encrypt-module/api/sendMessage/encrypt",
+                                dataType: "json",
+                                data: postData,
+                                success: function (data) {
+
+                                },
+                                error: function (xhr, status) {
+                                    // alert(xhr + " : " + status);
+                                    alert(JSON.stringify(xhr));
                                 }
                             });
                             new Promise((resolve, reject) => {
@@ -388,7 +390,7 @@ fileModule = {
                                     allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        location.href = '/loading?type='+fileType+'&service=encrypt';
+                                        location.href = '/loading?type=' + fileType + '&service=encrypt';
                                     }
                                 })
                             })
@@ -421,7 +423,7 @@ fileModule = {
                         //             dataType: "json",
                         //             data: postData,
                         //             success: function (data) {
-    
+
                         //             },
                         //             error: function (xhr, status) {
                         //                 // alert(xhr + " : " + status);
@@ -469,10 +471,10 @@ fileModule = {
             Swal.fire({
                 title: '키 파일이 없습니다!',
                 text: '키 파일을 업로드했는지 확인해주세요.',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
         }
         else {
@@ -520,10 +522,10 @@ fileModule = {
                             title: '복호화 키 불일치',
                             text: msg,
                             showCancelButton: false,
-                            showConfirmButton:false,
-                            showDenyButton:true,
-                            denyButtonText:"확 인",
-                            icon:"error"
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
                         });
                     }
                     else {
@@ -580,7 +582,7 @@ fileModule = {
                                     showCancelButton: false,
                                     confirmButtonText: '확인',
                                     allowOutsideClick: false,
-                                    icon:'success'
+                                    icon: 'success'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
