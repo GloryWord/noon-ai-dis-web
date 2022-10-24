@@ -499,11 +499,43 @@
     color: #fff;
 }
 
+.uploadBtn_area {
+    display: flex;
+    margin: 0 auto 314px;
+}
+
+.uploadBtn_area .nextBtn {
+    width: 294px;
+    height: 40px;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+}
+
+.uploadBtn_area .nextBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
 .uploadFooter {
     width: 988px;
     margin: 0 auto 90px;
-    display: flex;
+    display: none;
     flex-direction: column;
+}
+
+.uploadFooter.active {
+    display: flex;
 }
 
 .uploadFooter .restBtnArea {
@@ -915,7 +947,7 @@
     width: 450px;
     padding: 20px 10px;
     margin: auto;
-    height:20px;
+    height: 20px;
 }
 
 .progress{
@@ -968,6 +1000,10 @@
    text-align: left;
    color: #fff;
    margin: auto;
+}
+
+.uploadFooter .charge_cal .charge_info {
+    display: none;
 }
 
 @media(max-width:600px){

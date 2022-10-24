@@ -326,9 +326,18 @@ fileModule = {
                     });
                 };
                 xhr.onload = function () {
+                    Swal.fire({
+                        title: '업로드 완료',
+                        text: '파일 업로드에 성공했습니다.',
+                        showConfirmButton:true,
+                        showDenyButton:false,
+                        denyButtonText:"확 인",
+                        icon:"success"
+                    });
                     var response = JSON.parse(this.responseText);
+                    console.log(response);
                     if (response.message == 'success') {
-                        console.log(response.result.streams[0].bit_rate);
+                        // console.log(response.result.streams[0].bit_rate);
                         var ffmpegInfo = response.result.streams;
                         
                         let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
@@ -347,103 +356,103 @@ fileModule = {
                             estimated_charge_coefficient.push(resolution_coefficient*frame_rate_coefficient*duration_coefficient*bitrate_coefficient);
                         }
 
-                        new Promise((resolve, reject) => {
-                            var requestIndex = ''
-                            $.ajax({
-                                method: "post",
-                                url: "/encrypt-module/api/request/encrypt",
-                                dataType: "json",
-                                data: postData,
-                                async: false,
-                                success: function (data) {
-                                    requestIndex = data.enc_request_list_id;
-                                    comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                                },
-                                error: function (xhr, status) {
-                                    // alert(xhr + " : " + status);
-                                    alert(JSON.stringify(xhr));
-                                }
-                            });
-                            postData['requestIndex'] = requestIndex;
-                            resolve();
-                        }).then(() => {
-                            Swal.fire({
-                                title: '비식별화 요청이 \n완료되었습니다.',
-                                showCancelButton: false,
-                                confirmButtonText: '확인',
-                                allowOutsideClick: false,
-                                icon:'success'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.href = '/loading?type='+fileType+'&service=encrypt';
-                                }
-                            });
-                            new Promise((resolve, reject) => {
-                                resolve()
-                            }).then(() => {
-                                Swal.fire({
-                                    title: '비식별화 요청이 \n완료되었습니다.',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                    allowOutsideClick: false,
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.href = '/loading?type='+fileType+'&service=encrypt';
-                                    }
-                                })
-                            })
-                        })
-
-                        // $(document).on("click", "#execute", function () {
+                        // new Promise((resolve, reject) => {
+                        //     var requestIndex = ''
+                        //     $.ajax({
+                        //         method: "post",
+                        //         url: "/encrypt-module/api/request/encrypt",
+                        //         dataType: "json",
+                        //         data: postData,
+                        //         async: false,
+                        //         success: function (data) {
+                        //             requestIndex = data.enc_request_list_id;
+                        //             comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                        //         },
+                        //         error: function (xhr, status) {
+                        //             // alert(xhr + " : " + status);
+                        //             alert(JSON.stringify(xhr));
+                        //         }
+                        //     });
+                        //     postData['requestIndex'] = requestIndex;
+                        //     resolve();
+                        // }).then(() => {
+                        //     Swal.fire({
+                        //         title: '비식별화 요청이 \n완료되었습니다.',
+                        //         showCancelButton: false,
+                        //         confirmButtonText: '확인',
+                        //         allowOutsideClick: false,
+                        //         icon:'success'
+                        //     }).then((result) => {
+                        //         if (result.isConfirmed) {
+                        //             location.href = '/loading?type='+fileType+'&service=encrypt';
+                        //         }
+                        //     });
                         //     new Promise((resolve, reject) => {
-                        //         var requestIndex = ''
-                        //         $.ajax({
-                        //             method: "post",
-                        //             url: "/encrypt-module/api/request/encrypt",
-                        //             dataType: "json",
-                        //             data: postData,
-                        //             async: false,
-                        //             success: function (data) {
-                        //                 requestIndex = data.enc_request_list_id;
-                        //                 comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                        //             },
-                        //             error: function (xhr, status) {
-                        //                 // alert(xhr + " : " + status);
-                        //                 alert(JSON.stringify(xhr));
-                        //             }
-                        //         });
-                        //         postData['requestIndex'] = requestIndex;
-                        //         resolve();
+                        //         resolve()
                         //     }).then(() => {
-                        //         $.ajax({
-                        //             method: "post",
-                        //             url: "/encrypt-module/api/sendMessage/encrypt",
-                        //             dataType: "json",
-                        //             data: postData,
-                        //             success: function (data) {
-    
-                        //             },
-                        //             error: function (xhr, status) {
-                        //                 // alert(xhr + " : " + status);
-                        //                 alert(JSON.stringify(xhr));
+                        //         Swal.fire({
+                        //             title: '비식별화 요청이 \n완료되었습니다.',
+                        //             showCancelButton: false,
+                        //             confirmButtonText: '확인',
+                        //             allowOutsideClick: false,
+                        //         }).then((result) => {
+                        //             if (result.isConfirmed) {
+                        //                 location.href = '/loading?type='+fileType+'&service=encrypt';
                         //             }
-                        //         });
-                        //         new Promise((resolve, reject) => {
-                        //             resolve()
-                        //         }).then(() => {
-                        //             Swal.fire({
-                        //                 title: '비식별화 요청이 \n완료되었습니다.',
-                        //                 showCancelButton: false,
-                        //                 confirmButtonText: '확인',
-                        //                 allowOutsideClick: false,
-                        //             }).then((result) => {
-                        //                 if (result.isConfirmed) {
-                        //                     location.href = '/loading?type='+fileType+'&service=encrypt';
-                        //                 }
-                        //             })
                         //         })
                         //     })
-                        // });
+                        // })
+
+                        $(document).on("click", "#execute", function () {
+                            new Promise((resolve, reject) => {
+                                var requestIndex = ''
+                                $.ajax({
+                                    method: "post",
+                                    url: "/encrypt-module/api/request/encrypt",
+                                    dataType: "json",
+                                    data: postData,
+                                    async: false,
+                                    success: function (data) {
+                                        requestIndex = data.enc_request_list_id;
+                                        comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                                    },
+                                    error: function (xhr, status) {
+                                        // alert(xhr + " : " + status);
+                                        alert(JSON.stringify(xhr));
+                                    }
+                                });
+                                postData['requestIndex'] = requestIndex;
+                                resolve();
+                            }).then(() => {
+                                $.ajax({
+                                    method: "post",
+                                    url: "/encrypt-module/api/sendMessage/encrypt",
+                                    dataType: "json",
+                                    data: postData,
+                                    success: function (data) {
+    
+                                    },
+                                    error: function (xhr, status) {
+                                        // alert(xhr + " : " + status);
+                                        alert(JSON.stringify(xhr));
+                                    }
+                                });
+                                new Promise((resolve, reject) => {
+                                    resolve()
+                                }).then(() => {
+                                    Swal.fire({
+                                        title: '비식별화 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = '/loading?type='+fileType+'&service=encrypt';
+                                        }
+                                    })
+                                })
+                            })
+                        });
                     }
                     else {
                         alert('파일 업로드 실패')
