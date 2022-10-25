@@ -271,10 +271,30 @@ comm = {
         });
     },
 
-    meterDecDownload: function (requestIndex, fileType, fileName, fileSize) {
+    meterDecrypt: function (requestIndex, fileNameList, fileType) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/meterUsage/decrypt/download",
+            url: "/decrypt-module/api/meterUsage/decrypt",
+            data: {
+                requestIndex,
+                fileNameList,
+                fileType,
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    
+                }
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    meterDownload: function (requestIndex, fileType, fileName, fileSize) {
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/meterUsage/download",
             data: {
                 requestIndex,
                 fileType,
