@@ -585,13 +585,13 @@ requestTable = {
         
         for (var i = 0; i < userName.length; i++) {
             var detailUsage = {
-                encrypt_request: 0,
-                decrypt_request: 0,
-                encrypt_download: 0,
-                total_download: 0,
+                encrypt_request_count: 0,
+                decrypt_request_count: 0,
+                download_request_count: 0,
+                total_download_size: 0,
                 encrypt_request_charge: 0,
                 decrypt_request_charge: 0,
-                download_charge: 0
+                download_request_charge: 0
             }
 
             usageObject[userName[i]] = detailUsage;
@@ -599,42 +599,39 @@ requestTable = {
 
         for (var i = 0; i < userName.length; i++) {
             var detailUsage = {
-                encrypt_request: 0,
-                decrypt_request: 0,
-                encrypt_download: 0,
-                total_download: 0
+                encrypt_request_count: 0,
+                decrypt_request_count: 0,
+                download_request_count: 0,
+                total_download_size: 0
             }
             imageObject[userName[i]] = detailUsage;
         }
 
         for (var i = 0; i < userName.length; i++) {
             var detailUsage = {
-                encrypt_request: 0,
-                decrypt_request: 0,
-                encrypt_download: 0,
-                total_download: 0
+                encrypt_request_count: 0,
+                decrypt_request_count: 0,
+                download_request_count: 0,
+                total_download_size: 0
             }
             videoObject[userName[i]] = detailUsage;
         }
 
         for (var i = 0; i < requestList[0].length; i++) {
             var request_type = requestList[0][i]['request_type'];
-            var download = requestList[0][i]['download'];
-            var upload = requestList[0][i]['upload'];
 
-            if(request_type == 'encrypt' && upload == 1) {
-                usageObject[requestList[0][i]['user_name']]['encrypt_request'] = requestList[0][i]['count(*)']
+            if(request_type == 'encrypt') {
+                usageObject[requestList[0][i]['user_name']]['encrypt_request_count'] = requestList[0][i]['count(*)']
                 usageObject[requestList[0][i]['user_name']]['encrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
             }
-            else if(request_type == 'encrypt' && download == 1) {
-                usageObject[requestList[0][i]['user_name']]['encrypt_download'] = requestList[0][i]['count(*)']
-                usageObject[requestList[0][i]['user_name']]['total_download'] += requestList[0][i]['sum(file_size)']
-                usageObject[requestList[0][i]['user_name']]['download_charge'] = requestList[0][i]['sum(service_charge)']
-            }
             else if(request_type == 'decrypt') {
-                usageObject[requestList[0][i]['user_name']]['decrypt_request'] = requestList[0][i]['count(*)']
-                usageObject[requestList[0][i]['user_name']]['total_download'] += requestList[0][i]['sum(file_size)']
+                usageObject[requestList[0][i]['user_name']]['decrypt_request_count'] = requestList[0][i]['count(*)']
                 usageObject[requestList[0][i]['user_name']]['decrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
+            }
+            else if(request_type == 'download') {
+                usageObject[requestList[0][i]['user_name']]['download_request_count'] = requestList[0][i]['count(*)']
+                usageObject[requestList[0][i]['user_name']]['total_download_size'] += requestList[0][i]['sum(file_size)']
+                usageObject[requestList[0][i]['user_name']]['download_request_charge'] = requestList[0][i]['sum(service_charge)']
             }
         }
         var temp = searchMonth.split('-');
@@ -648,7 +645,7 @@ requestTable = {
                             <div class='user_header'><h3>담당자</h3></div>\
                             <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
                             <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
-                            <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                            <div class='encrypt_download_header'><h3>파일 다운로드 건수</h3></div>\
                             <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
                         </div>\
                         <div class='tbBody'>"
@@ -656,10 +653,10 @@ requestTable = {
         for(var i=0;i<userName.length;i++){
                 htmlStr += "<div class='tbContent'>\
                                 <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+usageObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(usageObject[userName[i]]['total_download'])+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_request_count']+"</p></div>\
+                                <div class='decrypt_upload_content'><p>"+usageObject[userName[i]]['decrypt_request_count']+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['download_request_count']+"</p></div>\
+                                <div class='total_download_content'><p>"+formatBytes(usageObject[userName[i]]['total_download_size'])+"</p></div>\
                             </div>"
         }
         htmlStr += "    </div>\
@@ -668,31 +665,23 @@ requestTable = {
         for (var i = 0; i < requestList[1].length; i++) {
             var file_type = requestList[1][i]['file_type'];
             var request_type = requestList[1][i]['request_type'];
-            var download = requestList[1][i]['download'];
-            var upload = requestList[1][i]['upload'];
 
-            if(request_type == 'encrypt' && upload == 1) {
-                if(file_type == 'image') imageObject[requestList[1][i]['user_name']]['encrypt_request'] = requestList[1][i]['count(*)']
-                else if(file_type == 'video') videoObject[requestList[1][i]['user_name']]['encrypt_request'] = requestList[1][i]['count(*)']
-            }
-            else if(request_type == 'encrypt' && download == 1) {
-                if(file_type == 'image') {
-                    imageObject[requestList[1][i]['user_name']]['encrypt_download'] = requestList[1][i]['count(*)']
-                    imageObject[requestList[1][i]['user_name']]['total_download'] += requestList[1][i]['sum(file_size)']
-                }
-                else if(file_type == 'video'){
-                    videoObject[requestList[1][i]['user_name']]['encrypt_download'] = requestList[1][i]['count(*)']
-                    videoObject[requestList[1][i]['user_name']]['total_download'] += requestList[1][i]['sum(file_size)']
-                }
+            if(request_type == 'encrypt') {
+                if(file_type == 'image') imageObject[requestList[1][i]['user_name']]['encrypt_request_count'] = requestList[1][i]['count(*)']
+                else if(file_type == 'video') videoObject[requestList[1][i]['user_name']]['encrypt_request_count'] = requestList[1][i]['count(*)']
             }
             else if(request_type == 'decrypt') {
+                if(file_type == 'image') imageObject[requestList[1][i]['user_name']]['decrypt_request_count'] = requestList[1][i]['count(*)']
+                else if(file_type == 'video') videoObject[requestList[1][i]['user_name']]['decrypt_request_count'] = requestList[1][i]['count(*)']
+            }
+            else if(request_type == 'download') {
                 if(file_type == 'image') {
-                    imageObject[requestList[1][i]['user_name']]['decrypt_request'] = requestList[1][i]['count(*)']
-                    imageObject[requestList[1][i]['user_name']]['total_download'] += requestList[1][i]['sum(file_size)']
+                    imageObject[requestList[1][i]['user_name']]['download_request_count'] = requestList[1][i]['count(*)']
+                    imageObject[requestList[1][i]['user_name']]['total_download_size'] += requestList[1][i]['sum(file_size)']
                 }
-                else if(file_type == 'video') {
-                    videoObject[requestList[1][i]['user_name']]['decrypt_request'] = requestList[1][i]['count(*)']
-                    videoObject[requestList[1][i]['user_name']]['total_download'] += requestList[1][i]['sum(file_size)']
+                else if(file_type == 'video'){
+                    videoObject[requestList[1][i]['user_name']]['download_request_count'] = requestList[1][i]['count(*)']
+                    videoObject[requestList[1][i]['user_name']]['total_download_size'] += requestList[1][i]['sum(file_size)']
                 }
             }
         }
@@ -704,7 +693,7 @@ requestTable = {
         for(var keys in usageObject) {
             totalEncryptCharge += usageObject[keys]['encrypt_request_charge'];
             totalDecryptCharge += usageObject[keys]['decrypt_request_charge'];
-            totalDownloadCharge += usageObject[keys]['download_charge'];
+            totalDownloadCharge += usageObject[keys]['download_request_charge'];
         }
         totalCharge = totalEncryptCharge + totalDecryptCharge + totalDownloadCharge;
 
@@ -738,17 +727,17 @@ requestTable = {
                             <div class='user_header'><h3>담당자</h3></div>\
                             <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
                             <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
-                            <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                            <div class='encrypt_download_header'><h3>파일 다운로드 건수</h3></div>\
                             <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
                         </div>\
                         <div class='tbBody'>"
         for(var i=0;i<userName.length;i++){
                 htmlStr += "<div class='tbContent'>\
                                 <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+imageObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(imageObject[userName[i]]['total_download'])+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_request_count']+"</p></div>\
+                                <div class='decrypt_upload_content'><p>"+imageObject[userName[i]]['decrypt_request_count']+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['download_request_count']+"</p></div>\
+                                <div class='total_download_content'><p>"+formatBytes(imageObject[userName[i]]['total_download_size'])+"</p></div>\
                             </div>"
         }
         htmlStr += "    </div>\
@@ -770,10 +759,10 @@ requestTable = {
         for(var i=0;i<userName.length;i++){
                 htmlStr += "<div class='tbContent'>\
                                 <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+videoObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(videoObject[userName[i]]['total_download'])+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_request_count']+"</p></div>\
+                                <div class='decrypt_upload_content'><p>"+videoObject[userName[i]]['decrypt_request_count']+"</p></div>\
+                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['download_request_count']+"</p></div>\
+                                <div class='total_download_content'><p>"+formatBytes(videoObject[userName[i]]['total_download_size'])+"</p></div>\
                             </div>"
         }
         htmlStr += "    </div>\
@@ -783,12 +772,12 @@ requestTable = {
     },
 
     getMonthTypeUsage: function (type, date) {
+        console.log(type);
         var logType = ''
-        var updown = ''
-        if(type=="encrypt_upload") logType = 'encrypt', updown = 'upload'
-        else if(type=="encrypt_download") logType = 'encrypt', updown = 'download'
-        else if(type=="decrypt_upload") logType = 'decrypt', updown = 'download'
-        var apiUrl = `/util-module/api/usage/${logType}/${updown}?date=${date}`
+        if(type=="encrypt_request") logType = 'encrypt'
+        else if(type=="decrypt_request") logType = 'decrypt'
+        else if(type=="download_request") logType = 'download'
+        var apiUrl = `/util-module/api/usage/${logType}?date=${date}`
         var requestList = ''
         $.ajax({
             method: "get",
@@ -797,6 +786,7 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
+                console.log(data);
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
