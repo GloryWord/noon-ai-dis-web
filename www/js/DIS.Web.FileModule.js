@@ -561,6 +561,7 @@ fileModule = {
                             var reqInfo = result['decReqInfo']['reqInfo'];
                             var msgTemplate = result['decReqInfo'];
                             var decRequestId = result['dec_request_list_id'];
+                            comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
 
                             delete msgTemplate.reqInfo;
                             $.ajax({
