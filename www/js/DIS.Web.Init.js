@@ -736,6 +736,7 @@ init = {
         var type = urlParams.get('type');
         var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
+        var selectModalImg = 0;
 
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
@@ -832,6 +833,7 @@ init = {
                 $(document).on("click", ".albumImg", function () {
                     if (screen.width > 600) {
                         var imgnum = $(this).data("num")
+                        selectModalImg = imgnum
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                         var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
                             <p>이미지 다운로드</p>\
@@ -844,6 +846,7 @@ init = {
 
                 $(document).on("click", ".hoverdiv", function () {
                     var imgnum = $(this).data("num")
+                    selectModalImg = imgnum
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
                         <p>이미지 다운로드</p>\
@@ -851,6 +854,12 @@ init = {
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".imgConfirm", function () {
+                    console.log(selectModalImg)
+                    var selectSize = signedUrl[selectModalImg][1];
+                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
                 });
 
                 $(document).on("click", ".allselect", function () {
