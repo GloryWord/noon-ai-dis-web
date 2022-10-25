@@ -329,24 +329,25 @@ fileModule = {
                 xhr.onload = function () {
                     var response = JSON.parse(this.responseText);
                     if (response.message == 'success') {
-                        console.log(response.result.streams[0].bit_rate);
-                        var ffmpegInfo = response.result.streams;
+                        if(fileType == 'video') {
+                            var ffmpegInfo = response.result.streams;
 
-                        let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
-                        for (var i = 0; i < fileWidth.length; i++) {
-                            var curFile = ffmpegInfo[i]
-                            resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
+                            let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
+                            for (var i = 0; i < fileWidth.length; i++) {
+                                var curFile = ffmpegInfo[i]
+                                resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
 
-                            var avg_frame_rate = curFile.avg_frame_rate
-                            avg_frame_rate = avg_frame_rate.split('/');
-                            avg_frame_rate = Number(avg_frame_rate[0]);
-                            frame_rate_coefficient = avg_frame_rate / 30;
+                                var avg_frame_rate = curFile.avg_frame_rate
+                                avg_frame_rate = avg_frame_rate.split('/');
+                                avg_frame_rate = Number(avg_frame_rate[0]);
+                                frame_rate_coefficient = avg_frame_rate / 30;
 
-                            duration_coefficient = curFile.duration / 60;
-                            bitrate_coefficient = curFile.bit_rate / ((640 * 640) * 30);
-                            bitrateArray.push(curFile.bit_rate)
-                            bitrate_coefficient = bitrate_coefficient / 4;
-                            estimated_charge_coefficient.push(resolution_coefficient * frame_rate_coefficient * duration_coefficient * bitrate_coefficient);
+                                duration_coefficient = curFile.duration / 60;
+                                bitrate_coefficient = curFile.bit_rate / ((640 * 640) * 30);
+                                bitrateArray.push(curFile.bit_rate)
+                                bitrate_coefficient = bitrate_coefficient / 4;
+                                estimated_charge_coefficient.push(resolution_coefficient * frame_rate_coefficient * duration_coefficient * bitrate_coefficient);
+                            }
                         }
 
                         new Promise((resolve, reject) => {
@@ -560,6 +561,7 @@ fileModule = {
                             var reqInfo = result['decReqInfo']['reqInfo'];
                             var msgTemplate = result['decReqInfo'];
                             var decRequestId = result['dec_request_list_id'];
+
                             delete msgTemplate.reqInfo;
                             $.ajax({
                                 method: "post",

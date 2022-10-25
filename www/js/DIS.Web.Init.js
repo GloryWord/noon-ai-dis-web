@@ -494,7 +494,7 @@ init = {
                             })
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
-                            comm.meterDecDownload(eventIndex, type, fileName, fileSize);
+                            comm.meterDownload(eventIndex, type, fileName, fileSize);
 
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
@@ -814,7 +814,7 @@ init = {
                 var fileName = fileList[0];
 
                 $(document).on("click", "#signedUrl", function () {
-                    comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+                    comm.meterDownload(eventIndex, type, fileName, fileSize);
                 })
             }
             else if (mode == 'group') {
@@ -920,7 +920,7 @@ init = {
                                     var fileSize = signedUrl[0][1];
                                     location.href = fileUrl;
 
-                                    comm.meterEncDownload(eventIndex, type, 'Download.zip', fileSize);
+                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
                                     resolve();
                                 }).then(() => {
                                     new Promise((resolve, reject) => {
