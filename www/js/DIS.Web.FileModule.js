@@ -360,7 +360,7 @@ fileModule = {
                                 async: false,
                                 success: function (data) {
                                     requestIndex = data.enc_request_list_id;
-                                    comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                                    comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
                                 },
                                 error: function (xhr, status) {
                                     // alert(xhr + " : " + status);
@@ -411,7 +411,7 @@ fileModule = {
                         //             async: false,
                         //             success: function (data) {
                         //                 requestIndex = data.enc_request_list_id;
-                        //                 comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                        //                 comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
                         //             },
                         //             error: function (xhr, status) {
                         //                 // alert(xhr + " : " + status);

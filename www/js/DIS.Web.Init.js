@@ -951,7 +951,7 @@ init = {
             var fileName = fileList[0];
 
             $(document).on("click", "#signedUrl", function () {
-                comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+                comm.meterDownload(eventIndex, type, fileName, fileSize);
             })
         }
     },
