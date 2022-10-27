@@ -415,11 +415,56 @@
     color: #fff;
 }
 
+.uploadArea .videoUpload .none_file {
+    display: none;
+}
+
+.uploadBtn_area {
+    display: flex;
+    margin: 0 auto 314px;
+}
+
+.uploadBtn_area.hide {
+    display: none;
+}
+
+.uploadBtn_area .nextBtn {
+    width: 294px;
+    height: 40px;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    cursor: pointer;
+}
+
+.uploadBtn_area .nextBtn.hide {
+    display: none;
+}
+
+.uploadBtn_area .nextBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
 .uploadFooter {
     width: 988px;
     margin: 0 auto 90px;
-    display: flex;
+    display: none;
     flex-direction: column;
+}
+
+.uploadFooter.active {
+    display: flex;
 }
 
 .uploadFooter .restBtnArea {
@@ -835,33 +880,189 @@
 .progressContainer{
     display: block;
     position:relative;
-    width: 450px;
-    padding: 20px 10px;
+    width: 294px;
+    padding: 0px 10px;
     margin: auto;
-    height:20px;
+    height: 40px;
 }
 
 .progress{
     position:absolute;
     width: calc(100% - 20px);
-    height: 20px;
+    height: 40px;
 }
 
 .progressTotal{
     background: #909090;
-    border-radius: 10px;
+    border-radius: 50px;
 }
 
 .progressNow{
     width: calc(0% - 20px);
     background: #16284d;
-    border-radius: 10px;
+    border-radius: 50px;    
 }
 
 .progressPer{
     background: transparent;
     text-align:center;
     color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    padding: 10px 0 10px;
+}
+
+.file_info_area {
+    display: none;
+}
+
+.file_info_area.active {
+    width: 988px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 24px;
+}
+
+.file_info_area .textArea {
+    width: 988px;
+    height: auto;
+    display: flex;
+    margin: 0 auto 20px 0;
+}
+
+.file_info_area .textArea img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.file_info_area .textArea h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px 3px 0;
+}
+
+.file_info_area .textArea p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px 0 8px;
+}
+
+.file_info_area .textArea .m_textArea {
+    display: none;
+}
+
+.file_info_area .fileInfo {
+    width: 988px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    display: flex;
+}
+
+.file_info_area .fileInfo .uploadInfo {
+    width: 940px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_header {
+    width: 940px;
+    height: 63px;
+    margin: 0 auto;
+    display: flex;
+    border-bottom: solid 1px #707070;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_header .res_header,
+.file_info_area .fileInfo .uploadInfo .info_header .frame_header,
+.file_info_area .fileInfo .uploadInfo .info_header .dur_header,
+.file_info_area .fileInfo .uploadInfo .info_header .bit_header {
+    width: 230px;
+    height: 100%;
+    display: flex;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_header .res_header p,
+.file_info_area .fileInfo .uploadInfo .info_header .frame_header p,
+.file_info_area .fileInfo .uploadInfo .info_header .dur_header p,
+.file_info_area .fileInfo .uploadInfo .info_header .bit_header p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_content {
+    width: 940px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_content .info_area {
+    width: 940px;
+    height: 64px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .res_content,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .frame_content,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .dur_content,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .bit_content {
+    width: 230px;
+    height: 100%;
+    display: flex;
+}
+
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .res_content p,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .frame_content p,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .dur_content p,
+.file_info_area .fileInfo .uploadInfo .info_content .info_area .bit_content p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
 }
 
 .uploadFooter .footerbtnArea {
@@ -869,28 +1070,44 @@
     display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn {  
-   width: 180px;
-   height: 60px;
-   margin: auto;
-   border-radius: 15px;
-   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
-   background-color: #16284d;
-   cursor: pointer;
-   display: flex;
+.uploadFooter .footerbtnArea .encryptBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto 40px auto auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
+    cursor: pointer;
+    display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn p {
+.uploadFooter .footerbtnArea .chargeBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto auto auto 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    cursor: pointer;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .encryptBtn p,
+.uploadFooter .footerbtnArea .chargeBtn p {
    font-family: SpoqaHanSansNeo-Bold;
    font-size: 18px;
    font-weight: bold;
    font-stretch: normal;
    font-style: normal;
-   line-height: 1.29;
+   line-height: 1.22;
    letter-spacing: normal;
    text-align: left;
    color: #fff;
    margin: auto;
+}
+
+.uploadFooter .charge_cal .charge_info {
+    display: none;
 }
 
 @media(max-width:600px){
@@ -1184,10 +1401,188 @@
         margin: auto;
     }
 
+    .uploadArea .videoUpload .none_file {
+        display: flex;
+        margin: auto;
+        height: 180px;
+    }
+
+    .uploadArea .videoUpload .none_file p {
+        display: flex;
+        margin: auto;
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+    }
+
+    .uploadBtn_area .nextBtn {
+        width: 272px;
+        height: 40px;
+        margin: 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+        background-color: #3fa9f5;
+        display: flex;
+        cursor: pointer;
+    }
+
+    .file_info_area.active {
+        width: 288px;
+        height: auto;
+        margin: 0 auto 28px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file_info_area .textArea {
+        width: 272px;
+        height: auto;
+        display: flex;
+        margin: 0 auto 20px 0;
+    }
+
+    .file_info_area .textArea img {
+        width: 40px;
+        height: 40px;
+        margin: 0 4px auto 0;
+        object-fit: contain;
+    }
+
+    .file_info_area .textArea h1,
+    .file_info_area .textArea p {
+        display: none;
+    }
+
+    .file_info_area .textArea .m_textArea {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file_info_area .textArea .m_textArea p1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 8px 0 2px;
+    }
+
+    .file_info_area .textArea .m_textArea label1 {
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #3fa9f5;
+        margin: 0;
+    }
+
+    .file_info_area .fileInfo {
+        width: 240px;
+        height: auto;
+        padding: 0 16px 12px;
+        margin: 0 auto 28px;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgb(89 89 89 / 30%);
+        background-color: #fff;
+    }
+
+    .file_info_area .fileInfo .uploadInfo {
+        width: 240px;
+        height: auto;
+        min-height: 0px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_header {
+        display: none;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content {
+        width: 240px;
+        height: auto;
+        margin: 16px auto 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area {
+        width: 240px;
+        height: auto;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .first_area,
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .second_area {
+        display: flex;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area h1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #16284d;
+        margin: 0 0 4px;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .res_content, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .frame_content, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .dur_content, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .bit_content {
+        width: 98px;
+        margin: 0 22px 0 0;
+        flex-direction: column;
+    }
+
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .res_content p, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .frame_content p, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .dur_content p, 
+    .file_info_area .fileInfo .uploadInfo .info_content .info_area .bit_content p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+        line-height: 1.429em;
+        height: 2.858em;
+        margin: 0;
+        white-space: normal;
+    }
+
     .uploadFooter {
         width: 288px;
         margin: 0 auto;
-        display: flex;
         flex-direction: column;
     }
 
@@ -1373,8 +1768,31 @@
     .progressContainer {
         position: relative;
         width: 272px;
-        padding: 20px 10px;
+        padding: 0 10px;
         margin: 0 auto 37px;
         height: 18px;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn {
+        width: 138px;
+        height: 40px;
+        margin: auto 12px auto auto;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #16284d;
+    }
+
+    .uploadFooter .footerbtnArea .chargeBtn {
+        width: 138px;
+        height: 40px;
+        margin: auto auto auto 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn p, 
+    .uploadFooter .footerbtnArea .chargeBtn p {
+        font-size: 14px;
     }
 }

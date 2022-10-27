@@ -504,6 +504,10 @@
     margin: 0 auto 314px;
 }
 
+.uploadBtn_area.hide {
+    display: none;
+}
+
 .uploadBtn_area .nextBtn {
     width: 294px;
     height: 40px;
@@ -512,6 +516,11 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #3fa9f5;
     display: flex;
+    cursor: pointer;
+}
+
+.uploadBtn_area .nextBtn.hide {
+    display: none;
 }
 
 .uploadBtn_area .nextBtn p {
@@ -944,33 +953,42 @@
 .progressContainer{
     display: block;
     position:relative;
-    width: 450px;
-    padding: 20px 10px;
+    width: 294px;
+    padding: 0px 10px;
     margin: auto;
-    height: 20px;
+    height: 40px;
 }
 
 .progress{
     position:absolute;
     width: calc(100% - 20px);
-    height: 20px;
+    height: 40px;
 }
 
 .progressTotal{
     background: #909090;
-    border-radius: 10px;
+    border-radius: 50px;
 }
 
 .progressNow{
     width: calc(0% - 20px);
     background: #16284d;
-    border-radius: 10px;
+    border-radius: 50px;    
 }
 
 .progressPer{
     background: transparent;
     text-align:center;
     color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    padding: 10px 0 10px;
 }
 
 .uploadFooter .footerbtnArea {
@@ -978,24 +996,36 @@
     display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn {  
-   width: 180px;
-   height: 60px;
-   margin: auto;
-   border-radius: 15px;
-   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
-   background-color: #16284d;
-   cursor: pointer;
-   display: flex;
+.uploadFooter .footerbtnArea .encryptBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto 40px auto auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
+    cursor: pointer;
+    display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn p {
+.uploadFooter .footerbtnArea .chargeBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto auto auto 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    cursor: pointer;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .encryptBtn p,
+.uploadFooter .footerbtnArea .chargeBtn p {
    font-family: SpoqaHanSansNeo-Bold;
    font-size: 18px;
    font-weight: bold;
    font-stretch: normal;
    font-style: normal;
-   line-height: 1.29;
+   line-height: 1.22;
    letter-spacing: normal;
    text-align: left;
    color: #fff;
@@ -1297,10 +1327,20 @@
         margin: auto;
     }
 
+    .uploadBtn_area .nextBtn {
+        width: 272px;
+        height: 40px;
+        margin: 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+        background-color: #3fa9f5;
+        display: flex;
+        cursor: pointer;
+    }
+
     .uploadFooter {
         width: 288px;
         margin: 0 auto;
-        display: flex;
         flex-direction: column;
     }
 
@@ -1480,14 +1520,36 @@
     
     .uploadFooter .footerbtnArea {
         margin: 28px auto 40px;
-        display: flex;
     }
 
     .progressContainer {
         position: relative;
         width: 272px;
-        padding: 20px 10px;
+        padding: 0 10px;
         margin: 0 auto 37px;
         height: 18px;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn {
+        width: 138px;
+        height: 40px;
+        margin: auto 12px auto auto;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #16284d;
+    }
+
+    .uploadFooter .footerbtnArea .chargeBtn {
+        width: 138px;
+        height: 40px;
+        margin: auto auto auto 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn p, 
+    .uploadFooter .footerbtnArea .chargeBtn p {
+        font-size: 14px;
     }
 }

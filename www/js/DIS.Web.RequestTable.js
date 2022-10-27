@@ -588,7 +588,10 @@ requestTable = {
                 encrypt_request: 0,
                 decrypt_request: 0,
                 encrypt_download: 0,
-                total_download: 0
+                total_download: 0,
+                encrypt_request_charge: 0,
+                decrypt_request_charge: 0,
+                download_charge: 0
             }
 
             usageObject[userName[i]] = detailUsage;
@@ -621,44 +624,74 @@ requestTable = {
 
             if(request_type == 'encrypt' && upload == 1) {
                 usageObject[requestList[0][i]['user_name']]['encrypt_request'] = requestList[0][i]['count(*)']
+                usageObject[requestList[0][i]['user_name']]['encrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
             }
             else if(request_type == 'encrypt' && download == 1) {
                 usageObject[requestList[0][i]['user_name']]['encrypt_download'] = requestList[0][i]['count(*)']
                 usageObject[requestList[0][i]['user_name']]['total_download'] += requestList[0][i]['sum(file_size)']
+                usageObject[requestList[0][i]['user_name']]['download_charge'] = requestList[0][i]['sum(service_charge)']
             }
             else if(request_type == 'decrypt') {
                 usageObject[requestList[0][i]['user_name']]['decrypt_request'] = requestList[0][i]['count(*)']
                 usageObject[requestList[0][i]['user_name']]['total_download'] += requestList[0][i]['sum(file_size)']
+                usageObject[requestList[0][i]['user_name']]['decrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
             }
         }
         var temp = searchMonth.split('-');
         var year = temp[0]
         var month = temp[1]
-        htmlStr += "<div class='usageBox'>\
-                        <div class='textArea'>\
-                            <p>"+year+"년 "+month+"월 총 사용량</p>\
-                        </div>\
-                        <div class='tbHeader'>\
-                            <div class='user_header'><h3>담당자</h3></div>\
-                            <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
-                            <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
-                            <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
-                            <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
-                        </div>\
-                        <div class='tbBody'>"
-        console.log(usageObject)
-        for(var i=0;i<userName.length;i++){
-                htmlStr += "<div class='tbContent'>\
-                                <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+usageObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(usageObject[userName[i]]['total_download'])+"</p></div>\
-                            </div>"
+        if(screen.width<=600){
+            htmlStr += "<div class='m_logArea'>\
+                            <div class='usageBox'>\
+                                <div class='textArea'>\
+                                    <p>"+year+"년 "+month+"월 총 사용량</p>\
+                                </div>\
+                                <div class='tbHeader'>\
+                                    <div class='user_header'><h3>담당자</h3></div>\
+                                    <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                    <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                    <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                    <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                                </div>\
+                                <div class='tbBody'>"
+                                for(var i=0;i<userName.length;i++){
+                                    htmlStr += "<div class='tbContent'>\
+                                                    <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                                    <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_request']+"</p></div>\
+                                                    <div class='decrypt_upload_content'><p>"+usageObject[userName[i]]['decrypt_request']+"</p></div>\
+                                                    <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_download']+"</p></div>\
+                                                    <div class='total_download_content'><p>"+formatBytes(usageObject[userName[i]]['total_download'])+"</p></div>\
+                                                </div>"
+                                }
+                    htmlStr += "</div>\
+                            </div>\
+                        </div>"
         }
-        htmlStr += "    </div>\
-                    </div>"
-
+        else{
+            htmlStr += "<div class='usageBox'>\
+                            <div class='textArea'>\
+                                <p>"+year+"년 "+month+"월 총 사용량</p>\
+                            </div>\
+                            <div class='tbHeader'>\
+                                <div class='user_header'><h3>담당자</h3></div>\
+                                <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                            </div>\
+                            <div class='tbBody'>"
+                            for(var i=0;i<userName.length;i++){
+                                htmlStr += "<div class='tbContent'>\
+                                                <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_request']+"</p></div>\
+                                                <div class='decrypt_upload_content'><p>"+usageObject[userName[i]]['decrypt_request']+"</p></div>\
+                                                <div class='encrypt_upload_content'><p>"+usageObject[userName[i]]['encrypt_download']+"</p></div>\
+                                                <div class='total_download_content'><p>"+formatBytes(usageObject[userName[i]]['total_download'])+"</p></div>\
+                                            </div>"
+                            }
+                htmlStr += "</div>\
+                        </div>"
+        }
         for (var i = 0; i < requestList[1].length; i++) {
             var file_type = requestList[1][i]['file_type'];
             var request_type = requestList[1][i]['request_type'];
@@ -691,76 +724,173 @@ requestTable = {
             }
         }
 
+        var totalEncryptCharge = 0
+        var totalDecryptCharge = 0 
+        var totalDownloadCharge = 0 
+        var totalCharge = 0
+        for(var keys in usageObject) {
+            totalEncryptCharge += usageObject[keys]['encrypt_request_charge'];
+            totalDecryptCharge += usageObject[keys]['decrypt_request_charge'];
+            totalDownloadCharge += usageObject[keys]['download_charge'];
+        }
+        totalCharge = totalEncryptCharge + totalDecryptCharge + totalDownloadCharge;
+
         //월별 청구 금액
-        htmlStr += "<div class='usageBox'>\
-                        <div class='textArea'>\
-                            <p>"+year+"년 "+month+"월 청구 금액</p>\
-                        </div>\
-                        <div class='tbHeader'>\
-                            <div class='encrypt_charge_header'><h3>비식별화 서비스 요금</h3></div>\
-                            <div class='decrypt_charge_header'><h3>복호화 서비스 요금</h3></div>\
-                            <div class='download_charge_header'><h3>다운로드 발생 비용</h3></div>\
-                            <div class='total_charge_header'><h3>합계</h3></div>\
-                        </div>\
-                        <div class='tbBody'>\
-                        <div class='tbContent'>\
-                                <div class='encrypt_charge_content'><p></p></div>\
-                                <div class='decrypt_charge_content'><p></p></div>\
-                                <div class='download_charge_content'><p></p></div>\
-                                <div class='total_charge_content'><p></p></div>\
+        if(screen.width<=600){
+            htmlStr += `<div class='m_logArea'>\
+                            <div class='usageBox'>
+                                <div class='textArea'>
+                                    <p>${year}년 ${month}월 청구 금액</p>
+                                </div>
+                                <div class='tbHeader'>
+                                    <div class='encrypt_charge_header'><h3>비식별화 서비스 요금</h3></div>
+                                    <div class='decrypt_charge_header'><h3>복호화 서비스 요금</h3></div>
+                                    <div class='download_charge_header'><h3>다운로드 발생 비용</h3></div>
+                                    <div class='total_charge_header'><h3>합계</h3></div>
+                                </div>
+                                <div class='tbBody'>
+                                <div class='tbContent'>
+                                        <div class='encrypt_charge_content'><p>${totalEncryptCharge.toLocaleString('en-US')} 원</p></div>
+                                        <div class='decrypt_charge_content'><p>${totalDecryptCharge.toLocaleString('en-US')} 원</p></div>
+                                        <div class='download_charge_content'><p>${totalDownloadCharge.toLocaleString('en-US')} 원</p></div>
+                                        <div class='total_charge_content'><p>${totalCharge.toLocaleString('en-US')} 원</p></div>
+                                    </div>
+                                </div>
                             </div>\
-                        </div>\
-                    </div>"       
+                        </div>`
+        }
+        else{
+            htmlStr += `<div class='usageBox'>
+                            <div class='textArea'>
+                                <p>${year}년 ${month}월 청구 금액</p>
+                            </div>
+                            <div class='tbHeader'>
+                                <div class='encrypt_charge_header'><h3>비식별화 서비스 요금</h3></div>
+                                <div class='decrypt_charge_header'><h3>복호화 서비스 요금</h3></div>
+                                <div class='download_charge_header'><h3>다운로드 발생 비용</h3></div>
+                                <div class='total_charge_header'><h3>합계</h3></div>
+                            </div>
+                            <div class='tbBody'>
+                            <div class='tbContent'>
+                                    <div class='encrypt_charge_content'><p>${totalEncryptCharge.toLocaleString('en-US')} 원</p></div>
+                                    <div class='decrypt_charge_content'><p>${totalDecryptCharge.toLocaleString('en-US')} 원</p></div>
+                                    <div class='download_charge_content'><p>${totalDownloadCharge.toLocaleString('en-US')} 원</p></div>
+                                    <div class='total_charge_content'><p>${totalCharge.toLocaleString('en-US')} 원</p></div>
+                                </div>
+                            </div>
+                        </div>`
+        }
+        
 
         //월별 이미지 파일 사용량
-        htmlStr += "<div class='usageBox'>\
-                        <div class='textArea'>\
-                            <p>"+year+"년 "+month+"월 이미지 파일 사용량</p>\
-                        </div>\
-                        <div class='tbHeader'>\
-                            <div class='user_header'><h3>담당자</h3></div>\
-                            <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
-                            <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
-                            <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
-                            <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
-                        </div>\
-                        <div class='tbBody'>"
-        for(var i=0;i<userName.length;i++){
-                htmlStr += "<div class='tbContent'>\
-                                <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+imageObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(imageObject[userName[i]]['total_download'])+"</p></div>\
-                            </div>"
+        if(screen.width<=600){
+            htmlStr += "<div class='m_logArea'>\
+                            <div class='usageBox'>\
+                                <div class='textArea'>\
+                                    <p>"+year+"년 "+month+"월 이미지 파일 사용량</p>\
+                                </div>\
+                                <div class='tbHeader'>\
+                                    <div class='user_header'><h3>담당자</h3></div>\
+                                    <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                    <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                    <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                    <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                                </div>\
+                                <div class='tbBody'>"
+                    for(var i=0;i<userName.length;i++){
+                        htmlStr += "<div class='tbContent'>\
+                                        <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                        <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_request']+"</p></div>\
+                                        <div class='decrypt_upload_content'><p>"+imageObject[userName[i]]['decrypt_request']+"</p></div>\
+                                        <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_download']+"</p></div>\
+                                        <div class='total_download_content'><p>"+formatBytes(imageObject[userName[i]]['total_download'])+"</p></div>\
+                                    </div>"
+                    }
+                    htmlStr += "    </div>\
+                            </div>\
+                        </div>"    
         }
-        htmlStr += "    </div>\
-                    </div>"       
+        else{
+            htmlStr += "<div class='usageBox'>\
+                            <div class='textArea'>\
+                                <p>"+year+"년 "+month+"월 이미지 파일 사용량</p>\
+                            </div>\
+                            <div class='tbHeader'>\
+                                <div class='user_header'><h3>담당자</h3></div>\
+                                <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                            </div>\
+                            <div class='tbBody'>"
+                for(var i=0;i<userName.length;i++){
+                    htmlStr += "<div class='tbContent'>\
+                                    <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                    <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_request']+"</p></div>\
+                                    <div class='decrypt_upload_content'><p>"+imageObject[userName[i]]['decrypt_request']+"</p></div>\
+                                    <div class='encrypt_upload_content'><p>"+imageObject[userName[i]]['encrypt_download']+"</p></div>\
+                                    <div class='total_download_content'><p>"+formatBytes(imageObject[userName[i]]['total_download'])+"</p></div>\
+                                </div>"
+                }
+                htmlStr += "    </div>\
+                        </div>"       
+        }
+
 
         //월별 동영상 파일 사용량
-        htmlStr += "<div class='usageBox'>\
-                        <div class='textArea'>\
-                            <p>"+year+"년 "+month+"월 동영상 파일 사용량</p>\
-                        </div>\
-                        <div class='tbHeader'>\
-                            <div class='user_header'><h3>담당자</h3></div>\
-                            <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
-                            <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
-                            <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
-                            <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
-                        </div>\
-                        <div class='tbBody'>"
-        for(var i=0;i<userName.length;i++){
-                htmlStr += "<div class='tbContent'>\
-                                <div class='user_content'><p>"+userName[i]+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_request']+"</p></div>\
-                                <div class='decrypt_upload_content'><p>"+videoObject[userName[i]]['decrypt_request']+"</p></div>\
-                                <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_download']+"</p></div>\
-                                <div class='total_download_content'><p>"+formatBytes(videoObject[userName[i]]['total_download'])+"</p></div>\
-                            </div>"
+        if(screen.width<=600){
+            htmlStr += "<div class='m_logArea'>\
+                            <div class='usageBox'>\
+                                <div class='textArea'>\
+                                    <p>"+year+"년 "+month+"월 동영상 파일 사용량</p>\
+                                </div>\
+                                <div class='tbHeader'>\
+                                    <div class='user_header'><h3>담당자</h3></div>\
+                                    <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                    <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                    <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                    <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                                </div>\
+                                <div class='tbBody'>"
+                    for(var i=0;i<userName.length;i++){
+                        htmlStr += "<div class='tbContent'>\
+                                        <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                        <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_request']+"</p></div>\
+                                        <div class='decrypt_upload_content'><p>"+videoObject[userName[i]]['decrypt_request']+"</p></div>\
+                                        <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_download']+"</p></div>\
+                                        <div class='total_download_content'><p>"+formatBytes(videoObject[userName[i]]['total_download'])+"</p></div>\
+                                    </div>"
+                    }
+                    htmlStr += "    </div>\
+                            </div>\
+                        </div>"  
         }
-        htmlStr += "    </div>\
-                    </div>"       
+        else{
+            htmlStr += "<div class='usageBox'>\
+                            <div class='textArea'>\
+                                <p>"+year+"년 "+month+"월 동영상 파일 사용량</p>\
+                            </div>\
+                            <div class='tbHeader'>\
+                                <div class='user_header'><h3>담당자</h3></div>\
+                                <div class='encrypt_upload_header'><h3>비식별화 요청 건수</h3></div>\
+                                <div class='decrypt_upload_header'><h3>복호화 요청 건수</h3></div>\
+                                <div class='encrypt_download_header'><h3>비식별화 파일 다운로드 건수</h3></div>\
+                                <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
+                            </div>\
+                            <div class='tbBody'>"
+                for(var i=0;i<userName.length;i++){
+                    htmlStr += "<div class='tbContent'>\
+                                    <div class='user_content'><p>"+userName[i]+"</p></div>\
+                                    <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_request']+"</p></div>\
+                                    <div class='decrypt_upload_content'><p>"+videoObject[userName[i]]['decrypt_request']+"</p></div>\
+                                    <div class='encrypt_upload_content'><p>"+videoObject[userName[i]]['encrypt_download']+"</p></div>\
+                                    <div class='total_download_content'><p>"+formatBytes(videoObject[userName[i]]['total_download'])+"</p></div>\
+                                </div>"
+                }
+                htmlStr += "    </div>\
+                        </div>"       
+        }
+
 
         return htmlStr;
     },
