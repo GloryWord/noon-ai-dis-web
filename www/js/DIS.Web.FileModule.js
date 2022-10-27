@@ -255,6 +255,7 @@ fileModule = {
         var fileHeightObj = Object.assign({}, fileHeight)
         var videoDurationObj = Object.assign({}, videoDuration)
         var encryptObj = Object.assign({}, encryptObject);
+        var bitrateArray = []
 
         var keyIndex = 0;
         var keyName = 'null';
@@ -339,69 +340,71 @@ fileModule = {
                         $(".uploadFooter").addClass('active')
                     });
                     var response = JSON.parse(this.responseText);
-                    console.log(response);
                     if (response.message == 'success') {
-                        // console.log(response.result.streams[0].bit_rate);
-                        if(fileType=="video"){
+                        if(fileType == 'video') {
                             var ffmpegInfo = response.result.streams;
 
                             let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
-                            var info_content = document.querySelector(".info_content");
                             for (var i = 0; i < fileWidth.length; i++) {
                                 var curFile = ffmpegInfo[i]
+                                var info_content = document.querySelector(".info_content")
+
                                 resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-    
+
                                 var avg_frame_rate = curFile.avg_frame_rate
                                 avg_frame_rate = avg_frame_rate.split('/');
                                 avg_frame_rate = Number(avg_frame_rate[0]);
                                 frame_rate_coefficient = avg_frame_rate / 30;
-    
+
                                 duration_coefficient = curFile.duration / 60;
                                 bitrate_coefficient = curFile.bit_rate / ((640 * 640) * 30);
+                                bitrateArray.push(curFile.bit_rate)
                                 bitrate_coefficient = bitrate_coefficient / 4;
                                 estimated_charge_coefficient.push(resolution_coefficient * frame_rate_coefficient * duration_coefficient * bitrate_coefficient);
-                                if(screen.width<=600){
+
+                                if (screen.width <= 600) {
                                     info_content.innerHTML = "<div class='info_area'>\
                                                                 <div class='first_area'>\
                                                                     <div class='res_content'>\
                                                                         <h1>해상도</h1>\
-                                                                        <p>"+fileWidth[i]+" X "+fileHeight[i]+"</p>\
+                                                                        <p>"+ fileWidth[i] + " X " + fileHeight[i] + "</p>\
                                                                     </div>\
                                                                     <div class='frame_content'>\
                                                                         <h1>프레임 레이트</h1>\
-                                                                        <p>"+curFile.avg_frame_rate.split('/')[0]+" FPS</p>\
+                                                                        <p>"+ curFile.avg_frame_rate.split('/')[0] + " FPS</p>\
                                                                     </div>\
                                                                 </div>\
                                                                 <div class='second_area'>\
                                                                     <div class='dur_content'>\
                                                                         <h1>길이</h1>\
-                                                                        <p>"+time_change(curFile.duration)+"</p>\
+                                                                        <p>"+ time_change(curFile.duration) + "</p>\
                                                                     </div>\
                                                                     <div class='bit_content'>\
                                                                         <h1>비트 레이트</h1>\
-                                                                        <p>"+curFile.bit_rate+" bps</p>\
+                                                                        <p>"+ curFile.bit_rate + " bps</p>\
                                                                     </div>\
                                                                 </div>\
                                                             </div>"
                                 }
-                                else{
+                                else {
                                     info_content.innerHTML = "<div class='info_area'>\
                                                                 <div class='res_content'>\
-                                                                    <p>"+fileWidth[i]+" X "+fileHeight[i]+"</p>\
+                                                                    <p>"+ fileWidth[i] + " X " + fileHeight[i] + "</p>\
                                                                 </div>\
                                                                 <div class='frame_content'>\
-                                                                    <p>"+curFile.avg_frame_rate.split('/')[0]+" FPS</p>\
+                                                                    <p>"+ curFile.avg_frame_rate.split('/')[0] + " FPS</p>\
                                                                 </div>\
                                                                 <div class='dur_content'>\
-                                                                    <p>"+time_change(curFile.duration)+"</p>\
+                                                                    <p>"+ time_change(curFile.duration) + "</p>\
                                                                 </div>\
                                                                 <div class='bit_content'>\
-                                                                    <p>"+curFile.bit_rate+" bps</p>\
+                                                                    <p>"+ curFile.bit_rate + " bps</p>\
                                                                 </div>\
                                                             </div>"
                                 }
                             }
                         }
+
                         new Promise((resolve, reject) => {
                         //     var requestIndex = ''
                         //     $.ajax({
@@ -412,13 +415,14 @@ fileModule = {
                         //         async: false,
                         //         success: function (data) {
                         //             requestIndex = data.enc_request_list_id;
-                        //             comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                        //             comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
                         //         },
                         //         error: function (xhr, status) {
                         //             // alert(xhr + " : " + status);
                         //             alert(JSON.stringify(xhr));
                         //         }
                         //     });
+                        //     postData['bitrate'] = JSON.stringify(bitrateArray);
                         //     postData['requestIndex'] = requestIndex;
                         //     resolve();
                         // }).then(() => {
@@ -451,107 +455,55 @@ fileModule = {
                         //     })
                         })
 
-                        // $(document).on("click", "#execute", function () {
-                        //     new Promise((resolve, reject) => {
-                        //         resolve()
-                        //     }).then(() => {
-                        //         $.ajax({
-                        //             method: "post",
-                        //             url: "/encrypt-module/api/sendMessage/encrypt",
-                        //             dataType: "json",
-                        //             data: postData,
-                        //             success: function (data) {
-
-                        //             },
-                        //             error: function (xhr, status) {
-                        //                 // alert(xhr + " : " + status);
-                        //                 alert(JSON.stringify(xhr));
-                        //             }
-                        //         })
-                        //     })
-                        // })
-                        var restoration = 0;
-                        var keyselect = '';
-                        $('input[type=radio][name=restoration]').on('change', function () {
-                            if ($(this).val() == 'true') {
-                                restoration = 1;
-                            }
-                            else {
-                                restoration = 0;
-                            }
-                        });
-                
-                        $('input[type=radio][name=keySelect]').on('change', function () {
-                            if ($(this).val() == 'skey') {
-                                $("#genKeyName").attr("disabled", false);
-                                keyselect = $(this).val();
-                            }
-                            else keyselect = $(this).val();
-                        });
                         $(document).on("click", "#execute", function () {
-                            if(keyselect == '' && restoration == 1){
-                                Swal.fire({
-                                    title: '키 선택 오류',
-                                    html:
-                                        '키를 선택하지 않으셨습니다.<br/>' +
-                                        '확인 후 재시도해 주세요.',
-                                    showCancelButton: false,
-                                    showConfirmButton:false,
-                                    showDenyButton:true,
-                                    denyButtonText:"확 인",
-                                    icon:"error"
+                            new Promise((resolve, reject) => {
+                                var requestIndex = ''
+                                $.ajax({
+                                    method: "post",
+                                    url: "/encrypt-module/api/request/encrypt",
+                                    dataType: "json",
+                                    data: postData,
+                                    async: false,
+                                    success: function (data) {
+                                        requestIndex = data.enc_request_list_id;
+                                        comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                                    },
+                                    error: function (xhr, status) {
+                                        // alert(xhr + " : " + status);
+                                        alert(JSON.stringify(xhr));
+                                    }
                                 });
-                            }
-                            else{
+                                postData['requestIndex'] = requestIndex;
+                                resolve();
+                            }).then(() => {
+                                $.ajax({
+                                    method: "post",
+                                    url: "/encrypt-module/api/sendMessage/encrypt",
+                                    dataType: "json",
+                                    data: postData,
+                                    success: function (data) {
+
+                                    },
+                                    error: function (xhr, status) {
+                                        // alert(xhr + " : " + status);
+                                        alert(JSON.stringify(xhr));
+                                    }
+                                });
                                 new Promise((resolve, reject) => {
-                                    var requestIndex = ''
-                                    $.ajax({
-                                        method: "post",
-                                        url: "/encrypt-module/api/request/encrypt",
-                                        dataType: "json",
-                                        data: postData,
-                                        async: false,
-                                        success: function (data) {
-                                            requestIndex = data.enc_request_list_id;
-                                            comm.meterEncUpload(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                                        },
-                                        error: function (xhr, status) {
-                                            // alert(xhr + " : " + status);
-                                            alert(JSON.stringify(xhr));
-                                        }
-                                    });
-                                    postData['requestIndex'] = requestIndex;
-                                    resolve();
+                                    resolve()
                                 }).then(() => {
-                                    $.ajax({
-                                        method: "post",
-                                        url: "/encrypt-module/api/sendMessage/encrypt",
-                                        dataType: "json",
-                                        data: postData,
-                                        success: function (data) {
-        
-                                        },
-                                        error: function (xhr, status) {
-                                            // alert(xhr + " : " + status);
-                                            alert(JSON.stringify(xhr));
+                                    Swal.fire({
+                                        title: '비식별화 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = '/loading?type='+fileType+'&service=encrypt';
                                         }
-                                    });
-                                    new Promise((resolve, reject) => {
-                                        resolve()
-                                    }).then(() => {
-                                        Swal.fire({
-                                            title: '비식별화 요청이 \n완료되었습니다.',
-                                            showCancelButton: false,
-                                            confirmButtonText: '확인',
-                                            allowOutsideClick: false,
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                location.href = '/loading?type='+fileType+'&service=encrypt';
-                                            }
-                                        })
                                     })
-                                }) 
-                            }
+                                })
+                            })
                         });
                     }
                     else {
@@ -664,6 +616,8 @@ fileModule = {
                             var reqInfo = result['decReqInfo']['reqInfo'];
                             var msgTemplate = result['decReqInfo'];
                             var decRequestId = result['dec_request_list_id'];
+                            comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
+
                             delete msgTemplate.reqInfo;
                             $.ajax({
                                 method: "post",

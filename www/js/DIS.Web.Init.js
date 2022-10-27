@@ -502,7 +502,7 @@ init = {
                             })
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
-                            comm.meterDecDownload(eventIndex, type, fileName, fileSize);
+                            comm.meterDownload(eventIndex, type, fileName, fileSize);
 
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
@@ -753,6 +753,7 @@ init = {
         var type = urlParams.get('type');
         var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
+        var selectModalImg = 0;
 
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
@@ -831,7 +832,7 @@ init = {
                 var fileName = fileList[0];
 
                 $(document).on("click", "#signedUrl", function () {
-                    comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+                    comm.meterDownload(eventIndex, type, fileName, fileSize);
                 })
             }
             else if (mode == 'group') {
@@ -849,6 +850,7 @@ init = {
                 $(document).on("click", ".albumImg", function () {
                     if (screen.width > 600) {
                         var imgnum = $(this).data("num")
+                        selectModalImg = imgnum
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                         var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
                             <p>이미지 다운로드</p>\
@@ -861,6 +863,7 @@ init = {
 
                 $(document).on("click", ".hoverdiv", function () {
                     var imgnum = $(this).data("num")
+                    selectModalImg = imgnum
                     var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
                     var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
                         <p>이미지 다운로드</p>\
@@ -868,6 +871,12 @@ init = {
                     document.getElementById('selectImgArea').innerHTML = imgtag
                     document.getElementById('selectBtnArea').innerHTML = downloadArea
                     $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".imgConfirm", function () {
+                    console.log(selectModalImg)
+                    var selectSize = signedUrl[selectModalImg][1];
+                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
                 });
 
                 $(document).on("click", ".allselect", function () {
@@ -937,7 +946,7 @@ init = {
                                     var fileSize = signedUrl[0][1];
                                     location.href = fileUrl;
 
-                                    comm.meterEncDownload(eventIndex, type, 'Download.zip', fileSize);
+                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
                                     resolve();
                                 }).then(() => {
                                     new Promise((resolve, reject) => {
@@ -968,7 +977,7 @@ init = {
             var fileName = fileList[0];
 
             $(document).on("click", "#signedUrl", function () {
-                comm.meterEncDownload(eventIndex, type, fileName, fileSize);
+                comm.meterDownload(eventIndex, type, fileName, fileSize);
             })
         }
     },

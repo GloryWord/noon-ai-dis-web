@@ -224,13 +224,13 @@ comm = {
         return auth
     },
 
-    meterEncUpload: function (fileNameList, fileWidth, fileHeight, requestIndex, restoration) {
+    meterEncrypt: function (fileNameList, fileWidth, fileHeight, requestIndex, restoration) {
         // var fileNameList = getFiles();
         var strFileWidth = JSON.stringify(fileWidth)
         var strFileHeight = JSON.stringify(fileHeight)
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/meterUsage/encrypt/upload",
+            url: "/encrypt-module/api/meterUsage/encrypt",
             data: {
                 fileNameList,
                 strFileWidth,
@@ -250,15 +250,14 @@ comm = {
         });
     },
 
-    meterEncDownload: function (requestIndex, fileType, fileName, fileSize) {
+    meterDecrypt: function (requestIndex, fileNameList, fileType) {
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/meterUsage/encrypt/download",
+            url: "/decrypt-module/api/meterUsage/decrypt",
             data: {
                 requestIndex,
+                fileNameList,
                 fileType,
-                fileName,
-                fileSize
             },
             success: function (data) {
                 if(data.message == "success"){
@@ -271,10 +270,10 @@ comm = {
         });
     },
 
-    meterDecDownload: function (requestIndex, fileType, fileName, fileSize) {
+    meterDownload: function (requestIndex, fileType, fileName, fileSize) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/meterUsage/decrypt/download",
+            url: "/util-module/api/meterUsage/download",
             data: {
                 requestIndex,
                 fileType,

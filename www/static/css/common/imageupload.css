@@ -499,6 +499,10 @@
     color: #fff;
 }
 
+.uploadArea .imgUpload .none_file {
+    display: none;
+}
+
 .uploadBtn_area {
     display: flex;
     margin: 0 auto 314px;
@@ -1325,6 +1329,26 @@
         text-align: center;
         color: #fff;
         margin: auto;
+    }    
+    
+    .uploadArea .imgUpload .none_file {
+        display: flex;
+        margin: auto;
+        height: 180px;
+    }
+
+    .uploadArea .imgUpload .none_file p {
+        display: flex;
+        margin: auto;
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
     }
 
     .uploadBtn_area .nextBtn {

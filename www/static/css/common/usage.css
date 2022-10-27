@@ -868,7 +868,7 @@
         letter-spacing: normal;
         text-align: left;
         color: #16284d;
-        margin: auto 0;
+        margin: auto 12px auto 0;
     }
 
     .log_content .search_area .searchContent .searchSecond .searchTop .searchFile .encrypt_upload {
