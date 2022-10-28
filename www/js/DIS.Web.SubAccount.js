@@ -189,21 +189,27 @@ subaccount = {
 
         var html = '<div class="bucketAuth">\
                         <h1>버킷 권한 설정</h1>\
-                        <input class="bdownloadAuth" type="checkbox" '+bucket_c+'><label>다운로드</label>&nbsp;\
-                        <input class="buploadAuth" type="checkbox" '+bucket_r+'><label>업로드</label>&nbsp;\
-                        <input class="bdeleteAuth" type="checkbox" '+bucket_u+'><label>삭제</label>\
+                        <div class="selectArea">\
+                            <input class="bdownloadAuth" type="checkbox" '+bucket_c+'><label>다운로드</label>\
+                            <input class="buploadAuth" type="checkbox" '+bucket_r+'><label>업로드</label>\
+                            <input class="bdeleteAuth" type="checkbox" '+bucket_u+'><label>삭제</label>\
+                        </div>\
                     </div>\
                     <div class="dbAuth">\
                         <h1>DB 권한 설정</h1>\
-                        <input class="dcreateAuth" type="checkbox" '+db_c+'><label>생성</label>&nbsp;\
-                        <input class="dreadAuth" type="checkbox" '+db_r+'><label>읽기</label>&nbsp;\
-                        <input class="dupdateAuth" type="checkbox" '+db_u+'><label>수정</label>&nbsp;\
-                        <input class="ddeleteAuth" type="checkbox" '+db_d+'><label>삭제</label>\
+                        <div class="selectArea">\
+                            <input class="dcreateAuth" type="checkbox" '+db_c+'><label>생성</label>\
+                            <input class="dreadAuth" type="checkbox" '+db_r+'><label>읽기</label>\
+                            <input class="dupdateAuth" type="checkbox" '+db_u+'><label>수정</label>\
+                            <input class="ddeleteAuth" type="checkbox" '+db_d+'><label>삭제</label>\
+                        </div>\
                     </div>\
                     <div class="enc_dec_Auth">\
                         <h1>암복호화 권한 설정</h1>\
-                        <input class="encAuth" type="checkbox" '+encCheck+'><label>비식별화</label>&nbsp;\
-                        <input class="decAuth" type="checkbox" '+decCheck+'><label>복호화</label>\
+                        <div class="selectArea">\
+                            <input class="encAuth" type="checkbox" '+encCheck+'><label>비식별화</label>\
+                            <input class="decAuth" type="checkbox" '+decCheck+'><label>복호화</label>\
+                        </div>\
                     </div>';
         return html;
     },

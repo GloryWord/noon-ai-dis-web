@@ -54,6 +54,10 @@
                 <img src="./static/imgs/log/usage_icon.png">
                 <p>서비스 이용 관리</p>
                 <label>진행한 모든 기능에 대한 사용량을 확인 할 수 있습니다.</label>
+                <div class="m_textArea">
+                    <p1>서비스 이용 관리</p1>
+                    <label1>진행한 모든 기능에 대한 사용량을 확인 할 수 있습니다.</label1>
+                </div>
             </div>
             <div class="searchContent">
                 <div class="searchFirst">
@@ -66,11 +70,15 @@
                 <div class="searchSecond">
                     <div class="searchTop">
                         <div class="searchFile">
-                            <h1>타입</h1>
-                            <input class="search_filter" type="radio" name="search_filter" value="encrypt_request"><label class="encrypt_request" for="encrypt_request">비식별화 요청</label>
-                            <input class="search_filter" type="radio" name="search_filter" value="decrypt_request"><label class="decrypt_request" for="decrypt_request">복호화 요청</label>
-                            <input class="search_filter" type="radio" name="search_filter" value="download_request"><label class="download_request" for="download_request">파일 다운로드</label>
-                            <input class="search_filter" type="radio" name="search_filter" value="all_count" checked><label class="all_count" for="all_count">월별 사용량</label>
+                            <h1>타입</h1>             
+                            <div class="searchFile_first">
+                                <input class="search_filter" type="radio" name="search_filter" value="encrypt_request"><label class="encrypt_request" for="encrypt_request">비식별화 요청</label>
+                                <input class="search_filter" type="radio" name="search_filter" value="decrypt_request"><label class="decrypt_request" for="decrypt_request">복호화 요청</label>
+                            </div>
+                            <div class="searchFile_second">
+                                <input class="search_filter" type="radio" name="search_filter" value="download_request"><label class="download_request" for="download_request">파일 다운로드</label>
+                                <input class="search_filter" type="radio" name="search_filter" value="all_count" checked><label class="all_count" for="all_count">월별 사용량</label>
+                            </div> 
                         </div>
                     </div>
                     <div class="searchBottom">
@@ -109,6 +117,9 @@
     <div class="footer">
       <div class="logo">
         <img src="./static/imgs/common/footer_logo.png">
+        <div class="upBtn">
+          <img src="./static/imgs/common/upBtn_icon.png">
+        </div>
       </div>
       <div class="textArea">
         <div class="footer_menu">
@@ -152,7 +163,7 @@
                     </div>
                     <div class="saveBody">
                         <div class="bodyHeader">
-                            <p>현재 비밀번호 : </p>
+                            <p>현재 비밀번호</p>
                             <input type="password" class="cur_password" autofocus>
                         </div>
                         <div class="saveFooter">
