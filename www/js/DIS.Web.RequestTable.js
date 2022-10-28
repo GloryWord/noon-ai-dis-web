@@ -469,37 +469,67 @@ requestTable = {
                         </div>'
         }
         else{
-            for (var i = 0; i < requestList['keyList'].length; i++) {
-                var date = new Date(requestList['keyList'][i]['generated_date'])
-                if (requestList['keyList'][i]['key_memo'] == null || requestList['keyList'][i]['key_memo'] == "") {
-                    var memo = ""
-                }
-                else {
-                    var memo = requestList['keyList'][i]['key_memo']
-                }
-
-                if(requestList['account']!=requestList['keyList'][i]['account_name']){
-                    var modi = "hide"
-                }
-                else{
-                    var modi = ""
-                }
-
-                htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
-                                <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
-                                <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
-                                <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
-                                <div class="memo_content">\
-                                    <p class="memo_text">'+ memo + '</p>\
-                                </div>\
-                                <div class="modi_content">\
-                                    <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
-                                        <p>수정</p>\
+            if(screen.width<=600){
+                for (var i = 0; i < requestList['keyList'].length; i++) {
+                    var date = new Date(requestList['keyList'][i]['generated_date'])
+                    if (requestList['keyList'][i]['key_memo'] == null || requestList['keyList'][i]['key_memo'] == "") {
+                        var memo = ""
+                    }
+                    else {
+                        var memo = requestList['keyList'][i]['key_memo']
+                    }
+    
+                    if(requestList['account']!=requestList['keyList'][i]['account_name']){
+                        var modi = "hide"
+                    }
+                    else{
+                        var modi = ""
+                    }
+    
+                    htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
+                                    <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
+                                    <div class="tableFooter">\
+                                        <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
+                                        <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                        <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
                                     </div>\
-                                </div>\
-                            </div>'
+                                </div>'
+                }
             }
+            else{
+                for (var i = 0; i < requestList['keyList'].length; i++) {
+                    var date = new Date(requestList['keyList'][i]['generated_date'])
+                    if (requestList['keyList'][i]['key_memo'] == null || requestList['keyList'][i]['key_memo'] == "") {
+                        var memo = ""
+                    }
+                    else {
+                        var memo = requestList['keyList'][i]['key_memo']
+                    }
+    
+                    if(requestList['account']!=requestList['keyList'][i]['account_name']){
+                        var modi = "hide"
+                    }
+                    else{
+                        var modi = ""
+                    }
+    
+                    htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
+                                    <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
+                                    <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
+                                    <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                    <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
+                                    <div class="memo_content">\
+                                        <p class="memo_text">'+ memo + '</p>\
+                                    </div>\
+                                    <div class="modi_content">\
+                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
+                                            <p>수정</p>\
+                                        </div>\
+                                    </div>\
+                                </div>'
+                }
+            }
+
         }
 
         return htmlStr;
@@ -940,16 +970,29 @@ requestTable = {
                             <div class='mainLog'>"
                 for (var i = 0; i < requestList.length; i++) {
                     var date = new Date(requestList[i]['request_date'])
-                
-                    htmlStr += '<div class="logContent">\
-                                    <div class="id_content"><p>'+ requestList[i]["request_id"] + '</p></div>\
-                                    <div class="user_content"><p>'+ requestList[i]["user_name"] + '</p></div>\
-                                    <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
-                                    <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
-                                    <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
-                                    <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
-                                    <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
-                                </div>'
+                    if(screen.width<=600){
+                        htmlStr += '<div class="m_logContent">\
+                                        <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
+                                        <div class="etc_content">\
+                                            <div class="user_content"><p>'+ requestList[i]["user_name"] + '</p></div>\
+                                            <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
+                                            <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
+                                            <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
+                                            <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
+                                        </div>\
+                                    </div>'
+                    }
+                    else{
+                        htmlStr += '<div class="logContent">\
+                                        <div class="id_content"><p>'+ requestList[i]["request_id"] + '</p></div>\
+                                        <div class="user_content"><p>'+ requestList[i]["user_name"] + '</p></div>\
+                                        <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
+                                        <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
+                                        <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
+                                        <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
+                                    </div>'
+                    }
                 }
             htmlStr += "    </div>\
                             <div id='enc_more' class='btn-wrap'><a href='javascript:;' class='morebutton'><p>더보기</p><img src='./static/imgs/main/plus_icon.png'></a></div>\

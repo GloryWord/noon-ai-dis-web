@@ -1226,7 +1226,12 @@ init = {
             else {
                 var getMonthTypeUsage = requestTable.getMonthTypeUsage(type, date)
                 $(".logArea").html(getMonthTypeUsage);
-                load('.mainLog', '5');
+                if (screen.width <= 600) {
+                    m_load('.mainLog', '5');
+                }
+                else {
+                    load('.mainLog', '5');
+                }
             }
         });
 
@@ -1234,8 +1239,35 @@ init = {
             load('.mainLog', '5', '#enc_more');
         })
 
+        if (screen.width <= 600) {
+            m_load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                m_load('.mainLog', '5', '#enc_more');
+            })
+        }
+        else {
+            load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                load('.mainLog', '5', '#enc_more');
+            })
+        }
+
         function load(id, cnt, btn) {
             var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('#enc_more').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
+
+        function m_load(id, cnt, btn) {
+            var enc_list = id + " .m_logContent:not(.active)";
             var enc_length = $(enc_list).length;
             var enc_total_cnt;
             if (cnt < enc_length) {

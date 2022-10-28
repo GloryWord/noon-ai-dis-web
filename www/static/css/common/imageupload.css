@@ -131,7 +131,7 @@
 
 .uploadArea .uploadSelect .textArea p {
     font-family: SpoqaHanSansNeo-Regular;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -646,7 +646,7 @@
 
 .uploadFooter .restBtnArea .textArea p {
     font-family: SpoqaHanSansNeo-Regular;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -885,7 +885,7 @@
 
 .uploadFooter .restoreKey .cKeyArea .createKey p {  
     font-family: SpoqaHanSansNeo;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -1555,12 +1555,14 @@
     }
 
     .uploadFooter .footerbtnArea .encryptBtn {
-        width: 138px;
+        width: 272px;
         height: 40px;
-        margin: auto 12px auto auto;
+        margin: auto;
         border-radius: 20px;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
         background-color: #16284d;
+        display: flex;
+        cursor: pointer;
     }
 
     .uploadFooter .footerbtnArea .chargeBtn {
@@ -1570,6 +1572,7 @@
         border-radius: 20px;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
         background-color: #3fa9f5;
+        display: none;
     }
 
     .uploadFooter .footerbtnArea .encryptBtn p, 
