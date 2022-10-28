@@ -1,0 +1,18 @@
+name: Release Drafter
+on:
+  push:
+    # 해당 브랜치에 푸쉬될 때 action 이 실행된다.
+    branches:
+      - main
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        # (Optional)
+        # workflow 에서 여러 구성이 필요할 때 config-name 에 오버라이드 해줍니다.
+        # 반드시 .github/ 에 위치해야합니다.
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
