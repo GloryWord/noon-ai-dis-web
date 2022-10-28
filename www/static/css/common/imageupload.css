@@ -131,7 +131,7 @@
 
 .uploadArea .uploadSelect .textArea p {
     font-family: SpoqaHanSansNeo-Regular;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -499,11 +499,56 @@
     color: #fff;
 }
 
+.uploadArea .imgUpload .none_file {
+    display: none;
+}
+
+.uploadBtn_area {
+    display: flex;
+    margin: 0 auto 314px;
+}
+
+.uploadBtn_area.hide {
+    display: none;
+}
+
+.uploadBtn_area .nextBtn {
+    width: 294px;
+    height: 40px;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    cursor: pointer;
+}
+
+.uploadBtn_area .nextBtn.hide {
+    display: none;
+}
+
+.uploadBtn_area .nextBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
 .uploadFooter {
     width: 988px;
     margin: 0 auto 90px;
-    display: flex;
+    display: none;
     flex-direction: column;
+}
+
+.uploadFooter.active {
+    display: flex;
 }
 
 .uploadFooter .restBtnArea {
@@ -601,7 +646,7 @@
 
 .uploadFooter .restBtnArea .textArea p {
     font-family: SpoqaHanSansNeo-Regular;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -840,7 +885,7 @@
 
 .uploadFooter .restoreKey .cKeyArea .createKey p {  
     font-family: SpoqaHanSansNeo;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -912,33 +957,42 @@
 .progressContainer{
     display: block;
     position:relative;
-    width: 450px;
-    padding: 20px 10px;
+    width: 294px;
+    padding: 0px 10px;
     margin: auto;
-    height:20px;
+    height: 40px;
 }
 
 .progress{
     position:absolute;
     width: calc(100% - 20px);
-    height: 20px;
+    height: 40px;
 }
 
 .progressTotal{
     background: #909090;
-    border-radius: 10px;
+    border-radius: 50px;
 }
 
 .progressNow{
     width: calc(0% - 20px);
     background: #16284d;
-    border-radius: 10px;
+    border-radius: 50px;    
 }
 
 .progressPer{
     background: transparent;
     text-align:center;
     color: white;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    padding: 10px 0 10px;
 }
 
 .uploadFooter .footerbtnArea {
@@ -946,28 +1000,44 @@
     display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn {  
-   width: 180px;
-   height: 60px;
-   margin: auto;
-   border-radius: 15px;
-   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
-   background-color: #16284d;
-   cursor: pointer;
-   display: flex;
+.uploadFooter .footerbtnArea .encryptBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto 40px auto auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
+    cursor: pointer;
+    display: flex;
 }
 
-.uploadFooter .footerbtnArea .nextBtn p {
+.uploadFooter .footerbtnArea .chargeBtn {  
+    width: 294px;
+    height: 60px;
+    margin: auto auto auto 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    cursor: pointer;
+    display: flex;
+}
+
+.uploadFooter .footerbtnArea .encryptBtn p,
+.uploadFooter .footerbtnArea .chargeBtn p {
    font-family: SpoqaHanSansNeo-Bold;
    font-size: 18px;
    font-weight: bold;
    font-stretch: normal;
    font-style: normal;
-   line-height: 1.29;
+   line-height: 1.22;
    letter-spacing: normal;
    text-align: left;
    color: #fff;
    margin: auto;
+}
+
+.uploadFooter .charge_cal .charge_info {
+    display: none;
 }
 
 @media(max-width:600px){
@@ -1259,12 +1329,42 @@
         text-align: center;
         color: #fff;
         margin: auto;
+    }    
+    
+    .uploadArea .imgUpload .none_file {
+        display: flex;
+        margin: auto;
+        height: 180px;
+    }
+
+    .uploadArea .imgUpload .none_file p {
+        display: flex;
+        margin: auto;
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #595959;
+    }
+
+    .uploadBtn_area .nextBtn {
+        width: 272px;
+        height: 40px;
+        margin: 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+        background-color: #3fa9f5;
+        display: flex;
+        cursor: pointer;
     }
 
     .uploadFooter {
         width: 288px;
         margin: 0 auto;
-        display: flex;
         flex-direction: column;
     }
 
@@ -1444,14 +1544,39 @@
     
     .uploadFooter .footerbtnArea {
         margin: 28px auto 40px;
-        display: flex;
     }
 
     .progressContainer {
         position: relative;
         width: 272px;
-        padding: 20px 10px;
+        padding: 0 10px;
         margin: 0 auto 37px;
         height: 18px;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn {
+        width: 272px;
+        height: 40px;
+        margin: auto;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+        background-color: #16284d;
+        display: flex;
+        cursor: pointer;
+    }
+
+    .uploadFooter .footerbtnArea .chargeBtn {
+        width: 138px;
+        height: 40px;
+        margin: auto auto auto 0;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        display: none;
+    }
+
+    .uploadFooter .footerbtnArea .encryptBtn p, 
+    .uploadFooter .footerbtnArea .chargeBtn p {
+        font-size: 14px;
     }
 }

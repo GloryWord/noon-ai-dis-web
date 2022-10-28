@@ -64,63 +64,192 @@
 }
 
 .layerPopupBox .info_inner .saveContent .saveHeader {
-    margin: 24px auto;
+    margin: 54px auto 42px;
 }
 
 .layerPopupBox .info_inner .saveContent .saveHeader h1 {
-    margin: 0;
-    font-weight: S-CoreDream-6Bold;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 34px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody {
-    margin: 0 auto;
+    width: 294px;
+    height: auto;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody .bodyHeader {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 8px 0;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody .bodyHeader p {
-    margin: 0 12px 0 0;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
     font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #212121;
+}
+
+.layerPopupBox .info_inner .saveContent .saveBody .bodyHeader input {
+    width: 266px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+}
+
+.layerPopupBox .info_inner .saveContent .saveBody .bodyHeader input::placeholder {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody .saveFooter {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 12px auto 24px;
+    margin: 6px auto 54px;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody .saveFooter .infoConfir {
-    margin: 0 24px 0 0;
-    width: 120px;
-    height: 30px;
-    background-color: deepskyblue;
-    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin: 0 14px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #3fa9f5;
     display: flex;
     cursor: pointer;
 }
 
-.layerPopupBox .info_inner .saveContent .saveBody .saveFooter .infoConfir p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
+.layerPopupBox .info_inner .saveContent .saveBody .saveFooter .infoConfir p,
+.layerPopupBox .info_inner .saveContent .saveBody .saveFooter .cancel p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
 .layerPopupBox .info_inner .saveContent .saveBody .saveFooter .cancel {
+    width: 140px;
+    height: 40px;
     margin: 0;
-    width: 120px;
-    height: 30px;
-    background-color: #909090;
-    border-radius: 5px;
     display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
     cursor: pointer;
 }
 
-.layerPopupBox .info_inner .saveContent .saveBody .saveFooter .cancel p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
-    margin: auto;
+@media(max-width:600px){
+    .layerPopupBox .info_inner {
+        width: 288px;
+        height: auto;
+        margin: auto;
+        border-radius: 24px;
+        box-shadow: 0 0 30px 0 rgb(0 0 0 / 16%);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveHeader {
+        margin: 28px auto 24px;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveHeader h1 {
+        font-size: 28px;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody {
+        width: 240px;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody .bodyHeader {
+        width: 240px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 18px;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody .bodyHeader p {
+        width: 240px;
+        margin: 0 auto 12px;
+        object-fit: contain;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #212121;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody .bodyHeader input {
+        width: 212px;
+        height: 18px;
+        margin: 0 auto;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody .saveFooter {
+        width: 240px;
+        height: auto;
+        display: flex;
+        margin: 6px auto 24px;
+    }
+
+    .layerPopupBox .info_inner .saveContent .saveBody .saveFooter .infoConfir,
+    .layerPopupBox .info_inner .saveContent .saveBody .saveFooter .cancel {
+        width: 114px;
+        height: 40px;
+        margin: 0 12px 0 0;
+    }
 }

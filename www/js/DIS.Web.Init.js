@@ -152,6 +152,7 @@ function validPhone(obj) {
         return false;
     }
 }
+
 function progressBar(per) {
     if (per > 55) {
         $(".progressPer").css("color", "#fff");
@@ -159,6 +160,17 @@ function progressBar(per) {
     per = per.toFixed(1);
     $(".progressPer").text(per + " %");
     $(".progressNow").css("width", "calc(" + per + "% - 20px)");
+}
+
+function time_change(duration) {
+    var hours   = Math.floor(duration / 3600);
+    var minutes = Math.floor((duration - (hours * 3600)) / 60);
+    var seconds = Math.floor(duration - (hours * 3600) - (minutes * 60));
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+ seconds;
 }
 
 var init = DIS.Web.Init;
@@ -352,6 +364,14 @@ init = {
             $(".folderSelect").addClass('active')
         });
 
+        $(document).on("click", ".uploadBtnArea", function () {
+            $(".uploadBtn_area").removeClass('hide')
+            $(".nextBtn").removeClass('hide')
+            $(".progressContainer").addClass('hide')
+            $(".file_info_area").removeClass('active')
+            $(".uploadFooter").removeClass('active')
+        });
+
         $(document).on("click", ".prevBtn", function () {
             location.href = "/main"
         });
@@ -370,21 +390,7 @@ init = {
                     icon:"error"
                 });
             }
-            else if (keyselect == '' && restoration == 1) {
-                Swal.fire({
-                    title: '키 선택 오류',
-                    html:
-                        '키를 선택하지 않으셨습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showCancelButton: false,
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
-            }
             else {
-                $(".progressContainer").removeClass('hide')
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
@@ -418,6 +424,8 @@ init = {
                     }
                 }
                 if (allCheck == "true") {
+                    $(".nextBtn").addClass('hide')
+                    $(".progressContainer").removeClass('hide')
                     //파일 업로드 후 최종 요청하는 내용(비식별화)
                     fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
                     // comm.metering(fileWidth, fileHeight);
@@ -649,6 +657,14 @@ init = {
             $(".folderSelect").addClass('active')
         });
 
+        $(document).on("click", ".uploadBtnArea", function () {
+            $(".uploadBtn_area").removeClass('hide')
+            $(".nextBtn").removeClass('hide')
+            $(".progressContainer").addClass('hide')
+            $(".file_info_area").removeClass('active')
+            $(".uploadFooter").removeClass('active')
+        });
+
         $(document).on("click", ".prevBtn", function () {
             location.href = "/main"
         });
@@ -666,20 +682,19 @@ init = {
                     icon:"error"
                 });
             }
-            else if (keyselect == '' && restoration == 1) {
-                Swal.fire({
-                    title: '키 선택 오류',
-                    html:
-                        '키를 선택하지 않으셨습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
-            }
+            // else if (keyselect == '' && restoration == 1) {
+            //     Swal.fire({
+            //         title: '키 선택 오류',
+            //         html:
+            //             '키를 선택하지 않으셨습니다.<br/>' +
+            //             '확인 후 재시도해 주세요.',
+            //         showConfirmButton:false,
+            //         showDenyButton:true,
+            //         denyButtonText:"확 인",
+            //         icon:"error"
+            //     });
+            // }
             else {
-                $(".progressContainer").removeClass('hide')
                 var encryptObject = []
                 var allCheck = ""
                 for (var i = 0; i < fileCount; i++) {
@@ -710,6 +725,8 @@ init = {
                     }
                 }
                 if (allCheck == "true") {
+                    $(".nextBtn").addClass('hide')
+                    $(".progressContainer").removeClass('hide')
                     fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
                 }
                 else {
@@ -1209,7 +1226,12 @@ init = {
             else {
                 var getMonthTypeUsage = requestTable.getMonthTypeUsage(type, date)
                 $(".logArea").html(getMonthTypeUsage);
-                load('.mainLog', '5');
+                if (screen.width <= 600) {
+                    m_load('.mainLog', '5');
+                }
+                else {
+                    load('.mainLog', '5');
+                }
             }
         });
 
@@ -1217,8 +1239,35 @@ init = {
             load('.mainLog', '5', '#enc_more');
         })
 
+        if (screen.width <= 600) {
+            m_load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                m_load('.mainLog', '5', '#enc_more');
+            })
+        }
+        else {
+            load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                load('.mainLog', '5', '#enc_more');
+            })
+        }
+
         function load(id, cnt, btn) {
             var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('#enc_more').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
+
+        function m_load(id, cnt, btn) {
+            var enc_list = id + " .m_logContent:not(.active)";
             var enc_length = $(enc_list).length;
             var enc_total_cnt;
             if (cnt < enc_length) {

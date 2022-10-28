@@ -325,72 +325,125 @@
 }
 
 .add_content .addArea {
-    width: 500px;
+    width: 400px;
     height: auto;
+    margin: 100px auto 100px;
+    border-radius: 24px;
+    box-shadow: 0 0 30px 0 rgb(0 0 0 / 16%);
+    background-color: #fff;
     display: flex;
-    margin: 200px auto 123px;
     flex-direction: column;
-    background-color: #CCCCCC;
-    border-radius: 5px;
 }
 
 .add_content .addArea h1 {
-    margin: 24px auto 12px;
-    font-family: S-CoreDream-6Bold;
+    margin: 54px auto 42px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 34px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
 }
 
 .add_content .addArea .addBody {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: auto auto 12px;
-    width: 400px;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 .add_content .addArea .addBody p {
-    margin: 0 12px 0 0;
-    text-align: right;
-    width: 136px;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
     font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #212121;
 }
 
 .add_content .addArea .addBody input {
-    width: 200px;
+    width: 266px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
 }
 
 .add_content .addArea .btnArea {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: auto;
-    margin: 12px auto 24px;
+    margin: 0 auto 54px;
 }
 
 .add_content .addArea .btnArea .addSave {
-    width: 120px;
-    height: 30px;
-    background-color: deepskyblue;
-    border-radius: 5px;
-    margin: 0 48px 0 0;
+    width: 140px;
+    height: 40px;
+    margin: 0 14px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #3fa9f5;
     display: flex;
     cursor: pointer;
 }
 
 .add_content .addArea .btnArea .addSave p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 .add_content .addArea .btnArea .addCancel {
-    width: 120px;
-    height: 30px;
-    background-color: #909090;
-    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin: 0;
     display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
     cursor: pointer;
 }
 
 .add_content .addArea .btnArea .addCancel p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
-    font-family: S-CoreDream-6Bold;
-    color: white;
 }
 
 .layerPopupBox .inner {
@@ -398,8 +451,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 180px;
+    width: 400px;
+    height: auto;
     border-radius: 8px;
     box-shadow: 2px 2px 10px #666;
     background: #FFFFFF;
@@ -414,8 +467,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 274px;
+    width: 400px;
+    height: auto;
     border-radius: 8px;
     box-shadow: 2px 2px 10px #666;
     background: #FFFFFF;
@@ -430,7 +483,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 400px;
     height: auto;
     border-radius: 8px;
     box-shadow: 2px 2px 10px #666;
@@ -457,7 +510,7 @@
 .layerPopupBox .inner .addContent .addHeader,
 .layerPopupBox .auth_inner .authContent .authHeader,
 .layerPopupBox .key_inner .keyContent .keyHeader {
-    margin: 24px auto;
+    margin: 54px auto 42px;
 }
 
 .layerPopupBox .inner .passContent .passHeader h1,
@@ -465,8 +518,16 @@
 .layerPopupBox .inner .addContent .addHeader h1,
 .layerPopupBox .auth_inner .authContent .authHeader h1,
 .layerPopupBox .key_inner .keyContent .keyHeader h1 {
-    margin: 0;
-    font-weight: S-CoreDream-6Bold;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 34px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto;
 }
 
 .layerPopupBox .inner .passContent .passBody,
@@ -474,46 +535,67 @@
 .layerPopupBox .inner .addContent .addBody,
 .layerPopupBox .auth_inner .authContent .authBody,
 .layerPopupBox .key_inner .keyContent .keyBody {
-    margin: 0 auto;
+    width: 294px;
+    height: auto;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 .layerPopupBox .inner .passContent .passBody .bodyHeader,
 .layerPopupBox .inner .delContent .delBody .bodyHeader,
 .layerPopupBox .auth_inner .addContent .addBody .authArea {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 12px;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 .layerPopupBox .auth_inner .authContent .authBody .authArea {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 12px;
     flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 .layerPopupBox .key_inner .keyContent .keyBody .keyArea {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 12px;
+    flex-direction: column;
+    margin: 0 auto 18px;
 }
 
 .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth,
-.layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth,
+.layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth{
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 18px 0;
+}
+
 .layerPopupBox .auth_inner .authContent .authBody .authArea .enc_dec_Auth {
     display: flex;
-    margin: 0 auto 12px 0;
-    justify-content: center;
-    height: 24px;
+    flex-direction: column;
+    margin: 0;
 }
 
 .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth h1,
 .layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth h1,
 .layerPopupBox .auth_inner .authContent .authBody .authArea .enc_dec_Auth h1 {
-    width: 144px;
-    font-size: 18px;
-    font-family: SpoqaHanSansNeo-Bold;
-    margin: auto 12px auto 0;
-    text-align: right;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #212121;
 }
 
 .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth input,
@@ -525,41 +607,60 @@
 .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth label,
 .layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth label,
 .layerPopupBox .auth_inner .authContent .authBody .authArea .enc_dec_Auth label {
-    font-family: SpoqaHanSansNeo-Regular;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 10px auto 0;
 }
 
 .layerPopupBox .inner .passContent .passBody .bodyHeader p,
 .layerPopupBox .inner .delContent .delBody .bodyHeader p,
 .layerPopupBox .inner .addContent .addBody .bodyHeader p,
 .layerPopupBox .auth_inner .authContent .authBody .authArea p {
-    margin: 0 12px 0 0;
-}
-
-.layerPopupBox .key_inner .keyContent .keyBody .keyArea p {
-    width: 88px;
-    height: 18px;
-    margin: 11px 0;
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
-    letter-spacing: normal;
+    letter-spacing: -0.14px;
     text-align: left;
-    color: #595959;
+    color: #212121;
 }
 
-.layerPopupBox .key_inner .keyContent .keyBody .keyArea input {
-    width: 268px;
-    width: 272px;
-    height: 12px;
-    padding: 11px 12px;
-    margin: 0 0 30px;
+.layerPopupBox .key_inner .keyContent .keyBody .keyArea p {
+    width: 294px;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #212121;
+}
+
+.layerPopupBox .key_inner .keyContent .keyBody .keyArea input,
+.layerPopupBox .inner .passContent .passBody .bodyHeader input {
+    width: 266px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     border: none;
-    border: solid 0.1px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
@@ -589,8 +690,10 @@
 .layerPopupBox .inner .addContent .addBody .addFooter,
 .layerPopupBox .auth_inner .authContent .authBody .authFooter,
 .layerPopupBox .key_inner .keyContent .keyBody .keyFooter {
+    width: 294px;
+    height: auto;
     display: flex;
-    margin: 0 auto 24px;
+    margin: 6px auto 54px;
 }
 
 .layerPopupBox .inner .passContent .passBody .passFooter .passConfig,
@@ -598,11 +701,12 @@
 .layerPopupBox .inner .addContent .addBody .addFooter .addConfig,
 .layerPopupBox .auth_inner .authContent .authBody .authFooter .authConfig,
 .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .keyConfig {
-    margin: 0 24px 0 0;
-    width: 120px;
-    height: 30px;
-    background-color: deepskyblue;
-    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin: 0 14px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #3fa9f5;
     display: flex;
     cursor: pointer;
 }
@@ -612,15 +716,38 @@
 .layerPopupBox .inner .addContent .addBody .addFooter .addConfig p,
 .layerPopupBox .auth_inner .authContent .authBody .authFooter .authConfig p,
 .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .keyConfig p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }
 
 .layerPopupBox .inner .passContent .passBody .passFooter .passConfig input,
 .layerPopupBox .inner .delContent .delBody .delFooter .delConfig input,
 .layerPopupBox .inner .addContent .addBody .addFooter .addConfig input {
-    width: 200px;
+    width: 266px;
+    height: 18px;
+    margin: 0 auto;
+    padding: 11px 14px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
 }
 
 .layerPopupBox .inner .passContent .passBody .passFooter .cancel,
@@ -628,12 +755,13 @@
 .layerPopupBox .inner .addContent .addBody .addFooter .cancel,
 .layerPopupBox .auth_inner .authContent .authBody .authFooter .cancel,
 .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .cancel {
+    width: 140px;
+    height: 40px;
     margin: 0;
-    width: 120px;
-    height: 30px;
-    background-color: #909090;
-    border-radius: 5px;
     display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
     cursor: pointer;
 }
 
@@ -642,7 +770,14 @@
 .layerPopupBox .inner .addContent .addBody .addFooter .cancel p,
 .layerPopupBox .auth_inner .authContent .authBody .authFooter .cancel p,
 .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .cancel p {
-    color: white;
-    font-family: S-CoreDream-6Bold;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
     margin: auto;
 }

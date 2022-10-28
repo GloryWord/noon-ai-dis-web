@@ -521,7 +521,7 @@ a {
 
     .registerContent .registerBox img, 
     .findContent .findBox img {
-        width: 240;
+        width: 240px;
         height: 34px;
         margin: 28px auto 24px;
         object-fit: contain;

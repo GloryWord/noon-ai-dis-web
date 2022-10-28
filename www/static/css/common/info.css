@@ -83,7 +83,7 @@
 
 .info_content .infoHeader p {
     font-family: SpoqaHanSansNeo-Regular;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -92,6 +92,10 @@
     text-align: left;
     color: #3fa9f5;
     margin: 17px 0 8px;
+}
+
+.info_content .infoHeader .m_textArea {
+    display: none;
 }
 
 .info_content .infoArea {
@@ -395,4 +399,145 @@
     color: white;
     font-family: S-CoreDream-6Bold;
     margin: auto;
+}
+
+@media(max-width:600px){
+    .info_content .infoHeader {
+        width: 288px;
+        height: auto;
+        display: flex;
+        margin: 28px auto 11px;
+    }
+
+    .info_content .infoHeader h1 {
+        display: none;
+    }
+
+    .info_content .infoHeader p {
+        display: none;
+    }
+
+    .info_content .infoHeader .m_textArea {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info_content .infoHeader .m_textArea p1 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 8px 0 2px;
+    }
+
+    .info_content .infoHeader .m_textArea label1 {
+        width: 210px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: -0.12px;
+        text-align: left;
+        color: #3fa9f5;
+    }
+
+    .info_content .infoArea {
+        width: 288px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 14px;
+    }
+
+    .info_content .infoArea .infoBody {
+        display: flex;
+        flex-direction: column;
+        width: 272px;
+        height: auto;
+        margin: 0 auto 20px;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody p,
+    .info_content .infoArea .userinfoSecond .infoBody p {
+        width: auto;
+        height: 18px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 0 0 4px;
+    }
+
+    .info_content .infoArea .infoBody h1 {
+        width: 272px;
+        height: auto;
+        margin: 0;
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.31;
+        letter-spacing: normal;
+        text-align: left;
+        color: #16284d;
+    }
+
+    .info_content .infoArea .infoBody .email_error, .info_content .infoArea .infoBody .phone_error {
+        left: 0px;
+        top: 66px;
+    }
+
+    .info_content .infoArea .infoBody input {
+        width: 248px;
+        height: 18px;
+        margin: 0 auto;
+    }
+
+    .info_content .infoArea .userinfoFirst {
+        width: 272px;
+        height: auto;
+        margin: 19px auto 4px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info_content .infoArea .userinfoSecond {
+        width: 272px;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info_content .btnArea {
+        width: 240px;
+        height: auto;
+        display: flex;
+        margin: 0 auto 24px;
+    }
+
+    .info_content .btnArea .infoSave {
+        width: 114px;
+        height: 40px;
+        margin: 0 12px 0 0;
+        border-radius: 20px;
+    }
+
+    .info_content .btnArea .infoCancel {
+        width: 114px;
+        height: 40px;
+        border-radius: 20px;
+    }
 }
