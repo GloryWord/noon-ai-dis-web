@@ -343,7 +343,6 @@ fileModule = {
                     if (response.message == 'success') {
                         if(fileType == 'video') {
                             var ffmpegInfo = response.result.streams;
-
                             let resolution_coefficient, frame_rate_coefficient, duration_coefficient, bitrate_coefficient, avg_object_coefficient
                             for (var i = 0; i < fileWidth.length; i++) {
                                 var curFile = ffmpegInfo[i]

@@ -145,20 +145,29 @@ comm = {
                 'keyMemo': keyMemo
              },
             success: function (data) {
-                new Promise((resolve, reject) => {
-                    download(data.privateKey, data.keyName + ".pem", "text/plain")
-                    resolve();
-                }).then(() => {
-                    Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
-                        if(window.location.pathname == '/key') {
+                if(data.message == 'success') {
+                    new Promise((resolve, reject) => {
+                        download(data.privateKey, data.keyName + ".pem", "text/plain")
+                        resolve();
+                    }).then(() => {
+                        Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
+                            if(window.location.pathname == '/key') {
+                                location.reload();
+                            }
+                            else {
+                                $("#selectKeyName").html(comm.getKeyList());
+                                $("#genKeyName").attr("disabled", true);    
+                            }
+                        })
+                    })
+                }
+                else if(data.message == 'fail') {
+                    Swal.fire('동일 이름의 키가 존재합니다.', '', 'error').then(() => {
+                        if(window.location.pathname == '/encrypt/image' || window.location.pathname == '/encrypt/video') {
                             location.reload();
                         }
-                        else {
-                            $("#selectKeyName").html(comm.getKeyList());
-                            $("#genKeyName").attr("disabled", true);    
-                        }
                     })
-                })
+                }
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + JSON.stringify(status));
