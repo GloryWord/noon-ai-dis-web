@@ -162,11 +162,17 @@ comm = {
                     })
                 }
                 else if(data.message == 'fail') {
-                    Swal.fire('동일 이름의 키가 존재합니다.', '', 'error').then(() => {
+                    Swal.fire({
+                        title:'동일 이름의 키가 존재합니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    }).then(() => {
                         if(window.location.pathname == '/encrypt/image' || window.location.pathname == '/encrypt/video') {
                             location.reload();
                         }
-                    })
+                    });
                 }
             },
             error: function (xhr, status) {

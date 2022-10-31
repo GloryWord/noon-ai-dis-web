@@ -110,4 +110,8 @@ $(document).ready(function () {
             $(".admin_only").addClass('hide')
         }
     });
+
+    $(document).on("click", ".chargeBtn", function () {
+        $("#chargeModal").addClass('active')
+    });
 });

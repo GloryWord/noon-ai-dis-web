@@ -541,6 +541,7 @@
     letter-spacing: -0.14px;
     text-align: left;
     color: #16284d;
+    resize: none;
 }
 
 .layerPopupBox .inner .modiContent .modiBody .bodyFooter {
