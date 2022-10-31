@@ -196,7 +196,7 @@
             <div class="upload_footer">
                 <div class="footerbtnArea">
                     <!-- 여기가 비식별화 진행하기 -->
-                    <div id="execute" class="encryptBtn">
+                    <div class="encryptBtn">
                         <p>비식별화 진행하기</p>
                     </div>
                     <div class="chargeBtn">
@@ -263,6 +263,54 @@
     </div>
   </div>
 </body>
+
+<div id="chargeModal" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="charge_inner">
+                <div class="chargeContent">
+                    <div class="chargeHeader">
+                        <img src="../static/imgs/upload/charge_icon.png">
+                        <h1>예상 요금 계산하기</h1>
+                        <p>업로드한 파일에 대한 상세 정보와 단가를 확인하실 수 있습니다. 본 예상 요금은 실제 요금과 다를 수 있습니다.</p>
+                        <div class="cancel">
+                            <img class="cancel_nohover" src="../../static/imgs/common/cancel_icon.png">
+                            <img class="cancel_hover" src="../../static/imgs/common/cancel_hover_icon.png">
+                        </div>
+                    </div>
+                    <div class="chargeBody">
+                        <div class="bodyHeader">
+                            <div class="charge_tb_header">
+                                <div class="category_header"><p>구 분</p></div>
+                                <div class="content_header"><p>내 용</p></div>
+                                <div class="price_header"><p>단 가</p></div>
+                            </div>
+                            <div class="charge_content">
+                                <div class="charge_tb_content">
+                                    <div class="charge_info">
+                                        <div class="category_content"><p>해상도</p></div>
+                                        <div class="content_content"><p>1920 x 1080</p></div>
+                                        <div class="price_content"><p>000,000원</p></div>
+                                    </div>
+                                </div>
+                                <div class="charge_tb_footer">
+                                    <div class="empty_area"></div>
+                                    <div class="text_area"><p>예상 요금</p></div>
+                                    <div class="price_area"><p>000,000원</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chargeFooter">
+                            <div class="encryptBtn">
+                                <p>비식별화 진행하기</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="saveConfir" class="modal">
     <div id="wrap">

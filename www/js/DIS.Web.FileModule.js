@@ -347,6 +347,7 @@ fileModule = {
                             for (var i = 0; i < fileWidth.length; i++) {
                                 var curFile = ffmpegInfo[i]
                                 var info_content = document.querySelector(".info_content")
+                                var charge_content = document.querySelector(".charge_content")
 
                                 resolution_coefficient = (fileWidth[i] * fileHeight[i]) / (640 * 640)
 
@@ -400,61 +401,52 @@ fileModule = {
                                                                     <p>"+ curFile.bit_rate + " bps</p>\
                                                                 </div>\
                                                             </div>"
+                                    
+                                    charge_content.innerHTML = "<div class='charge_tb_content'>\
+                                                                    <div class='charge_info'>\
+                                                                        <div class='category_content'><p>해상도</p></div>\
+                                                                        <div class='content_content'><p>"+ fileWidth[i] + " X " + fileHeight[i] + "</p></div>\
+                                                                        <div class='price_content'><p>"+resolution_coefficient+"원</p></div>\
+                                                                    </div>\
+                                                                    <div class='charge_info'>\
+                                                                        <div class='category_content'><p>프레임 레이트</p></div>\
+                                                                        <div class='content_content'><p>"+ curFile.avg_frame_rate.split('/')[0] + " FPS</p></div>\
+                                                                        <div class='price_content'><p>"+frame_rate_coefficient+"원</p></div>\
+                                                                    </div>\
+                                                                    <div class='charge_info'>\
+                                                                        <div class='category_content'><p>길 이</p></div>\
+                                                                        <div class='content_content'><p>"+ time_change(curFile.duration) + "</p></div>\
+                                                                        <div class='price_content'><p>"+duration_coefficient+"원</p></div>\
+                                                                    </div>\
+                                                                    <div class='charge_info'>\
+                                                                        <div class='category_content'><p>비트 레이트</p></div>\
+                                                                        <div class='content_content'><p>"+ curFile.bit_rate + " bps</p></div>\
+                                                                        <div class='price_content'><p>"+bitrate_coefficient+"원</p></div>\
+                                                                    </div>\
+                                                                    <div class='charge_info'>\
+                                                                        <div class='category_content'><p>평균 객체 수</p></div>\
+                                                                        <div class='content_content'>\
+                                                                            <textarea onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' class='object_number' maxlength='2' placeholder='동영상에 평균적으로 등장하는 비식별 처리할 객체 수를 입력해주세요!'></textarea>\
+                                                                        </div>\
+                                                                        <div class='price_content'><p class='price_text'>?원</p></div>\
+                                                                    </div>\
+                                                                </div>\
+                                                                <div class='charge_tb_footer'>\
+                                                                    <div class='empty_area'></div>\
+                                                                    <div class='text_area'><p>예상 요금</p></div>\
+                                                                    <div class='price_area'><p class='charge_text'>?원</p></div>\
+                                                                </div>"
                                 }
                             }
                         }
 
-                        new Promise((resolve, reject) => {
-                        //     var requestIndex = ''
-                        //     $.ajax({
-                        //         method: "post",
-                        //         url: "/encrypt-module/api/request/encrypt",
-                        //         dataType: "json",
-                        //         data: postData,
-                        //         async: false,
-                        //         success: function (data) {
-                        //             requestIndex = data.enc_request_list_id;
-                        //             comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                        //         },
-                        //         error: function (xhr, status) {
-                        //             // alert(xhr + " : " + status);
-                        //             alert(JSON.stringify(xhr));
-                        //         }
-                        //     });
-                        //     postData['bitrate'] = JSON.stringify(bitrateArray);
-                        //     postData['requestIndex'] = requestIndex;
-                        //     resolve();
-                        // }).then(() => {
-                        //     $.ajax({
-                        //         method: "post",
-                        //         url: "/encrypt-module/api/sendMessage/encrypt",
-                        //         dataType: "json",
-                        //         data: postData,
-                        //         success: function (data) {
+                        $(document).on("change", ".object_number", function () {
+                            var object_num = $(".object_number").val();
+                            $(".price_text").text(charge_cal(object_num)[0])
+                            $(".charge_text").text(charge_cal(object_num)[1])
+                        });
 
-                        //         },
-                        //         error: function (xhr, status) {
-                        //             // alert(xhr + " : " + status);
-                        //             alert(JSON.stringify(xhr));
-                        //         }
-                        //     });
-                        //     new Promise((resolve, reject) => {
-                        //         resolve()
-                        //     }).then(() => {
-                        //         Swal.fire({
-                        //             title: '비식별화 요청이 \n완료되었습니다.',
-                        //             showCancelButton: false,
-                        //             confirmButtonText: '확인',
-                        //             allowOutsideClick: false,
-                        //         }).then((result) => {
-                        //             if (result.isConfirmed) {
-                        //                 location.href = '/loading?type=' + fileType + '&service=encrypt';
-                        //             }
-                        //         })
-                        //     })
-                        })
-
-                        $(document).on("click", "#execute", function () {
+                        $(document).on("click", ".encryptBtn", function () {
                             new Promise((resolve, reject) => {
                                 var requestIndex = ''
                                 $.ajax({
@@ -472,6 +464,7 @@ fileModule = {
                                         alert(JSON.stringify(xhr));
                                     }
                                 });
+                                postData['bitrate'] = JSON.stringify(bitrateArray);
                                 postData['requestIndex'] = requestIndex;
                                 resolve();
                             }).then(() => {
@@ -481,7 +474,7 @@ fileModule = {
                                     dataType: "json",
                                     data: postData,
                                     success: function (data) {
-
+    
                                     },
                                     error: function (xhr, status) {
                                         // alert(xhr + " : " + status);
@@ -498,7 +491,7 @@ fileModule = {
                                         allowOutsideClick: false,
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            location.href = '/loading?type='+fileType+'&service=encrypt';
+                                            location.href = '/loading?type=' + fileType + '&service=encrypt';
                                         }
                                     })
                                 })
