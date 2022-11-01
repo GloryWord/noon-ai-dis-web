@@ -190,18 +190,10 @@ function removeChar(event) {
     else event.target.value = event.target.value.replace(/[^0-9]/g, ""); 
 }
 
-function charge_cal(num) { 
-    var charge_data = Number(num)
-    if(charge_data == NaN || charge_data == null){
-        return "?원"
-    }
-    else{
-        var people_price = charge_data*1000
-        var charge_price = charge_data
-        return [people_price, charge_price]
-    }
+function price_three(price){
+    var result = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return result
 }
-
 
 var init = DIS.Web.Init;
 init = {
@@ -225,6 +217,10 @@ init = {
                 });
             }
         });
+
+        $(document).on("click", ".auth_confirm", function () {
+            location.href="/main"
+        });
     },
 
     sublogin: function () {
@@ -247,6 +243,10 @@ init = {
                     icon: "error"
                 });
             }
+        });
+
+        $(document).on("click", ".auth_confirm", function () {
+            location.href="/main"
         });
     },
 

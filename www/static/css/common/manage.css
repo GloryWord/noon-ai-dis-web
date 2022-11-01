@@ -530,6 +530,10 @@
     margin: 0 auto;
 }
 
+.layerPopupBox .inner .passContent .passHeader h2 {
+    display: none;
+}
+
 .layerPopupBox .inner .passContent .passBody,
 .layerPopupBox .inner .delContent .delBody,
 .layerPopupBox .inner .addContent .addBody,
@@ -780,4 +784,175 @@
     text-align: center;
     color: #fff;
     margin: auto;
+}
+
+@media(max-width:600px){
+    .subHeader {
+        margin: 28px auto 14px;
+        width: 272px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subHeader .subkey_modi, 
+    .subHeader .sub_add {
+        width: 272px;
+        height: 40px;
+        margin: 0 0 14px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+        display: flex;
+        cursor: pointer;
+    }
+
+    .sub_table {
+        width: 272px;
+        height: auto;
+        margin: 0 auto 28px;
+        border-radius: 24px;
+        box-shadow: 0 0 10px 0 rgb(89 89 89 / 30%);
+        background-color: #fff;
+    }
+
+    .sub_table .subList .listHeader {
+        display: none;
+    }
+
+    .sub_table .subList .listContent {
+        width: 240px;
+        height: auto;
+        margin: 13px auto 13px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .layerPopupBox .inner,
+    .layerPopupBox .auth_inner,
+    .layerPopupBox .key_inner {
+        width: 288px;
+        height: auto;
+        margin: auto;
+        border-radius: 24px;
+        box-shadow: 0 0 30px 0 rgb(0 0 0 / 16%);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .layerPopupBox .inner .passContent .passHeader,
+    .layerPopupBox .auth_inner .authContent .authHeader, 
+    .layerPopupBox .key_inner .keyContent .keyHeader {
+        margin: 28px auto 24px;
+    }
+
+    .layerPopupBox .inner .passContent .passHeader h1 {
+        display: none;
+    }
+
+    .layerPopupBox .auth_inner .authContent .authHeader h1, 
+    .layerPopupBox .key_inner .keyContent .keyHeader h1 {
+        font-size: 28px;
+    }
+
+    .layerPopupBox .inner .passContent .passHeader h2 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 28px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: center;
+        color: #16284d;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .layerPopupBox .inner .passContent .passBody, 
+    .layerPopupBox .auth_inner .authContent .authBody, 
+    .layerPopupBox .key_inner .keyContent .keyBody {
+        width: 240px;
+    }
+
+    .layerPopupBox .key_inner .keyContent .keyBody .keyArea,
+    .layerPopupBox .inner .passContent .passBody .bodyHeader,
+    .layerPopupBox .auth_inner .authContent .authBody .authArea {
+        width: 240px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 18px;
+    }
+
+    .layerPopupBox .key_inner .keyContent .keyBody .keyArea p,
+    .layerPopupBox .inner .passContent .passBody .bodyHeader p,  
+    .layerPopupBox .auth_inner .authContent .authBody .authArea p,
+    .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth h1, 
+    .layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth h1, 
+    .layerPopupBox .auth_inner .authContent .authBody .authArea .enc_dec_Auth h1 {
+        width: 240px;
+        margin: 0 auto 12px;
+        object-fit: contain;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: -0.14px;
+        text-align: left;
+        color: #212121;
+    }
+
+    .layerPopupBox .key_inner .keyContent .keyBody .keyArea input, 
+    .layerPopupBox .inner .passContent .passBody .bodyHeader input {
+        width: 212px;
+        height: 18px;
+        margin: 0 auto;
+    }
+
+    .layerPopupBox .inner .passContent .passBody .passFooter, 
+    .layerPopupBox .auth_inner .authContent .authBody .authFooter, 
+    .layerPopupBox .key_inner .keyContent .keyBody .keyFooter {
+        width: 240px;
+        height: auto;
+        display: flex;
+        margin: 6px auto 24px;
+    }
+
+    .layerPopupBox .inner .passContent .passBody .passFooter .passConfig, 
+    .layerPopupBox .auth_inner .authContent .authBody .authFooter .authConfig, 
+    .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .keyConfig {
+        width: 114px;
+        height: 40px;
+        margin: 0 12px 0 0;
+    }
+
+    .layerPopupBox .inner .passContent .passBody .passFooter .cancel, 
+    .layerPopupBox .auth_inner .authContent .authBody .authFooter .cancel, 
+    .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .cancel {
+        width: 114px;
+        height: 40px;
+        margin: 0 12px 0 0;
+    }
+
+    .layerPopupBox .inner .passContent .passBody .passFooter .passConfig p, 
+    .layerPopupBox .auth_inner .authContent .authBody .authFooter .authConfig p, 
+    .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .keyConfig p,
+    .layerPopupBox .inner .passContent .passBody .passFooter .cancel p, 
+    .layerPopupBox .auth_inner .authContent .authBody .authFooter .cancel p, 
+    .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .cancel p {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 18px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
+        margin: auto;
+    }
+
 }
