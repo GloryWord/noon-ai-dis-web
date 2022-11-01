@@ -406,6 +406,7 @@ init = {
             location.href = "/main"
         });
 
+        var postData;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -413,7 +414,6 @@ init = {
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    showCancelButton: false,
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -421,58 +421,61 @@ init = {
                 });
             }
             else {
-                var encryptObject = []
-                var allCheck = ""
-                for (var i = 0; i < fileCount; i++) {
-                    if (screen.width <= 600) {
-                        var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[0].children[0].checked
-                        var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[1].children[0].checked
-                        var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[2].children[0].checked
-                    }
-                    else {
-                        var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
-                        var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
-                        var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
-                    }
-                    // var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
-                    // var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
-                    // var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
+                $(".nextBtn").addClass('hide')
+                $(".progressContainer").removeClass('hide')
+                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
+                callback.then((data) => {
+                    postData = data[0]
+                })
+            }
+        });
 
-                    var select = ''
-                    select = (body) ? select += '1' : select += '0'
-                    select = (head) ? select += '1' : select += '0'
-                    select = (lp) ? select += '1' : select += '0'
-                    encryptObject.push(select)
-                }
-                for (var j = 0; j < encryptObject.length; j++) {
-                    if (encryptObject[j] == "000") {
-                        allCheck = "false"
-                        break;
-                    }
-                    else {
-                        allCheck = "true"
-                    }
-                }
-                if (allCheck == "true") {
-                    $(".nextBtn").addClass('hide')
-                    $(".progressContainer").removeClass('hide')
-                    //파일 업로드 후 최종 요청하는 내용(비식별화)
-                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
-                    // comm.metering(fileWidth, fileHeight);
+        $(document).on("click", ".encryptBtn", function () {
+            var encryptObject = []
+            var allCheck = ""
+            for (var i = 0; i < fileCount; i++) {
+                if (screen.width <= 600) {
+                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
                 }
                 else {
-                    Swal.fire({
-                        title: '비식별 객체 선택 오류',
-                        html:
-                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                            '확인 후 재시도해 주세요.',
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
                 }
+
+                var select = ''
+                select = (body) ? select += '1' : select += '0'
+                select = (head) ? select += '1' : select += '0'
+                select = (lp) ? select += '1' : select += '0'
+                encryptObject.push(select)
+            }
+            for (var j = 0; j < encryptObject.length; j++) {
+                if (encryptObject[j] == "000") {
+                    allCheck = "false"
+                    break;
+                }
+                else {
+                    allCheck = "true"
+                }
+            }
+            if (allCheck == "true") {
+                var encryptObj = Object.assign({}, encryptObject);
+                postData['encryptObject'] = JSON.stringify(encryptObj);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
+            }
+            else {
+                Swal.fire({
+                    title: '비식별 객체 선택 오류',
+                    html:
+                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         });
     },
@@ -699,6 +702,7 @@ init = {
             location.href = "/main"
         });
 
+        var postData, bitrateArray;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -712,65 +716,63 @@ init = {
                     icon: "error"
                 });
             }
-            // else if (keyselect == '' && restoration == 1) {
-            //     Swal.fire({
-            //         title: '키 선택 오류',
-            //         html:
-            //             '키를 선택하지 않으셨습니다.<br/>' +
-            //             '확인 후 재시도해 주세요.',
-            //         showConfirmButton:false,
-            //         showDenyButton:true,
-            //         denyButtonText:"확 인",
-            //         icon:"error"
-            //     });
-            // }
             else {
-                var encryptObject = []
-                var allCheck = ""
-                for (var i = 0; i < fileCount; i++) {
-                    if (screen.width <= 600) {
-                        var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
-                        var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
-                        var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
-                    }
-                    else {
-                        var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
-                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
-                    }
+                $(".nextBtn").addClass('hide')
+                $(".progressContainer").removeClass('hide')
+                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
+                callback.then((data) => {
+                    postData = data[0]
+                    bitrateArray = data[1]
+                })
+            }
+        });
 
-                    var select = ''
-                    select = (body) ? select += '1' : select += '0'
-                    select = (head) ? select += '1' : select += '0'
-                    select = (lp) ? select += '1' : select += '0'
-                    encryptObject.push(select)
-                }
-                for (var j = 0; j < encryptObject.length; j++) {
-                    if (encryptObject[j] == "000") {
-                        allCheck = "false"
-                        break;
-                    }
-                    else {
-                        allCheck = "true"
-                    }
-                }
-                if (allCheck == "true") {
-                    $(".nextBtn").addClass('hide')
-                    $(".progressContainer").removeClass('hide')
-                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
+        $(document).on("click", ".encryptBtn", function () {
+            var encryptObject = []
+            var allCheck = ""
+            for (var i = 0; i < fileCount; i++) {
+                if (screen.width <= 600) {
+                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
                 }
                 else {
-                    Swal.fire({
-                        title: '비식별 객체 선택 오류',
-                        html:
-                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                            '확인 후 재시도해 주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
                 }
+
+                var select = ''
+                select = (body) ? select += '1' : select += '0'
+                select = (head) ? select += '1' : select += '0'
+                select = (lp) ? select += '1' : select += '0'
+                encryptObject.push(select)
+            }
+            for (var j = 0; j < encryptObject.length; j++) {
+                if (encryptObject[j] == "000") {
+                    allCheck = "false"
+                    break;
+                }
+                else {
+                    allCheck = "true"
+                }
+            }
+            if (allCheck == "true") {
+                var encryptObj = Object.assign({}, encryptObject);
+                postData['encryptObject'] = JSON.stringify(encryptObj);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video');
+            }
+            else {
+                Swal.fire({
+                    title: '비식별 객체 선택 오류',
+                    html:
+                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         });
     },
