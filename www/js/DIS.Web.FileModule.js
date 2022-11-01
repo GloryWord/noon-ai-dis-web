@@ -352,303 +352,306 @@ fileModule = {
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
     },
 
-    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, encryptObject, fileType) {
-        var curTime = getTime();
-        var fileNameList = getFiles();
-        var fileWidthObj = Object.assign({}, fileWidth)
-        var fileHeightObj = Object.assign({}, fileHeight)
-        var videoDurationObj = Object.assign({}, videoDuration)
-        var encryptObj = Object.assign({}, encryptObject);
-        var bitrateArray = []
+    uploadFile: function (fileWidth, fileHeight, videoDuration, restoration, fileType) {
 
-        var keyIndex = 0;
-        var keyName = 'null';
-        if (restoration == 1) {
-            // keyIndex = $('#selectKeyName').val()
-            // keyName = $('#selectKeyName option:checked').text()
-            if ($('input[type=radio][name=keySelect]')[0].checked) {
-                keyIndex = $('.selectKey').data("idx")
-                keyName = $('.selectText').text()
+        return new Promise((resolve, reject) => {
+            var curTime = getTime();
+            var fileNameList = getFiles();
+            var fileWidthObj = Object.assign({}, fileWidth)
+            var fileHeightObj = Object.assign({}, fileHeight)
+            var videoDurationObj = Object.assign({}, videoDuration)
+            var bitrateArray = []
+
+            // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
+            var postData = {
+                'requestType': 'encrypt',
+                'fileNameList': fileNameList,
+                'fileWidth': JSON.stringify(fileWidthObj),
+                'fileHeight': JSON.stringify(fileHeightObj),
+                'videoDuration': JSON.stringify(videoDurationObj),
+                'curTime': curTime,
+                'keyIndex': '',
+                'keyName': '',
+                'requestIndex': '',
+                'restoration': '',
+                'encryptObject': ''
             }
-            else {
-                keyName = $('#genKeyName').val();
-                for (var i = 0; i < $('.dropdown_content').length; i++) {
-                    console.log($('.dropdown_content')[i].innerText)
-                    if ($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
-                }
-            }
-        }
 
-        // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
-        var postData = {
-            'requestType': 'encrypt',
-            'fileNameList': fileNameList,
-            'fileWidth': JSON.stringify(fileWidthObj),
-            'fileHeight': JSON.stringify(fileHeightObj),
-            'videoDuration': JSON.stringify(videoDurationObj),
-            'curTime': curTime,
-            'keyIndex': keyIndex,
-            'keyName': keyName,
-            'requestIndex': '',
-            'restoration': restoration,
-            'encryptObject': JSON.stringify(encryptObj)
-        }
+            $.ajax({
+                method: "post",
+                url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                dataType: "json",
+                data: {
+                    'curTime': curTime
+                },
+                success: function (data) {
+                    var formData = new FormData();
+                    var file = document.getElementById('file').files;
+                    var mode = ''
 
-        $.ajax({
-            method: "post",
-            url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
-            dataType: "json",
-            data: {
-                'curTime': curTime
-            },
-            success: function (data) {
-                var formData = new FormData();
-                var file = document.getElementById('file').files;
-                var mode = ''
-                var a = 0;
-                if (file.length > 1) mode = '/multiple';
-                for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
-                // formData.append('file', file);
-                var xhr = new XMLHttpRequest();
-                xhr.open('post', '/util-module/api/uploadNAS' + mode, true);
-                xhr.upload.onprogress = function (e) {
-                    console.log(e);
-                    if (e.lengthComputable) {
-                        var per = (e.loaded / e.total) * 100;
-                        progressBar(per);
-                        console.log(per + "%");
-                    }
-                }
-                xhr.onerror = function (e) {
-                    console.log(e);
-                    Swal.fire({
-                        title: '업로드 에러',
-                        text: '파일 업로드에 실패하였습니다.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                };
-                xhr.onload = function () {
-                    Swal.fire({
-                        title: '업로드 완료',
-                        text: '파일 업로드에 성공했습니다.',
-                        showConfirmButton: true,
-                        showDenyButton: false,
-                        denyButtonText: "확 인",
-                        icon: "success"
-                    }).then(() => {
-                        $(".uploadBtn_area").addClass('hide')
-                        $(".file_info_area").addClass('active')
-                        $(".uploadFooter").addClass('active')
-                    });
-                    var response = JSON.parse(this.responseText);
-                    if (response.message == 'success') {
-                        let coefficient = {};
-                        let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
-                        let base_charge;
-
-                        if (fileType == 'video') {
-                            var ffmpegInfo = response.result.streams;
-                            coefficient = {
-                                resolution: '',
-                                frame_rate: '',
-                                duration: '',
-                                bitrate: '',
-                                avg_object: 1
-                            }
-                            base_charge = 2000;
-                            const charging_variable_count = Object.keys(coefficient).length;
-
-                            for (var i = 0; i < fileWidth.length; i++) {
-                                var curFile = ffmpegInfo[i]
-                                var info_content = document.querySelector(".info_content")
-                                var charge_content = document.querySelector(".charge_content")
-
-                                coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-
-                                var avg_frame_rate = curFile.avg_frame_rate
-                                avg_frame_rate = avg_frame_rate.split('/');
-                                avg_frame_rate = Number(avg_frame_rate[0]);
-                                coefficient.frame_rate = avg_frame_rate / 30;
-
-                                coefficient.duration = curFile.duration / 60;
-
-                                bitrateArray.push(curFile.bit_rate)
-                                coefficient.bitrate = curFile.bit_rate / (((640 * 640) * 30) / 4);
-
-                                // 요금 = (각 항목별 상대계수 X 기본요금) / 총 항목 갯수
-                                // 요금은 소숫점 둘째자리까지 반올림하여 계산
-                                resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                resolution_charge = Math.round(resolution_charge * 100) / 100
-
-                                frame_rate_charge = coefficient.frame_rate * base_charge / charging_variable_count;
-                                frame_rate_charge = Math.round(frame_rate_charge * 100) / 100
-
-                                duration_charge = coefficient.duration * base_charge / charging_variable_count;
-                                duration_charge = Math.round(duration_charge * 100) / 100
-
-                                bitrate_charge = coefficient.bitrate * base_charge / charging_variable_count;
-                                bitrate_charge = Math.round(bitrate_charge * 100) / 100
-
-                                avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                if (restoration == 1) avg_object_charge = avg_object_charge * 1.5
-
-                                var chargeArray = [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge]
-
-                                var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
-
-                                info_content.innerHTML = info_content_html;
-                                charge_content.innerHTML = charge_content_html;
-                            }
+                    if (file.length > 1) mode = '/multiple';
+                    for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
+                    // formData.append('file', file);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('post', '/util-module/api/uploadNAS' + mode, true);
+                    xhr.upload.onprogress = function (e) {
+                        console.log(e);
+                        if (e.lengthComputable) {
+                            var per = (e.loaded / e.total) * 100;
+                            progressBar(per);
+                            console.log(per + "%");
                         }
-                        else if (fileType == "image") {
-                            base_charge = 200;
+                    }
+                    xhr.onerror = function (e) {
+                        console.log(e);
+                        Swal.fire({
+                            title: '업로드 에러',
+                            text: '파일 업로드에 실패하였습니다.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    };
+                    xhr.onload = function () {
+                        Swal.fire({
+                            title: '업로드 완료',
+                            text: '파일 업로드에 성공했습니다.',
+                            showConfirmButton: true,
+                            showDenyButton: false,
+                            denyButtonText: "확 인",
+                            icon: "success"
+                        }).then(() => {
+                            $(".uploadBtn_area").addClass('hide')
+                            $(".file_info_area").addClass('active')
+                            $(".uploadFooter").addClass('active')
+                        });
+                        var response = JSON.parse(this.responseText);
+                        if (response.message == 'success') {
+                            let coefficient = {};
+                            let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
+                            let base_charge;
 
-                            var chargeArray = [];
-                            for (var i = 0; i < fileWidth.length; i++) {
+                            if (fileType == 'video') {
+                                var ffmpegInfo = response.result.streams;
                                 coefficient = {
                                     resolution: '',
+                                    frame_rate: '',
+                                    duration: '',
+                                    bitrate: '',
                                     avg_object: 1
                                 }
-
-                                var charge = {
-                                    resolution_charge: 0,
-                                    avg_object_charge: 0,
-                                    total_charge: 0
-                                }
-
+                                base_charge = 2000;
                                 const charging_variable_count = Object.keys(coefficient).length;
-                                coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-                                charge.resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                charge.resolution_charge = Math.round(charge.resolution_charge * 100) / 100
-                                charge.avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                if (restoration == 1) charge.avg_object_charge = charge.avg_object_charge * 1.5
 
-                                chargeArray.push(charge);
-                            }
+                                for (var i = 0; i < fileWidth.length; i++) {
+                                    var curFile = ffmpegInfo[i]
+                                    var info_content = document.querySelector(".info_content")
+                                    var charge_content = document.querySelector(".charge_content")
 
-                            var html = imgChargeTable(chargeArray, fileWidth, fileHeight);
-                            var charge_content = document.querySelector(".charge_content")
-                            charge_content.innerHTML = html;
-                        }
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
 
-                        $(document).on("change", ".object_number", function () {
-                            var object_num = $(this).val();
-                            var num = $(this).data("num")
-                            var total = 0;
-                            if (fileType == "video") {
-                                var total_avg_object_charge = object_num * avg_object_charge
-                                var total_charge = resolution_charge + frame_rate_charge + duration_charge + bitrate_charge + total_avg_object_charge;
-                                total_charge = Math.round(total_charge * 100) / 100
-                                $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                $(".charge_text." + num + "").text(price_three(total_charge) + "원")
+                                    var avg_frame_rate = curFile.avg_frame_rate
+                                    avg_frame_rate = avg_frame_rate.split('/');
+                                    avg_frame_rate = Number(avg_frame_rate[0]);
+                                    coefficient.frame_rate = avg_frame_rate / 30;
+
+                                    coefficient.duration = curFile.duration / 60;
+
+                                    bitrateArray.push(curFile.bit_rate)
+                                    coefficient.bitrate = curFile.bit_rate / (((640 * 640) * 30) / 4);
+
+                                    // 요금 = (각 항목별 상대계수 X 기본요금) / 총 항목 갯수
+                                    // 요금은 소숫점 둘째자리까지 반올림하여 계산
+                                    resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
+                                    resolution_charge = Math.round(resolution_charge * 100) / 100
+
+                                    frame_rate_charge = coefficient.frame_rate * base_charge / charging_variable_count;
+                                    frame_rate_charge = Math.round(frame_rate_charge * 100) / 100
+
+                                    duration_charge = coefficient.duration * base_charge / charging_variable_count;
+                                    duration_charge = Math.round(duration_charge * 100) / 100
+
+                                    bitrate_charge = coefficient.bitrate * base_charge / charging_variable_count;
+                                    bitrate_charge = Math.round(bitrate_charge * 100) / 100
+
+                                    avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
+                                    if (restoration == 1) avg_object_charge = avg_object_charge * 1.5
+
+                                    var chargeArray = [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge]
+
+                                    var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
+
+                                    info_content.innerHTML = info_content_html;
+                                    charge_content.innerHTML = charge_content_html;
+                                }
                             }
                             else if (fileType == "image") {
-                                var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
-                                for (var i = 0; i < chargeArray.length; i++) {
-                                    chargeArray[i].total_charge = 0;
-                                    chargeArray[i].total_charge += chargeArray[i].resolution_charge;
-                                    chargeArray[i].total_charge += chargeArray[i].avg_object_charge * object_num;
-                                    chargeArray[i].total_charge = Math.round(chargeArray[i].total_charge * 100) / 100
+                                base_charge = 200;
+
+                                var chargeArray = [];
+                                for (var i = 0; i < fileWidth.length; i++) {
+                                    coefficient = {
+                                        resolution: '',
+                                        avg_object: 1
+                                    }
+
+                                    var charge = {
+                                        resolution_charge: 0,
+                                        avg_object_charge: 0,
+                                        total_charge: 0
+                                    }
+
+                                    const charging_variable_count = Object.keys(coefficient).length;
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
+                                    charge.resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
+                                    charge.resolution_charge = Math.round(charge.resolution_charge * 100) / 100
+                                    charge.avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
+                                    if (restoration == 1) charge.avg_object_charge = charge.avg_object_charge * 1.5
+
+                                    chargeArray.push(charge);
                                 }
 
-                                $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                $(".charge_text." + num + "").text(price_three(chargeArray[num].total_charge) + "원")
-                                for (var i = 0; i < $(".charge_text").length; i++) {
-                                    const regex = /[^0-9.]/g;
-                                    const result = $(".charge_text." + i + "").text().replace(regex, "");
-                                    total += Number(result)
-                                }
-                                $(".total_text").text(price_three(total) + "원")
-                            }
-                        });
-
-                        $(document).on("click", ".uploadDelete", function () {
-                            var idx = $(this).attr('value')
-                            chargeArray.splice(idx, 1);
-                            
-                            if(fileType == 'video') {
-                                var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
-
-                                info_content.innerHTML = info_content_html;
-                                charge_content.innerHTML = charge_content_html;
-                            }
-                            else if(fileType == 'image') {
                                 var html = imgChargeTable(chargeArray, fileWidth, fileHeight);
                                 var charge_content = document.querySelector(".charge_content")
                                 charge_content.innerHTML = html;
                             }
-                        });
 
-                        $(document).on("click", ".encryptBtn", function () {
-                            new Promise((resolve, reject) => {
-                                var requestIndex = ''
-                                $.ajax({
-                                    method: "post",
-                                    url: "/encrypt-module/api/request/encrypt",
-                                    dataType: "json",
-                                    data: postData,
-                                    async: false,
-                                    success: function (data) {
-                                        requestIndex = data.enc_request_list_id;
-                                        comm.meterEncrypt(fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                                    },
-                                    error: function (xhr, status) {
-                                        // alert(xhr + " : " + status);
-                                        alert(JSON.stringify(xhr));
+                            $(document).on("change", ".object_number", function () {
+                                var object_num = $(this).val();
+                                var num = $(this).data("num")
+                                var total = 0;
+                                if (fileType == "video") {
+                                    var total_avg_object_charge = object_num * avg_object_charge
+                                    var total_charge = resolution_charge + frame_rate_charge + duration_charge + bitrate_charge + total_avg_object_charge;
+                                    total_charge = Math.round(total_charge * 100) / 100
+                                    $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
+                                    $(".charge_text." + num + "").text(price_three(total_charge) + "원")
+                                }
+                                else if (fileType == "image") {
+                                    var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
+                                    for (var i = 0; i < chargeArray.length; i++) {
+                                        chargeArray[i].total_charge = 0;
+                                        chargeArray[i].total_charge += chargeArray[i].resolution_charge;
+                                        chargeArray[i].total_charge += chargeArray[i].avg_object_charge * object_num;
+                                        chargeArray[i].total_charge = Math.round(chargeArray[i].total_charge * 100) / 100
                                     }
-                                });
-                                postData['bitrate'] = JSON.stringify(bitrateArray);
-                                postData['requestIndex'] = requestIndex;
-                                resolve();
-                            }).then(() => {
-                                $.ajax({
-                                    method: "post",
-                                    url: "/encrypt-module/api/sendMessage/encrypt",
-                                    dataType: "json",
-                                    data: postData,
-                                    success: function (data) {
 
-                                    },
-                                    error: function (xhr, status) {
-                                        // alert(xhr + " : " + status);
-                                        alert(JSON.stringify(xhr));
+                                    $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
+                                    $(".charge_text." + num + "").text(price_three(chargeArray[num].total_charge) + "원")
+                                    for (var i = 0; i < $(".charge_text").length; i++) {
+                                        const regex = /[^0-9.]/g;
+                                        const result = $(".charge_text." + i + "").text().replace(regex, "");
+                                        total += Number(result)
                                     }
-                                });
-                                new Promise((resolve, reject) => {
-                                    resolve()
-                                }).then(() => {
-                                    Swal.fire({
-                                        title: '비식별화 요청이 \n완료되었습니다.',
-                                        showCancelButton: false,
-                                        confirmButtonText: '확인',
-                                        allowOutsideClick: false,
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            location.href = '/loading?type=' + fileType + '&service=encrypt';
-                                        }
-                                    })
-                                })
-                            })
-                        });
-                    }
-                    else {
-                        alert('파일 업로드 실패')
-                    }
-                };
-                xhr.send(formData);
-            },
-            error: function (xhr, status) {
-                // alert(xhr + " : " + status);
-                alert(JSON.stringify(xhr));
-            }
-        });
+                                    $(".total_text").text(price_three(total) + "원")
+                                }
+                            });
+
+                            $(document).on("click", ".uploadDelete", function () {
+                                var idx = $(this).attr('value')
+                                chargeArray.splice(idx, 1);
+
+                                if (fileType == 'video') {
+                                    var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
+
+                                    info_content.innerHTML = info_content_html;
+                                    charge_content.innerHTML = charge_content_html;
+                                }
+                                else if (fileType == 'image') {
+                                    var html = imgChargeTable(chargeArray, fileWidth, fileHeight);
+                                    var charge_content = document.querySelector(".charge_content")
+                                    charge_content.innerHTML = html;
+                                }
+                            });
+                        }
+                        else {
+                            alert('파일 업로드 실패')
+                        }
+                    };
+                    xhr.send(formData);
+                },
+                error: function (xhr, status) {
+                    // alert(xhr + " : " + status);
+                    alert(JSON.stringify(xhr));
+                }
+            });
+            resolve([postData, bitrateArray]);
+        })
     },
 
-    encrypt: function () {
-        
+    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType) {
+        new Promise((resolve, reject) => {
+            var requestIndex = ''
+
+            var keyIndex = 0;
+            var keyName = 'null';
+
+            if (restoration == 1) {
+                if ($('input[type=radio][name=keySelect]')[0].checked) {
+                    keyIndex = $('.selectKey').data("idx")
+                    keyName = $('.selectText').text()
+                }
+                else {
+                    keyName = $('#genKeyName').val();
+                    for (var i = 0; i < $('.dropdown_content').length; i++) {
+                        console.log($('.dropdown_content')[i].innerText)
+                        if ($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
+                    }
+                }
+            }
+
+            postData['restoration'] = restoration;
+            postData['keyIndex'] = keyIndex;
+            postData['keyName'] = keyName;
+
+            $.ajax({
+                method: "post",
+                url: "/encrypt-module/api/request/encrypt",
+                dataType: "json",
+                data: postData,
+                async: false,
+                success: function (data) {
+                    requestIndex = data.enc_request_list_id;
+                    comm.meterEncrypt(postData.fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                },
+                error: function (xhr, status) {
+                    // alert(xhr + " : " + status);
+                    alert(JSON.stringify(xhr));
+                }
+            });
+            postData['bitrate'] = JSON.stringify(bitrateArray);
+            postData['requestIndex'] = requestIndex;
+            resolve();
+        }).then(() => {
+            $.ajax({
+                method: "post",
+                url: "/encrypt-module/api/sendMessage/encrypt",
+                dataType: "json",
+                data: postData,
+                success: function (data) {
+
+                },
+                error: function (xhr, status) {
+                    // alert(xhr + " : " + status);
+                    alert(JSON.stringify(xhr));
+                }
+            });
+            new Promise((resolve, reject) => {
+                resolve()
+            }).then(() => {
+                Swal.fire({
+                    title: '비식별화 요청이 \n완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/loading?type=' + fileType + '&service=encrypt';
+                    }
+                })
+            })
+        })
     },
 
     verifyKey: function (keyName, index, fileList, fileType) {
