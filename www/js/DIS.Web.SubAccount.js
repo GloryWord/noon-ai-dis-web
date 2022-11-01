@@ -45,19 +45,23 @@ subaccount = {
                     var date_login = new Date(result[i].last_login)
                     var date_register = new Date(result[i].register_date)
                     html += '<div class="tableContent">\
-                                <div class="number_content"><p>'+result[i].id+'</p></div>\
                                 <div class="id_content"><p>'+result[i].account_name+'</p></div>\
-                                <div class="name_content"><p>'+result[i].user_name+'</p></div>\
-                                <div class="last_content"><p>'+dateFormat(date_login)+'</p></div>\
-                                <div class="create_content"><p>'+dateFormat(date_register)+'</p></div>\
-                                <div class="pass_content">\
-                                    <div class="pass_modi" value='+result[i].id+'><p>재설정</p></div>\
+                                <div class="middle_content">\
+                                    <div class="number_content"><p>'+result[i].id+'</p></div>\
+                                    <div class="name_content"><p>'+result[i].user_name+'</p></div>\
+                                    <div class="last_content"><p>'+dateFormat(date_login)+'</p></div>\
+                                    <div class="create_content"><p>'+dateFormat(date_register)+'</p></div>\
                                 </div>\
-                                <div class="auth_content">\
-                                    <div class="auth_modi" data-account='+result[i].account_name+'><p>권한 설정</p></div>\
-                                </div>\
-                                <div class="del_content">\
-                                    <civ class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                <div class="bottom_content">\
+                                    <div class="pass_content">\
+                                        <div class="pass_modi" value='+result[i].id+'><p>재설정</p></div>\
+                                    </div>\
+                                    <div class="auth_content">\
+                                        <div class="auth_modi" data-account='+result[i].account_name+'><p>권한 설정</p></div>\
+                                    </div>\
+                                    <div class="del_content">\
+                                        <civ class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                    </div>\
                                 </div>\
                             </div>';
                 }
