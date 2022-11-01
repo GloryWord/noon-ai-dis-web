@@ -423,7 +423,7 @@ init = {
             else {
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
-                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
+                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
                 callback.then((data) => {
                     postData = data[0]
                 })
@@ -441,8 +441,8 @@ init = {
                 }
                 else {
                     var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
                 }
 
                 var select = ''
@@ -463,6 +463,7 @@ init = {
             if (allCheck == "true") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
+                var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
             }
             else {
