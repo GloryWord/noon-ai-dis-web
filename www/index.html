@@ -60,19 +60,19 @@
                     <div class="authBody">
                         <div class="bodyHeader">
                             <p>아이디</p>
-                            <input class="auth_id">
-                            <div class="auth_send" id="email_send">
+                            <input class="auth_id" disabled>
+                            <div class="auth_send">
                                 <h3>이메일 인증하기</h3>
                             </div>
                             <div class="authArea">
-                                <input class="login_auth">
-                                <div class="auth_confirm">
-                                    <h3>인증 확인</h3>
-                                </div>
+                                <input class="login_auth" placeholder="인증 번호를 입력해 주세요.">
                             </div>
                         </div>
                         <div class="bodyFooter">
                             <div class="btnArea">
+                                <div class="auth_confirm">
+                                    <p>인증 확인</p>
+                                </div>
                                 <div class="cancel">
                                     <p>취소</p>
                                 </div>
@@ -90,6 +90,11 @@
         if (e.keyCode == 13) {
             $("#loginButton").click();
         }
+    });
+
+    $(document).on("click", ".cancel", function () {
+        $('.modal').removeClass('active')
+        $(".login_auth").val();
     });
 </script>
 </html>

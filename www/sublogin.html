@@ -8,8 +8,8 @@
     <!-- <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" /> -->
     <link rel="stylesheet" href="./static/css/common/login.css" type="text/css" />
     <!-- <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" /> -->
+    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" /> -->
+    <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" /> 
 
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/DIS.Web.Common.js"></script>
@@ -45,11 +45,53 @@
         </div>
     </div>
 </body>
+
+<div id="authModal" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="auth_inner">
+                <div class="authContent">
+                    <div class="authHeader">
+                        <h1>2차 인증확인</h1>
+                    </div>
+                    <div class="authBody">
+                        <div class="bodyHeader">
+                            <p>아이디</p>
+                            <input class="auth_id" disabled>
+                            <div class="auth_send">
+                                <h3>이메일 인증하기</h3>
+                            </div>
+                            <div class="authArea">
+                                <input class="login_auth" placeholder="인증 번호를 입력해 주세요.">
+                            </div>
+                        </div>
+                        <div class="bodyFooter">
+                            <div class="btnArea">
+                                <div class="auth_confirm">
+                                    <p>인증 확인</p>
+                                </div>
+                                <div class="cancel">
+                                    <p>취소</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $("body").keypress(function (e) {
         if (e.keyCode == 13) {
             $("#loginButton").click();
         }
+    });
+
+    $(document).on("click", ".cancel", function () {
+        $('.modal').removeClass('active');
+        $(".login_auth").val();
     });
 </script>
 </html>

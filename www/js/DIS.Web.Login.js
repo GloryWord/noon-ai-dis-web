@@ -23,7 +23,9 @@ login = {
             data: postdata,
             success: function (data) {
                 console.log(JSON.stringify(data));
-                location.href = '/main';
+                $(".auth_id").val($("#name").val())
+                $("#authModal").addClass('active')
+                // location.href = '/main';
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
@@ -72,7 +74,9 @@ login = {
             data: postdata,
             success: function (data) {
                 console.log(data);
-                location.href = '/main';
+                $(".auth_id").val($("#name").val())
+                $("#authModal").addClass('active')
+                // location.href = '/main';
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
