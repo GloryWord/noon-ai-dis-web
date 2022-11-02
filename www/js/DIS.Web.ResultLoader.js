@@ -147,6 +147,7 @@ resultLoader = {
             playsinline : true,
             muted : true,
             preload : "metadata",
+            preload : "none",
         });
     },
 
