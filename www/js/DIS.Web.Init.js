@@ -163,9 +163,13 @@ init = {
             })
         });
 
+        var cKey = 1
+        var sKey = "select"
         // 키 발급 만약 에러뜬다면 genKeyName val == '' 확인, 에러확률 거의 없음
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
+            cKey = 1;
+            sKey = "select";
             comm.generateKey(genKeyName, null);
         });
 
@@ -174,9 +178,13 @@ init = {
         $('input[type=radio][name=restoration]').on('change', function () {
             if ($(this).val() == 'true') {
                 restoration = 1;
+                cKey = 0;
+                sKey = "";
             }
             else {
                 restoration = 0;
+                cKey = 1
+                sKey = "select";
             }
         });
 
@@ -184,8 +192,16 @@ init = {
             if ($(this).val() == 'skey') {
                 $("#genKeyName").attr("disabled", false);
                 keyselect = $(this).val();
+                cKey = 1;
             }
-            else keyselect = $(this).val();
+            else {
+                keyselect = $(this).val();
+                cKey = 0;
+            }
+        });
+
+        $(document).on("click", ".dropdown_content", function () {
+            sKey = "select"
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -268,17 +284,29 @@ init = {
                     allCheck = "true"
                 }
             }
-            if (allCheck == "true") {
+            if (allCheck == "true" && cKey==1 && sKey!="") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
             }
-            else {
+            else if(allCheck == "false") {
                 Swal.fire({
                     title: '비식별 객체 선택 오류',
                     html:
                         '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if(cKey==0 || sKey==""){
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
@@ -462,8 +490,12 @@ init = {
             fileModule.deleteFile(idx);
         });
 
+        var cKey = 1
+        var sKey = "select"
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
+            cKey = 1;
+            sKey = "select";
             comm.generateKey(genKeyName, null);
         });
 
@@ -472,9 +504,13 @@ init = {
         $('input[type=radio][name=restoration]').on('change', function () {
             if ($(this).val() == 'true') {
                 restoration = 1;
+                cKey = 0;
+                sKey = "";
             }
             else {
                 restoration = 0;
+                cKey = 1
+                sKey = "select";
             }
         });
 
@@ -482,8 +518,16 @@ init = {
             if ($(this).val() == 'skey') {
                 $("#genKeyName").attr("disabled", false);
                 keyselect = $(this).val();
+                cKey = 1;
             }
-            else keyselect = $(this).val();
+            else {
+                keyselect = $(this).val();
+                cKey = 0;
+            }
+        });
+
+        $(document).on("click", ".dropdown_content", function () {
+            sKey = "select"
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -593,16 +637,28 @@ init = {
                     allCheck = "true"
                 }
             }
-            if (allCheck == "true") {
+            if (allCheck == "true" && cKey==1 && sKey!="") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video');
             }
-            else {
+            else if(allCheck == "false") {
                 Swal.fire({
                     title: '비식별 객체 선택 오류',
                     html:
                         '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if(cKey==0 || sKey==""){
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
