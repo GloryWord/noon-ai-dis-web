@@ -136,6 +136,7 @@ fileModule = {
         var fileTypeInfo = ''
         var fileType = []
         var fileExt = []
+        var fileSize = []
         var fileWidth = []
         var fileHeight = []
         var videoDuration = []
@@ -148,6 +149,7 @@ fileModule = {
         filteredFileArray.forEach(file => { dataTransfer.items.add(file); });
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
         files = $('#file')[0].files;
+        console.log(files);
 
         for (var i = 0; i < files.length; i++) {
             fileTypeInfo = files[i].type.split('/');
@@ -176,6 +178,7 @@ fileModule = {
                 });
                 video.src = URL.createObjectURL(files[i]);
             }
+            fileSize.push(files[i].size)
         }
 
         var fileList = ''
@@ -334,7 +337,7 @@ fileModule = {
         }
         if (type == 'image') html += '</div>'
 
-        return [html, fileWidth, fileHeight, fileCount, videoDuration];
+        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration];
     },
 
     alldeleteFile: function () {
