@@ -216,7 +216,7 @@
 <div id="imgView" class="modal">
     <div id="wrap">
         <div class="layerPopupBox active">
-            <div class="img_inner">
+            <div id="album_inner" class="img_inner">
                 <div class="imgHeader">
                     <div class="btnArea" id="selectBtnArea">
                         <a class="imgConfirm">
@@ -235,5 +235,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('mouseup', function(e) {
+        if($('#imgView').hasClass('active')){
+            var container = document.getElementById('album_inner');
+            if (!container.contains(e.target)) {
+                $('#imgView').removeClass('active')
+            }
+        }
+    });
+</script>
 
 </html>
