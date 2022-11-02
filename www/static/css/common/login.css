@@ -297,11 +297,11 @@ a {
 }
 
 .swal2-html-container {
+    font-family: SpoqaHanSansNeo-Medium !important;
+    font-size: 18px !important;
+    color: #595959 !important;
+    margin: 12px auto 0 !important;
     max-width: 294px !important;
-    font-family: SpoqaHanSansNeo-Bold !important;
-    font-size: 24px !important;
-    color: #16284d !important;
-    margin: 0 auto !important;
 }
 
 .swal2-actions {
@@ -632,10 +632,10 @@ a {
     }
     
     .swal2-html-container {
-        font-family: SpoqaHanSansNeo-Bold !important;
-        font-size: 20px !important;
-        color: #16284d !important;
-        margin: 0 auto !important;
+        font-family: SpoqaHanSansNeo-Medium !important;
+        font-size: 14px !important;
+        color: #595959 !important;
+        margin: 8px auto 0 !important;
         max-width: 240px !important;
     }
     

@@ -181,7 +181,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList.message == 'error') {
+        if (requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -287,7 +287,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList[0] == null) {
+        if (requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -387,7 +387,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList.message == 'error') {
+        if (requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -472,7 +472,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList.message == 'error') {
+        if (requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
