@@ -89,7 +89,7 @@ userinfo = {
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호</p>\
-                        <input class="new_pass" type="password" maxlength="16" placeholder="영문자 + 숫자 혼합 8자 이상~16자이내">\
+                        <input class="new_pass" type="password" maxlength="16" placeholder="영문 대문자 + 소문자 + 숫자 + 특수기호 혼합 8자 이상~16자이내">\
                     </div>\
                     <div class="infoBody">\
                         <p>새 비밀번호 확인</p>\
@@ -141,7 +141,7 @@ userinfo = {
                 }
                 else if(data.message == 'check_error') {
                     Swal.fire({
-                        title: '비밀번호는 영문, 숫자를 혼합하여 입력해주세요.',
+                        title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",

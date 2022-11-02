@@ -1658,7 +1658,7 @@ init = {
                     }
                     else if (result == "check_error") {
                         Swal.fire({
-                            title: '비밀번호는 영문, 숫자를 혼합하여 입력해주세요.',
+                            title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -1833,7 +1833,29 @@ init = {
                 var repassword = $("#repassword").val();
                 var companyName = $("#company_name").val();
                 var ownerName = $("#owner_name").val();
-                if (password != repassword) Swal.fire({
+                var check_num = /[0-9]/;    // 숫자 
+                var check_big = /[A-Z]/;    // 대문자
+                var check_small = /[a-z]/;    // 소문자
+                var check_symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수기호
+                if(password.length<8){
+                    Swal.fire({
+                        title: '비밀번호는 8자 이상 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if(check_num.test(password)!=true || check_big.test(password)!=true || check_small.test(password)!=true || check_symbol.test(password)!=true){
+                    Swal.fire({
+                        title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if (password != repassword) Swal.fire({
                     title: '비밀번호가 일치하지 않습니다.',
                     showConfirmButton: false,
                     showDenyButton: true,
