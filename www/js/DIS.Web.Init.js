@@ -67,10 +67,16 @@ init = {
             var encProgress = requestTable.getEncProgress();
             var progress = encProgress['progress']
             $('#progress').html(progress);
-            if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-            else {
-                var mainLog = requestTable.getRecentRequest('encrypt');
-                $(".mainLog").html(mainLog);
+            var status = encProgress['status']
+            if(status.indexOf('FAIL')==1){
+                return 0
+            }
+            else if(status.indexOf("SUCCESS")==1) {
+                if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                else {
+                    var mainLog = requestTable.getRecentRequest('encrypt');
+                    $(".mainLog").html(mainLog);
+                }
             }
         }
 
@@ -407,53 +413,68 @@ init = {
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             var progress = progressObject['progress'];
+            var status = progressObject['status']
             $('#progress').html(progress);
-            if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
-            else {
-                var msg = (service == 'encrypt') ? '비식별화' : '복호화';
+            if(status.indexOf('FAIL')==1){
                 Swal.fire({
-                    title: msg + '가 완료되었습니다!',
-                    showCancelButton: false,
-                    confirmButtonText: '확인',
-                    icon: 'success',
+                    title: '예기치 못한 오류로 작업이 중단됐습니다.',
+                    text: '지속적으로 오류가 발생하면 문의해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        if (service == 'encrypt') location.href = '/encrypt/log';
-                        if (service == 'decrypt') {
-                            let timerInterval;
-                            var typeStr = (type == 'image') ? '이미지' : '영상';
-                            let decDirectory, fileList, signedUrl, fileUrl, fileSize;
-                            [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
-
-                            if (fileList.length == 1) {
-                                //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
-                                //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
-                                signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
-                                // downloadLink.href = signedUrl[0]
-                                fileUrl = signedUrl[0][0];
-                                fileSize = signedUrl[0][1];
-                                downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
-                            }
-                            else if (fileList.length > 1) {
-                                resultLoader.fileToZip({
-                                    id: eventIndex,
-                                    bucketName: decDirectory[0],    //참조할 버킷 이름
-                                    subDirectory: decDirectory[1],  //참조할 object의 세부 경로
-                                    fileName: fileList              //참조할 object filename 목록
-                                });
-
-                                socket.on('compress', function (data) {
-                                    if (data.log == '압축 완료') {
-                                        signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
-                                        fileUrl = signedUrl[0][0];
-                                        fileSize = signedUrl[0][1];
-                                        downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
-                                    }
-                                });
+                    location.href = "/main"
+                })
+            }
+            else if(status.indexOf("SUCCESS")==1) {
+                if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
+                else {
+                    var msg = (service == 'encrypt') ? '비식별화' : '복호화';
+                    Swal.fire({
+                        title: msg + '가 완료되었습니다!',
+                        showCancelButton: false,
+                        confirmButtonText: '확인',
+                        icon: 'success',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if (service == 'encrypt') location.href = '/encrypt/log';
+                            if (service == 'decrypt') {
+                                let timerInterval;
+                                var typeStr = (type == 'image') ? '이미지' : '영상';
+                                let decDirectory, fileList, signedUrl, fileUrl, fileSize;
+                                [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
+    
+                                if (fileList.length == 1) {
+                                    //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
+                                    //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
+                                    signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], fileList);
+                                    // downloadLink.href = signedUrl[0]
+                                    fileUrl = signedUrl[0][0];
+                                    fileSize = signedUrl[0][1];
+                                    downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
+                                }
+                                else if (fileList.length > 1) {
+                                    resultLoader.fileToZip({
+                                        id: eventIndex,
+                                        bucketName: decDirectory[0],    //참조할 버킷 이름
+                                        subDirectory: decDirectory[1],  //참조할 object의 세부 경로
+                                        fileName: fileList              //참조할 object filename 목록
+                                    });
+    
+                                    socket.on('compress', function (data) {
+                                        if (data.log == '압축 완료') {
+                                            signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
+                                            fileUrl = signedUrl[0][0];
+                                            fileSize = signedUrl[0][1];
+                                            downloadAlert(typeStr, fileUrl, decDirectory, fileList, fileSize);
+                                        }
+                                    });
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
         setTimeout(reloadProgress, 300);
@@ -916,12 +937,18 @@ init = {
             if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
             else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
             var progress = reqProgress['progress']
-            $('#progress').html(progress);
-            if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-            else {
-                if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                $(".mainLog").html(mainLog);
+            $('#progress').html(progress);            
+            var status = reqProgress['status']
+            if(status.indexOf('FAIL')==1){
+                return 0
+            }
+            else if(status.indexOf("SUCCESS")==1) {
+                if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                else {
+                    if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                    else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+                    $(".mainLog").html(mainLog);
+                }
             }
         }
 
