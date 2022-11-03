@@ -1,177 +1,6 @@
 'use strict';
 
 DIS.Web.Init = DIS.Web.Init || {};
-var modiidx = null;
-
-function getToday() {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = ('0' + (today.getMonth() + 1)).slice(-2);
-    var day = ('0' + today.getDate()).slice(-2);
-
-    var dateString = year + '-' + month + '-' + day;
-
-    return dateString;
-}
-
-function getTime() {
-    var today = new Date();
-    var hours = ('0' + today.getHours()).slice(-2);
-    var minutes = ('0' + today.getMinutes()).slice(-2);
-    var seconds = ('0' + today.getSeconds()).slice(-2);
-
-    var timeString = hours + ':' + minutes + ':' + seconds;
-
-    return timeString;
-}
-
-function dateFormat(date) {
-    let dateFormat2 = date.getFullYear() + '.' + ("0" + (date.getMonth() + 1)).slice(-2) + '.' + ("0" + date.getDate()).slice(-2);
-    return dateFormat2;
-}
-
-function underTen(data) {
-    let underTen;
-    if (Number(data) <= 9) {
-        underTen = "0" + data
-    }
-    else {
-        underTen = data
-    }
-    return underTen;
-}
-
-function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-function getFiles() {
-    var files = document.getElementById("file").files;
-    var myArray = {};
-    var file = {};
-
-    // manually create a new file obj for each File in the FileList
-    for (var i = 0; i < files.length; i++) {
-        var parsedArray = files[i].name.split('.');
-        var ext = parsedArray[parsedArray.length - 1];
-        parsedArray = parsedArray.splice(0, parsedArray.length - 1);
-        var fileName = parsedArray.join('.');
-        console.log(fileName);
-        console.log(ext);
-        file = {
-            'lastMod': files[i].lastModified,
-            'lastModDate': files[i].lastModifiedDate,
-            'name': fileName + '-' + getToday() + '.' + ext,
-            'size': files[i].size,
-            'type': files[i].type,
-        }
-        //add the file obj to your array
-        myArray[i] = file
-    }
-    //stringify array
-    return JSON.stringify(myArray);
-}
-
-function today() {
-    var date = new Date();
-    var year = date.getFullYear(); // 년도
-    var month = date.getMonth() + 1;  // 월
-    var date = date.getDate();  // 날짜
-
-    var today = "" + year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + date.toString()).slice(-2)) + "";
-
-    return today
-}
-
-function yesterday() {
-    var now = new Date();
-    var date = new Date(now.setDate(now.getDate() - 1));
-
-    var y_year = date.getFullYear(); // 년도
-    var y_month = date.getMonth() + 1;  // 월
-    var y_date = date.getDate();  // 날짜
-
-    var yesterday = "" + y_year + "-" + (("00" + y_month.toString()).slice(-2)) + "-" + (("00" + y_date.toString()).slice(-2)) + "";
-
-    return yesterday
-}
-
-function week() {
-    var now = new Date();
-    var date = new Date(now.setDate(now.getDate() - 7));
-
-    var w_year = date.getFullYear(); // 년도
-    var w_month = date.getMonth() + 1;  // 월
-    var w_day = date.getDate();  // 날짜
-
-    var week = "" + w_year + "-" + (("00" + w_month.toString()).slice(-2)) + "-" + (("00" + w_day.toString()).slice(-2)) + "";
-
-    return week
-}
-
-function month() {
-    var now = new Date();
-    var date = new Date(now.setMonth(now.getMonth() - 1));
-
-    var m_year = date.getFullYear(); // 년도
-    var m_month = date.getMonth() + 1;  // 월
-    var m_day = date.getDate();  // 날짜
-
-    var month = "" + m_year + "-" + (("00" + m_month.toString()).slice(-2)) + "-" + (("00" + m_day.toString()).slice(-2)) + "";
-
-    return month
-}
-
-function validEmail(obj) {
-    if (validEmailCheck(obj) == false) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-function validEmailCheck(obj) {
-    var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    return (obj.value.match(pattern) != null)
-}
-
-function validPhone(obj) {
-    if (obj.length == 11) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-function progressBar(per) {
-    if (per > 55) {
-        $(".progressPer").css("color", "#fff");
-    }
-    per = per.toFixed(1);
-    $(".progressPer").text(per + " %");
-    $(".progressNow").css("width", "calc(" + per + "% - 20px)");
-}
-
-function time_change(duration) {
-    var hours   = Math.floor(duration / 3600);
-    var minutes = Math.floor((duration - (hours * 3600)) / 60);
-    var seconds = Math.floor(duration - (hours * 3600) - (minutes * 60));
-
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+ seconds;
-}
 
 var init = DIS.Web.Init;
 init = {
@@ -187,13 +16,17 @@ init = {
                 if (password == '') var msg = '비밀번호';
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
                 Swal.fire({
-                    title:msg + '를 입력해 주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    title: msg + '를 입력해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
+        });
+
+        $(document).on("click", ".auth_confirm", function () {
+            location.href="/main"
         });
     },
 
@@ -211,12 +44,16 @@ init = {
                 Swal.fire({
                     title: msg + '를 입력해 주세요.',
                     showCancelButton: false,
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
+        });
+
+        $(document).on("click", ".auth_confirm", function () {
+            location.href="/main"
         });
     },
 
@@ -283,13 +120,14 @@ init = {
         var fileIndex = [];
         var fileWidth = []
         var fileHeight = []
+        var fileSize = []
         var videoDuration = []
 
         $("#selectKeyName").html(comm.getKeyList());
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
@@ -300,7 +138,7 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('image', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
@@ -325,9 +163,13 @@ init = {
             })
         });
 
+        var cKey = 1
+        var sKey = "select"
         // 키 발급 만약 에러뜬다면 genKeyName val == '' 확인, 에러확률 거의 없음
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
+            cKey = 1;
+            sKey = "select";
             comm.generateKey(genKeyName, null);
         });
 
@@ -336,9 +178,13 @@ init = {
         $('input[type=radio][name=restoration]').on('change', function () {
             if ($(this).val() == 'true') {
                 restoration = 1;
+                cKey = 0;
+                sKey = "";
             }
             else {
                 restoration = 0;
+                cKey = 1
+                sKey = "select";
             }
         });
 
@@ -346,8 +192,16 @@ init = {
             if ($(this).val() == 'skey') {
                 $("#genKeyName").attr("disabled", false);
                 keyselect = $(this).val();
+                cKey = 1;
             }
-            else keyselect = $(this).val();
+            else {
+                keyselect = $(this).val();
+                cKey = 0;
+            }
+        });
+
+        $(document).on("click", ".dropdown_content", function () {
+            sKey = "select"
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -376,6 +230,7 @@ init = {
             location.href = "/main"
         });
 
+        var postData;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -383,66 +238,81 @@ init = {
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    showCancelButton: false,
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
             else {
-                var encryptObject = []
-                var allCheck = ""
-                for (var i = 0; i < fileCount; i++) {
-                    if (screen.width <= 600) {
-                        var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[0].children[0].checked
-                        var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[1].children[0].checked
-                        var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[1].children[2].children[0].checked
-                    }
-                    else {
-                        var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[0].checked
-                        var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[1].checked
-                        var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].children[2].checked
-                    }
-                    // var body = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[0].checked
-                    // var head = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[2].checked
-                    // var lp = $('#file-' + fileIndex[i] + ' .selectObject')[0].children[4].checked
+                $(".nextBtn").addClass('hide')
+                $(".progressContainer").removeClass('hide')
+                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
+                callback.then((data) => {
+                    postData = data[0]
+                })
+            }
+        });
 
-                    var select = ''
-                    select = (body) ? select += '1' : select += '0'
-                    select = (head) ? select += '1' : select += '0'
-                    select = (lp) ? select += '1' : select += '0'
-                    encryptObject.push(select)
-                }
-                for (var j = 0; j < encryptObject.length; j++) {
-                    if (encryptObject[j] == "000") {
-                        allCheck = "false"
-                        break;
-                    }
-                    else {
-                        allCheck = "true"
-                    }
-                }
-                if (allCheck == "true") {
-                    $(".nextBtn").addClass('hide')
-                    $(".progressContainer").removeClass('hide')
-                    //파일 업로드 후 최종 요청하는 내용(비식별화)
-                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'image');
-                    // comm.metering(fileWidth, fileHeight);
+        $(document).on("click", ".encryptBtn", function () {
+            var encryptObject = []
+            var allCheck = ""
+            for (var i = 0; i < fileCount; i++) {
+                if (screen.width <= 600) {
+                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
                 }
                 else {
-                    Swal.fire({
-                        title: '비식별 객체 선택 오류',
-                        html:
-                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                            '확인 후 재시도해 주세요.',
-                        showCancelButton: false,
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    });
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
                 }
+
+                var select = ''
+                select = (body) ? select += '1' : select += '0'
+                select = (head) ? select += '1' : select += '0'
+                select = (lp) ? select += '1' : select += '0'
+                encryptObject.push(select)
+            }
+            for (var j = 0; j < encryptObject.length; j++) {
+                if (encryptObject[j] == "000") {
+                    allCheck = "false"
+                    break;
+                }
+                else {
+                    allCheck = "true"
+                }
+            }
+            if (allCheck == "true" && cKey==1 && sKey!="") {
+                var encryptObj = Object.assign({}, encryptObject);
+                postData['encryptObject'] = JSON.stringify(encryptObj);
+                var bitrateArray = []
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
+            }
+            else if(allCheck == "false") {
+                Swal.fire({
+                    title: '비식별 객체 선택 오류',
+                    html:
+                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if(cKey==0 || sKey==""){
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         });
     },
@@ -594,12 +464,13 @@ init = {
         var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
+        var fileSize = []
         var videoDuration = []
 
         $("#selectKeyName").html(comm.getKeyList());
 
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'file');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('video', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
                 fileCount = fileWidth.length;
@@ -608,7 +479,7 @@ init = {
         });
 
         $("#folder").on('change', function () {
-            [html, fileWidth, fileHeight, fileCount, videoDuration] = fileModule.getFileList('video', 'folder');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('video', 'folder');
             setTimeout(function () {
                 $('.uploadContent').html(html);
             }, 200);
@@ -619,8 +490,12 @@ init = {
             fileModule.deleteFile(idx);
         });
 
+        var cKey = 1
+        var sKey = "select"
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
+            cKey = 1;
+            sKey = "select";
             comm.generateKey(genKeyName, null);
         });
 
@@ -629,9 +504,13 @@ init = {
         $('input[type=radio][name=restoration]').on('change', function () {
             if ($(this).val() == 'true') {
                 restoration = 1;
+                cKey = 0;
+                sKey = "";
             }
             else {
                 restoration = 0;
+                cKey = 1
+                sKey = "select";
             }
         });
 
@@ -639,8 +518,16 @@ init = {
             if ($(this).val() == 'skey') {
                 $("#genKeyName").attr("disabled", false);
                 keyselect = $(this).val();
+                cKey = 1;
             }
-            else keyselect = $(this).val();
+            else {
+                keyselect = $(this).val();
+                cKey = 0;
+            }
+        });
+
+        $(document).on("click", ".dropdown_content", function () {
+            sKey = "select"
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -669,6 +556,7 @@ init = {
             location.href = "/main"
         });
 
+        var postData, bitrateArray;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -676,71 +564,107 @@ init = {
                     html:
                         '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
-            // else if (keyselect == '' && restoration == 1) {
-            //     Swal.fire({
-            //         title: '키 선택 오류',
-            //         html:
-            //             '키를 선택하지 않으셨습니다.<br/>' +
-            //             '확인 후 재시도해 주세요.',
-            //         showConfirmButton:false,
-            //         showDenyButton:true,
-            //         denyButtonText:"확 인",
-            //         icon:"error"
-            //     });
-            // }
+            else if (fileWidth[0]+fileHeight[0] > 3000) {
+                Swal.fire({
+                    title: '파일 해상도 초과',
+                    html:
+                        '1920 X 1080 을 초과하는 해상도입니다.<br/>' +
+                        '서비스 안정성을 위해 1920 X 1080 크기 까지의<br/>' +
+                        '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (fileSize[0] > 157286400) {
+                Swal.fire({
+                    title: '파일 용량제한 초과',
+                    html:
+                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
+                        '서비스 안정성을 위해 150MB 이하의<br/>' +
+                        '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
             else {
-                var encryptObject = []
-                var allCheck = ""
-                for (var i = 0; i < fileCount; i++) {
-                    if (screen.width <= 600) {
-                        var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
-                        var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
-                        var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
-                    }
-                    else {
-                        var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
-                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
-                    }
+                $(".nextBtn").addClass('hide')
+                $(".progressContainer").removeClass('hide')
+                var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
+                callback.then((data) => {
+                    postData = data[0]
+                    bitrateArray = data[1]
+                })
+            }
+        });
 
-                    var select = ''
-                    select = (body) ? select += '1' : select += '0'
-                    select = (head) ? select += '1' : select += '0'
-                    select = (lp) ? select += '1' : select += '0'
-                    encryptObject.push(select)
-                }
-                for (var j = 0; j < encryptObject.length; j++) {
-                    if (encryptObject[j] == "000") {
-                        allCheck = "false"
-                        break;
-                    }
-                    else {
-                        allCheck = "true"
-                    }
-                }
-                if (allCheck == "true") {
-                    $(".nextBtn").addClass('hide')
-                    $(".progressContainer").removeClass('hide')
-                    fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, encryptObject, 'video');
+        $(document).on("click", ".encryptBtn", function () {
+            var encryptObject = []
+            var allCheck = ""
+            for (var i = 0; i < fileCount; i++) {
+                if (screen.width <= 600) {
+                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
                 }
                 else {
-                    Swal.fire({
-                        title: '비식별 객체 선택 오류',
-                        html:
-                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                            '확인 후 재시도해 주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    });
+                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
                 }
+
+                var select = ''
+                select = (body) ? select += '1' : select += '0'
+                select = (head) ? select += '1' : select += '0'
+                select = (lp) ? select += '1' : select += '0'
+                encryptObject.push(select)
+            }
+            for (var j = 0; j < encryptObject.length; j++) {
+                if (encryptObject[j] == "000") {
+                    allCheck = "false"
+                    break;
+                }
+                else {
+                    allCheck = "true"
+                }
+            }
+            if (allCheck == "true" && cKey==1 && sKey!="") {
+                var encryptObj = Object.assign({}, encryptObject);
+                postData['encryptObject'] = JSON.stringify(encryptObj);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video');
+            }
+            else if(allCheck == "false") {
+                Swal.fire({
+                    title: '비식별 객체 선택 오류',
+                    html:
+                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if(cKey==0 || sKey==""){
+                Swal.fire({
+                    title: '키 선택 오류',
+                    html:
+                        '키를 선택하지 않으셨습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         });
     },
@@ -811,10 +735,10 @@ init = {
                     if (selectedFile.length == 0) Swal.fire({
                         title: '선택된 파일이 없습니다',
                         text: '복호화할 파일을 선택해 주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                     else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
                 }
@@ -1061,97 +985,162 @@ init = {
         });
 
         $(document).on("click", ".search", function () {
-            var filter_video = $('.filter_video').is(':checked')
-            var filter_image = $('.filter_image').is(':checked')
-            var filter_album = $('.filter_album').is(':checked')
-            var filter_reco = $('.filter_rest').is(':checked')
-            var filter_norest = $('.filter_norest').is(':checked')
-            if (screen.width <= 600) {
-                var startDate = $(".m_date .startVal").val();
-                var endDate = $(".m_date .endVal").val();
-            }
-            else {
-                var startDate = $(".pc_date .startVal").val();
-                var endDate = $(".pc_date .endVal").val();
-            }
-
-            if (filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true) {
-                var filter_file = ""
-            }
-            else {
-                var filter_file = "no"
-            }
-
-            if (filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true) {
-                var filter_rest = ""
-            }
-            else {
-                var filter_rest = "no"
-            }
-
-            if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
-                Swal.fire({
-                    title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
-            }
-            else if (startDate > today() || endDate > today()) {
-                Swal.fire({
-                    title: '오늘날짜보다 크게 설정 할 수 없어요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
-            }
-            else if (startDate > endDate) {
-                Swal.fire({
-                    title: '시작날짜를 종료날짜보다 크게 할 수 없어요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
-            }
-            else {
-                console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
-                var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
-                $(".mainLog").html(mainLog);
+            if (requestType == 'encrypt'){
+                var filter_video = $('.filter_video').is(':checked')
+                var filter_image = $('.filter_image').is(':checked')
+                var filter_album = $('.filter_album').is(':checked')
+                var filter_reco = $('.filter_rest').is(':checked')
+                var filter_norest = $('.filter_norest').is(':checked')
                 if (screen.width <= 600) {
-                    m_load('.mainLog', '5');
+                    var startDate = $(".m_date .startVal").val();
+                    var endDate = $(".m_date .endVal").val();
                 }
                 else {
-                    load('.mainLog', '5');
+                    var startDate = $(".pc_date .startVal").val();
+                    var endDate = $(".pc_date .endVal").val();
+                }
+    
+                if (filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true) {
+                    var filter_file = ""
+                }
+                else {
+                    var filter_file = "no"
+                }
+    
+                if (filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true) {
+                    var filter_rest = ""
+                }
+                else {
+                    var filter_rest = "no"
+                }
+    
+                if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
+                    Swal.fire({
+                        title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (startDate > today() || endDate > today()) {
+                    Swal.fire({
+                        title: '오늘날짜보다 크게 설정 할 수 없어요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (startDate > endDate) {
+                    Swal.fire({
+                        title: '시작날짜를 종료날짜보다 크게 할 수 없어요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else {
+                    console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
+                    var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
+                    $(".mainLog").html(mainLog);
+                    if (screen.width <= 600) {
+                        m_load('.mainLog', '5');
+                    }
+                    else {
+                        load('.mainLog', '5');
+                    }
+                }
+            }
+            else if (requestType == 'decrypt') {
+                var filter_video = $('.filter_video').is(':checked')
+                var filter_image = $('.filter_image').is(':checked')
+                var filter_album = $('.filter_album').is(':checked')
+                if (screen.width <= 600) {
+                    var startDate = $(".m_date .startVal").val();
+                    var endDate = $(".m_date .endVal").val();
+                }
+                else {
+                    var startDate = $(".pc_date .startVal").val();
+                    var endDate = $(".pc_date .endVal").val();
+                }
+
+                if (filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true) {
+                    var filter_file = ""
+                }
+                else {
+                    var filter_file = "no"
+                }
+
+                if (filter_video == "" && filter_image == "" && filter_album == "" && startDate == "" && endDate == "") {
+                    Swal.fire({
+                        title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (startDate > today() || endDate > today()) {
+                    Swal.fire({
+                        title: '오늘날짜보다 크게 설정 할 수 없어요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (startDate > endDate) {
+                    Swal.fire({
+                        title: '시작날짜를 종료날짜보다 크게 할 수 없어요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else {
+                    console.log(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
+                    var mainLog = requestTable.postDataDecSearch(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
+                    $(".mainLog").html(mainLog);
+                    if (screen.width <= 600) {
+                        m_load('.mainLog', '5');
+                    }
+                    else {
+                        load('.mainLog', '5');
+                    }
                 }
             }
         });
 
         $(document).on("click", ".detailInfo", function () {
-            var type = $(this).data('type')
-            if (type == '동영상 파일') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
-            }
-            else if (type == '이미지 파일') {
-                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
-            }
-            else if (type == '이미지 그룹') {
-                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            if (requestType == 'encrypt') {
+                var type = $(this).data('type')
+                if (type == '동영상 파일') {
+                    location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+                }
+                else if (type == '이미지 파일') {
+                    location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                }
+                else if (type == '이미지 그룹') {
+                    location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                }
             }
         });
 
         $(document).on("click", ".m_logContent", function () {
-            var type = $(this).data('type')
-            if (type == '동영상 파일') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
-            }
-            else if (type == '이미지 파일') {
-                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
-            }
-            else if (type == '이미지 그룹') {
-                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+            if (requestType == 'encrypt') {
+                var type = $(this).data('type')
+                if (type == '동영상 파일') {
+                    location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+                }
+                else if (type == '이미지 파일') {
+                    location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                }
+                else if (type == '이미지 그룹') {
+                    location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                }
             }
         });
 
@@ -1219,7 +1208,7 @@ init = {
         $(document).on("click", ".search", function () {
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
-            if(type=="all_count"){
+            if (type == "all_count") {
                 var getMonthUsage = requestTable.getMonthUsage(date)
                 $(".logArea").html(getMonthUsage);
             }
@@ -1298,128 +1287,153 @@ init = {
 
         $(document).on("click", ".allSearch", function () {
             if ($('.allSearch').is(':checked')) {
-                // $(".filter_video").prop("checked", true);
-                // $(".filter_image").prop("checked", true);
-                // $(".filter_album").prop("checked", true);
-                // $(".filter_rest").prop("checked", true);
-                // $(".filter_norest").prop("checked", true);
+                $(".filter_video").prop("checked", true);
+                $(".filter_image").prop("checked", true);
+                $(".filter_album").prop("checked", true);
+                $(".filter_rest").prop("checked", true);
+                $(".filter_norest").prop("checked", true);
                 $(".date_filter").prop("checked", false);
-                $("#startVal").val("")
-                $("#endVal").val("")
+                $(".startVal").val("")
+                $(".endVal").val("")
             }
             else {
-                // $(".filter_video").prop("checked", false);
-                // $(".filter_image").prop("checked", false);
-                // $(".filter_album").prop("checked", false);
-                // $(".filter_rest").prop("checked", false);
-                // $(".filter_norest").prop("checked", false);
+                $(".filter_video").prop("checked", false);
+                $(".filter_image").prop("checked", false);
+                $(".filter_album").prop("checked", false);
+                $(".filter_rest").prop("checked", false);
+                $(".filter_norest").prop("checked", false);
                 $(".date_filter").prop("checked", false);
-                $("#startVal").val("")
-                $("#endVal").val("")
+                $(".startVal").val("")
+                $(".endVal").val("")
             }
-            var start = document.getElementById('startVal')
-            var end = document.getElementById('endVal')
-            start.disabled = true;
-            end.disabled = true;
+            $('.startVal').addClass('disable')
+            $('.endVal').addClass('disable')
         });
 
         $(document).on("click", ".date_filter", function () {
             var date = $(this).val()
-            var start = document.getElementById('startVal')
-            var end = document.getElementById('endVal')
             if (date == "select") {
-                start.disabled = false;
-                end.disabled = false;
+                $('.startVal').removeClass('disable')
+                $('.endVal').removeClass('disable')
             }
             else if (date == "yesterday") {
-                $("#startVal").val(yesterday())
-                $("#endVal").val(yesterday())
-                start.disabled = true;
-                end.disabled = true;
+                $(".startVal").val(yesterday())
+                $(".endVal").val(yesterday())
+                $('.startVal').addClass('disable')
+                $('.endVal').addClass('disable')
             }
             else if (date == "today") {
-                $("#startVal").val(today())
-                $("#endVal").val(today())
-                start.disabled = true;
-                end.disabled = true;
+                $(".startVal").val(today())
+                $(".endVal").val(today())
+                $('.startVal').addClass('disable')
+                $('.endVal').addClass('disable')
             }
             else if (date == "week") {
-                $("#startVal").val(week())
-                $("#endVal").val(today())
-                start.disabled = true;
-                end.disabled = true;
+                $(".startVal").val(week())
+                $(".endVal").val(today())
+                $('.startVal').addClass('disable')
+                $('.endVal').addClass('disable')
             }
             else if (date == "month") {
-                $("#startVal").val(month())
-                $("#endVal").val(today())
-                start.disabled = true;
-                end.disabled = true;
+                $(".startVal").val(month())
+                $(".endVal").val(today())
+                $('.startVal').addClass('disable')
+                $('.endVal').addClass('disable')
             }
         });
 
-        // $(document).on("click", ".search", function () {
-        //     // var filter_video = $('.filter_video').is(':checked')
-        //     // var filter_image = $('.filter_image').is(':checked')
-        //     // var filter_album = $('.filter_album').is(':checked')
-        //     // var filter_reco = $('.filter_rest').is(':checked')
-        //     // var filter_norest = $('.filter_norest').is(':checked')
-        //     var startDate = $("#startVal").val();
-        //     var endDate = $("#endVal").val();
-
-        //     // if(filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true){
-        //     //     var filter_file = ""
-        //     // }
-        //     // else {
-        //     //     var filter_file = "no"
-        //     // }
-
-        //     // if(filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true){
-        //     //     var filter_rest = ""
-        //     // }
-        //     // else {
-        //     //     var filter_rest = "no"
-        //     // }
-
-        //     // if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
-        //     //     Swal.fire('검색을 진행하시려면 조건을 정한 뒤 진행해주세요.', '', 'error')
-        //     // }
-        //     if(startDate>today() || endDate>today()){
-        //         Swal.fire('오늘날짜보다 크게 설정 할 수 없어요.', '', 'error')
-        //     }
-        //     else if(startDate>endDate){
-        //         Swal.fire('시작날짜를 종료날짜보다 크게 할 수 없어요.', '', 'error')
-        //     }
-        //     else {
-        //         // console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
-        //         var mainLog = requestTable.postDataSearch(startDate, endDate)
-        //         $(".mainLog").html(mainLog);
-        //         load('.mainLog', '5');
-        //     }
-        // });
-
-        $(document).on("click", ".detailInfo", function () {
-            var type = $(this).data('type')
-            if (type == '동영상 파일') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+        $(document).on("click", ".search", function () {
+            var filter_video = $('.filter_video').is(':checked')
+            var filter_image = $('.filter_image').is(':checked')
+            var filter_album = $('.filter_album').is(':checked')
+            if (screen.width <= 600) {
+                var startDate = $(".m_date .startVal").val();
+                var endDate = $(".m_date .endVal").val();
             }
-            else if (type == '이미지 파일') {
-                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+            else {
+                var startDate = $(".pc_date .startVal").val();
+                var endDate = $(".pc_date .endVal").val();
             }
-            else if (type == '이미지 그룹') {
-                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+
+            if (filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true) {
+                var filter_file = ""
+            }
+            else {
+                var filter_file = "no"
+            }
+
+            if (filter_video == "" && filter_image == "" && filter_album == "" && startDate == "" && endDate == "") {
+                Swal.fire({
+                    title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (startDate > today() || endDate > today()) {
+                Swal.fire({
+                    title: '오늘날짜보다 크게 설정 할 수 없어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (startDate > endDate) {
+                Swal.fire({
+                    title: '시작날짜를 종료날짜보다 크게 할 수 없어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else {
+                console.log(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
+                var mainLog = requestTable.postDataDecSearch(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
+                $(".mainLog").html(mainLog);
+                if (screen.width <= 600) {
+                    m_load('.mainLog', '5');
+                }
+                else {
+                    load('.mainLog', '5');
+                }
             }
         });
 
         var requestList = requestTable.getAllDecRequestList()
         $(".mainLog").html(requestList);
 
-        load('.mainLog', '5');
-        $(document).on("click", "#enc_more .morebutton", function () {
-            load('.mainLog', '5', '#enc_more');
-        })
+        if (screen.width <= 600) {
+            m_load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                m_load('.mainLog', '5', '#enc_more');
+            })
+        }
+        else {
+            load('.mainLog', '5');
+            $(document).on("click", "#enc_more .morebutton", function () {
+                load('.mainLog', '5', '#enc_more');
+            })
+        }
 
         function load(id, cnt, btn) {
             var enc_list = id + " .logContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('#enc_more').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('#enc_more').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
+
+        function m_load(id, cnt, btn) {
+            var enc_list = id + " .m_logContent:not(.active)";
             var enc_length = $(enc_list).length;
             var enc_total_cnt;
             if (cnt < enc_length) {
@@ -1518,10 +1532,10 @@ init = {
             if ($("#genKeyName").val() == "") {
                 Swal.fire({
                     title: 'Key 이름을 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
             else {
@@ -1614,10 +1628,10 @@ init = {
 
             if (accountName == '' || password == '' || repassword == '' || userName == '' || email == '') Swal.fire({
                 title: '빈 칸에 정보를 입력해주세요.',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
             else {
                 if (password == repassword) {
@@ -1636,38 +1650,38 @@ init = {
                     else if (result == "length_error") {
                         Swal.fire({
                             title: '비밀번호는 8자 이상 입력해주세요.',
-                            showConfirmButton:false,
-                            showDenyButton:true,
-                            denyButtonText:"확 인",
-                            icon:"error"
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
                         });
                     }
                     else if (result == "check_error") {
                         Swal.fire({
-                            title: '비밀번호는 영문, 숫자를 혼합하여 입력해주세요.',
-                            showConfirmButton:false,
-                            showDenyButton:true,
-                            denyButtonText:"확 인",
-                            icon:"error"
+                            title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
                         });
                     }
                     else {
                         Swal.fire({
                             title: '비밀번호를 다시 한번 확인해주세요.',
-                            showConfirmButton:false,
-                            showDenyButton:true,
-                            denyButtonText:"확 인",
-                            icon:"error"
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
                         });
                     }
                 }
                 else {
                     Swal.fire({
                         title: '비밀번호가 일치하지 않습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
@@ -1734,19 +1748,19 @@ init = {
                 else {
                     Swal.fire({
                         title: '이미 사용중인 계정입니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
             else Swal.fire({
                 title: '이메일 주소를 입력해 주세요.',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
@@ -1763,19 +1777,19 @@ init = {
                 else {
                     Swal.fire({
                         title: '이미 사용중인 계정입니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
             else Swal.fire({
                 title: '이메일 주소를 입력해 주세요.',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
             // Swal.fire('이메일 인증번호를 확인해 주세요', '', 'info');
         });
@@ -1795,10 +1809,10 @@ init = {
                 else {
                     Swal.fire({
                         title: '인증번호가 일치하지 않습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
@@ -1807,11 +1821,11 @@ init = {
         $(document).on("click", "#tenant_register", function () {
             if (!verify) Swal.fire({
                 title: '인증 실패',
-                text:'이메일 인증을 완료해 주세요',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                text: '이메일 인증을 완료해 주세요',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
             else {
                 var accountName = $("#account_name").val();
@@ -1819,19 +1833,41 @@ init = {
                 var repassword = $("#repassword").val();
                 var companyName = $("#company_name").val();
                 var ownerName = $("#owner_name").val();
-                if (password != repassword) Swal.fire({
+                var check_num = /[0-9]/;    // 숫자 
+                var check_big = /[A-Z]/;    // 대문자
+                var check_small = /[a-z]/;    // 소문자
+                var check_symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수기호
+                if(password.length<8){
+                    Swal.fire({
+                        title: '비밀번호는 8자 이상 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if(check_num.test(password)!=true || check_big.test(password)!=true || check_small.test(password)!=true || check_symbol.test(password)!=true){
+                    Swal.fire({
+                        title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if (password != repassword) Swal.fire({
                     title: '비밀번호가 일치하지 않습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
                 else if (password == '' || repassword == '' || companyName == '' || ownerName == '') Swal.fire({
                     title: '빈 칸에 정보를 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
                 else signup.tenantSignUp(accountName, password, companyName, ownerName);
             }
@@ -1861,19 +1897,19 @@ init = {
                 else {
                     Swal.fire({
                         title: '가입된 정보가 없습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
             else Swal.fire({
                 title: '빈 칸을 입력해 주세요.',
-                showConfirmButton:false,
-                showDenyButton:true,
-                denyButtonText:"확 인",
-                icon:"error"
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
             });
         });
     },
@@ -1894,20 +1930,20 @@ init = {
             if (password == '') {
                 Swal.fire({
                     title: '변경할 비밀번호를 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
             else {
                 if (password != repassword) Swal.fire({
                     title: '비밀번호 불일치',
                     text: '입력하신 비밀번호가 일치하지 않습니다. 다시 입력해 주세요',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
                 else {
                     login.resetPassword(accountName, password);
@@ -1929,10 +1965,10 @@ init = {
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
                 Swal.fire({
                     title: msg + '를 입력해 주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
         });

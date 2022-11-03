@@ -95,6 +95,9 @@
     <div class="footer">
         <div class="logo">
             <img src="./static/imgs/common/footer_logo.png">
+            <div class="upBtn">
+              <img src="./static/imgs/common/upBtn_icon.png">
+            </div>
         </div>
         <div class="textArea">
             <div class="footer_menu">
@@ -135,6 +138,7 @@
                 <div class="passContent">
                     <div class="passHeader">
                         <h1>서브 계정 비밀번호 재설정</h1>
+                        <h2>서브 계정<br>비밀번호 재설정</h2>
                     </div>
                     <div class="passBody">
                         <div class="bodyHeader">
@@ -281,6 +285,10 @@
 
         $(document).on("click", ".passConfig", function () {
             var newPassword = $('.modi_password').val();
+            var check_num = /[0-9]/;    // 숫자 
+            var check_big = /[A-Z]/;    // 대문자
+            var check_small = /[a-z]/;    // 소문자
+            var check_symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수기호
             if (newPassword == '') {
                 Swal.fire({
                     title:'빈 칸에 정보를 입력해주세요.',
@@ -289,6 +297,24 @@
                     denyButtonText:"확 인",
                     icon:"error"
                 });
+            }
+            else if(newPassword.length<8){
+                Swal.fire({
+                    title: '비밀번호는 8자 이상 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else if(check_num.test(newPassword)!=true || check_big.test(newPassword)!=true || check_small.test(newPassword)!=true || check_symbol.test(newPassword)!=true){
+                Swal.fire({
+                    title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
             }
             else {
                 Swal.fire({

@@ -51,10 +51,11 @@ a {
 .registerContent,
 .findContent {
     background: url(../../imgs/login/login_back.png);
-    background-size: 100%;
     width: 100vw;
     height: 100vh;
     display: flex;
+    background-size: cover;
+    background-position: 50% 0%;
 }
 
 .registerContent .registerBox,
@@ -447,10 +448,10 @@ a {
 }
 
 .swal2-html-container {
-    font-family: SpoqaHanSansNeo-Bold !important;
-    font-size: 24px !important;
-    color: #16284d !important;
-    margin: 0 auto !important;
+    font-family: SpoqaHanSansNeo-Medium !important;
+    font-size: 18px !important;
+    color: #595959 !important;
+    margin: 12px auto 0 !important;
     max-width: 294px !important;
 }
 
@@ -652,10 +653,10 @@ a {
     }
     
     .swal2-html-container {
-        font-family: SpoqaHanSansNeo-Bold !important;
-        font-size: 20px !important;
-        color: #16284d !important;
-        margin: 0 auto !important;
+        font-family: SpoqaHanSansNeo-Medium !important;
+        font-size: 14px !important;
+        color: #595959 !important;
+        margin: 8px auto 0 !important;
         max-width: 240px !important;
     }
     

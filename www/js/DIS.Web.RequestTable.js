@@ -181,7 +181,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList.message == 'error') {
+        if (requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -287,7 +287,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList[0] == null) {
+        if (requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -387,7 +387,7 @@ requestTable = {
 
         var htmlStr = ''
 
-        if (requestList.message == 'error') {
+        if (requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -419,30 +419,112 @@ requestTable = {
                 // else{
                 //     var status = '<p id="progress"></p>'
                 // }
+                
     
-                if(status=="<p>완료</p>"){
-                    var disable = ""; 
-                    var m_disable = ""
-                    var text = "상세정보";
+                if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
+                else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
+                else var type = ""
+                if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                if(screen.width<=600){
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '">\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                    <div class="etc_content">\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                    </div>\
+                                </div>'
                 }
                 else{
-                    var disable = "disable"; 
-                    var m_disable = "style='pointer-events: none;'"
-                    var text= "진행중";
+                    htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
+                                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                                    <div class="type_content"><p>'+ type + '</p></div>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                    <div class="rest_content"><p></p></div>\
+                                    <div class="status_content">'+ status + '</div>\
+                                    <div class="detail_content"></div>\
+                                </div>'
                 }
-                htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                            <div class="type_content"><p></p></div>\
-                            <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
-                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                            <div class="rest_content"><p></p></div>\
-                            <div class="status_content">'+ status + '</div>\
-                        </div>'
             }
         }
 
         return htmlStr;
-        // return requestList;
+    },
+
+    postDataDecSearch: function (filter_video, filter_image, filter_album, filter_file, startDate, endDate) {
+        var postdata = { filter_video:filter_video, filter_image:filter_image, filter_album:filter_album, filter_file: filter_file, startDate: startDate, endDate: endDate }
+        var requestList = ''
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/search/decrypt",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                // result = data['progress']
+                requestList = data;
+                console.log(data)
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        var htmlStr = ''
+
+        if (requestList.message == 'error' || requestList.message=='No request list found') {
+            htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
+        }
+        else{
+            for (var i = 0; i < requestList.length; i++) {
+                var date = new Date(requestList[i]['request_date'])
+    
+                var namelist = requestList[i]['request_file_list'].split('\n')
+                namelist = namelist.splice(0, namelist.length - 1);
+        
+                if(namelist.length > 1){
+                    var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                    var css = ""
+                }
+                else {
+                    var list = ""
+                    var css = 'style="margin:auto 0 auto auto"'
+                }
+    
+                var fileList = requestList[i]['request_file_list'].split('\n');
+                fileList = fileList.splice(0, fileList.length - 1);
+    
+                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+    
+                if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
+                else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
+                else var type = ""
+                if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                if(screen.width<=600){
+                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '">\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                    <div class="etc_content">\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                    </div>\
+                                </div>'
+                }
+                else{
+                    htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
+                                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                                    <div class="type_content"><p>'+ type + '</p></div>\
+                                    <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                    <div class="rest_content"><p></p></div>\
+                                    <div class="status_content">'+ status + '</div>\
+                                    <div class="detail_content"></div>\
+                                </div>'
+                }
+            }
+        }
+
+        return htmlStr;
     },
 
     getAllKeyList: function () {

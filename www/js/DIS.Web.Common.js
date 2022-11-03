@@ -1,5 +1,197 @@
 'use strict';
 
+function getToday() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+
+    var dateString = year + '-' + month + '-' + day;
+
+    return dateString;
+}
+
+function getTime() {
+    var today = new Date();
+    var hours = ('0' + today.getHours()).slice(-2);
+    var minutes = ('0' + today.getMinutes()).slice(-2);
+    var seconds = ('0' + today.getSeconds()).slice(-2);
+
+    var timeString = hours + ':' + minutes + ':' + seconds;
+
+    return timeString;
+}
+
+function dateFormat(date) {
+    let dateFormat2 = date.getFullYear() + '.' + ("0" + (date.getMonth() + 1)).slice(-2) + '.' + ("0" + date.getDate()).slice(-2);
+    return dateFormat2;
+}
+
+function underTen(data) {
+    let underTen;
+    if (Number(data) <= 9) {
+        underTen = "0" + data
+    }
+    else {
+        underTen = data
+    }
+    return underTen;
+}
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function getFiles() {
+    var files = document.getElementById("file").files;
+    var myArray = {};
+    var file = {};
+
+    // manually create a new file obj for each File in the FileList
+    for (var i = 0; i < files.length; i++) {
+        var parsedArray = files[i].name.split('.');
+        var ext = parsedArray[parsedArray.length - 1];
+        parsedArray = parsedArray.splice(0, parsedArray.length - 1);
+        var fileName = parsedArray.join('.');
+        console.log(fileName);
+        console.log(ext);
+        file = {
+            'lastMod': files[i].lastModified,
+            'lastModDate': files[i].lastModifiedDate,
+            'name': fileName + '-' + getToday() + '.' + ext,
+            'size': files[i].size,
+            'type': files[i].type,
+        }
+        //add the file obj to your array
+        myArray[i] = file
+    }
+    //stringify array
+    return JSON.stringify(myArray);
+}
+
+function today() {
+    var date = new Date();
+    var year = date.getFullYear(); // 년도
+    var month = date.getMonth() + 1;  // 월
+    var date = date.getDate();  // 날짜
+
+    var today = "" + year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + date.toString()).slice(-2)) + "";
+
+    return today
+}
+
+function yesterday() {
+    var now = new Date();
+    var date = new Date(now.setDate(now.getDate() - 1));
+
+    var y_year = date.getFullYear(); // 년도
+    var y_month = date.getMonth() + 1;  // 월
+    var y_date = date.getDate();  // 날짜
+
+    var yesterday = "" + y_year + "-" + (("00" + y_month.toString()).slice(-2)) + "-" + (("00" + y_date.toString()).slice(-2)) + "";
+
+    return yesterday
+}
+
+function week() {
+    var now = new Date();
+    var date = new Date(now.setDate(now.getDate() - 7));
+
+    var w_year = date.getFullYear(); // 년도
+    var w_month = date.getMonth() + 1;  // 월
+    var w_day = date.getDate();  // 날짜
+
+    var week = "" + w_year + "-" + (("00" + w_month.toString()).slice(-2)) + "-" + (("00" + w_day.toString()).slice(-2)) + "";
+
+    return week
+}
+
+function month() {
+    var now = new Date();
+    var date = new Date(now.setMonth(now.getMonth() - 1));
+
+    var m_year = date.getFullYear(); // 년도
+    var m_month = date.getMonth() + 1;  // 월
+    var m_day = date.getDate();  // 날짜
+
+    var month = "" + m_year + "-" + (("00" + m_month.toString()).slice(-2)) + "-" + (("00" + m_day.toString()).slice(-2)) + "";
+
+    return month
+}
+
+function validEmail(obj) {
+    if (validEmailCheck(obj) == false) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function validEmailCheck(obj) {
+    var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    return (obj.value.match(pattern) != null)
+}
+
+function validPhone(obj) {
+    if (obj.length == 11) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function progressBar(per) {
+    if (per > 55) {
+        $(".progressPer").css("color", "#fff");
+    }
+    per = per.toFixed(1);
+    $(".progressPer").text(per + " %");
+    $(".progressNow").css("width", "calc(" + per + "% - 20px)");
+}
+
+function time_change(duration) {
+    var hours = Math.floor(duration / 3600);
+    var minutes = Math.floor((duration - (hours * 3600)) / 60);
+    var seconds = Math.floor(duration - (hours * 3600) - (minutes * 60));
+
+    if (hours < 10) { hours = "0" + hours; }
+    if (minutes < 10) { minutes = "0" + minutes; }
+    if (seconds < 10) { seconds = "0" + seconds; }
+    return hours + ':' + minutes + ':' + seconds;
+}
+
+function onlyNumber(event) { 
+    event = event || window.event; 
+    var keyID = (event.which) ? event.which : event.keyCode; 
+    if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) 
+        return; 
+    else 
+        return false; 
+} 
+
+function removeChar(event) { 
+    event = event || window.event; 
+    var keyID = (event.which) ? event.which : event.keyCode; 
+    if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) 
+        return; 
+    else event.target.value = event.target.value.replace(/[^0-9]/g, ""); 
+}
+
+function price_three(price){
+    var result = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return result
+}
+
 /** 
  * DIS 네임스페이스
  * @author 이민형(2022.07.20)
@@ -162,11 +354,17 @@ comm = {
                     })
                 }
                 else if(data.message == 'fail') {
-                    Swal.fire('동일 이름의 키가 존재합니다.', '', 'error').then(() => {
+                    Swal.fire({
+                        title:'동일 이름의 키가 존재합니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    }).then(() => {
                         if(window.location.pathname == '/encrypt/image' || window.location.pathname == '/encrypt/video') {
                             location.reload();
                         }
-                    })
+                    });
                 }
             },
             error: function (xhr, status) {
