@@ -113,7 +113,7 @@ requestTable = {
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
-                else if(requestList[i]['status'].indexOf("FAIL")==1){
+                else if(requestList[i]['status'].indexOf("FAIL")==1 || requestList[i]['status'].indexOf("Fail")!=-1){
                     var status = '<p>실패</p>'
                 }
                 else {
@@ -233,7 +233,7 @@ requestTable = {
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
-                else if(sta.indexOf("FAIL")==1){
+                else if(sta.indexOf("FAIL")==1 || sta.indexOf("Fail")!=-1){
                     var status = '<p>실패</p>'
                 }
                 else {
@@ -352,7 +352,7 @@ requestTable = {
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
-                else if(sta.indexOf("FAIL")==1){
+                else if(sta.indexOf("FAIL")==1 || sta.indexOf("Fail")!=-1){
                     var status = '<p>실패</p>'
                 }
                 else {

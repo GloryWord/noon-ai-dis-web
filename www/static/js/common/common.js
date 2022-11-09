@@ -114,4 +114,58 @@ $(document).ready(function () {
     $(document).on("click", ".chargeBtn", function () {
         $("#chargeModal").addClass('active')
     });
+
+    $(document).on("click", ".body_allselect", function () {
+        // console.log($(this).val())
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if($(this).is(":checked")){
+            $(".check_body."+num+"").prop("checked", true);
+        }
+        else{
+            $(".check_body."+num+"").prop('checked', false)
+        }
+    })
+
+    $(document).on("click", ".head_allselect", function () {
+        // console.log($(this).val())
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if($(this).is(":checked")){
+            $(".check_head."+num+"").prop("checked", true);
+        }
+        else{
+            $(".check_head."+num+"").prop('checked', false)
+        }
+    })
+
+    $(document).on("click", ".lp_allselect", function () {
+        // console.log($(this).val())
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if($(this).is(":checked")){
+            $(".check_lp."+num+"").prop("checked", true);
+        }
+        else{
+            $(".check_lp."+num+"").prop('checked', false)
+        }
+    })
+
+    $(document).on("click", ".check_body", function () {
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if(!$(this).is(":checked")){
+            $(".body_allselect."+num+"").prop("checked",false);
+        }
+    });
+
+    $(document).on("click", ".check_head", function () {
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if(!$(this).is(":checked")){
+            $(".head_allselect."+num+"").prop("checked",false);
+        }
+    });
+
+    $(document).on("click", ".check_lp", function () {
+        var num = $(this).attr('class')[$(this).attr('class').length - 1]
+        if(!$(this).is(":checked")){
+            $(".lp_allselect."+num+"").prop("checked",false);
+        }
+    });
 });

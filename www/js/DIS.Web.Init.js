@@ -68,14 +68,19 @@ init = {
             var progress = encProgress['progress']
             $('#progress').html(progress);
             var status = encProgress['status']
-            if(status.indexOf('FAIL')==1){
+            if(status == null){
                 return 0
             }
-            else if(status.indexOf("SUCCESS")==1) {
-                if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                else {
-                    var mainLog = requestTable.getRecentRequest('encrypt');
-                    $(".mainLog").html(mainLog);
+            else{
+                if(status.indexOf('FAIL')==1){
+                    return 0
+                }
+                else if(status.indexOf("SUCCESS")==1) {
+                    if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                    else {
+                        var mainLog = requestTable.getRecentRequest('encrypt');
+                        $(".mainLog").html(mainLog);
+                    }
                 }
             }
         }
@@ -415,7 +420,7 @@ init = {
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
-            if(status.indexOf('FAIL')==1){
+            if(status.indexOf('FAIL')==1 || status.indexOf('Fail')!=-1){
                 Swal.fire({
                     title: '예기치 못한 오류로 작업이 중단됐습니다.',
                     text: '지속적으로 오류가 발생하면 문의해주세요.',
@@ -436,6 +441,7 @@ init = {
                         showCancelButton: false,
                         confirmButtonText: '확인',
                         icon: 'success',
+                        allowOutsideClick: false,
                     }).then((result) => {
                         if (result.isConfirmed) {
                             if (service == 'encrypt') location.href = '/encrypt/log';
@@ -708,6 +714,18 @@ init = {
         var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
         $('.infoArea')[0].innerHTML = infoHtml;
 
+        $(document).on("click", ".recoBtn", function () {
+            if (type == 'video' && mode == 'single') {
+                location.href = "/decrypt/inspection" + "?type=video&mode=single";
+            }
+            else if (type == 'image' && mode == 'single') {
+                location.href = "/decrypt/inspection" + "?type=image&mode=single";
+            }
+            else if (type == 'image' && mode == 'group') {
+                location.href = "/decrypt/inspection" + "?type=image&mode=group";
+            }
+        });
+
         $(document).ready(function () {
             var rest = $(".rest_info").text()
             if (rest == "복원 가능") {
@@ -839,6 +857,30 @@ init = {
                     }
                 });
 
+                
+                // $(document).on("click", ".viewImg", function () {
+                //     const canvas = document.getElementById('canvas');
+                //     const ctx = canvas.getContext('2d');
+                //     var cropImage = new Image()
+                //     cropImage.src = $(this).attr("src")
+                //     cropImage.onload = function(){
+                //         ctx.drawImage(cropImage, 0, 0, 640, 720, 0,0, canvas.width, canvas.height);
+                //     }
+                    
+                //     var ourRequest = new XMLHttpRequest();
+                //     ourRequest.open('GET','http://ddragon.leagueoflegends.com/cdn/10.14.1/data/en_US/champion.json');
+                //     ourRequest.send();
+                //     ourRequest.onload = function(){
+                //         // let data = ourRequest.responseText
+                //         var a = JSON.parse(ourRequest.responseText)
+                //         console.log(Object.keys(a["data"]).length)
+                //         for(var key in a.data){
+                //             console.log(JSON.stringify(a["data"][key]))
+                //         }
+                //         // console.log(a["data"]["Aatrox"])
+                //     }
+                // });
+
                 $(document).on("mouseover", ".albumImg", function () {
                     var num = $(this).data('num')
                     $("." + num + "").removeClass("hide")
@@ -939,15 +981,20 @@ init = {
             var progress = reqProgress['progress']
             $('#progress').html(progress);            
             var status = reqProgress['status']
-            if(status.indexOf('FAIL')==1){
+            if(status == null){
                 return 0
             }
-            else if(status.indexOf("SUCCESS")==1) {
-                if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                else {
-                    if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                    else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                    $(".mainLog").html(mainLog);
+            else{
+                if(status.indexOf('FAIL')==1){
+                    return 0
+                }
+                else if(status.indexOf("SUCCESS")==1) {
+                    if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                    else {
+                        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+                        $(".mainLog").html(mainLog);
+                    }
                 }
             }
         }
@@ -1216,6 +1263,295 @@ init = {
             }
             $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
         }
+    },
+
+    inspection: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        // var eventIndex = urlParams.get('id');
+        var mode = urlParams.get('mode');
+        var inspec_body = document.querySelector(".inspec_body")
+        if(type == 'image'){
+            if(mode == 'single'){
+                inspec_body.innerHTML = "<div class='recoArea' data-id=0>\
+                                            <div class='encImgArea'>\
+                                                <img class='encImg'>\
+                                            </div>\
+                                            <div class='object_list'>\
+                                                <div class='textArea'>\
+                                                    <h1>전신</h1>\
+                                                    <div class='allArea'>\
+                                                        <input class='body_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='cropArea'>\
+                                                </div>\
+                                            </div>\
+                                            <div class='object_list'>\
+                                                <div class='textArea'>\
+                                                    <h1>머리</h1>\
+                                                    <div class='allArea'>\
+                                                        <input class='head_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='cropArea'>\
+                                                    <div class='cropContent'>\
+                                                        <img class='cropImg'>\
+                                                        <div class='cropID'>\
+                                                            <p>1</p>\
+                                                        </div>\
+                                                        <input class='check_head 0' type='checkbox' value=1>\
+                                                    </div>\
+                                                    <div class='cropContent'>\
+                                                        <img class='cropImg'>\
+                                                        <div class='cropID'>\
+                                                            <p>2</p>\
+                                                        </div>\
+                                                        <input class='check_head 0' type='checkbox' value=2>\
+                                                    </div>\
+                                                </div>\
+                                            </div>\
+                                            <div class='object_list'>\
+                                                <div class='textArea'>\
+                                                    <h1>자동차 번호판</h1>\
+                                                    <div class='allArea'>\
+                                                        <input class='lp_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='cropArea'>\
+                                                </div>\
+                                            </div>\
+                                        </div>"
+            }
+            else if(mode == 'group'){
+                for (var i=0;i<5;i++){
+                    inspec_body.innerHTML += "<div class='recoArea' data-id="+i+">\
+                                                <div class='encImgArea'>\
+                                                    <img class='encImg'>\
+                                                </div>\
+                                                <div class='object_list'>\
+                                                    <div class='textArea'>\
+                                                        <h1>전신</h1>\
+                                                        <div class='allArea'>\
+                                                            <input class='body_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class='cropArea'>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='object_list'>\
+                                                    <div class='textArea'>\
+                                                        <h1>머리</h1>\
+                                                        <div class='allArea'>\
+                                                            <input class='head_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class='cropArea'>\
+                                                        <div class='cropContent'>\
+                                                            <img class='cropImg'>\
+                                                            <div class='cropID'>\
+                                                                <p>1</p>\
+                                                            </div>\
+                                                            <input class='check_head "+i+"' type='checkbox' value=1>\
+                                                        </div>\
+                                                        <div class='cropContent'>\
+                                                            <img class='cropImg'>\
+                                                            <div class='cropID'>\
+                                                                <p>2</p>\
+                                                            </div>\
+                                                            <input class='check_head "+i+"' type='checkbox' value=2>\
+                                                        </div>\
+                                                    </div>\
+                                                </div>\
+                                                <div class='object_list'>\
+                                                    <div class='textArea'>\
+                                                        <h1>자동차 번호판</h1>\
+                                                        <div class='allArea'>\
+                                                            <input class='lp_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class='cropArea'>\
+                                                    </div>\
+                                                </div>\
+                                            </div>"
+                }
+                $('.inspec_body').slick({
+                    dots: false,
+                    infinite: false,
+                    speed: 300,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
+                    // speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                    arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
+                    prevArrow: '<div class="prev_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_left.png"></div>',
+                    nextArrow: '<div class="next_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_right.png"></div>',
+                    vertical : false,		// 세로 방향 슬라이드 옵션
+                    draggable : false, 
+                    responsive: [ // 반응형 웹 구현 옵션
+                        {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 1,
+                                arrows : false, 
+                                draggable:true,
+                            }
+                        },
+                    ]
+                });
+            }
+        }
+        else if(type == 'video'){
+            inspec_body.innerHTML = "<div class='recoArea' data-id=0>\
+                                        <div class='object_list'>\
+                                            <div class='textArea'>\
+                                                <h1>전신</h1>\
+                                                <div class='allArea'>\
+                                                    <input class='body_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                </div>\
+                                            </div>\
+                                            <div class='cropArea'>\
+                                                <div class='cropContent'>\
+                                                    <img class='cropImg'>\
+                                                    <div class='cropID'>\
+                                                        <p>1</p>\
+                                                    </div>\
+                                                    <input class='check_body 0' type='checkbox' value=1>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class='object_list'>\
+                                            <div class='textArea'>\
+                                                <h1>머리</h1>\
+                                                <div class='allArea'>\
+                                                    <input class='head_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                </div>\
+                                            </div>\
+                                            <div class='cropArea'>\
+                                                <div class='cropContent'>\
+                                                    <img class='cropImg'>\
+                                                    <div class='cropID'>\
+                                                        <p>1</p>\
+                                                    </div>\
+                                                    <input class='check_head 0' type='checkbox' value=1>\
+                                                </div>\
+                                                <div class='cropContent'>\
+                                                    <img class='cropImg'>\
+                                                    <div class='cropID'>\
+                                                        <p>2</p>\
+                                                    </div>\
+                                                    <input class='check_head 0' type='checkbox' value=2>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class='object_list'>\
+                                            <div class='textArea'>\
+                                                <h1>자동차 번호판</h1>\
+                                                <div class='allArea'>\
+                                                    <input class='lp_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
+                                                </div>\
+                                            </div>\
+                                            <div class='cropArea'>\
+                                                <div class='cropContent'>\
+                                                    <img class='cropImg'>\
+                                                    <div class='cropID'>\
+                                                        <p>1</p>\
+                                                    </div>\
+                                                    <input class='check_lp 0' type='checkbox' value=1>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                    </div>"
+        }
+
+        $(document).on("click", ".recovery", function () {
+            var recoFileLen = document.getElementsByClassName('recoArea').length;
+            var selectedFile = new Array();
+            for (var i = 0; i < recoFileLen; i++) {
+                var data = new Object();
+                var allCheck = [$('.body_allselect.'+i+'').is(':checked'), $('.head_allselect.'+i+'').is(':checked'), $('.lp_allselect.'+i+'').is(':checked')]
+                if(allCheck[0]==true && allCheck[1]==true && allCheck[2]==true){
+                    data.allCheck = true
+                }
+                else {
+                    if(allCheck[0]==true){
+                        data.body = "all"
+                    }
+                    else{
+                        var cropList = document.getElementsByClassName('check_body '+i+'');
+                        var bodyList = []
+                        for (var j = 0; j < cropList.length; j++) {
+                            if (cropList[j].checked == true){
+                                bodyList.push(cropList[j].value)
+                            }
+                        }
+                        if(cropList.length == 0){
+                            data.body = bodyList
+                        }
+                        else if(cropList.length == bodyList.length){
+                            data.body = "all"
+                        }
+                        else{
+                            data.body = bodyList
+                        }
+                    }
+                    if(allCheck[1]==true){
+                        data.head = "all"
+                    }
+                    else{
+                        var cropList = document.getElementsByClassName('check_head '+i+'');
+                        var headList = []
+                        for (var j = 0; j < cropList.length; j++) {
+                            if (cropList[j].checked == true){
+                                headList.push(cropList[j].value)
+                            }
+                        }
+                        if(cropList.length == 0){
+                            data.head = headList
+                        }
+                        else if(cropList.length == headList.length){
+                            data.head = "all"
+                        }
+                        else{
+                            data.head = headList
+                        }
+                    }
+                    if(allCheck[2]==true){
+                        data.lp = "all"
+                    }
+                    else{
+                        var cropList = document.getElementsByClassName('check_lp '+i+'');
+                        var lpList = []
+                        for (var j = 0; j < cropList.length; j++) {
+                            if (cropList[j].checked == true){
+                                lpList.push(cropList[j].value)
+                            }
+                        }
+                        if(cropList.length == 0){
+                            data.lp = lpList
+                        }
+                        else if(cropList.length == lpList.length){
+                            data.lp = "all"
+                        }
+                        else{
+                            data.lp = lpList
+                        }
+                    }
+                    if(data.body == "all" && data.head == "all" && data.lp == "all"){
+                        data.allCheck = true
+                        delete data.body
+                        delete data.head
+                        delete data.lp
+                    }
+                    else{
+                        data.allCheck = false
+                    }
+                }
+                selectedFile.push(data)
+            }
+            console.log(selectedFile)
+        });
     },
 
     usage: function () {
