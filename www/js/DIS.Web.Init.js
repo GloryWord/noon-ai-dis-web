@@ -115,6 +115,7 @@ init = {
     },
 
     image: function () {
+        var socket = io();
         var html = ''
         var fileCount = 0;
         var fileIndex = [];
@@ -122,6 +123,21 @@ init = {
         var fileHeight = []
         var fileSize = []
         var videoDuration = []
+
+        var uploaded = false;
+
+        socket.on('delMsgToClient', function (msg) {
+            if(uploaded) {
+                Swal.fire({
+                    title: msg.title,
+                    html: msg.html,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) location.reload();
+                })
+            }
+        });
 
         $("#selectKeyName").html(comm.getKeyList());
 
@@ -230,7 +246,7 @@ init = {
             location.href = "/main"
         });
 
-        var postData;
+        var postData, filePath;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -248,9 +264,19 @@ init = {
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
-                callback.then((data) => {
-                    postData = data[0]
-                })
+                setTimeout(function() {
+                    callback.then((data) => {
+                        console.log(data);
+                        uploaded = true;
+                        postData = data[0]
+                        filePath = data[2][0]
+                        setTimeout(function() {
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath
+                            })
+                        }, 1000)
+                    })
+                }, 1000)
             }
         });
 
@@ -460,12 +486,28 @@ init = {
     },
 
     video: function () {
+        var socket = io();
         var html = ''
         var fileCount = 0;
         var fileWidth = []
         var fileHeight = []
         var fileSize = []
         var videoDuration = []
+
+        var uploaded = false;
+
+        socket.on('delMsgToClient', function (msg) {
+            if(uploaded) {
+                Swal.fire({
+                    title: msg.title,
+                    html: msg.html,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) location.reload();
+                })
+            }
+        });
 
         $("#selectKeyName").html(comm.getKeyList());
 
@@ -556,7 +598,7 @@ init = {
             location.href = "/main"
         });
 
-        var postData, bitrateArray;
+        var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
             if (fileCount == 0) {
                 Swal.fire({
@@ -599,11 +641,22 @@ init = {
             else {
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
+
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
-                callback.then((data) => {
-                    postData = data[0]
-                    bitrateArray = data[1]
-                })
+                setTimeout(function() {
+                    callback.then((data) => {
+                        uploaded = true;
+                        console.log(data);
+                        postData = data[0]
+                        bitrateArray = data[1]
+                        filePath = data[2][0]
+                        setTimeout(function() {
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath
+                            })
+                        }, 1000)
+                    })
+                }, 1000)
             }
         });
 
@@ -641,6 +694,7 @@ init = {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video');
+                socket.emit('cancelDeleteFile', 'cancel')
             }
             else if(allCheck == "false") {
                 Swal.fire({

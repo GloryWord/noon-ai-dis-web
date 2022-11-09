@@ -364,6 +364,8 @@ fileModule = {
             var fileHeightObj = Object.assign({}, fileHeight)
             var videoDurationObj = Object.assign({}, videoDuration)
             var bitrateArray = []
+            var filePath = []
+            var userInfo = ''
 
             // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
             var postData = {
@@ -431,9 +433,11 @@ fileModule = {
                         });
                         var response = JSON.parse(this.responseText);
                         if (response.message == 'success') {
+                            console.log(response);
                             let coefficient = {};
                             let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
                             let base_charge;
+                            filePath.push(response.filePath)
 
                             if (fileType == 'video') {
                                 var ffmpegInfo = response.result.streams;
@@ -579,7 +583,7 @@ fileModule = {
                     alert(JSON.stringify(xhr));
                 }
             });
-            resolve([postData, bitrateArray]);
+            resolve([postData, bitrateArray, filePath]);
         })
     },
 
