@@ -60,7 +60,7 @@ subaccount = {
                                         <div class="auth_modi" data-account='+result[i].account_name+'><p>권한 설정</p></div>\
                                     </div>\
                                     <div class="del_content">\
-                                        <civ class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                        <div class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
                                     </div>\
                                 </div>\
                             </div>';
@@ -83,7 +83,7 @@ subaccount = {
                                     <div class="auth_modi" data-account='+result[i].account_name+'><p>권한 설정</p></div>\
                                 </div>\
                                 <div class="del_content">\
-                                    <civ class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                    <div class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
                                 </div>\
                             </div>';
                 }
