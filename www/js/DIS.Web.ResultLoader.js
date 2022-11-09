@@ -110,7 +110,7 @@ resultLoader = {
         var html = ''
         if (mode == 'single') {
             for (var i = 0; i < urlList.length; i++) {
-                html += '<img src="' + urlList[i][0] + '">\
+                html += '<img class="getImg" src="' + urlList[i][0] + '">\
                 <div class="fileFullName">\
                     <p>'+objectName[0]+'</p>\
                 </div>'
