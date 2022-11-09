@@ -1,0 +1,312 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.inspecArea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+}
+
+.inspecArea .inspec_content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 100px auto;
+}
+
+.inspecArea .inspec_content .inspec_header {
+    display: flex;
+    width: 988px;
+    height: auto;
+    margin: 0 auto 20px;
+}
+
+.inspecArea .inspec_content .inspec_header .recovery {
+    display: flex;
+    width: 160px;
+    height: 30px;
+    margin: auto 0 auto auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 16%);
+    background-color: #16284d;
+    cursor: pointer;
+}
+
+.inspecArea .inspec_content .inspec_header .recovery p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.inspecArea .inspec_content .inspec_body {
+    display: flex;
+    flex-direction: column;
+    width: 1036px;
+    height: auto;
+    margin: 0 auto 76px;
+}
+
+.inspecArea .inspec_content .inspec_body .prev_arrow.slick-disabled,
+.inspecArea .inspec_content .inspec_body .next_arrow.slick-disabled {
+    display: none !important;
+}
+
+.inspecArea .inspec_content .inspec_body .prev_arrow {
+    position: absolute;
+    z-index: 999;
+    top: 45%;
+    width: 50px;
+    left: -50px;
+    border-radius: 50px;
+    height: 50px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    cursor: pointer;
+    display: flex !important;
+}
+
+.inspecArea .inspec_content .inspec_body .next_arrow {
+    position: absolute;
+    z-index: 3;
+    top: 45%;
+    right: -50px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    cursor: pointer;
+    display: flex !important;
+}
+
+.inspecArea .inspec_content .inspec_body .prev_arrow .arrow_img,
+.inspecArea .inspec_content .inspec_body .next_arrow .arrow_img {
+    width: 30px;
+    height: 30px;
+    margin: auto auto;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea {
+    width: 988px;
+    height: auto;
+    min-height: 400px;
+    /* margin: 0 auto 24px; */
+    margin: 24px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgb(0 0 0 / 16%);
+    background-color: #fff;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .encImgArea {
+    width: 940px;
+    height: 500px;
+    margin: 0 auto 12px;
+    display: flex;
+    border-bottom: solid 1px #707070;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .encImgArea .encImg {
+    width: auto;
+    height: 100%;
+    margin: 0 auto 12px;
+    display: flex;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin: auto 8px auto 0;
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 2px;
+    position: relative;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]::before {
+    content: "\2713";
+    position: absolute;
+    color: white;
+    align-content: center;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    font-size: 8px;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]:checked {
+    background: #3fa9f5;
+    border: solid 1px #3fa9f5;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea label {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto 24px auto 0;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list {
+    display: flex;
+    margin: 18px auto;
+    width: 940px;
+    height: auto;
+    min-height: 80px;
+    border-bottom: solid 1px #bcc5cb;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list:nth-last-child(1) {
+    border-bottom: none;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list {
+    display: flex;
+    margin: 18px auto;
+    width: 940px;
+    height: auto;
+    min-height: 80px;
+    border-bottom: solid 1px #707070;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .textArea {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 10px;
+    height: 116px;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .textArea .allArea {
+    display: flex;
+    margin: 30px auto auto;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .textArea h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 auto;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .body_allselect,
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .head_allselect,
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .lp_allselect {
+    margin: auto 12px auto;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea {
+    width: 800px;
+    height: auto;
+    /* overflow-x: auto;
+    display: flex; */
+    margin: 0 0 10px;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent {
+    width: 120px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 12px 0 0;
+    position: relative;
+    float: left;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .cropImg {
+    width: 120px;
+    height: 120px;
+    display: flex;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .cropID {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .cropID p {
+    text-align: center;
+    margin: 4px auto;
+    word-wrap: break-word;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: #595959;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .check_body,
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .check_head,
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .check_lp {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}

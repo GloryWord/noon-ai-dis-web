@@ -92,9 +92,7 @@ login = {
     },
 
     verifyResetToken: function (accountName, token) {
-        var validHtml = '<span>※ 변경하실 새로운 비밀번호를 입력해 주세요</span>\
-                    <br>\
-                    <div class="passform">\
+        var validHtml = '<div class="passform">\
                         <p>새 비밀번호</p>\
                         <input type="password" id="password" maxlength="16" placeholder="신규 비밀번호를 입력해 주세요">\
                     </div>\
@@ -102,7 +100,7 @@ login = {
                         <p>새 비밀번호 확인</p>\
                         <input type="password" id="repassword" maxlength="16" placeholder="신규 비밀번호를 확인해 주세요">\
                     </div>\
-                    <div class="btnArea">\
+                    <div class="btn">\
                         <div id="confirm">\
                             <p>변경하기</p>\
                         </div>\
