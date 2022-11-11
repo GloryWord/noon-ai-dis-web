@@ -22,7 +22,6 @@ login = {
             url: "/util-module/api/login",
             data: postdata,
             success: function (data) {
-                console.log(JSON.stringify(data));
                 $(".auth_id").val($("#name").val())
                 $("#authModal").addClass('active')
                 // location.href = '/main';
@@ -128,6 +127,72 @@ login = {
             }
         })
         return html;
+    },
+
+    secondaryEmailSend: function (email) {
+        let result ='';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/secondary-email-send",
+            data: {
+                email
+            },
+            async: false,
+            success: function (data) {
+                if(data.message == 'success'){
+                    result = data.verifyCode;
+                    Swal.fire({
+                        title: '인증번호 발송 완료',
+                        text: '등록되어 있는 이메일 주소로 인증번호가 발송되었습니다.',
+                        confirmButtonText: '확 인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    })
+                } else {
+                    alert("secondary email send failed.");
+                }
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return result;
+    },
+
+    authenticationVerify: function () {
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/authentication-verify",
+            data: {
+                email_verify: true
+            },
+            async: false,
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    },
+
+    isDevSession: function() {
+        let dev_result = '';
+        $.ajax({
+            method: "get",
+            url: "/util-module/api/is-dev-session",
+            async: false,
+            success: function (data) {
+                console.log(data.message);
+                dev_result = data.result;
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return dev_result;
     },
 
     forgetPassword: function (accountName) {
