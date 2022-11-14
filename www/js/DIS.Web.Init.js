@@ -78,9 +78,34 @@ init = {
                 });
             }
         });
+        let verifyCode = null;
+        $(document).on("click", "#email_send", function () {
+            let email = $(".auth_id").val();
+            verifyCode = login.secondaryEmailSend(email);
+        });
 
         $(document).on("click", ".auth_confirm", function () {
-            location.href="/main"
+            let user_code = $("#user_input_code").val();
+            let isDev = login.isDevSession();
+            //isDev = false;
+            if (isDev) {
+                login.authenticationVerify();
+                location.href = "/main"
+            }
+            else {
+                if (verifyCode == user_code) {
+                    login.authenticationVerify();
+                    location.href = "/main"
+                } else {
+                    Swal.fire({
+                        title: "2차 인증에 실패했습니다.",
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
         });
     },
 
