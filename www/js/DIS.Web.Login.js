@@ -22,7 +22,6 @@ login = {
             url: "/util-module/api/login",
             data: postdata,
             success: function (data) {
-                console.log(JSON.stringify(data));
                 $(".auth_id").val($("#name").val())
                 $("#authModal").addClass('active')
                 // location.href = '/main';
@@ -66,6 +65,25 @@ login = {
         return result;
     },
 
+    getSubEmail: function (account_name) {
+        let subEmail = '';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/getSubEmail",
+            data : {
+                account_name,
+            },
+            async: false,
+            success: function (data) {
+                subEmail = data.email;
+            },
+            error: function (xhr, status) {
+                alert("서브 계정 email을 가져올 수 없습니다.");
+            }
+        })
+        return subEmail;
+    },
+
     subLogin: function (login_alias, account_name, password) {
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
@@ -73,8 +91,8 @@ login = {
             url: "/util-module/api/subLogin",
             data: postdata,
             success: function (data) {
-                console.log(data);
-                $(".auth_id").val($("#name").val())
+                let subEmail = login.getSubEmail(account_name);
+                $(".auth_id").val(subEmail);
                 $("#authModal").addClass('active')
                 // location.href = '/main';
             }, // success 
@@ -128,6 +146,71 @@ login = {
             }
         })
         return html;
+    },
+
+    secondaryEmailSend: function (email) {
+        let result ='';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/secondary-email-send",
+            data: {
+                email
+            },
+            async: false,
+            success: function (data) {
+                if(data.message == 'success'){
+                    result = data.verifyCode;
+                    Swal.fire({
+                        title: '인증번호 발송 완료',
+                        text: '등록되어 있는 이메일 주소로 인증번호가 발송되었습니다.',
+                        confirmButtonText: '확 인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    })
+                } else {
+                    alert("secondary email send failed.");
+                }
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return result;
+    },
+
+    authenticationVerify: function () {
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/authentication-verify",
+            data: {
+                email_verify: true
+            },
+            async: false,
+            success: function (data) {
+                console.log(data.message);
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    },
+
+    isDevSession: function() {
+        let dev_result = '';
+        $.ajax({
+            method: "get",
+            url: "/util-module/api/is-dev-session",
+            async: false,
+            success: function (data) {
+                dev_result = data.result;
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return dev_result;
     },
 
     forgetPassword: function (accountName) {
