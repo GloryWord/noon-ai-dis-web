@@ -485,7 +485,7 @@ init = {
                     location.href = "/main"
                 })
             }
-            else if(status.indexOf("SUCCESS")==1) {
+            else if(status.indexOf("SUCCESS")==1 || status.indexOf("Sucess")==1) {
                 if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
                 else {
                     var msg = (service == 'encrypt') ? '비식별화' : '복호화';
