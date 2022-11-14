@@ -315,15 +315,7 @@ comm = {
                 })
             }
             else{
-                Swal.fire({
-                    title: '2차 인증에 실패하였습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                }).then(() => {
-                    location.href = '/submanage';
-                })
+                location.href = '/submanage';
             }
         })
     },
