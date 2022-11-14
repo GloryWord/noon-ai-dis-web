@@ -1091,7 +1091,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {
@@ -1150,7 +1149,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     var mainLog = requestTable.postDataDecSearch(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {

@@ -68,7 +68,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(requestList)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -172,7 +171,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -278,7 +276,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -378,7 +375,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -463,7 +459,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -537,7 +532,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(requestList)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -673,7 +667,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -689,7 +682,6 @@ requestTable = {
         }
         userName = new Set(userName)
         userName = Array.from(userName)
-        console.log(userName)
 
         var usageObject = {}
         var imageObject = {}
@@ -790,7 +782,6 @@ requestTable = {
                                 <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
                             </div>\
                             <div class='tbBody'>"
-                console.log(usageObject)
                 for(var i=0;i<userName.length;i++){
                     htmlStr += "<div class='tbContent'>\
                                     <div class='user_content'><p>"+userName[i]+"</p></div>\
