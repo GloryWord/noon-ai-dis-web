@@ -381,6 +381,7 @@ init = {
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
+                socket.emit('cancelDeleteFile', 'cancel')
             }
             else if(allCheck == "false") {
                 Swal.fire({
