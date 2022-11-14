@@ -58,6 +58,9 @@ init = {
     },
 
     sublogin: function () {
+
+        login.sessionCheck();
+        
         $(document).on("click", "#loginButton", function () {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
