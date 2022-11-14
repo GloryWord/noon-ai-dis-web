@@ -7,6 +7,9 @@ init = {
 
     // 유저 로그인 화면 제어
     index: function () {
+
+        login.sessionCheck();
+
         $(document).on("click", "#loginButton", function () {
             var accountName = $("#name").val();
             var password = $("#pass").val();
@@ -24,9 +27,33 @@ init = {
                 });
             }
         });
-
+        let verifyCode = null;
+        $(document).on("click", "#email_send", function () {
+            let email = $(".auth_id").val();
+            verifyCode = login.secondaryEmailSend(email);
+        });
         $(document).on("click", ".auth_confirm", function () {
-            location.href="/main"
+            let user_code = $("#user_input_code").val();
+            let isDev = login.isDevSession();
+            console.log('isDev : '+isDev);
+            if (isDev) {
+                login.authenticationVerify();
+                location.href = "/main"
+            }
+            else {
+                if (verifyCode == user_code) {
+                    login.authenticationVerify();
+                    location.href = "/main"
+                } else {
+                    Swal.fire({
+                        title: "2차 인증에 실패했습니다.",
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
         });
     },
 
@@ -51,9 +78,34 @@ init = {
                 });
             }
         });
+        let verifyCode = null;
+        $(document).on("click", "#email_send", function () {
+            let email = $(".auth_id").val();
+            verifyCode = login.secondaryEmailSend(email);
+        });
 
         $(document).on("click", ".auth_confirm", function () {
-            location.href="/main"
+            let user_code = $("#user_input_code").val();
+            let isDev = login.isDevSession();
+            //isDev = false;
+            if (isDev) {
+                login.authenticationVerify();
+                location.href = "/main"
+            }
+            else {
+                if (verifyCode == user_code) {
+                    login.authenticationVerify();
+                    location.href = "/main"
+                } else {
+                    Swal.fire({
+                        title: "2차 인증에 실패했습니다.",
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
         });
     },
 
@@ -458,7 +510,7 @@ init = {
                     location.href = "/main"
                 })
             }
-            else if(status.indexOf("SUCCESS")==1) {
+            else if(status.indexOf("SUCCESS")==1 || status.indexOf("Sucess")==1) {
                 if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
                 else {
                     var msg = (service == 'encrypt') ? '비식별화' : '복호화';
@@ -1382,7 +1434,7 @@ init = {
                 for (var i=0;i<5;i++){
                     inspec_body.innerHTML += "<div class='recoArea' data-id="+i+">\
                                                 <div class='encImgArea'>\
-                                                    <img class='encImg'>\
+                                                    <img class='encImg' src='../static/imgs/1920main_bg.png'>\
                                                 </div>\
                                                 <div class='object_list'>\
                                                     <div class='textArea'>\
@@ -1403,14 +1455,14 @@ init = {
                                                     </div>\
                                                     <div class='cropArea'>\
                                                         <div class='cropContent'>\
-                                                            <img class='cropImg'>\
+                                                            <img class='cropImg' src='../static/imgs/login/login_back.png'>\
                                                             <div class='cropID'>\
                                                                 <p>1</p>\
                                                             </div>\
                                                             <input class='check_head "+i+"' type='checkbox' value=1>\
                                                         </div>\
                                                         <div class='cropContent'>\
-                                                            <img class='cropImg'>\
+                                                            <img class='cropImg' src='../static/imgs/info/info_icon.png'>\
                                                             <div class='cropID'>\
                                                                 <p>2</p>\
                                                             </div>\
@@ -1518,6 +1570,18 @@ init = {
                                         </div>\
                                     </div>"
         }
+
+        $(document).on("click", ".encImg", function () {
+            var imgsrc = $(this).attr("src")
+            $(".cropView").attr("src", imgsrc)
+            $("#cropView").addClass('active')
+        });
+
+        $(document).on("click", ".cropImg", function () {
+            var imgsrc = $(this).attr("src")
+            $(".cropView").attr("src", imgsrc)
+            $("#cropView").addClass('active')
+        });
 
         $(document).on("click", ".recovery", function () {
             var recoFileLen = document.getElementsByClassName('recoArea').length;
