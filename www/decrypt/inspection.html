@@ -127,4 +127,33 @@
     </div>
 </div>
 
+<div id="cropView" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div id="crop_inner" class="crop_inner">
+                <div class="cropHeader">
+                    <div class="cancel">
+                        <img class="cancel_nohover" src="../static/imgs/common/cancel_icon.png">
+                        <img class="cancel_hover" src="../static/imgs/common/cancel_hover_icon.png">
+                    </div>
+                </div>
+                <div class="cropContent" id="selectCropArea">
+                    <img class="cropView">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('mouseup', function(e) {
+        if($('#cropView').hasClass('active')){
+            var container = document.getElementById('crop_inner');
+            if (!container.contains(e.target)) {
+                $('#cropView').removeClass('active')
+            }
+        }
+    });
+</script>
+
 </html>

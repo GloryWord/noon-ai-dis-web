@@ -1406,7 +1406,7 @@ init = {
                 for (var i=0;i<5;i++){
                     inspec_body.innerHTML += "<div class='recoArea' data-id="+i+">\
                                                 <div class='encImgArea'>\
-                                                    <img class='encImg'>\
+                                                    <img class='encImg' src='../static/imgs/1920main_bg.png'>\
                                                 </div>\
                                                 <div class='object_list'>\
                                                     <div class='textArea'>\
@@ -1427,14 +1427,14 @@ init = {
                                                     </div>\
                                                     <div class='cropArea'>\
                                                         <div class='cropContent'>\
-                                                            <img class='cropImg'>\
+                                                            <img class='cropImg' src='../static/imgs/login/login_back.png'>\
                                                             <div class='cropID'>\
                                                                 <p>1</p>\
                                                             </div>\
                                                             <input class='check_head "+i+"' type='checkbox' value=1>\
                                                         </div>\
                                                         <div class='cropContent'>\
-                                                            <img class='cropImg'>\
+                                                            <img class='cropImg' src='../static/imgs/info/info_icon.png'>\
                                                             <div class='cropID'>\
                                                                 <p>2</p>\
                                                             </div>\
@@ -1542,6 +1542,18 @@ init = {
                                         </div>\
                                     </div>"
         }
+
+        $(document).on("click", ".encImg", function () {
+            var imgsrc = $(this).attr("src")
+            $(".cropView").attr("src", imgsrc)
+            $("#cropView").addClass('active')
+        });
+
+        $(document).on("click", ".cropImg", function () {
+            var imgsrc = $(this).attr("src")
+            $(".cropView").attr("src", imgsrc)
+            $("#cropView").addClass('active')
+        });
 
         $(document).on("click", ".recovery", function () {
             var recoFileLen = document.getElementsByClassName('recoArea').length;
