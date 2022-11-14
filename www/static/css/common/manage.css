@@ -574,7 +574,7 @@
 
 .layerPopupBox .auth_inner .authContent .authBody .authArea .bucketAuth,
 .layerPopupBox .auth_inner .authContent .authBody .authArea .dbAuth{
-    display: flex;
+    display: none;
     flex-direction: column;
     margin: 0 0 24px 0;
 }

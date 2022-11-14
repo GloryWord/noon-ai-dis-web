@@ -24,6 +24,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 result['progress'] = data['encrypt_progress'];
+                result['status'] = data['status'];
                 result['type'] = data['file_type'];
                 result['complete'] = data['complete'];
             },
@@ -47,6 +48,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 result['progress'] = data['decrypt_progress'];
+                result['status'] = data['status'];
                 result['complete'] = data['complete'];
             },
             error: function (xhr, status) {
@@ -107,7 +109,16 @@ requestTable = {
                 else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
 
-                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                if(requestList[i]['complete'] == 1) {
+                    var status = '<p>완료</p>'
+                }
+                else if(requestList[i]['status'].indexOf("FAIL")==1 || requestList[i]['status'].indexOf("Fail")!=-1){
+                    var status = '<p>실패</p>'
+                }
+                else {
+                    var status = '<p id="progress"></p>'
+                }
+                // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
                 // if(requestList[i]['complete'] == 1){
                 //     var status = '<p>완료</p>'
                 // }
@@ -210,8 +221,22 @@ requestTable = {
                 if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                 else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
-    
-                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                if(requestList[i]['status']==null || requestList[i]['status']==0){
+                    var sta = "[FAIL]"
+                }
+                else {
+                    var sta = requestList[i]['status']
+                }
+                console.log(i)
+                if(requestList[i]['complete'] == 1) {
+                    var status = '<p>완료</p>'
+                }
+                else if(sta.indexOf("FAIL")==1 || sta.indexOf("Fail")!=-1){
+                    var status = '<p>실패</p>'
+                }
+                else {
+                    var status = '<p id="progress"></p>'
+                }
                 // if(requestList[i]['complete'] == 1){
                 //     var status = '<p>완료</p>'
                 // }
@@ -313,16 +338,23 @@ requestTable = {
                 else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
     
-                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
-                // if(requestList[i]['complete'] == 1){
-                //     var status = '<p>완료</p>'
-                // }
-                // else if(requestList[i]['complete'] == 0){
-                //     var status = '<p>오류발생</p>'
-                // }
-                // else{
-                //     var status = '<p id="progress"></p>'
-                // }
+                // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                if(requestList[i]['status']==null || requestList[i]['status']==0){
+                    var sta = "[FAIL]"
+                }
+                else {
+                    var sta = requestList[i]['status']
+                }
+
+                if(requestList[i]['complete'] == 1) {
+                    var status = '<p>완료</p>'
+                }
+                else if(sta.indexOf("FAIL")==1 || sta.indexOf("Fail")!=-1){
+                    var status = '<p>실패</p>'
+                }
+                else {
+                    var status = '<p id="progress"></p>'
+                }
     
                 if(status=="<p>완료</p>"){
                     var disable = ""; 
