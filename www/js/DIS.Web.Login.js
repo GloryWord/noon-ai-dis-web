@@ -259,4 +259,23 @@ login = {
             }
         })
     },
+
+    sessionCheck: function() {
+        $.ajax({
+            method: "get",
+            url: "/util-module/api/session-check",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if(data.message == "success"){
+                    location.href = "/main"
+                }
+            },
+            error: function (xhr, status) {
+                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return 0;
+    },
 }
