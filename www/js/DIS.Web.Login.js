@@ -65,6 +65,25 @@ login = {
         return result;
     },
 
+    getSubEmail: function (account_name) {
+        let subEmail = '';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/getSubEmail",
+            data : {
+                account_name,
+            },
+            async: false,
+            success: function (data) {
+                subEmail = data.email;
+            },
+            error: function (xhr, status) {
+                alert("서브 계정 email을 가져올 수 없습니다.");
+            }
+        })
+        return subEmail;
+    },
+
     subLogin: function (login_alias, account_name, password) {
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
@@ -72,8 +91,8 @@ login = {
             url: "/util-module/api/subLogin",
             data: postdata,
             success: function (data) {
-                console.log(data);
-                $(".auth_id").val($("#name").val())
+                let subEmail = login.getSubEmail(account_name);
+                $(".auth_id").val(subEmail);
                 $("#authModal").addClass('active')
                 // location.href = '/main';
             }, // success 
@@ -186,7 +205,6 @@ login = {
             url: "/util-module/api/is-dev-session",
             async: false,
             success: function (data) {
-                console.log(data.message);
                 dev_result = data.result;
             },
             error: function (xhr, status) {
