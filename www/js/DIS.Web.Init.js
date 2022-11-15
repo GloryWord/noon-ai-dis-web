@@ -191,7 +191,7 @@ init = {
         var videoDuration = []
 
         var uploaded = false;
-
+        
         socket.on('delMsgToClient', function (msg) {
             if(uploaded) {
                 Swal.fire({
