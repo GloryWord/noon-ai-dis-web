@@ -58,6 +58,9 @@ init = {
     },
 
     sublogin: function () {
+
+        login.sessionCheck();
+        
         $(document).on("click", "#loginButton", function () {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
@@ -187,10 +190,10 @@ init = {
         var fileSize = []
         var videoDuration = []
 
-        var uploaded = false;
+        var uploadID = makeid(6);
 
         socket.on('delMsgToClient', function (msg) {
-            if(uploaded) {
+            if(uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -330,12 +333,12 @@ init = {
                 setTimeout(function() {
                     callback.then((data) => {
                         console.log(data);
-                        uploaded = true;
                         postData = data[0]
                         filePath = data[2][0]
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
-                                filePath: filePath
+                                filePath: filePath,
+                                id: uploadID
                             })
                         }, 1000)
                     })
@@ -378,6 +381,7 @@ init = {
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
+                socket.emit('cancelDeleteFile', 'cancel')
             }
             else if(allCheck == "false") {
                 Swal.fire({

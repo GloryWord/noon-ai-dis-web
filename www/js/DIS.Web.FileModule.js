@@ -733,27 +733,41 @@ fileModule = {
                         new Promise((resolve, reject) => {
                             var userAuth = comm.getAuth();
                             var result = '';
-                            $.ajax({
-                                method: "post",
-                                url: "/decrypt-module/api/request/decrypt", //DB에 복호화 요청정보 저장
-                                dataType: "json",
-                                data: {
-                                    enc_request_id: index,
-                                    account_auth_id: userAuth.id,
-                                    fileList: JSON.stringify(fileList),
-                                    keyPath: keyPath
-                                },
-                                async: false,
-                                success: function (data) {
-                                    result = data;
-                                    console.log(result);
-                                },
-                                error: function (xhr, status) {
-                                    // alert(xhr + " : " + status);
-                                    alert(JSON.stringify(xhr));
-                                }
-                            });
-                            resolve(result);
+                            if(userAuth['decrypt_auth']==0){
+                                Swal.fire({
+                                    title: '복호화 권한이 없어요.',
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                }).then(() => {
+                                    location.reload()
+                                });
+                            }
+                            else if(userAuth['decrypt_auth']==1){
+                                $.ajax({
+                                    method: "post",
+                                    url: "/decrypt-module/api/request/decrypt", //DB에 복호화 요청정보 저장
+                                    dataType: "json",
+                                    data: {
+                                        enc_request_id: index,
+                                        account_auth_id: userAuth.id,
+                                        fileList: JSON.stringify(fileList),
+                                        keyPath: keyPath
+                                    },
+                                    async: false,
+                                    success: function (data) {
+                                        result = data;
+                                        console.log(result);
+                                    },
+                                    error: function (xhr, status) {
+                                        // alert(xhr + " : " + status);
+                                        alert(JSON.stringify(xhr));
+                                    }
+                                });
+                                resolve(result);
+                            }
                         }).then((result) => {
                             var reqInfo = result['decReqInfo']['reqInfo'];
                             var msgTemplate = result['decReqInfo'];

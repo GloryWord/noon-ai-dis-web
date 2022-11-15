@@ -284,7 +284,6 @@ login = {
             url: "/util-module/api/session-check",
             async: false,
             success: function (data) {
-                console.log(data)
                 if(data.message == "success"){
                     location.href = "/main"
                 }
