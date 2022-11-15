@@ -153,7 +153,7 @@
     width: 290px;
     height: 34px;
     margin: 0 0 30px;
-    border-radius: 15px;
+    border-radius: 50px;
     background-color: #3fa9f5;
     display: none;
     cursor: pointer;
@@ -182,7 +182,7 @@
     width: 96px;
     height: 34px;
     margin: 0 0 30px;
-    border-radius: 15px;
+    border-radius: 50px;
     background-color: #3fa9f5;
     display: none;
     cursor: pointer;
@@ -546,6 +546,21 @@
 
     .info_content .infoArea .userinfoFirst .infoBody p,
     .info_content .infoArea .userinfoSecond .infoBody p {
+        width: auto;
+        height: 18px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 0 0 4px;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody .valid_text {
         width: auto;
         height: 18px;
         font-family: SpoqaHanSansNeo-Regular;

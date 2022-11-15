@@ -683,19 +683,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileCount == 0) {
-                Swal.fire({
-                    title: '파일 오류',
-                    html:
-                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileWidth[0]+fileHeight[0] > 3000) {
+            if (fileWidth[0]+fileHeight[0] > 3000) {
                 Swal.fire({
                     title: '파일 해상도 초과',
                     html:
@@ -715,6 +703,18 @@ init = {
                         '파일 용량이 150MB를 초과하였습니다.<br/>' +
                         '서비스 안정성을 위해 150MB 이하의<br/>' +
                         '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html:
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
