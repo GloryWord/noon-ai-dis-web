@@ -250,9 +250,32 @@ init = {
         // 키 발급 만약 에러뜬다면 genKeyName val == '' 확인, 에러확률 거의 없음
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            cKey = 1;
-            sKey = "select";
-            comm.generateKey(genKeyName, null);
+            var check_num = /[0-9]/;    // 숫자 
+            // var check_big = /[A-Z]/;    // 대문자
+            var check_small = /[a-z]/;    // 소문자
+            if(genKeyName.length<8 || genKeyName.length>20){
+                Swal.fire({
+                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+                Swal.fire({
+                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else{
+                cKey = 1;
+                sKey = "select";
+                comm.generateKey(genKeyName, null);
+            }
         });
 
         var restoration = 0;
@@ -619,9 +642,32 @@ init = {
         var sKey = "select"
         $(document).on("click", "#generateKey", function () {
             var genKeyName = $("#genKeyName").val();
-            cKey = 1;
-            sKey = "select";
-            comm.generateKey(genKeyName, null);
+            var check_num = /[0-9]/;    // 숫자 
+            // var check_big = /[A-Z]/;    // 대문자
+            var check_small = /[a-z]/;    // 소문자
+            if(genKeyName.length<8 || genKeyName.length>20){
+                Swal.fire({
+                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+                Swal.fire({
+                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else{
+                cKey = 1;
+                sKey = "select";
+                comm.generateKey(genKeyName, null);
+            }
         });
 
         var restoration = 0;
@@ -2032,7 +2078,30 @@ init = {
             else {
                 var genKeyName = $("#genKeyName").val();
                 var keyMemo = $("#keyMemo").val();
-                comm.generateKey(genKeyName, keyMemo);
+                var check_num = /[0-9]/;    // 숫자 
+                // var check_big = /[A-Z]/;    // 대문자
+                var check_small = /[a-z]/;    // 소문자
+                if(genKeyName.length<8 || genKeyName.length>20){
+                    Swal.fire({
+                        title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+                    Swal.fire({
+                        title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else{
+                    comm.generateKey(genKeyName, keyMemo);
+                }
             }
         });
     },
