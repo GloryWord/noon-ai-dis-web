@@ -598,7 +598,7 @@ requestTable = {
                                     <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
                                     <div class="tableFooter">\
                                         <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                        <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                        <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                         <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
                                     </div>\
                                 </div>'
@@ -624,7 +624,7 @@ requestTable = {
                     htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
                                     <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
                                     <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
-                                    <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                    <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                     <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
                                     <div class="memo_content">\
                                         <p class="memo_text">'+ memo + '</p>\
