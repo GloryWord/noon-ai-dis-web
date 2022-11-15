@@ -190,10 +190,10 @@ init = {
         var fileSize = []
         var videoDuration = []
 
-        var uploaded = false;
-        
+        var uploadID = makeid(6);
+
         socket.on('delMsgToClient', function (msg) {
-            if(uploaded) {
+            if(uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -333,12 +333,12 @@ init = {
                 setTimeout(function() {
                     callback.then((data) => {
                         console.log(data);
-                        uploaded = true;
                         postData = data[0]
                         filePath = data[2][0]
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
-                                filePath: filePath
+                                filePath: filePath,
+                                id: uploadID
                             })
                         }, 1000)
                     })
@@ -1226,7 +1226,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {
@@ -1285,7 +1284,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     var mainLog = requestTable.postDataDecSearch(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {
