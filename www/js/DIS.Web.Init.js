@@ -90,7 +90,6 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let isDev = login.isDevSession();
-            //isDev = false;
             if (isDev) {
                 login.authenticationVerify();
                 location.href = "/main"

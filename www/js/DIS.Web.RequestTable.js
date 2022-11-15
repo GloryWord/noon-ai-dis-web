@@ -652,7 +652,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -1022,7 +1021,6 @@ requestTable = {
     },
 
     getMonthTypeUsage: function (type, date) {
-        console.log(type);
         var logType = ''
         if(type=="encrypt_request") logType = 'encrypt'
         else if(type=="decrypt_request") logType = 'decrypt'
@@ -1034,9 +1032,7 @@ requestTable = {
             url: apiUrl,
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
-                console.log(data);
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
