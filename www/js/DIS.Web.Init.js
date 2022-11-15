@@ -1932,6 +1932,14 @@ init = {
     },
 
     myinfo: function () {
+        $(document).on("click", ".auth_send", function () {
+            $(".none_text").removeClass('active')
+            $(".auth_send").removeClass('active')
+            $(".valid_text").addClass('active')
+            $(".view_emailValid").addClass('active')
+            $(".auth_config").addClass('active')
+        });
+
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
