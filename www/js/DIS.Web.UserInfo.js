@@ -40,7 +40,7 @@ userinfo = {
         else{
             var telephone = requestList[0]['telephone']
         }
-        var onlu_num = "this.value.replace(/[^0-9]/g,'')"
+        var only_num = "this.value.replace(/[^0-9]/g,'')"
         htmlStr += '<div class="infoBody head">\
                         <p>아이디</p>\
                         <h1>'+requestList[0]['account_name']+'</h1>\
@@ -53,6 +53,17 @@ userinfo = {
                         <p>이메일</p>\
                         <input class="view_email" type="email" value="'+email+'" placeholder="인증 받을 이메일을 입력해 주세요">\
                         <h3 class="email_error">메일 주소를 다시 확인해 주세요</h3>\
+                    </div>\
+                    <div class="infoBody">\
+                        <h3 class="none_text active"></h3>\
+                        <div class="auth_send active">\
+                            <p>이메일 인증</p>\
+                        </div>\
+                        <p class="valid_text">인증번호</p>\
+                        <input class="view_emailValid" onKeyup="'+only_num+'" placeholder="인증 번호을 입력해 주세요">\
+                        <div class="auth_config">\
+                            <p>인증 확인</p>\
+                        </div>\
                     </div>';
         return htmlStr;
     },
