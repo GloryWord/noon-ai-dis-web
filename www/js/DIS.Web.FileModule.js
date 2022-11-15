@@ -149,7 +149,6 @@ fileModule = {
         filteredFileArray.forEach(file => { dataTransfer.items.add(file); });
         $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
         files = $('#file')[0].files;
-        console.log(files);
 
         for (var i = 0; i < files.length; i++) {
             fileTypeInfo = files[i].type.split('/');

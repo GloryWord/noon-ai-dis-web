@@ -203,7 +203,6 @@ login = {
             url: "/util-module/api/is-dev-session",
             async: false,
             success: function (data) {
-                console.log(data.message);
                 dev_result = data.result;
             },
             error: function (xhr, status) {
@@ -285,7 +284,6 @@ login = {
             url: "/util-module/api/session-check",
             async: false,
             success: function (data) {
-                console.log(data)
                 if(data.message == "success"){
                     location.href = "/main"
                 }
