@@ -1930,13 +1930,62 @@ init = {
     },
 
     myinfo: function () {
+        let verifyCode = '';
+        let email_config = false;
         $(document).on("click", ".auth_send", function () {
-            $(".none_text").removeClass('active')
-            $(".auth_send").removeClass('active')
-            $(".valid_text").addClass('active')
-            $(".view_emailValid").addClass('active')
-            $(".auth_config").addClass('active')
+            let user_email = $(".view_email").val();
+            if (user_email == first_email) {
+                Swal.fire({
+                    title: '이메일이 \n변경되지 않았습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else {
+                if (validEmail({ value: user_email })) {
+                    verifyCode = userinfo.emailAuthentication(user_email);
+                    $(".none_text").removeClass('active')
+                    $(".auth_send").removeClass('active')
+                    $(".valid_text").addClass('active')
+                    $(".view_emailValid").addClass('active')
+                    $(".auth_config").addClass('active')
+                }
+                else {
+                    Swal.fire({
+                        title: '이메일 형식이 맞지 않습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
         });
+
+        $(document).on("click", ".auth_config", function () {
+            let user_code = $(".view_emailValid").val();
+            if (user_code == verifyCode) {
+                email_config = true;
+                Swal.fire({
+                    title: '인증이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    denyButtonText: "확 인",
+                    icon: "success"
+                });
+            }
+            else {
+                Swal.fire({
+                    title: '인증번호가 틀렸습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+        })
 
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
@@ -1944,9 +1993,11 @@ init = {
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
-            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig)
+            let origin_name = first_name;
+            let origin_email = first_email;
+            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config);
         });
-
+        
         $(document).on("change", ".view_email", function () {
             if ($(this).val() != "") {
                 var validemail = validEmail(this)
@@ -1971,8 +2022,8 @@ init = {
             }
         });
 
-        var getFirtstInfo = userinfo.getFirtstInfo()
-        $(".userinfoFirst").html(getFirtstInfo);
+        var {getFirstInfo, first_name, first_email} = userinfo.getFirtstInfo();
+        $(".userinfoFirst").html(getFirstInfo);
 
         var getSecondInfo = userinfo.getSecondInfo()
         $(".userinfoSecond").html(getSecondInfo);
