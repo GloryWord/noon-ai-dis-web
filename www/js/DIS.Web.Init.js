@@ -90,7 +90,6 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let isDev = login.isDevSession();
-            //isDev = false;
             if (isDev) {
                 login.authenticationVerify();
                 location.href = "/main"
@@ -683,19 +682,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileCount == 0) {
-                Swal.fire({
-                    title: '파일 오류',
-                    html:
-                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileWidth[0]+fileHeight[0] > 3000) {
+            if (fileWidth[0]+fileHeight[0] > 3000) {
                 Swal.fire({
                     title: '파일 해상도 초과',
                     html:
@@ -715,6 +702,18 @@ init = {
                         '파일 용량이 150MB를 초과하였습니다.<br/>' +
                         '서비스 안정성을 위해 150MB 이하의<br/>' +
                         '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html:
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -1226,7 +1225,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     var mainLog = requestTable.postDataSearch(filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {
@@ -1285,7 +1283,6 @@ init = {
                     });
                 }
                 else {
-                    console.log(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     var mainLog = requestTable.postDataDecSearch(filter_video, filter_image, filter_album, filter_file, startDate, endDate)
                     $(".mainLog").html(mainLog);
                     if (screen.width <= 600) {
@@ -1933,15 +1930,74 @@ init = {
     },
 
     myinfo: function () {
+        let verifyCode = '';
+        let email_config = false;
+        $(document).on("click", ".auth_send", function () {
+            let user_email = $(".view_email").val();
+            if (user_email == first_email) {
+                Swal.fire({
+                    title: '이메일이 \n변경되지 않았습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else {
+                if (validEmail({ value: user_email })) {
+                    verifyCode = userinfo.emailAuthentication(user_email);
+                    $(".none_text").removeClass('active')
+                    $(".auth_send").removeClass('active')
+                    $(".valid_text").addClass('active')
+                    $(".view_emailValid").addClass('active')
+                    $(".auth_config").addClass('active')
+                }
+                else {
+                    Swal.fire({
+                        title: '이메일 형식이 맞지 않습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
+        });
+
+        $(document).on("click", ".auth_config", function () {
+            let user_code = $(".view_emailValid").val();
+            if (user_code == verifyCode) {
+                email_config = true;
+                Swal.fire({
+                    title: '인증이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    denyButtonText: "확 인",
+                    icon: "success"
+                });
+            }
+            else {
+                Swal.fire({
+                    title: '인증번호가 틀렸습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+        })
+
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
-            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig)
+            let origin_name = first_name;
+            let origin_email = first_email;
+            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config);
         });
-
+        
         $(document).on("change", ".view_email", function () {
             if ($(this).val() != "") {
                 var validemail = validEmail(this)
@@ -1966,8 +2022,8 @@ init = {
             }
         });
 
-        var getFirtstInfo = userinfo.getFirtstInfo()
-        $(".userinfoFirst").html(getFirtstInfo);
+        var {getFirstInfo, first_name, first_email} = userinfo.getFirtstInfo();
+        $(".userinfoFirst").html(getFirstInfo);
 
         var getSecondInfo = userinfo.getSecondInfo()
         $(".userinfoSecond").html(getSecondInfo);

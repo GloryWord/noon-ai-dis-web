@@ -144,6 +144,87 @@
     color: #595959;
 }
 
+.info_content .infoArea .userinfoFirst .infoBody .none_text {
+    width: 88px;
+    display: none;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .auth_send {
+    width: 290px;
+    height: 34px;
+    margin: 0 0 30px;
+    border-radius: 50px;
+    background-color: #3fa9f5;
+    display: none;
+    cursor: pointer;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .auth_send p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .view_emailValid {
+    display: none;
+    width: 160px;
+    margin: 0 10px 30px 0;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .auth_config {
+    width: 96px;
+    height: 34px;
+    margin: 0 0 30px;
+    border-radius: 50px;
+    background-color: #3fa9f5;
+    display: none;
+    cursor: pointer;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .auth_config p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .valid_text {
+    width: 88px;
+    height: 18px;
+    margin: 11px 0;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    display: none;
+}
+
+.info_content .infoArea .userinfoFirst .infoBody .none_text.active,
+.info_content .infoArea .userinfoFirst .infoBody .auth_send.active,
+.info_content .infoArea .userinfoFirst .infoBody .valid_text.active,
+.info_content .infoArea .userinfoFirst .infoBody .view_emailValid.active,
+.info_content .infoArea .userinfoFirst .infoBody .auth_config.active {
+    display: flex;
+}
+
 .info_content .infoArea .userinfoSecond .infoBody p {
     width: 100px;
     height: 18px;
@@ -479,6 +560,21 @@
         margin: 0 0 4px;
     }
 
+    .info_content .infoArea .userinfoFirst .infoBody .valid_text {
+        width: auto;
+        height: 18px;
+        font-family: SpoqaHanSansNeo-Regular;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: left;
+        color: #595959;
+        margin: 0 0 4px;
+    }
+
     .info_content .infoArea .infoBody h1 {
         width: 272px;
         height: auto;
@@ -503,6 +599,28 @@
         width: 248px;
         height: 18px;
         margin: 0 auto;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody .none_text.active.active {
+        display: none;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody .auth_send {
+        width: 272px;
+        height: 34px;
+        margin: 0 auto;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody .auth_config {
+        width: 272px;
+        height: 34px;
+        margin: 0 auto;
+    }
+
+    .info_content .infoArea .userinfoFirst .infoBody .view_emailValid {
+        width: 248px;
+        height: 18px;
+        margin: 0 auto 10px;
     }
 
     .info_content .infoArea .userinfoFirst {

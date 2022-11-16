@@ -70,7 +70,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(requestList)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -183,7 +182,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -303,7 +301,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -410,7 +407,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -495,7 +491,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -569,7 +564,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(requestList)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -604,7 +598,7 @@ requestTable = {
                                     <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
                                     <div class="tableFooter">\
                                         <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                        <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                        <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                         <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
                                     </div>\
                                 </div>'
@@ -630,7 +624,7 @@ requestTable = {
                     htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
                                     <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
                                     <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
-                                    <div class="user_content"><p>'+ requestList['keyList'][i]['account_name'] + '</p></div>\
+                                    <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                     <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
                                     <div class="memo_content">\
                                         <p class="memo_text">'+ memo + '</p>\
@@ -658,7 +652,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -705,7 +698,6 @@ requestTable = {
             success: function (data) {
                 // result = data['progress']
                 requestList = data;
-                console.log(data)
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -721,7 +713,6 @@ requestTable = {
         }
         userName = new Set(userName)
         userName = Array.from(userName)
-        console.log(userName)
 
         var usageObject = {}
         var imageObject = {}
@@ -822,7 +813,6 @@ requestTable = {
                                 <div class='total_download_header'><h3>총 다운로드 용량</h3></div>\
                             </div>\
                             <div class='tbBody'>"
-                console.log(usageObject)
                 for(var i=0;i<userName.length;i++){
                     htmlStr += "<div class='tbContent'>\
                                     <div class='user_content'><p>"+userName[i]+"</p></div>\
@@ -1031,7 +1021,6 @@ requestTable = {
     },
 
     getMonthTypeUsage: function (type, date) {
-        console.log(type);
         var logType = ''
         if(type=="encrypt_request") logType = 'encrypt'
         else if(type=="decrypt_request") logType = 'decrypt'
@@ -1043,9 +1032,7 @@ requestTable = {
             url: apiUrl,
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
-                console.log(data);
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
