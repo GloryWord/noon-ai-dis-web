@@ -198,7 +198,7 @@ resultLoader = {
                             <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
                         </div>\
                         <div class="file_date">\
-                            <p class="title">업로드 일자</p>\
+                            <p class="title">작업 날짜</p>\
                             <p>'+dateFormat(date)+' '+result.request_time+'</p>\
                         </div>\
                         <div class="file_reco">\
@@ -230,7 +230,7 @@ resultLoader = {
                             <p class="file_fullname">'+fileNameArray[0]+ nameCount +'</p>\
                         </div>\
                         <div class="file_date">\
-                            <p class="title">업로드 일자</p>\
+                            <p class="title">작업 날짜</p>\
                             <p>'+dateFormat(date)+' '+result.request_time+'</p>\
                         </div>\
                     </div>';
