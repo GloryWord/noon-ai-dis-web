@@ -1976,6 +1976,16 @@ init = {
     },
 
     myinfo: function () {
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var auth = urlParams.get('auth');
+
+        $(document).ready(function () {
+            if(auth != "1"){
+                location.href = "/main"
+            }
+        });
+
         let verifyCode = '';
         let email_config = false;
         $(document).on("click", ".auth_send", function () {
