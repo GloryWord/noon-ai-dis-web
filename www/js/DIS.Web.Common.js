@@ -397,7 +397,7 @@ comm = {
             async: false,
             success: function (data) {
                 if(data.message == "success"){
-                    location.href = '/myinfo';
+                    location.href = "/myinfo" + "?auth=1";
                 }
                 else{
                     Swal.fire({
