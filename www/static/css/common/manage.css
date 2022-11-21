@@ -395,7 +395,7 @@
     width: 294px;
     height: auto;
     display: flex;
-    margin: 0 auto 54px;
+    margin: 30px auto 54px;
 }
 
 .add_content .addArea .btnArea .addSave {
@@ -697,7 +697,7 @@
     width: 294px;
     height: auto;
     display: flex;
-    margin: 6px auto 54px;
+    margin: 24px auto 54px;
 }
 
 .layerPopupBox .inner .passContent .passBody .passFooter .passConfig,
@@ -1077,7 +1077,7 @@
     .layerPopupBox .key_inner .keyContent .keyBody .keyFooter .cancel {
         width: 114px;
         height: 40px;
-        margin: 0 12px 0 0;
+        margin: 0;
     }
 
     .layerPopupBox .inner .passContent .passBody .passFooter .passConfig p, 
