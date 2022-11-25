@@ -22,10 +22,8 @@ login = {
             url: "/util-module/api/login",
             data: postdata,
             success: function (data) {
-                $(".auth_id").val($("#name").val())
-                $("#authModal").addClass('active')
-                // location.href = '/main';
-            }, // success 
+                location.href = "/main";
+            },
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
                 Swal.fire({
@@ -37,6 +35,38 @@ login = {
                 });
             }
         })
+    },
+
+    firstLogin: function (account_name, password) {
+        let postdata = { account_name: account_name, password: password };
+        let master_tenant_id = '';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/first-login",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    $(".auth_id").val($("#name").val());
+                    $("#authModal").addClass('active');
+                    master_tenant_id = data.tenant_id;
+                }
+                else {
+                    Swal.fire({
+                        title: '로그인에 실패하였습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                
+            },
+            error: function (xhr, status) {
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
+            }
+        })
+        return master_tenant_id;
     },
 
     secondaryLogin: function (password) {
@@ -65,13 +95,14 @@ login = {
         return result;
     },
 
-    getSubEmail: function (account_name) {
+    getSubEmail: function (account_name, tenant_id) {
         let subEmail = '';
         $.ajax({
             method: "post",
             url: "/util-module/api/getSubEmail",
             data : {
-                account_name,
+                account_name: account_name,
+                tenant_id: tenant_id
             },
             async: false,
             success: function (data) {
@@ -91,13 +122,9 @@ login = {
             url: "/util-module/api/subLogin",
             data: postdata,
             success: function (data) {
-                let subEmail = login.getSubEmail(account_name);
-                $(".auth_id").val(subEmail);
-                $("#authModal").addClass('active')
-                // location.href = '/main';
-            }, // success 
+                location.href = "/main";
+            },
             error: function (xhr, status) {
-                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
                     showConfirmButton:false,
@@ -107,6 +134,37 @@ login = {
                 });
             }
         })
+    },
+
+    firstSubLogin: function (login_alias, account_name, password) {
+        let postdata = { login_alias: login_alias, account_name: account_name, password: password };
+        let master_tenant_id = '';
+        $.ajax({
+            method: "post",
+            url: "/util-module/api/first-login-sub",
+            data: postdata,
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    let subEmail = login.getSubEmail(account_name, data.tenant);
+                    $(".auth_id").val(subEmail);
+                    $("#authModal").addClass('active');
+                    master_tenant_id = data.tenant;
+                }
+                else {
+                    Swal.fire({
+                        title: '로그인에 실패하였습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
+                }
+            },
+            error: function (xhr, status) {
+            }
+        })
+        return master_tenant_id;
     },
 
     verifyResetToken: function (accountName, token) {
@@ -194,24 +252,7 @@ login = {
             }
         })
     },
-
-    isDevSession: function() {
-        let dev_result = '';
-        $.ajax({
-            method: "get",
-            url: "/util-module/api/is-dev-session",
-            async: false,
-            success: function (data) {
-                dev_result = data.result;
-            },
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
-
-        return dev_result;
-    },
-
+    
     forgetPassword: function (accountName) {
         $.ajax({
             method: "post",

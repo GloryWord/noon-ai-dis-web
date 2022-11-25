@@ -2,18 +2,30 @@
 
 DIS.Web.Init = DIS.Web.Init || {};
 
+let whitelist = [
+    { tenant_id: 2, account_name: 'ilhoon', user_name: '이일훈' },
+    { tenant_id: 2, account_name: 'test', user_name: '테스트' },
+    { tenant_id: 4, account_name: 'noonai_lab@mhncity.com', user_name: 'noonAI' },
+    { tenant_id: 4, account_name: 'test', user_name: '테스트' },
+    { tenant_id: 4, account_name: 'sd', user_name: '성동구청' },
+    { tenant_id: 5, account_name: 'leeilhoon123@mhncity.com', user_name: '이일훈' },
+    { tenant_id: 1, account_name: 'mhncity', user_name: 'MHNCity'},
+    { tenant_id: 1, account_name: 'minhyeong', user_name: '이민형'},
+]
+
 var init = DIS.Web.Init;
 init = {
 
     // 유저 로그인 화면 제어
     index: function () {
 
-        login.sessionCheck();
-
+        let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
             var accountName = $("#name").val();
             var password = $("#pass").val();
-            if (accountName && password) login.login(accountName, password);
+            if (accountName && password) {
+                master_tenant_id = login.firstLogin(accountName, password);
+            }
             else {
                 if (accountName == '') var msg = '아이디';
                 if (password == '') var msg = '비밀번호';
@@ -34,16 +46,23 @@ init = {
         });
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
-            let isDev = login.isDevSession();
-            console.log('isDev : '+isDev);
+            let account_name = $('#name').val();
+            let isDev = false;
+            whitelist.forEach((val) => {
+                if (val.tenant_id == master_tenant_id && val.account_name == account_name){
+                    isDev = true;
+                }
+            });
             if (isDev) {
-                login.authenticationVerify();
-                location.href = "/main"
+                let accountName = $("#name").val();
+                let password = $("#pass").val();
+                login.login(accountName, password);
             }
             else {
                 if (verifyCode == user_code) {
-                    login.authenticationVerify();
-                    location.href = "/main"
+                    let accountName = $("#name").val();
+                    let password = $("#pass").val();
+                    login.login(accountName, password);
                 } else {
                     Swal.fire({
                         title: "2차 인증에 실패했습니다.",
@@ -58,14 +77,15 @@ init = {
     },
 
     sublogin: function () {
-
-        login.sessionCheck();
         
+        let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
             var loginAlias = $("#loginAlias").val();
             var accountName = $("#name").val();
             var password = $("#pass").val();
-            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
+            if (loginAlias && accountName && password) {
+                master_tenant_id = login.firstSubLogin(loginAlias, accountName, password);
+            }
             else {
                 if (loginAlias == '') var msg = '접속키'
                 if (accountName == '') var msg = '아이디';
@@ -89,15 +109,25 @@ init = {
 
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
-            let isDev = login.isDevSession();
-            if (isDev) {
-                login.authenticationVerify();
-                location.href = "/main"
+            let account_name = $('#name').val();
+            let isDev = false;
+            whitelist.forEach((val) => {
+                if (val.tenant_id == master_tenant_id && val.account_name == account_name){
+                    isDev = true;
+                }
+            });
+            if(isDev) {
+                let accountName = $("#name").val();
+                let loginAlias = $("#loginAlias").val();
+                let password = $("#pass").val();
+                login.subLogin(loginAlias, accountName, password);
             }
             else {
                 if (verifyCode == user_code) {
-                    login.authenticationVerify();
-                    location.href = "/main"
+                    let accountName = $("#name").val();
+                    let loginAlias = $("#loginAlias").val();
+                    let password = $("#pass").val();
+                    login.subLogin(loginAlias, accountName, password);
                 } else {
                     Swal.fire({
                         title: "2차 인증에 실패했습니다.",
