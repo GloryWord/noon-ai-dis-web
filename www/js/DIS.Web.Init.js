@@ -11,6 +11,7 @@ let whitelist = [
     { tenant_id: 5, account_name: 'leeilhoon123@mhncity.com', user_name: '이일훈' },
     { tenant_id: 1, account_name: 'mhncity', user_name: 'MHNCity'},
     { tenant_id: 1, account_name: 'minhyeong', user_name: '이민형'},
+    { tenant_id: 10, account_name: 'paasta@test.com', user_name: '파스타'},
 ]
 
 var init = DIS.Web.Init;
@@ -1115,7 +1116,7 @@ init = {
                                 subDirectory: encDirectory[1],
                                 fileName: ['Download.zip']
                             })
-                            
+
                             setTimeout(function () {
                                 new Promise((resolve, reject) => {
                                     //파일 다운로드 경로 획득
@@ -1128,16 +1129,6 @@ init = {
                                     resolve();
                                 }).then(() => {
                                     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                    // new Promise((resolve, reject) => {
-                                    //     //다운로드 후 zip 파일 삭제
-                                    //     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                    //     socket.emit('deleteFile', {
-                                    //         bucketName: encDirectory[0],
-                                    //         subDirectory: encDirectory[1],
-                                    //         fileName: ['Download.zip']
-                                    //     })
-                                    //     // resolve(complete);
-                                    // })
                                 })
                             }, 500)
                         }
