@@ -1110,6 +1110,12 @@ init = {
                     });
                     socket.on('compress', function (data) {
                         if (data.log == '압축 완료') {
+                            socket.emit('deleteFile', {
+                                bucketName: encDirectory[0],
+                                subDirectory: encDirectory[1],
+                                fileName: ['Download.zip']
+                            })
+                            
                             setTimeout(function () {
                                 new Promise((resolve, reject) => {
                                     //파일 다운로드 경로 획득
@@ -1121,16 +1127,17 @@ init = {
                                     comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
                                     resolve();
                                 }).then(() => {
-                                    new Promise((resolve, reject) => {
-                                        //다운로드 후 zip 파일 삭제
-                                        Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                        socket.emit('deleteFile', {
-                                            bucketName: encDirectory[0],
-                                            subDirectory: encDirectory[1],
-                                            fileName: ['Download.zip']
-                                        })
-                                        // resolve(complete);
-                                    })
+                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                    // new Promise((resolve, reject) => {
+                                    //     //다운로드 후 zip 파일 삭제
+                                    //     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                    //     socket.emit('deleteFile', {
+                                    //         bucketName: encDirectory[0],
+                                    //         subDirectory: encDirectory[1],
+                                    //         fileName: ['Download.zip']
+                                    //     })
+                                    //     // resolve(complete);
+                                    // })
                                 })
                             }, 500)
                         }
