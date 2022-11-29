@@ -1040,11 +1040,12 @@ requestTable = {
         });
 
         let htmlStr = ''
+
         if(logType == 'decrypt'){
-            let file_header = ""
+            var file_header = ""
         }
         else{
-            let file_header = "파일 용량"
+            var file_header = "파일 용량"
         }
 
         if (requestList[0] == null) {            
@@ -1071,12 +1072,18 @@ requestTable = {
                                 <div class='file_header'><h3>파일명</h3></div>\
                                 <div class='type_header'><h3>파일 타입</h3></div>\
                                 <div class='extension_header'><h3>파일 확장자명</h3></div>\
-                                <div class='size_header'><h3>파일 용량</h3></div>\
+                                <div class='size_header'><h3>"+file_header+"</h3></div>\
                                 <div class='date_content'><h3>요청 날짜</h3></div>\
                             </div>\
                             <div class='mainLog'>"
                 for (var i = 0; i < requestList.length; i++) {
                     var date = new Date(requestList[i]['request_date'])
+                    if(logType == 'decrypt'){
+                        var file_content = ""
+                    }
+                    else{
+                        var file_content = formatBytes(requestList[i]["file_size"])
+                    }
                     if(screen.width<=600){
                         htmlStr += '<div class="m_logContent">\
                                         <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
@@ -1084,7 +1091,7 @@ requestTable = {
                                             <div class="user_content"><p>'+ requestList[i]["user_name"] + '</p></div>\
                                             <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
                                             <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
-                                            <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
+                                            <div class="size_content"><p>'+ file_content + '</p></div>\
                                             <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
                                         </div>\
                                     </div>'
@@ -1096,7 +1103,7 @@ requestTable = {
                                         <div class="file_content"><p>'+ requestList[i]["file_name"] + '</p></div>\
                                         <div class="type_content"><p>'+ requestList[i]["file_type"] + '</p></div>\
                                         <div class="extension_content"><p>'+ requestList[i]["file_extension"] + '</p></div>\
-                                        <div class="size_content"><p>'+ formatBytes(requestList[i]["file_size"]) + '</p></div>\
+                                        <div class="size_content"><p>'+ file_content + '</p></div>\
                                         <div class="date_content"><p>'+ dateFormat(date) +'</p></div>\
                                     </div>'
                     }
