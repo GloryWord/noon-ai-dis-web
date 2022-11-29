@@ -1039,7 +1039,13 @@ requestTable = {
             }
         });
 
-        var htmlStr = ''
+        let htmlStr = ''
+        if(logType == 'decrypt'){
+            let file_header = ""
+        }
+        else{
+            let file_header = "파일 용량"
+        }
 
         if (requestList[0] == null) {            
             htmlStr += "<div class='logTable'>\
@@ -1049,7 +1055,7 @@ requestTable = {
                                 <div class='file_header'><h3>파일명</h3></div>\
                                 <div class='type_header'><h3>파일 타입</h3></div>\
                                 <div class='extension_header'><h3>파일 확장자명</h3></div>\
-                                <div class='size_header'><h3>파일 용량</h3></div>\
+                                <div class='size_header'><h3>"+file_header+"</h3></div>\
                                 <div class='date_content'><h3>요청 날짜</h3></div>\
                             </div>\
                             <div class='mainLog'>\
