@@ -526,11 +526,15 @@ fileModule = {
                             $('input[type=radio][name=restoration]').on('change', function () {
                                 if ($(this).val() == 'true') {
                                     if (fileType == "video") avg_object_charge *= 1.5
-                                    else chargeArray[0].avg_object_charge *= 1.5
+                                    else for (let i = 0; i < chargeArray.length; i++) {
+                                        chargeArray[i].avg_object_charge *= 1.5
+                                    }
                                 }
                                 else {
-                                    if (fileType == "video") avg_object_charge /= 1.5
-                                    else chargeArray[0].avg_object_charge /= 1.5
+                                    if (fileType == "video") avg_object_charge /= 1.5;
+                                    else for (let i = 0; i < chargeArray.length; i++) {
+                                        chargeArray[i].avg_object_charge *= 1.5
+                                    }
                                 }
                             });
 
@@ -562,7 +566,7 @@ fileModule = {
                                         const result = $(".charge_text." + i + "").text().replace(regex, "");
                                         total += Number(result)
                                     }
-                                    $(".total_text").text(price_three(total) + "원")
+                                    $(".total_text").text(price_three(Math.round(total * 100) / 100) + "원")
                                 }
                             });
 
