@@ -523,6 +523,21 @@ fileModule = {
                                 charge_content.innerHTML = html;
                             }
 
+                            $('input[type=radio][name=restoration]').on('change', function () {
+                                if ($(this).val() == 'true') {
+                                    if (fileType == "video") avg_object_charge *= 1.5
+                                    else for (let i = 0; i < chargeArray.length; i++) {
+                                        chargeArray[i].avg_object_charge *= 1.5
+                                    }
+                                }
+                                else {
+                                    if (fileType == "video") avg_object_charge /= 1.5;
+                                    else for (let i = 0; i < chargeArray.length; i++) {
+                                        chargeArray[i].avg_object_charge *= 1.5
+                                    }
+                                }
+                            });
+
                             $(document).on("change", ".object_number", function () {
                                 var object_num = $(this).val();
                                 var num = $(this).data("num")
@@ -535,6 +550,7 @@ fileModule = {
                                     $(".charge_text." + num + "").text(price_three(total_charge) + "원")
                                 }
                                 else if (fileType == "image") {
+                                    
                                     var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
                                     for (var i = 0; i < chargeArray.length; i++) {
                                         chargeArray[i].total_charge = 0;
@@ -550,7 +566,7 @@ fileModule = {
                                         const result = $(".charge_text." + i + "").text().replace(regex, "");
                                         total += Number(result)
                                     }
-                                    $(".total_text").text(price_three(total) + "원")
+                                    $(".total_text").text(price_three(Math.round(total * 100) / 100) + "원")
                                 }
                             });
 

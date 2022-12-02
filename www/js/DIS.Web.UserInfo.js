@@ -139,7 +139,7 @@ userinfo = {
             success: function (data) {
                 if(data.message == "success"){
                     Swal.fire(data.change+'\n완료됐습니다.', '', 'success').then(() => {
-                        location.href = '/myinfo';
+                        location.href = "/myinfo" + "?auth=1";
                     })
                 }
                 else if(data.message == 'email_config_failed') {
