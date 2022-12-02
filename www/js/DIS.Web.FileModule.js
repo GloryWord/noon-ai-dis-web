@@ -533,7 +533,7 @@ fileModule = {
                                 else {
                                     if (fileType == "video") avg_object_charge /= 1.5;
                                     else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge *= 1.5
+                                        chargeArray[i].avg_object_charge /= 1.5
                                     }
                                 }
                             });
