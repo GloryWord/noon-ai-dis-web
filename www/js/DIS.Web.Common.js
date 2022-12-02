@@ -281,7 +281,7 @@ comm = {
             url: "/util-module/api/user/auth",
             async: false,
             success: function (data) {
-                result = data
+                if(data.statusCode == 200) result = data.userAuth;
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
