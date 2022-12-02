@@ -25,7 +25,7 @@ login = {
                 location.href = "/main";
             },
             error: function (xhr, status) {
-                // alert("error : " + xhr + " : " + JSON.stringify(status));
+                console.log(status);
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
                     showConfirmButton:false,
@@ -46,7 +46,7 @@ login = {
             data: postdata,
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
+                if (data.message == 'login success') {
                     $(".auth_id").val($("#name").val());
                     $("#authModal").addClass('active');
                     master_tenant_id = data.tenant_id;
@@ -145,7 +145,7 @@ login = {
             data: postdata,
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
+                if (data.message == 'sub login success') {
                     let subEmail = login.getSubEmail(account_name, data.tenant);
                     $(".auth_id").val(subEmail);
                     $("#authModal").addClass('active');
