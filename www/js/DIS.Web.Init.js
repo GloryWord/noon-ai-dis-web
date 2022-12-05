@@ -23,7 +23,8 @@ init = {
 
     // 유저 로그인 화면 제어
     index: function () {
-
+        login.sessionCheck();
+        
         let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
             var accountName = $("#name").val();
