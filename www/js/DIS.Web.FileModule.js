@@ -533,7 +533,7 @@ fileModule = {
                                 else {
                                     if (fileType == "video") avg_object_charge /= 1.5;
                                     else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge /= 1.5
+                                        chargeArray[i].avg_object_charge *= 1.5
                                     }
                                 }
                             });
@@ -550,7 +550,7 @@ fileModule = {
                                     $(".charge_text." + num + "").text(price_three(total_charge) + "원")
                                 }
                                 else if (fileType == "image") {
-                                    
+
                                     var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
                                     for (var i = 0; i < chargeArray.length; i++) {
                                         chargeArray[i].total_charge = 0;
@@ -748,7 +748,7 @@ fileModule = {
                         new Promise((resolve, reject) => {
                             var userAuth = comm.getAuth();
                             var result = '';
-                            if(userAuth['decrypt_auth']==0){
+                            if (userAuth['decrypt_auth'] == 0) {
                                 Swal.fire({
                                     title: '복호화 권한이 없어요.',
                                     showCancelButton: false,
@@ -760,7 +760,7 @@ fileModule = {
                                     location.reload()
                                 });
                             }
-                            else if(userAuth['decrypt_auth']==1){
+                            else if (userAuth['decrypt_auth'] == 1) {
                                 $.ajax({
                                     method: "post",
                                     url: "/decrypt-module/api/request/decrypt", //DB에 복호화 요청정보 저장
@@ -827,5 +827,69 @@ fileModule = {
             };
             xhr.send(formData);
         }
-    }
+    },
+
+    uploadKey: function (keyName) {
+        return new Promise((resolve, reject) => {
+            let formData = new FormData();
+            let file = document.getElementById("file").files[0];
+            if (file == undefined)
+                file = document.getElementById("select_file").files[0];
+            let fileName;
+            let valid = false;
+
+            if (file == undefined) {
+                Swal.fire({
+                    title: "키 파일이 없습니다!",
+                    text: "키 파일을 업로드했는지 확인해주세요.",
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error",
+                });
+            } else {
+                fileName = file.name;
+                formData.append("file", file);
+                let xhr = new XMLHttpRequest();
+                xhr.open("post", "/util-module/api/uploadNAS", true);
+                xhr.upload.onprogress = function (e) {
+                    if (e.lengthComputable) {
+                        let percentage = (e.loaded / e.total) * 100;
+                        console.log(percentage + "%");
+                    }
+                };
+                xhr.onerror = function (e) {
+                    console.log("Error");
+                    console.log(e);
+                };
+                xhr.onload = function () {
+                    new Promise((resolve, reject) => {
+                        let msg = "";
+                        let keyPath = "";
+                        $.ajax({
+                            method: "post",
+                            url: "/key-module/api/key/verify",
+                            dataType: "json",
+                            data: {
+                                fileName: fileName, // 남자향수.pem -> 이민형.pem
+                                keyName: keyName, // DB에서 비교해볼 키 네임
+                            },
+                            async: false,
+                            success: function (data) {
+                                if (data["result"] == "valid") valid = true;
+                                msg = data.log;
+                                keyPath = data.keyPath;
+                            },
+                            error: function (xhr, status) {
+                                // alert(xhr + " : " + status);
+                                alert(JSON.stringify(xhr));
+                            },
+                        });
+                        resolve({ valid, msg, keyPath });
+                    });
+                };
+                xhr.send(formData);
+            }
+        });
+    },
 }
