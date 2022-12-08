@@ -19,19 +19,12 @@ subaccount = {
             url: "/sub-account-module/api/subaccount",
             async: false,
             success: function (data) {
-                result = data;
+                result = data.results;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
-
-        // function dateFormat(date) {
-        //     let dateFormat2 = date.getFullYear() +
-        //         '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-        //         '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
-        //     return dateFormat2;
-        // }
 
         var html = ''
         if(result.message == "error"){
@@ -104,14 +97,12 @@ subaccount = {
             },
             async: false,
             success: function (data) {
-                console.log(data);
-                if(data.message == 'success') result = true;
+                result = true;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
-        return true;
+        return result;
     },
 
     addSubAccount: function(subAccountInfo) {
@@ -122,22 +113,19 @@ subaccount = {
             data: subAccountInfo,
             async: false,
             success: function (data) {
-                console.log(data);
-                if(data.message == 'success') {
                     result = true;
-                }
-                else if(data.message == 'length_error') {
+            }, // success 
+            error: function (xhr, status) {
+                let message = JSON.parse(xhr.responseText).message;
+                if(message == 'length_error') {
                     result = "length_error"
                 }
-                else if(data.message == 'check_error') {
+                else if(message == 'check_error') {
                     result = "check_error"
                 }
                 else {
                     result = false
                 }
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
         return result;
@@ -150,11 +138,9 @@ subaccount = {
             url: "/sub-account-module/api/subaccount/"+index,
             async: false,
             success: function (data) {
-                console.log(data);
                 if(data.message == 'success') result = true;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
         return true;
@@ -169,10 +155,9 @@ subaccount = {
             data: postdata,
             async: false,
             success: function (data) {
-                result = data;
+                result = data.requestList;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 
@@ -250,23 +235,18 @@ subaccount = {
             data: postdata,
             async: false,
             success: function (data) {
-                if(data.message == "success"){
-                    Swal.fire('권한 설정이 완료됐습니다.', '', 'success').then(() => {
-                        location.href = '/submanage';
-                    })
-                }
-                else{
-                    Swal.fire({
-                        title: '권한 설정에 실패했습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    })
-                }
+                Swal.fire('권한 설정이 완료됐습니다.', '', 'success').then(() => {
+                    location.href = '/submanage';
+                })
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                Swal.fire({
+                    title: '권한 설정에 실패했습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                })
             }
         })
         
@@ -280,15 +260,15 @@ subaccount = {
             url: "/sub-account-module/api/subaccount/key",
             async: false,
             success: function (data) {
-                result = data
+                result = data.login_alias
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                //alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 
         resultStr += "<p>접속 키</p>\
-        <input class='accessKey' value='"+result[0]["login_alias"]+"'>"
+        <input class='accessKey' value='"+result+"'>"
         
         return resultStr
     },
@@ -301,7 +281,13 @@ subaccount = {
             data: postdata,
             async: false,
             success: function (data) {
-                if(data.message == "access_null"){
+                Swal.fire('접속 키를 변경했어요.', '', 'success').then(() => {
+                    location.href = "/submanage"
+                })
+            }, // success 
+            error: function (xhr, status) {
+                let message = JSON.parse(xhr.responseText).message;
+                if(message == "need access key"){
                     Swal.fire({
                         title: '접속 키를 입력해주세요.',
                         showConfirmButton:false,
@@ -310,7 +296,7 @@ subaccount = {
                         icon:"error"
                     })
                 }
-                else if(data.message == "access_error"){
+                else if(message == "already exist"){
                     Swal.fire({
                         title: '존재하는 접속 키에요.',
                         showConfirmButton:false,
@@ -319,23 +305,15 @@ subaccount = {
                         icon:"error"
                     })
                 }
-                else if(data.message == "error"){
+                else if(message == "same login alias"){
                     Swal.fire({
-                        title: '접속 키를 다시 확인해주세요.',
+                        title: '접속 키가 변경되지 않았어요.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",
                         icon:"error"
                     })
                 }
-                else if(data.message == "success"){
-                    Swal.fire('접속 키를 변경했어요.', '', 'success').then(() => {
-                        location.href = "/submanage"
-                    })
-                }
-            }, // success 
-            error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
         

@@ -378,7 +378,7 @@ comm = {
                 location.href = '/';
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                console.log('logout failed');
             }
         })
     },    
@@ -391,21 +391,16 @@ comm = {
             data: postdata,
             async: false,
             success: function (data) {
-                if(data.message == "success"){
-                    location.href = "/myinfo" + "?auth=1";
-                }
-                else{
-                    Swal.fire({
-                        title: '비밀번호가 틀렸습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    })
-                }
+                location.href = "/myinfo" + "?auth=1";
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                Swal.fire({
+                    title: '비밀번호가 틀렸습니다.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                });
             }
         });
 
