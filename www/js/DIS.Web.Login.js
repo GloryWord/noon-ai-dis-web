@@ -25,7 +25,6 @@ login = {
                 location.href = "/main";
             },
             error: function (xhr, status) {
-                // alert("error : " + xhr + " : " + JSON.stringify(status));
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
                     showConfirmButton:false,
@@ -46,24 +45,18 @@ login = {
             data: postdata,
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
-                    $(".auth_id").val($("#name").val());
-                    $("#authModal").addClass('active');
-                    master_tenant_id = data.tenant_id;
-                }
-                else {
-                    Swal.fire({
-                        title: '로그인에 실패하였습니다.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
-                
+                $(".auth_id").val($("#name").val());
+                $("#authModal").addClass('active');
+                master_tenant_id = data.tenant_id;
             },
             error: function (xhr, status) {
-                // alert("error : " + xhr + " : " + JSON.stringify(status));
+                Swal.fire({
+                    title: '로그인에 실패하였습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         })
         return master_tenant_id;
@@ -79,7 +72,7 @@ login = {
             },
             async: false,
             success: function (data) {
-                if(data.message == 'success') result = true;
+                result = true;
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
@@ -145,23 +138,19 @@ login = {
             data: postdata,
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
-                    let subEmail = login.getSubEmail(account_name, data.tenant);
-                    $(".auth_id").val(subEmail);
-                    $("#authModal").addClass('active');
-                    master_tenant_id = data.tenant;
-                }
-                else {
-                    Swal.fire({
-                        title: '로그인에 실패하였습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    });
-                }
+                let subEmail = login.getSubEmail(account_name, data.tenant);
+                $(".auth_id").val(subEmail);
+                $("#authModal").addClass('active');
+                master_tenant_id = data.tenant;
             },
             error: function (xhr, status) {
+                Swal.fire({
+                    title: '로그인에 실패하였습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         })
         return master_tenant_id;
@@ -329,7 +318,7 @@ login = {
                 }
             },
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                //console.log("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 

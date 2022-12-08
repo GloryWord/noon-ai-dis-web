@@ -19,10 +19,10 @@ userinfo = {
             url: "/user-info-module/api/user/info",
             async: false,
             success: function (data) {
-                requestList = data;
+                requestList = data.result;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                
             }
         });
         var htmlStr = ''
@@ -76,10 +76,10 @@ userinfo = {
             url: "/user-info-module/api/user/info",
             async: false,
             success: function (data) {
-                requestList = data;
+                requestList = data.result;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                
             }
         });
         var htmlStr = ''
@@ -117,10 +117,10 @@ userinfo = {
             url: "/user-info-module/api/user/alias",
             async: false,
             success: function (data) {
-                requestList = data;
+                requestList = data.result;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                
             }
         });
         var htmlStr = ''
@@ -137,12 +137,13 @@ userinfo = {
             data: postdata,
             async: false,
             success: function (data) {
-                if(data.message == "success"){
-                    Swal.fire(data.change+'\n완료됐습니다.', '', 'success').then(() => {
-                        location.href = "/myinfo" + "?auth=1";
-                    })
-                }
-                else if(data.message == 'email_config_failed') {
+                Swal.fire(data.change + '\n완료됐습니다.', '', 'success').then(() => {
+                    location.href = "/myinfo" + "?auth=1";
+                })
+            },
+            error: function (xhr, status) {
+                let message = JSON.parse(xhr.responseText).message;
+                if(message == 'email_config_failed') {
                     Swal.fire({
                         title: '이메일 인증을 완료해주세요.',
                         showConfirmButton:false,
@@ -151,7 +152,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'length_error') {
+                else if(message == 'length_error') {
                     Swal.fire({
                         title: '비밀번호는 8자 이상 입력해주세요.',
                         showConfirmButton:false,
@@ -160,7 +161,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'check_error') {
+                else if(message == 'check_error') {
                     Swal.fire({
                         title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
                         showConfirmButton:false,
@@ -169,7 +170,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'no_change') {
+                else if(message == 'no_change') {
                     Swal.fire({
                         title: '변경사항이 없습니다.',
                         showConfirmButton:false,
@@ -178,7 +179,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'now_blank') {
+                else if(message == 'now_blank') {
                     Swal.fire({
                         title: '기존 비밀번호를 입력해주세요.',
                         showConfirmButton:false,
@@ -187,7 +188,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'new_blank') {
+                else if(message == 'new_blank') {
                     Swal.fire({
                         title: '새 비밀번호를 입력해주세요.',
                         showConfirmButton:false,
@@ -196,7 +197,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'new_config_blank') {
+                else if(message == 'new_config_blank') {
                     Swal.fire({
                         title: '새 비밀번호 확인을 입력해주세요.',
                         showConfirmButton:false,
@@ -205,16 +206,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'password_change_failed') {
-                    Swal.fire({
-                        title: '비밀번호 변경에 실패했습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    })
-                }
-                else if(data.message == 'name_change_failed') {
+                else if(message == 'name_change_failed') {
                     Swal.fire({
                         title: '이름 변경에 실패했습니다.',
                         showConfirmButton:false,
@@ -223,7 +215,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'email_change_failed') {
+                else if(message == 'email_change_failed') {
                     Swal.fire({
                         title: '이메일 변경에 실패했습니다.',
                         showConfirmButton:false,
@@ -232,7 +224,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'user_input_not_match') {
+                else if(message == 'user_input_not_match') {
                     Swal.fire({
                         title: '현재 비밀번호가 일치하지 않습니다.',
                         showConfirmButton:false,
@@ -241,7 +233,7 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else if(data.message == 'new_pass_config_not_match') {
+                else if(message == 'new_pass_config_not_match') {
                     Swal.fire({
                         title: '새 비밀번호가 서로 일치하지 않습니다.',
                         showConfirmButton:false,
@@ -250,18 +242,24 @@ userinfo = {
                         icon:"error"
                     })
                 }
-                else{
+                else if(message == 'pw_same_error') {
                     Swal.fire({
-                        title: '비밀번호를 다시 한번 확인해주세요.',
+                        title: '현재 비밀번호와 새 비밀번호가 동일합니다.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",
                         icon:"error"
                     })
                 }
-            },
-            error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                else{
+                    Swal.fire({
+                        title: '정보 수정에 실패했습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
             }
         });
 
