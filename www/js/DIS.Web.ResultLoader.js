@@ -159,13 +159,10 @@ resultLoader = {
             url: "/encrypt-module/api/request/encrypt?id=" + index,
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
-                    result = data.result;
-                }
-                // else alert(JSON.stringify(data));
+                result = data.result;
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                
             }
         })
 
