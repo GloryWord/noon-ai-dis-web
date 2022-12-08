@@ -23,7 +23,7 @@ init = {
 
     // 유저 로그인 화면 제어
     index: function () {
-
+        login.sessionCheck();
         let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
             var accountName = $("#name").val();
@@ -82,7 +82,7 @@ init = {
     },
 
     sublogin: function () {
-        
+        login.sessionCheck();
         let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
             var loginAlias = $("#loginAlias").val();
@@ -2133,7 +2133,6 @@ init = {
             var key_idx = $(this).data("id")
             var keymemo_modi = requestTable.getKeyMemo(key_idx)
             $(".keymemo_modi").val(keymemo_modi)
-            // $(".bodyMiddle").html(keymemo_modi)
             $("#memoModi").addClass('active')
 
             $(document).on("click", ".memosave", function () {
