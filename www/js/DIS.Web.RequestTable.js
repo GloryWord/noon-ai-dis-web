@@ -53,9 +53,9 @@ requestTable = {
             url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
-                result['progress'] = data['decrypt_progress'];
-                result['status'] = data['status'];
-                result['complete'] = data['complete'];
+                result['progress'] = data.progress['decrypt_progress'];
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
                 responseMessage = JSON.parse(xhr.responseText).message
@@ -229,7 +229,6 @@ requestTable = {
                 else {
                     var sta = requestList[i]['status']
                 }
-                console.log(i)
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
@@ -558,11 +557,10 @@ requestTable = {
             url: "/key-module/api/key/all",
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
