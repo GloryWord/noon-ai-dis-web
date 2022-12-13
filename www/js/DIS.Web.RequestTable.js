@@ -53,9 +53,10 @@ requestTable = {
             url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
-                result['progress'] = data['decrypt_progress'];
-                result['status'] = data['status'];
-                result['complete'] = data['complete'];
+                alert(data);
+                result['progress'] = data.progress['decrypt_progress'];
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
                 responseMessage = JSON.parse(xhr.responseText).message
@@ -76,8 +77,8 @@ requestTable = {
             url: "/util-module/api/progress/thumbnail",
             async: false,
             success: function (data) {
-                result['status'] = data['status'];
-                result['complete'] = data['complete'];
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
