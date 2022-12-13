@@ -18,18 +18,21 @@ requestTable = {
             'type': '',
             'status': ''
         }
+
+        let responseMessage;
+
         $.ajax({
             method: "get",
             url: "/util-module/api/progress/encrypt",
             async: false,
             success: function (data) {
-                result['progress'] = data['encrypt_progress'];
-                result['status'] = data['status'];
-                result['type'] = data['file_type'];
-                result['complete'] = data['complete'];
+                result['progress'] = data.progress['encrypt_progress'];
+                result['status'] = data.progress['status'];
+                result['type'] = data.progress['file_type'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
@@ -42,17 +45,20 @@ requestTable = {
             'type': '',
             'status': ''
         }
+
+        let responseMessage;
+        
         $.ajax({
             method: "get",
             url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
-                result['progress'] = data['decrypt_progress'];
-                result['status'] = data['status'];
-                result['complete'] = data['complete'];
+                result['progress'] = data.progress['decrypt_progress'];
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
@@ -83,24 +89,22 @@ requestTable = {
 
     getRecentRequest: function (requestType) {
         var apiUrl = `/${requestType}-module/api/request/${requestType}/recent`
-        var requestList = ''
+        let requestList, responseMessage;
 
         $.ajax({
             method: "get",
             url: apiUrl,
             async: false,
             success: function (data) {
-                // result = data['progress']
-                requestList = data;
+                requestList = data.requestList;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
         var htmlStr = ''
-
-        if (requestList.message == 'error') {
+        if (responseMessage == 'no request list') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
@@ -202,11 +206,9 @@ requestTable = {
             url: "/encrypt-module/api/request/encrypt/all",
             async: false,
             success: function (data) {
-                // result = data['progress']
-                requestList = data;
+                requestList = data.requestList;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -249,7 +251,6 @@ requestTable = {
                 else {
                     var sta = requestList[i]['status']
                 }
-                console.log(i)
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
@@ -321,11 +322,9 @@ requestTable = {
             data: postdata,
             async: false,
             success: function (data) {
-                // result = data['progress']
-                requestList = data;
+                requestList = data.requestList;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -427,11 +426,9 @@ requestTable = {
             url: "/decrypt-module/api/request/decrypt/all",
             async: false,
             success: function (data) {
-                // result = data['progress']
-                requestList = data;
+                requestList = data.requestList;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -511,17 +508,15 @@ requestTable = {
             data: postdata,
             async: false,
             success: function (data) {
-                // result = data['progress']
-                requestList = data;
+                requestList = data.requestList;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
         var htmlStr = ''
 
-        if (requestList.message == 'error' || requestList.message=='No request list found') {
+        if (requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
@@ -584,11 +579,10 @@ requestTable = {
             url: "/key-module/api/key/all",
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -672,7 +666,6 @@ requestTable = {
             url: "/key-module/api/key/memo/" + key_idx,
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
             },
             error: function (xhr, status) {
@@ -680,14 +673,13 @@ requestTable = {
             }
         });
 
-        if (requestList.message == "No request list found") {
+        if (requestList.message == "no memo") {
             var memo = ""
         }
         else {
-            var memo = requestList[0]['key_memo']
+            var memo = requestList.result.key_memo;
         }
         // var htmlStr = '<textarea id="key_memoBox" class="keymemo_modi">'+memo+'</textarea>'
-
         return memo;
     },
 
@@ -719,7 +711,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 // result = data['progress']
-                requestList = data;
+                requestList = data['results'];
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -1054,7 +1046,7 @@ requestTable = {
             url: apiUrl,
             async: false,
             success: function (data) {
-                requestList = data;
+                requestList = data.results;
             },
             error: function (xhr, status) {
                 alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
