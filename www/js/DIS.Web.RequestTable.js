@@ -18,6 +18,9 @@ requestTable = {
             'type': '',
             'status': ''
         }
+
+        let responseMessage;
+
         $.ajax({
             method: "get",
             url: "/util-module/api/progress/encrypt",
@@ -29,7 +32,7 @@ requestTable = {
                 result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
-                //alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
@@ -42,17 +45,20 @@ requestTable = {
             'type': '',
             'status': ''
         }
+
+        let responseMessage;
+        
         $.ajax({
             method: "get",
             url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
-                result['progress'] = data['decrypt_progress'];
-                result['status'] = data['status'];
-                result['complete'] = data['complete'];
+                result['progress'] = data.progress['decrypt_progress'];
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
@@ -61,7 +67,7 @@ requestTable = {
 
     getRecentRequest: function (requestType) {
         var apiUrl = `/${requestType}-module/api/request/${requestType}/recent`
-        var requestList = ''
+        let requestList, responseMessage;
 
         $.ajax({
             method: "get",
@@ -71,12 +77,12 @@ requestTable = {
                 requestList = data.requestList;
             },
             error: function (xhr, status) {
+                responseMessage = JSON.parse(xhr.responseText).message
             }
         });
 
         var htmlStr = ''
-
-        if (requestList.message == 'error') {
+        if (responseMessage == 'no request list') {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
@@ -223,7 +229,6 @@ requestTable = {
                 else {
                     var sta = requestList[i]['status']
                 }
-                console.log(i)
                 if(requestList[i]['complete'] == 1) {
                     var status = '<p>완료</p>'
                 }
@@ -552,11 +557,10 @@ requestTable = {
             url: "/key-module/api/key/all",
             async: false,
             success: function (data) {
-                // result = data['progress']
                 requestList = data;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
