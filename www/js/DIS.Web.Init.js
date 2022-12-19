@@ -16,6 +16,7 @@ let whitelist = [
     { tenant_id: 10, account_name: 'sub_paasta', user_name: '서브계정1'},
     { tenant_id: 11, account_name: 'kaci_test@test.com', user_name: 'KACI'},
     { tenant_id: 11, account_name: 'sub_kaci', user_name: '서브계정1'},
+    { tenant_id: 7, account_name: 'mhn364@gmail.com', user_name: '조판희'},
 ]
 
 var init = DIS.Web.Init;
