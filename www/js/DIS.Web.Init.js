@@ -2510,15 +2510,7 @@ init = {
         $('.infoArea')[0].innerHTML = infoHtml;
 
         $(document).on("click", ".recoBtn", function () {
-            if (type == 'video' && mode == 'single') {
-                location.href = "/decrypt/inspection" + "?type=video&mode=single";
-            }
-            else if (type == 'image' && mode == 'single') {
-                location.href = "/decrypt/inspection" + "?type=image&mode=single";
-            }
-            else if (type == 'image' && mode == 'group') {
-                location.href = "/decrypt/inspection" + "?type=image&mode=group";
-            }
+            location.href = `/decrypt/inspection?type=${type}&mode=${mode}`;
         });
 
         $(document).ready(function () {
