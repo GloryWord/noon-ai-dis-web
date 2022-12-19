@@ -430,8 +430,8 @@
 }
 
 .detailArea .albumArea .albumlist input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     border: solid 1px #595959;
     margin: 0;
     appearance: none;

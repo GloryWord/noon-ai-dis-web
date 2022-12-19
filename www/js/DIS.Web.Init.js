@@ -398,7 +398,8 @@ init = {
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
                                 filePath: filePath,
-                                id: uploadID
+                                id: uploadID,
+                                immediate: 'false'
                             })
                         }, 1000)
                     })
@@ -533,11 +534,11 @@ init = {
 
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
-                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
                                 confirmButtonText: '확인',
                                 allowOutsideClick: false
                             }).then((result) => {
-                                if (result.isConfirmed) history.back();
+                                if (result.isConfirmed) location.href = '/main';
                             })
                         }
                     })
@@ -584,7 +585,7 @@ init = {
                 else {
                     // var msg = (service == 'encrypt') ? '비식별화' : '복호화';
                     if(service == 'encrypt') var msg = '비식별화'
-                    else if(service == 'decryot') var msg = '복호화';
+                    else if(service == 'decrypt') var msg = '복호화';
                     else if(service == 'thumbnail') var msg = '썸네일 생성'
                     Swal.fire({
                         title: msg + '가(이) 완료되었습니다!',
@@ -827,7 +828,8 @@ init = {
                         filePath = data[2][0]
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
-                                filePath: filePath
+                                filePath: filePath,
+                                immediate: 'false'
                             })
                         }, 1000)
                     })
@@ -1466,6 +1468,7 @@ init = {
     },
 
     inspection: function () {
+        var socket = io();
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -1473,7 +1476,9 @@ init = {
         var idx = urlParams.get('id');
         var encryptIdx = urlParams.get('enc_id');
         var thumb = test.thumbnailList(idx, type, mode)
-        $(".inspec_body").html(thumb);
+        var uploadID = makeid(6);
+
+        $(".inspec_body").html(thumb[0]);
         $('.inspec_body').slick({
             dots: false,
             infinite: false,
@@ -1522,7 +1527,7 @@ init = {
                 }
                 else {
                     if(allCheck[0]==true){
-                        data.body = "all"
+                        data.body = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_body '+i+'');
@@ -1536,14 +1541,14 @@ init = {
                             data.body = bodyList
                         }
                         else if(cropList.length == bodyList.length){
-                            data.body = "all"
+                            data.body = ["all"]
                         }
                         else{
                             data.body = bodyList
                         }
                     }
                     if(allCheck[1]==true){
-                        data.head = "all"
+                        data.head = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_head '+i+'');
@@ -1557,14 +1562,14 @@ init = {
                             data.head = headList
                         }
                         else if(cropList.length == headList.length){
-                            data.head = "all"
+                            data.head = ["all"]
                         }
                         else{
                             data.head = headList
                         }
                     }
                     if(allCheck[2]==true){
-                        data.lp = "all"
+                        data.lp = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_lp '+i+'');
@@ -1578,13 +1583,13 @@ init = {
                             data.lp = lpList
                         }
                         else if(cropList.length == lpList.length){
-                            data.lp = "all"
+                            data.lp = ["all"]
                         }
                         else{
                             data.lp = lpList
                         }
                     }
-                    if(data.body == "all" && data.head == "all" && data.lp == "all"){
+                    if(data.body == ["all"] && data.head == ["all"] && data.lp == ["all"]){
                         data.allCheck = true
                         delete data.body
                         delete data.head
@@ -1605,7 +1610,31 @@ init = {
             }
 
             let decryptAjaxResponse = test.decrypt(decryptArgs);
-            if(decryptAjaxResponse) test.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
+            let decRequestId = decryptAjaxResponse.dec_request_list_id;
+            let fileList = decryptAjaxResponse.fileList;
+            if(decryptAjaxResponse) {
+                test.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
+                
+                comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
+                
+                socket.emit('delUploadedFile', {
+                    filePath: thumb[1],
+                    id: uploadID,
+                    immediate: 'true'
+                })
+
+                Swal.fire({
+                    title: '복호화 요청이 \n완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt';
+                    }
+                })
+            }
         });
     },
 

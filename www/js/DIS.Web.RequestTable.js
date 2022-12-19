@@ -53,7 +53,6 @@ requestTable = {
             url: "/util-module/api/progress/decrypt",
             async: false,
             success: function (data) {
-                alert(data);
                 result['progress'] = data.progress['decrypt_progress'];
                 result['status'] = data.progress['status'];
                 result['complete'] = data.progress['complete'];

@@ -172,6 +172,17 @@
     position: relative;
 }
 
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: auto 8px auto 0;
+    border: solid 1px #595959;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 2px;
+    position: absolute;
+}
+
 .inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]::before {
     content: "\2713";
     position: absolute;
@@ -186,7 +197,7 @@
 
 .inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]:checked::before {
     border-radius: 2px;
-    transform: scale(1) translate(-50%, -50%)
+    transform: scale(1) translate(-50%, -50%);
 }
 
 .inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"]:checked {
