@@ -192,15 +192,15 @@ init = {
             var type = $(this).data('type')
             if (type == '동영상 파일') {
                 // location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
-                location.href = "/encrypt/video/test" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
+                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 파일') {
                 // location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
-                location.href = "/encrypt/image/test" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {
                 // location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
-                location.href = "/encrypt/album/test" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
 
@@ -901,7 +901,7 @@ init = {
         });
     },
 
-    detail: function () {
+    test: function () {
         var socket = io();
 
         var queryString = location.search;
@@ -1393,15 +1393,15 @@ init = {
                 var type = $(this).data('type')
                 if (type == '동영상 파일') {
                     // location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
-                    location.href = "/encrypt/video/test" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+                    location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
                 }
                 else if (type == '이미지 파일') {
                     // location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
-                    location.href = "/encrypt/image/test" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                    location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
                 }
                 else if (type == '이미지 그룹') {
                     // location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
-                    location.href = "/encrypt/album/test" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                    location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
                 }
             }
         });
@@ -1476,7 +1476,7 @@ init = {
         var mode = urlParams.get('mode');
         var idx = urlParams.get('id');
         var encryptIdx = urlParams.get('enc_id');
-        var thumb = test.thumbnailList(idx, type, mode)
+        var thumb = fileModule.thumbnailList(idx, type, mode)
         var uploadID = makeid(6);
 
         $(".inspec_body").html(thumb[0]);
@@ -1610,11 +1610,11 @@ init = {
                 encryptIdx: encryptIdx
             }
 
-            let decryptAjaxResponse = test.decrypt(decryptArgs);
+            let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
             let decRequestId = decryptAjaxResponse.dec_request_list_id;
             let fileList = decryptAjaxResponse.fileList;
             if(decryptAjaxResponse) {
-                test.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
+                fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
                 
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
                 
@@ -2491,7 +2491,7 @@ init = {
         })
     },
 
-    test: function () {
+    detail: function () {
         var socket = io();
 
         var queryString = location.search;
@@ -2561,10 +2561,10 @@ init = {
         //이게 복호화 요청 확인 누르면
         $(document).on("click", ".recoConfirm", function () {
             var keyName = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') test.verifyKey(keyName, eventIndex, fileList, type, mode);
+            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type, mode);
             else if (mode == 'group') {
                 var selected = $(this).data('value');
-                if (selected == 'all') test.verifyKey(keyName, eventIndex, fileList, type), mode;
+                if (selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type), mode;
                 else if (selected == 'select') {
                     if (selectedFile.length == 0) Swal.fire({
                         title: '선택된 파일이 없습니다',
@@ -2574,7 +2574,7 @@ init = {
                         denyButtonText: "확 인",
                         icon: "error"
                     });
-                    else test.verifyKey(keyName, eventIndex, selectedFile, type, mode);
+                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type, mode);
                 }
             }
         });
