@@ -178,7 +178,7 @@
                     </div>
                     <div class="createKey">
                         <div class="createArea">
-                            <input class="keyCreate" id="genKeyName" style="ime-mode:inactive" placeholder="Key 이름을 작성해 주세요">
+                            <input class="keyCreate" id="genKeyName" onKeyup="this.value=this.value.replace(/[^a-z0-9]/g,'');" style="ime-mode:inactive" placeholder="Key 이름을 작성해 주세요">
                             <p1>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p1>
                             <div class="keyCD" id="generateKey">
                                 <h3>Key 생성 및 다운로드</h3>
