@@ -389,7 +389,6 @@ init = {
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
                 setTimeout(function() {
                     callback.then((data) => {
-                        console.log(data);
                         postData = data[0]
                         filePath = data[2][0]
                         setTimeout(function() {
@@ -954,22 +953,63 @@ init = {
         });
 
         //이게 복호화 요청 확인 누르면
-        $(document).on("click", ".recoConfirm", function () {
-            var keyName = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type);
-            else if (mode == 'group') {
-                var selected = $(this).data('value');
-                if (selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type);
-                else if (selected == 'select') {
-                    if (selectedFile.length == 0) Swal.fire({
-                        title: '선택된 파일이 없습니다',
-                        text: '복호화할 파일을 선택해 주세요.',
+        $(document).on("click", ".recoConfirm", async function () {
+            let key_name = $('.file_key')[0].children[1].innerHTML
+            if (mode == 'single') {
+                let file_name = await fileModule.uploadKey();
+                if (file_name) {
+                    console.log('file_name : ' + JSON.stringify(file_name));
+                    let verify_result = fileModule.verifyKey(file_name, key_name);
+                    let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                    console.log('restorationReq : ' + JSON.stringify(restorationReq));
+                    fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                }
+                else {
+                    console.log('file_name : ' + file_name);
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
                         icon: "error"
                     });
-                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
+                }
+            }
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                let file_name = fileModule.uploadKey();
+                if (file_name) {
+                    if (selected == 'all') {
+                        let verify_result = fileModule.verifyKey(file_name, key_name);
+                        let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                        fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                    }
+                    else if (selected == 'select') {
+                        if (selectedFile.length == 0) Swal.fire({
+                            title: '선택된 파일이 없습니다',
+                            text: '복호화할 파일을 선택해 주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                        else {
+                            let verify_result = fileModule.verifyKey(file_name, key_name);
+                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                            fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                        }
+                    }
+                }
+                else {
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
                 }
             }
         });

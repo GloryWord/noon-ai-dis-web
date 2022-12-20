@@ -399,11 +399,9 @@ fileModule = {
                     var xhr = new XMLHttpRequest();
                     xhr.open('post', '/util-module/api/uploadNAS' + mode, true);
                     xhr.upload.onprogress = function (e) {
-                        console.log(e);
                         if (e.lengthComputable) {
                             var per = (e.loaded / e.total) * 100;
                             progressBar(per);
-                            console.log(per + "%");
                         }
                     }
                     xhr.onerror = function (e) {
@@ -432,7 +430,6 @@ fileModule = {
                         });
                         var response = JSON.parse(this.responseText);
                         if (response.message == 'success') {
-                            console.log(response);
                             let coefficient = {};
                             let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
                             let base_charge;
@@ -676,17 +673,93 @@ fileModule = {
         })
     },
 
-    verifyKey: function (keyName, index, fileList, fileType) {
+    uploadKey: function () {
         var formData = new FormData();
         var file = document.getElementById('file').files[0];
-        if (file == undefined) file = document.getElementById('select_file').files[0];
-        var fileName;
-        var valid = false;
+        let upload_result;
+        let file_name;
+        try {
+            file_name = file.name;
+        }
+        catch (error) {}
+        new Promise((resolve, reject) => {
+            if (file == undefined) {
+                try {
+                    file = document.getElementById('select_file').files[0];
+                }
+                catch (error) {}
+            }
+            if (file == undefined) {
+                Swal.fire({
+                    title: '키 파일이 없습니다!',
+                    text: '키 파일을 업로드했는지 확인해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else {
+                formData.append('file', file);
+                $.ajax({
+                    method: 'post',
+                    url: '/util-module/api/uploadNAS',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    async: false,
+                    success: function (data) {
+                        if (data.message == 'success') {
+                            console.log('upload success');
+                            upload_result = file_name;
+                            console.log('file : ' + file_name);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        upload_result = false;
+                        console.log('upload key failed');
+                    }
+                });
+            }
+            console.log('upload_result : '+upload_result);
+            resolve(upload_result)
+        })
+        return upload_result;
+    },
 
-        if (file == undefined) {
+    verifyKey: function (file_name, key_name) {
+        let msg, keyPath, valid, verify_result;
+        $.ajax({
+            method: 'post',
+            url: '/key-module/api/key/verify',
+            dataType: 'json',
+            data: {
+                fileName: file_name,
+                keyName: key_name
+            },
+            async: false,
+            success: function (data) {
+                if (data['result'] == 'valid') valid = true;
+                msg = data.log;
+                keyPath = data.keyPath;
+                verify_result = { valid, msg, keyPath };
+            },
+            error: function (xhr, status){
+                console.log('verify key failed');
+                verify_result = false;
+            }
+        })
+        return verify_result;
+    },
+
+    restorationRequest: function (verify_result, index, fileList) {
+        const { valid, msg, keyPath } = verify_result;
+        let result;
+        if (!valid) {
             Swal.fire({
-                title: '키 파일이 없습니다!',
-                text: '키 파일을 업로드했는지 확인해주세요.',
+                title: '복호화 키 불일치',
+                text: msg,
+                showCancelButton: false,
                 showConfirmButton: false,
                 showDenyButton: true,
                 denyButtonText: "확 인",
@@ -694,202 +767,145 @@ fileModule = {
             });
         }
         else {
-            fileName = file.name;
-            formData.append('file', file);
-            var xhr = new XMLHttpRequest();
-            xhr.open('post', '/util-module/api/uploadNAS', true);
-            xhr.upload.onprogress = function (e) {
-                if (e.lengthComputable) {
-                    var percentage = (e.loaded / e.total) * 100;
-                    console.log(percentage + "%");
-                }
-            }
-            xhr.onerror = function (e) {
-                console.log('Error');
-                console.log(e);
-            };
-            xhr.onload = function () {
-                new Promise((resolve, reject) => {
-                    var msg = '';
-                    var keyPath = '';
-                    $.ajax({
-                        method: "post",
-                        url: "/key-module/api/key/verify",
-                        dataType: "json",
-                        data: {
-                            'fileName': fileName, // 남자향수.pem -> 이민형.pem
-                            'keyName': keyName // DB에서 비교해볼 키 네임
-                        },
-                        async: false,
-                        success: function (data) {
-                            if (data['result'] == 'valid') valid = true;
-                            msg = data.log;
-                            keyPath = data.keyPath;
-                        },
-                        error: function (xhr, status) {
-                            // alert(xhr + " : " + status);
-                            alert(JSON.stringify(xhr));
-                        }
-                    });
-                    resolve({ valid, msg, keyPath })
-                }).then(({ valid, msg, keyPath }) => {
-                    if (!valid) {
-                        Swal.fire({
-                            title: '복호화 키 불일치',
-                            text: msg,
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                    }
-                    else {
-                        new Promise((resolve, reject) => {
-                            var userAuth = comm.getAuth();
-                            var result = '';
-                            if (userAuth['decrypt_auth'] == 0) {
-                                Swal.fire({
-                                    title: '복호화 권한이 없어요.',
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    showDenyButton: true,
-                                    denyButtonText: "확 인",
-                                    icon: "error"
-                                }).then(() => {
-                                    location.reload()
-                                });
-                            }
-                            else if (userAuth['decrypt_auth'] == 1) {
-                                $.ajax({
-                                    method: "post",
-                                    url: "/decrypt-module/api/request/decrypt", //DB에 복호화 요청정보 저장
-                                    dataType: "json",
-                                    data: {
-                                        enc_request_id: index,
-                                        account_auth_id: userAuth.id,
-                                        fileList: JSON.stringify(fileList),
-                                        keyPath: keyPath
-                                    },
-                                    async: false,
-                                    success: function (data) {
-                                        result = data;
-                                        console.log(result);
-                                    },
-                                    error: function (xhr, status) {
-                                        // alert(xhr + " : " + status);
-                                        alert(JSON.stringify(xhr));
-                                    }
-                                });
-                                resolve(result);
-                            }
-                        }).then((result) => {
-                            var reqInfo = result['decReqInfo']['reqInfo'];
-                            var msgTemplate = result['decReqInfo'];
-                            var decRequestId = result['dec_request_list_id'];
-                            comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
-
-                            delete msgTemplate.reqInfo;
-                            $.ajax({
-                                method: "post",
-                                url: "/decrypt-module/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
-                                dataType: "json",
-                                data: {
-                                    'msgTemplate': JSON.stringify(msgTemplate),
-                                    'reqInfo': JSON.stringify(reqInfo)
-                                },
-                                success: function (data) {
-
-                                },
-                                error: function (xhr, status) {
-                                    // alert(xhr + " : " + status);
-                                    alert(JSON.stringify(xhr));
-                                }
-                            });
-                            new Promise((resolve, reject) => {
-                                resolve()
-                            }).then(() => {
-                                Swal.fire({
-                                    title: '복호화 요청이 \n완료되었습니다.',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                    allowOutsideClick: false,
-                                    icon: 'success'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
-                                    }
-                                })
-                            })
-                        })
-                    }
-                })
-            };
-            xhr.send(formData);
-        }
-    },
-
-    uploadKey: function (keyName) {
-        return new Promise((resolve, reject) => {
-            let formData = new FormData();
-            let file = document.getElementById("file").files[0];
-            if (file == undefined)
-                file = document.getElementById("select_file").files[0];
-            let fileName;
-            let valid = false;
-
-            if (file == undefined) {
+            let userAuth = comm.getAuth();
+            if (userAuth['decrypt_auth'] == 0) {
                 Swal.fire({
-                    title: "키 파일이 없습니다!",
-                    text: "키 파일을 업로드했는지 확인해주세요.",
+                    title: '복호화 권한이 없어요.',
+                    showCancelButton: false,
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
-                    icon: "error",
-                });
-            } else {
-                fileName = file.name;
-                formData.append("file", file);
-                let xhr = new XMLHttpRequest();
-                xhr.open("post", "/util-module/api/uploadNAS", true);
-                xhr.upload.onprogress = function (e) {
-                    if (e.lengthComputable) {
-                        let percentage = (e.loaded / e.total) * 100;
-                        console.log(percentage + "%");
-                    }
-                };
-                xhr.onerror = function (e) {
-                    console.log("Error");
-                    console.log(e);
-                };
-                xhr.onload = function () {
-                    new Promise((resolve, reject) => {
-                        let msg = "";
-                        let keyPath = "";
-                        $.ajax({
-                            method: "post",
-                            url: "/key-module/api/key/verify",
-                            dataType: "json",
-                            data: {
-                                fileName: fileName, // 남자향수.pem -> 이민형.pem
-                                keyName: keyName, // DB에서 비교해볼 키 네임
-                            },
-                            async: false,
-                            success: function (data) {
-                                if (data["result"] == "valid") valid = true;
-                                msg = data.log;
-                                keyPath = data.keyPath;
-                            },
-                            error: function (xhr, status) {
-                                // alert(xhr + " : " + status);
-                                alert(JSON.stringify(xhr));
-                            },
-                        });
-                        resolve({ valid, msg, keyPath });
-                    });
-                };
-                xhr.send(formData);
+                    icon: "error"
+                })
+                location.reload;
             }
-        });
+            else if (userAuth['decrypt_auth'] == 1) {
+                $.ajax({
+                    method: 'post',
+                    url: '/decrypt-module/api/request/decrypt',
+                    dataType: 'json',
+                    data: {
+                        enc_request_id: index,
+                        account_auth_id: userAuth.id,
+                        fileList: JSON.stringify(fileList),
+                        keyPath: keyPath
+                    },
+                    async: false,
+                    success: function (data) {
+                        result = data;
+                        console.log('restoration function : '+JSON.stringify(result));
+                    },
+                    error: function (xhr, status) {
+                        console.log('decrypt request info store failed');
+                    }
+                });
+            }
+        }
+        return result;
     },
+
+    storeEncReqInfo: function (restorationReq, fileList, fileType) {
+        let reqInfo, msgTemplate, decRequestId;
+        try {
+            reqInfo = restorationReq['decReqInfo']['reqInfo'];
+            msgTemplate = restorationReq['decReqInfo'];
+            decRequestId = restorationReq['dec_request_list_id'];
+            comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
+
+            delete msgTemplate.reqInfo;
+
+            $.ajax({
+                method: 'post',
+                url: '/decrypt-module/api/sendMessage/decrypt',
+                dataType: 'json',
+                data: {
+                    msgTemplate: JSON.stringify(msgTemplate),
+                    reqInfo: JSON.stringify(reqInfo)
+                },
+                async: false,
+                success: function (data) {
+                    console.log('last request success');
+                    Swal.fire({
+                        title: '복호화 요청이 \n완료되었습니다.',
+                        showCancelButton: false,
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
+                        }
+                    })
+                },
+                error: function (xhr, status) {
+                    console.log('encrypt request message send failed');
+                }
+            });
+        }
+        catch (error) { }
+    }
+
+    // uploadKey: function (keyName) {
+    //     return new Promise((resolve, reject) => {
+    //         let formData = new FormData();
+    //         let file = document.getElementById("file").files[0];
+    //         if (file == undefined)
+    //             file = document.getElementById("select_file").files[0];
+    //         let fileName;
+    //         let valid = false;
+
+    //         if (file == undefined) {
+    //             Swal.fire({
+    //                 title: "키 파일이 없습니다!",
+    //                 text: "키 파일을 업로드했는지 확인해주세요.",
+    //                 showConfirmButton: false,
+    //                 showDenyButton: true,
+    //                 denyButtonText: "확 인",
+    //                 icon: "error",
+    //             });
+    //         } else {
+    //             fileName = file.name;
+    //             formData.append("file", file);
+    //             let xhr = new XMLHttpRequest();
+    //             xhr.open("post", "/util-module/api/uploadNAS", true);
+    //             xhr.upload.onprogress = function (e) {
+    //                 if (e.lengthComputable) {
+    //                     let percentage = (e.loaded / e.total) * 100;
+    //                     console.log(percentage + "%");
+    //                 }
+    //             };
+    //             xhr.onerror = function (e) {
+    //                 console.log("Error");
+    //                 console.log(e);
+    //             };
+    //             xhr.onload = function () {
+    //                 new Promise((resolve, reject) => {
+    //                     let msg = "";
+    //                     let keyPath = "";
+    //                     $.ajax({
+    //                         method: "post",
+    //                         url: "/key-module/api/key/verify",
+    //                         dataType: "json",
+    //                         data: {
+    //                             fileName: fileName, // 남자향수.pem -> 이민형.pem
+    //                             keyName: keyName, // DB에서 비교해볼 키 네임
+    //                         },
+    //                         async: false,
+    //                         success: function (data) {
+    //                             if (data["result"] == "valid") valid = true;
+    //                             msg = data.log;
+    //                             keyPath = data.keyPath;
+    //                         },
+    //                         error: function (xhr, status) {
+    //                             // alert(xhr + " : " + status);
+    //                             alert(JSON.stringify(xhr));
+    //                         },
+    //                     });
+    //                     resolve({ valid, msg, keyPath });
+    //                 });
+    //             };
+    //             xhr.send(formData);
+    //         }
+    //     });
+    // },
 }

@@ -5,3 +5,4 @@ push.sh
 gitlogin.sh
 www/test.html
 pull-origin.sh
+key-remove.sh
