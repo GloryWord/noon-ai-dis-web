@@ -71,8 +71,6 @@ function getFiles() {
         var ext = parsedArray[parsedArray.length - 1];
         parsedArray = parsedArray.splice(0, parsedArray.length - 1);
         var fileName = parsedArray.join('.');
-        console.log(fileName);
-        console.log(ext);
         file = {
             'lastMod': files[i].lastModified,
             'lastModDate': files[i].lastModifiedDate,
@@ -262,7 +260,7 @@ comm = {
                 result = data
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                
             }
         });
 
