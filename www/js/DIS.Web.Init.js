@@ -191,15 +191,12 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             var type = $(this).data('type')
             if (type == '동영상 파일') {
-                // location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
                 location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 파일') {
-                // location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
                 location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
             }
             else if (type == '이미지 그룹') {
-                // location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
                 location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
             }
         });
@@ -583,12 +580,11 @@ init = {
             else if(status.indexOf("SUCCESS")==1 || status.indexOf("Sucess")==1) {
                 if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
                 else {
-                    // var msg = (service == 'encrypt') ? '비식별화' : '복호화';
-                    if(service == 'encrypt') var msg = '비식별화'
-                    else if(service == 'decrypt') var msg = '복호화';
-                    else if(service == 'thumbnail') var msg = '썸네일 생성'
+                    if(service == 'encrypt') var msg = '비식별화가';
+                    else if(service == 'decrypt') var msg = '복호화가';
+                    else if(service == 'thumbnail') var msg = '썸네일 생성이';
                     Swal.fire({
-                        title: msg + '가(이) 완료되었습니다!',
+                        title: msg + ' 완료되었습니다!',
                         showCancelButton: false,
                         confirmButtonText: '확인',
                         icon: 'success',
@@ -900,317 +896,6 @@ init = {
         });
     },
 
-    test: function () {
-        var socket = io();
-
-        var queryString = location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var type = urlParams.get('type');
-        var eventIndex = urlParams.get('id');
-        var mode = urlParams.get('mode');
-        var selectModalImg = 0;
-
-        var selectedFile = []
-        // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
-        var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
-        var encDirectory = encFileInfo.encDirectory;
-        var fileList = encFileInfo.fileList;
-        var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
-        $('.infoArea')[0].innerHTML = infoHtml;
-
-        // $(document).on("click", ".recoBtn", function () {
-        //     if (type == 'video' && mode == 'single') {
-        //         location.href = "/decrypt/inspection" + "?type=video&mode=single";
-        //     }
-        //     else if (type == 'image' && mode == 'single') {
-        //         location.href = "/decrypt/inspection" + "?type=image&mode=single";
-        //     }
-        //     else if (type == 'image' && mode == 'group') {
-        //         location.href = "/decrypt/inspection" + "?type=image&mode=group";
-        //     }
-        // });
-
-        $(document).ready(function () {
-            var rest = $(".rest_info").text()
-            if (rest == "복원 가능") {
-                $(".file_recoConfirm").removeClass("hide")
-                $(".select_recoConfirm").removeClass("hide")
-                $(".check_reco").removeClass("hide")
-                $(".allselect").removeClass("hide")
-            }
-        });
-
-        $(document).on("click", ".file_recoConfirm", function () {
-            $('#file').val('');
-            $('.pemUpload').val('');
-            $('.recoConfirm').attr('data-value', $(this).data('value'));
-            $("#recoData").addClass('active')
-        });
-
-        $(document).on("click", ".cancel", function () {
-            $('#file').val('');
-            $('.pemUpload').val('');
-            $('.modal').removeClass('active')
-        });
-
-        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
-        $("#file").on('change', function () {
-            var file = document.getElementById('file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-        });
-
-        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
-        $("#select_file").on('change', function () {
-            var file = document.getElementById('select_file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-        });
-
-        //이게 복호화 요청 확인 누르면
-        $(document).on("click", ".recoConfirm", async function () {
-            let key_name = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') {
-                let file_name = await fileModule.uploadKey();
-                if (file_name) {
-                    console.log('file_name : ' + JSON.stringify(file_name));
-                    let verify_result = fileModule.verifyKey(file_name, key_name);
-                    let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                    console.log('restorationReq : ' + JSON.stringify(restorationReq));
-                    fileModule.storeEncReqInfo(restorationReq, fileList, type);
-                }
-                else {
-                    console.log('file_name : ' + file_name);
-                    Swal.fire({
-                        title: '키 파일 업로드 실패',
-                        text: '키 파일을 다시 업로드해주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
-            }
-            else if (mode == 'group') {
-                var selected = $(this).data('value');
-                let file_name = fileModule.uploadKey();
-                if (file_name) {
-                    if (selected == 'all') {
-                        let verify_result = fileModule.verifyKey(file_name, key_name);
-                        let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                        fileModule.storeEncReqInfo(restorationReq, fileList, type);
-                    }
-                    else if (selected == 'select') {
-                        if (selectedFile.length == 0) Swal.fire({
-                            title: '선택된 파일이 없습니다',
-                            text: '복호화할 파일을 선택해 주세요.',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                        else {
-                            let verify_result = fileModule.verifyKey(file_name, key_name);
-                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                            fileModule.storeEncReqInfo(restorationReq, fileList, type);
-                        }
-                    }
-                }
-                else {
-                    Swal.fire({
-                        title: '키 파일 업로드 실패',
-                        text: '키 파일을 다시 업로드해주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
-            }
-        });
-
-        if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
-
-            if (mode == 'single') {
-                $('.lockData')[0].innerHTML = html;
-                $('#signedUrl').attr('href', signedUrl[0][0]);
-                var fileSize = signedUrl[0][1];
-                var fileName = fileList[0];
-
-                $(document).on("click", "#signedUrl", function () {
-                    comm.meterDownload(eventIndex, type, fileName, fileSize);
-                })
-            }
-            else if (mode == 'group') {
-                $(document).on("click", ".select_recoConfirm", function () {
-                    $('.recoConfirm').attr('data-value', $(this).data('value'));
-                    selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('check_reco');
-                    var len = imgDivList.length;
-                    for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                    }
-                    $("#select_recoData").addClass('active')
-                });
-
-                $(document).on("click", ".albumImg", function () {
-                    if (screen.width > 600) {
-                        var imgnum = $(this).data("num")
-                        selectModalImg = imgnum
-                        var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                        var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                            <p>이미지 다운로드</p>\
-                        </a>'
-                        document.getElementById('selectImgArea').innerHTML = imgtag
-                        document.getElementById('selectBtnArea').innerHTML = downloadArea
-                        $("#imgView").addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".hoverdiv", function () {
-                    var imgnum = $(this).data("num")
-                    selectModalImg = imgnum
-                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                        <p>이미지 다운로드</p>\
-                    </a>'
-                    document.getElementById('selectImgArea').innerHTML = imgtag
-                    document.getElementById('selectBtnArea').innerHTML = downloadArea
-                    $("#imgView").addClass('active')
-                });
-
-                $(document).on("click", ".imgConfirm", function () {
-                    console.log(selectModalImg)
-                    var selectSize = signedUrl[selectModalImg][1];
-                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
-                });
-
-                $(document).on("click", ".allselect", function () {
-                    if ($('.allselect').is(":checked")) {
-                        $("input:checkbox[class=check_reco]").prop("checked", true);
-                    }
-                    else {
-                        $('input[class=check_reco]:checked').prop('checked', false)
-                    }
-                });
-
-                $(document).on("click", ".check_reco", function () {
-                    if (!$(this).is(":checked")) {
-                        $("input:checkbox[class=allselect]").prop("checked", false);
-                    }
-                });
-
-                
-                // $(document).on("click", ".viewImg", function () {
-                //     const canvas = document.getElementById('canvas');
-                //     const ctx = canvas.getContext('2d');
-                //     var cropImage = new Image()
-                //     cropImage.src = $(this).attr("src")
-                //     cropImage.onload = function(){
-                //         ctx.drawImage(cropImage, 0, 0, 640, 720, 0,0, canvas.width, canvas.height);
-                //     }
-                    
-                //     var ourRequest = new XMLHttpRequest();
-                //     ourRequest.open('GET','http://ddragon.leagueoflegends.com/cdn/10.14.1/data/en_US/champion.json');
-                //     ourRequest.send();
-                //     ourRequest.onload = function(){
-                //         // let data = ourRequest.responseText
-                //         var a = JSON.parse(ourRequest.responseText)
-                //         console.log(Object.keys(a["data"]).length)
-                //         for(var key in a.data){
-                //             console.log(JSON.stringify(a["data"][key]))
-                //         }
-                //         // console.log(a["data"]["Aatrox"])
-                //     }
-                // });
-
-                $(document).on("mouseover", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseleave", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("click", ".recoConfirm", function () {
-                    $('.modal').removeClass('active')
-                });
-
-                $(document).on("click", "#signedUrl", function () {
-                    let timerInterval
-                    Swal.fire({
-                        title: '파일 다운로드 준비중',
-                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
-                        timer: 99999999999,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            console.log('I was closed by the timer')
-                        }
-                    })
-                    resultLoader.fileToZip({
-                        id: eventIndex,
-                        bucketName: encDirectory[0],    //참조할 버킷 이름
-                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                        fileName: fileList              //참조할 object filename 목록
-                    });
-                    socket.on('compress', function (data) {
-                        if (data.log == '압축 완료') {
-                            socket.emit('deleteFile', {
-                                bucketName: encDirectory[0],
-                                subDirectory: encDirectory[1],
-                                fileName: ['Download.zip']
-                            })
-
-                            setTimeout(function () {
-                                new Promise((resolve, reject) => {
-                                    //파일 다운로드 경로 획득
-                                    var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                    var fileUrl = signedUrl[0][0];
-                                    var fileSize = signedUrl[0][1];
-                                    location.href = fileUrl;
-
-                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
-                                    resolve();
-                                }).then(() => {
-                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                })
-                            }, 500)
-                        }
-                    });
-                });
-                $('.lockDataList')[0].innerHTML = html;
-            }
-        }
-        else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', signedUrl[0][0]);
-            $('.fullname').text($('.file_fullname').text())
-
-            var fileSize = signedUrl[0][1];
-            var fileName = fileList[0];
-
-            $(document).on("click", "#signedUrl", function () {
-                comm.meterDownload(eventIndex, type, fileName, fileSize);
-            })
-        }
-    },
-
     log: function () {
 
         var pathname = window.location.pathname;
@@ -1432,15 +1117,12 @@ init = {
             if (requestType == 'encrypt') {
                 var type = $(this).data('type')
                 if (type == '동영상 파일') {
-                    // location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
                     location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
                 }
                 else if (type == '이미지 파일') {
-                    // location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
                     location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
                 }
                 else if (type == '이미지 그룹') {
-                    // location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
                     location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
                 }
             }
@@ -1464,7 +1146,6 @@ init = {
         if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
         else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
         $(".mainLog").html(mainLog);
-
 
         if (screen.width <= 600) {
             m_load('.mainLog', '5');
@@ -2591,22 +2272,63 @@ init = {
         });
 
         //이게 복호화 요청 확인 누르면
-        $(document).on("click", ".recoConfirm", function () {
-            var keyName = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type, mode);
-            else if (mode == 'group') {
-                var selected = $(this).data('value');
-                if (selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type), mode;
-                else if (selected == 'select') {
-                    if (selectedFile.length == 0) Swal.fire({
-                        title: '선택된 파일이 없습니다',
-                        text: '복호화할 파일을 선택해 주세요.',
+        $(document).on("click", ".recoConfirm", async function () {
+            let key_name = $('.file_key')[0].children[1].innerHTML
+            if (mode == 'single') {
+                let file_name = await fileModule.uploadKey();
+                if (file_name) {
+                    console.log('file_name : ' + JSON.stringify(file_name));
+                    let verify_result = fileModule.verifyKey(file_name, key_name);
+                    let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                    console.log('restorationReq : ' + JSON.stringify(restorationReq));
+                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                }
+                else {
+                    console.log('file_name : ' + file_name);
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
                         icon: "error"
                     });
-                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type, mode);
+                }
+            }
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                let file_name = fileModule.uploadKey();
+                if (file_name) {
+                    if (selected == 'all') {
+                        let verify_result = fileModule.verifyKey(file_name, key_name);
+                        let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                        fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                    }
+                    else if (selected == 'select') {
+                        if (selectedFile.length == 0) Swal.fire({
+                            title: '선택된 파일이 없습니다',
+                            text: '복호화할 파일을 선택해 주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                        else {
+                            let verify_result = fileModule.verifyKey(file_name, key_name);
+                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                            fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                        }
+                    }
+                }
+                else {
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
                 }
             }
         });

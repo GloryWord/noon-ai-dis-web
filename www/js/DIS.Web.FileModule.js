@@ -673,8 +673,7 @@ fileModule = {
         })
     },
 
-    verifyKey: function (keyName, index, fileList, fileType, mode) {
-        var curTime = getTime();
+    uploadKey: function () {
         var formData = new FormData();
         var file = document.getElementById('file').files[0];
         let upload_result;
@@ -746,6 +745,7 @@ fileModule = {
                 verify_result = { valid, msg, keyPath };
             },
             error: function (xhr, status){
+                console.log('@@@@'+JSON.stringify(xhr));
                 console.log('verify key failed');
                 verify_result = false;
             }
@@ -768,157 +768,73 @@ fileModule = {
             });
         }
         else {
-            $.ajax({
-                method: "post",
-                url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
-                dataType: "json",
-                data: {
-                    'curTime': curTime
-                },
-                success: function (data) {
-                    fileName = file.name;
-                    formData.append('file', file);
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('post', '/util-module/api/uploadNAS', true);
-                    xhr.upload.onprogress = function (e) {
-                        if (e.lengthComputable) {
-                            var percentage = (e.loaded / e.total) * 100;
-                            console.log(percentage + "%");
-                        }
+            let userAuth = comm.getAuth();
+            if (userAuth['decrypt_auth'] == 0) {
+                Swal.fire({
+                    title: '복호화 권한이 없어요.',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                })
+                location.reload;
+            }
+            else if (userAuth['decrypt_auth'] == 1) {
+                $.ajax({
+                    method: 'post',
+                    url: '/decrypt-module/api/request/decrypt/thumbnail',
+                    dataType: 'json',
+                    data: {
+                        enc_request_id: index,
+                        account_auth_id: userAuth.id,
+                        fileList: JSON.stringify(fileList),
+                        keyPath: keyPath
+                    },
+                    async: false,
+                    success: function (data) {
+                        result = data;
+                        console.log('restoration function : '+JSON.stringify(result));
+                    },
+                    error: function (xhr, status) {
+                        console.log('decrypt request info store failed');
                     }
-                    xhr.onerror = function (e) {
-                        console.log('Error');
-                        console.log(e);
-                    };
-                    xhr.onload = function () {
-                        new Promise((resolve, reject) => {
-                            let msg = '';
-                            let keyPath = '';
-                            $.ajax({
-                                method: "post",
-                                url: "/key-module/api/key/verify",
-                                dataType: "json",
-                                data: {
-                                    'fileName': fileName, // 남자향수.pem -> 이민형.pem
-                                    'keyName': keyName // DB에서 비교해볼 키 네임
-                                },
-                                async: false,
-                                success: function (data) {
-                                    if (data['result'] == 'valid') valid = true;
-                                    msg = data.log;
-                                    keyPath = data.keyPath;
-                                    thumbnailCntrKeyPath = data.thumbnailCntrKeyPath;
-                                },
-                                error: function (xhr, status) {
-                                    // alert(xhr + " : " + status);
-                                    alert(JSON.stringify(xhr));
-                                }
-                            });
-                            resolve({ valid, msg, keyPath })
-                        }).then(({ valid, msg, keyPath }) => {
-                            if (!valid) {
-                                Swal.fire({
-                                    title: '복호화 키 불일치',
-                                    text: msg,
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    showDenyButton: true,
-                                    denyButtonText: "확 인",
-                                    icon: "error"
-                                });
-                            }
-                            else {
-                                new Promise((resolve, reject) => {
-                                    var userAuth = comm.getAuth();
-                                    var result = '';
-                                    if (userAuth['decrypt_auth'] == 0) {
-                                        Swal.fire({
-                                            title: '복호화 권한이 없어요.',
-                                            showCancelButton: false,
-                                            showConfirmButton: false,
-                                            showDenyButton: true,
-                                            denyButtonText: "확 인",
-                                            icon: "error"
-                                        }).then(() => {
-                                            location.reload()
-                                        });
-                                    }
-                                    else if (userAuth['decrypt_auth'] == 1) {
-                                        $.ajax({
-                                            method: "post",
-                                            url: "/decrypt-module/api/request/decrypt/thumbnail", //DB에 복호화 요청정보 저장
-                                            dataType: "json",
-                                            data: {
-                                                enc_request_id: index,
-                                                account_auth_id: userAuth.id,
-                                                fileList: JSON.stringify(fileList),
-                                                keyPath: keyPath
-                                            },
-                                            async: false,
-                                            success: function (data) {
-                                                result = data;
-                                                console.log(result);
-                                            },
-                                            error: function (xhr, status) {
-                                                // alert(xhr + " : " + status);
-                                                alert(JSON.stringify(xhr));
-                                            }
-                                        });
-                                        resolve(result);
-                                    }
-                                })
-                                    .then((result) => {
-                                        var reqInfo = result['thumbReqInfo']['reqInfo'];
-                                        var msgTemplate = result['thumbReqInfo'];
-                                        var thumbRequestId = result['dec_thumbnail_id'];
-                                        // comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
+                });
+            }
+        }
+        return result;
+    },
 
-                                        delete msgTemplate.reqInfo;
-                                        $.ajax({
-                                            method: "post",
-                                            url: "/decrypt-module/api/sendMessage/thumbnail", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
-                                            dataType: "json",
-                                            data: {
-                                                'msgTemplate': JSON.stringify(msgTemplate),
-                                                'reqInfo': JSON.stringify(reqInfo)
-                                            },
-                                            success: function (data) {
-                                                location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail';
-                                            },
-                                            error: function (xhr, status) {
-                                                // alert(xhr + " : " + status);
-                                                alert(JSON.stringify(xhr));
-                                            }
-                                        });
-                                        // new Promise((resolve, reject) => {
-                                        //     resolve()
-                                        // }).then(() => {
-                                        //     Swal.fire({
-                                        //         title: '복호화 요청이 \n완료되었습니다.',
-                                        //         showCancelButton: false,
-                                        //         confirmButtonText: '확인',
-                                        //         allowOutsideClick: false,
-                                        //         icon: 'success'
-                                        //     }).then((result) => {
-                                        //         if (result.isConfirmed) {
-                                        //             location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
-                                        //         }
-                                        //     })
-                                        // })
-                                    })
-                            }
-                        })
-                    };
-                    xhr.send(formData);
+    storeThumbnailReqInfo: function (restorationReq, fileType, mode) {
+        let reqInfo, msgTemplate, thumbRequestId;
+        try {
+            reqInfo = restorationReq['thumbReqInfo']['reqInfo'];
+            msgTemplate = restorationReq['thumbReqInfo'];
+            thumbRequestId = restorationReq['dec_thumbnail_id'];
+
+            delete msgTemplate.reqInfo;
+
+            $.ajax({
+                method: 'post',
+                url: '/decrypt-module/api/sendMessage/thumbnail',
+                dataType: 'json',
+                data: {
+                    msgTemplate: JSON.stringify(msgTemplate),
+                    reqInfo: JSON.stringify(reqInfo)
+                },
+                async: false,
+                success: function (data) {
+                    console.log('last request success');
+                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail';
                 },
                 error: function (xhr, status) {
-                    // alert(xhr + " : " + status);
-                    alert(JSON.stringify(xhr));
+                    console.log('encrypt request message send failed');
                 }
             });
         }
+        catch (error) { }
     },
-
+    
     thumbnailList: function (idx, type, mode) {
         var result = ''
         var resultStr = ''
