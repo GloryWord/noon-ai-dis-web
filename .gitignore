@@ -4,5 +4,8 @@ nginx-dev.conf
 push.sh
 gitlogin.sh
 www/test.html
+www/js/DIS.Web.Test.js
+www/encrypt/album/test.html
+www/encrypt/image/test.html
+www/encrypt/video/test.html
 pull-origin.sh
-key-remove.sh

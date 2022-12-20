@@ -65,6 +65,28 @@ requestTable = {
         return result;
     },
 
+    getThumbProgress: function () {
+        var result = {
+            'progress': '',
+            'type': '',
+            'status': ''
+        }
+        $.ajax({
+            method: "get",
+            url: "/util-module/api/progress/thumbnail",
+            async: false,
+            success: function (data) {
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
+            },
+            error: function (xhr, status) {
+                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
     getRecentRequest: function (requestType) {
         var apiUrl = `/${requestType}-module/api/request/${requestType}/recent`
         let requestList, responseMessage;

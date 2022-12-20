@@ -119,14 +119,14 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
 }
 
 /**
- * DIS.Web.FileModule 네임스페이스
- * @class DIS.Web.FileModule
+ * DIS.Web.Test 네임스페이스
+ * @class DIS.Web.Test
  */
 DIS.Web.FileModule = DIS.Web.FileModule || {};
 
 /**
  * DIS.Web.FileModule 클래스를 참조하는 글로벌 멤버 변수
- * @interface FileModule
+ * @interface Test
  */
 
 var fileModule = DIS.Web.FileModule;
@@ -530,7 +530,7 @@ fileModule = {
                                 else {
                                     if (fileType == "video") avg_object_charge /= 1.5;
                                     else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge /= 1.5
+                                        chargeArray[i].avg_object_charge *= 1.5
                                     }
                                 }
                             });
@@ -673,7 +673,8 @@ fileModule = {
         })
     },
 
-    uploadKey: function () {
+    verifyKey: function (keyName, index, fileList, fileType, mode) {
+        var curTime = getTime();
         var formData = new FormData();
         var file = document.getElementById('file').files[0];
         let upload_result;
@@ -767,145 +768,489 @@ fileModule = {
             });
         }
         else {
-            let userAuth = comm.getAuth();
-            if (userAuth['decrypt_auth'] == 0) {
-                Swal.fire({
-                    title: '복호화 권한이 없어요.',
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                })
-                location.reload;
-            }
-            else if (userAuth['decrypt_auth'] == 1) {
-                $.ajax({
-                    method: 'post',
-                    url: '/decrypt-module/api/request/decrypt',
-                    dataType: 'json',
-                    data: {
-                        enc_request_id: index,
-                        account_auth_id: userAuth.id,
-                        fileList: JSON.stringify(fileList),
-                        keyPath: keyPath
-                    },
-                    async: false,
-                    success: function (data) {
-                        result = data;
-                        console.log('restoration function : '+JSON.stringify(result));
-                    },
-                    error: function (xhr, status) {
-                        console.log('decrypt request info store failed');
-                    }
-                });
-            }
-        }
-        return result;
-    },
-
-    storeEncReqInfo: function (restorationReq, fileList, fileType) {
-        let reqInfo, msgTemplate, decRequestId;
-        try {
-            reqInfo = restorationReq['decReqInfo']['reqInfo'];
-            msgTemplate = restorationReq['decReqInfo'];
-            decRequestId = restorationReq['dec_request_list_id'];
-            comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
-
-            delete msgTemplate.reqInfo;
-
             $.ajax({
-                method: 'post',
-                url: '/decrypt-module/api/sendMessage/decrypt',
-                dataType: 'json',
+                method: "post",
+                url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                dataType: "json",
                 data: {
-                    msgTemplate: JSON.stringify(msgTemplate),
-                    reqInfo: JSON.stringify(reqInfo)
+                    'curTime': curTime
                 },
-                async: false,
                 success: function (data) {
-                    console.log('last request success');
-                    Swal.fire({
-                        title: '복호화 요청이 \n완료되었습니다.',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'success'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
+                    fileName = file.name;
+                    formData.append('file', file);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('post', '/util-module/api/uploadNAS', true);
+                    xhr.upload.onprogress = function (e) {
+                        if (e.lengthComputable) {
+                            var percentage = (e.loaded / e.total) * 100;
+                            console.log(percentage + "%");
                         }
-                    })
+                    }
+                    xhr.onerror = function (e) {
+                        console.log('Error');
+                        console.log(e);
+                    };
+                    xhr.onload = function () {
+                        new Promise((resolve, reject) => {
+                            let msg = '';
+                            let keyPath = '';
+                            $.ajax({
+                                method: "post",
+                                url: "/key-module/api/key/verify",
+                                dataType: "json",
+                                data: {
+                                    'fileName': fileName, // 남자향수.pem -> 이민형.pem
+                                    'keyName': keyName // DB에서 비교해볼 키 네임
+                                },
+                                async: false,
+                                success: function (data) {
+                                    if (data['result'] == 'valid') valid = true;
+                                    msg = data.log;
+                                    keyPath = data.keyPath;
+                                    thumbnailCntrKeyPath = data.thumbnailCntrKeyPath;
+                                },
+                                error: function (xhr, status) {
+                                    // alert(xhr + " : " + status);
+                                    alert(JSON.stringify(xhr));
+                                }
+                            });
+                            resolve({ valid, msg, keyPath })
+                        }).then(({ valid, msg, keyPath }) => {
+                            if (!valid) {
+                                Swal.fire({
+                                    title: '복호화 키 불일치',
+                                    text: msg,
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                });
+                            }
+                            else {
+                                new Promise((resolve, reject) => {
+                                    var userAuth = comm.getAuth();
+                                    var result = '';
+                                    if (userAuth['decrypt_auth'] == 0) {
+                                        Swal.fire({
+                                            title: '복호화 권한이 없어요.',
+                                            showCancelButton: false,
+                                            showConfirmButton: false,
+                                            showDenyButton: true,
+                                            denyButtonText: "확 인",
+                                            icon: "error"
+                                        }).then(() => {
+                                            location.reload()
+                                        });
+                                    }
+                                    else if (userAuth['decrypt_auth'] == 1) {
+                                        $.ajax({
+                                            method: "post",
+                                            url: "/decrypt-module/api/request/decrypt/thumbnail", //DB에 복호화 요청정보 저장
+                                            dataType: "json",
+                                            data: {
+                                                enc_request_id: index,
+                                                account_auth_id: userAuth.id,
+                                                fileList: JSON.stringify(fileList),
+                                                keyPath: keyPath
+                                            },
+                                            async: false,
+                                            success: function (data) {
+                                                result = data;
+                                                console.log(result);
+                                            },
+                                            error: function (xhr, status) {
+                                                // alert(xhr + " : " + status);
+                                                alert(JSON.stringify(xhr));
+                                            }
+                                        });
+                                        resolve(result);
+                                    }
+                                })
+                                    .then((result) => {
+                                        var reqInfo = result['thumbReqInfo']['reqInfo'];
+                                        var msgTemplate = result['thumbReqInfo'];
+                                        var thumbRequestId = result['dec_thumbnail_id'];
+                                        // comm.meterDecrypt(decRequestId, JSON.stringify(fileList), fileType);
+
+                                        delete msgTemplate.reqInfo;
+                                        $.ajax({
+                                            method: "post",
+                                            url: "/decrypt-module/api/sendMessage/thumbnail", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+                                            dataType: "json",
+                                            data: {
+                                                'msgTemplate': JSON.stringify(msgTemplate),
+                                                'reqInfo': JSON.stringify(reqInfo)
+                                            },
+                                            success: function (data) {
+                                                location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail';
+                                            },
+                                            error: function (xhr, status) {
+                                                // alert(xhr + " : " + status);
+                                                alert(JSON.stringify(xhr));
+                                            }
+                                        });
+                                        // new Promise((resolve, reject) => {
+                                        //     resolve()
+                                        // }).then(() => {
+                                        //     Swal.fire({
+                                        //         title: '복호화 요청이 \n완료되었습니다.',
+                                        //         showCancelButton: false,
+                                        //         confirmButtonText: '확인',
+                                        //         allowOutsideClick: false,
+                                        //         icon: 'success'
+                                        //     }).then((result) => {
+                                        //         if (result.isConfirmed) {
+                                        //             location.href = '/loading?type=' + fileType + '&id=' + decRequestId + '&service=decrypt';
+                                        //         }
+                                        //     })
+                                        // })
+                                    })
+                            }
+                        })
+                    };
+                    xhr.send(formData);
                 },
                 error: function (xhr, status) {
-                    console.log('encrypt request message send failed');
+                    // alert(xhr + " : " + status);
+                    alert(JSON.stringify(xhr));
                 }
             });
         }
-        catch (error) { }
+    },
+
+    thumbnailList: function (idx, type, mode) {
+        var result = ''
+        var resultStr = ''
+        var resultData = []
+        var postdata = { idx: idx, type: type, mode: mode }
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/decrypt/result/thumbnail",
+            async: false,
+            data: postdata,
+            success: function (data) {
+                result = data;
+                console.log(result)
+            }, // success 
+            error: function (xhr, status) {
+                alert("error : " + xhr + " : " + JSON.stringify(status));
+            }
+        })
+
+        // <img class='encImg' src='../${result[0]['nas_directory']}/1/thnumbnail.jpg'>
+        if (type == 'image') {
+            if (mode == 'single') {
+                var bodylen = []
+                var headlen = []
+                var lplen = []
+                for (var i = 0; i < result[2].length; i++) {
+                    if (result[2][i] != "thnumbnail.jpg") {
+                        if (result[2][i].split("_")[0] == "0") bodylen.push(result[2][i])
+                        else if (result[2][i].split("_")[0] == "1") headlen.push(result[2][i])
+                        else if (result[2][i].split("_")[0] == "2") lplen.push(result[2][i])
+                    }
+                }
+                resultStr += `<div class='recoArea' data-id=0>
+                                <div class='encImgArea'>
+                                    <img class='encImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${result[2][result[2].length - 1]}'>
+                                </div>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>전신</h1>`
+                if (bodylen.length != 0) {
+                    resultStr += `<div class='allArea'>
+                                                <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+                }
+                resultStr += `</div>
+                                    <div class='cropArea'>`
+                for (var i = 0; i < bodylen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_body ${result[1][0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+                }
+                resultStr += `</div>
+                                </div>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>머리</h1>`
+                if (headlen.length != 0) {
+                    resultStr += `<div class='allArea'>
+                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+                }
+                resultStr += `</div>
+                                    <div class='cropArea'>`
+                for (var i = 0; i < headlen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${headlen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_head ${result[1][0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+                }
+                resultStr += `</div>
+                                </div>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>자동차 번호판</h1>`
+                if (lplen.length != 0) {
+                    resultStr += `<div class='allArea'>
+                                                <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+                }
+                resultStr += `</div>
+                                    <div class='cropArea'>`
+                for (var i = 0; i < lplen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${lplen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_lp ${result[1][0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+                }
+                resultStr += `</div>
+                                </div>
+                            </div>`
+            }
+            else if (mode == 'group') {
+                for(var j=2;j<result.length;j++){
+                    var bodylen = []
+                    var headlen = []
+                    var lplen = []
+                    var i = 0
+                    var l = i+j-1
+                    for (var k = 0; k < result[j].length; k++) {
+                        if (result[j][k] != "thnumbnail.jpg") {
+                            if (result[j][k].split("_")[0] == "0") bodylen.push(result[j][k])
+                            else if (result[j][k].split("_")[0] == "1") headlen.push(result[j][k])
+                            else if (result[j][k].split("_")[0] == "2") lplen.push(result[j][k])
+                        }
+                    }
+                    resultStr += `<div class='recoArea' data-id=${(l)}>
+                                    <div class='encImgArea'>
+                                        <img class='encImg' src='../${result[0]['nas_directory']}/${(l)}/${result[j][result[j].length-1]}'>
+                                    </div>
+                                    <div class='object_list'>
+                                        <div class='textArea'>
+                                            <h1>전신</h1>`
+                            if (bodylen.length != 0) {
+                                resultStr += `<div class='allArea'>
+                                                <input class='body_allselect ${(l)}' type='checkbox' value=${(l)}><label class='allselect'>전체 선택</label>
+                                            </div>`
+                            }
+                            resultStr += `</div>
+                                                <div class='cropArea'>`
+            for (var m = 0; m < bodylen.length; m++) {
+                resultStr += `<div class='cropContent'>
+                                <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${bodylen[m]}'>
+                                <div class='cropID'>
+                                    <p>${bodylen[m].split("_")[1].split(".")[0]}</p>
+                                </div>
+                                <input class='check_body ${(l)}' type='checkbox' value=${bodylen[m].split("_")[1].split(".")[0]}>
+                            </div>`
+            }
+            resultStr += `</div>
+                            </div>
+                            <div class='object_list'>
+                                <div class='textArea'>
+                                    <h1>머리</h1>`
+            if (headlen.length != 0) {
+                resultStr += `<div class='allArea'>
+                                            <input class='head_allselect ${(l)}' type='checkbox' value=${(l)}}><label class='allselect'>전체 선택</label>
+                                        </div>`
+            }
+            resultStr += `</div>
+                                <div class='cropArea'>`
+            for (var m = 0; m < headlen.length; m++) {
+                resultStr += `<div class='cropContent'>
+                                                        <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${headlen[m]}'>
+                                                        <div class='cropID'>
+                                                            <p>${headlen[m].split("_")[1].split(".")[0]}</p>
+                                                        </div>
+                                                        <input class='check_head ${(l)}' type='checkbox' value=${headlen[m].split("_")[1].split(".")[0]}>
+                                                    </div>`
+            }
+            resultStr += `</div>
+                            </div>
+                            <div class='object_list'>
+                                <div class='textArea'>
+                                    <h1>자동차 번호판</h1>`
+            if (lplen.length != 0) {
+                resultStr += `<div class='allArea'>
+                                            <input class='lp_allselect ${(l)}' type='checkbox' value=${l}><label class='allselect'>전체 선택</label>
+                                        </div>`
+            }
+            resultStr += `</div>
+                                <div class='cropArea'>`
+            for (var m = 0; m < lplen.length; m++) {
+                resultStr += `<div class='cropContent'>
+                                                        <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${lplen[m]}'>
+                                                        <div class='cropID'>
+                                                            <p>${lplen[m].split("_")[1].split(".")[0]}</p>
+                                                        </div>
+                                                        <input class='check_lp ${(l)}' type='checkbox' value=${lplen[m].split("_")[1].split(".")[0]}>
+                                                    </div>`
+            }
+            resultStr += `</div>
+                            </div>
+                        </div>`
+                }
+                i++
+            }
+        }
+        else if (type == 'video') {
+            var bodylen = []
+            var headlen = []
+            var lplen = []
+            for (var i = 0; i < result[2].length; i++) {
+                if (result[2][i] != "thnumbnail.json") {
+                    if (result[2][i].split("_")[0] == "0") bodylen.push(result[2][i])
+                    else if (result[2][i].split("_")[0] == "1") headlen.push(result[2][i])
+                    else if (result[2][i].split("_")[0] == "2") lplen.push(result[2][i])
+                }
+            }
+            resultStr += `<div class='recoArea' data-id=0>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>전신</h1>`
+            if (bodylen.length != 0) {
+                resultStr += `<div class='allArea'>
+                                                <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+            }
+            resultStr += `</div>
+                                    <div class='cropArea'>`
+            for (var i = 0; i < bodylen.length; i++) {
+                resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_body ${result[1][0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+            }
+            resultStr += `</div>
+                                </div>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>머리</h1>`
+            if (headlen.length != 0) {
+                resultStr += `<div class='allArea'>
+                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+            }
+            resultStr += `</div>
+                                    <div class='cropArea'>`
+            for (var i = 0; i < headlen.length; i++) {
+                resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${headlen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_head ${result[1][0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+            }
+            resultStr += `</div>
+                                </div>
+                                <div class='object_list'>
+                                    <div class='textArea'>
+                                        <h1>자동차 번호판</h1>`
+            if (lplen.length != 0) {
+                resultStr += `<div class='allArea'>
+                                                <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>`
+            }
+            resultStr += `</div>
+                                    <div class='cropArea'>`
+            for (var i = 0; i < lplen.length; i++) {
+                resultStr += `<div class='cropContent'>
+                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
+                                                            <div class='cropID'>
+                                                                <p>${lplen[i].split("_")[1].split(".")[0]}</p>
+                                                            </div>
+                                                            <input class='check_lp ${result[1][0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
+                                                        </div>`
+            }
+            resultStr += `</div>
+                                </div>
+                            </div>`
+        }
+
+        resultData.push(resultStr)
+        resultData.push(result[0]['nas_directory'])
+
+        return resultData
+    },
+
+    selectFile: function (idx, selectedFile) {
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/decrypt/select",
+            dataType: "json",
+            data: {
+                'req_idx': JSON.stringify(idx),
+                'req_info': JSON.stringify(selectedFile),
+            },
+            async: false,
+            success: function (data) {
+
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                alert(JSON.stringify(xhr));
+            }
+        })
+        return result;
+    },
+
+    decrypt: function (decryptArgs) {
+        let result = null;
+
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/request/decrypt",
+            dataType: "json",
+            data: {
+                dec_thumbnail_idx: decryptArgs.idx,
+                selectedFile: JSON.stringify(decryptArgs.selectedFile),
+            },
+            async: false,
+            success: function (data) {
+                console.log(data);
+                result = data;
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                alert(JSON.stringify(xhr));
+            }
+        });
+
+        return result;
+    },
+
+    sendDecryptMessage: function (msg) {
+        $.ajax({
+            method: "post",
+            url: "/decrypt-module/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            dataType: "json",
+            data: {
+                msgTemplate: JSON.stringify(msg),
+            },
+            success: function (data) {
+
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                alert(JSON.stringify(xhr));
+            }
+        });
     }
-
-    // uploadKey: function (keyName) {
-    //     return new Promise((resolve, reject) => {
-    //         let formData = new FormData();
-    //         let file = document.getElementById("file").files[0];
-    //         if (file == undefined)
-    //             file = document.getElementById("select_file").files[0];
-    //         let fileName;
-    //         let valid = false;
-
-    //         if (file == undefined) {
-    //             Swal.fire({
-    //                 title: "키 파일이 없습니다!",
-    //                 text: "키 파일을 업로드했는지 확인해주세요.",
-    //                 showConfirmButton: false,
-    //                 showDenyButton: true,
-    //                 denyButtonText: "확 인",
-    //                 icon: "error",
-    //             });
-    //         } else {
-    //             fileName = file.name;
-    //             formData.append("file", file);
-    //             let xhr = new XMLHttpRequest();
-    //             xhr.open("post", "/util-module/api/uploadNAS", true);
-    //             xhr.upload.onprogress = function (e) {
-    //                 if (e.lengthComputable) {
-    //                     let percentage = (e.loaded / e.total) * 100;
-    //                     console.log(percentage + "%");
-    //                 }
-    //             };
-    //             xhr.onerror = function (e) {
-    //                 console.log("Error");
-    //                 console.log(e);
-    //             };
-    //             xhr.onload = function () {
-    //                 new Promise((resolve, reject) => {
-    //                     let msg = "";
-    //                     let keyPath = "";
-    //                     $.ajax({
-    //                         method: "post",
-    //                         url: "/key-module/api/key/verify",
-    //                         dataType: "json",
-    //                         data: {
-    //                             fileName: fileName, // 남자향수.pem -> 이민형.pem
-    //                             keyName: keyName, // DB에서 비교해볼 키 네임
-    //                         },
-    //                         async: false,
-    //                         success: function (data) {
-    //                             if (data["result"] == "valid") valid = true;
-    //                             msg = data.log;
-    //                             keyPath = data.keyPath;
-    //                         },
-    //                         error: function (xhr, status) {
-    //                             // alert(xhr + " : " + status);
-    //                             alert(JSON.stringify(xhr));
-    //                         },
-    //                     });
-    //                     resolve({ valid, msg, keyPath });
-    //                 });
-    //             };
-    //             xhr.send(formData);
-    //         }
-    //     });
-    // },
 }
