@@ -2314,8 +2314,9 @@ init = {
                             icon: "error"
                         });
                         else {
+                            console.log(fileList);
                             let verify_result = fileModule.verifyKey(file_name, key_name);
-                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
                             fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
                         }
                     }
