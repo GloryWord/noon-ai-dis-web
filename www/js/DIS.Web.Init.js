@@ -2302,7 +2302,7 @@ init = {
                     if (selected == 'all') {
                         let verify_result = fileModule.verifyKey(file_name, key_name);
                         let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                        fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                        fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
                     }
                     else if (selected == 'select') {
                         if (selectedFile.length == 0) Swal.fire({
@@ -2316,7 +2316,7 @@ init = {
                         else {
                             let verify_result = fileModule.verifyKey(file_name, key_name);
                             let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                            fileModule.storeEncReqInfo(restorationReq, fileList, type);
+                            fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
                         }
                     }
                 }

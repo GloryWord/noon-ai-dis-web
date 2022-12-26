@@ -675,17 +675,15 @@ fileModule = {
 
     uploadKey: function () {
         var formData = new FormData();
-        var file = document.getElementById('file').files[0];
+        let file = document.getElementById('file').files[0];
         let upload_result;
-        let file_name;
-        try {
-            file_name = file.name;
-        }
-        catch (error) {}
+        let file_name = (file != undefined) ? file.name : null;
+
         new Promise((resolve, reject) => {
             if (file == undefined) {
                 try {
                     file = document.getElementById('select_file').files[0];
+                    file_name = file.name;
                 }
                 catch (error) {}
             }
@@ -712,7 +710,6 @@ fileModule = {
                         if (data.message == 'success') {
                             console.log('upload success');
                             upload_result = file_name;
-                            console.log('file : ' + file_name);
                         }
                     },
                     error: function (xhr, status) {
@@ -721,7 +718,6 @@ fileModule = {
                     }
                 });
             }
-            console.log('upload_result : '+upload_result);
             resolve(upload_result)
         })
         return upload_result;
