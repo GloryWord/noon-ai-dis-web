@@ -948,12 +948,12 @@ fileModule = {
                             </div>`
             }
             else if (mode == 'group') {
-                for(var j=2;j<result.length;j++){
+                for (var j = 2; j < result.length; j++) {
                     var bodylen = []
                     var headlen = []
                     var lplen = []
                     var i = 0
-                    var l = i+j-1
+                    var l = i + j - 1
                     for (var k = 0; k < result[j].length; k++) {
                         if (result[j][k] != "thnumbnail.jpg") {
                             if (result[j][k].split("_")[0] == "0") bodylen.push(result[j][k])
@@ -963,70 +963,70 @@ fileModule = {
                     }
                     resultStr += `<div class='recoArea' data-id=${(l)}>
                                     <div class='encImgArea'>
-                                        <img class='encImg' src='../${result[0]['nas_directory']}/${(l)}/${result[j][result[j].length-1]}'>
+                                        <img class='encImg' src='../${result[0]['nas_directory']}/${(l)}/${result[j][result[j].length - 1]}'>
                                     </div>
                                     <div class='object_list'>
                                         <div class='textArea'>
                                             <h1>전신</h1>`
-                            if (bodylen.length != 0) {
-                                resultStr += `<div class='allArea'>
+                    if (bodylen.length != 0) {
+                        resultStr += `<div class='allArea'>
                                                 <input class='body_allselect ${(l)}' type='checkbox' value=${(l)}><label class='allselect'>전체 선택</label>
                                             </div>`
-                            }
-                            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                                                 <div class='cropArea'>`
-            for (var m = 0; m < bodylen.length; m++) {
-                resultStr += `<div class='cropContent'>
+                    for (var m = 0; m < bodylen.length; m++) {
+                        resultStr += `<div class='cropContent'>
                                 <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${bodylen[m]}'>
                                 <div class='cropID'>
                                     <p>${bodylen[m].split("_")[1].split(".")[0]}</p>
                                 </div>
                                 <input class='check_body ${(l)}' type='checkbox' value=${bodylen[m].split("_")[1].split(".")[0]}>
                             </div>`
-            }
-            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                             </div>
                             <div class='object_list'>
                                 <div class='textArea'>
                                     <h1>머리</h1>`
-            if (headlen.length != 0) {
-                resultStr += `<div class='allArea'>
+                    if (headlen.length != 0) {
+                        resultStr += `<div class='allArea'>
                                             <input class='head_allselect ${(l)}' type='checkbox' value=${(l)}}><label class='allselect'>전체 선택</label>
                                         </div>`
-            }
-            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                                 <div class='cropArea'>`
-            for (var m = 0; m < headlen.length; m++) {
-                resultStr += `<div class='cropContent'>
+                    for (var m = 0; m < headlen.length; m++) {
+                        resultStr += `<div class='cropContent'>
                                                         <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${headlen[m]}'>
                                                         <div class='cropID'>
                                                             <p>${headlen[m].split("_")[1].split(".")[0]}</p>
                                                         </div>
                                                         <input class='check_head ${(l)}' type='checkbox' value=${headlen[m].split("_")[1].split(".")[0]}>
                                                     </div>`
-            }
-            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                             </div>
                             <div class='object_list'>
                                 <div class='textArea'>
                                     <h1>자동차 번호판</h1>`
-            if (lplen.length != 0) {
-                resultStr += `<div class='allArea'>
+                    if (lplen.length != 0) {
+                        resultStr += `<div class='allArea'>
                                             <input class='lp_allselect ${(l)}' type='checkbox' value=${l}><label class='allselect'>전체 선택</label>
                                         </div>`
-            }
-            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                                 <div class='cropArea'>`
-            for (var m = 0; m < lplen.length; m++) {
-                resultStr += `<div class='cropContent'>
+                    for (var m = 0; m < lplen.length; m++) {
+                        resultStr += `<div class='cropContent'>
                                                         <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${lplen[m]}'>
                                                         <div class='cropID'>
                                                             <p>${lplen[m].split("_")[1].split(".")[0]}</p>
                                                         </div>
                                                         <input class='check_lp ${(l)}' type='checkbox' value=${lplen[m].split("_")[1].split(".")[0]}>
                                                     </div>`
-            }
-            resultStr += `</div>
+                    }
+                    resultStr += `</div>
                             </div>
                         </div>`
                 }
