@@ -336,10 +336,16 @@
 
 .detailArea .viewArea .video-js {
     width: 916px;
+    /* height: auto; */
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
+
+/* .video-js .vjs-tech {
+    position: relative !important;
+    height: auto !important;
+} */
 
 .detailArea .viewArea .fileFullName {
     width: 896px;
