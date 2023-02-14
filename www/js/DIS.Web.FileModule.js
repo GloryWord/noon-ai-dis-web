@@ -674,10 +674,11 @@ fileModule = {
     },
 
     uploadKey: function () {
-        var formData = new FormData();
+        let formData = new FormData();
         let file = document.getElementById('file').files[0];
         let upload_result;
         let file_name = (file != undefined) ? file.name : null;
+        let curTime = getTime();
 
         new Promise((resolve, reject) => {
             if (file == undefined) {
@@ -700,25 +701,42 @@ fileModule = {
             else {
                 formData.append('file', file);
                 $.ajax({
-                    method: 'post',
-                    url: '/util-module/api/uploadNAS',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
+                    method: "post",
+                    url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                    dataType: "json",
                     async: false,
+                    data: {
+                        'curTime': curTime
+                    },
                     success: function (data) {
-                        if (data.message == 'success') {
-                            console.log('upload success');
-                            upload_result = file_name;
-                        }
+
                     },
                     error: function (xhr, status) {
-                        upload_result = false;
-                        console.log('upload key failed');
+                        // alert(xhr + " : " + status);
+                        alert(JSON.stringify(xhr));
                     }
-                });
+                }).done(() => {
+                    $.ajax({
+                        method: 'post',
+                        url: '/util-module/api/uploadNAS',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        async: false,
+                        success: function (data) {
+                            if (data.message == 'success') {
+                                console.log('upload success');
+                                upload_result = file_name;
+                            }
+                        },
+                        error: function (xhr, status) {
+                            upload_result = false;
+                            console.log('upload key failed');
+                        }
+                    });
+                })
+                resolve(upload_result)
             }
-            resolve(upload_result)
         })
         return upload_result;
     },
