@@ -102,7 +102,6 @@ resultLoader = {
                 }
             })
         }
-        console.log(result)
         return result;
     },
 

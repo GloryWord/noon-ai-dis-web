@@ -390,13 +390,13 @@ init = {
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
                 setTimeout(function() {
                     callback.then((data) => {
-                        console.log(data);
                         postData = data[0]
                         filePath = data[2][0]
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
                                 filePath: filePath,
-                                id: uploadID
+                                id: uploadID,
+                                immediate: 'false'
                             })
                         }, 1000)
                     })
@@ -474,6 +474,10 @@ init = {
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var service = urlParams.get('service');
+        if(service == 'thumbnail'){
+            var mode = urlParams.get('mode');
+            var index = urlParams.get('id');
+        }
         var eventIndex = urlParams.get('id');
 
         var progressObject = ''
@@ -527,11 +531,11 @@ init = {
 
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
-                                text: '확인 버튼을 누르면 이전 페이지로 이동합니다.',
+                                text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
                                 confirmButtonText: '확인',
                                 allowOutsideClick: false
                             }).then((result) => {
-                                if (result.isConfirmed) history.back();
+                                if (result.isConfirmed) location.href = '/main';
                             })
                         }
                     })
@@ -557,6 +561,7 @@ init = {
         function reloadProgress() {
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
+            else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
@@ -575,9 +580,11 @@ init = {
             else if(status.indexOf("SUCCESS")==1 || status.indexOf("Sucess")==1) {
                 if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
                 else {
-                    var msg = (service == 'encrypt') ? '비식별화' : '복호화';
+                    if(service == 'encrypt') var msg = '비식별화가';
+                    else if(service == 'decrypt') var msg = '복호화가';
+                    else if(service == 'thumbnail') var msg = '썸네일 생성이';
                     Swal.fire({
-                        title: msg + '가 완료되었습니다!',
+                        title: msg + ' 완료되었습니다!',
                         showCancelButton: false,
                         confirmButtonText: '확인',
                         icon: 'success',
@@ -585,6 +592,7 @@ init = {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             if (service == 'encrypt') location.href = '/encrypt/log';
+                            if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}`;
                             if (service == 'decrypt') {
                                 let timerInterval;
                                 var typeStr = (type == 'image') ? '이미지' : '영상';
@@ -816,7 +824,8 @@ init = {
                         filePath = data[2][0]
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
-                                filePath: filePath
+                                filePath: filePath,
+                                immediate: 'false'
                             })
                         }, 1000)
                     })
@@ -885,276 +894,6 @@ init = {
                 });
             }
         });
-    },
-
-    detail: function () {
-        var socket = io();
-
-        var queryString = location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var type = urlParams.get('type');
-        var eventIndex = urlParams.get('id');
-        var mode = urlParams.get('mode');
-        var selectModalImg = 0;
-
-        var selectedFile = []
-        // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
-        var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
-        var encDirectory = encFileInfo.encDirectory;
-        var fileList = encFileInfo.fileList;
-        var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
-        $('.infoArea')[0].innerHTML = infoHtml;
-
-        $(document).on("click", ".recoBtn", function () {
-            if (type == 'video' && mode == 'single') {
-                location.href = "/decrypt/inspection" + "?type=video&mode=single";
-            }
-            else if (type == 'image' && mode == 'single') {
-                location.href = "/decrypt/inspection" + "?type=image&mode=single";
-            }
-            else if (type == 'image' && mode == 'group') {
-                location.href = "/decrypt/inspection" + "?type=image&mode=group";
-            }
-        });
-
-        $(document).ready(function () {
-            var rest = $(".rest_info").text()
-            if (rest == "복원 가능") {
-                $(".file_recoConfirm").removeClass("hide")
-                $(".select_recoConfirm").removeClass("hide")
-                $(".check_reco").removeClass("hide")
-                $(".allselect").removeClass("hide")
-            }
-        });
-
-        $(document).on("click", ".file_recoConfirm", function () {
-            $('#file').val('');
-            $('.pemUpload').val('');
-            $('.recoConfirm').attr('data-value', $(this).data('value'));
-            $("#recoData").addClass('active')
-        });
-
-        $(document).on("click", ".cancel", function () {
-            $('#file').val('');
-            $('.pemUpload').val('');
-            $('.modal').removeClass('active')
-        });
-
-        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
-        $("#file").on('change', function () {
-            var file = document.getElementById('file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-        });
-
-        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
-        $("#select_file").on('change', function () {
-            var file = document.getElementById('select_file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-        });
-
-        //이게 복호화 요청 확인 누르면
-        $(document).on("click", ".recoConfirm", function () {
-            var keyName = $('.file_key')[0].children[1].innerHTML
-            if (mode == 'single') fileModule.verifyKey(keyName, eventIndex, fileList, type);
-            else if (mode == 'group') {
-                var selected = $(this).data('value');
-                if (selected == 'all') fileModule.verifyKey(keyName, eventIndex, fileList, type);
-                else if (selected == 'select') {
-                    if (selectedFile.length == 0) Swal.fire({
-                        title: '선택된 파일이 없습니다',
-                        text: '복호화할 파일을 선택해 주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                    else fileModule.verifyKey(keyName, eventIndex, selectedFile, type);
-                }
-            }
-        });
-
-        if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
-
-            if (mode == 'single') {
-                $('.lockData')[0].innerHTML = html;
-                $('#signedUrl').attr('href', signedUrl[0][0]);
-                var fileSize = signedUrl[0][1];
-                var fileName = fileList[0];
-
-                $(document).on("click", "#signedUrl", function () {
-                    comm.meterDownload(eventIndex, type, fileName, fileSize);
-                })
-            }
-            else if (mode == 'group') {
-                $(document).on("click", ".select_recoConfirm", function () {
-                    $('.recoConfirm').attr('data-value', $(this).data('value'));
-                    selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('check_reco');
-                    var len = imgDivList.length;
-                    for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                    }
-                    $("#select_recoData").addClass('active')
-                });
-
-                $(document).on("click", ".albumImg", function () {
-                    if (screen.width > 600) {
-                        var imgnum = $(this).data("num")
-                        selectModalImg = imgnum
-                        var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                        var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                            <p>이미지 다운로드</p>\
-                        </a>'
-                        document.getElementById('selectImgArea').innerHTML = imgtag
-                        document.getElementById('selectBtnArea').innerHTML = downloadArea
-                        $("#imgView").addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".hoverdiv", function () {
-                    var imgnum = $(this).data("num")
-                    selectModalImg = imgnum
-                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                        <p>이미지 다운로드</p>\
-                    </a>'
-                    document.getElementById('selectImgArea').innerHTML = imgtag
-                    document.getElementById('selectBtnArea').innerHTML = downloadArea
-                    $("#imgView").addClass('active')
-                });
-
-                $(document).on("click", ".imgConfirm", function () {
-                    console.log(selectModalImg)
-                    var selectSize = signedUrl[selectModalImg][1];
-                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
-                });
-
-                $(document).on("click", ".allselect", function () {
-                    if ($('.allselect').is(":checked")) {
-                        $("input:checkbox[class=check_reco]").prop("checked", true);
-                    }
-                    else {
-                        $('input[class=check_reco]:checked').prop('checked', false)
-                    }
-                });
-
-                $(document).on("click", ".check_reco", function () {
-                    if (!$(this).is(":checked")) {
-                        $("input:checkbox[class=allselect]").prop("checked", false);
-                    }
-                });
-
-                
-                // $(document).on("click", ".viewImg", function () {
-                //     const canvas = document.getElementById('canvas');
-                //     const ctx = canvas.getContext('2d');
-                //     var cropImage = new Image()
-                //     cropImage.src = $(this).attr("src")
-                //     cropImage.onload = function(){
-                //         ctx.drawImage(cropImage, 0, 0, 640, 720, 0,0, canvas.width, canvas.height);
-                //     }
-                    
-                //     var ourRequest = new XMLHttpRequest();
-                //     ourRequest.open('GET','http://ddragon.leagueoflegends.com/cdn/10.14.1/data/en_US/champion.json');
-                //     ourRequest.send();
-                //     ourRequest.onload = function(){
-                //         // let data = ourRequest.responseText
-                //         var a = JSON.parse(ourRequest.responseText)
-                //         console.log(Object.keys(a["data"]).length)
-                //         for(var key in a.data){
-                //             console.log(JSON.stringify(a["data"][key]))
-                //         }
-                //         // console.log(a["data"]["Aatrox"])
-                //     }
-                // });
-
-                $(document).on("mouseover", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseleave", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("click", ".recoConfirm", function () {
-                    $('.modal').removeClass('active')
-                });
-
-                $(document).on("click", "#signedUrl", function () {
-                    let timerInterval
-                    Swal.fire({
-                        title: '파일 다운로드 준비중',
-                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
-                        timer: 99999999999,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            console.log('I was closed by the timer')
-                        }
-                    })
-                    resultLoader.fileToZip({
-                        id: eventIndex,
-                        bucketName: encDirectory[0],    //참조할 버킷 이름
-                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                        fileName: fileList              //참조할 object filename 목록
-                    });
-                    socket.on('compress', function (data) {
-                        if (data.log == '압축 완료') {
-                            socket.emit('deleteFile', {
-                                bucketName: encDirectory[0],
-                                subDirectory: encDirectory[1],
-                                fileName: ['Download.zip']
-                            })
-
-                            setTimeout(function () {
-                                new Promise((resolve, reject) => {
-                                    //파일 다운로드 경로 획득
-                                    var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                    var fileUrl = signedUrl[0][0];
-                                    var fileSize = signedUrl[0][1];
-                                    location.href = fileUrl;
-
-                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
-                                    resolve();
-                                }).then(() => {
-                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
-                                })
-                            }, 500)
-                        }
-                    });
-                });
-                $('.lockDataList')[0].innerHTML = html;
-            }
-        }
-        else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', signedUrl[0][0]);
-            $('.fullname').text($('.file_fullname').text())
-
-            var fileSize = signedUrl[0][1];
-            var fileName = fileList[0];
-
-            $(document).on("click", "#signedUrl", function () {
-                comm.meterDownload(eventIndex, type, fileName, fileSize);
-            })
-        }
     },
 
     log: function () {
@@ -1408,7 +1147,6 @@ init = {
         else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
         $(".mainLog").html(mainLog);
 
-
         if (screen.width <= 600) {
             m_load('.mainLog', '5');
             $(document).on("click", "#enc_more .morebutton", function () {
@@ -1452,204 +1190,41 @@ init = {
     },
 
     inspection: function () {
+        var socket = io();
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
-        // var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
-        var inspec_body = document.querySelector(".inspec_body")
-        if(type == 'image'){
-            if(mode == 'single'){
-                inspec_body.innerHTML = "<div class='recoArea' data-id=0>\
-                                            <div class='encImgArea'>\
-                                                <img class='encImg'>\
-                                            </div>\
-                                            <div class='object_list'>\
-                                                <div class='textArea'>\
-                                                    <h1>전신</h1>\
-                                                    <div class='allArea'>\
-                                                        <input class='body_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                    </div>\
-                                                </div>\
-                                                <div class='cropArea'>\
-                                                </div>\
-                                            </div>\
-                                            <div class='object_list'>\
-                                                <div class='textArea'>\
-                                                    <h1>머리</h1>\
-                                                    <div class='allArea'>\
-                                                        <input class='head_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                    </div>\
-                                                </div>\
-                                                <div class='cropArea'>\
-                                                    <div class='cropContent'>\
-                                                        <img class='cropImg'>\
-                                                        <div class='cropID'>\
-                                                            <p>1</p>\
-                                                        </div>\
-                                                        <input class='check_head 0' type='checkbox' value=1>\
-                                                    </div>\
-                                                    <div class='cropContent'>\
-                                                        <img class='cropImg'>\
-                                                        <div class='cropID'>\
-                                                            <p>2</p>\
-                                                        </div>\
-                                                        <input class='check_head 0' type='checkbox' value=2>\
-                                                    </div>\
-                                                </div>\
-                                            </div>\
-                                            <div class='object_list'>\
-                                                <div class='textArea'>\
-                                                    <h1>자동차 번호판</h1>\
-                                                    <div class='allArea'>\
-                                                        <input class='lp_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                    </div>\
-                                                </div>\
-                                                <div class='cropArea'>\
-                                                </div>\
-                                            </div>\
-                                        </div>"
-            }
-            else if(mode == 'group'){
-                for (var i=0;i<5;i++){
-                    inspec_body.innerHTML += "<div class='recoArea' data-id="+i+">\
-                                                <div class='encImgArea'>\
-                                                    <img class='encImg' src='../static/imgs/1920main_bg.png'>\
-                                                </div>\
-                                                <div class='object_list'>\
-                                                    <div class='textArea'>\
-                                                        <h1>전신</h1>\
-                                                        <div class='allArea'>\
-                                                            <input class='body_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
-                                                        </div>\
-                                                    </div>\
-                                                    <div class='cropArea'>\
-                                                    </div>\
-                                                </div>\
-                                                <div class='object_list'>\
-                                                    <div class='textArea'>\
-                                                        <h1>머리</h1>\
-                                                        <div class='allArea'>\
-                                                            <input class='head_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
-                                                        </div>\
-                                                    </div>\
-                                                    <div class='cropArea'>\
-                                                        <div class='cropContent'>\
-                                                            <img class='cropImg' src='../static/imgs/login/login_back.png'>\
-                                                            <div class='cropID'>\
-                                                                <p>1</p>\
-                                                            </div>\
-                                                            <input class='check_head "+i+"' type='checkbox' value=1>\
-                                                        </div>\
-                                                        <div class='cropContent'>\
-                                                            <img class='cropImg' src='../static/imgs/info/info_icon.png'>\
-                                                            <div class='cropID'>\
-                                                                <p>2</p>\
-                                                            </div>\
-                                                            <input class='check_head "+i+"' type='checkbox' value=2>\
-                                                        </div>\
-                                                    </div>\
-                                                </div>\
-                                                <div class='object_list'>\
-                                                    <div class='textArea'>\
-                                                        <h1>자동차 번호판</h1>\
-                                                        <div class='allArea'>\
-                                                            <input class='lp_allselect "+i+"' type='checkbox'><label class='allselect'>전체 선택</label>\
-                                                        </div>\
-                                                    </div>\
-                                                    <div class='cropArea'>\
-                                                    </div>\
-                                                </div>\
-                                            </div>"
-                }
-                $('.inspec_body').slick({
-                    dots: false,
-                    infinite: false,
-                    speed: 300,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
-                    // speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-                    arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
-                    prevArrow: '<div class="prev_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_left.png"></div>',
-                    nextArrow: '<div class="next_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_right.png"></div>',
-                    vertical : false,		// 세로 방향 슬라이드 옵션
-                    draggable : false, 
-                    responsive: [ // 반응형 웹 구현 옵션
-                        {
-                            breakpoint: 1200,
-                            settings: {
-                                slidesToShow: 1,
-                                arrows : false, 
-                                draggable:true,
-                            }
-                        },
-                    ]
-                });
-            }
-        }
-        else if(type == 'video'){
-            inspec_body.innerHTML = "<div class='recoArea' data-id=0>\
-                                        <div class='object_list'>\
-                                            <div class='textArea'>\
-                                                <h1>전신</h1>\
-                                                <div class='allArea'>\
-                                                    <input class='body_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                </div>\
-                                            </div>\
-                                            <div class='cropArea'>\
-                                                <div class='cropContent'>\
-                                                    <img class='cropImg'>\
-                                                    <div class='cropID'>\
-                                                        <p>1</p>\
-                                                    </div>\
-                                                    <input class='check_body 0' type='checkbox' value=1>\
-                                                </div>\
-                                            </div>\
-                                        </div>\
-                                        <div class='object_list'>\
-                                            <div class='textArea'>\
-                                                <h1>머리</h1>\
-                                                <div class='allArea'>\
-                                                    <input class='head_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                </div>\
-                                            </div>\
-                                            <div class='cropArea'>\
-                                                <div class='cropContent'>\
-                                                    <img class='cropImg'>\
-                                                    <div class='cropID'>\
-                                                        <p>1</p>\
-                                                    </div>\
-                                                    <input class='check_head 0' type='checkbox' value=1>\
-                                                </div>\
-                                                <div class='cropContent'>\
-                                                    <img class='cropImg'>\
-                                                    <div class='cropID'>\
-                                                        <p>2</p>\
-                                                    </div>\
-                                                    <input class='check_head 0' type='checkbox' value=2>\
-                                                </div>\
-                                            </div>\
-                                        </div>\
-                                        <div class='object_list'>\
-                                            <div class='textArea'>\
-                                                <h1>자동차 번호판</h1>\
-                                                <div class='allArea'>\
-                                                    <input class='lp_allselect 0' type='checkbox' value=0><label class='allselect'>전체 선택</label>\
-                                                </div>\
-                                            </div>\
-                                            <div class='cropArea'>\
-                                                <div class='cropContent'>\
-                                                    <img class='cropImg'>\
-                                                    <div class='cropID'>\
-                                                        <p>1</p>\
-                                                    </div>\
-                                                    <input class='check_lp 0' type='checkbox' value=1>\
-                                                </div>\
-                                            </div>\
-                                        </div>\
-                                    </div>"
-        }
+        var idx = urlParams.get('id');
+        var encryptIdx = urlParams.get('enc_id');
+        var thumb = fileModule.thumbnailList(idx, type, mode)
+        var uploadID = makeid(6);
+
+        $(".inspec_body").html(thumb[0]);
+        $('.inspec_body').slick({
+            dots: false,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
+            // speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+            arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
+            prevArrow: '<div class="prev_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_left.png"></div>',
+            nextArrow: '<div class="next_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_right.png"></div>',
+            vertical : false,		// 세로 방향 슬라이드 옵션
+            draggable : false, 
+            responsive: [ // 반응형 웹 구현 옵션
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 1,
+                        arrows : false, 
+                        draggable:true,
+                    }
+                },
+            ]
+        });
 
         $(document).on("click", ".encImg", function () {
             var imgsrc = $(this).attr("src")
@@ -1666,7 +1241,7 @@ init = {
         $(document).on("click", ".recovery", function () {
             var recoFileLen = document.getElementsByClassName('recoArea').length;
             var selectedFile = new Array();
-            for (var i = 0; i < recoFileLen; i++) {
+            for (var i = 1; i < recoFileLen+1; i++) {
                 var data = new Object();
                 var allCheck = [$('.body_allselect.'+i+'').is(':checked'), $('.head_allselect.'+i+'').is(':checked'), $('.lp_allselect.'+i+'').is(':checked')]
                 if(allCheck[0]==true && allCheck[1]==true && allCheck[2]==true){
@@ -1674,7 +1249,7 @@ init = {
                 }
                 else {
                     if(allCheck[0]==true){
-                        data.body = "all"
+                        data.body = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_body '+i+'');
@@ -1688,14 +1263,14 @@ init = {
                             data.body = bodyList
                         }
                         else if(cropList.length == bodyList.length){
-                            data.body = "all"
+                            data.body = ["all"]
                         }
                         else{
                             data.body = bodyList
                         }
                     }
                     if(allCheck[1]==true){
-                        data.head = "all"
+                        data.head = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_head '+i+'');
@@ -1709,14 +1284,14 @@ init = {
                             data.head = headList
                         }
                         else if(cropList.length == headList.length){
-                            data.head = "all"
+                            data.head = ["all"]
                         }
                         else{
                             data.head = headList
                         }
                     }
                     if(allCheck[2]==true){
-                        data.lp = "all"
+                        data.lp = ["all"]
                     }
                     else{
                         var cropList = document.getElementsByClassName('check_lp '+i+'');
@@ -1730,13 +1305,13 @@ init = {
                             data.lp = lpList
                         }
                         else if(cropList.length == lpList.length){
-                            data.lp = "all"
+                            data.lp = ["all"]
                         }
                         else{
                             data.lp = lpList
                         }
                     }
-                    if(data.body == "all" && data.head == "all" && data.lp == "all"){
+                    if(data.body == ["all"] && data.head == ["all"] && data.lp == ["all"]){
                         data.allCheck = true
                         delete data.body
                         delete data.head
@@ -1748,7 +1323,40 @@ init = {
                 }
                 selectedFile.push(data)
             }
-            console.log(selectedFile)
+            
+            // test.selectFile(idx, selectedFile)
+            let decryptArgs = {
+                idx: idx,
+                selectedFile: selectedFile,
+                encryptIdx: encryptIdx
+            }
+
+            let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
+            let decRequestId = decryptAjaxResponse.dec_request_list_id;
+            let fileList = decryptAjaxResponse.fileList;
+            if(decryptAjaxResponse) {
+                fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
+                
+                comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
+                
+                socket.emit('delUploadedFile', {
+                    filePath: thumb[1],
+                    id: uploadID,
+                    immediate: 'true'
+                })
+
+                Swal.fire({
+                    title: '복호화 요청이 \n완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt';
+                    }
+                })
+            }
         });
     },
 
@@ -2604,27 +2212,284 @@ init = {
         })
     },
 
-    test: function () {
-        $(document).on("click", "#loginButton", function () {
-            var loginAlias = $("#loginAlias").val();
-            var accountName = $("#name").val();
-            var password = $("#pass").val();
-            if (loginAlias && accountName && password) login.subLogin(loginAlias, accountName, password);
-            else {
-                if (loginAlias == '') var msg = '접속키'
-                if (accountName == '') var msg = '아이디';
-                if (password == '') var msg = '비밀번호';
-                if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
-                Swal.fire({
-                    title: msg + '를 입력해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
+    detail: function () {
+        var socket = io();
+
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var eventIndex = urlParams.get('id');
+        var mode = urlParams.get('mode');
+        var selectModalImg = 0;
+
+        var selectedFile = []
+        // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
+        var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
+        var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
+        $('.infoArea')[0].innerHTML = infoHtml;
+
+        $(document).on("click", ".recoBtn", function () {
+            location.href = `/decrypt/inspection?type=${type}&mode=${mode}`;
+        });
+
+        $(document).ready(function () {
+            var rest = $(".rest_info").text()
+            if (rest == "복원 가능") {
+                $(".file_recoConfirm").removeClass("hide")
+                $(".select_recoConfirm").removeClass("hide")
+                $(".check_reco").removeClass("hide")
+                $(".allselect").removeClass("hide")
             }
         });
-    }
+
+        $(document).on("click", ".file_recoConfirm", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
+            $('.recoConfirm').attr('data-value', $(this).data('value'));
+            $("#recoData").addClass('active')
+        });
+
+        $(document).on("click", ".cancel", function () {
+            $('#file').val('');
+            $('.pemUpload').val('');
+            $('.modal').removeClass('active')
+        });
+
+        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
+        $("#file").on('change', function () {
+            var file = document.getElementById('file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
+        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
+        $("#select_file").on('change', function () {
+            var file = document.getElementById('select_file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+        });
+
+        //이게 복호화 요청 확인 누르면
+        $(document).on("click", ".recoConfirm", async function () {
+            let key_name = $('.file_key')[0].children[1].innerHTML
+            if (mode == 'single') {
+                let file_name = await fileModule.uploadKey();
+                if (file_name) {
+                    console.log('file_name : ' + JSON.stringify(file_name));
+                    let verify_result = fileModule.verifyKey(file_name, key_name);
+                    let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                    console.log('restorationReq : ' + JSON.stringify(restorationReq));
+                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                }
+                else {
+                    console.log('file_name : ' + file_name);
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                let file_name = fileModule.uploadKey();
+                if (file_name) {
+                    if (selected == 'all') {
+                        let verify_result = fileModule.verifyKey(file_name, key_name);
+                        let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
+                        fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                    }
+                    else if (selected == 'select') {
+                        if (selectedFile.length == 0) Swal.fire({
+                            title: '선택된 파일이 없습니다',
+                            text: '복호화할 파일을 선택해 주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                        else {
+                            let verify_result = fileModule.verifyKey(file_name, key_name);
+                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
+                            fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                        }
+                    }
+                }
+                else {
+                    Swal.fire({
+                        title: '키 파일 업로드 실패',
+                        text: '키 파일을 다시 업로드해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+            }
+        });
+
+        if (type == 'image') {
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
+
+            if (mode == 'single') {
+                $('.lockData')[0].innerHTML = html;
+                $('#signedUrl').attr('href', signedUrl[0][0]);
+                var fileSize = signedUrl[0][1];
+                var fileName = fileList[0];
+
+                $(document).on("click", "#signedUrl", function () {
+                    comm.meterDownload(eventIndex, type, fileName, fileSize);
+                })
+            }
+            else if (mode == 'group') {
+                $(document).on("click", ".select_recoConfirm", function () {
+                    $('.recoConfirm').attr('data-value', $(this).data('value'));
+                    selectedFile = [];
+                    var imgDivList = document.getElementsByClassName('check_reco');
+                    var len = imgDivList.length;
+                    for (var i = 0; i < len; i++) {
+                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                    }
+                    $("#select_recoData").addClass('active')
+                });
+
+                $(document).on("click", ".albumImg", function () {
+                    if (screen.width > 600) {
+                        var imgnum = $(this).data("num")
+                        selectModalImg = imgnum
+                        var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
+                        var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                            <p>이미지 다운로드</p>\
+                        </a>'
+                        document.getElementById('selectImgArea').innerHTML = imgtag
+                        document.getElementById('selectBtnArea').innerHTML = downloadArea
+                        $("#imgView").addClass('active')
+                    }
+                });
+
+                $(document).on("click", ".hoverdiv", function () {
+                    var imgnum = $(this).data("num")
+                    selectModalImg = imgnum
+                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
+                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                        <p>이미지 다운로드</p>\
+                    </a>'
+                    document.getElementById('selectImgArea').innerHTML = imgtag
+                    document.getElementById('selectBtnArea').innerHTML = downloadArea
+                    $("#imgView").addClass('active')
+                });
+
+                $(document).on("click", ".imgConfirm", function () {
+                    console.log(selectModalImg)
+                    var selectSize = signedUrl[selectModalImg][1];
+                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                });
+
+                $(document).on("click", ".allselect", function () {
+                    if ($('.allselect').is(":checked")) {
+                        $("input:checkbox[class=check_reco]").prop("checked", true);
+                    }
+                    else {
+                        $('input[class=check_reco]:checked').prop('checked', false)
+                    }
+                });
+
+                $(document).on("click", ".check_reco", function () {
+                    if (!$(this).is(":checked")) {
+                        $("input:checkbox[class=allselect]").prop("checked", false);
+                    }
+                });
+
+                $(document).on("mouseover", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("." + num + "").removeClass("hide")
+                });
+
+                $(document).on("mouseleave", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("." + num + "").addClass("hide")
+                });
+
+                $(document).on("click", ".recoConfirm", function () {
+                    $('.modal').removeClass('active')
+                });
+
+                $(document).on("click", "#signedUrl", function () {
+                    let timerInterval
+                    Swal.fire({
+                        title: '파일 다운로드 준비중',
+                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
+                        timer: 99999999999,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            console.log('I was closed by the timer')
+                        }
+                    })
+                    resultLoader.fileToZip({
+                        id: eventIndex,
+                        bucketName: encDirectory[0],    //참조할 버킷 이름
+                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                        fileName: fileList              //참조할 object filename 목록
+                    });
+                    socket.on('compress', function (data) {
+                        if (data.log == '압축 완료') {
+                            socket.emit('deleteFile', {
+                                bucketName: encDirectory[0],
+                                subDirectory: encDirectory[1],
+                                fileName: ['Download.zip']
+                            })
+
+                            setTimeout(function () {
+                                new Promise((resolve, reject) => {
+                                    //파일 다운로드 경로 획득
+                                    var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                    var fileUrl = signedUrl[0][0];
+                                    var fileSize = signedUrl[0][1];
+                                    location.href = fileUrl;
+
+                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                    resolve();
+                                }).then(() => {
+                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                })
+                            }, 500)
+                        }
+                    });
+                });
+                $('.lockDataList')[0].innerHTML = html;
+            }
+        }
+        else if (type == 'video') {
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+            $('#signedUrl').attr('href', signedUrl[0][0]);
+            $('.fullname').text($('.file_fullname').text())
+
+            var fileSize = signedUrl[0][1];
+            var fileName = fileList[0];
+
+            $(document).on("click", "#signedUrl", function () {
+                comm.meterDownload(eventIndex, type, fileName, fileSize);
+            })
+        }
+    },
 };
 
 $(document).ready(function () {

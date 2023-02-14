@@ -316,6 +316,9 @@ login = {
                 if(data.message == "success"){
                     location.href = "/main"
                 }
+                else{
+                    return 0
+                }
             },
             error: function (xhr, status) {
                 //console.log("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
