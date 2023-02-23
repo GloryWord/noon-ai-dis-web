@@ -1204,7 +1204,7 @@ init = {
         $('.inspec_body').slick({
             dots: false,
             infinite: false,
-            speed: 300,
+            speed: 0,
             slidesToShow: 1,
             slidesToScroll: 1,
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
@@ -1232,8 +1232,47 @@ init = {
             $("#cropView").addClass('active')
         });
 
-        $(document).on("click", ".cropImg", function () {
-            var imgsrc = $(this).attr("src")
+        $(document).on("click", ".cropImg.body", function () {
+            var groupidx = $(this).data("groupidx")
+            var imgidx = $(this).data("imgidx")
+            if($('.check_body.'+groupidx+'.body'+imgidx+'').is(':checked')){
+                $('.check_body.'+groupidx+'.body'+imgidx+'').prop("checked",false);
+                $(".body_allselect."+groupidx+"").prop("checked",false);
+            }
+            else{
+                $('.check_body.'+groupidx+'.body'+imgidx+'').prop("checked",true);
+            }
+            $(".selectText.body."+groupidx+"").text($(".check_body."+groupidx+":checked").length);
+        });
+
+        $(document).on("click", ".cropImg.head", function () {
+            var groupidx = $(this).data("groupidx")
+            var imgidx = $(this).data("imgidx")
+            if($('.check_head.'+groupidx+'.head'+imgidx+'').is(':checked')){
+                $('.check_head.'+groupidx+'.head'+imgidx+'').prop("checked",false);
+                $(".head_allselect."+groupidx+"").prop("checked",false);
+            }
+            else{
+                $('.check_head.'+groupidx+'.head'+imgidx+'').prop("checked",true);
+            }
+            $(".selectText.head."+groupidx+"").text($(".check_head."+groupidx+":checked").length);
+        });
+
+        $(document).on("click", ".cropImg.lp", function () {
+            var groupidx = $(this).data("groupidx")
+            var imgidx = $(this).data("imgidx")
+            if($('.check_lp.'+groupidx+'.lp'+imgidx+'').is(':checked')){
+                $('.check_lp.'+groupidx+'.lp'+imgidx+'').prop("checked",false);
+                $(".lp_allselect."+groupidx+"").prop("checked",false);
+            }
+            else{
+                $('.check_lp.'+groupidx+'.lp'+imgidx+'').prop("checked",true);
+            }
+            $(".selectText.lp."+groupidx+"").text($(".check_lp."+groupidx+":checked").length);
+        });
+
+        $(document).on("click", ".originBtn", function () {
+            var imgsrc = $(this).parent().children("img").attr("src")
             $(".cropView").attr("src", imgsrc)
             $("#cropView").addClass('active')
         });
@@ -1358,6 +1397,63 @@ init = {
                 })
             }
         });
+
+        if(mode=="group"){
+            for(var i=0;i<$(".encImgArea").length;i++){
+                load('.cropArea.body.'+(i+1)+'', 'body', '5', '.'+(i+1)+'', '');
+                load('.cropArea.head.'+(i+1)+'', 'head', '5', '.'+(i+1)+'', '');
+                load('.cropArea.lp.'+(i+1)+'', 'lp', '5', '.'+(i+1)+'', '');
+            }
+        }
+        else{
+            load('.cropArea.body', 'body', '5', '');
+            load('.cropArea.head', 'head', '5', '');
+            load('.cropArea.lp', 'lp', '5', '');
+        }
+
+        $(document).on("click", ".btn-wrap.body .morebutton", function () {
+            if(mode=="group"){
+                var groupidx = $(this).data("idx")
+                load('.cropArea.body.'+groupidx+'', 'body', '5', '.'+groupidx+'', '.btn-wrap');
+            }
+            else{
+                load('.cropArea.body', 'body', '5', '', '.btn-wrap');
+            }
+        })
+
+        $(document).on("click", ".btn-wrap.head .morebutton", function () {
+            if(mode=="group"){
+                var groupidx = $(this).data("idx")
+                load('.cropArea.head.'+groupidx+'', 'head', '5', '.'+groupidx+'', '.btn-wrap');
+            }
+            else{
+                load('.cropArea.head', 'head', '5', '', '.btn-wrap');
+            }
+        })
+
+        $(document).on("click", ".btn-wrap.lp .morebutton", function () {
+            if(mode=="group"){
+                var groupidx = $(this).data("idx")
+                load('.cropArea.lp.'+groupidx+'', 'lp', '5', '.'+groupidx+'', '.btn-wrap');
+            }
+            else{
+                load('.cropArea.lp', 'lp', '5', '', '.btn-wrap');
+            }
+        })
+
+        function load(id, type, cnt, idx, btn) {
+            var enc_list = id + " .cropContent:not(.active)";
+            var enc_length = $(enc_list).length;
+            var enc_total_cnt;
+            if (cnt < enc_length) {
+                enc_total_cnt = cnt;
+                $('.btn-wrap.'+type+''+idx+'').show()
+            } else {
+                enc_total_cnt = enc_length;
+                $('.btn-wrap.'+type+''+idx+'').hide()
+            }
+            $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
+        }
     },
 
     usage: function () {
