@@ -117,6 +117,74 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
 
     return [info_content_html, charge_content_html]
 }
+// 크롭이미지 열로 묶는 함수
+// function column(type, groupidx, imgidx, imgSrc) {
+//     if(Number(imgidx)%5==1){
+//         let el = document.querySelector('.column1_'+type+'.col.group'+groupidx+'');
+//         el.innerHTML += `<div class='cropContent'>
+//                             <img class='cropImg ${type}' data-groupidx=${groupidx} data-imgidx=${imgidx} src='${imgSrc}'>
+//                             <div class='cropID'>
+//                                 <p>${imgidx}</p>
+//                             </div>
+//                             <div class="originBtn">
+//                                 <p>원본 보기</p>
+//                             </div>
+//                             <input class='check_${type} ${groupidx} ${type}${imgidx}' type='checkbox' value=${imgidx}>
+//                         </div>`
+//     }
+//     else if(Number(imgidx)%5==2){
+//         let el = document.querySelector('.column2_'+type+'.col.group'+groupidx+'');
+//         el.innerHTML += `<div class='cropContent'>
+//                             <img class='cropImg ${type}' data-groupidx=${groupidx} data-imgidx=${imgidx} src='${imgSrc}'>
+//                             <div class='cropID'>
+//                                 <p>${imgidx}</p>
+//                             </div>
+//                             <div class="originBtn">
+//                                 <p>원본 보기</p>
+//                             </div>
+//                             <input class='check_${type} ${groupidx} ${type}${imgidx}' type='checkbox' value=${imgidx}>
+//                         </div>`
+//     }
+//     else if(Number(imgidx)%5==3){
+//         let el = document.querySelector('.column3_'+type+'.col.group'+groupidx+'');
+//         el.innerHTML += `<div class='cropContent'>
+//                             <img class='cropImg ${type}' data-groupidx=${groupidx} data-imgidx=${imgidx} src='${imgSrc}'>
+//                             <div class='cropID'>
+//                                 <p>${imgidx}</p>
+//                             </div>
+//                             <div class="originBtn">
+//                                 <p>원본 보기</p>
+//                             </div>
+//                             <input class='check_${type} ${groupidx} ${type}${imgidx}' type='checkbox' value=${imgidx}>
+//                         </div>`
+//     }
+//     else if(Number(imgidx)%5==4){
+//         let el = document.querySelector('.column4_'+type+'.col.group'+groupidx+'');
+//         el.innerHTML += `<div class='cropContent'>
+//                             <img class='cropImg ${type}' data-groupidx=${groupidx} data-imgidx=${imgidx} src='${imgSrc}'>
+//                             <div class='cropID'>
+//                                 <p>${imgidx}</p>
+//                             </div>
+//                             <div class="originBtn">
+//                                 <p>원본 보기</p>
+//                             </div>
+//                             <input class='check_${type} ${groupidx} ${type}${imgidx}' type='checkbox' value=${imgidx}>
+//                         </div>`
+//     }
+//     else if(Number(imgidx)%5==0){
+//         let el = document.querySelector('.column5_'+type+'.col.group'+groupidx+'');
+//         el.innerHTML += `<div class='cropContent'>
+//                             <img class='cropImg ${type}' data-groupidx=${groupidx} data-imgidx=${imgidx} src='${imgSrc}'>
+//                             <div class='cropID'>
+//                                 <p>${imgidx}</p>
+//                             </div>
+//                             <div class="originBtn">
+//                                 <p>원본 보기</p>
+//                             </div>
+//                             <input class='check_${type} ${groupidx} ${type}${imgidx}' type='checkbox' value=${imgidx}>
+//                         </div>`
+//     }
+// }
 
 /**
  * DIS.Web.Test 네임스페이스
@@ -868,6 +936,10 @@ fileModule = {
             }
         })
 
+        const cropType = []
+        const cropGroupID = []
+        const cropImgID = []
+        const cropImgSrc = []
         // <img class='encImg' src='../${result[0]['nas_directory']}/1/thnumbnail.jpg'>
         if (type == 'image') {
             if (mode == 'single') {
@@ -884,71 +956,166 @@ fileModule = {
                 resultStr += `<div class='recoArea' data-id=0>
                                 <div class='encImgArea'>
                                     <img class='encImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${result[2][result[2].length - 1]}'>
-                                </div>
-                                <div class='object_list'>
-                                    <div class='textArea'>
-                                        <h1>전신</h1>`
+                                </div>`
                 if (bodylen.length != 0) {
-                    resultStr += `<div class='allArea'>
-                                                <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-                }
-                resultStr += `</div>
-                                    <div class='cropArea'>`
-                for (var i = 0; i < bodylen.length; i++) {
-                    resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_body ${result[1][0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-                }
-                resultStr += `</div>
-                                </div>
-                                <div class='object_list'>
+                    let numBody = []
+                    let objtype = bodylen[0].split("_")[0]
+                    let fileType = bodylen[0].split("_")[1].split(".")[1]
+                    for(var i=0;i<bodylen.length;i++){
+                        numBody.push(Number(bodylen[i].split("_")[1].split(".")[0]))
+                    }
+                    bodylen = []
+                    numBody.sort(function compare(a, b) {
+                        return a - b;
+                    });
+                    for(var i=0;i<numBody.length;i++){
+                        bodylen.push(objtype+"_"+numBody[i]+"."+fileType)
+                    }
+                    resultStr += `<div class='object_list bodyContent'>
                                     <div class='textArea'>
-                                        <h1>머리</h1>`
+                                        <h1>전신</h1>
+                                        <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][0]}'>0</span>장</p>
+                                        <div class='allArea'>
+                                            <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                        </div>
+                                    </div>
+                                    <div class='cropArea body'>`
+                                        // <div class='columArea'>
+                                        //     <div class='column1_body group${result[1][0]} col'></div>
+                                        //     <div class='column2_body group${result[1][0]} col'></div>
+                                        //     <div class='column3_body group${result[1][0]} col'></div>
+                                        //     <div class='column4_body group${result[1][0]} col'></div>
+                                        //     <div class='column5_body group${result[1][0]} col'></div>
+                                        // </div>
+                                        // for (var i = 0; i < bodylen.length; i++) {
+                                        //     cropType.push("body")
+                                        //     cropGroupID.push(result[1][0])
+                                        //     cropImgID.push(bodylen[i].split("_")[1].split(".")[0])
+                                        //     cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+bodylen[i]+'')
+                                        // }
+                    for (var i = 0; i < bodylen.length; i++) {
+                        resultStr += `<div class='cropContent'>
+                                        <div class='cropID'>
+                                            <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
+                                        </div>
+                                        <div class="originBtn">
+                                            <p>원본 보기</p>
+                                        </div>
+                                        <img class='cropImg body' data-groupidx=${result[1][0]} data-imgidx=${bodylen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
+                                        <input class='check_body ${result[1][0]} body${bodylen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
+                                    </div>`
+                    }
+                    resultStr += `<div class="btn-wrap body ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                            </div>
+                        </div>`
+                }
                 if (headlen.length != 0) {
-                    resultStr += `<div class='allArea'>
-                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-                }
-                resultStr += `</div>
-                                    <div class='cropArea'>`
-                for (var i = 0; i < headlen.length; i++) {
-                    resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${headlen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_head ${result[1][0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-                }
-                resultStr += `</div>
-                                </div>
-                                <div class='object_list'>
+                    let numHead = []
+                    let objtype = headlen[0].split("_")[0]
+                    let fileType = headlen[0].split("_")[1].split(".")[1]
+                    for(var i=0;i<headlen.length;i++){
+                        numHead.push(Number(headlen[i].split("_")[1].split(".")[0]))
+                    }
+                    headlen = []
+                    numHead.sort(function compare(a, b) {
+                        return a - b;
+                    });
+                    for(var i=0;i<numHead.length;i++){
+                        headlen.push(objtype+"_"+numHead[i]+"."+fileType)
+                    }
+                    headlen.sort(function compare(a, b) {
+                        return a - b;
+                    });
+                    resultStr += `<div class='object_list headContent'>
                                     <div class='textArea'>
-                                        <h1>자동차 번호판</h1>`
-                if (lplen.length != 0) {
-                    resultStr += `<div class='allArea'>
-                                                <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-                }
-                resultStr += `</div>
-                                    <div class='cropArea'>`
-                for (var i = 0; i < lplen.length; i++) {
-                    resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${lplen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_lp ${result[1][0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-                }
-                resultStr += `</div>
+                                        <h1>머리</h1>
+                                        <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][0]}'>0</span>장</p>
+                                        <div class='allArea'>
+                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            </div>
+                                        </div>
+                                    <div class='cropArea head'>`
+                                        // <div class='columArea'>
+                                        //     <div class='column1_head group${result[1][0]} col'></div>
+                                        //     <div class='column2_head group${result[1][0]} col'></div>
+                                        //     <div class='column3_head group${result[1][0]} col'></div>
+                                        //     <div class='column4_head group${result[1][0]} col'></div>
+                                        //     <div class='column5_head group${result[1][0]} col'></div>
+                                        // </div>
+                    for (var i = 0; i < headlen.length; i++) {
+                        // colum("head", result[1][0], headlen[i].split("_")[1].split(".")[0], '../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+headlen[i]+'')
+                        // cropType.push("head")
+                        // cropGroupID.push(result[1][0])
+                        // cropImgID.push(headlen[i].split("_")[1].split(".")[0])
+                        // cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+headlen[i]+'')
+                        resultStr += `<div class='cropContent'>
+                                            <div class='cropID'>
+                                                <p>${headlen[i].split("_")[1].split(".")[0]}</p>
+                                            </div>
+                                            <div class="originBtn">
+                                                <p>원본 보기</p>
+                                            </div>
+                                            <img class='cropImg head' data-groupidx=${result[1][0]} data-imgidx=${headlen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
+                                            <input class='check_head ${result[1][0]} head${headlen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
+                                        </div>`
+                    }
+                    resultStr += `<div class="btn-wrap head ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
                                 </div>
                             </div>`
+                }
+                if (lplen.length != 0) {
+                    let numLp = []
+                    let objtype = lplen[0].split("_")[0]
+                    let fileType = lplen[0].split("_")[1].split(".")[1]
+                    for(var i=0;i<lplen.length;i++){
+                        numLp.push(Number(lplen[i].split("_")[1].split(".")[0]))
+                    }
+                    numLp.sort(function compare(a, b) {
+                        return a - b;
+                    });
+                    lplen = []
+                    for(var i=0;i<numLp.length;i++){
+                        lplen.push(objtype+"_"+numLp[i]+"."+fileType)
+                    }
+                    resultStr += `<div class='object_list lpContent'>
+                                    <div class='textArea'>
+                                        <h1>자동차 번호판</h1>
+                                        <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][0]}'>0</span>장</p>
+                                        <div class='allArea'>
+                                            <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                        </div>
+                                    </div>
+                                        <div class='cropArea lp'>`
+                                        // <div class='columArea'>
+                                        //     <div class='column1_lp group${result[1][0]} col'></div>
+                                        //     <div class='column2_lp group${result[1][0]} col'></div>
+                                        //     <div class='column3_lp group${result[1][0]} col'></div>
+                                        //     <div class='column4_lp group${result[1][0]} col'></div>
+                                        //     <div class='column5_lp group${result[1][0]} col'></div>
+                                        // </div>
+                                        // for (var i = 0; i < lplen.length; i++) {
+                                        //     cropType.push("lp")
+                                        //     cropGroupID.push(result[1][0])
+                                        //     cropImgID.push(lplen[i].split("_")[1].split(".")[0])
+                                        //     cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+lplen[i]+'')
+                                        // }
+                    for (var i = 0; i < lplen.length; i++) {
+                        resultStr += `<div class='cropContent'>
+                                        <div class='cropID'>
+                                            <p>${lplen[i].split("_")[1].split(".")[0]}</p>
+                                        </div>
+                                        <div class="originBtn">
+                                            <p>원본 보기</p>
+                                        </div>
+                                        <img class='cropImg lp' data-groupidx=${result[1][0]} data-imgidx=${lplen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
+                                        <input class='check_lp ${result[1][0]} lp${lplen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
+                                    </div>`
+                }
+                resultStr += `<div class="btn-wrap lp ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                                </div>
+                            </div>`
+                }
+                resultStr += `</div>`
             }
             else if (mode == 'group') {
                 for (var j = 2; j < result.length; j++) {
@@ -966,72 +1133,130 @@ fileModule = {
                     }
                     resultStr += `<div class='recoArea' data-id=${(l)}>
                                     <div class='encImgArea'>
+                                        <p>${j-1}/${result.length-2}</p>
                                         <img class='encImg' src='../${result[0]['nas_directory']}/${(l)}/${result[j][result[j].length - 1]}'>
-                                    </div>
-                                    <div class='object_list'>
-                                        <div class='textArea'>
-                                            <h1>전신</h1>`
+                                    </div>`
                     if (bodylen.length != 0) {
-                        resultStr += `<div class='allArea'>
+                        let numBody = []
+                        let objtype = bodylen[0].split("_")[0]
+                        let fileType = bodylen[0].split("_")[1].split(".")[1]
+                        for(var i=0;i<bodylen.length;i++){
+                            numBody.push(Number(bodylen[i].split("_")[1].split(".")[0]))
+                        }
+                        bodylen = []
+                        numBody.sort(function compare(a, b) {
+                            return a - b;
+                        });
+                        for(var i=0;i<numBody.length;i++){
+                            bodylen.push(objtype+"_"+numBody[i]+"."+fileType)
+                        }
+                        resultStr += `<div class='object_list bodyContent'>
+                                        <div class='textArea'>
+                                            <h1>전신</h1>
+                                            <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${(l)}'>0</span>장</p>
+                                            <div class='allArea'>
                                                 <input class='body_allselect ${(l)}' type='checkbox' value=${(l)}><label class='allselect'>전체 선택</label>
-                                            </div>`
+                                            </div>
+                                        </div>
+                                        <div class='cropArea body ${(l)}'>`
+                        for (var m = 0; m < bodylen.length; m++) {
+                            resultStr += `<div class='cropContent'>
+                                            <div class='cropID'>
+                                                <p>${bodylen[m].split("_")[1].split(".")[0]}</p>
+                                            </div>
+                                            <div class="originBtn">
+                                                <p>원본 보기</p>
+                                            </div>
+                                            <img class='cropImg body' data-groupidx=${(l)} data-imgidx=${bodylen[m].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${(l)}/${bodylen[m]}'>
+                                            <input class='check_body ${(l)} body${bodylen[m].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[m].split("_")[1].split(".")[0]}>
+                                        </div>`
+                        }
+                        resultStr += `<div class="btn-wrap body ${(l)}"><a href="javascript:;" class="morebutton" data-idx=${(l)}><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                                        </div>
+                                    </div>`
                     }
-                    resultStr += `</div>
-                                                <div class='cropArea'>`
-                    for (var m = 0; m < bodylen.length; m++) {
-                        resultStr += `<div class='cropContent'>
-                                <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${bodylen[m]}'>
-                                <div class='cropID'>
-                                    <p>${bodylen[m].split("_")[1].split(".")[0]}</p>
-                                </div>
-                                <input class='check_body ${(l)}' type='checkbox' value=${bodylen[m].split("_")[1].split(".")[0]}>
-                            </div>`
-                    }
-                    resultStr += `</div>
-                            </div>
-                            <div class='object_list'>
-                                <div class='textArea'>
-                                    <h1>머리</h1>`
                     if (headlen.length != 0) {
-                        resultStr += `<div class='allArea'>
-                                            <input class='head_allselect ${(l)}' type='checkbox' value=${(l)}}><label class='allselect'>전체 선택</label>
+                        let numHead = []
+                        let objtype = headlen[0].split("_")[0]
+                        let fileType = headlen[0].split("_")[1].split(".")[1]
+                        for(var i=0;i<headlen.length;i++){
+                            numHead.push(Number(headlen[i].split("_")[1].split(".")[0]))
+                        }
+                        headlen = []
+                        numHead.sort(function compare(a, b) {
+                            return a - b;
+                        });
+                        for(var i=0;i<numHead.length;i++){
+                            headlen.push(objtype+"_"+numHead[i]+"."+fileType)
+                        }
+                        headlen.sort(function compare(a, b) {
+                            return a - b;
+                        });
+                        resultStr += `<div class='object_list headContent'>
+                                        <div class='textArea'>
+                                            <h1>머리</h1>
+                                            <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${(l)}'>0</span>장</p>
+                                            <div class='allArea'>
+                                                <input class='head_allselect ${(l)}' type='checkbox' value=${(l)}}><label class='allselect'>전체 선택</label>
+                                            </div>
+                                        </div>
+                                        <div class='cropArea head ${(l)}'>`
+                        for (var m = 0; m < headlen.length; m++) {
+                            resultStr += `<div class='cropContent'>
+                                            <div class='cropID'>
+                                                <p>${headlen[m].split("_")[1].split(".")[0]}</p>
+                                            </div>
+                                            <div class="originBtn">
+                                                <p>원본 보기</p>
+                                            </div>
+                                            <img class='cropImg head' data-groupidx=${(l)} data-imgidx=${headlen[m].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${(l)}/${headlen[m]}'>
+                                            <input class='check_head ${(l)} head${headlen[m].split("_")[1].split(".")[0]}' type='checkbox' value=${headlen[m].split("_")[1].split(".")[0]}>
                                         </div>`
+                        }
+                        resultStr += `<div class="btn-wrap head ${(l)}"><a href="javascript:;" class="morebutton" data-idx=${(l)}><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                                        </div>
+                                    </div>`
                     }
-                    resultStr += `</div>
-                                <div class='cropArea'>`
-                    for (var m = 0; m < headlen.length; m++) {
-                        resultStr += `<div class='cropContent'>
-                                                        <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${headlen[m]}'>
-                                                        <div class='cropID'>
-                                                            <p>${headlen[m].split("_")[1].split(".")[0]}</p>
-                                                        </div>
-                                                        <input class='check_head ${(l)}' type='checkbox' value=${headlen[m].split("_")[1].split(".")[0]}>
-                                                    </div>`
-                    }
-                    resultStr += `</div>
-                            </div>
-                            <div class='object_list'>
-                                <div class='textArea'>
-                                    <h1>자동차 번호판</h1>`
                     if (lplen.length != 0) {
-                        resultStr += `<div class='allArea'>
+                        let numLp = []
+                        let objtype = lplen[0].split("_")[0]
+                        let fileType = lplen[0].split("_")[1].split(".")[1]
+                        for(var i=0;i<lplen.length;i++){
+                            numLp.push(Number(lplen[i].split("_")[1].split(".")[0]))
+                        }
+                        numLp.sort(function compare(a, b) {
+                            return a - b;
+                        });
+                        lplen = []
+                        for(var i=0;i<numLp.length;i++){
+                            lplen.push(objtype+"_"+numLp[i]+"."+fileType)
+                        }
+                        resultStr += `<div class='object_list lpContent'>
+                                        <div class='textArea'>
+                                            <h1>자동차 번호판</h1>
+                                            <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${(l)}'>0</span>장</p>
+                                            <div class='allArea'>
                                             <input class='lp_allselect ${(l)}' type='checkbox' value=${l}><label class='allselect'>전체 선택</label>
+                                        </div>
+                                    </div>
+                                    <div class='cropArea lp ${(l)}'>`
+                        for (var m = 0; m < lplen.length; m++) {
+                            resultStr += `<div class='cropContent'>
+                                            <div class='cropID'>
+                                                <p>${lplen[m].split("_")[1].split(".")[0]}</p>
+                                            </div>
+                                            <div class="originBtn">
+                                                <p>원본 보기</p>
+                                            </div>
+                                            <img class='cropImg lp' data-groupidx=${(l)} data-imgidx=${lplen[m].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${(l)}/${lplen[m]}'>
+                                            <input class='check_lp ${(l)} lp${lplen[m].split("_")[1].split(".")[0]}' type='checkbox' value=${lplen[m].split("_")[1].split(".")[0]}>
                                         </div>`
+                        }
+                        resultStr += `<div class="btn-wrap lp ${(l)}"><a href="javascript:;" class="morebutton" data-idx=${(l)}><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                                        </div>
+                                    </div>`
                     }
-                    resultStr += `</div>
-                                <div class='cropArea'>`
-                    for (var m = 0; m < lplen.length; m++) {
-                        resultStr += `<div class='cropContent'>
-                                                        <img class='cropImg' src='../${result[0]['nas_directory']}/${(l)}/${lplen[m]}'>
-                                                        <div class='cropID'>
-                                                            <p>${lplen[m].split("_")[1].split(".")[0]}</p>
-                                                        </div>
-                                                        <input class='check_lp ${(l)}' type='checkbox' value=${lplen[m].split("_")[1].split(".")[0]}>
-                                                    </div>`
-                    }
-                    resultStr += `</div>
-                            </div>
-                        </div>`
+                    resultStr += `</div>`
                 }
                 i++
             }
@@ -1047,75 +1272,176 @@ fileModule = {
                     else if (result[2][i].split("_")[0] == "2") lplen.push(result[2][i])
                 }
             }
-            resultStr += `<div class='recoArea' data-id=0>
-                                <div class='object_list'>
-                                    <div class='textArea'>
-                                        <h1>전신</h1>`
+            resultStr += `<div class='recoArea' data-id=0>`
             if (bodylen.length != 0) {
-                resultStr += `<div class='allArea'>
-                                                <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-            }
-            resultStr += `</div>
-                                    <div class='cropArea'>`
-            for (var i = 0; i < bodylen.length; i++) {
-                resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_body ${result[1][0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-            }
-            resultStr += `</div>
+                let numBody = []
+                let objtype = bodylen[0].split("_")[0]
+                let fileType = bodylen[0].split("_")[1].split(".")[1]
+                for(var i=0;i<bodylen.length;i++){
+                    numBody.push(Number(bodylen[i].split("_")[1].split(".")[0]))
+                }
+                bodylen = []
+                numBody.sort(function compare(a, b) {
+                    return a - b;
+                });
+                for(var i=0;i<numBody.length;i++){
+                    bodylen.push(objtype+"_"+numBody[i]+"."+fileType)
+                }
+                resultStr += `<div class='object_list bodyContent'>
+                                <div class='textArea'>
+                                    <h1>전신</h1>
+                                    <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][0]}'>0</span>장</p>
+                                    <div class='allArea'>
+                                        <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                    </div>
                                 </div>
-                                <div class='object_list'>
-                                    <div class='textArea'>
-                                        <h1>머리</h1>`
+                                <div class='cropArea body'>`
+                                    // <div class='columArea'>
+                                    //     <div class='column1_body group${result[1][0]} col'></div>
+                                    //     <div class='column2_body group${result[1][0]} col'></div>
+                                    //     <div class='column3_body group${result[1][0]} col'></div>
+                                    //     <div class='column4_body group${result[1][0]} col'></div>
+                                    //     <div class='column5_body group${result[1][0]} col'></div>
+                                    // </div>
+                                    // for (var i = 0; i < bodylen.length; i++) {
+                                    //     cropType.push("body")
+                                    //     cropGroupID.push(result[1][0])
+                                    //     cropImgID.push(bodylen[i].split("_")[1].split(".")[0])
+                                    //     cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+bodylen[i]+'')
+                                    // }
+                for (var i = 0; i < bodylen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                        <div class='cropID'>
+                                            <p>${bodylen[i].split("_")[1].split(".")[0]}</p>
+                                        </div>
+                                        <div class="originBtn">
+                                            <p>원본 보기</p>
+                                        </div>
+                                        <img class='cropImg body' data-groupidx=${result[1][0]} data-imgidx=${bodylen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
+                                        <input class='check_body ${result[1][0]} body${bodylen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
+                                    </div>`
+                }
+                resultStr += `<div class="btn-wrap head ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                            </div>
+                        </div>`
+            }
             if (headlen.length != 0) {
-                resultStr += `<div class='allArea'>
-                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-            }
-            resultStr += `</div>
-                                    <div class='cropArea'>`
-            for (var i = 0; i < headlen.length; i++) {
-                resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${headlen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_head ${result[1][0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-            }
-            resultStr += `</div>
+                let numHead = []
+                let objtype = headlen[0].split("_")[0]
+                let fileType = headlen[0].split("_")[1].split(".")[1]
+                for(var i=0;i<headlen.length;i++){
+                    numHead.push(Number(headlen[i].split("_")[1].split(".")[0]))
+                }
+                headlen = []
+                numHead.sort(function compare(a, b) {
+                    return a - b;
+                });
+                for(var i=0;i<numHead.length;i++){
+                    headlen.push(objtype+"_"+numHead[i]+"."+fileType)
+                }
+                headlen.sort(function compare(a, b) {
+                    return a - b;
+                });
+                resultStr += `<div class='object_list headContent'>
+                                <div class='textArea'>
+                                    <h1>머리</h1>
+                                    <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][0]}'>0</span>장</p>
+                                    <div class='allArea'>
+                                        <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                    </div>
                                 </div>
-                                <div class='object_list'>
-                                    <div class='textArea'>
-                                        <h1>자동차 번호판</h1>`
+                                <div class='cropArea head'>`
+                                    // <div class='columArea'>
+                                    //     <div class='column1_head group${result[1][0]} col'></div>
+                                    //     <div class='column2_head group${result[1][0]} col'></div>
+                                    //     <div class='column3_head group${result[1][0]} col'></div>
+                                    //     <div class='column4_head group${result[1][0]} col'></div>
+                                    //     <div class='column5_head group${result[1][0]} col'></div>
+                                    // </div>
+                                    // for (var i = 0; i < headlen.length; i++) {
+                                    //     cropType.push("head")
+                                    //     cropGroupID.push(result[1][0])
+                                    //     cropImgID.push(headlen[i].split("_")[1].split(".")[0])
+                                    //     cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+headlen[i]+'')
+                                    // }
+                for (var i = 0; i < headlen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                        <div class='cropID'>
+                                            <p>${headlen[i].split("_")[1].split(".")[0]}</p>
+                                        </div>
+                                        <div class="originBtn">
+                                            <p>원본 보기</p>
+                                        </div>
+                                        <img class='cropImg head' data-groupidx=${result[1][0]} data-imgidx=${headlen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
+                                        <input class='check_head ${result[1][0]} head${headlen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
+                                    </div>`
+                }
+                resultStr += `<div class="btn-wrap head ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                            </div>
+                        </div>`
+            }
             if (lplen.length != 0) {
-                resultStr += `<div class='allArea'>
-                                                <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
-                                            </div>`
-            }
-            resultStr += `</div>
-                                    <div class='cropArea'>`
-            for (var i = 0; i < lplen.length; i++) {
-                resultStr += `<div class='cropContent'>
-                                                            <img class='cropImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
-                                                            <div class='cropID'>
-                                                                <p>${lplen[i].split("_")[1].split(".")[0]}</p>
-                                                            </div>
-                                                            <input class='check_lp ${result[1][0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
-                                                        </div>`
-            }
-            resultStr += `</div>
+                let numLp = []
+                let objtype = lplen[0].split("_")[0]
+                let fileType = lplen[0].split("_")[1].split(".")[1]
+                for(var i=0;i<lplen.length;i++){
+                    numLp.push(Number(lplen[i].split("_")[1].split(".")[0]))
+                }
+                numLp.sort(function compare(a, b) {
+                    return a - b;
+                });
+                lplen = []
+                for(var i=0;i<numLp.length;i++){
+                    lplen.push(objtype+"_"+numLp[i]+"."+fileType)
+                }
+                resultStr += `<div class='object_list lpContent'>
+                                <div class='textArea'>
+                                    <h1>자동차 번호판</h1>
+                                    <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][0]}'>0</span>장</p>
+                                    <div class='allArea'>
+                                        <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                    </div>
                                 </div>
-                            </div>`
+                                <div class='cropArea lp'>`
+                                // <div class='columArea'>
+                                //     <div class='column1_lp group${result[1][0]} col'></div>
+                                //     <div class='column2_lp group${result[1][0]} col'></div>
+                                //     <div class='column3_lp group${result[1][0]} col'></div>
+                                //     <div class='column4_lp group${result[1][0]} col'></div>
+                                //     <div class='column5_lp group${result[1][0]} col'></div>
+                                // </div>
+                                // for (var i = 0; i < lplen.length; i++) {
+                                //     cropType.push("lp")
+                                //     cropGroupID.push(result[1][0])
+                                //     cropImgID.push(lplen[i].split("_")[1].split(".")[0])
+                                //     cropImgSrc.push('../'+result[0]['nas_directory']+'/'+result[1][0]+'/'+lplen[i]+'')
+                                // }
+                for (var i = 0; i < lplen.length; i++) {
+                    resultStr += `<div class='cropContent'>
+                                        <div class='cropID'>
+                                            <p>${lplen[i].split("_")[1].split(".")[0]}</p>
+                                        </div>
+                                        <div class="originBtn">
+                                            <p>원본 보기</p>
+                                        </div>
+                                        <img class='cropImg lp' data-groupidx=${result[1][0]} data-imgidx=${lplen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
+                                        <input class='check_lp ${result[1][0]} lp${lplen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
+                                    </div>`
+                }
+                resultStr += `<div class="btn-wrap lp ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                            </div>
+                        </div>`
+                                
+            }
+            resultStr += `</div>`
         }
 
         resultData.push(resultStr)
         resultData.push(result[0]['nas_directory'])
+        // resultData.push(cropType)
+        // resultData.push(cropGroupID)
+        // resultData.push(cropImgID)
+        // resultData.push(cropImgSrc)
 
         return resultData
     },
