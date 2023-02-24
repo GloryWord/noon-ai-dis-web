@@ -343,9 +343,28 @@
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea {
     width: 800px;
     height: auto;
-    /* overflow-x: auto;
-    display: flex; */
+    /* overflow-x: auto; */
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
     margin: 24px auto 0 0;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .columnArea {
+    width: auto;
+    height: auto;
+    /* overflow-x: auto; */
+    display: flex;
+    flex-direction: column;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .col {
+    width: 136px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    margin: 0 24px 0 0;
 }
 
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent {
@@ -353,7 +372,7 @@
     height: auto;
     display: none;
     flex-direction: column;
-    margin: 0 24px 0 0;
+    margin: 0 24px 24px 0;
     position: relative;
     float: left;
 }
@@ -367,6 +386,7 @@
     height: auto;
     display: flex;
     cursor: pointer;
+    margin: 0 0 auto;
 }
 
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .cropID {
@@ -377,10 +397,10 @@
 
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .cropID p {
     text-align: center;
-    margin: 8px auto;
+    margin: 0 8px 4px auto;
     word-wrap: break-word;
-    font-family: SpoqaHanSansNeo-Regular;
-    font-size: 14px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -392,11 +412,10 @@
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .originBtn {
     width: 136px;
     height: 24px;
-    margin: 0 auto;
+    margin: 0 auto 8px;
     border-radius: 12px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     background-color: #bcc5cb;
-    margin: 0 auto 24px;
     display: flex;
     cursor: pointer;
 }
@@ -418,7 +437,7 @@
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .check_head,
 .inspecArea .inspec_content .inspec_body .recoArea .object_list .cropArea .cropContent .check_lp {
     position: absolute;
-    top: 8px;
+    top: 68px;
     left: 8px;
 }
 
