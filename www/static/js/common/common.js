@@ -124,6 +124,7 @@ $(document).ready(function () {
         else{
             $(".check_body."+num+"").prop('checked', false)
         }
+        $(".selectText.body."+num+"").text($(".check_body."+num+":checked").length);
     })
 
     $(document).on("click", ".head_allselect", function () {
@@ -135,6 +136,7 @@ $(document).ready(function () {
         else{
             $(".check_head."+num+"").prop('checked', false)
         }
+        $(".selectText.head."+num+"").text($(".check_head."+num+":checked").length);
     })
 
     $(document).on("click", ".lp_allselect", function () {
@@ -146,6 +148,7 @@ $(document).ready(function () {
         else{
             $(".check_lp."+num+"").prop('checked', false)
         }
+        $(".selectText.lp."+num+"").text($(".check_lp."+num+":checked").length);
     })
 
     $(document).on("click", ".check_body", function () {
@@ -167,5 +170,9 @@ $(document).ready(function () {
         if(!$(this).is(":checked")){
             $(".lp_allselect."+num+"").prop("checked",false);
         }
+    });
+
+    $(document).on("click", ".crop_inner", function () {
+        $('#cropView').removeClass('active')
     });
 });
