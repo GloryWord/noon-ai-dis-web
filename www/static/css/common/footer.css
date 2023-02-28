@@ -77,8 +77,12 @@
 
 .footer .logo {
     width: 198px;
-    height: 28px;
+    height: auto;
     margin: 90px 54px auto auto;
+}
+
+.footer .logo img {
+    width: 100%;
 }
 
 .footer .upBtn {
@@ -258,10 +262,10 @@
     }
 
     .footer .upBtn img {  
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-        margin: auto;
+        width: 20px !important;
+        height: 20px !important;
+        object-fit: contain !important;
+        margin: auto !important;
     }
 
     
@@ -274,7 +278,7 @@
 
     .footer .logo img {
         width: 142px;
-        height: 20px;
+        height: auto;
         margin: auto auto auto 0;
         object-fit: contain;
     }
