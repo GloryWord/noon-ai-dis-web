@@ -73,7 +73,7 @@ a {
 .registerContent .registerBox img,
 .findContent .findBox img {
     width: 294px;
-    height: 42px;
+    height: auto;
     margin: 54px auto 42px;
     object-fit: contain;
 }
@@ -523,7 +523,7 @@ a {
     .registerContent .registerBox img, 
     .findContent .findBox img {
         width: 240px;
-        height: 34px;
+        height: auto;
         margin: 28px auto 24px;
         object-fit: contain;
     }

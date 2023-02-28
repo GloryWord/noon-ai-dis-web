@@ -90,7 +90,7 @@ a {
 
 .loginArea .loginContent .loginHeader img {
     width: 294px;
-    height: 42px;
+    height: auto;
     margin: 0 auto 42px;
     object-fit: contain;
 }
@@ -545,7 +545,7 @@ a {
 
     .loginArea .loginContent .loginHeader img {
         width: 240px;
-        height: 34px;
+        height: auto;
         margin: 0 auto 25px;
         object-fit: contain;
     }
