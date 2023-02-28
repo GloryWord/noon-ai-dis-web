@@ -136,10 +136,14 @@
     <div id="wrap">
         <div class="layerPopupBox active">
             <div id="crop_inner" class="crop_inner">
+                <div class="cancel">
+                    <img class="cancel_nohover" src="../static/imgs/common/cancel_icon.png">
+                    <img class="cancel_hover" src="../static/imgs/common/cancel_hover_icon.png">
+                </div>
                 <div class="cropHeader">
-                    <div class="cancel">
-                        <img class="cancel_nohover" src="../static/imgs/common/cancel_icon.png">
-                        <img class="cancel_hover" src="../static/imgs/common/cancel_hover_icon.png">
+                    <div class="crop_cancel">
+                        <img class="crop_cancel_nohover" src="../static/imgs/common/cancel_icon.png">
+                        <img class="crop_cancel_hover" src="../static/imgs/common/cancel_hover_icon.png">
                     </div>
                 </div>
                 <div class="cropContent" id="selectCropArea">
@@ -155,6 +159,8 @@
         if($('#cropView').hasClass('active')){
             var container = document.getElementById('crop_inner');
             if (!container.contains(e.target)) {
+                $(".cancel").removeClass('active')
+                $(".cropHeader").removeClass('active')
                 $('#cropView').removeClass('active')
             }
         }
