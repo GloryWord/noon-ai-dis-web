@@ -1233,6 +1233,8 @@ init = {
         $(document).on("click", ".encImg", function () {
             var imgsrc = $(this).attr("src")
             $(".cropView").attr("src", imgsrc)
+            $(".cancel").addClass('active')
+            $(".cropHeader").removeClass('active')
             $("#cropView").addClass('active')
         });
 
@@ -1278,6 +1280,8 @@ init = {
         $(document).on("click", ".originBtn", function () {
             var imgsrc = $(this).parent().children("img").attr("src")
             $(".cropView").attr("src", imgsrc)
+            $(".cropHeader").addClass('active')
+            $(".cancel").removeClass('active')
             $("#cropView").addClass('active')
         });
 
@@ -2373,6 +2377,8 @@ init = {
             var file = document.getElementById('select_file').files[0];
             var fileName = file.name;
             $('.pemUpload').val(fileName);
+            $('.pemUpload').addClass("active");
+            $('.uploadBtn').addClass("active");
         });
 
         //이게 복호화 요청 확인 누르면

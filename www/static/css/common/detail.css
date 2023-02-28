@@ -608,7 +608,11 @@
     margin: 0 auto 12px;
 }
 
-.layerPopupBox .inner .recoContent .recoBody .recoMiddle input {
+.layerPopupBox .inner .recoContent .recoBody .recoMiddle .pemUpload {
+    display: none;
+}
+
+.layerPopupBox .inner .recoContent .recoBody .recoMiddle .pemUpload.active {
     width: 266px;
     height: 18px;
     margin: 0 auto 12px;
@@ -626,6 +630,7 @@
     letter-spacing: -0.14px;
     text-align: left;
     color: #16284d;
+    display: flex;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn {
@@ -637,6 +642,10 @@
     background-color: #3fa9f5;
     display: flex;
     cursor: pointer;
+}
+
+.layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn.active {
+    background-color: #16284d;
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoMiddle .uploadBtn p {
