@@ -643,10 +643,10 @@ init = {
         var fileSize = []
         var videoDuration = []
 
-        var uploaded = false;
+        var uploadID = makeid(6);
 
         socket.on('delMsgToClient', function (msg) {
-            if(uploaded) {
+            if(uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -817,7 +817,6 @@ init = {
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
                 setTimeout(function() {
                     callback.then((data) => {
-                        uploaded = true;
                         console.log(data);
                         postData = data[0]
                         bitrateArray = data[1]
@@ -825,6 +824,7 @@ init = {
                         setTimeout(function() {
                             socket.emit('delUploadedFile', {
                                 filePath: filePath,
+                                id: uploadID,
                                 immediate: 'false'
                             })
                         }, 1000)
