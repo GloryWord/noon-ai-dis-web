@@ -505,6 +505,10 @@ fileModule = {
 
                             if (fileType == 'video') {
                                 var ffmpegInfo = response.result.streams;
+                                ffmpegInfo = ffmpegInfo.filter((stream) => {
+                                    return stream.codec_type != 'audio'
+                                })
+                                
                                 coefficient = {
                                     resolution: '',
                                     frame_rate: '',
