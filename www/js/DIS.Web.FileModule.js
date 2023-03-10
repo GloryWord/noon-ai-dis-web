@@ -38,6 +38,10 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
     var info_content_html = ''
     var charge_content_html = ''
 
+    let avg_frame_rate = currentFile.avg_frame_rate
+    avg_frame_rate = avg_frame_rate.split('/');
+    avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
+
     var [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge] = chargeArray
     if (screen.width <= 600) {
         info_content_html = "<div class='info_area'>\
@@ -48,7 +52,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='frame_content'>\
                                             <h1>프레임 레이트</h1>\
-                                            <p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p>\
+                                            <p>"+ avg_frame_rate + " FPS</p>\
                                         </div>\
                                     </div>\
                                     <div class='second_area'>\
@@ -69,7 +73,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         <p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p>\
                                     </div>\
                                     <div class='frame_content'>\
-                                        <p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p>\
+                                        <p>"+ avg_frame_rate + " FPS</p>\
                                     </div>\
                                     <div class='dur_content'>\
                                         <p>"+ time_change(currentFile.duration) + "</p>\
@@ -87,7 +91,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>프레임 레이트</p></div>\
-                                            <div class='content_content'><p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p></div>\
+                                            <div class='content_content'><p>"+ avg_frame_rate + " FPS</p></div>\
                                             <div class='price_content'><p>"+ price_three(frame_rate_charge) + "원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
