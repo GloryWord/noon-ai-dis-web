@@ -2362,6 +2362,8 @@ init = {
         $(document).on("click", ".cancel", function () {
             $('#file').val('');
             $('.pemUpload').val('');
+            $('.pemUpload').removeClass('active')
+            $('.uploadBtn').removeClass("active");
             $('.modal').removeClass('active')
         });
 
@@ -2370,6 +2372,8 @@ init = {
             var file = document.getElementById('file').files[0];
             var fileName = file.name;
             $('.pemUpload').val(fileName);
+            $('.pemUpload').addClass("active");
+            $('.uploadBtn').addClass("active");
         });
 
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
