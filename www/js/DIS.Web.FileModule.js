@@ -553,7 +553,7 @@ fileModule = {
 
                                     var avg_frame_rate = curFile.avg_frame_rate
                                     avg_frame_rate = avg_frame_rate.split('/');
-                                    avg_frame_rate = Number(avg_frame_rate[0]);
+                                    avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
                                     coefficient.frame_rate = avg_frame_rate / 30;
 
                                     coefficient.duration = curFile.duration / 60;
