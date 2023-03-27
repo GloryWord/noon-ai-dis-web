@@ -38,6 +38,10 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
     var info_content_html = ''
     var charge_content_html = ''
 
+    let avg_frame_rate = currentFile.avg_frame_rate
+    avg_frame_rate = avg_frame_rate.split('/');
+    avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
+
     var [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge] = chargeArray
     if (screen.width <= 600) {
         info_content_html = "<div class='info_area'>\
@@ -48,7 +52,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='frame_content'>\
                                             <h1>프레임 레이트</h1>\
-                                            <p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p>\
+                                            <p>"+ avg_frame_rate + " FPS</p>\
                                         </div>\
                                     </div>\
                                     <div class='second_area'>\
@@ -69,7 +73,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         <p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p>\
                                     </div>\
                                     <div class='frame_content'>\
-                                        <p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p>\
+                                        <p>"+ avg_frame_rate + " FPS</p>\
                                     </div>\
                                     <div class='dur_content'>\
                                         <p>"+ time_change(currentFile.duration) + "</p>\
@@ -87,7 +91,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>프레임 레이트</p></div>\
-                                            <div class='content_content'><p>"+ currentFile.avg_frame_rate.split('/')[0] + " FPS</p></div>\
+                                            <div class='content_content'><p>"+ avg_frame_rate + " FPS</p></div>\
                                             <div class='price_content'><p>"+ price_three(frame_rate_charge) + "원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
@@ -553,7 +557,7 @@ fileModule = {
 
                                     var avg_frame_rate = curFile.avg_frame_rate
                                     avg_frame_rate = avg_frame_rate.split('/');
-                                    avg_frame_rate = Number(avg_frame_rate[0]);
+                                    avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
                                     coefficient.frame_rate = avg_frame_rate / 30;
 
                                     coefficient.duration = curFile.duration / 60;
@@ -975,6 +979,14 @@ fileModule = {
                 var bodylen = []
                 var headlen = []
                 var lplen = []
+                var check_num = /^[0-9]+$/;
+                var folder_num = null
+                for (let i = 0; i < result[1].length; i++) {
+                    if (check_num.test(result[1][i])) {
+                        folder_num = i;
+                        break;
+                    }
+                }
                 for (var i = 0; i < result[2].length; i++) {
                     if (result[2][i] != "thnumbnail.jpg") {
                         if (result[2][i].split("_")[0] == "0") bodylen.push(result[2][i])
@@ -984,7 +996,7 @@ fileModule = {
                 }
                 resultStr += `<div class='recoArea' data-id=0>
                                 <div class='encImgArea'>
-                                    <img class='encImg' src='../${result[0]['nas_directory']}/${result[1][0]}/${result[2][result[2].length - 1]}'>
+                                    <img class='encImg' src='../${result[0]['nas_directory']}/${result[1][folder_num]}/${result[2][result[2].length - 1]}'>
                                 </div>`
                 if (bodylen.length != 0) {
                     let numBody = []
@@ -1003,9 +1015,9 @@ fileModule = {
                     resultStr += `<div class='object_list bodyContent'>
                                     <div class='textArea'>
                                         <h1>전신</h1>
-                                        <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][0]}'>0</span>장</p>
+                                        <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
-                                            <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            <input class='body_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
                                         </div>
                                     </div>
                                     <div class='cropArea body'>`
@@ -1030,11 +1042,11 @@ fileModule = {
                                         <div class="originBtn">
                                             <p>원본 보기</p>
                                         </div>
-                                        <img class='cropImg body' data-groupidx=${result[1][0]} data-imgidx=${bodylen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${bodylen[i]}'>
-                                        <input class='check_body ${result[1][0]} body${bodylen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
+                                        <img class='cropImg body' data-groupidx=${result[1][folder_num]} data-imgidx=${bodylen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][folder_num]}/${bodylen[i]}'>
+                                        <input class='check_body ${result[1][folder_num]} body${bodylen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
                                     </div>`
                     }
-                    resultStr += `<div class="btn-wrap body ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                    resultStr += `<div class="btn-wrap body ${result[1][folder_num]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
                             </div>
                         </div>`
                 }
@@ -1058,9 +1070,9 @@ fileModule = {
                     resultStr += `<div class='object_list headContent'>
                                     <div class='textArea'>
                                         <h1>머리</h1>
-                                        <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][0]}'>0</span>장</p>
+                                        <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
-                                                <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                                <input class='head_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
                                             </div>
                                         </div>
                                     <div class='cropArea head'>`
@@ -1084,11 +1096,11 @@ fileModule = {
                                             <div class="originBtn">
                                                 <p>원본 보기</p>
                                             </div>
-                                            <img class='cropImg head' data-groupidx=${result[1][0]} data-imgidx=${headlen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${headlen[i]}'>
-                                            <input class='check_head ${result[1][0]} head${headlen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
+                                            <img class='cropImg head' data-groupidx=${result[1][folder_num]} data-imgidx=${headlen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][folder_num]}/${headlen[i]}'>
+                                            <input class='check_head ${result[1][folder_num]} head${headlen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${headlen[i].split("_")[1].split(".")[0]}>
                                         </div>`
                     }
-                    resultStr += `<div class="btn-wrap head ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                    resultStr += `<div class="btn-wrap head ${result[1][folder_num]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
                                 </div>
                             </div>`
                 }
@@ -1109,9 +1121,9 @@ fileModule = {
                     resultStr += `<div class='object_list lpContent'>
                                     <div class='textArea'>
                                         <h1>자동차 번호판</h1>
-                                        <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][0]}'>0</span>장</p>
+                                        <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
-                                            <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
+                                            <input class='lp_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
                                         </div>
                                     </div>
                                         <div class='cropArea lp'>`
@@ -1136,11 +1148,11 @@ fileModule = {
                                         <div class="originBtn">
                                             <p>원본 보기</p>
                                         </div>
-                                        <img class='cropImg lp' data-groupidx=${result[1][0]} data-imgidx=${lplen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][0]}/${lplen[i]}'>
-                                        <input class='check_lp ${result[1][0]} lp${lplen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
+                                        <img class='cropImg lp' data-groupidx=${result[1][folder_num]} data-imgidx=${lplen[i].split("_")[1].split(".")[0]} src='../${result[0]['nas_directory']}/${result[1][folder_num]}/${lplen[i]}'>
+                                        <input class='check_lp ${result[1][folder_num]} lp${lplen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${lplen[i].split("_")[1].split(".")[0]}>
                                     </div>`
                 }
-                resultStr += `<div class="btn-wrap lp ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                resultStr += `<div class="btn-wrap lp ${result[1][folder_num]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
                                 </div>
                             </div>`
                 }
