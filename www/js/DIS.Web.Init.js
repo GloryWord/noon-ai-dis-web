@@ -1382,7 +1382,7 @@ init = {
             let decRequestId = decryptAjaxResponse.dec_request_list_id;
             let fileList = decryptAjaxResponse.fileList;
             if(decryptAjaxResponse) {
-                fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo);
+                fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo, thumb[1]);
                 
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
                 
