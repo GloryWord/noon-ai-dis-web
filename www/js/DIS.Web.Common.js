@@ -258,6 +258,9 @@ comm = {
         $.ajax({
             method: "get",
             url: "http://key-api.noonai.kr/api/key",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data
@@ -280,6 +283,9 @@ comm = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/user/auth",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.statusCode == 200) result = data.userAuth;
@@ -334,6 +340,9 @@ comm = {
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
              },
+             xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 if(data.message == 'success') {
                     new Promise((resolve, reject) => {
@@ -375,6 +384,9 @@ comm = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/logout",
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = '/';
             }, // success 
@@ -390,6 +402,9 @@ comm = {
             method: "post",
             url: "http://util-api.noonai.kr/api/user/check",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 location.href = "/myinfo" + "?auth=1";
@@ -413,6 +428,9 @@ comm = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/get-auth",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 auth = data.auth
@@ -438,6 +456,9 @@ comm = {
                 requestIndex,
                 restoration
             },
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == "success"){
@@ -459,6 +480,9 @@ comm = {
                 fileNameList,
                 fileType,
             },
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 if(data.message == "success"){
                     
@@ -479,6 +503,9 @@ comm = {
                 fileType,
                 fileName,
                 fileSize
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: function (data) {
                 if(data.message == "success"){
