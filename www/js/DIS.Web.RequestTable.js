@@ -23,7 +23,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/util-module/api/progress/encrypt",
+            url: "http://util-api.noonai.kr/api/progress/encrypt",
             async: false,
             success: function (data) {
                 result['progress'] = data.progress['encrypt_progress'];
@@ -50,7 +50,7 @@ requestTable = {
         
         $.ajax({
             method: "get",
-            url: "/util-module/api/progress/decrypt",
+            url: "http://util-api.noonai.kr/api/progress/decrypt",
             async: false,
             success: function (data) {
                 result['progress'] = data.progress['decrypt_progress'];
@@ -73,7 +73,7 @@ requestTable = {
         }
         $.ajax({
             method: "get",
-            url: "/util-module/api/progress/thumbnail",
+            url: "http://util-api.noonai.kr/api/progress/thumbnail",
             async: false,
             success: function (data) {
                 result['status'] = data.progress['status'];
@@ -423,7 +423,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/decrypt-module/api/request/decrypt/all",
+            url: "http://decrypt-api.noonai.kr/api/request/decrypt/all",
             async: false,
             success: function (data) {
                 requestList = data.requestList;
@@ -504,7 +504,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/search/decrypt",
+            url: "http://decrypt-api.noonai.kr/api/search/decrypt",
             data: postdata,
             async: false,
             success: function (data) {
@@ -576,7 +576,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/key-module/api/key/all",
+            url: "http://key-api.noonai.kr/api/key/all",
             async: false,
             success: function (data) {
                 requestList = data;
@@ -663,7 +663,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/key-module/api/key/memo/" + key_idx,
+            url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
             async: false,
             success: function (data) {
                 requestList = data;
@@ -687,7 +687,7 @@ requestTable = {
         var postdata = { key_memo: key_memo }
         $.ajax({
             method: "put",
-            url: "/key-module/api/key/memo/" + key_idx,
+            url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
             data: postdata,
             async: false,
             success: function (data) {
@@ -707,7 +707,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: `/util-module/api/usage?searchMonth=${searchMonth}`,
+            url: `http://util-api.noonai.kr/api/usage?searchMonth=${searchMonth}`,
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -1039,7 +1039,7 @@ requestTable = {
         if(type=="encrypt_request") logType = 'encrypt'
         else if(type=="decrypt_request") logType = 'decrypt'
         else if(type=="download_request") logType = 'download'
-        var apiUrl = `/util-module/api/usage/${logType}?date=${date}`
+        var apiUrl = `http://util-api.noonai.kr/api/usage/${logType}?date=${date}`
         var requestList = ''
         $.ajax({
             method: "get",

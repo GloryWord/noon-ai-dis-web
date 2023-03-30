@@ -236,7 +236,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/util-module/api/user",
+            url: "http://util-api.noonai.kr/api/user",
             async: false,
             success: function (data) {
                 result = data;
@@ -254,7 +254,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/key-module/api/key",
+            url: "http://key-api.noonai.kr/api/key",
             async: false,
             success: function (data) {
                 result = data
@@ -276,7 +276,7 @@ comm = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/util-module/api/user/auth",
+            url: "http://util-api.noonai.kr/api/user/auth",
             async: false,
             success: function (data) {
                 if(data.statusCode == 200) result = data.userAuth;
@@ -326,7 +326,7 @@ comm = {
     generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
-            url: "/key-module/api/key",
+            url: "http://key-api.noonai.kr/api/key",
             data: { 
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
@@ -371,7 +371,7 @@ comm = {
     logout: function () {
         $.ajax({
             method: "get",
-            url: "/util-module/api/logout",
+            url: "http://util-api.noonai.kr/api/logout",
             success: function (data) {
                 location.href = '/';
             }, // success 
@@ -385,7 +385,7 @@ comm = {
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "/util-module/api/user/check",
+            url: "http://util-api.noonai.kr/api/user/check",
             data: postdata,
             async: false,
             success: function (data) {
@@ -409,7 +409,7 @@ comm = {
         var auth = ''
         $.ajax({
             method: "get",
-            url: "/util-module/api/get-auth",
+            url: "http://util-api.noonai.kr/api/get-auth",
             async: false,
             success: function (data) {
                 auth = data.auth
@@ -450,7 +450,7 @@ comm = {
     meterDecrypt: function (requestIndex, fileNameList, fileType) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/meterUsage/decrypt",
+            url: "http://decrypt-api.noonai.kr/api/meterUsage/decrypt",
             data: {
                 requestIndex,
                 fileNameList,
@@ -470,7 +470,7 @@ comm = {
     meterDownload: function (requestIndex, fileType, fileName, fileSize) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/meterUsage/download",
+            url: "http://util-api.noonai.kr/api/meterUsage/download",
             data: {
                 requestIndex,
                 fileType,

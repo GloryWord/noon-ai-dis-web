@@ -19,7 +19,7 @@ login = {
         var postdata = { account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/util-module/api/login",
+            url: "http://util-api.noonai.kr/api/login",
             data: postdata,
             success: function (data) {
                 location.href = "/main";
@@ -41,7 +41,7 @@ login = {
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/first-login",
+            url: "http://util-api.noonai.kr/api/first-login",
             data: postdata,
             async: false,
             success: function (data) {
@@ -66,7 +66,7 @@ login = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/util-module/api/user/check",
+            url: "http://util-api.noonai.kr/api/user/check",
             data: {
                 cur_password: password
             },
@@ -92,7 +92,7 @@ login = {
         let subEmail = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/getSubEmail",
+            url: "http://util-api.noonai.kr/api/getSubEmail",
             data : {
                 account_name: account_name,
                 tenant_id: tenant_id
@@ -112,7 +112,7 @@ login = {
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/util-module/api/subLogin",
+            url: "http://util-api.noonai.kr/api/subLogin",
             data: postdata,
             success: function (data) {
                 location.href = "/main";
@@ -134,7 +134,7 @@ login = {
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/first-login-sub",
+            url: "http://util-api.noonai.kr/api/first-login-sub",
             data: postdata,
             async: false,
             success: function (data) {
@@ -182,7 +182,7 @@ login = {
         var html;
         $.ajax({
             method: "get",
-            url: "/util-module/api/token/verify/"+accountName+"/"+token,
+            url: "http://util-api.noonai.kr/api/token/verify/"+accountName+"/"+token,
             async: false,
             success: function (data) {
                 if(data.message == 'success' && data.result == 'valid') html = validHtml;
@@ -199,7 +199,7 @@ login = {
         let result ='';
         $.ajax({
             method: "post",
-            url: "/util-module/api/secondary-email-send",
+            url: "http://util-api.noonai.kr/api/secondary-email-send",
             data: {
                 email
             },
@@ -229,7 +229,7 @@ login = {
     authenticationVerify: function () {
         $.ajax({
             method: "post",
-            url: "/util-module/api/authentication-verify",
+            url: "http://util-api.noonai.kr/api/authentication-verify",
             data: {
                 email_verify: true
             },
@@ -245,7 +245,7 @@ login = {
     forgetPassword: function (accountName) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/forget-password",
+            url: "http://util-api.noonai.kr/api/forget-password",
             data: {
                 accountName
             },
@@ -283,7 +283,7 @@ login = {
     resetPassword: function (accountName, password) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/reset-password",
+            url: "http://util-api.noonai.kr/api/reset-password",
             data: {
                 accountName,
                 password
@@ -310,7 +310,7 @@ login = {
     sessionCheck: function() {
         $.ajax({
             method: "get",
-            url: "/util-module/api/session-check",
+            url: "http://util-api.noonai.kr/api/session-check",
             async: false,
             success: function (data) {
                 if(data.message == "success"){

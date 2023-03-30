@@ -53,7 +53,7 @@ resultLoader = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/decrypt-module/api/decrypt/result/"+index,
+            url: "http://decrypt-api.noonai.kr/api/decrypt/result/"+index,
             async: false,
             success: function (data) {
                 console.log(data);
@@ -84,7 +84,7 @@ resultLoader = {
         for(var i = 0; i < objectName.length; i++) {
             $.ajax({
                 method: "post",
-                url: "/util-module/api/result/url",
+                url: "http://util-api.noonai.kr/api/result/url",
                 data: {
                     'bucketName': bucketName,
                     'objectName': subDirectory + '/' + objectName[i],
