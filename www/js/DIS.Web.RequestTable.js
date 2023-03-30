@@ -601,6 +601,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: "http://key-api.noonai.kr/api/key/all",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data;
@@ -688,6 +691,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data;
@@ -712,6 +718,9 @@ requestTable = {
         $.ajax({
             method: "put",
             url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -732,6 +741,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: `http://util-api.noonai.kr/api/usage?searchMonth=${searchMonth}`,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 // result = data['progress']
@@ -1068,6 +1080,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.results;
