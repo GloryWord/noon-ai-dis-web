@@ -237,6 +237,9 @@ comm = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/user",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data;
