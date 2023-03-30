@@ -21,6 +21,9 @@ login = {
             method: "post",
             url: "http://util-api.noonai.kr/api/login",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = "/main";
             },
@@ -43,6 +46,9 @@ login = {
             method: "post",
             url: "http://util-api.noonai.kr/api/first-login",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 $(".auth_id").val($("#name").val());
@@ -69,6 +75,9 @@ login = {
             url: "http://util-api.noonai.kr/api/user/check",
             data: {
                 cur_password: password
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -97,6 +106,9 @@ login = {
                 account_name: account_name,
                 tenant_id: tenant_id
             },
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 subEmail = data.email;
@@ -114,6 +126,9 @@ login = {
             method: "post",
             url: "http://util-api.noonai.kr/api/subLogin",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = "/main";
             },
@@ -136,6 +151,9 @@ login = {
             method: "post",
             url: "http://util-api.noonai.kr/api/first-login-sub",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 let subEmail = login.getSubEmail(account_name, data.tenant);
@@ -183,6 +201,9 @@ login = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/token/verify/"+accountName+"/"+token,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == 'success' && data.result == 'valid') html = validHtml;
@@ -202,6 +223,9 @@ login = {
             url: "http://util-api.noonai.kr/api/secondary-email-send",
             data: {
                 email
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -232,6 +256,9 @@ login = {
             url: "http://util-api.noonai.kr/api/authentication-verify",
             data: {
                 email_verify: true
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -288,6 +315,9 @@ login = {
                 accountName,
                 password
             },
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 if(data.message == 'success') {
                     Swal.fire({
@@ -311,6 +341,9 @@ login = {
         $.ajax({
             method: "get",
             url: "http://util-api.noonai.kr/api/session-check",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == "success"){
