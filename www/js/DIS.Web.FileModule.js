@@ -473,7 +473,7 @@ fileModule = {
 
         $.ajax({
             method: "post",
-            url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+            url: "http://util-api.noonai.kr/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
             dataType: "json",
             data: {
                 'curTime': curTime
@@ -487,7 +487,7 @@ fileModule = {
                 for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
                 // formData.append('file', file);
                 var xhr = new XMLHttpRequest();
-                xhr.open('post', '/util-module/api/uploadNAS' + mode, true);
+                xhr.open('post', 'http://util-api.noonai.kr/api/uploadNAS' + mode, true);
                 xhr.upload.onprogress = function (e) {
                     if (e.lengthComputable) {
                         var per = (e.loaded / e.total) * 100;
@@ -800,7 +800,7 @@ fileModule = {
                 formData.append('file', file);
                 $.ajax({
                     method: "post",
-                    url: "/util-module/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                    url: "http://util-api.noonai.kr/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
                     dataType: "json",
                     async: false,
                     data: {
@@ -816,7 +816,7 @@ fileModule = {
                 }).done(() => {
                     $.ajax({
                         method: 'post',
-                        url: '/util-module/api/uploadNAS',
+                        url: 'http://util-api.noonai.kr/api/uploadNAS',
                         processData: false,
                         contentType: false,
                         data: formData,
@@ -843,7 +843,7 @@ fileModule = {
         let msg, keyPath, valid, verify_result;
         $.ajax({
             method: 'post',
-            url: '/key-module/api/key/verify',
+            url: 'http://key-api.noonai.kr/api/key/verify',
             dataType: 'json',
             data: {
                 fileName: file_name,
@@ -895,7 +895,7 @@ fileModule = {
             else if (userAuth['decrypt_auth'] == 1) {
                 $.ajax({
                     method: 'post',
-                    url: '/decrypt-module/api/request/decrypt/thumbnail',
+                    url: 'http://decrypt-api.noonai.kr/api/request/decrypt/thumbnail',
                     dataType: 'json',
                     data: {
                         enc_request_id: index,
@@ -928,7 +928,7 @@ fileModule = {
 
             $.ajax({
                 method: 'post',
-                url: '/decrypt-module/api/sendMessage/thumbnail',
+                url: 'http://decrypt-api.noonai.kr/api/sendMessage/thumbnail',
                 dataType: 'json',
                 data: {
                     msgTemplate: JSON.stringify(msgTemplate),
@@ -954,7 +954,7 @@ fileModule = {
         var postdata = { idx: idx, type: type, mode: mode }
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/decrypt/result/thumbnail",
+            url: "http://decrypt-api.noonai.kr/api/decrypt/result/thumbnail",
             async: false,
             data: postdata,
             success: function (data) {
@@ -1487,7 +1487,7 @@ fileModule = {
     selectFile: function (idx, selectedFile) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/decrypt/select",
+            url: "http://decrypt-api.noonai.kr/api/decrypt/select",
             dataType: "json",
             data: {
                 'req_idx': JSON.stringify(idx),
@@ -1510,7 +1510,7 @@ fileModule = {
 
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/request/decrypt",
+            url: "http://decrypt-api.noonai.kr/api/request/decrypt",
             dataType: "json",
             data: {
                 dec_thumbnail_idx: decryptArgs.idx,
@@ -1533,7 +1533,7 @@ fileModule = {
     sendDecryptMessage: function (msg, thumbnailPath) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            url: "http://decrypt-api.noonai.kr/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
             dataType: "json",
             data: {
                 msgTemplate: JSON.stringify(msg),

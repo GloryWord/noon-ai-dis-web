@@ -16,7 +16,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/info",
+            url: "http://user-info-api.noonai.kr/api/user/info",
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -73,7 +73,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/info",
+            url: "http://user-info-api.noonai.kr/api/user/info",
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -114,7 +114,7 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/alias",
+            url: "http://user-info-api.noonai.kr/api/user/alias",
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -133,7 +133,7 @@ userinfo = {
         var postdata = {name:name, email:email, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig, origin_name: origin_name, origin_email: origin_email, email_config: email_config};
         $.ajax({
             method: "put",
-            url: "/user-info-module/api/user/info",
+            url: "http://user-info-api.noonai.kr/api/user/info",
             data: postdata,
             async: false,
             success: function (data) {
@@ -270,7 +270,7 @@ userinfo = {
         let result = '';
         $.ajax({
             method: "post",
-            url: "/user-info-module/api/user/email-send",
+            url: "http://user-info-api.noonai.kr/api/user/email-send",
             data: {
                 email
             },
