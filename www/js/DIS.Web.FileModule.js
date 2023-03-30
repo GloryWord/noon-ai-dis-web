@@ -1530,13 +1530,14 @@ fileModule = {
         return result;
     },
 
-    sendDecryptMessage: function (msg) {
+    sendDecryptMessage: function (msg, thumbnailPath) {
         $.ajax({
             method: "post",
             url: "/decrypt-module/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
             dataType: "json",
             data: {
                 msgTemplate: JSON.stringify(msg),
+                folderPath: thumbnailPath
             },
             success: function (data) {
 
