@@ -218,6 +218,7 @@ init = {
     image: function () {
         const socket = io("http://socket-api.noonai.kr/socket.io", {
             withCredentials: true,
+            transports: [ 'websocket' ]
         });
 
         var html = ''
