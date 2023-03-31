@@ -472,7 +472,9 @@ init = {
     },
 
     loading: function () {
-        var socket = io();
+        const socket = io("http://socket-api.noonai.kr/socket.io", {
+            withCredentials: true,
+        });
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -638,7 +640,9 @@ init = {
     },
 
     video: function () {
-        var socket = io();
+        const socket = io("http://socket-api.noonai.kr/socket.io", {
+            withCredentials: true,
+        });
         var html = ''
         var fileCount = 0;
         var fileWidth = []
@@ -1193,7 +1197,9 @@ init = {
     },
 
     inspection: function () {
-        var socket = io();
+        const socket = io("http://socket-api.noonai.kr/socket.io", {
+            withCredentials: true,
+        });
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
@@ -2324,7 +2330,9 @@ init = {
     },
 
     detail: function () {
-        var socket = io();
+        const socket = io("http://socket-api.noonai.kr/socket.io", {
+            withCredentials: true,
+        });
 
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
