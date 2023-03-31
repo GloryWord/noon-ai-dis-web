@@ -17,6 +17,9 @@ subaccount = {
         $.ajax({
             method: "get",
             url: "http://sub-account-api.noonai.kr/api/subaccount",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data.results;
@@ -91,6 +94,9 @@ subaccount = {
         $.ajax({
             method: "post",
             url: "http://sub-account-api.noonai.kr/api/subaccount/password",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 index,
                 newPassword
@@ -110,6 +116,9 @@ subaccount = {
         $.ajax({
             method: "post",
             url: "http://sub-account-api.noonai.kr/api/subaccount",
+            xhrFields: {
+                withCredentials: true
+            },
             data: subAccountInfo,
             async: false,
             success: function (data) {
@@ -136,6 +145,9 @@ subaccount = {
         $.ajax({
             method: "delete",
             url: "http://sub-account-api.noonai.kr/api/subaccount/"+index,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == 'success') result = true;
@@ -152,6 +164,9 @@ subaccount = {
         $.ajax({
             method: "post",
             url: "http://sub-account-api.noonai.kr/api/subaccount/auth",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -232,6 +247,9 @@ subaccount = {
         $.ajax({
             method: "put",
             url: "http://sub-account-api.noonai.kr/api/subaccount/auth",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -258,6 +276,9 @@ subaccount = {
         $.ajax({
             method: "get",
             url: "http://sub-account-api.noonai.kr/api/subaccount/key",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data.login_alias
@@ -278,6 +299,9 @@ subaccount = {
         $.ajax({
             method: "put",
             url: "http://sub-account-api.noonai.kr/api/subaccount/key",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
