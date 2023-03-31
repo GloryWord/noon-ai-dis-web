@@ -216,7 +216,9 @@ init = {
     },
 
     image: function () {
-        var socket = io("http://socket-api.noonai.kr");
+        const socket = io("http://socket-api.noonai.kr/socket.io", {
+            withCredentials: true,
+        });
         var html = ''
         var fileCount = 0;
         var fileIndex = [];
