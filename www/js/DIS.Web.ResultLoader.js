@@ -18,6 +18,9 @@ resultLoader = {
         $.ajax({
             method: "get",
             url: "http://encrypt-api.noonai.kr/api/encrypt/result/"+index,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
@@ -54,6 +57,9 @@ resultLoader = {
         $.ajax({
             method: "get",
             url: "http://decrypt-api.noonai.kr/api/decrypt/result/"+index,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 console.log(data);
@@ -85,6 +91,9 @@ resultLoader = {
             $.ajax({
                 method: "post",
                 url: "http://util-api.noonai.kr/api/result/url",
+                xhrFields: {
+                    withCredentials: true
+                },
                 data: {
                     'bucketName': bucketName,
                     'objectName': subDirectory + '/' + objectName[i],
@@ -156,6 +165,9 @@ resultLoader = {
         $.ajax({
             method: "get",
             url: "http://encrypt-api.noonai.kr/api/request/encrypt?id=" + index,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data.result;
@@ -269,6 +281,9 @@ resultLoader = {
         $.ajax({
             method: "post",
             url: "http://encrypt-api.noonai.kr/api/encrypt/result/file/zip",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 bucketName,
                 subDirectory,
