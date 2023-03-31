@@ -478,6 +478,9 @@ fileModule = {
             data: {
                 'curTime': curTime
             },
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 var formData = new FormData();
                 var file = document.getElementById('file').files;
@@ -727,6 +730,9 @@ fileModule = {
                 url: "/encrypt-module/api/request/encrypt",
                 dataType: "json",
                 data: postData,
+                xhrFields: {
+                    withCredentials: true
+                },
                 async: false,
                 success: function (data) {
                     requestIndex = data.enc_request_list_id;
@@ -746,6 +752,9 @@ fileModule = {
                 url: "/encrypt-module/api/sendMessage/encrypt",
                 dataType: "json",
                 data: postData,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
 
                 },
@@ -806,6 +815,9 @@ fileModule = {
                     data: {
                         'curTime': curTime
                     },
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     success: function (data) {
 
                     },
@@ -820,6 +832,9 @@ fileModule = {
                         processData: false,
                         contentType: false,
                         data: formData,
+                        xhrFields: {
+                            withCredentials: true
+                        },
                         async: false,
                         success: function (data) {
                             if (data.message == 'success') {
@@ -844,6 +859,9 @@ fileModule = {
         $.ajax({
             method: 'post',
             url: 'http://key-api.noonai.kr/api/key/verify',
+            xhrFields: {
+                withCredentials: true
+            },
             dataType: 'json',
             data: {
                 fileName: file_name,
@@ -896,6 +914,9 @@ fileModule = {
                 $.ajax({
                     method: 'post',
                     url: 'http://decrypt-api.noonai.kr/api/request/decrypt/thumbnail',
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     dataType: 'json',
                     data: {
                         enc_request_id: index,
@@ -934,6 +955,9 @@ fileModule = {
                     msgTemplate: JSON.stringify(msgTemplate),
                     reqInfo: JSON.stringify(reqInfo)
                 },
+                xhrFields: {
+                    withCredentials: true
+                },
                 async: false,
                 success: function (data) {
                     console.log('last request success');
@@ -957,6 +981,9 @@ fileModule = {
             url: "http://decrypt-api.noonai.kr/api/decrypt/result/thumbnail",
             async: false,
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 result = data;
                 console.log(result)
@@ -1493,6 +1520,9 @@ fileModule = {
                 'req_idx': JSON.stringify(idx),
                 'req_info': JSON.stringify(selectedFile),
             },
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
 
@@ -1516,6 +1546,9 @@ fileModule = {
                 dec_thumbnail_idx: decryptArgs.idx,
                 selectedFile: JSON.stringify(decryptArgs.selectedFile),
             },
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 console.log(data);
@@ -1538,6 +1571,9 @@ fileModule = {
             data: {
                 msgTemplate: JSON.stringify(msg),
                 folderPath: thumbnailPath
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: function (data) {
 

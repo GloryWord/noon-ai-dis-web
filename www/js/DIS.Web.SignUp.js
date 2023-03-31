@@ -16,6 +16,9 @@ signup = {
         $.ajax({
             method: "post",
             url: "http://util-api.noonai.kr/api/signup/tenant",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 account_name,
                 password,
@@ -47,6 +50,9 @@ signup = {
         $.ajax({
             method: "post",
             url: "http://util-api.noonai.kr/api/mail/verify",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -70,6 +76,9 @@ signup = {
         $.ajax({
             method: "post",
             url: "http://util-api.noonai.kr/api/signup/duplicate",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 email_address: email
             },

@@ -17,6 +17,9 @@ userinfo = {
         $.ajax({
             method: "get",
             url: "http://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -74,6 +77,9 @@ userinfo = {
         $.ajax({
             method: "get",
             url: "http://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -115,6 +121,9 @@ userinfo = {
         $.ajax({
             method: "get",
             url: "http://user-info-api.noonai.kr/api/user/alias",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -134,6 +143,9 @@ userinfo = {
         $.ajax({
             method: "put",
             url: "http://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -271,6 +283,9 @@ userinfo = {
         $.ajax({
             method: "post",
             url: "http://user-info-api.noonai.kr/api/user/email-send",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 email
             },
