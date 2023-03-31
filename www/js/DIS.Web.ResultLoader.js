@@ -17,7 +17,7 @@ resultLoader = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/encrypt-module/api/encrypt/result/"+index,
+            url: "http://encrypt-api.noonai.kr/api/encrypt/result/"+index,
             async: false,
             success: function (data) {
                 if (data.message == 'success') {
@@ -155,7 +155,7 @@ resultLoader = {
         var html = ''
         $.ajax({
             method: "get",
-            url: "/encrypt-module/api/request/encrypt?id=" + index,
+            url: "http://encrypt-api.noonai.kr/api/request/encrypt?id=" + index,
             async: false,
             success: function (data) {
                 result = data.result;
@@ -268,7 +268,7 @@ resultLoader = {
 
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/encrypt/result/file/zip",
+            url: "http://encrypt-api.noonai.kr/api/encrypt/result/file/zip",
             data: {
                 bucketName,
                 subDirectory,
