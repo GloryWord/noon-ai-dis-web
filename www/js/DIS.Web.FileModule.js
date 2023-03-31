@@ -727,7 +727,7 @@ fileModule = {
 
             $.ajax({
                 method: "post",
-                url: "/encrypt-module/api/request/encrypt",
+                url: "http://encrypt-api.noonai.kr/api/request/encrypt",
                 dataType: "json",
                 data: postData,
                 xhrFields: {
@@ -749,7 +749,7 @@ fileModule = {
         }).then(() => {
             $.ajax({
                 method: "post",
-                url: "/encrypt-module/api/sendMessage/encrypt",
+                url: "http://encrypt-api.noonai.kr/api/sendMessage/encrypt",
                 dataType: "json",
                 data: postData,
                 xhrFields: {

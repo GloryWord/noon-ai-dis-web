@@ -448,7 +448,7 @@ comm = {
         var strFileHeight = JSON.stringify(fileHeight)
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/meterUsage/encrypt",
+            url: "http://encrypt-api.noonai.kr/api/meterUsage/encrypt",
             data: {
                 fileNameList,
                 strFileWidth,

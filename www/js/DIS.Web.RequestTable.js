@@ -215,7 +215,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "/encrypt-module/api/request/encrypt/all",
+            url: "http://encrypt-api.noonai.kr/api/request/encrypt/all",
             xhrFields: {
                 withCredentials: true
             },
@@ -333,7 +333,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/search/encrypt",
+            url: "http://encrypt-api.noonai.kr/api/search/encrypt",
             data: postdata,
             xhrFields: {
                 withCredentials: true
