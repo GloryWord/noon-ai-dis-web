@@ -491,6 +491,7 @@ fileModule = {
                 // formData.append('file', file);
                 var xhr = new XMLHttpRequest();
                 xhr.open('post', 'http://util-api.noonai.kr/api/uploadNAS' + mode, true);
+                xhr.withCredentials = true;
                 xhr.upload.onprogress = function (e) {
                     if (e.lengthComputable) {
                         var per = (e.loaded / e.total) * 100;
