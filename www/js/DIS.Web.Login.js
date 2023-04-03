@@ -340,7 +340,7 @@ login = {
     sessionCheck: function() {
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/session-check",
+            url: "http://util-api.noonai.kr/api/session-check",
             xhrFields: {
                 withCredentials: true
             },
