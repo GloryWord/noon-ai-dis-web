@@ -236,7 +236,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/user",
+            url: "https://util-api.noonai.kr/api/user",
             xhrFields: {
                 withCredentials: true
             },
@@ -257,7 +257,7 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "http://key-api.noonai.kr/api/key",
+            url: "https://key-api.noonai.kr/api/key",
             xhrFields: {
                 withCredentials: true
             },
@@ -282,7 +282,7 @@ comm = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/user/auth",
+            url: "https://util-api.noonai.kr/api/user/auth",
             xhrFields: {
                 withCredentials: true
             },
@@ -335,7 +335,7 @@ comm = {
     generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
-            url: "http://key-api.noonai.kr/api/key",
+            url: "https://key-api.noonai.kr/api/key",
             data: { 
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
@@ -383,7 +383,7 @@ comm = {
     logout: function () {
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/logout",
+            url: "https://util-api.noonai.kr/api/logout",
             xhrFields: {
                 withCredentials: true
             },
@@ -400,7 +400,7 @@ comm = {
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "http://util-api.noonai.kr/api/user/check",
+            url: "https://util-api.noonai.kr/api/user/check",
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -427,7 +427,7 @@ comm = {
         var auth = ''
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/get-auth",
+            url: "https://util-api.noonai.kr/api/get-auth",
             xhrFields: {
                 withCredentials: true
             },
@@ -448,7 +448,7 @@ comm = {
         var strFileHeight = JSON.stringify(fileHeight)
         $.ajax({
             method: "post",
-            url: "http://encrypt-api.noonai.kr/api/meterUsage/encrypt",
+            url: "https://encrypt-api.noonai.kr/api/meterUsage/encrypt",
             data: {
                 fileNameList,
                 strFileWidth,
@@ -474,7 +474,7 @@ comm = {
     meterDecrypt: function (requestIndex, fileNameList, fileType) {
         $.ajax({
             method: "post",
-            url: "http://decrypt-api.noonai.kr/api/meterUsage/decrypt",
+            url: "https://decrypt-api.noonai.kr/api/meterUsage/decrypt",
             data: {
                 requestIndex,
                 fileNameList,
@@ -497,7 +497,7 @@ comm = {
     meterDownload: function (requestIndex, fileType, fileName, fileSize) {
         $.ajax({
             method: "post",
-            url: "http://util-api.noonai.kr/api/meterUsage/download",
+            url: "https://util-api.noonai.kr/api/meterUsage/download",
             data: {
                 requestIndex,
                 fileType,
