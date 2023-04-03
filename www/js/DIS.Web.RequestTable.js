@@ -23,7 +23,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/progress/encrypt",
+            url: "https://util-api.noonai.kr/api/progress/encrypt",
             xhrFields: {
                 withCredentials: true
             },
@@ -53,7 +53,7 @@ requestTable = {
         
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/progress/decrypt",
+            url: "https://util-api.noonai.kr/api/progress/decrypt",
             xhrFields: {
                 withCredentials: true
             },
@@ -79,7 +79,7 @@ requestTable = {
         }
         $.ajax({
             method: "get",
-            url: "http://util-api.noonai.kr/api/progress/thumbnail",
+            url: "https://util-api.noonai.kr/api/progress/thumbnail",
             xhrFields: {
                 withCredentials: true
             },
@@ -97,7 +97,7 @@ requestTable = {
     },
 
     getRecentRequest: function (requestType) {
-        var apiUrl = `http://${requestType}-api.noonai.kr/api/request/${requestType}/recent`
+        var apiUrl = `https://${requestType}-api.noonai.kr/api/request/${requestType}/recent`
         let requestList, responseMessage;
 
         $.ajax({
@@ -215,7 +215,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "http://encrypt-api.noonai.kr/api/request/encrypt/all",
+            url: "https://encrypt-api.noonai.kr/api/request/encrypt/all",
             xhrFields: {
                 withCredentials: true
             },
@@ -333,7 +333,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "http://encrypt-api.noonai.kr/api/search/encrypt",
+            url: "https://encrypt-api.noonai.kr/api/search/encrypt",
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -441,7 +441,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "http://decrypt-api.noonai.kr/api/request/decrypt/all",
+            url: "https://decrypt-api.noonai.kr/api/request/decrypt/all",
             xhrFields: {
                 withCredentials: true
             },
@@ -525,7 +525,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "post",
-            url: "http://decrypt-api.noonai.kr/api/search/decrypt",
+            url: "https://decrypt-api.noonai.kr/api/search/decrypt",
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -600,7 +600,7 @@ requestTable = {
 
         $.ajax({
             method: "get",
-            url: "http://key-api.noonai.kr/api/key/all",
+            url: "https://key-api.noonai.kr/api/key/all",
             xhrFields: {
                 withCredentials: true
             },
@@ -690,7 +690,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
+            url: "https://key-api.noonai.kr/api/key/memo/" + key_idx,
             xhrFields: {
                 withCredentials: true
             },
@@ -717,7 +717,7 @@ requestTable = {
         var postdata = { key_memo: key_memo }
         $.ajax({
             method: "put",
-            url: "http://key-api.noonai.kr/api/key/memo/" + key_idx,
+            url: "https://key-api.noonai.kr/api/key/memo/" + key_idx,
             xhrFields: {
                 withCredentials: true
             },
@@ -740,7 +740,7 @@ requestTable = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: `http://util-api.noonai.kr/api/usage?searchMonth=${searchMonth}`,
+            url: `https://util-api.noonai.kr/api/usage?searchMonth=${searchMonth}`,
             xhrFields: {
                 withCredentials: true
             },
@@ -1075,7 +1075,7 @@ requestTable = {
         if(type=="encrypt_request") logType = 'encrypt'
         else if(type=="decrypt_request") logType = 'decrypt'
         else if(type=="download_request") logType = 'download'
-        var apiUrl = `http://util-api.noonai.kr/api/usage/${logType}?date=${date}`
+        var apiUrl = `https://util-api.noonai.kr/api/usage/${logType}?date=${date}`
         var requestList = ''
         $.ajax({
             method: "get",
