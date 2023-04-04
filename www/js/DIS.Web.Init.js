@@ -229,7 +229,7 @@ init = {
         var fileSize = []
         var videoDuration = []
 
-        var uploadID = makeid(6);
+        var uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
             if(uploadID == msg.id) {
@@ -389,6 +389,7 @@ init = {
                 });
             }
             else {
+                uploadID = makeid(6);
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
@@ -396,13 +397,11 @@ init = {
                     callback.then((data) => {
                         postData = data[0]
                         filePath = data[2][0]
-                        setTimeout(function() {
-                            socket.emit('delUploadedFile', {
-                                filePath: filePath,
-                                id: uploadID,
-                                immediate: 'false'
-                            })
-                        }, 1000)
+                        socket.emit('delUploadedFile', {
+                            filePath: filePath,
+                            id: uploadID,
+                            immediate: 'false'
+                        })
                     })
                 }, 1000)
             }
@@ -653,7 +652,7 @@ init = {
         var fileSize = []
         var videoDuration = []
 
-        var uploadID = makeid(6);
+        var uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
             if(uploadID == msg.id) {
@@ -821,23 +820,21 @@ init = {
                 });
             }
             else {
+                uploadID = makeid(6);
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
 
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
                 setTimeout(function() {
                     callback.then((data) => {
-                        console.log(data);
                         postData = data[0]
                         bitrateArray = data[1]
                         filePath = data[2][0]
-                        setTimeout(function() {
-                            socket.emit('delUploadedFile', {
-                                filePath: filePath,
-                                id: uploadID,
-                                immediate: 'false'
-                            })
-                        }, 1000)
+                        socket.emit('delUploadedFile', {
+                            filePath: filePath,
+                            id: uploadID,
+                            immediate: 'false'
+                        })
                     })
                 }, 1000)
             }
@@ -1211,7 +1208,7 @@ init = {
         var idx = urlParams.get('id');
         var encryptIdx = urlParams.get('enc_id');
         var thumb = fileModule.thumbnailList(idx, type, mode)
-        var uploadID = makeid(6);
+        var uploadID = 0;
 
         $(".inspec_body").html(thumb[0]);
         // 크롭이미지 알맞는 열에 해당하기 위한 코드
@@ -1395,6 +1392,7 @@ init = {
             let decRequestId = decryptAjaxResponse.dec_request_list_id;
             let fileList = decryptAjaxResponse.fileList;
             if(decryptAjaxResponse) {
+                uploadID = makeid(6);
                 fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo, thumb[1]);
                 
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
