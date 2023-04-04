@@ -393,17 +393,15 @@ init = {
                 $(".nextBtn").addClass('hide')
                 $(".progressContainer").removeClass('hide')
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
-                setTimeout(function() {
-                    callback.then((data) => {
-                        postData = data[0]
-                        filePath = data[2][0]
-                        socket.emit('delUploadedFile', {
-                            filePath: filePath,
-                            id: uploadID,
-                            immediate: 'false'
-                        })
+                callback.then((data) => {
+                    postData = data[0]
+                    filePath = data[2][0]
+                    socket.emit('delUploadedFile', {
+                        filePath: filePath,
+                        id: uploadID,
+                        immediate: 'false'
                     })
-                }, 1000)
+                })
             }
         });
 
@@ -825,18 +823,16 @@ init = {
                 $(".progressContainer").removeClass('hide')
 
                 var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'video');
-                setTimeout(function() {
-                    callback.then((data) => {
-                        postData = data[0]
-                        bitrateArray = data[1]
-                        filePath = data[2][0]
-                        socket.emit('delUploadedFile', {
-                            filePath: filePath,
-                            id: uploadID,
-                            immediate: 'false'
-                        })
+                callback.then((data) => {
+                    postData = data[0]
+                    bitrateArray = data[1]
+                    filePath = data[2][0]
+                    socket.emit('delUploadedFile', {
+                        filePath: filePath,
+                        id: uploadID,
+                        immediate: 'false'
                     })
-                }, 1000)
+                })
             }
         });
 
