@@ -16,7 +16,10 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/info",
+            url: "https://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -73,7 +76,10 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/info",
+            url: "https://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -114,7 +120,10 @@ userinfo = {
         var requestList = ''
         $.ajax({
             method: "get",
-            url: "/user-info-module/api/user/alias",
+            url: "https://user-info-api.noonai.kr/api/user/alias",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 requestList = data.result;
@@ -133,7 +142,10 @@ userinfo = {
         var postdata = {name:name, email:email, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig, origin_name: origin_name, origin_email: origin_email, email_config: email_config};
         $.ajax({
             method: "put",
-            url: "/user-info-module/api/user/info",
+            url: "https://user-info-api.noonai.kr/api/user/info",
+            xhrFields: {
+                withCredentials: true
+            },
             data: postdata,
             async: false,
             success: function (data) {
@@ -270,7 +282,10 @@ userinfo = {
         let result = '';
         $.ajax({
             method: "post",
-            url: "/user-info-module/api/user/email-send",
+            url: "https://user-info-api.noonai.kr/api/user/email-send",
+            xhrFields: {
+                withCredentials: true
+            },
             data: {
                 email
             },

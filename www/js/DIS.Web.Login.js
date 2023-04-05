@@ -19,8 +19,11 @@ login = {
         var postdata = { account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/util-module/api/login",
+            url: "https://util-api.noonai.kr/api/login",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = "/main";
             },
@@ -41,8 +44,11 @@ login = {
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/first-login",
+            url: "https://util-api.noonai.kr/api/first-login",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 $(".auth_id").val($("#name").val());
@@ -66,9 +72,12 @@ login = {
         var result = false;
         $.ajax({
             method: "post",
-            url: "/util-module/api/user/check",
+            url: "https://util-api.noonai.kr/api/user/check",
             data: {
                 cur_password: password
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -92,10 +101,13 @@ login = {
         let subEmail = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/getSubEmail",
+            url: "https://util-api.noonai.kr/api/getSubEmail",
             data : {
                 account_name: account_name,
                 tenant_id: tenant_id
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -112,8 +124,11 @@ login = {
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "/util-module/api/subLogin",
+            url: "https://util-api.noonai.kr/api/subLogin",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = "/main";
             },
@@ -134,8 +149,11 @@ login = {
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "/util-module/api/first-login-sub",
+            url: "https://util-api.noonai.kr/api/first-login-sub",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 let subEmail = login.getSubEmail(account_name, data.tenant);
@@ -182,7 +200,10 @@ login = {
         var html;
         $.ajax({
             method: "get",
-            url: "/util-module/api/token/verify/"+accountName+"/"+token,
+            url: "https://util-api.noonai.kr/api/token/verify/"+accountName+"/"+token,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == 'success' && data.result == 'valid') html = validHtml;
@@ -199,9 +220,12 @@ login = {
         let result ='';
         $.ajax({
             method: "post",
-            url: "/util-module/api/secondary-email-send",
+            url: "https://util-api.noonai.kr/api/secondary-email-send",
             data: {
                 email
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -229,9 +253,12 @@ login = {
     authenticationVerify: function () {
         $.ajax({
             method: "post",
-            url: "/util-module/api/authentication-verify",
+            url: "https://util-api.noonai.kr/api/authentication-verify",
             data: {
                 email_verify: true
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -245,7 +272,7 @@ login = {
     forgetPassword: function (accountName) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/forget-password",
+            url: "https://util-api.noonai.kr/api/forget-password",
             data: {
                 accountName
             },
@@ -283,10 +310,13 @@ login = {
     resetPassword: function (accountName, password) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/reset-password",
+            url: "https://util-api.noonai.kr/api/reset-password",
             data: {
                 accountName,
                 password
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: function (data) {
                 if(data.message == 'success') {
@@ -310,7 +340,10 @@ login = {
     sessionCheck: function() {
         $.ajax({
             method: "get",
-            url: "/util-module/api/session-check",
+            url: "https://util-api.noonai.kr/api/session-check",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.message == "success"){

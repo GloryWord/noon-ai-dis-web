@@ -236,7 +236,10 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/util-module/api/user",
+            url: "https://util-api.noonai.kr/api/user",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data;
@@ -254,7 +257,10 @@ comm = {
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "/key-module/api/key",
+            url: "https://key-api.noonai.kr/api/key",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 result = data
@@ -276,7 +282,10 @@ comm = {
         var result = ''
         $.ajax({
             method: "get",
-            url: "/util-module/api/user/auth",
+            url: "https://util-api.noonai.kr/api/user/auth",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 if(data.statusCode == 200) result = data.userAuth;
@@ -328,11 +337,14 @@ comm = {
     generateKey: function (genKeyName, keyMemo) {
         $.ajax({
             method: "post",
-            url: "/key-module/api/key",
+            url: "https://key-api.noonai.kr/api/key",
             data: { 
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
              },
+             xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 if(data.message == 'success') {
                     new Promise((resolve, reject) => {
@@ -373,7 +385,10 @@ comm = {
     logout: function () {
         $.ajax({
             method: "get",
-            url: "/util-module/api/logout",
+            url: "https://util-api.noonai.kr/api/logout",
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 location.href = '/';
             }, // success 
@@ -387,8 +402,11 @@ comm = {
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "/util-module/api/user/check",
+            url: "https://util-api.noonai.kr/api/user/check",
             data: postdata,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 location.href = "/myinfo" + "?auth=1";
@@ -411,7 +429,10 @@ comm = {
         var auth = ''
         $.ajax({
             method: "get",
-            url: "/util-module/api/get-auth",
+            url: "https://util-api.noonai.kr/api/get-auth",
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (data) {
                 auth = data.auth
@@ -429,13 +450,16 @@ comm = {
         var strFileHeight = JSON.stringify(fileHeight)
         $.ajax({
             method: "post",
-            url: "/encrypt-module/api/meterUsage/encrypt",
+            url: "https://encrypt-api.noonai.kr/api/meterUsage/encrypt",
             data: {
                 fileNameList,
                 strFileWidth,
                 strFileHeight,
                 requestIndex,
                 restoration
+            },
+            xhrFields: {
+                withCredentials: true
             },
             async: false,
             success: function (data) {
@@ -452,11 +476,14 @@ comm = {
     meterDecrypt: function (requestIndex, fileNameList, fileType) {
         $.ajax({
             method: "post",
-            url: "/decrypt-module/api/meterUsage/decrypt",
+            url: "https://decrypt-api.noonai.kr/api/meterUsage/decrypt",
             data: {
                 requestIndex,
                 fileNameList,
                 fileType,
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: function (data) {
                 if(data.message == "success"){
@@ -472,12 +499,15 @@ comm = {
     meterDownload: function (requestIndex, fileType, fileName, fileSize) {
         $.ajax({
             method: "post",
-            url: "/util-module/api/meterUsage/download",
+            url: "https://util-api.noonai.kr/api/meterUsage/download",
             data: {
                 requestIndex,
                 fileType,
                 fileName,
                 fileSize
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: function (data) {
                 if(data.message == "success"){
