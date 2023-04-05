@@ -288,8 +288,14 @@ subaccount = {
             }
         })
 
-        resultStr += "<p>접속 키</p>\
-        <input class='accessKey' value='"+result+"'>"
+        if(result==null){
+            resultStr += "<p>접속 키</p>\
+            <input class='accessKey' placeholder='접속 키를 설정해주세요.'>"
+        }
+        else{
+            resultStr += "<p>접속 키</p>\
+            <input class='accessKey' value='"+result+"'>"
+        }
         
         return resultStr
     },
