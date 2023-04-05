@@ -1860,8 +1860,20 @@ init = {
             $("#memoModi").addClass('active')
 
             $(document).on("click", ".memosave", function () {
+                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
                 var key_memo = $(".keymemo_modi").val()
-                requestTable.updateKeyMemo(key_idx, key_memo)
+                if( regExp.test(key_memo) ){
+                    Swal.fire({
+                        title: 'Key 메모는 특수 문자 사용이 불가능해요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else{
+                    requestTable.updateKeyMemo(key_idx, key_memo)
+                }
             });
         });
 
@@ -1893,12 +1905,22 @@ init = {
             else {
                 var genKeyName = $("#genKeyName").val();
                 var keyMemo = $("#keyMemo").val();
+                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
                 var check_num = /[0-9]/;    // 숫자 
                 // var check_big = /[A-Z]/;    // 대문자
                 var check_small = /[a-z]/;    // 소문자
                 if(genKeyName.length<8 || genKeyName.length>20){
                     Swal.fire({
                         title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else if(regExp.test(keyMemo)){
+                    Swal.fire({
+                        title: 'Key 메모는 특수 문자 사용이 불가능해요.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",
@@ -1933,8 +1955,20 @@ init = {
         });
 
         $(document).on("click", ".keyConfig", function () {
+            var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
             var accessKey = $(".accessKey").val();
-            subaccount.putAccessKey(accessKey)
+            if(regExp.test(accessKey)){
+                Swal.fire({
+                    title: '접속 키는 특수 문자 사용이 불가능해요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else{
+                subaccount.putAccessKey(accessKey)
+            }
         });
 
         $(document).on("click", ".pass_modi", function () {
