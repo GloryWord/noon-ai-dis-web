@@ -293,13 +293,15 @@ comm = {
         await Swal.fire({
             title: '2차 인증',
             input: 'password',
-            text: '정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다',
+            text: `정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다`,
             inputPlaceholder: '비밀번호를 입력해 주세요',
             inputAttributes: {
                 maxlength: 16,
                 autocapitalize: 'off',
-                autocorrect: 'off'
+                autocorrect: 'off',
             },
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
             showCancelButton: true,
         }).then((result) => {
             const password = result.value;
