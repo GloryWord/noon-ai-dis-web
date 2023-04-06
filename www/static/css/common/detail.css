@@ -415,6 +415,7 @@
     width: 288px;
     height: 180px;
     background-color: rgba(63, 169, 245, 0.8);
+    cursor: pointer;
     z-index: 5;
 }
 
