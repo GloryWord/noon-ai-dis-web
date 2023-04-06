@@ -2563,13 +2563,23 @@ init = {
                         $("input:checkbox[class=allselect]").prop("checked", false);
                     }
                 });
-
+                
                 $(document).on("mouseover", ".albumImg", function () {
                     var num = $(this).data('num')
                     $("." + num + "").removeClass("hide")
                 });
 
+                $(document).on("mouseover", ".hoverdiv", function () {
+                    var num = $(this).data('num')
+                    $("." + num + "").removeClass("hide")
+                });
+
                 $(document).on("mouseleave", ".albumImg", function () {
+                    var num = $(this).data('num')
+                    $("." + num + "").addClass("hide")
+                });
+
+                $(document).on("mouseleave", ".hoverdiv", function () {
                     var num = $(this).data('num')
                     $("." + num + "").addClass("hide")
                 });
