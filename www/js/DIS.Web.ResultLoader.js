@@ -156,6 +156,8 @@ resultLoader = {
             muted : true,
             preload : "metadata",
             preload : "none",
+            fluid: true,
+            fill: true
         });
     },
 
