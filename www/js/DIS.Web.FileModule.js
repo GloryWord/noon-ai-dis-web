@@ -1041,7 +1041,7 @@ fileModule = {
                     }
                     resultStr += `<div class='object_list bodyContent'>
                                     <div class='textArea'>
-                                        <h1>전신</h1>
+                                        <h1>사람-전신</h1>
                                         <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
                                             <input class='body_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
@@ -1096,7 +1096,7 @@ fileModule = {
                     });
                     resultStr += `<div class='object_list headContent'>
                                     <div class='textArea'>
-                                        <h1>머리</h1>
+                                        <h1>사람-얼굴</h1>
                                         <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
                                                 <input class='head_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
@@ -1147,7 +1147,7 @@ fileModule = {
                     }
                     resultStr += `<div class='object_list lpContent'>
                                     <div class='textArea'>
-                                        <h1>자동차 번호판</h1>
+                                        <h1>차량 번호판</h1>
                                         <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][folder_num]}'>0</span>장</p>
                                         <div class='allArea'>
                                             <input class='lp_allselect ${result[1][folder_num]}' type='checkbox' value=${result[1][folder_num]}><label class='allselect'>전체 선택</label>
@@ -1220,7 +1220,7 @@ fileModule = {
                         }
                         resultStr += `<div class='object_list bodyContent'>
                                         <div class='textArea'>
-                                            <h1>전신</h1>
+                                            <h1>사람-전신</h1>
                                             <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${(l)}'>0</span>장</p>
                                             <div class='allArea'>
                                                 <input class='body_allselect ${(l)}' type='checkbox' value=${(l)}><label class='allselect'>전체 선택</label>
@@ -1262,7 +1262,7 @@ fileModule = {
                         });
                         resultStr += `<div class='object_list headContent'>
                                         <div class='textArea'>
-                                            <h1>머리</h1>
+                                            <h1>사람-얼굴</h1>
                                             <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${(l)}'>0</span>장</p>
                                             <div class='allArea'>
                                                 <input class='head_allselect ${(l)}' type='checkbox' value=${(l)}}><label class='allselect'>전체 선택</label>
@@ -1301,7 +1301,7 @@ fileModule = {
                         }
                         resultStr += `<div class='object_list lpContent'>
                                         <div class='textArea'>
-                                            <h1>자동차 번호판</h1>
+                                            <h1>차량 번호판</h1>
                                             <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${(l)}'>0</span>장</p>
                                             <div class='allArea'>
                                             <input class='lp_allselect ${(l)}' type='checkbox' value=${l}><label class='allselect'>전체 선택</label>
@@ -1357,7 +1357,7 @@ fileModule = {
                 }
                 resultStr += `<div class='object_list bodyContent'>
                                 <div class='textArea'>
-                                    <h1>전신</h1>
+                                    <h1>사람-전신</h1>
                                     <p>전체 ${bodylen.length}장 / 선택 <span class='selectText body ${result[1][0]}'>0</span>장</p>
                                     <div class='allArea'>
                                         <input class='body_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
@@ -1412,7 +1412,7 @@ fileModule = {
                 });
                 resultStr += `<div class='object_list headContent'>
                                 <div class='textArea'>
-                                    <h1>머리</h1>
+                                    <h1>사람-얼굴</h1>
                                     <p>전체 ${headlen.length}장 / 선택 <span class='selectText head ${result[1][0]}'>0</span>장</p>
                                     <div class='allArea'>
                                         <input class='head_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
@@ -1464,7 +1464,7 @@ fileModule = {
                 }
                 resultStr += `<div class='object_list lpContent'>
                                 <div class='textArea'>
-                                    <h1>자동차 번호판</h1>
+                                    <h1>차량 번호판</h1>
                                     <p>전체 ${lplen.length}장 / 선택 <span class='selectText lp ${result[1][0]}'>0</span>장</p>
                                     <div class='allArea'>
                                         <input class='lp_allselect ${result[1][0]}' type='checkbox' value=${result[1][0]}><label class='allselect'>전체 선택</label>
