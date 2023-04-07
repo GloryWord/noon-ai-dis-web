@@ -210,7 +210,7 @@ login = {
                 else if(data.message == 'success' && data.result == 'invalid') html = invalidHtml;
             },
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
         return html;
@@ -243,7 +243,7 @@ login = {
                 }
             },
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 
@@ -264,7 +264,7 @@ login = {
             success: function (data) {
             },
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
     },
@@ -302,7 +302,7 @@ login = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
     },
@@ -332,7 +332,7 @@ login = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
     },
