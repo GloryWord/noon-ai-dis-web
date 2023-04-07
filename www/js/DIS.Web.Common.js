@@ -245,7 +245,8 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                alert(xhr + " : " + status);
+                location.href = '/error'
+                // alert(xhr + " : " + status);
             }
         });
         resultStr = "<p>"+result.user_name+'님</p>'
@@ -291,7 +292,7 @@ comm = {
                 if(data.statusCode == 200) result = data.userAuth;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -377,7 +378,7 @@ comm = {
                 }
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + JSON.stringify(status));
             }
         });
     },
@@ -438,7 +439,7 @@ comm = {
                 auth = data.auth
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
         return auth
@@ -468,7 +469,7 @@ comm = {
                 }
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
     },
@@ -491,7 +492,7 @@ comm = {
                 }
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
     },
@@ -515,7 +516,7 @@ comm = {
                 }
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
     }

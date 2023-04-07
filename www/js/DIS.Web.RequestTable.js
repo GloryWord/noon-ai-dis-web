@@ -89,7 +89,7 @@ requestTable = {
                 result['complete'] = data.progress['complete'];
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -699,7 +699,7 @@ requestTable = {
                 requestList = data;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -729,7 +729,7 @@ requestTable = {
                 })
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -750,7 +750,7 @@ requestTable = {
                 requestList = data['results'];
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
@@ -1088,7 +1088,7 @@ requestTable = {
                 requestList = data.results;
             },
             error: function (xhr, status) {
-                alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
