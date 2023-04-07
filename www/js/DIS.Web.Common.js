@@ -245,7 +245,8 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                alert(xhr + " : " + status);
+                location.href = '/error'
+                // alert(xhr + " : " + status);
             }
         });
         resultStr = "<p>"+result.user_name+'님</p>'
