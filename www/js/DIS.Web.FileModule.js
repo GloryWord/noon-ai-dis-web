@@ -697,7 +697,7 @@ fileModule = {
                 },
                 error: function (xhr, status) {
                     // alert(xhr + " : " + status);
-                    alert(JSON.stringify(xhr));
+                    // alert(JSON.stringify(xhr));
                 }
             });
         })
@@ -743,7 +743,7 @@ fileModule = {
                 },
                 error: function (xhr, status) {
                     // alert(xhr + " : " + status);
-                    alert(JSON.stringify(xhr));
+                    // alert(JSON.stringify(xhr));
                 }
             });
             postData['bitrate'] = JSON.stringify(bitrateArray);
@@ -763,7 +763,7 @@ fileModule = {
                 },
                 error: function (xhr, status) {
                     // alert(xhr + " : " + status);
-                    alert(JSON.stringify(xhr));
+                    // alert(JSON.stringify(xhr));
                 }
             });
             new Promise((resolve, reject) => {
@@ -826,7 +826,7 @@ fileModule = {
                     },
                     error: function (xhr, status) {
                         // alert(xhr + " : " + status);
-                        alert(JSON.stringify(xhr));
+                        // alert(JSON.stringify(xhr));
                     }
                 }).done(() => {
                     $.ajax({
@@ -992,7 +992,7 @@ fileModule = {
                 console.log(result)
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
             }
         })
 
@@ -1532,7 +1532,7 @@ fileModule = {
             },
             error: function (xhr, status) {
                 // alert(xhr + " : " + status);
-                alert(JSON.stringify(xhr));
+                // alert(JSON.stringify(xhr));
             }
         })
         return result;
@@ -1559,7 +1559,7 @@ fileModule = {
             },
             error: function (xhr, status) {
                 // alert(xhr + " : " + status);
-                alert(JSON.stringify(xhr));
+                // alert(JSON.stringify(xhr));
             }
         });
 
@@ -1583,7 +1583,7 @@ fileModule = {
             },
             error: function (xhr, status) {
                 // alert(xhr + " : " + status);
-                alert(JSON.stringify(xhr));
+                // alert(JSON.stringify(xhr));
             }
         });
     }

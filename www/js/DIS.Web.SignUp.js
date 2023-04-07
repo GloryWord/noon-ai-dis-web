@@ -39,7 +39,7 @@ signup = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
     },
@@ -63,7 +63,7 @@ signup = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 
@@ -90,7 +90,7 @@ signup = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
 

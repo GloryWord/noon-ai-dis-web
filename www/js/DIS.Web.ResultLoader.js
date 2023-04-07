@@ -28,7 +28,7 @@ resultLoader = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
             }
         })
 
@@ -68,7 +68,7 @@ resultLoader = {
                 }
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
             }
         })
 
@@ -107,7 +107,7 @@ resultLoader = {
                     // else alert(JSON.stringify(data));
                 }, // success 
                 error: function (xhr, status) {
-                    alert("error : " + xhr + " : " + JSON.stringify(status));
+                    // alert("error : " + xhr + " : " + JSON.stringify(status));
                 }
             })
         }
@@ -299,7 +299,7 @@ resultLoader = {
                 // else alert(JSON.stringify(data));
             }, // success 
             error: function (xhr, status) {
-                alert("error : " + xhr + " : " + JSON.stringify(status));
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
             }
         })
     },
