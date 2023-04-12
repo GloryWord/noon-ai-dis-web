@@ -216,7 +216,7 @@
 .inspecArea .inspec_content .inspec_body .recoArea .encVideoArea .video-js {
     width: 916px;
     /* height: auto; */
-    margin: 24px auto;
+    margin: 24px auto 48px;
     display: flex;
     flex-direction: column;
 }
