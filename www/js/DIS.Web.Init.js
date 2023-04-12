@@ -2444,7 +2444,7 @@ init = {
                     let verify_result = fileModule.verifyKey(file_name, key_name);
                     let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
                     console.log('restorationReq : ' + JSON.stringify(restorationReq));
-                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode, eventIndex);
                 }
                 else {
                     console.log('file_name : ' + file_name);
