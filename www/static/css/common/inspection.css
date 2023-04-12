@@ -205,6 +205,22 @@
     cursor: pointer;
 }
 
+.inspecArea .inspec_content .inspec_body .recoArea .encVideoArea {
+    width: 916px;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+}
+
+.inspecArea .inspec_content .inspec_body .recoArea .encVideoArea .video-js {
+    width: 916px;
+    /* height: auto; */
+    margin: 24px auto;
+    display: flex;
+    flex-direction: column;
+}
+
 .inspecArea .inspec_content .inspec_body .recoArea input[type="checkbox"] {
     width: 14px;
     height: 14px;

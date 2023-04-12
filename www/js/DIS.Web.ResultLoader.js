@@ -148,6 +148,22 @@ resultLoader = {
     getVideoDetailHtml: function (urlList, objectName) {
         var player = videojs("myPlayer", {
             sources : [
+                { src : urlList[1][0], type : "video/mp4"}
+            ],
+            // poster : "test-poster.png",
+            controls : true,
+            playsinline : true,
+            muted : true,
+            preload : "metadata",
+            preload : "none",
+            fluid: true,
+            fill: true
+        });
+    },
+
+    getVideoInspectionHtml: function (urlList, objectName) {
+        var player = videojs("myPlayer", {
+            sources : [
                 { src : urlList[0][0], type : "video/mp4"}
             ],
             // poster : "test-poster.png",
