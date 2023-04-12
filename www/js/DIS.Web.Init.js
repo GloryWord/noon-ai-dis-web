@@ -481,6 +481,7 @@ init = {
         if(service == 'thumbnail'){
             var mode = urlParams.get('mode');
             var index = urlParams.get('id');
+            var encid = urlParams.get('encid');
         }
         var eventIndex = urlParams.get('id');
 
@@ -596,7 +597,7 @@ init = {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             if (service == 'encrypt') location.href = '/encrypt/log';
-                            if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}`;
+                            if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}`;
                             if (service == 'decrypt') {
                                 let timerInterval;
                                 var typeStr = (type == 'image') ? '이미지' : '영상';
@@ -1202,15 +1203,19 @@ init = {
         var type = urlParams.get('type');
         var mode = urlParams.get('mode');
         var idx = urlParams.get('id');
-        var encryptIdx = urlParams.get('enc_id');
+        var encryptIdx = urlParams.get('encid');
         var thumb = fileModule.thumbnailList(idx, type, mode)
         var uploadID = 0;
 
         $(".inspec_body").html(thumb[0]);
-        // 크롭이미지 알맞는 열에 해당하기 위한 코드
-        // for(var i=0;i<thumb[4].length;i++){
-        //     column(thumb[2][i], thumb[3][i], thumb[4][i], thumb[5][i])
-        // }
+        if(type=='video'){
+            var encFileInfo = resultLoader.getEncFileInfo(encryptIdx)
+            var encDirectory = encFileInfo.encDirectory
+            var fileList = encFileInfo.fileList;
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            resultLoader.getVideoInspectionHtml(signedUrl, fileList);
+        }
+
         $('.inspec_body').slick({
             dots: false,
             infinite: false,
@@ -2439,7 +2444,7 @@ init = {
                     let verify_result = fileModule.verifyKey(file_name, key_name);
                     let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
                     console.log('restorationReq : ' + JSON.stringify(restorationReq));
-                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode, eventIndex);
                 }
                 else {
                     console.log('file_name : ' + file_name);
