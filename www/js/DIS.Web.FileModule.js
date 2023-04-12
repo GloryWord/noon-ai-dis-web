@@ -941,7 +941,7 @@ fileModule = {
         return result;
     },
 
-    storeThumbnailReqInfo: function (restorationReq, fileType, mode) {
+    storeThumbnailReqInfo: function (restorationReq, fileType, mode, eventIndex) {
         let reqInfo, msgTemplate, thumbRequestId;
         try {
             reqInfo = restorationReq['thumbReqInfo']['reqInfo'];
@@ -964,7 +964,7 @@ fileModule = {
                 async: false,
                 success: function (data) {
                     console.log('last request success');
-                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail';
+                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail&encid='+eventIndex;
                 },
                 error: function (xhr, status) {
                     console.log('encrypt request message send failed');
@@ -1340,7 +1340,10 @@ fileModule = {
                     else if (result[2][i].split("_")[0] == "2") lplen.push(result[2][i])
                 }
             }
-            resultStr += `<div class='recoArea' data-id=0>`
+            resultStr += `<div class='recoArea' data-id=0>
+                            <div class='encVideoArea'>
+                                <video id="myPlayer" class="video-js vjs-default-skin" webkit-playsinline></video>
+                            </div>`
             if (bodylen.length != 0) {
                 let numBody = []
                 let objtype = bodylen[0].split("_")[0]
