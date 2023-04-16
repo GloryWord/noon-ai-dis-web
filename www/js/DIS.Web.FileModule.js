@@ -784,13 +784,13 @@ fileModule = {
     },
 
     uploadKey: function () {
-        let formData = new FormData();
-        let file = document.getElementById('file').files[0];
-        let upload_result;
-        let file_name = (file != undefined) ? file.name : null;
-        let curTime = getTime();
+        return new Promise((resolve, reject) => {
+            let formData = new FormData();
+            let file = document.getElementById('file').files[0];
+            let upload_result, keyPath;
+            let file_name = (file != undefined) ? file.name : null;
+            let curTime = getTime();
 
-        new Promise((resolve, reject) => {
             if (file == undefined) {
                 try {
                     file = document.getElementById('select_file').files[0];
@@ -841,8 +841,8 @@ fileModule = {
                         async: false,
                         success: function (data) {
                             if (data.message == 'success') {
-                                console.log('upload success');
                                 upload_result = file_name;
+                                keyPath = data.filePath;
                             }
                         },
                         error: function (xhr, status) {
@@ -851,10 +851,9 @@ fileModule = {
                         }
                     });
                 })
-                resolve(upload_result)
+                resolve([upload_result, keyPath])
             }
         })
-        return upload_result;
     },
 
     verifyKey: function (file_name, key_name) {

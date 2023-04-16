@@ -1204,8 +1204,29 @@ init = {
         var mode = urlParams.get('mode');
         var idx = urlParams.get('id');
         var encryptIdx = urlParams.get('encid');
-        var thumb = fileModule.thumbnailList(idx, type, mode)
-        var uploadID = 0;
+        let thumb = fileModule.thumbnailList(idx, type, mode)
+        let thumbPath = thumb[1]
+        
+        let uploadID = 0;
+
+        socket.on('delMsgToClient', function (msg) {
+            if(uploadID == msg.id) {
+                Swal.fire({
+                    title: msg.title,
+                    html: msg.html,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) location.href = '/main';
+                })
+            }
+        });
+        
+        socket.emit('delUploadedFile', {
+            filePath: thumbPath,
+            id: uploadID,
+            immediate: 'false'
+        })
 
         $(".inspec_body").html(thumb[0]);
         if(type=='video'){
@@ -2379,6 +2400,8 @@ init = {
         var mode = urlParams.get('mode');
         var selectModalImg = 0;
 
+        let uploadID = 0;
+
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
         var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
@@ -2438,61 +2461,85 @@ init = {
         $(document).on("click", ".recoConfirm", async function () {
             let key_name = $('.file_key')[0].children[1].innerHTML
             if (mode == 'single') {
-                let file_name = await fileModule.uploadKey();
-                if (file_name) {
-                    console.log('file_name : ' + JSON.stringify(file_name));
-                    let verify_result = fileModule.verifyKey(file_name, key_name);
-                    let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                    console.log('restorationReq : ' + JSON.stringify(restorationReq));
-                    fileModule.storeThumbnailReqInfo(restorationReq, type, mode, eventIndex);
-                }
-                else {
-                    console.log('file_name : ' + file_name);
-                    Swal.fire({
-                        title: '키 파일 업로드 실패',
-                        text: '키 파일을 다시 업로드해주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
-            }
-            else if (mode == 'group') {
-                var selected = $(this).data('value');
-                let file_name = fileModule.uploadKey();
-                if (file_name) {
-                    if (selected == 'all') {
+                uploadID = makeid(6);
+                let uploadResult = fileModule.uploadKey();                
+            
+                uploadResult.then((data) => {
+                    let file_name = data[0]
+                    let keyPath = data[1]
+                    socket.emit('delUploadedFile', {
+                        filePath: keyPath,
+                        id: uploadID,
+                        immediate: 'false'
+                    })
+
+                    if (file_name) {
+                        console.log('file_name : ' + JSON.stringify(file_name));
                         let verify_result = fileModule.verifyKey(file_name, key_name);
                         let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                        fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                        console.log('restorationReq : ' + JSON.stringify(restorationReq));
+                        fileModule.storeThumbnailReqInfo(restorationReq, type, mode, eventIndex);
                     }
-                    else if (selected == 'select') {
-                        if (selectedFile.length == 0) Swal.fire({
-                            title: '선택된 파일이 없습니다',
-                            text: '복호화할 파일을 선택해 주세요.',
+                    else {
+                        console.log('file_name : ' + file_name);
+                        Swal.fire({
+                            title: '키 파일 업로드 실패',
+                            text: '키 파일을 다시 업로드해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
                             icon: "error"
                         });
-                        else {
+                    }
+                })
+            }
+            else if (mode == 'group') {
+                var selected = $(this).data('value');
+                uploadID = makeid(6);
+                let uploadResult = await fileModule.uploadKey();
+            
+                uploadResult.then((data) => {
+                    let file_name = data[0]
+                    let keyPath = data[1]
+                    socket.emit('delUploadedFile', {
+                        filePath: keyPath,
+                        id: uploadID,
+                        immediate: 'false'
+                    })
+
+                    if (file_name) {
+                        if (selected == 'all') {
                             let verify_result = fileModule.verifyKey(file_name, key_name);
-                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
+                            let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
                             fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
                         }
+                        else if (selected == 'select') {
+                            if (selectedFile.length == 0) Swal.fire({
+                                title: '선택된 파일이 없습니다',
+                                text: '복호화할 파일을 선택해 주세요.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            });
+                            else {
+                                let verify_result = fileModule.verifyKey(file_name, key_name);
+                                let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
+                                fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                            }
+                        }
                     }
-                }
-                else {
-                    Swal.fire({
-                        title: '키 파일 업로드 실패',
-                        text: '키 파일을 다시 업로드해주세요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
+                    else {
+                        Swal.fire({
+                            title: '키 파일 업로드 실패',
+                            text: '키 파일을 다시 업로드해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                })
             }
         });
 
