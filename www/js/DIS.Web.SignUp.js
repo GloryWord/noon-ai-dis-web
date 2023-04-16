@@ -90,6 +90,7 @@ signup = {
                 }
             }, // success 
             error: function (xhr, status) {
+                result = JSON.parse(xhr.responseJSON.result)
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
