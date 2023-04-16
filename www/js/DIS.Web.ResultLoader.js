@@ -146,9 +146,10 @@ resultLoader = {
     },
 
     getVideoDetailHtml: function (urlList, objectName) {
+        let videoURL = urlList[urlList.length-1][0]
         var player = videojs("myPlayer", {
             sources : [
-                { src : urlList[1][0], type : "video/mp4"}
+                { src :videoURL, type : "video/mp4"}
             ],
             // poster : "test-poster.png",
             controls : true,
