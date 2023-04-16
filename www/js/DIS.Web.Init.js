@@ -2496,7 +2496,7 @@ init = {
             else if (mode == 'group') {
                 var selected = $(this).data('value');
                 uploadID = makeid(6);
-                let uploadResult = await fileModule.uploadKey();
+                let uploadResult = fileModule.uploadKey();
             
                 uploadResult.then((data) => {
                     let file_name = data[0]
