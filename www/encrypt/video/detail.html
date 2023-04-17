@@ -24,6 +24,7 @@
     <script src="../../static/js/sweetalert/sweetalert.js"></script>
     <script src="../../static/js/common/common.js"></script>
     <script src="../../static/js/common/header.js"></script>
+  <script src="../../static/js/common/footer.js"></script>
     <script type="text/javascript">
         // F12 버튼 방지
         $(document).ready(function(){
@@ -125,11 +126,11 @@
       </div>
         <div class="textArea">
             <div class="footer_menu">
-                <label>개인정보처리방침</label>
+                <label class="privacy">개인정보처리방침</label>
                 <p>|</p>
                 <label>서비스이용약관</label>
                 <p>|</p>
-                <label>이메일무단수집거부</label>
+                <label class="emailPrivacy">이메일무단수집거부</label>
             </div>
             <div class="companyInfo">
                 <div class="loc">
@@ -226,5 +227,9 @@
         </div>
     </div>
 </div>
+
+<div id="privacyView" class="modal"></div>
+
+<div id="emailPrivacyView" class="modal"></div>
 
 </html>
