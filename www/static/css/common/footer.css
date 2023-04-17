@@ -240,6 +240,162 @@
     margin: 0;
 }
 
+.layerPopupBox .privacyInner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1080px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px #666;
+    background: #FFFFFF;
+    border: 1px solid #EBEDF2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .privacyInner .privacyHeader {
+    margin: 12px 12px 12px 36px;
+    width: auto;
+    height: 44px;
+    max-height: 702px;
+    display: flex;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel {
+    display: flex;
+    margin: 0 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel:hover {
+    background-color: #3fa9f5;
+    cursor: pointer;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel .privacyCancel_hover {  
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    margin: auto;
+    display: none;
+    cursor: pointer;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel .privacyCancel_nohover {  
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel:hover .privacyCancel_hover {
+    display: block;
+}
+
+.layerPopupBox .privacyInner .privacyHeader .privacyCancel:hover .privacyCancel_nohover {
+    display: none;
+}
+
+.layerPopupBox .privacyInner .privacyContentHeader {
+    display: flex;
+    flex-direction: column;
+    margin: -38px auto 24px;
+    width: 1012px;
+    height: auto;
+}
+
+.layerPopupBox .privacyInner .privacyContentHeader h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 34px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto;
+}
+
+.layerPopupBox .privacyInner .privacyContentHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 24px auto 0;
+    color: #595959;
+}
+
+.layerPopupBox .privacyInner .privacyContent {
+    margin: 0 auto 36px;
+    width: 1012px;
+    height: auto;
+    max-height: 702px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .privacyInner .privacyContent span {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 0 auto 12px 0;
+    color: #595959;
+}
+
+.layerPopupBox .privacyInner .privacyContent p {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 0 0;
+}
+
+.layerPopupBox .privacyInner .privacyContent::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.layerPopupBox .privacyInner .privacyContent::-webkit-scrollbar-track {
+    background-color: #bcc5cb;
+}
+
+.layerPopupBox .privacyInner .privacyContent::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #707070;
+}
+
+.layerPopupBox .privacyInner .privacyContent::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
 @media(max-width:600px){
     .footer {
         width: 100%;
