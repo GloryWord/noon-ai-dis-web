@@ -117,6 +117,11 @@
     color: #fff;
 }
 
+.footer .textArea .footer_menu .privacy,
+.footer .textArea .footer_menu .emailPrivacy {  
+    cursor: pointer;
+}
+
 .footer .textArea .footer_menu p {  
     margin: 0 12px;
     font-family: SpoqaHanSansNeo-Thin;
