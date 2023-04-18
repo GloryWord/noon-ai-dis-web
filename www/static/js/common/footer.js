@@ -260,8 +260,8 @@ $(document).on("click", ".servicePrivacy", function () {
     <div id="privacy_inner" class="privacyInner">
       <div class="privacyHeader">
         <div class="privacyCancel">
-          <img class="privacyCancel_nohover" src="./static/imgs/common/cancel_icon.png">
-          <img class="privacyCancel_hover" src="./static/imgs/common/cancel_hover_icon.png">
+          <img class="privacyCancel_nohover" src="${imgPath}static/imgs/common/cancel_icon.png">
+          <img class="privacyCancel_hover" src="${imgPath}static/imgs/common/cancel_hover_icon.png">
         </div>
       </div>
       <div class="privacyContentHeader">
