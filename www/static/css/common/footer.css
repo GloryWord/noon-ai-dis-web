@@ -118,6 +118,7 @@
 }
 
 .footer .textArea .footer_menu .privacy,
+.footer .textArea .footer_menu .servicePrivacy,
 .footer .textArea .footer_menu .emailPrivacy {  
     cursor: pointer;
 }
@@ -335,7 +336,7 @@
 
 .layerPopupBox .privacyInner .privacyContentHeader p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -356,9 +357,22 @@
     flex-direction: column;
 }
 
+.layerPopupBox .privacyInner .privacyContent h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 0 auto 12px 0;
+    color: #595959;
+}
+
 .layerPopupBox .privacyInner .privacyContent span {
     font-family: SpoqaHanSansNeo-Medium;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
