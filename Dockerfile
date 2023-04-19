@@ -4,6 +4,14 @@ FROM nginx:1.23.1-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY www /usr/share/nginx/html/
 
+ENV LANG=ko_KR.UTF-8 \
+    LANGUAGE=ko_KR.UTF-8
+
+# Set the timezone in docker
+RUN apk --no-cache add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
+    echo "Asia/Seoul" > /etc/timezone
+
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"];
