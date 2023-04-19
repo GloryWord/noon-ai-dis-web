@@ -215,7 +215,7 @@ a {
 .loginArea .loginContent .loginFooter {
     width: 294px;
     height: auto;
-    margin: 0 auto 45px;
+    margin: 0 auto 18px;
     display: flex;
 }
 
@@ -255,6 +255,27 @@ a {
     text-align: left;
     color: #212121;
     margin: auto 0;
+}
+
+.loginArea .loginContent .loginPrivacy {
+    width: 294px;
+    display: flex;
+    margin: 0 auto 45px;
+    justify-content: space-between;
+}
+
+.loginArea .loginContent .loginPrivacy label {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto 0;
+    cursor: pointer;
 }
 
 .swal2-popup {
@@ -588,8 +609,19 @@ a {
     .loginArea .loginContent .loginFooter {
         width: 268px;
         height: auto;
-        margin: 0 auto 28px;
+        margin: 0 auto 12px;
         display: flex;
+    }
+    
+    .loginArea .loginContent .loginPrivacy {
+        width: 242px;
+        display: flex;
+        margin: 0 auto 28px;
+        justify-content: space-between;
+    }
+
+    .loginArea .loginContent .loginPrivacy label {
+        font-size: 10px;
     }
 
     .swal2-popup {

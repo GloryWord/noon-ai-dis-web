@@ -7,8 +7,8 @@
 
     <!-- <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" /> -->
     <link rel="stylesheet" href="./static/css/common/login.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
-    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" /> -->
+    <!-- <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" /> -->
+    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" /> 
 
     <script type="text/javascript" src="./js/jquery.js"></script>
@@ -17,6 +17,7 @@
     <script type="text/javascript" src="./js/DIS.Web.Login.js"></script>
     <script src="./static/js/socket.io/socket.io.min.js"></script>
     <script src="./static/js/sweetalert/sweetalert.js"></script>
+    <script src="./static/js/common/footer.js"></script>
 </head>
 
 <body>
@@ -41,6 +42,11 @@
             </div>
             <div class="loginFooter">
                 <h3>로그인페이지 접속키, 서브 계정 아이디/비밀번호를 잊으신 경우, 귀사의 관리자 계정 담당자에게 문의해 주십시오.</h3>
+            </div>
+            <div class="loginPrivacy">
+                <label class="privacy">개인정보처리방침</label>
+                <label class="servicePrivacy">서비스이용약관</label>
+                <label class="emailPrivacy">이메일무단수집거부</label>
             </div>
         </div>
     </div>
@@ -81,6 +87,12 @@
         </div>
     </div>
 </div>
+
+<div id="privacyView" class="modal"></div>
+
+<div id="servicePrivacyView" class="modal"></div>
+
+<div id="emailPrivacyView" class="modal"></div>
 
 <script>
     $("body").keypress(function (e) {
