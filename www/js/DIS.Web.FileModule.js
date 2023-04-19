@@ -1391,7 +1391,7 @@ fileModule = {
                                         <input class='check_body ${result[1][0]} body${bodylen[i].split("_")[1].split(".")[0]}' type='checkbox' value=${bodylen[i].split("_")[1].split(".")[0]}>
                                     </div>`
                 }
-                resultStr += `<div class="btn-wrap head ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
+                resultStr += `<div class="btn-wrap body ${result[1][0]}"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="../static/imgs/main/plus_icon.png"></a></div>
                             </div>
                         </div>`
             }
