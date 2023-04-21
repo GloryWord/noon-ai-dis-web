@@ -21,9 +21,12 @@ requestTable = {
 
         let responseMessage;
 
+        let baseUrl = '/api/progress/encrypt'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/progress/encrypt",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -50,10 +53,13 @@ requestTable = {
         }
 
         let responseMessage;
+
+        let baseUrl = '/api/progress/decrypt'
+        let apiUrl = apiUrlConverter('util', baseUrl)
         
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/progress/decrypt",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -77,9 +83,13 @@ requestTable = {
             'type': '',
             'status': ''
         }
+
+        let baseUrl = '/api/progress/thumbnail'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/progress/thumbnail",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -97,7 +107,9 @@ requestTable = {
     },
 
     getRecentRequest: function (requestType) {
-        var apiUrl = `https://${requestType}-api.noonai.kr/api/request/${requestType}/recent`
+        let baseUrl = `/api/request/${requestType}/recent`
+        let apiUrl = apiUrlConverter(requestType, baseUrl)
+        
         let requestList, responseMessage;
 
         $.ajax({
@@ -213,9 +225,12 @@ requestTable = {
     getAllEncRequestList: function (mode) {
         var requestList = ''
 
+        let baseUrl = '/api/request/encrypt/all'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://encrypt-api.noonai.kr/api/request/encrypt/all",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -331,9 +346,13 @@ requestTable = {
     postDataSearch: function (filter_video, filter_image, filter_album, filter_reco, filter_norest, filter_file, filter_rest, startDate, endDate) {
         var postdata = { filter_video:filter_video, filter_image:filter_image, filter_album:filter_album, filter_reco: filter_reco, filter_norest:filter_norest, filter_file: filter_file, filter_rest:filter_rest, startDate: startDate, endDate: endDate }
         var requestList = ''
+
+        let baseUrl = '/api/search/encrypt'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://encrypt-api.noonai.kr/api/search/encrypt",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -439,9 +458,12 @@ requestTable = {
     getAllDecRequestList: function () {
         var requestList = ''
 
+        let baseUrl = '/api/request/decrypt/all'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://decrypt-api.noonai.kr/api/request/decrypt/all",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -523,9 +545,13 @@ requestTable = {
     postDataDecSearch: function (filter_video, filter_image, filter_album, filter_file, startDate, endDate) {
         var postdata = { filter_video:filter_video, filter_image:filter_image, filter_album:filter_album, filter_file: filter_file, startDate: startDate, endDate: endDate }
         var requestList = ''
+
+        let baseUrl = '/api/search/decrypt'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/search/decrypt",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -598,9 +624,12 @@ requestTable = {
     getAllKeyList: function () {
         var requestList = ''
 
+        let baseUrl = '/api/key/all'
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://key-api.noonai.kr/api/key/all",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -688,9 +717,13 @@ requestTable = {
 
     getKeyMemo: function (key_idx) {
         var requestList = ''
+
+        let baseUrl = `/api/key/memo/${key_idx}`
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://key-api.noonai.kr/api/key/memo/" + key_idx,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -715,9 +748,13 @@ requestTable = {
 
     updateKeyMemo: function (key_idx, key_memo) {
         var postdata = { key_memo: key_memo }
+
+        let baseUrl = `/api/key/memo/${key_idx}`
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         $.ajax({
             method: "put",
-            url: "https://key-api.noonai.kr/api/key/memo/" + key_idx,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -738,9 +775,13 @@ requestTable = {
 
     getMonthUsage: function (searchMonth) {
         var requestList = ''
+
+        let baseUrl = `/api/usage?searchMonth=${searchMonth}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "get",
-            url: `https://util-api.noonai.kr/api/usage?searchMonth=${searchMonth}`,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -1075,7 +1116,10 @@ requestTable = {
         if(type=="encrypt_request") logType = 'encrypt'
         else if(type=="decrypt_request") logType = 'decrypt'
         else if(type=="download_request") logType = 'download'
-        var apiUrl = `https://util-api.noonai.kr/api/usage/${logType}?date=${date}`
+
+        let baseUrl = `/api/usage${logType}?date=${date}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var requestList = ''
         $.ajax({
             method: "get",

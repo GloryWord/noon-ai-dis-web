@@ -14,9 +14,13 @@ var userinfo = DIS.Web.UserInfo;
 userinfo = {
     getFirtstInfo: function() {
         var requestList = ''
+
+        let baseUrl = `/api/user/info`
+        let apiUrl = apiUrlConverter('user-info', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://user-info-api.noonai.kr/api/user/info",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -74,9 +78,13 @@ userinfo = {
 
     getSecondInfo: function() {
         var requestList = ''
+
+        let baseUrl = `/api/user/info`
+        let apiUrl = apiUrlConverter('user-info', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://user-info-api.noonai.kr/api/user/info",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -118,9 +126,13 @@ userinfo = {
 
     getloginAlias: function() {
         var requestList = ''
+
+        let baseUrl = `/api/user/alias`
+        let apiUrl = apiUrlConverter('user-info', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://user-info-api.noonai.kr/api/user/alias",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -140,9 +152,13 @@ userinfo = {
     
     infoModi: function(name, email, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config) {
         var postdata = {name:name, email:email, now_pass:now_pass, new_pass:new_pass, new_passConfig:new_passConfig, origin_name: origin_name, origin_email: origin_email, email_config: email_config};
+
+        let baseUrl = `/api/user/info`
+        let apiUrl = apiUrlConverter('user-info', baseUrl)
+
         $.ajax({
             method: "put",
-            url: "https://user-info-api.noonai.kr/api/user/info",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -280,9 +296,13 @@ userinfo = {
     
     emailAuthentication: function(email) {
         let result = '';
+
+        let baseUrl = `/api/user/email-send`
+        let apiUrl = apiUrlConverter('user-info', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://user-info-api.noonai.kr/api/user/email-send",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },

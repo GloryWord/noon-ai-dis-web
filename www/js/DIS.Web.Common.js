@@ -200,6 +200,18 @@ function price_three(price){
     return result
 }
 
+function apiUrlConverter(endpoint, baseUrl) {
+    let location = {
+        host : 'dis.noonai.k1r'
+    }
+    if(location.host === 'dis.noonai.kr') {
+        return `https://${endpoint}-api.noonai.kr${baseUrl}`
+    }
+    else {
+        return `/${endpoint}-module${baseUrl}`
+    }
+}
+
 /** 
  * DIS 네임스페이스
  * @author 이민형(2022.07.20)
@@ -232,11 +244,14 @@ comm = {
      */
 
     getUser: function () {
+        let baseUrl = '/api/user'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var result = '';
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/user",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -254,11 +269,14 @@ comm = {
     },
 
     getKeyList: function () {
+        let baseUrl = '/api/key'
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         var result = '';
         var resultStr = '';
         $.ajax({
             method: "get",
-            url: "https://key-api.noonai.kr/api/key",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -280,10 +298,13 @@ comm = {
     },
 
     getAuth: function () {
+        let baseUrl = '/api/user/auth'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var result = ''
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/user/auth",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -336,9 +357,12 @@ comm = {
     },
 
     generateKey: function (genKeyName, keyMemo) {
+        let baseUrl = '/api/key'
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://key-api.noonai.kr/api/key",
+            url: apiUrl,
             data: { 
                 'keyName': genKeyName,
                 'keyMemo': keyMemo
@@ -384,9 +408,12 @@ comm = {
     },
 
     logout: function () {
+        let baseUrl = '/api/logout'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/logout",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -400,10 +427,13 @@ comm = {
     },    
     
     joinInfo: function(cur_password) {
+        let baseUrl = '/api/user/check'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var postdata = {cur_password:cur_password}
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/user/check",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -427,10 +457,13 @@ comm = {
     },
 
     adminonly: function () {
+        let baseUrl = '/api/get-auth'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var auth = ''
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/get-auth",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -446,12 +479,15 @@ comm = {
     },
 
     meterEncrypt: function (fileNameList, fileWidth, fileHeight, requestIndex, restoration) {
+        let baseUrl = '/api/meterUsage/encrypt'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         // var fileNameList = getFiles();
         var strFileWidth = JSON.stringify(fileWidth)
         var strFileHeight = JSON.stringify(fileHeight)
         $.ajax({
             method: "post",
-            url: "https://encrypt-api.noonai.kr/api/meterUsage/encrypt",
+            url: apiUrl,
             data: {
                 fileNameList,
                 strFileWidth,
@@ -475,9 +511,12 @@ comm = {
     },
 
     meterDecrypt: function (requestIndex, fileNameList, fileType) {
+        let baseUrl = '/api/meterUsage/decrypt'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/meterUsage/decrypt",
+            url: apiUrl,
             data: {
                 requestIndex,
                 fileNameList,
@@ -498,9 +537,12 @@ comm = {
     },
 
     meterDownload: function (requestIndex, fileType, fileName, fileSize) {
+        let baseUrl = '/api/meterUsage/download'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/meterUsage/download",
+            url: apiUrl,
             data: {
                 requestIndex,
                 fileType,

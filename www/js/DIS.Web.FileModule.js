@@ -472,9 +472,12 @@ fileModule = {
                 'encryptObject': ''
             }
 
+            let baseUrl = '/api/syncTime'
+            let apiUrl = apiUrlConverter('util', baseUrl)
+
             $.ajax({
                 method: "post",
-                url: "https://util-api.noonai.kr/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                url: apiUrl, // 세션에 현재 요청시간 정보를 담아줌
                 dataType: "json",
                 data: {
                     'curTime': curTime
@@ -490,8 +493,12 @@ fileModule = {
                     if (file.length > 1) mode = '/multiple';
                     for (var i = 0; i < file.length; i++) formData.append('file', file[i]);
                     // formData.append('file', file);
+
+                    let baseUrl = '/api/uploadNAS'
+                    let apiUrl = apiUrlConverter('util', baseUrl)
+
                     var xhr = new XMLHttpRequest();
-                    xhr.open('post', 'https://util-api.noonai.kr/api/uploadNAS' + mode, true);
+                    xhr.open('post', apiUrl + mode, true);
                     xhr.withCredentials = true;
                     xhr.upload.onprogress = function (e) {
                         if (e.lengthComputable) {
@@ -728,9 +735,12 @@ fileModule = {
             postData['keyIndex'] = keyIndex;
             postData['keyName'] = keyName;
 
+            let baseUrl = '/api/request/encrypt'
+            let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
             $.ajax({
                 method: "post",
-                url: "https://encrypt-api.noonai.kr/api/request/encrypt",
+                url: apiUrl,
                 dataType: "json",
                 data: postData,
                 xhrFields: {
@@ -750,9 +760,12 @@ fileModule = {
             postData['requestIndex'] = requestIndex;
             resolve();
         }).then(() => {
+            let baseUrl = '/api/sendMessage/encrypt'
+            let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
             $.ajax({
                 method: "post",
-                url: "https://encrypt-api.noonai.kr/api/sendMessage/encrypt",
+                url: apiUrl,
                 dataType: "json",
                 data: postData,
                 xhrFields: {
@@ -810,9 +823,13 @@ fileModule = {
             }
             else {
                 formData.append('file', file);
+
+                let baseUrl = '/api/syncTime'
+                let apiUrl = apiUrlConverter('util', baseUrl)
+
                 $.ajax({
                     method: "post",
-                    url: "https://util-api.noonai.kr/api/syncTime", // 세션에 현재 요청시간 정보를 담아줌
+                    url: apiUrl, // 세션에 현재 요청시간 정보를 담아줌
                     dataType: "json",
                     async: false,
                     data: {
@@ -829,9 +846,12 @@ fileModule = {
                         // alert(JSON.stringify(xhr));
                     }
                 }).done(() => {
+                    let baseUrl = '/api/uploadNAS'
+                    let apiUrl = apiUrlConverter('util', baseUrl)
+
                     $.ajax({
                         method: 'post',
-                        url: 'https://util-api.noonai.kr/api/uploadNAS',
+                        url: apiUrl,
                         processData: false,
                         contentType: false,
                         data: formData,
@@ -857,10 +877,13 @@ fileModule = {
     },
 
     verifyKey: function (file_name, key_name) {
+        let baseUrl = '/api/key/verify'
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
         let msg, keyPath, valid, verify_result;
         $.ajax({
             method: 'post',
-            url: 'https://key-api.noonai.kr/api/key/verify',
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -913,9 +936,12 @@ fileModule = {
                 location.reload;
             }
             else if (userAuth['decrypt_auth'] == 1) {
+                let baseUrl = '/api/request/decrypt/thumbnail'
+                let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
                 $.ajax({
                     method: 'post',
-                    url: 'https://decrypt-api.noonai.kr/api/request/decrypt/thumbnail',
+                    url: apiUrl,
                     xhrFields: {
                         withCredentials: true
                     },
@@ -949,9 +975,12 @@ fileModule = {
 
             delete msgTemplate.reqInfo;
 
+            let baseUrl = '/api/sendMessage/thumbnail'
+            let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
             $.ajax({
                 method: 'post',
-                url: 'https://decrypt-api.noonai.kr/api/sendMessage/thumbnail',
+                url: apiUrl,
                 dataType: 'json',
                 data: {
                     msgTemplate: JSON.stringify(msgTemplate),
@@ -974,13 +1003,17 @@ fileModule = {
     },
     
     thumbnailList: function (idx, type, mode) {
+        let baseUrl = '/api/decrypt/result/thumbnail'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         var result = ''
         var resultStr = ''
         var resultData = []
         var postdata = { idx: idx, type: type, mode: mode }
+
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/decrypt/result/thumbnail",
+            url: apiUrl,
             async: false,
             data: postdata,
             xhrFields: {
@@ -1517,9 +1550,12 @@ fileModule = {
     },
 
     selectFile: function (idx, selectedFile) {
+        let baseUrl = '/api/decrypt/select'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/decrypt/select",
+            url: apiUrl,
             dataType: "json",
             data: {
                 'req_idx': JSON.stringify(idx),
@@ -1541,11 +1577,14 @@ fileModule = {
     },
 
     decrypt: function (decryptArgs) {
+        let baseUrl = '/api/request/decrypt'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         let result = null;
 
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/request/decrypt",
+            url: apiUrl,
             dataType: "json",
             data: {
                 dec_thumbnail_idx: decryptArgs.idx,
@@ -1569,9 +1608,12 @@ fileModule = {
     },
 
     sendDecryptMessage: function (msg, thumbnailPath) {
+        let baseUrl = '/api/sendMessage/decrypt'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://decrypt-api.noonai.kr/api/sendMessage/decrypt", //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            url: apiUrl, //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
             dataType: "json",
             data: {
                 msgTemplate: JSON.stringify(msg),
