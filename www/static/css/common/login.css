@@ -265,7 +265,6 @@ a {
 }
 
 .loginArea .loginContent .loginPrivacy label {
-    font-family: SpoqaHanSansNeo-Regular;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -276,6 +275,15 @@ a {
     color: #595959;
     margin: auto 0;
     cursor: pointer;
+}
+
+.loginArea .loginContent .loginPrivacy .privacy {
+    font-family: SpoqaHanSansNeo-Bold;
+}
+
+.loginArea .loginContent .loginPrivacy .servicePrivacy,
+.loginArea .loginContent .loginPrivacy .emailPrivacy {
+    font-family: SpoqaHanSansNeo-Regular;
 }
 
 .swal2-popup {
