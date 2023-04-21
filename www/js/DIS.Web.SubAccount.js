@@ -14,9 +14,13 @@ var subaccount = DIS.Web.SubAccount;
 subaccount = {
     getList: function () {
         var result = ''
+
+        let baseUrl = `/api/subaccount`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://sub-account-api.noonai.kr/api/subaccount",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -91,9 +95,13 @@ subaccount = {
 
     resetPassword: function(index, newPassword) {
         var result = false;
+
+        let baseUrl = `/api/subaccount/password`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/password",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -113,9 +121,13 @@ subaccount = {
 
     addSubAccount: function(subAccountInfo) {
         var result = false;
+
+        let baseUrl = `/api/subaccount`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://sub-account-api.noonai.kr/api/subaccount",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -142,9 +154,13 @@ subaccount = {
 
     deleteSubAccount: function(index) {
         var result = false;
+
+        let baseUrl = `/api/subaccount/${index}`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "delete",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/"+index,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -161,9 +177,13 @@ subaccount = {
     getAuthList: function (accountName) {
         var result = ''
         var postdata = { accountName:accountName }
+
+        let baseUrl = `/api/subaccount/auth`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/auth",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -244,9 +264,13 @@ subaccount = {
     
     putSubAuth: function (bucketAuth, dbAuth, enc, dec, accountName) {
         var postdata = { bucketAuth:bucketAuth, dbAuth:dbAuth, enc:enc, dec:dec, accountName:accountName }
+
+        let baseUrl = `/api/subaccount/auth`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "put",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/auth",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -273,9 +297,13 @@ subaccount = {
     getAccessKey: function () {
         var result = ""
         var resultStr = ""
+
+        let baseUrl = `/api/subaccount/key`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/key",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -302,9 +330,13 @@ subaccount = {
 
     putAccessKey: function (accessKey) {
         var postdata = { accessKey:accessKey }
+
+        let baseUrl = `/api/subaccount/key`
+        let apiUrl = apiUrlConverter('sub-account', baseUrl)
+
         $.ajax({
             method: "put",
-            url: "https://sub-account-api.noonai.kr/api/subaccount/key",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },

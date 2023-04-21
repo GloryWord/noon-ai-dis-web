@@ -13,9 +13,12 @@ DIS.Web.SignUp = DIS.Web.SignUp || {};
 var signup = DIS.Web.SignUp;
 signup = {
     tenantSignUp: function (account_name, password, company_name, owner_name) {
+        let baseUrl = `/api/signup/tenant`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/signup/tenant",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -47,9 +50,13 @@ signup = {
     sendMail: function (email) {
         var postdata = { email_address: email }
         var result = ''
+
+        let baseUrl = `/api/mail/verify`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/mail/verify",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -73,9 +80,12 @@ signup = {
     checkDuplicate: function (email) {
         var result = ''
 
+        let baseUrl = `/api/signup/duplicate`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/signup/duplicate",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },

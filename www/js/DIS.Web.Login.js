@@ -16,10 +16,13 @@ login = {
      * 유저 로그인 메서드 입니다.
      */
     login: function (account_name, password) {
+        let baseUrl = '/api/login'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var postdata = { account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/login",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -40,11 +43,14 @@ login = {
     },
 
     firstLogin: function (account_name, password) {
+        let baseUrl = '/api/first-login'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         let postdata = { account_name: account_name, password: password };
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/first-login",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -69,10 +75,13 @@ login = {
     },
 
     secondaryLogin: function (password) {
+        let baseUrl = '/api/user/check'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var result = false;
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/user/check",
+            url: apiUrl,
             data: {
                 cur_password: password
             },
@@ -98,10 +107,13 @@ login = {
     },
 
     getSubEmail: function (account_name, tenant_id) {
+        let baseUrl = '/api/getSubEmail'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         let subEmail = '';
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/getSubEmail",
+            url: apiUrl,
             data : {
                 account_name: account_name,
                 tenant_id: tenant_id
@@ -121,10 +133,13 @@ login = {
     },
 
     subLogin: function (login_alias, account_name, password) {
+        let baseUrl = '/api/subLogin'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         var postdata = { login_alias: login_alias, account_name: account_name, password: password };
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/subLogin",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -145,11 +160,14 @@ login = {
     },
 
     firstSubLogin: function (login_alias, account_name, password) {
+        let baseUrl = '/api/first-login-sub'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         let postdata = { login_alias: login_alias, account_name: account_name, password: password };
         let master_tenant_id = '';
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/first-login-sub",
+            url: apiUrl,
             data: postdata,
             xhrFields: {
                 withCredentials: true
@@ -198,9 +216,13 @@ login = {
                             <div>이미 만료 되었거나 인증시간이 초과 되었습니다 (10분 이내)</div>';
 
         var html;
+
+        let baseUrl = '/api/token/verify'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/token/verify/"+accountName+"/"+token,
+            url: `${apiUrl}/${accountName}/${token}`,
             xhrFields: {
                 withCredentials: true
             },
@@ -217,10 +239,13 @@ login = {
     },
 
     secondaryEmailSend: function (email) {
+        let baseUrl = '/api/secondary-email-send'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         let result ='';
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/secondary-email-send",
+            url: apiUrl,
             data: {
                 email
             },
@@ -251,9 +276,12 @@ login = {
     },
 
     authenticationVerify: function () {
+        let baseUrl = '/api/authentication-verify'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/authentication-verify",
+            url: apiUrl,
             data: {
                 email_verify: true
             },
@@ -270,9 +298,12 @@ login = {
     },
     
     forgetPassword: function (accountName) {
+        let baseUrl = '/api/forget-password'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/forget-password",
+            url: apiUrl,
             data: {
                 accountName
             },
@@ -308,9 +339,12 @@ login = {
     },
 
     resetPassword: function (accountName, password) {
+        let baseUrl = '/api/reset-password'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://util-api.noonai.kr/api/reset-password",
+            url: apiUrl,
             data: {
                 accountName,
                 password
@@ -338,9 +372,12 @@ login = {
     },
 
     sessionCheck: function() {
+        let baseUrl = '/api/session-check'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://util-api.noonai.kr/api/session-check",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },

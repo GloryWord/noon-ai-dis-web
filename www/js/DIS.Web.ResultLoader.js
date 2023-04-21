@@ -15,9 +15,13 @@ var resultLoader = DIS.Web.ResultLoader;
 resultLoader = {
     getEncFileInfo: function (index) {
         var result = ''
+
+        let baseUrl = `/api/encrypt/result/${index}`
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://encrypt-api.noonai.kr/api/encrypt/result/"+index,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -54,9 +58,13 @@ resultLoader = {
 
     getDecFileInfo: function (index) {
         var result = ''
+
+        let baseUrl = `/api/decrypt/result/${index}`
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://decrypt-api.noonai.kr/api/decrypt/result/"+index,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -87,10 +95,14 @@ resultLoader = {
 
     getFileUrl: function (bucketName, subDirectory, objectName) {
         var result = [];
+
+        let baseUrl = `/api/result/url`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
         for(var i = 0; i < objectName.length; i++) {
             $.ajax({
                 method: "post",
-                url: "https://util-api.noonai.kr/api/result/url",
+                url: apiUrl,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -181,9 +193,13 @@ resultLoader = {
     getInfoHtml: function (index) {
         var result = ''
         var html = ''
+
+        let baseUrl = `/api/request/encrypt?id=${index}`
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         $.ajax({
             method: "get",
-            url: "https://encrypt-api.noonai.kr/api/request/encrypt?id=" + index,
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
@@ -297,9 +313,12 @@ resultLoader = {
         var subDirectory = options.subDirectory;
         var fileListArray = JSON.stringify(options.fileName);
 
+        let baseUrl = `/api/encrypt/result/file/zip`
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
         $.ajax({
             method: "post",
-            url: "https://encrypt-api.noonai.kr/api/encrypt/result/file/zip",
+            url: apiUrl,
             xhrFields: {
                 withCredentials: true
             },
