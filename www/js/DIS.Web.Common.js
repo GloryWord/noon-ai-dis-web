@@ -201,9 +201,7 @@ function price_three(price){
 }
 
 function apiUrlConverter(endpoint, baseUrl) {
-    let location = {
-        host : 'dis.noonai.k1r'
-    }
+    console.log(location.host)
     if(location.host === 'dis.noonai.kr') {
         return `https://${endpoint}-api.noonai.kr${baseUrl}`
     }
