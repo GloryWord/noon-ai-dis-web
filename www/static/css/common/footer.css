@@ -253,6 +253,7 @@
     transform: translate(-50%, -50%);
     width: 1080px;
     height: auto;
+    max-height: 98vh;
     border-radius: 8px;
     box-shadow: 2px 2px 10px #666;
     background: #FFFFFF;
@@ -268,7 +269,7 @@
     margin: 12px 12px 12px 36px;
     width: auto;
     height: 44px;
-    max-height: 702px;
+    /* max-height: 702px; */
     display: flex;
 }
 
