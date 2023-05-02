@@ -216,7 +216,8 @@ init = {
     },
 
     image: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -470,7 +471,8 @@ init = {
     },
 
     loading: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -645,7 +647,8 @@ init = {
     },
 
     video: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -1199,7 +1202,8 @@ init = {
     },
 
     inspection: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -2396,7 +2400,8 @@ init = {
     },
 
     detail: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
