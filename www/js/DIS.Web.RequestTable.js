@@ -65,6 +65,7 @@ requestTable = {
             },
             async: false,
             success: function (data) {
+                console.log(data);
                 result['progress'] = data.progress['decrypt_progress'];
                 result['status'] = data.progress['status'];
                 result['complete'] = data.progress['complete'];
@@ -848,16 +849,16 @@ requestTable = {
 
             if(request_type == 'encrypt') {
                 usageObject[requestList[0][i]['user_name']]['encrypt_request_count'] = requestList[0][i]['count(*)']
-                usageObject[requestList[0][i]['user_name']]['encrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
+                usageObject[requestList[0][i]['user_name']]['encrypt_request_charge'] = Number(requestList[0][i]['sum(service_charge)'])
             }
             else if(request_type == 'decrypt') {
                 usageObject[requestList[0][i]['user_name']]['decrypt_request_count'] = requestList[0][i]['count(*)']
-                usageObject[requestList[0][i]['user_name']]['decrypt_request_charge'] = requestList[0][i]['sum(service_charge)']
+                usageObject[requestList[0][i]['user_name']]['decrypt_request_charge'] = Number(requestList[0][i]['sum(service_charge)'])
             }
             else if(request_type == 'download') {
                 usageObject[requestList[0][i]['user_name']]['download_request_count'] = requestList[0][i]['count(*)']
                 usageObject[requestList[0][i]['user_name']]['total_download_size'] += requestList[0][i]['sum(file_size)']
-                usageObject[requestList[0][i]['user_name']]['download_request_charge'] = requestList[0][i]['sum(service_charge)']
+                usageObject[requestList[0][i]['user_name']]['download_request_charge'] = Number(requestList[0][i]['sum(service_charge)'])
             }
         }
         var temp = searchMonth.split('-');
@@ -945,6 +946,7 @@ requestTable = {
         var totalDecryptCharge = 0 
         var totalDownloadCharge = 0 
         var totalCharge = 0
+        
         for(var keys in usageObject) {
             totalEncryptCharge += usageObject[keys]['encrypt_request_charge'];
             totalDecryptCharge += usageObject[keys]['decrypt_request_charge'];
