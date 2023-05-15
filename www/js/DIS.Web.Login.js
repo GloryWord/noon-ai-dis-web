@@ -57,11 +57,37 @@ login = {
             },
             async: false,
             success: function (data) {
-                $(".auth_id").val($("#name").val());
-                $("#authModal").addClass('active');
+                let lockStatus = null;
+                let loginable = false;
+                let activateTime = null;
+
+                lockStatus = login.selectLockStatus('tenant', '', account_name);
+                loginable = lockStatus.loginable
+                activateTime = lockStatus.activateTime
+                
+                if(loginable) {
+                    $(".auth_id").val($("#name").val());
+                    $("#authModal").addClass('active');   
+                }
+                else {
+                    Swal.fire({
+                        title: '계정 로그인 비활성화',
+                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`, 
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
                 master_tenant_id = data.tenant_id;
             },
             error: function (xhr, status) {
+                let loginFailCount = 0;
+
+                loginFailCount = login.plusLoginFailCount('tenant', '', account_name);
+                let lock_count = Math.floor(loginFailCount / 5)
+                if(loginFailCount >= 5) login.updateLockStatus('tenant', '', account_name, lock_count);
+
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
                     showConfirmButton: false,
@@ -174,12 +200,39 @@ login = {
             },
             async: false,
             success: function (data) {
-                let subEmail = login.getSubEmail(account_name, data.tenant);
-                $(".auth_id").val(subEmail);
-                $("#authModal").addClass('active');
+                let lockStatus = null;
+                let loginable = false;
+                let activateTime = null;
                 master_tenant_id = data.tenant;
+
+                lockStatus = login.selectLockStatus('sub-account', master_tenant_id, account_name);
+                loginable = lockStatus.loginable
+                activateTime = lockStatus.activateTime
+                
+                if(loginable) {
+                    let subEmail = login.getSubEmail(account_name, master_tenant_id);
+                    $(".auth_id").val(subEmail);
+                    $("#authModal").addClass('active');
+                }
+                else {
+                    Swal.fire({
+                        title: '계정 로그인 비활성화',
+                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`, 
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
             },
             error: function (xhr, status) {
+                let tenant_id = xhr.responseJSON.tenant_id;
+                let loginFailCount = 0;
+
+                loginFailCount = login.plusLoginFailCount('sub-account', tenant_id, account_name);
+                let lock_count = Math.floor(loginFailCount / 5)
+                if(loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
+
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
                     showConfirmButton: false,
@@ -396,5 +449,118 @@ login = {
         })
 
         return 0;
+    },
+
+    selectLockStatus: function (tenancy, tenant_id, account_name) {
+        let baseUrl = `/api/auth/${tenancy}/selectLockStatus`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let result = false;
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                "tenant_id": tenant_id,
+                "account_name": account_name,
+            },
+            async: false,
+            success: function (data) {
+                console.log(data);
+                result = data
+            }, // success 
+            error: function (xhr, status) {
+                alert(xhr + " : " + status);
+            },
+        });
+
+        return result;
+    },
+
+    plusLoginFailCount: function (tenancy, tenant_id, account_name) {
+        let baseUrl = `/api/auth/${tenancy}/failCount/plus`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let result = 0;
+        $.ajax({
+            method: "put",
+            url: apiUrl,
+            data: {
+                "account_name": account_name,
+                "tenant_id": tenant_id,
+            },
+            async: false,
+            success: function (data) {
+                result = data.login_fail_count;
+            }, // success 
+            error: function (xhr, status) {
+                
+            },
+        });
+
+        return result;
+    },
+
+    updateLockStatus: function (tenancy, tenant_id, account_name, lock_count) {
+        let baseUrl = `/api/auth/${tenancy}/lockStatus`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "put",
+            url: apiUrl,
+            data: {
+                "tenant_id": tenant_id,
+                "account_name": account_name,
+                "lock_count": lock_count,
+            },
+            async: false,
+            success: function (data) {
+                
+            }, // success 
+            error: function (xhr, status) {
+                
+            },
+        });
+    },
+
+    updateClearLoginFailCount: function (tenancy, tenant_id, account_name) {
+        let baseUrl = `/api/auth/${tenancy}/failCount/clear`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "put",
+            url: apiUrl,
+            data: {
+                "tenant_id": tenant_id,
+                "account_name": account_name,
+            },
+            async: false,
+            success: function (data) {
+                
+            }, // success 
+            error: function (xhr, status) {
+                
+            },
+        });
+    },
+
+    updateClearLockCount: function (tenancy, tenant_id, account_name) {
+        let baseUrl = `/api/auth/${tenancy}/lockCount/clear`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "put",
+            url: apiUrl,
+            data: {
+                "tenant_id": tenant_id,
+                "account_name": account_name,
+            },
+            async: false,
+            success: function (data) {
+                
+            }, // success 
+            error: function (xhr, status) {
+                
+            },
+        });
     },
 }

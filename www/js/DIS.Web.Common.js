@@ -204,6 +204,9 @@ function apiUrlConverter(endpoint, baseUrl) {
     if(location.host === 'dis.noonai.kr') {
         return `https://${endpoint}-api.noonai.kr${baseUrl}`
     }
+    else if(endpoint === 'socket'){
+        return ''
+    }
     else {
         return `/${endpoint}-module${baseUrl}`
     }

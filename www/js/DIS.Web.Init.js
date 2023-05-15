@@ -63,12 +63,16 @@ init = {
                 let accountName = $("#name").val();
                 let password = $("#pass").val();
                 login.login(accountName, password);
+                login.updateClearLoginFailCount('tenant', mater_tenant_id, accountName);
+                login.updateClearLockCount('tenant', mater_tenant_id, accountName);
             }
             else {
                 if (verifyCode == user_code) {
                     let accountName = $("#name").val();
                     let password = $("#pass").val();
                     login.login(accountName, password);
+                    login.updateClearLoginFailCount('tenant', mater_tenant_id, accountName);
+                    login.updateClearLockCount('tenant', mater_tenant_id, accountName);
                 } else {
                     Swal.fire({
                         title: "2차 인증에 실패했습니다.",
@@ -127,6 +131,8 @@ init = {
                 let loginAlias = $("#loginAlias").val();
                 let password = $("#pass").val();
                 login.subLogin(loginAlias, accountName, password);
+                login.updateClearLoginFailCount('sub-account', master_tenant_id, accountName);
+                login.updateClearLockCount('sub-account', master_tenant_id, accountName);
             }
             else {
                 if (verifyCode == user_code) {
@@ -134,6 +140,8 @@ init = {
                     let loginAlias = $("#loginAlias").val();
                     let password = $("#pass").val();
                     login.subLogin(loginAlias, accountName, password);
+                    login.updateClearLoginFailCount('sub-account', master_tenant_id, accountName);
+                    login.updateClearLockCount('sub-account', master_tenant_id, accountName);
                 } else {
                     Swal.fire({
                         title: "2차 인증에 실패했습니다.",
@@ -216,7 +224,8 @@ init = {
     },
 
     image: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -470,7 +479,8 @@ init = {
     },
 
     loading: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -645,7 +655,8 @@ init = {
     },
 
     video: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -1199,7 +1210,8 @@ init = {
     },
 
     inspection: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
@@ -2396,7 +2408,8 @@ init = {
     },
 
     detail: function () {
-        const socket = io("https://socket-api.noonai.kr", {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
             withCredentials: true,
             transports: [ 'websocket' ]
         });
