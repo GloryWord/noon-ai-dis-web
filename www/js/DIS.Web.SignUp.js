@@ -12,7 +12,7 @@ DIS.Web.SignUp = DIS.Web.SignUp || {};
  */
 var signup = DIS.Web.SignUp;
 signup = {
-    tenantSignUp: function (account_name, password, company_name, owner_name) {
+    tenantSignUp: function (account_name, password, company_name, owner_name, phone) {
         let baseUrl = `/api/signup/tenant`
         let apiUrl = apiUrlConverter('util', baseUrl)
         
@@ -26,7 +26,8 @@ signup = {
                 account_name,
                 password,
                 company_name,
-                owner_name
+                owner_name,
+                phone
             },
             success: function (data) {
                 if (data.message == 'success') {

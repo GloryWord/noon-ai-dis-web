@@ -2174,7 +2174,8 @@ init = {
             repassword: /^[\w@-]{8,20}$/,
             company_name: /^[a-z\d]{1,20}$/i,
             owner_name: /^[a-z\d]{1,20}$/i,
-            verify_number: /^[0-9]{6}$/
+            verify_number: /^[0-9]{6}$/,
+            phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
         };
 
         const inputs = document.querySelectorAll('input');
@@ -2290,6 +2291,7 @@ init = {
                 var repassword = $("#repassword").val();
                 var companyName = $("#company_name").val();
                 var ownerName = $("#owner_name").val();
+                var phone = $("#phone").val();
                 var check_num = /[0-9]/;    // 숫자 
                 var check_big = /[A-Z]/;    // 대문자
                 var check_small = /[a-z]/;    // 소문자
@@ -2326,7 +2328,16 @@ init = {
                     denyButtonText: "확 인",
                     icon: "error"
                 });
-                else signup.tenantSignUp(accountName, password, companyName, ownerName);
+                else if(!patterns.phone.test(phone)) {
+                    Swal.fire({
+                        title: '휴대전화 번호를 다시 입력해 주세요.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    })
+                }
+                else signup.tenantSignUp(accountName, password, companyName, ownerName, phone);
             }
         });
     },
