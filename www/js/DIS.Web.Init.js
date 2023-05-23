@@ -2,6 +2,16 @@
 
 DIS.Web.Init = DIS.Web.Init || {};
 
+const patterns = {
+    account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
+    password: /^[\w@-]{8,20}$/,
+    repassword: /^[\w@-]{8,20}$/,
+    company_name: /^[a-z\d]{1,20}$/i,
+    owner_name: /^[a-z\d]{1,20}$/i,
+    verify_number: /^[0-9]{6}$/,
+    phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+};
+
 let whitelist = [
     { tenant_id: 2, account_name: 'ilhoon', user_name: '이일훈' },
     { tenant_id: 2, account_name: 'test', user_name: '테스트' },
@@ -669,6 +679,8 @@ init = {
         var fileSize = []
         var videoDuration = []
 
+        let checksum = null;
+
         var uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
@@ -846,6 +858,7 @@ init = {
                     postData = data[0]
                     bitrateArray = data[1]
                     filePath = data[2][0]
+                    checksum = data[3]
                     socket.emit('delUploadedFile', {
                         filePath: filePath,
                         id: uploadID,
@@ -1850,12 +1863,23 @@ init = {
         $(document).on("click", ".infoSave", function () {
             var name = $(".view_name").val()
             var email = $(".view_email").val()
+            var phone = $(".phone").val()
             var now_pass = $(".now_pass").val()
             var new_pass = $(".new_pass").val()
             var new_passConfig = $(".new_passConfig").val()
             let origin_name = first_name;
             let origin_email = first_email;
-            userinfo.infoModi(name, email, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config);
+            let origin_phone = first_phone;
+            if(!patterns.phone.test(phone)) {
+                Swal.fire({
+                    title: '휴대전화 번호를 다시 입력해 주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else userinfo.infoModi(name, email, origin_phone, phone, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config);
         });
         
         $(document).on("change", ".view_email", function () {
@@ -1882,7 +1906,7 @@ init = {
             }
         });
 
-        var {getFirstInfo, first_name, first_email} = userinfo.getFirtstInfo();
+        var {getFirstInfo, first_name, first_email, first_phone} = userinfo.getFirtstInfo();
         $(".userinfoFirst").html(getFirstInfo);
 
         var getSecondInfo = userinfo.getSecondInfo()
@@ -2167,16 +2191,6 @@ init = {
                 }
             }
         });
-
-        const patterns = {
-            account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
-            password: /^[\w@-]{8,20}$/,
-            repassword: /^[\w@-]{8,20}$/,
-            company_name: /^[a-z\d]{1,20}$/i,
-            owner_name: /^[a-z\d]{1,20}$/i,
-            verify_number: /^[0-9]{6}$/,
-            phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
-        };
 
         const inputs = document.querySelectorAll('input');
 
@@ -2496,7 +2510,7 @@ init = {
             let key_name = $('.file_key')[0].children[1].innerHTML
             if (mode == 'single') {
                 uploadID = makeid(6);
-                let uploadResult = fileModule.uploadKey();                
+                let uploadResult = fileModule.uploadKey();              
             
                 uploadResult.then((data) => {
                     let file_name = data[0]
