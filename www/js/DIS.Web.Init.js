@@ -237,6 +237,7 @@ init = {
         var fileHeight = []
         var fileSize = []
         var videoDuration = []
+        let checksum = null;
 
         var uploadID = 0;
 
@@ -405,6 +406,7 @@ init = {
                 callback.then((data) => {
                     postData = data[0]
                     filePath = data[2][0]
+                    checksum = data[3]
                     socket.emit('delUploadedFile', {
                         filePath: filePath,
                         id: uploadID,
@@ -448,7 +450,7 @@ init = {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image');
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum);
                 socket.emit('cancelDeleteFile', 'cancel')
             }
             else if(allCheck == "false") {
@@ -886,7 +888,7 @@ init = {
             if (allCheck == "true" && cKey==1 && sKey!="") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video');
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum);
                 socket.emit('cancelDeleteFile', 'cancel')
             }
             else if(allCheck == "false") {

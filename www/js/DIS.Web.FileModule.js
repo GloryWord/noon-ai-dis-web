@@ -456,6 +456,7 @@ fileModule = {
             var bitrateArray = []
             var filePath = []
             var userInfo = ''
+            let checksum = null;
 
             // RabbitMQ에 넣을 메시지 형태를 미리 만들어줌
             var postData = {
@@ -535,6 +536,8 @@ fileModule = {
                             let coefficient = {};
                             let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
                             let base_charge;
+
+                            checksum = response.checksum;
                             filePath.push(response.filePath)
 
                             if (fileType == 'video') {
@@ -694,7 +697,7 @@ fileModule = {
                                     charge_content.innerHTML = html;
                                 }
                             });
-                            resolve([postData, bitrateArray, filePath])
+                            resolve([postData, bitrateArray, filePath, checksum])
                         }
                         else {
                             alert('파일 업로드 실패')
@@ -710,7 +713,7 @@ fileModule = {
         })
     },
 
-    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType) {
+    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType, checksum) {
         new Promise((resolve, reject) => {
             var requestIndex = ''
 
@@ -734,6 +737,7 @@ fileModule = {
             postData['restoration'] = restoration;
             postData['keyIndex'] = keyIndex;
             postData['keyName'] = keyName;
+            postData['checksum'] = JSON.stringify(checksum);
 
             let baseUrl = '/api/request/encrypt'
             let apiUrl = apiUrlConverter('encrypt', baseUrl)
