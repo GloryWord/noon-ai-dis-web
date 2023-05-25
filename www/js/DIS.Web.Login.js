@@ -45,7 +45,6 @@ login = {
     firstLogin: function (account_name, password) {
         let baseUrl = '/api/first-login'
         let apiUrl = apiUrlConverter('util', baseUrl)
-
         let postdata = { account_name: account_name, password: password };
         let master_tenant_id = '';
         $.ajax({
@@ -82,11 +81,12 @@ login = {
                 master_tenant_id = data.tenant_id;
             },
             error: function (xhr, status) {
-                let loginFailCount = 0;
-
-                loginFailCount = login.plusLoginFailCount('tenant', '', account_name);
-                let lock_count = Math.floor(loginFailCount / 5)
-                if(loginFailCount >= 5) login.updateLockStatus('tenant', '', account_name, lock_count);
+                if(xhr.responseJSON.reason !== 'ID not found') {
+                    let loginFailCount = 0;
+                    loginFailCount = login.plusLoginFailCount('tenant', '', account_name);
+                    let lock_count = Math.floor(loginFailCount / 5)
+                    if(loginFailCount >= 5) login.updateLockStatus('tenant', '', account_name, lock_count);
+                }
 
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
@@ -226,12 +226,14 @@ login = {
                 }
             },
             error: function (xhr, status) {
-                let tenant_id = xhr.responseJSON.tenant_id;
-                let loginFailCount = 0;
-
-                loginFailCount = login.plusLoginFailCount('sub-account', tenant_id, account_name);
-                let lock_count = Math.floor(loginFailCount / 5)
-                if(loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
+                let reason = xhr.responseJSON.reason;
+                if(reason !== 'ID not found' && reason !== 'tenant not found') {
+                    let tenant_id = xhr.responseJSON.tenant_id;
+                    let loginFailCount = 0;
+                    loginFailCount = login.plusLoginFailCount('sub-account', tenant_id, account_name);
+                    let lock_count = Math.floor(loginFailCount / 5)
+                    if(loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
+                }
 
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
