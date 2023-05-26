@@ -754,6 +754,7 @@ fileModule = {
                 success: function (data) {
                     requestIndex = data.enc_request_list_id;
                     comm.meterEncrypt(postData.fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                    comm.loggingEncrypt(requestIndex);
                 },
                 error: function (xhr, status) {
                     // alert(xhr + " : " + status);
