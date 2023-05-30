@@ -16,7 +16,8 @@ requestTable = {
         var result = {
             'progress': '',
             'type': '',
-            'status': ''
+            'status': '',
+            'archived': '',
         }
 
         let responseMessage;
@@ -32,10 +33,13 @@ requestTable = {
             },
             async: false,
             success: function (data) {
-                result['progress'] = data.progress['encrypt_progress'];
-                result['status'] = data.progress['status'];
-                result['type'] = data.progress['file_type'];
-                result['complete'] = data.progress['complete'];
+                if(data.progress) {
+                    result['progress'] = data.progress['encrypt_progress'];
+                    result['status'] = data.progress['status'];
+                    result['type'] = data.progress['file_type'];
+                    result['complete'] = data.progress['complete'];
+                }
+                result['archived'] = data.archived;
             },
             error: function (xhr, status) {
                 responseMessage = JSON.parse(xhr.responseText).message
@@ -49,7 +53,8 @@ requestTable = {
         var result = {
             'progress': '',
             'type': '',
-            'status': ''
+            'status': '',
+            'archived': '',
         }
 
         let responseMessage;
@@ -65,10 +70,12 @@ requestTable = {
             },
             async: false,
             success: function (data) {
-                console.log(data);
-                result['progress'] = data.progress['decrypt_progress'];
-                result['status'] = data.progress['status'];
-                result['complete'] = data.progress['complete'];
+                if(data.progress) {
+                    result['progress'] = data.progress['encrypt_progress'];
+                    result['status'] = data.progress['status'];
+                    result['complete'] = data.progress['complete'];
+                }
+                result['archived'] = data.archived;
             },
             error: function (xhr, status) {
                 responseMessage = JSON.parse(xhr.responseText).message
@@ -111,7 +118,7 @@ requestTable = {
         let baseUrl = `/api/request/${requestType}/recent`
         let apiUrl = apiUrlConverter(requestType, baseUrl)
         
-        let requestList, responseMessage;
+        let requestList, archived, responseMessage;
 
         $.ajax({
             method: "get",
@@ -122,9 +129,10 @@ requestTable = {
             async: false,
             success: function (data) {
                 requestList = data.requestList;
+                archived = data.archived;
             },
             error: function (xhr, status) {
-                responseMessage = JSON.parse(xhr.responseText).message
+                responseMessage = xhr.responseJSON.message
             }
         });
 
@@ -133,92 +141,157 @@ requestTable = {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else {
-            for (var i = 0; i < requestList.length; i++) {
-                if (i == 5) break;
-
-                var date = new Date(requestList[i]['request_date'])
-
-                var namelist = requestList[i]['request_file_list'].split('\n')
-                namelist = namelist.splice(0, namelist.length - 1);
+            let cnt = 0
+            if(requestList.length !== 0) {
+                let status;
+                for (var i = 0; i < requestList.length; i++) {
+                    if (i == 5) break;
     
-                if(namelist.length > 1){
-                    var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
-                    var css = ""
-                }
-                else {
-                    var list = ""
-                    var css = 'style="margin:auto 0 auto auto"'
-                }
-                
-                if (requestList[i]['restoration'] == 1) var restoration = "복원 가능"
-                else var restoration = "복원 불가능"
-
-                var fileList = requestList[i]['request_file_list'].split('\n');
-                fileList = fileList.splice(0, fileList.length - 1);
-
-                if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
-                else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
-                if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
-
-                if(requestList[i]['complete'] == 1) {
-                    var status = '<p>완료</p>'
-                }
-                else if(requestList[i]['status']) {
-                    if(requestList[i]['status'].indexOf("FAIL")==1 || requestList[i]['status'].indexOf("Fail")!=-1){
-                        var status = '<p>실패</p>'
+                    var date = new Date(requestList[i]['request_date'])
+    
+                    var namelist = requestList[i]['request_file_list'].split('\n')
+                    namelist = namelist.splice(0, namelist.length - 1);
+        
+                    if(namelist.length > 1){
+                        var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                        var css = ""
                     }
-                }
-                else {
-                    var status = '<p id="progress"></p>'
-                }
-                // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
-                // if(requestList[i]['complete'] == 1){
-                //     var status = '<p>완료</p>'
-                // }
-                // else if(requestList[i]['complete'] == 0){
-                //     var status = '<p>오류발생</p>'
-                // }
-                // else{
-                //     var status = '<p id="progress"></p>'
-                // }
+                    else {
+                        var list = ""
+                        var css = 'style="margin:auto 0 auto auto"'
+                    }
+                    
+                    if (requestList[i]['restoration'] == 1) var restoration = "복원 가능"
+                    else var restoration = "복원 불가능"
+    
+                    var fileList = requestList[i]['request_file_list'].split('\n');
+                    fileList = fileList.splice(0, fileList.length - 1);
+    
+                    if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
+                    else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
+                    if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+    
+                    if(requestList[i]['complete'] == 1) {
+                        status = '<p>완료</p>'
+                    }
+                    else {
+                        let fail = 'FAIL'
+                        if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            status = '<p>실패</p>'
+                        }
+                        else {  
+                            status = '<p id="progress"></p>'
+                        }
+                    }
 
-                if(status=="<p>완료</p>"){
-                    var disable = ""; 
-                    var m_disable = ""; 
-                    var text = "상세정보";
+                    // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                    // if(requestList[i]['complete'] == 1){
+                    //     var status = '<p>완료</p>'
+                    // }
+                    // else if(requestList[i]['complete'] == 0){
+                    //     var status = '<p>오류발생</p>'
+                    // }
+                    // else{
+                    //     var status = '<p id="progress"></p>'
+                    // }
+    
+                    if(status=="<p>완료</p>"){
+                        var disable = ""; 
+                        var m_disable = ""; 
+                        var text = "상세정보";
+                    }
+                    else{
+                        var disable = "disable"; 
+                        var m_disable = "style='pointer-events: none;'"
+                        var text= "진행중";
+                    }
+                    if(screen.width<=600){
+                        htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                        <div class="etc_content">\
+                                            <div class="type_content"><p>'+ type + '</p></div>\
+                                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                            <div class="rest_content"><p>'+ restoration + '</p></div>\
+                                            <div class="status_content">'+ status + '</div>\
+                                        </div>\
+                                </div>'
+                    }
+                    else{
+                        htmlStr += '<div class="logContent">\
+                            <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
+                            <div class="type_content"><p>'+ type + '</p></div>\
+                            <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                            <div class="rest_content"><p>'+ restoration + '</p></div>\
+                            <div class="status_content">'+ status + '</div>\
+                            <div class="detail_content">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                    <p>'+text+'</p>\
+                                </div>\
+                            </div>\
+                            </div>'
+                    }
+                    cnt++;
                 }
-                else{
+            }
+            if(archived.length !== 0 && cnt < 5) {
+                let status;
+                for (var i = 0; i < archived.length; i++) {
+                    if(cnt === 5) break;
+                    var date = new Date(archived[i]['request_date'])
+    
+                    var namelist = archived[i]['request_file_list'].split('\n')
+                    namelist = namelist.splice(0, namelist.length - 1);
+        
+                    if(namelist.length > 1){
+                        var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                        var css = ""
+                    }
+                    else {
+                        var list = ""
+                        var css = 'style="margin:auto 0 auto auto"'
+                    }
+                    
+                    if (archived[i]['restoration'] == 1) var restoration = "복원 가능"
+                    else var restoration = "복원 불가능"
+                    var fileList = archived[i]['request_file_list'].split('\n');
+                    fileList = fileList.splice(0, fileList.length - 1);
+        
+                    if (archived[i]['file_type'] == "video") var type = "동영상 파일"
+                    else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
+                    if (archived[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                    status = '<p> </p>'
                     var disable = "disable"; 
                     var m_disable = "style='pointer-events: none;'"
-                    var text= "진행중";
-                }
-                if(screen.width<=600){
-                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
-                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
-                                    <div class="etc_content">\
-                                        <div class="type_content"><p>'+ type + '</p></div>\
-                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                                        <div class="rest_content"><p>'+ restoration + '</p></div>\
-                                        <div class="status_content">'+ status + '</div>\
-                                    </div>\
-                            </div>'
-                }
-                else{
-                    htmlStr += '<div class="logContent">\
-                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                        <div class="type_content"><p>'+ type + '</p></div>\
-                        <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
-                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                        <div class="rest_content"><p>'+ restoration + '</p></div>\
-                        <div class="status_content">'+ status + '</div>\
-                        <div class="detail_content">\
-                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
-                                <p>'+text+'</p>\
+                    var text= "만료됨";
+                    if(screen.width<=600){
+                        htmlStr += '<div class="m_logContent" data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" '+m_disable+'>\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                        <div class="etc_content">\
+                                            <div class="type_content"><p>'+ type + '</p></div>\
+                                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                            <div class="rest_content"><p>'+ restoration + '</p></div>\
+                                            <div class="status_content">'+ status + '</div>\
+                                        </div>\
+                                </div>'
+                    }
+                    else{
+                        htmlStr += '<div class="logContent">\
+                            <div class="id_content"><p>'+ underTen(archived[i]['fk_enc_request_list_id']) + '</p></div>\
+                            <div class="type_content"><p>'+ type + '</p></div>\
+                            <div class="name_content"><p>'+ namelist[0] + '</p>'+list+'</div>\
+                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                            <div class="rest_content"><p>'+ restoration + '</p></div>\
+                            <div class="status_content">'+ status + '</div>\
+                            <div class="detail_content">\
+                                <div data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                    <p>'+text+'</p>\
+                                </div>\
                             </div>\
-                        </div>\
-                        </div>'
+                            </div>'
+                    }
+                    cnt++;
                 }
-
             }
         }
 
@@ -242,18 +315,21 @@ requestTable = {
             success: function (data) {
                 requestList = data.requestList;
                 archived = data.archived;
-                console.log(data)
             },
             error: function (xhr, status) {
+                let responseJSON = xhr.responseJSON
+                requestList = responseJSON.requestList;
+                archived = responseJSON.archived;
             }
         });
 
         var htmlStr = ''
-        if ((requestList[0] == null || requestList.message == 'error' || requestList.message=='No request list found') && archived.length === 0) {
+        if (requestList.length === 0 && archived.length === 0) {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
             if(requestList.length !== 0) {
+                let status;
                 for (var i = 0; i < requestList.length; i++) {
                     if (requestList[i]['key_name'] == 'null' && mode == 'restoration') continue;
                     if (requestList[i]['complete'] == 0 && mode == 'restoration') continue;
@@ -281,20 +357,24 @@ requestTable = {
                     if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                     if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
-                    if(requestList[i]['status']==null || requestList[i]['status']==0){
-                        var sta = "[FAIL]"
-                    }
-                    else {
-                        var sta = requestList[i]['status']
-                    }
+                    // if(requestList[i]['status']==null || requestList[i]['status']==0){
+                    //     var sta = "[FAIL]"
+                    // }
+                    // else {
+                    //     var sta = requestList[i]['status']
+                    // }
+                    
                     if(requestList[i]['complete'] == 1) {
-                        var status = '<p>완료</p>'
-                    }
-                    else if(sta.indexOf("FAIL")==1 || sta.indexOf("Fail")!=-1){
-                        var status = '<p>실패</p>'
+                        status = '<p>완료</p>'
                     }
                     else {
-                        var status = '<p id="progress"></p>'
+                        let fail = 'FAIL'
+                        if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            status = '<p>실패</p>'
+                        }
+                        else {  
+                            status = '<p id="progress"></p>'
+                        }
                     }
                     // if(requestList[i]['complete'] == 1){
                     //     var status = '<p>완료</p>'
@@ -345,6 +425,7 @@ requestTable = {
                 }
             }
             if(archived.length !== 0) {
+                let status;
                 for (var i = 0; i < archived.length; i++) {
                     if (archived[i]['complete'] == 0 && mode == 'restoration') continue;
         
@@ -369,7 +450,7 @@ requestTable = {
                     if (archived[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
                     if (archived[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
-                    var status = '<p> </p>'
+                    status = '<p> </p>'
                     var disable = "disable"; 
                     var m_disable = "style='pointer-events: none;'"
                     var text= "만료됨";
@@ -521,6 +602,7 @@ requestTable = {
 
     getAllDecRequestList: function () {
         var requestList = ''
+        let archived = null;
 
         let baseUrl = '/api/request/decrypt/all'
         let apiUrl = apiUrlConverter('decrypt', baseUrl)
@@ -533,72 +615,119 @@ requestTable = {
             },
             async: false,
             success: function (data) {
+                console.log(data);
                 requestList = data.requestList;
+                archived = data.archived;
             },
             error: function (xhr, status) {
+                let responseJSON = xhr.responseJSON
+                requestList = responseJSON.requestList;
+                archived = responseJSON.archived;
             }
         });
 
         var htmlStr = ''
 
-        if (requestList.message == 'error' || requestList.message=='No request list found') {
+        if (requestList.length === 0 && archived.length === 0) {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
         else{
-            for (var i = 0; i < requestList.length; i++) {
-                var date = new Date(requestList[i]['request_date'])
-    
-                var namelist = requestList[i]['request_file_list'].split('\n')
-                namelist = namelist.splice(0, namelist.length - 1);
+            if(requestList.length !== 0) {
+                let status;
+                for (var i = 0; i < requestList.length; i++) {
+                    var date = new Date(requestList[i]['request_date'])
         
-                if(namelist.length > 1){
-                    var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
-                    var css = ""
-                }
-                else {
-                    var list = ""
-                    var css = 'style="margin:auto 0 auto auto"'
-                }
-    
-                var fileList = requestList[i]['request_file_list'].split('\n');
-                fileList = fileList.splice(0, fileList.length - 1);
-    
-                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
-                // if(requestList[i]['complete'] == 1){
-                //     var status = '<p>완료</p>'
-                // }
-                // else if(requestList[i]['complete'] == 0){
-                //     var status = '<p>오류발생</p>'
-                // }
-                // else{
-                //     var status = '<p id="progress"></p>'
-                // }
-                
-    
-                if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
-                else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
-                else var type = ""
-                if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
-                if(screen.width<=600){
-                    htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '">\
-                                    <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
-                                    <div class="etc_content">\
+                    var namelist = requestList[i]['request_file_list'].split('\n')
+                    namelist = namelist.splice(0, namelist.length - 1);
+            
+                    if(namelist.length > 1 && requestList[i].file_type === 'image'){
+                        var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                        var css = ""
+                    }
+                    else {
+                        var list = ""
+                        var css = 'style="margin:auto 0 auto auto"'
+                    }
+        
+                    var fileList = requestList[i]['request_file_list'].split('\n');
+                    fileList = fileList.splice(0, fileList.length - 1);
+        
+                    status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+        
+                    if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
+                    else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
+                    else var type = ""
+                    if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                    if(screen.width<=600){
+                        htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '">\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                        <div class="etc_content">\
+                                            <div class="type_content"><p>'+ type + '</p></div>\
+                                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                            <div class="status_content">'+ status + '</div>\
+                                        </div>\
+                                    </div>'
+                    }
+                    else{
+                        htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
+                                        <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
                                         <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
                                         <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="rest_content"><p></p></div>\
                                         <div class="status_content">'+ status + '</div>\
-                                    </div>\
-                                </div>'
+                                        <div class="detail_content"></div>\
+                                    </div>'
+                    }
                 }
-                else{
-                    htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                                    <div class="type_content"><p>'+ type + '</p></div>\
-                                    <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
-                                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                                    <div class="rest_content"><p></p></div>\
-                                    <div class="status_content">'+ status + '</div>\
-                                    <div class="detail_content"></div>\
-                                </div>'
+            }
+            if(archived.length !== 0) {
+                let status;
+                for (let i = 0; i < archived.length; i++) {
+                    var date = new Date(archived[i]['request_date'])
+        
+                    var namelist = archived[i]['request_file_list'].split('\n')
+                    namelist = namelist.splice(0, namelist.length - 1);
+                    
+                    if(namelist.length > 1 && archived[i].file_type === 'image'){
+                        var list = "<label> 외 " +(Number(namelist.length)-1)+"개</label>"
+                        var css = ""
+                    }
+                    else {
+                        var list = ""
+                        var css = 'style="margin:auto 0 auto auto"'
+                    }
+        
+                    var fileList = archived[i]['request_file_list'].split('\n');
+                    fileList = fileList.splice(0, fileList.length - 1);
+        
+                    status = (archived[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+        
+                    if (archived[i]['file_type'] == "video") var type = "동영상 파일"
+                    else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
+                    else var type = ""
+                    if (archived[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                    if(screen.width<=600){
+                        htmlStr += '<div class="m_logContent" data-id="'+ archived[i]['fk_dec_request_list_id'] + '" data-type="' + type + '">\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + list + '</p></div>\
+                                        <div class="etc_content">\
+                                            <div class="type_content"><p>'+ type + '</p></div>\
+                                            <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                            <div class="status_content">'+ status + '</div>\
+                                        </div>\
+                                    </div>'
+                    }
+                    else{
+                        htmlStr += '<div class="logContent" id=enc_request_index-' + archived[i]['fk_dec_request_list_id'] + '>\
+                                        <div class="id_content"><p>'+ underTen(archived[i]['fk_dec_request_list_id']) + '</p></div>\
+                                        <div class="type_content"><p>'+ type + '</p></div>\
+                                        <div class="name_content" '+css+'><p>'+ namelist[0] + '</p>'+list+'</div>\
+                                        <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
+                                        <div class="rest_content"><p></p></div>\
+                                        <div class="status_content">'+ status + '</div>\
+                                        <div class="detail_content"></div>\
+                                    </div>'
+                    }
                 }
             }
         }

@@ -173,21 +173,23 @@ init = {
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
-            var progress = encProgress['progress']
-            $('#progress').html(progress);
-            var status = encProgress['status']
-            if(status == null){
-                return 0
-            }
-            else{
-                if(status.indexOf('FAIL')==1){
+            if(encProgress['progress']) {
+                var progress = encProgress['progress']
+                $('#progress').html(progress);
+                var status = encProgress['status']
+                if(status == null){
                     return 0
                 }
-                else if(status.indexOf("SUCCESS")==1) {
-                    if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                    else {
-                        var mainLog = requestTable.getRecentRequest('encrypt');
-                        $(".mainLog").html(mainLog);
+                else{
+                    if(status.indexOf('FAIL')==1){
+                        return 0
+                    }
+                    else if(status.indexOf("SUCCESS")==1) {
+                        if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                        else {
+                            var mainLog = requestTable.getRecentRequest('encrypt');
+                            $(".mainLog").html(mainLog);
+                        }
                     }
                 }
             }
@@ -940,22 +942,24 @@ init = {
         function reloadProgress() {
             if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
             else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
-            var progress = reqProgress['progress']
-            $('#progress').html(progress);            
-            var status = reqProgress['status']
-            if(status == null){
-                return 0
-            }
-            else{
-                if(status.indexOf('FAIL')==1){
+            if(reqProgress['progress']) {
+                var progress = reqProgress['progress']
+                $('#progress').html(progress);            
+                var status = reqProgress['status']
+                if(status == null){
                     return 0
                 }
-                else if(status.indexOf("SUCCESS")==1) {
-                    if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                    else {
-                        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                        $(".mainLog").html(mainLog);
+                else{
+                    if(status.indexOf('FAIL')==1){
+                        return 0
+                    }
+                    else if(status.indexOf("SUCCESS")==1) {
+                        if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                        else {
+                            if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+                            else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+                            $(".mainLog").html(mainLog);
+                        }
                     }
                 }
             }
@@ -1443,13 +1447,14 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
-            let decRequestId = decryptAjaxResponse.dec_request_list_id;
+            let decRequestId = decryptAjaxResponse.decReqInfo.decRequestId;
             let fileList = decryptAjaxResponse.fileList;
             if(decryptAjaxResponse) {
                 uploadID = makeid(6);
                 fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo, thumb[1]);
                 
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
+                comm.loggingDecrypt(decRequestId);
                 
                 socket.emit('delUploadedFile', {
                     filePath: thumb[1],
