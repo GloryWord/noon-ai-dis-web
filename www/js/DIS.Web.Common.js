@@ -511,6 +511,7 @@ comm = {
     },
 
     meterDecrypt: function (requestIndex, fileNameList, fileType) {
+        console.log(requestIndex);
         let baseUrl = '/api/meterUsage/decrypt'
         let apiUrl = apiUrlConverter('decrypt', baseUrl)
 
@@ -555,6 +556,54 @@ comm = {
             success: function (data) {
                 if(data.message == "success"){
                     
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    loggingEncrypt: function (requestIndex) {
+        let baseUrl = '/api/logging'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                requestIndex,
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    console.log(data.result)
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    loggingDecrypt: function (requestIndex) {
+        let baseUrl = '/api/logging'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                requestIndex,
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                if(data.message == "success"){
+                    console.log(data.result)
                 }
             },
             error: function (xhr, status) {

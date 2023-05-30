@@ -158,7 +158,7 @@ resultLoader = {
     },
 
     getVideoDetailHtml: function (urlList, objectName) {
-        let videoURL = urlList[0][0]
+        let videoURL = (urlList[0][0].indexOf('thumbnail') >= 0) ? urlList[1][0] : urlList[0][0]
         var player = videojs("myPlayer", {
             sources : [
                 { src :videoURL, type : "video/mp4"}
@@ -175,9 +175,11 @@ resultLoader = {
     },
 
     getVideoInspectionHtml: function (urlList, objectName) {
+        let videoURL = (urlList[0][0].indexOf('thumbnail') >= 0) ? urlList[0][0] : urlList[1][0]
+        console.log(videoURL)
         var player = videojs("myPlayer", {
             sources : [
-                { src : urlList[1][0], type : "video/mp4"}
+                { src : videoURL, type : "video/mp4"}
             ],
             // poster : "test-poster.png",
             controls : true,
