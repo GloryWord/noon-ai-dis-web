@@ -19,14 +19,14 @@ let whitelist = [
     { tenant_id: 4, account_name: 'test', user_name: '테스트' },
     { tenant_id: 4, account_name: 'sd', user_name: '성동구청' },
     { tenant_id: 5, account_name: 'leeilhoon123@mhncity.com', user_name: '이일훈' },
-    { tenant_id: 1, account_name: 'mhncity', user_name: 'MHNCity'},
-    { tenant_id: 1, account_name: 'minhyeong', user_name: '이민형'},
-    { tenant_id: 1, account_name: 'ilhoon', user_name: '이일훈'},
-    { tenant_id: 10, account_name: 'paasta@test.com', user_name: '파스타'},
-    { tenant_id: 10, account_name: 'sub_paasta', user_name: '서브계정1'},
-    { tenant_id: 11, account_name: 'kaci_test@test.com', user_name: 'KACI'},
-    { tenant_id: 11, account_name: 'sub_kaci', user_name: '서브계정1'},
-    { tenant_id: 7, account_name: 'mhn364@gmail.com', user_name: '조판희'},
+    { tenant_id: 1, account_name: 'mhncity', user_name: 'MHNCity' },
+    { tenant_id: 1, account_name: 'minhyeong', user_name: '이민형' },
+    { tenant_id: 1, account_name: 'ilhoon', user_name: '이일훈' },
+    { tenant_id: 10, account_name: 'paasta@test.com', user_name: '파스타' },
+    { tenant_id: 10, account_name: 'sub_paasta', user_name: '서브계정1' },
+    { tenant_id: 11, account_name: 'kaci_test@test.com', user_name: 'KACI' },
+    { tenant_id: 11, account_name: 'sub_kaci', user_name: '서브계정1' },
+    { tenant_id: 7, account_name: 'mhn364@gmail.com', user_name: '조판희' },
 ]
 
 var init = DIS.Web.Init;
@@ -65,7 +65,7 @@ init = {
             let account_name = $('#name').val();
             let isDev = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id && val.account_name == account_name){
+                if (val.tenant_id == master_tenant_id && val.account_name == account_name) {
                     isDev = true;
                 }
             });
@@ -132,11 +132,11 @@ init = {
             let account_name = $('#name').val();
             let isDev = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id && val.account_name == account_name){
+                if (val.tenant_id == master_tenant_id && val.account_name == account_name) {
                     isDev = true;
                 }
             });
-            if(isDev) {
+            if (isDev) {
                 let accountName = $("#name").val();
                 let loginAlias = $("#loginAlias").val();
                 let password = $("#pass").val();
@@ -173,18 +173,18 @@ init = {
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
-            if(encProgress['progress']) {
+            if (encProgress['progress']) {
                 var progress = encProgress['progress']
                 $('#progress').html(progress);
                 var status = encProgress['status']
-                if(status == null){
+                if (status == null) {
                     return 0
                 }
-                else{
-                    if(status.indexOf('FAIL')==1){
+                else {
+                    if (status.indexOf('FAIL') == 1) {
                         return 0
                     }
-                    else if(status.indexOf("SUCCESS")==1) {
+                    else if (status.indexOf("SUCCESS") == 1) {
                         if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
                         else {
                             var mainLog = requestTable.getRecentRequest('encrypt');
@@ -239,7 +239,7 @@ init = {
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
-            transports: [ 'websocket' ]
+            transports: ['websocket']
         });
 
         var html = ''
@@ -254,7 +254,7 @@ init = {
         var uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
-            if(uploadID == msg.id) {
+            if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -314,25 +314,25 @@ init = {
             var check_num = /[0-9]/;    // 숫자 
             // var check_big = /[A-Z]/;    // 대문자
             var check_small = /[a-z]/;    // 소문자
-            if(genKeyName.length<8 || genKeyName.length>20){
+            if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
                     title: 'Key 이름은 8~20자 이내로 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+            else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
                     title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else{
+            else {
                 cKey = 1;
                 sKey = "select";
                 comm.generateKey(genKeyName, null);
@@ -458,14 +458,14 @@ init = {
                     allCheck = "true"
                 }
             }
-            if (allCheck == "true" && cKey==1 && sKey!="") {
+            if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum);
                 socket.emit('cancelDeleteFile', 'cancel')
             }
-            else if(allCheck == "false") {
+            else if (allCheck == "false") {
                 Swal.fire({
                     title: '비식별 객체 선택 오류',
                     html:
@@ -477,7 +477,7 @@ init = {
                     icon: "error"
                 });
             }
-            else if(cKey==0 || sKey==""){
+            else if (cKey == 0 || sKey == "") {
                 Swal.fire({
                     title: '키 선택 오류',
                     html:
@@ -496,13 +496,13 @@ init = {
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
-            transports: [ 'websocket' ]
+            transports: ['websocket']
         });
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var service = urlParams.get('service');
-        if(service == 'thumbnail'){
+        if (service == 'thumbnail') {
             var mode = urlParams.get('mode');
             var index = urlParams.get('id');
             var encid = urlParams.get('encid');
@@ -591,14 +591,15 @@ init = {
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
+            console.log(progressObject);
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
-            if(status == null){
+            if (status == null) {
                 return 0
             }
             else {
-                if(status.indexOf('FAIL')==1 || status.indexOf('Fail')!=-1){
+                if (status.indexOf('FAIL') == 1 || status.indexOf('Fail') != -1) {
                     Swal.fire({
                         title: '예기치 못한 오류로 작업이 중단됐습니다.',
                         text: '지속적으로 오류가 발생하면 문의해주세요.',
@@ -610,12 +611,12 @@ init = {
                         location.href = "/main"
                     })
                 }
-                else if(status.indexOf("SUCCESS")==1 || status.indexOf("Sucess")==1) {
+                else if (status.indexOf("SUCCESS") == 1 || status.indexOf("Sucess") == 1) {
                     if (progressObject['complete'] != 1) setTimeout(reloadProgress, 200);
                     else {
-                        if(service == 'encrypt') var msg = '비식별화가';
-                        else if(service == 'decrypt') var msg = '복호화가';
-                        else if(service == 'thumbnail') var msg = '썸네일 생성이';
+                        if (service == 'encrypt') var msg = '비식별화가';
+                        else if (service == 'decrypt') var msg = '복호화가';
+                        else if (service == 'thumbnail') var msg = '썸네일 생성이';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
                             showCancelButton: false,
@@ -631,7 +632,7 @@ init = {
                                     var typeStr = (type == 'image') ? '이미지' : '영상';
                                     let decDirectory, fileList, signedUrl, fileUrl, fileSize;
                                     [decDirectory, fileList] = resultLoader.getDecFileInfo(eventIndex);
-        
+
                                     if (fileList.length == 1) {
                                         //요청 결과물이 저장된 버킷 경로와 파일 이름을 갖고, 임시 다운로드 링크를 생성함
                                         //에러나는 경우 : result_file_list가 없을때, 실제 파일이름이 다를때
@@ -648,7 +649,7 @@ init = {
                                             subDirectory: decDirectory[1],  //참조할 object의 세부 경로
                                             fileName: fileList              //참조할 object filename 목록
                                         });
-        
+
                                         socket.on('compress', function (data) {
                                             if (data.log == '압축 완료') {
                                                 signedUrl = resultLoader.getFileUrl(decDirectory[0], decDirectory[1], ['Download.zip']);
@@ -672,7 +673,7 @@ init = {
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
-            transports: [ 'websocket' ]
+            transports: ['websocket']
         });
         var html = ''
         var fileCount = 0;
@@ -686,7 +687,7 @@ init = {
         var uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
-            if(uploadID == msg.id) {
+            if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -728,25 +729,25 @@ init = {
             var check_num = /[0-9]/;    // 숫자 
             // var check_big = /[A-Z]/;    // 대문자
             var check_small = /[a-z]/;    // 소문자
-            if(genKeyName.length<8 || genKeyName.length>20){
+            if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
                     title: 'Key 이름은 8~20자 이내로 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+            else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
                     title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else{
+            else {
                 cKey = 1;
                 sKey = "select";
                 comm.generateKey(genKeyName, null);
@@ -812,7 +813,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileWidth[0]+fileHeight[0] > 3000) {
+            if (fileWidth[0] + fileHeight[0] > 3000) {
                 Swal.fire({
                     title: '파일 해상도 초과',
                     html:
@@ -900,13 +901,13 @@ init = {
                     allCheck = "true"
                 }
             }
-            if (allCheck == "true" && cKey==1 && sKey!="") {
+            if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum);
                 socket.emit('cancelDeleteFile', 'cancel')
             }
-            else if(allCheck == "false") {
+            else if (allCheck == "false") {
                 Swal.fire({
                     title: '비식별 객체 선택 오류',
                     html:
@@ -918,7 +919,7 @@ init = {
                     icon: "error"
                 });
             }
-            else if(cKey==0 || sKey==""){
+            else if (cKey == 0 || sKey == "") {
                 Swal.fire({
                     title: '키 선택 오류',
                     html:
@@ -942,18 +943,18 @@ init = {
         function reloadProgress() {
             if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
             else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
-            if(reqProgress['progress']) {
+            if (reqProgress['progress']) {
                 var progress = reqProgress['progress']
-                $('#progress').html(progress);            
+                $('#progress').html(progress);
                 var status = reqProgress['status']
-                if(status == null){
+                if (status == null) {
                     return 0
                 }
-                else{
-                    if(status.indexOf('FAIL')==1){
+                else {
+                    if (status.indexOf('FAIL') == 1) {
                         return 0
                     }
-                    else if(status.indexOf("SUCCESS")==1) {
+                    else if (status.indexOf("SUCCESS") == 1) {
                         if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
                         else {
                             if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
@@ -1025,7 +1026,7 @@ init = {
         });
 
         $(document).on("click", ".search", function () {
-            if (requestType == 'encrypt'){
+            if (requestType == 'encrypt') {
                 var filter_video = $('.filter_video').is(':checked')
                 var filter_image = $('.filter_image').is(':checked')
                 var filter_album = $('.filter_album').is(':checked')
@@ -1039,21 +1040,21 @@ init = {
                     var startDate = $(".pc_date .startVal").val();
                     var endDate = $(".pc_date .endVal").val();
                 }
-    
+
                 if (filter_video == false && filter_image == false && filter_album == false || filter_video == true && filter_image == true && filter_album == true) {
                     var filter_file = ""
                 }
                 else {
                     var filter_file = "no"
                 }
-    
+
                 if (filter_reco == false && filter_norest == false || filter_reco == true && filter_norest == true) {
                     var filter_rest = ""
                 }
                 else {
                     var filter_rest = "no"
                 }
-    
+
                 if (filter_video == "" && filter_image == "" && filter_album == "" && filter_reco == "" && filter_norest == "" && startDate == "" && endDate == "") {
                     Swal.fire({
                         title: '검색을 진행하시려면 조건을 정한 뒤 진행해주세요.',
@@ -1232,7 +1233,7 @@ init = {
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
-            transports: [ 'websocket' ]
+            transports: ['websocket']
         });
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -1242,11 +1243,11 @@ init = {
         var encryptIdx = urlParams.get('encid');
         let thumb = fileModule.thumbnailList(idx, type, mode)
         let thumbPath = thumb[1]
-        
+
         let uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
-            if(uploadID == msg.id) {
+            if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
                     html: msg.html,
@@ -1257,7 +1258,7 @@ init = {
                 })
             }
         });
-        
+
         socket.emit('delUploadedFile', {
             filePath: thumbPath,
             id: uploadID,
@@ -1265,7 +1266,7 @@ init = {
         })
 
         $(".inspec_body").html(thumb[0]);
-        if(type=='video'){
+        if (type == 'video') {
             var encFileInfo = resultLoader.getEncFileInfo(encryptIdx)
             var encDirectory = encFileInfo.encDirectory
             var fileList = encFileInfo.fileList;
@@ -1281,18 +1282,18 @@ init = {
             slidesToScroll: 1,
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
             // speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-            arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
+            arrows: true, 		// 옆으로 이동하는 화살표 표시 여부
             prevArrow: '<div class="prev_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_left.png"></div>',
             nextArrow: '<div class="next_arrow"><img class="arrow_img" src="../static/imgs/common/arrow_right.png"></div>',
-            vertical : false,		// 세로 방향 슬라이드 옵션
-            draggable : false, 
+            vertical: false,		// 세로 방향 슬라이드 옵션
+            draggable: false,
             responsive: [ // 반응형 웹 구현 옵션
                 {
                     breakpoint: 1200,
                     settings: {
                         slidesToShow: 1,
-                        arrows : false, 
-                        draggable:true,
+                        arrows: false,
+                        draggable: true,
                     }
                 },
             ]
@@ -1309,40 +1310,40 @@ init = {
         $(document).on("click", ".cropImg.body", function () {
             var groupidx = $(this).data("groupidx")
             var imgidx = $(this).data("imgidx")
-            if($('.check_body.'+groupidx+'.body'+imgidx+'').is(':checked')){
-                $('.check_body.'+groupidx+'.body'+imgidx+'').prop("checked",false);
-                $(".body_allselect."+groupidx+"").prop("checked",false);
+            if ($('.check_body.' + groupidx + '.body' + imgidx + '').is(':checked')) {
+                $('.check_body.' + groupidx + '.body' + imgidx + '').prop("checked", false);
+                $(".body_allselect." + groupidx + "").prop("checked", false);
             }
-            else{
-                $('.check_body.'+groupidx+'.body'+imgidx+'').prop("checked",true);
+            else {
+                $('.check_body.' + groupidx + '.body' + imgidx + '').prop("checked", true);
             }
-            $(".selectText.body."+groupidx+"").text($(".check_body."+groupidx+":checked").length);
+            $(".selectText.body." + groupidx + "").text($(".check_body." + groupidx + ":checked").length);
         });
 
         $(document).on("click", ".cropImg.head", function () {
             var groupidx = $(this).data("groupidx")
             var imgidx = $(this).data("imgidx")
-            if($('.check_head.'+groupidx+'.head'+imgidx+'').is(':checked')){
-                $('.check_head.'+groupidx+'.head'+imgidx+'').prop("checked",false);
-                $(".head_allselect."+groupidx+"").prop("checked",false);
+            if ($('.check_head.' + groupidx + '.head' + imgidx + '').is(':checked')) {
+                $('.check_head.' + groupidx + '.head' + imgidx + '').prop("checked", false);
+                $(".head_allselect." + groupidx + "").prop("checked", false);
             }
-            else{
-                $('.check_head.'+groupidx+'.head'+imgidx+'').prop("checked",true);
+            else {
+                $('.check_head.' + groupidx + '.head' + imgidx + '').prop("checked", true);
             }
-            $(".selectText.head."+groupidx+"").text($(".check_head."+groupidx+":checked").length);
+            $(".selectText.head." + groupidx + "").text($(".check_head." + groupidx + ":checked").length);
         });
 
         $(document).on("click", ".cropImg.lp", function () {
             var groupidx = $(this).data("groupidx")
             var imgidx = $(this).data("imgidx")
-            if($('.check_lp.'+groupidx+'.lp'+imgidx+'').is(':checked')){
-                $('.check_lp.'+groupidx+'.lp'+imgidx+'').prop("checked",false);
-                $(".lp_allselect."+groupidx+"").prop("checked",false);
+            if ($('.check_lp.' + groupidx + '.lp' + imgidx + '').is(':checked')) {
+                $('.check_lp.' + groupidx + '.lp' + imgidx + '').prop("checked", false);
+                $(".lp_allselect." + groupidx + "").prop("checked", false);
             }
-            else{
-                $('.check_lp.'+groupidx+'.lp'+imgidx+'').prop("checked",true);
+            else {
+                $('.check_lp.' + groupidx + '.lp' + imgidx + '').prop("checked", true);
             }
-            $(".selectText.lp."+groupidx+"").text($(".check_lp."+groupidx+":checked").length);
+            $(".selectText.lp." + groupidx + "").text($(".check_lp." + groupidx + ":checked").length);
         });
 
         $(document).on("click", ".originBtn", function () {
@@ -1356,89 +1357,89 @@ init = {
         $(document).on("click", ".recovery", function () {
             var recoFileLen = document.getElementsByClassName('recoArea').length;
             var selectedFile = new Array();
-            for (var i = 1; i < recoFileLen+1; i++) {
+            for (var i = 1; i < recoFileLen + 1; i++) {
                 var data = new Object();
-                var allCheck = [$('.body_allselect.'+i+'').is(':checked'), $('.head_allselect.'+i+'').is(':checked'), $('.lp_allselect.'+i+'').is(':checked')]
-                if(allCheck[0]==true && allCheck[1]==true && allCheck[2]==true){
+                var allCheck = [$('.body_allselect.' + i + '').is(':checked'), $('.head_allselect.' + i + '').is(':checked'), $('.lp_allselect.' + i + '').is(':checked')]
+                if (allCheck[0] == true && allCheck[1] == true && allCheck[2] == true) {
                     data.allCheck = true
                 }
                 else {
-                    if(allCheck[0]==true){
+                    if (allCheck[0] == true) {
                         data.body = ["all"]
                     }
-                    else{
-                        var cropList = document.getElementsByClassName('check_body '+i+'');
+                    else {
+                        var cropList = document.getElementsByClassName('check_body ' + i + '');
                         var bodyList = []
                         for (var j = 0; j < cropList.length; j++) {
-                            if (cropList[j].checked == true){
+                            if (cropList[j].checked == true) {
                                 bodyList.push(cropList[j].value)
                             }
                         }
-                        if(cropList.length == 0){
+                        if (cropList.length == 0) {
                             data.body = bodyList
                         }
-                        else if(cropList.length == bodyList.length){
+                        else if (cropList.length == bodyList.length) {
                             data.body = ["all"]
                         }
-                        else{
+                        else {
                             data.body = bodyList
                         }
                     }
-                    if(allCheck[1]==true){
+                    if (allCheck[1] == true) {
                         data.head = ["all"]
                     }
-                    else{
-                        var cropList = document.getElementsByClassName('check_head '+i+'');
+                    else {
+                        var cropList = document.getElementsByClassName('check_head ' + i + '');
                         var headList = []
                         for (var j = 0; j < cropList.length; j++) {
-                            if (cropList[j].checked == true){
+                            if (cropList[j].checked == true) {
                                 headList.push(cropList[j].value)
                             }
                         }
-                        if(cropList.length == 0){
+                        if (cropList.length == 0) {
                             data.head = headList
                         }
-                        else if(cropList.length == headList.length){
+                        else if (cropList.length == headList.length) {
                             data.head = ["all"]
                         }
-                        else{
+                        else {
                             data.head = headList
                         }
                     }
-                    if(allCheck[2]==true){
+                    if (allCheck[2] == true) {
                         data.lp = ["all"]
                     }
-                    else{
-                        var cropList = document.getElementsByClassName('check_lp '+i+'');
+                    else {
+                        var cropList = document.getElementsByClassName('check_lp ' + i + '');
                         var lpList = []
                         for (var j = 0; j < cropList.length; j++) {
-                            if (cropList[j].checked == true){
+                            if (cropList[j].checked == true) {
                                 lpList.push(cropList[j].value)
                             }
                         }
-                        if(cropList.length == 0){
+                        if (cropList.length == 0) {
                             data.lp = lpList
                         }
-                        else if(cropList.length == lpList.length){
+                        else if (cropList.length == lpList.length) {
                             data.lp = ["all"]
                         }
-                        else{
+                        else {
                             data.lp = lpList
                         }
                     }
-                    if(data.body == ["all"] && data.head == ["all"] && data.lp == ["all"]){
+                    if (data.body == ["all"] && data.head == ["all"] && data.lp == ["all"]) {
                         data.allCheck = true
                         delete data.body
                         delete data.head
                         delete data.lp
                     }
-                    else{
+                    else {
                         data.allCheck = false
                     }
                 }
                 selectedFile.push(data)
             }
-            
+
             // test.selectFile(idx, selectedFile)
             let decryptArgs = {
                 idx: idx,
@@ -1449,13 +1450,13 @@ init = {
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
             let decRequestId = decryptAjaxResponse.decReqInfo.decRequestId;
             let fileList = decryptAjaxResponse.fileList;
-            if(decryptAjaxResponse) {
+            if (decryptAjaxResponse) {
                 uploadID = makeid(6);
                 fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo, thumb[1]);
-                
+
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
                 comm.loggingDecrypt(decRequestId);
-                
+
                 socket.emit('delUploadedFile', {
                     filePath: thumb[1],
                     id: uploadID,
@@ -1476,45 +1477,45 @@ init = {
             }
         });
 
-        if(mode=="group"){
-            for(var i=0;i<$(".encImgArea").length;i++){
-                load('.cropArea.body.'+(i+1)+'', 'body', '5', (i+1), '');
-                load('.cropArea.head.'+(i+1)+'', 'head', '5', (i+1), '');
-                load('.cropArea.lp.'+(i+1)+'', 'lp', '5', (i+1), '');
+        if (mode == "group") {
+            for (var i = 0; i < $(".encImgArea").length; i++) {
+                load('.cropArea.body.' + (i + 1) + '', 'body', '5', (i + 1), '');
+                load('.cropArea.head.' + (i + 1) + '', 'head', '5', (i + 1), '');
+                load('.cropArea.lp.' + (i + 1) + '', 'lp', '5', (i + 1), '');
             }
         }
-        else{
+        else {
             load('.cropArea.body', 'body', '5', '1');
             load('.cropArea.head', 'head', '5', '1');
             load('.cropArea.lp', 'lp', '5', '1');
         }
 
         $(document).on("click", ".btn-wrap.body .morebutton", function () {
-            if(mode=="group"){
+            if (mode == "group") {
                 var groupidx = $(this).data("idx")
-                load('.cropArea.body.'+groupidx+'', 'body', '5', groupidx, '.btn-wrap');
+                load('.cropArea.body.' + groupidx + '', 'body', '5', groupidx, '.btn-wrap');
             }
-            else{
+            else {
                 load('.cropArea.body', 'body', '5', '1', '.btn-wrap');
             }
         })
 
         $(document).on("click", ".btn-wrap.head .morebutton", function () {
-            if(mode=="group"){
+            if (mode == "group") {
                 var groupidx = $(this).data("idx")
-                load('.cropArea.head.'+groupidx+'', 'head', '5', groupidx, '.btn-wrap');
+                load('.cropArea.head.' + groupidx + '', 'head', '5', groupidx, '.btn-wrap');
             }
-            else{
+            else {
                 load('.cropArea.head', 'head', '5', '1', '.btn-wrap');
             }
         })
 
         $(document).on("click", ".btn-wrap.lp .morebutton", function () {
-            if(mode=="group"){
+            if (mode == "group") {
                 var groupidx = $(this).data("idx")
-                load('.cropArea.lp.'+groupidx+'', 'lp', '5', groupidx, '.btn-wrap');
+                load('.cropArea.lp.' + groupidx + '', 'lp', '5', groupidx, '.btn-wrap');
             }
-            else{
+            else {
                 load('.cropArea.lp', 'lp', '5', '1', '.btn-wrap');
             }
         })
@@ -1525,12 +1526,12 @@ init = {
             var enc_total_cnt;
             if (cnt < enc_length) {
                 enc_total_cnt = cnt;
-                $('.btn-wrap.'+type+'.'+idx+'').show()
+                $('.btn-wrap.' + type + '.' + idx + '').show()
             } else {
                 enc_total_cnt = enc_length;
-                $('.btn-wrap.'+type+'.'+idx+'').hide()
+                $('.btn-wrap.' + type + '.' + idx + '').hide()
             }
-            $(id +" .cropContent:not(.active):lt("+enc_total_cnt+")").addClass("active");
+            $(id + " .cropContent:not(.active):lt(" + enc_total_cnt + ")").addClass("active");
             // 더보기 클릭 시 첫째열에 전부 나오지 않도록 각 열에 하나씩 배치하는 코드
             // for(var i=0;i<enc_total_cnt;i++){
             //     $(id +" .column"+(i+1)+"_"+type+".group"+idx+" .cropContent:not(.active):lt(1)").addClass("active");
@@ -1622,7 +1623,7 @@ init = {
         function reloadProgress() {
             var encProgress = requestTable.getDecProgress();
             var progress = encProgress['progress']
-            if(progress == null) return 0;
+            if (progress == null) return 0;
             else {
                 $('#progress').html(progress);
                 if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
@@ -1803,7 +1804,7 @@ init = {
         var auth = urlParams.get('auth');
 
         $(document).ready(function () {
-            if(auth != "1"){
+            if (auth != "1") {
                 location.href = "/main"
             }
         });
@@ -1875,18 +1876,18 @@ init = {
             let origin_name = first_name;
             let origin_email = first_email;
             let origin_phone = first_phone;
-            if(!patterns.phone.test(phone)) {
+            if (!patterns.phone.test(phone)) {
                 Swal.fire({
                     title: '휴대전화 번호를 다시 입력해 주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
             else userinfo.infoModi(name, email, origin_phone, phone, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config);
         });
-        
+
         $(document).on("change", ".view_email", function () {
             if ($(this).val() != "") {
                 var validemail = validEmail(this)
@@ -1911,7 +1912,7 @@ init = {
             }
         });
 
-        var {getFirstInfo, first_name, first_email, first_phone} = userinfo.getFirtstInfo();
+        var { getFirstInfo, first_name, first_email, first_phone } = userinfo.getFirtstInfo();
         $(".userinfoFirst").html(getFirstInfo);
 
         var getSecondInfo = userinfo.getSecondInfo()
@@ -1937,22 +1938,83 @@ init = {
             $("#memoModi").addClass('active')
 
             $(document).on("click", ".memosave", function () {
-                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
                 var key_memo = $(".keymemo_modi").val()
-                if( regExp.test(key_memo) ){
+                if (regExp.test(key_memo)) {
                     Swal.fire({
                         title: 'Key 메모는 특수 문자 사용이 불가능해요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else{
+                else {
                     requestTable.updateKeyMemo(key_idx, key_memo)
                 }
             });
         });
+
+        $(document).on("click", ".change_btn", function () {
+            let key_idx = $(this).data("id");
+            Swal.fire({
+                title: '해당 키를 변경하시겠습니까?',
+                html: `해당 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 기존 키로는 복호화가 불가능합니다.`,
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '취소'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const { changed, count } = await key.changeKeyAll(key_idx);
+                    console.log(changed)
+                    console.log(count);
+                    if(changed) {
+                        Swal.fire({
+                            title: '키 변경 완료',
+                            icon: 'success',
+                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if(result.isConfirmed) location.reload();
+                        })
+                    }
+                }
+            })
+        })
+
+        $(document).on("click", ".delete_btn", function () {
+            let key_idx = $(this).data("id");
+            Swal.fire({
+                title: '해당 키를\n 삭제하시겠습니까?',
+                html: '해당 키를 삭제하면 해당 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.',
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '취소'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const removed = key.removeKeyRef(key_idx);
+                    const deleted = key.deleteKey(key_idx);
+                    if(removed && deleted) {
+                        Swal.fire({
+                            title: '키 삭제 완료',
+                            icon: 'success',
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if(result.isConfirmed) location.reload();
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            title: '키 삭제 실패',
+                            html: '다시 시도해 주세요',
+                            icon: 'error',
+                            allowOutsideClick: false
+                        })
+                    }
+                }
+            })
+        })
 
         // $(document).on("click", ".memosave", function () {
         //     var key_memo = $(".keymemo_modi").val()
@@ -1982,38 +2044,38 @@ init = {
             else {
                 var genKeyName = $("#genKeyName").val();
                 var keyMemo = $("#keyMemo").val();
-                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
                 var check_num = /[0-9]/;    // 숫자 
                 // var check_big = /[A-Z]/;    // 대문자
                 var check_small = /[a-z]/;    // 소문자
-                if(genKeyName.length<8 || genKeyName.length>20){
+                if (genKeyName.length < 8 || genKeyName.length > 20) {
                     Swal.fire({
                         title: 'Key 이름은 8~20자 이내로 입력해주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else if(regExp.test(keyMemo)){
+                else if (regExp.test(keyMemo)) {
                     Swal.fire({
                         title: 'Key 메모는 특수 문자 사용이 불가능해요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else if(check_num.test(genKeyName)!=true || check_small.test(genKeyName)!=true){
+                else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                     Swal.fire({
                         title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else{
+                else {
                     comm.generateKey(genKeyName, keyMemo);
                 }
             }
@@ -2032,18 +2094,18 @@ init = {
         });
 
         $(document).on("click", ".keyConfig", function () {
-            var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+            var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
             var accessKey = $(".accessKey").val();
-            if(regExp.test(accessKey)){
+            if (regExp.test(accessKey)) {
                 Swal.fire({
                     title: '접속 키는 특수 문자 사용이 불가능해요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else{
+            else {
                 subaccount.putAccessKey(accessKey)
             }
         });
@@ -2315,22 +2377,22 @@ init = {
                 var check_big = /[A-Z]/;    // 대문자
                 var check_small = /[a-z]/;    // 소문자
                 var check_symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수기호
-                if(password.length<8){
+                if (password.length < 8) {
                     Swal.fire({
                         title: '비밀번호는 8자 이상 입력해주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else if(check_num.test(password)!=true || check_big.test(password)!=true || check_small.test(password)!=true || check_symbol.test(password)!=true){
+                else if (check_num.test(password) != true || check_big.test(password) != true || check_small.test(password) != true || check_symbol.test(password) != true) {
                     Swal.fire({
                         title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
                 else if (password != repassword) Swal.fire({
@@ -2347,13 +2409,13 @@ init = {
                     denyButtonText: "확 인",
                     icon: "error"
                 });
-                else if(!patterns.phone.test(phone)) {
+                else if (!patterns.phone.test(phone)) {
                     Swal.fire({
                         title: '휴대전화 번호를 다시 입력해 주세요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
                 else signup.tenantSignUp(accountName, password, companyName, ownerName, phone);
@@ -2443,7 +2505,7 @@ init = {
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
-            transports: [ 'websocket' ]
+            transports: ['websocket']
         });
 
         var queryString = location.search;
@@ -2475,6 +2537,33 @@ init = {
                 $(".check_reco").removeClass("hide")
                 $(".allselect").removeClass("hide")
             }
+        });
+
+        $(document).on("click", ".keyChange", function () {
+            let key_idx = $(this).data("id");
+
+            Swal.fire({
+                title: '해당 키를 변경하시겠습니까?',
+                html: `해당 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 기존 키로는 복호화가 불가능합니다.`,
+                showCancelButton: true,
+                confirmButtonText: '네',
+                cancelButtonText: '취소'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const { changed, count } = await key.changeKeyElement(key_idx, eventIndex);
+                    if(changed) {
+                        Swal.fire({
+                            title: '키 변경 완료',
+                            icon: 'success',
+                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if(result.isConfirmed) location.reload();
+                        })
+                    }
+                }
+            })
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
@@ -2515,8 +2604,8 @@ init = {
             let key_name = $('.file_key')[0].children[1].innerHTML
             if (mode == 'single') {
                 uploadID = makeid(6);
-                let uploadResult = fileModule.uploadKey();              
-            
+                let uploadResult = fileModule.uploadKey();
+
                 uploadResult.then((data) => {
                     let file_name = data[0]
                     let keyPath = data[1]
@@ -2550,7 +2639,7 @@ init = {
                 var selected = $(this).data('value');
                 uploadID = makeid(6);
                 let uploadResult = fileModule.uploadKey();
-            
+
                 uploadResult.then((data) => {
                     let file_name = data[0]
                     let keyPath = data[1]
@@ -2668,7 +2757,7 @@ init = {
                         $("input:checkbox[class=allselect]").prop("checked", false);
                     }
                 });
-                
+
                 $(document).on("mouseover", ".albumImg", function () {
                     var num = $(this).data('num')
                     $("." + num + "").removeClass("hide")

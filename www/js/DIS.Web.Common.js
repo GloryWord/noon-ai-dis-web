@@ -610,5 +610,28 @@ comm = {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
+    },
+
+    test: function (requestIndex) {
+        let keyIndex = requestIndex;
+        let baseUrl = '/api/test'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                keyIndex,
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data.result);
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
     }
 }

@@ -801,10 +801,12 @@ fileModule = {
         })
     },
 
-    uploadKey: function () {
+    uploadKey: function (inputElementClass = 'file') {
         return new Promise((resolve, reject) => {
             let formData = new FormData();
-            let file = document.getElementById('file').files[0];
+            let file = null;
+            if(inputElementClass === 'file') file = document.getElementById(inputElementClass).files[0];
+            else file = document.getElementsByClassName(inputElementClass)[0].files[0];
             let upload_result, keyPath;
             let file_name = (file != undefined) ? file.name : null;
             let curTime = getTime();

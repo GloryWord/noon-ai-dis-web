@@ -324,6 +324,7 @@ requestTable = {
         });
 
         var htmlStr = ''
+        console.log(requestList.length);
         if (requestList.length === 0 && archived.length === 0) {
             htmlStr = '<div class="nodata"><p>요청 기록이 존재하지 않습니다.</p></div>'
         }
@@ -819,6 +820,7 @@ requestTable = {
 
         let baseUrl = '/api/key/all'
         let apiUrl = apiUrlConverter('key', baseUrl)
+        let auth = null;
 
         $.ajax({
             method: "get",
@@ -829,6 +831,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 requestList = data;
+                auth = data.auth;
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -885,6 +888,9 @@ requestTable = {
                     else{
                         var modi = ""
                     }
+
+                    let visible = ""
+                    if(auth !== 'master') visible = "hide";
     
                     htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
                                     <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
@@ -897,6 +903,16 @@ requestTable = {
                                     <div class="modi_content">\
                                         <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
                                             <p>수정</p>\
+                                        </div>\
+                                    </div>\
+                                    <div class="change_content">\
+                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="change_btn">\
+                                            <p>변경</p>\
+                                        </div>\
+                                    </div>\
+                                    <div class="delete_content">\
+                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="delete_btn">\
+                                            <p>삭제</p>\
                                         </div>\
                                     </div>\
                                 </div>'

@@ -113,7 +113,9 @@
 .key_table .keyList .listHeader .headArea .user_head,
 .key_table .keyList .listHeader .headArea .create_head,
 .key_table .keyList .listHeader .headArea .memo_head,
-.key_table .keyList .listHeader .headArea .modi_head {
+.key_table .keyList .listHeader .headArea .modi_head,
+.key_table .keyList .listHeader .headArea .change_head,
+.key_table .keyList .listHeader .headArea .delete_head {
     height: 18px;
     display: flex;
     margin: 24px 0 20px;
@@ -140,6 +142,14 @@
 }
 
 .key_table .keyList .listHeader .headArea .modi_head {
+    width: 80px;
+}
+
+.key_table .keyList .listHeader .headArea .change_head {
+    width: 80px;
+}
+
+.key_table .keyList .listHeader .headArea .delete_head {
     width: 80px;
 }
 
@@ -177,7 +187,9 @@
 .key_table .keyList .listContent .tableContent .user_content,
 .key_table .keyList .listContent .tableContent .create_content,
 .key_table .keyList .listContent .tableContent .memo_content,
-.key_table .keyList .listContent .tableContent .modi_content {
+.key_table .keyList .listContent .tableContent .modi_content,
+.key_table .keyList .listContent .tableContent .change_content,
+.key_table .keyList .listContent .tableContent .delete_content {
     height: 57px;
     display: flex;
     margin: auto 0;
@@ -211,6 +223,14 @@
     width: 80px;
 }
 
+.key_table .keyList .listContent .tableContent .change_content {
+    width: 80px;
+}
+
+.key_table .keyList .listContent .tableContent .delete_content {
+    width: 80px;
+}
+
 .key_table .keyList .listContent .tableContent .memo_content .memo_text {
     text-align: center;
     overflow: hidden;
@@ -241,11 +261,59 @@
     cursor: pointer;
 }
 
-.key_table .keyList .listContent .tableContent .modi_content .memo_modi.hide {
+.key_table .keyList .listContent .tableContent .change_content .change_btn {
+    width: 64px;
+    height: 24px;
+    margin: auto;
+    border-radius: 13px;
+    background-color: #3fa9f5;
+    display: flex;
+    cursor: pointer;
+}
+
+.key_table .keyList .listContent .tableContent .delete_content .delete_btn {
+    width: 64px;
+    height: 24px;
+    margin: auto;
+    border-radius: 13px;
+    background-color: #595959;
+    display: flex;
+    cursor: pointer;
+}
+
+.key_table .keyList .listContent .tableContent .modi_content .memo_modi.hide,
+.key_table .keyList .listContent .tableContent .change_content .change_btn.hide,
+.key_table .keyList .listContent .tableContent .delete_content .delete_btn.hide {
     display: none;
 }
 
 .key_table .keyList .listContent .tableContent .modi_content .memo_modi p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.key_table .keyList .listContent .tableContent .change_content .change_btn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.key_table .keyList .listContent .tableContent .delete_content .delete_btn p {
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 12px;
     font-weight: bold;
