@@ -973,7 +973,7 @@ fileModule = {
         return result;
     },
 
-    storeThumbnailReqInfo: function (restorationReq, fileType, mode, eventIndex) {
+    sendThumbnailMessage: function (restorationReq, fileType, mode, eventIndex) {
         let reqInfo, msgTemplate, thumbRequestId;
         try {
             reqInfo = restorationReq['thumbReqInfo']['reqInfo'];

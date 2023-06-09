@@ -2620,7 +2620,7 @@ init = {
                         let verify_result = fileModule.verifyKey(file_name, key_name);
                         let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
                         console.log('restorationReq : ' + JSON.stringify(restorationReq));
-                        fileModule.storeThumbnailReqInfo(restorationReq, type, mode, eventIndex);
+                        fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                     }
                     else {
                         console.log('file_name : ' + file_name);
@@ -2653,7 +2653,7 @@ init = {
                         if (selected == 'all') {
                             let verify_result = fileModule.verifyKey(file_name, key_name);
                             let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                            fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                            fileModule.sendThumbnailMessage(restorationReq, type, mode);
                         }
                         else if (selected == 'select') {
                             if (selectedFile.length == 0) Swal.fire({
@@ -2667,7 +2667,7 @@ init = {
                             else {
                                 let verify_result = fileModule.verifyKey(file_name, key_name);
                                 let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
-                                fileModule.storeThumbnailReqInfo(restorationReq, type, mode);
+                                fileModule.sendThumbnailMessage(restorationReq, type, mode);
                             }
                         }
                     }
