@@ -165,6 +165,82 @@ init = {
         });
     },
 
+    agree: function () {
+        $(document).on("click", ".checkAllArea", function () {
+            if ($('.agreeAllCheck').is(':checked')) {
+                $(".agreeServiceCheck").prop("checked", false);
+                $(".agreePrivacyCheck").prop("checked", false);
+                $(".noneAllCheck").addClass("active")
+                $(".checkAll").removeClass("active")
+                $(".noneServiceCheck").addClass("active")
+                $(".checkService").removeClass("active")
+                $(".nonePrivacyCheck").addClass("active")
+                $(".checkPrivacy").removeClass("active")
+                $(".nextBtn").addClass("disable")
+            }
+            else {
+                $(".agreeServiceCheck").prop("checked", true);
+                $(".agreePrivacyCheck").prop("checked", true);
+                $(".noneAllCheck").removeClass("active")
+                $(".checkAll").addClass("active")
+                $(".noneServiceCheck").removeClass("active")
+                $(".checkService").addClass("active")
+                $(".nonePrivacyCheck").removeClass("active")
+                $(".checkPrivacy").addClass("active")
+                $(".nextBtn").removeClass("disable")
+            }
+        });
+
+        $(document).on("click", ".checkServiceArea", function () {
+            if ($('.agreeServiceCheck').is(':checked')) {
+                $(".agreeAllCheck").prop("checked", false);
+                $(".noneAllCheck").addClass("active")
+                $(".checkAll").removeClass("active")
+                $(".noneServiceCheck").addClass("active")
+                $(".checkService").removeClass("active")
+                if($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")){
+                    $(".nextBtn").addClass("disable")
+                }
+            }
+            else {
+                $(".noneServiceCheck").removeClass("active")
+                $(".checkService").addClass("active")
+                if($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")){
+                    $(".nextBtn").removeClass("disable")
+                }
+            }
+        });
+
+        $(document).on("click", ".checkPrivacyArea", function () {
+            if ($('.agreePrivacyCheck').is(':checked')) {
+                $(".agreeAllCheck").prop("checked", false);
+                $(".noneAllCheck").addClass("active")
+                $(".checkAll").removeClass("active")
+                $(".nonePrivacyCheck").addClass("active")
+                $(".checkPrivacy").removeClass("active")
+                if($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")){
+                    $(".nextBtn").addClass("disable")
+                }
+            }
+            else {
+                $(".nonePrivacyCheck").removeClass("active")
+                $(".checkPrivacy").addClass("active")
+                if($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")){
+                    $(".nextBtn").removeClass("disable")
+                }
+            }
+        });
+
+        $(document).on("click", ".nextBtn", function () {
+            if ($('.agreeServiceCheck').is(':checked') && $('.agreePrivacyCheck').is(':checked')) {
+                location.href = "/join"
+            }
+            else {
+                console.log("error")
+            }
+        });
+    },
+
     main: function () {
         var temp = comm.getUser()
 

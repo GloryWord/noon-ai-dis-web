@@ -614,11 +614,15 @@ a {
         cursor: pointer;
     }
 
-    .loginArea .loginContent .loginFooter {
+    /* .loginArea .loginContent .loginFooter {
         width: 268px;
         height: auto;
         margin: 0 auto 12px;
         display: flex;
+    } */
+
+    .loginArea .loginContent .loginFooter {
+        display: none;
     }
     
     .loginArea .loginContent .loginPrivacy {

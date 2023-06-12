@@ -1,0 +1,492 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Thin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Thin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.agreeArea {
+    background: url(../../imgs/login/login_back.png);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-size: cover;
+    background-position: 50% 0%;
+}
+
+.agreeArea .agreeContent {
+    width: 560px;
+    height: auto;
+    margin: auto;
+    border-radius: 24px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.agreeArea .agreeContent .agreeHeader {
+    display: flex;
+    flex-direction: column;
+    margin: 54px auto 18px;
+}
+
+.agreeArea .agreeContent .agreeHeader img {
+    width: 294px;
+    height: auto;
+    margin: 0 auto 42px;
+    object-fit: contain;
+}
+
+.agreeArea .agreeContent .agreeBody {
+    width: auto;
+    height: auto;
+    margin: 0 auto 42px;
+    display: flex;
+    flex-direction: column;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect {
+    width: 464px;
+    height: auto;
+    margin: 0 auto 36px;
+    display: flex;
+    flex-direction: column;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect input {
+    display: none;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect label {
+    cursor: pointer;
+    display: flex;
+    margin: 0 auto 12px 0;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect label .noneAllCheck,
+.agreeArea .agreeContent .agreeBody .allSelect label .checkAll {
+    width: 28px;
+    height: 28px;
+    margin: auto 8px auto 0;
+    object-fit: contain;
+    display: none;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect label .noneAllCheck.active,
+.agreeArea .agreeContent .agreeBody .allSelect label .checkAll.active {
+    display: flex;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect label span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto 0 0;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect .textArea {
+    width: 404px;
+    height: auto;
+    display: flex;
+    margin: 0 auto 0 36px;
+}
+
+.agreeArea .agreeContent .agreeBody .allSelect .textArea p {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
+    margin: auto;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect,
+.agreeArea .agreeContent .agreeBody .privacySelect {
+    width: 464px;
+    height: auto;
+    margin: 0 auto 36px;
+    display: flex;
+    flex-direction: column;
+}
+
+.agreeArea .agreeContent .agreeBody .privacySelect {
+    margin: 0 auto;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect input,
+.agreeArea .agreeContent .agreeBody .privacySelect input {
+    display: none;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect label,
+.agreeArea .agreeContent .agreeBody .privacySelect label {
+    cursor: pointer;
+    display: flex;
+    margin: 0 auto 12px 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect label .noneServiceCheck,
+.agreeArea .agreeContent .agreeBody .serviceSelect label .checkService,
+.agreeArea .agreeContent .agreeBody .privacySelect label .nonePrivacyCheck,
+.agreeArea .agreeContent .agreeBody .privacySelect label .checkPrivacy {
+    width: 28px;
+    height: 28px;
+    margin: auto 8px auto 0;
+    object-fit: contain;
+    display: none;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect label .noneServiceCheck.active,
+.agreeArea .agreeContent .agreeBody .serviceSelect label .checkService.active,
+.agreeArea .agreeContent .agreeBody .privacySelect label .nonePrivacyCheck.active,
+.agreeArea .agreeContent .agreeBody .privacySelect label .checkPrivacy.active {
+    display: flex;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect label h3,
+.agreeArea .agreeContent .agreeBody .privacySelect label h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect label span,
+.agreeArea .agreeContent .agreeBody .privacySelect label span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto 0 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea {
+    width: 452px;
+    height: 144px;
+    margin: 0;
+    padding: 12px 0 12px 12px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    display: flex;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea {
+    width: 440px;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 12px 0 0;
+    overflow-y: scroll;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea h3,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea p,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea p {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea table,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea table {
+    border: #707070 1px solid;
+    border-collapse: collapse;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea table th,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea table th {
+    border: #707070 1px solid;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: center;
+    color: #707070;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea table td,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea table td {
+    border: #707070 1px solid;
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: center;
+    color: #707070;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .blankArea,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .blankArea {
+    width: 6px;
+    height: 100%;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .infoArea .textArea::-webkit-scrollbar,
+.agreeArea .agreeContent .agreeBody .privacySelect .infoArea .textArea::-webkit-scrollbar {
+    width: 6px;
+    height: auto;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .textArea::-webkit-scrollbar-track,
+.agreeArea .agreeContent .agreeBody .privacySelect .textArea::-webkit-scrollbar-track {
+    padding: 12px 6px 12px 0;
+    background-color: #fff;
+    width: 6px;
+}
+
+.agreeArea .agreeContent .agreeBody .serviceSelect .textArea::-webkit-scrollbar-thumb,
+.agreeArea .agreeContent .agreeBody .privacySelect .textArea::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #bcc5cb;
+}
+
+.agreeArea .agreeContent .agreeFooter {
+    width: auto;
+    height: auto;
+    margin: 0 auto 52px;
+    display: flex;
+}
+
+.agreeArea .agreeContent .agreeFooter .nextBtn,
+.agreeArea .agreeContent .agreeFooter .cancel {
+    width: 220px;
+    height: 40px;
+    margin: 0 24px 0 0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.agreeArea .agreeContent .agreeFooter .nextBtn.disable {
+    pointer-events: none;
+}
+
+.agreeArea .agreeContent .agreeFooter .cancel {
+    background-color: #16284d;
+    margin: 0;
+}
+
+.agreeArea .agreeContent .agreeFooter .cancel a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.agreeArea .agreeContent .agreeFooter .nextBtn p,
+.agreeArea .agreeContent .agreeFooter .cancel a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.swal2-popup {
+    width: 400px !important;
+    border-radius: 24px !important;
+    padding: 0 0 40px !important;
+}
+
+.swal2-icon {
+    margin: 50px auto 0 !important;
+}
+
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    z-index: 3 !important;
+    background-color: #fff !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 0.25em solid #3fa9f5 !important;
+    background-color: #3fa9f5 !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #f64957 !important;
+    background-color: #f64957 !important;
+    color: #fff !important;
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: #fff !important;
+}
+
+.swal2-title {
+    font-family: SpoqaHanSansNeo-Bold !important;
+    font-size: 24px !important;
+    color: #16284d !important;
+    padding: 0 !important;
+    margin: 40px auto 0 !important;
+    max-width: 294px !important;
+}
+
+.swal2-html-container {
+    font-family: SpoqaHanSansNeo-Medium !important;
+    font-size: 18px !important;
+    color: #595959 !important;
+    margin: 12px auto 0 !important;
+    max-width: 294px !important;
+}
+
+.swal2-actions {
+    margin: 0 auto !important;
+    flex-direction: column !important;
+}
+
+.swal2-styled.swal2-confirm {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #3fa9f5 !important;
+    color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+.swal2-styled.swal2-deny {
+    width: 294px !important;
+    height: 40px !important;
+    margin: 40px auto 0 !important;
+    padding: 0 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
+    background-color: #f64957 !important;
+    color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+}
