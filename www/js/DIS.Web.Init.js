@@ -169,7 +169,6 @@ init = {
         var temp = comm.getUser()
 
         $(".curTenant").html(temp);
-        // $("#selectKeyName").html(comm.getKeyList());
 
         function reloadProgress() {
             var encProgress = requestTable.getEncProgress();
@@ -368,6 +367,38 @@ init = {
 
         $(document).on("click", ".dropdown_content", function () {
             sKey = "select"
+            let key_idx = $(this).data("idx")
+            let validUntil = $(this).data("valid")
+            let notification = $(this).data("notification")
+            if(validUntil < 90 && notification) {
+                Swal.fire({
+                    title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
+                    html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
+                    showCancelButton: true,
+                    confirmButtonText: '확인',
+                    cancelButtonText: '일주일동안 알림 끄기'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        // const { changed, count } = await key.changeKeyAll(key_idx);
+                        // console.log(changed)
+                        // console.log(count);
+                        // if(changed) {
+                        //     Swal.fire({
+                        //         title: '키 변경 완료',
+                        //         icon: 'success',
+                        //         html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                        //         allowOutsideClick: false
+                        //     }).then((result) => {
+                        //         if(result.isConfirmed) location.reload();
+                        //     })
+                        // }
+                    }
+
+                    if (result.isDismissed) {
+                        await key.disableNotification(key_idx);
+                    }
+                })
+            }
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -770,6 +801,7 @@ init = {
         });
 
         $('input[type=radio][name=keySelect]').on('change', function () {
+            console.log($(this))
             if ($(this).val() == 'skey') {
                 $("#genKeyName").attr("disabled", false);
                 keyselect = $(this).val();
@@ -783,6 +815,32 @@ init = {
 
         $(document).on("click", ".dropdown_content", function () {
             sKey = "select"
+            let validUntil = $(this).data("valid")
+            if(validUntil < 90) {
+                Swal.fire({
+                    title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
+                    html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
+                    showCancelButton: true,
+                    confirmButtonText: '확인',
+                    cancelButtonText: '일주일동안 알림 끄기'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        // const { changed, count } = await key.changeKeyAll(key_idx);
+                        // console.log(changed)
+                        // console.log(count);
+                        // if(changed) {
+                        //     Swal.fire({
+                        //         title: '키 변경 완료',
+                        //         icon: 'success',
+                        //         html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                        //         allowOutsideClick: false
+                        //     }).then((result) => {
+                        //         if(result.isConfirmed) location.reload();
+                        //     })
+                        // }
+                    }
+                })
+            }
         });
 
         $(document).on("click", ".fileSelect", function () {
@@ -2544,7 +2602,7 @@ init = {
 
             Swal.fire({
                 title: '해당 키를 변경하시겠습니까?',
-                html: `해당 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
+                html: `해당 키를 사용하여 비식별화한 기록을 다른 키로 복호화 할 수 있도록 변경합니다.
                  변경 후 기존 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',

@@ -334,7 +334,7 @@ key = {
         let baseUrl = '/api/key/all'
         let apiUrl = apiUrlConverter('key', baseUrl)
 
-        let keyList = null;
+        let keyList = [];
         let auth = null;
 
         $.ajax({
@@ -436,4 +436,30 @@ key = {
 
         return result;
     },
+
+    disableNotification: async function (keyIndex) {
+        let baseUrl = '/api/key/notification'
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
+        $.ajax({
+            method: "PATCH",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                keyIndex
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    
+                }
+            }, // success 
+            error: function (xhr, status) {
+                result = JSON.parse(xhr.responseJSON.result)
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    }
 }
