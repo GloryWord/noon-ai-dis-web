@@ -827,6 +827,7 @@ requestTable = {
         let baseUrl = '/api/key/all'
         let apiUrl = apiUrlConverter('key', baseUrl)
         let auth = null;
+        let responseMessage = '';
 
         $.ajax({
             method: "get",
@@ -840,12 +841,13 @@ requestTable = {
                 auth = data.auth;
             },
             error: function (xhr, status) {
+                responseMessage = xhr.responseJSON.message
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
 
         var htmlStr = ''
-        if(requestList.message == "No keyList found"){
+        if(responseMessage == "no key list"){
             htmlStr += '<div class="tableContent">\
                             <p>생성된 Key가 없어요</p>\
                         </div>'

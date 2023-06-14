@@ -249,7 +249,7 @@ key = {
     //     return { complete, count }
     // },
 
-    changeKeyAll: async function (keyIndex) {
+    changeKeyAll: async function (socket, keyIndex) {
         let changed = false;
         let count = 0;
         let baseUrl = '/api/key/all'
@@ -303,6 +303,11 @@ key = {
 
         if (file) {
             [upload_result, keyPath] = await fileModule.uploadKey('swal2-file');
+            socket.emit('delUploadedFile', {
+                filePath: keyPath,
+                id: uploadID,
+                immediate: 'false'
+            })
             let fileName = upload_result;
             const verify_result = await fileModule.verifyKey(fileName, curKey.key_name);
             valid = verify_result.valid;
@@ -328,7 +333,7 @@ key = {
         return { changed, count };
     },
 
-    changeKeyElement: async function (keyIndex, requestId) {
+    changeKeyElement: async function (socket, keyIndex, requestId) {
         let changed = false;
         let count = 0;
         let baseUrl = '/api/key/all'
@@ -382,6 +387,13 @@ key = {
 
         if (file) {
             [upload_result, keyPath] = await fileModule.uploadKey('swal2-file');
+            let uploadID = makeid(6);
+            socket.emit('delUploadedFile', {
+                filePath: keyPath,
+                id: uploadID,
+                immediate: 'false'
+            })
+            
             let fileName = upload_result;
             const verify_result = await fileModule.verifyKey(fileName, curKey.key_name);
             valid = verify_result.valid;
