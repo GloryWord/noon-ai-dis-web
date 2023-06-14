@@ -2046,6 +2046,11 @@ init = {
     },
 
     key: function () {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
+            withCredentials: true,
+            transports: ['websocket']
+        });
         var keyContent = requestTable.getAllKeyList()
         $(".listContent").html(keyContent);
 
@@ -2090,7 +2095,7 @@ init = {
                 cancelButtonText: '취소'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const { changed, count } = await key.changeKeyAll(key_idx);
+                    const { changed, count } = await key.changeKeyAll(socket, key_idx);
                     console.log(changed)
                     console.log(count);
                     if(changed) {
@@ -2701,7 +2706,7 @@ init = {
                 cancelButtonText: '취소'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const { changed, count } = await key.changeKeyElement(key_idx, eventIndex);
+                    const { changed, count } = await key.changeKeyElement(socket, key_idx, eventIndex);
                     if(changed) {
                         Swal.fire({
                             title: '키 변경 완료',
