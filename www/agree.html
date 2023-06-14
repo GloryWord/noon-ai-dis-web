@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./static/imgs/favicon/android-icon-48x48.png">
+    <!-- <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" /> -->
+    <link rel="stylesheet" href="./static/css/common/agree.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" /> -->
+    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" /> 
+
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/DIS.Web.Common.js"></script>
+    <script type="text/javascript" src="./js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="./js/DIS.Web.Login.js"></script>
+    <script src="./static/js/socket.io/socket.io.min.js"></script>
+    <script src="./static/js/sweetalert/sweetalert.js"></script>
+    <script src="./static/js/common/footer.js"></script>
+</head>
+
+<body>
+    <div class="agreeArea">
+        <div class="agreeContent">
+            <div class="agreeHeader">
+                <img src="./static/imgs/login/new_login_logo.png">
+            </div>
+            <div class="agreeBody">
+                <div class="allSelect">
+                    <input class="agreeAllCheck" id="allCheck" type="checkbox">
+                    <label class="checkAllArea" for="allCheck">
+                        <img class="noneAllCheck active" src="./static/imgs/common/none_check.png">
+                        <img class="checkAll" src="./static/imgs/common/check.png">
+                        <span>전체 동의하기</span>
+                    </label>
+                    <div class="textArea">
+                        <p>실명 인증된 아이디로 가입, 위치기반서비스 이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</p>
+                    </div>
+                </div>
+                <div class="serviceSelect">
+                    <input class="agreeServiceCheck" id="serviceCheck" type="checkbox">
+                    <label class="checkServiceArea" for="serviceCheck">
+                        <img class="noneServiceCheck active" src="./static/imgs/common/none_check.png">
+                        <img class="checkService" src="./static/imgs/common/check.png">
+                        <h3>[필수]&nbsp;</h3>
+                        <span>noonAI DIS 이용 약관</span>
+                    </label>
+                    <div class="infoArea">
+                        <div class="textArea">
+                            <p>㈜엠에이치엔씨티 (이하 '회사'라 한다)는 개인정보보호법 및 관계 법령에 따라 정보주체의 개인정보를 적법한 절차에 따라 처리하고 안전하게 관리하고 있습니다.
+                                「개인정보 보호법」 제30조에 따라 정보주체의 개인정보보호 및 권익을 보호하고 
+                                개인정보와 관련한 고충을 원활하게 처리할 수 있도록 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+                            </p>
+                            <br>
+                            <h3>제1조 개인정보 처리 목적, 수집항목, 보유 및 이용기간</h3>
+                            <p>
+                                회사는 다음의 목적을 위하여 필요한 최소한의 개인정보만 처리합니다. 
+                                처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 
+                                이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br>
+                                또한, 정보주체로부터 개인정보를 수집시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다. 
+                                단, 관계법령의 규정에 의하여 보존할 필요가 있는 경우 회사는 관계법령에서 정한 일정한 기간 동안 개인정보를 보유합니다.
+                            </p>
+                            <table class="textTable">
+                                <thead>
+                                    <th style="width: 15%;">서비스</th>
+                                    <th style="width: 40%;">수집 목적</th>
+                                    <th style="width: 20%;">수집 항목</th>
+                                    <th style="width: 25%;">보유기간 및 이용기간</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 10%;">회원가입</td>
+                                        <td style="width: 40%;">
+                                            회원 가입의사 확인, 회원제
+                                            서비스 제공에 따른 본인
+                                            식별·인증, 회원자격 유지·관리,
+                                            서비스 부정이용 방지, 만 14세
+                                            미만 아동의 개인정보 처리 시
+                                            법정대리인의 동의여부 확인, 각종
+                                            고지·통지, 고충처리 목적
+                                        </td>
+                                        <td style="width: 20%;">
+                                            (필수)이메일 주소, 이름, 비밀번호, 기관명, 관리자명, 휴대전화 번호
+                                        </td>
+                                        <td style="width: 30%;">회원 탈퇴시까지</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <p>
+                                회사는 상법, 국세기본법, 통신비밀보호법, 전자상거래 등에서의 소비자보호에 관한 법률, 
+                                신용정보의 이용 및 보호에 관한 법률 등 관계법령에 따라 보존할 필요가 있는 경우 회사는 
+                                관계법령에서 정한 기간 동안 고객의 개인정보를 보유하며, 그 기간은 다음과 같습니다.
+                            </p>
+                            <table class="textTable">
+                                <thead>
+                                    <th style="width: 15%;">보존 근거</th>
+                                    <th style="width: 70%;">보존 대상</th>
+                                    <th style="width: 15%;">보존 기간</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 15%;">상법</td>
+                                        <td style="width: 70%;">
+                                            상업장부와 영업에 관한 중요서류에 포함된 개인정보
+                                        </td>
+                                        <td style="width: 15%;">
+                                            10년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">상법</td>
+                                        <td style="width: 70%;">
+                                            전표 또는 이와 유사한 서류에 포함된 개인정보
+                                        </td>
+                                        <td style="width: 15%;">
+                                            5년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">국세기본법</td>
+                                        <td style="width: 70%;">
+                                            성명, 주민번호, 전화번호, 청구지 주소, 요금납부내역 등 거래에 관한 장부 및 증거서류
+                                        </td>
+                                        <td style="width: 15%;">
+                                            5년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">통신비밀보호법</td>
+                                        <td style="width: 70%;">
+                                            통신사실확인자료 제공에 필요한 성명, 주민번호, 전화번호 및 가입자의 전기통신일시, 
+                                            전기통신개시ㆍ종료시간, 발ㆍ착신 통신번호 등 상대방의 가입자번호, 사용도수, 발신기지국의 위치정보
+                                        </td>
+                                        <td style="width: 15%;">
+                                            12개월 (단, 시외/시내전화 역무와 관련된 자료 : 6개월)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">통신비밀보호법</td>
+                                        <td style="width: 70%;">
+                                            컴퓨터통신 또는 인터넷의 로그기록자료, 정보통신기기의 위치를 확인할 수 있는 접속지의 추적자료
+                                        </td>
+                                        <td style="width: 15%;">
+                                            3개월
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">전자상거래 등에서의 소비자보호에 관한 법률</td>
+                                        <td style="width: 70%;">
+                                            계약 또는 청약철회 등에 관한 기록
+                                        </td>
+                                        <td style="width: 15%;">
+                                            5년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">전자상거래 등에서의 소비자보호에 관한 법률</td>
+                                        <td style="width: 70%;">
+                                            대금결제 및 재화 등의 공급에 관한 기록
+                                        </td>
+                                        <td style="width: 15%;">
+                                            5년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">전자상거래 등에서의 소비자보호에 관한 법률</td>
+                                        <td style="width: 70%;">
+                                            소비자의 불만 또는 분쟁처리에 관한 기록
+                                        </td>
+                                        <td style="width: 15%;">
+                                            3년
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">전자상거래 등에서의 소비자보호에 관한 법률</td>
+                                        <td style="width: 70%;">
+                                            표시/광고에 관한 기록
+                                        </td>
+                                        <td style="width: 15%;">
+                                            6개월
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 15%;">신용정보의 이용 및 보호에 관한 법률</td>
+                                        <td style="width: 70%;">
+                                            신용정보의 수집/처리 및 이용 등에 관한 기록
+                                        </td>
+                                        <td style="width: 15%;">
+                                            3년
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <h3>제2조 개인정보의 제3자 제공에 관한 사항</h3>
+                            <p>
+                                회사는 정보주체의 개인정보를 개인정보의 처리 목적에서 명시한 범위 내에서 만 처리하며, 정보주체의 동의, 
+                                법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해 당하는 경우에만 
+                                개인정보를 제3자에게 제공하고 그 이외에는 정보주체의 개인정보를 제3자에게 제공하지 않습니다.
+                            </p>
+                            <br>
+                            <h3>제3조 개인정보의 위탁에 관한 사항</h3>
+                            <p>
+                                회사는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리 업무를 위탁하고 있습니다.<br>
+                                &nbsp;&nbsp;-	위탁받는 자<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;1)	Naver Cloud Corp : 개인정보가 저장된 국내외 클라우드 서버 운영 관리 및 이메일 <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전송 기능<br>
+                                &nbsp;&nbsp;-	위탁하는 업무 내용 : 회사의 noonAI 서비스 향상을 위해 필요한 정보<br>
+                                &nbsp;&nbsp;-	위탁 기간 : 이용기관 서비스 계약 종료 시까지<br>
+                                ※	위탁계약 체결 시 개인정보 보호법 제26조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 
+                                기술적ㆍ관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리 및 감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 
+                                수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다. 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체 없이 
+                                본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.
+                            </p>
+                            <br>
+                            <h3>제4조 개인정보의 파기절차 및 파기방법</h3>
+                            <p>
+                                1.	회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.<br>
+                                2.	전자 파일 형태로 저장된 개인정보는 기록을 재생할 수 없도록 삭제하며, 종이에 출력된 개인정보는 분쇄기로 분쇄합니다.<br>
+                                3.	단, 관계 법령의 규정에 의해 보존할 필요가 있는 해당 개인정보를 별도의 데이터 베이스(DB)로 옮기거나 보관장소를 달리하여 보존합니다.<br>
+                                4.	보관된 개인정보는 법률에 의거한 경우를 제외하고 보유 이외의 목적으로 사용되지 않습니다.
+                            </p>
+                            <br>
+                            <h3>제5조 정보주체와 법정대리인의 권리·의무 및 행사방법</h3>
+                            <p>
+                                1.	정보주체는 회사에 대해 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다.<br>
+                                ※ 만 14세 미만 아동에 관한 개인정보의 열람 등 요구는 법정대리인이 직접 해야 하며, 만 14세 이상의 미성년자인 
+                                정보주체는 정보주체의 개인정보에 관하여 미성년자 본인이 권리를 행사하거나 법정대리인을 통하여 권리를 행사할 수도 있습니다.<br>
+                                2.	권리 행사는 회사에 대해 「개인정보 보호법」 시행령 제41조 제1항에 따라 서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며, 
+                                회사는 이에 대해 지체없이 조치하겠습니다.<br>
+                                3.	권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수도 있습니다. 
+                                이 경우 “개인정보 처리 방법에 관한 고시(제2020-7호)” 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.<br>
+                                4.	개인정보 열람 및 처리정지 요구는 「개인정보 보호법」 제35조 제4항, 제37조 제2항에 의하여 정보주체의 권리가 제한될 수 있습니다.<br>
+                                5.	개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다.<br>
+                                6.	회사 정보주체 권리에 따른 열람의 요구, 정정·삭제의 요구, 처리정지의 요구 시 열람 등 요구를 한 자가 본인이거나 정당한 대리인인지를 확인합니다.
+                            </p>
+                            <br>
+                            <h3>제6조 개인정보의 안전성 확보조치에 관한 사항</h3>
+                            <p>
+                                회사는 「개인정보보호법」 제29조에 따라 다음과 같이 안전성 확보에 필요한 관리적, 기술적, 물리적 조치를 하고 있습니다.<br>
+                                1.	관리적 조치<br>
+                                &nbsp;&nbsp;○ 내부관리계획의 수립 및 시행<br>
+                                &nbsp;&nbsp;○ 개인정보 취급 담당자의 최소화 및 교육<br>
+                                2.	기술적 조치<br>
+                                &nbsp;&nbsp;○ 해킹 등에 대비한 기술적 대책<br>
+                                &nbsp;&nbsp;○ 개인정보의 암호화<br>
+                                &nbsp;&nbsp;○ 개인정보에 대한 접근 제한<br>
+                                &nbsp;&nbsp;○ 접속기록의 보관 및 위변조 방지<br>
+                                3.	물리적 조치<br>
+                                &nbsp;&nbsp;○ 비인가자에 대한 출입 통제
+                            </p>
+                            <br>
+                            <h3>제7조 자동으로 수집하는 장치의 설치·운영 및 거부방법</h3>
+                            <p>
+                                회사는 ‘쿠키(cookie)’를 통해 사용자의 방문 및 이용형태를 파악하여 사용자에게 맞춤화 된 서비스를 제공하고 있습니다.<br>
+                                쿠키는 웹 사이트를 운영하는 서버가 사용자의 브라우저에게 보내는 텍스트 파일로 사용자의 기기에 저장됩니다. 
+                                이후 사용자가 웹 사이트에 방문할 때 웹 사이트 서버는 사용자 기기에 저장되어 있는 쿠키의 내용을 읽어 사용자의 
+                                환경설정을 유지하고 최적화된 서비스를 제공할 수 있도록 돕습니다.<br>
+                                사용자는 쿠키 설정에 대한 선택권을 가지고 있으며 웹 브라우저 설정을 변경하여 쿠키가 저장될 때마다 확인하거나 
+                                모든 쿠키 저장을 거부, 삭제할 수 있습니다. 단, 쿠키 저장을 거부할 경우에는 일부 서비스 이용에 어려움이 있을 수 있습니다.<br>
+                                ※ 쿠키 설정방법<br>
+                                &nbsp;&nbsp;○ 인터넷 익스플로러 : 도구 > 일반 > 검색 기록 설정<br>
+                                &nbsp;&nbsp;○ 크롬 : 메뉴 > 설정 > 고급 설정 > 개인정보 > 콘텐츠 설정<br>
+                                &nbsp;&nbsp;○ 파이어폭스 : 메뉴 > 설정 > 개인정보 > 방문기록 > 사용자 정의 설정
+                            </p>
+                            <br>
+                            <h3>제8조 개인정보 보호책임자에 관한 사항</h3>
+                            <p>
+                                회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 
+                                개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.<br>
+                                1.	개인정보보호책임자(CPO)<br>
+                                &nbsp;&nbsp;○ 이름: 조판희<br>
+                                &nbsp;&nbsp;○ 직위: 대표 이사<br>
+                                &nbsp;&nbsp;○ 연락처: 070-7553-2372 ceo@mhncity.com<br>
+                                2.	개인정보보호 관리자<br>
+                                &nbsp;&nbsp;○ 부서명: AI 사업본부 연구소장<br>
+                                &nbsp;&nbsp;○ 담당자: 조정희<br>
+                                &nbsp;&nbsp;○ 연락처: 070-7553-2372 albert00kr@gmail.com<br>
+                                정보주체는 회사의 서비스를 이용하시면서 발생한 모든 개인 정보보호 관련 문의, 
+                                불만 처리, 피해 구제 등에 관한 사항을 개인 정보 보호 책임자 및 담당 부서로 문의할 수 있습니다. 
+                                회사는 정보주체의 문의에 대해 지체 없이 답변 및 처리해 드릴 것입니다.<br>
+                                「개인정보 보호법」 제35조에 따른 개인 정보의 열람 청구 또한 개인 정보보호 담당 부서를 통해 하실 수 있습니다.
+                            </p>
+                            <br>
+                            <h3>제9조 정보주체의 권익침해에 대한 구제방법</h3>
+                            <p>
+                                정보주체는 아래의 기관에 대해 개인 정보 침해에 대한 피해 구제, 상담을 문의하실 수 있습니다. 
+                                아래의 기관은 회사와는 별개의 기관으로서, 회사의 자체적인 개인 정보 불만 처리, 
+                                피해 구제 결과에 만족하지 못하시거나 보다 자세한 도움이 필요하시면 문의해 주시기 바랍니다.<br>
+                                1.	개인정보 침해신고센터 (한국인터넷진흥원 운영)<br>
+                                &nbsp;&nbsp;○ 소관업무 : 개인정보 침해사실 신고, 상담 신청<br>
+                                &nbsp;&nbsp;○ 홈페이지 : http://privacy.kisa.or.kr<br>
+                                &nbsp;&nbsp;○ 전화: (국번없이) ☎118<br>
+                                &nbsp;&nbsp;○ 주소: (58324) 전남 나주시 진흥길 9(빛가람동 301-2) 3층 개인정보침해신고센터<br>
+                                2.	개인정보 분쟁조정위원회<br>
+                                &nbsp;&nbsp;○ 소관업무 : 개인정보 분쟁조정신청, 집단분쟁조정 (민사적 해결)<br>
+                                &nbsp;&nbsp;○ 홈페이지: http://www.kopico.go.kr<br>
+                                &nbsp;&nbsp;○ 전화: (국번없이) ☎1833-6972<br>
+                                &nbsp;&nbsp;○ 주소: (03171) 서울특별시 종로구 세종대로 209<br>
+                                3.	대검찰청 사이버수사과:<br>
+                                &nbsp;&nbsp;○ 홈페이지: http://www.spo.go.kr<br>
+                                &nbsp;&nbsp;○ 전화: (국번없이) ☎1301<br>
+                                &nbsp;&nbsp;○ 주소: (06590) 서울특별시 서초구 반포대로 157)<br>
+                                4.	경찰청 사이버수사국<br>
+                                &nbsp;&nbsp;○ 홈페이지: http://cyberbureau.police.go.kr<br>
+                                &nbsp;&nbsp;○ 전화: (국번없이) ☎182<br>
+                                &nbsp;&nbsp;○ 주소: (03739) 서울특별시 서대문구 통일로 97
+                            </p>
+                            <br>
+                            <h3>제10조 개인정보 처리방침의 변경에 관한 사항</h3>
+                            <p>
+                                개인정보 처리방침의 내용 추가, 삭제 및 수정이 있을 시에는 안내 메일 또는 서비스 내 공지를 통해 변경된 내용을 고지합니다.<br>
+                                공고일자 : 2023년 5월 22일<br>
+                                시행일자 : 2023년 5월 22일<br>
+                                이전 처리방침은 아래에서 확인하실 수 있습니다.
+                            </p>
+                        </div>
+                        <div class="blankArea"></div>
+                    </div>
+                </div>
+                <div class="privacySelect">
+                    <input class="agreePrivacyCheck" id="privacyCheck" type="checkbox">
+                    <label class="checkPrivacyArea" for="privacyCheck">
+                        <img class="nonePrivacyCheck active" src="./static/imgs/common/none_check.png">
+                        <img class="checkPrivacy" src="./static/imgs/common/check.png">
+                        <h3>[필수]&nbsp;</h3>
+                        <span>개인정보 수집 및 이용</span>
+                    </label>
+                    <div class="infoArea">
+                        <div class="textArea">
+                            <h3>개인정보 수집·이용 동의서</h3>
+                            <p>
+                                회사는 다음의 목적을 위하여 필요한 최소한의 개인정보만 처리합니다. 
+                                처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 
+                                이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br>
+                                <br>
+                            </p>
+                            <h3>■ 개인정보 수집‧이용 안내</h3>
+                            <p>
+                                - 목적 : 주식회사 엠에이치엔씨티(이하 "회사")의 noonAI DIS 홈페이지 회원가입의사 확인, 
+                                회원제 서비스 제공에 따른 본인 식별・인증, 회원자격 유지・관리, 서비스 부정이용 방지, 
+                                만 14세 미만 아동의 개인정보 처리 시 법정대리인의 동의여부 확인, 각종 고지・통지, 고충처리 목적<br>
+                                - 항목 : (필수) 이메일 주소, 이름, 비밀번호, 기관명, 관리자명, 비밀번호, 휴대전화 번호<br>
+                                - 보유기간 : 회원 탈퇴시까지 보관하며, 회원 탈퇴 시 수집된 정보를 지체 없이 파기<br>
+                                ※ 위의 개인정보 수집‧이용에 대한 동의를 거부할 권리가 있습니다. 
+                                그러나 동의를 거부할 경우 당사가 제공하는 서비스 이용에 제한을 받을 수 있습니다.<br>
+                                ※ 위의 개인정보 수집‧이용에 대한 동의를 거부할 권리가 있습니다. 
+                                그러나 동의를 거부할 경우 당사가 제공하는 서비스 이용에 제한을 받을 수 있습니다.
+                            </p>
+                        </div>
+                        <div class="blankArea"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="agreeFooter">
+                <div class="nextBtn disable">
+                    <p>다 음</p>
+                </div>
+                <div class="cancel">
+                    <a href="/">
+                        <p>취 소</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

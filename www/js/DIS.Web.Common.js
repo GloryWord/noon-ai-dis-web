@@ -290,8 +290,15 @@ comm = {
         });
 
         if (result.keyList) {
+            let curDateTime = moment();
             for (var i = 0; i < result['keyList'].length; i++) {
-                resultStr += "<div class='dropdown_content' data-idx=" + result['keyList'][i]['id'] + "><p>" + result['keyList'][i]['key_name'] + "</p></div>"
+                let expiry_notification = (result['keyList'][i]['expiry_notification'] === 1) ? true : false;
+                console.log(expiry_notification);
+                let expiry_datetime = result['keyList'][i]['expiry_datetime'];
+                let validUntil = moment(expiry_datetime).diff(curDateTime, 'days')
+                resultStr += `<div class='dropdown_content' data-idx="${result['keyList'][i]['id']}" data-valid="${validUntil}" data-notification="${expiry_notification}">
+                                <p>${result['keyList'][i]['key_name']}</p>
+                            </div>`
             }
         }
         return resultStr;
@@ -605,6 +612,29 @@ comm = {
                 if(data.message == "success"){
                     console.log(data.result)
                 }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
+    test: function (requestIndex) {
+        let keyIndex = requestIndex;
+        let baseUrl = '/api/test'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                keyIndex,
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data.result);
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));

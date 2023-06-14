@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./static/imgs/favicon/android-icon-48x48.png">
 
     <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/key.css" type="text/css" />
@@ -15,6 +16,9 @@
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.FileModule.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Key.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="./static/js/common/common.js"></script>
     <script src="./static/js/common/header.js"></script>
@@ -52,6 +56,8 @@
     </div>
     <div class="key_content">
         <div class="keyHeader">
+            <img src="./static/imgs/key/key_icon.png">
+            <p>Key 관리</p>
             <div class="key_add">
                 <p>KEY 생성</p>
             </div>
@@ -72,11 +78,20 @@
                         <div class="create_head">
                             <h3>KEY 생성일</h3>
                         </div>
+                        <div class="expiration_head">
+                            <h3>KEY 만료일</h3>
+                        </div>
                         <div class="memo_head">
                             <h3>메모</h3>
                         </div>
                         <div class="modi_head">
                             <h3>메모 수정</h3>
+                        </div>
+                        <div class="change_head">
+                            <h3>변경</h3>
+                        </div>
+                        <div class="delete_head">
+                            <h3>삭제</h3>
                         </div>
                     </div>
                 </div>
@@ -100,6 +115,16 @@
                         <div class="modi_content">
                             <div class="memo_modi">
                                 <p>수정</p>
+                            </div>
+                        </div>
+                        <div class="change_content">
+                            <div class="change_btn">
+                                <p>변경</p>
+                            </div>
+                        </div>
+                        <div class="delete_content">
+                            <div class="delete_btn">
+                                <p>삭제</p>
                             </div>
                         </div>
                     </div>
