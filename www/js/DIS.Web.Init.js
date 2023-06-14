@@ -121,7 +121,7 @@ init = {
             let account_name = $('#name').val();
             let isDev = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id && val.account_name == account_name) {
+                if (val.tenant_id == master_tenant_id) {
                     isDev = true;
                 }
             });
