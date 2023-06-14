@@ -305,6 +305,7 @@ key = {
 
         if (file) {
             [upload_result, keyPath] = await fileModule.uploadKey('swal2-file');
+            let uploadID = makeid(6);
             socket.emit('delUploadedFile', {
                 filePath: keyPath,
                 id: uploadID,
