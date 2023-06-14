@@ -117,7 +117,6 @@ requestTable = {
     getRecentRequest: function (requestType) {
         let baseUrl = `/api/request/${requestType}/recent`
         let apiUrl = apiUrlConverter(requestType, baseUrl)
-        
         let requestList, archived, responseMessage;
 
         $.ajax({
@@ -894,9 +893,10 @@ requestTable = {
     
                     htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
                                     <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                    <div class="name_content"><p>'+ requestList['keyList'][i]['key_name'] + '</p></div>\
+                                    <div class="name_content"><p class="keyname'+requestList['keyList'][i]['id']+'">'+ requestList['keyList'][i]['key_name'] + '</p></div>\
                                     <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                     <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
+                                    <div class="expiration_content"><p>'+ dateFormat(date) + '</p></div>\
                                     <div class="memo_content">\
                                         <p class="memo_text">'+ memo + '</p>\
                                     </div>\

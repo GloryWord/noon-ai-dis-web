@@ -2091,10 +2091,11 @@ init = {
 
         $(document).on("click", ".change_btn", function () {
             let key_idx = $(this).data("id");
+            let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: '해당 키를 변경하시겠습니까?',
-                html: `해당 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
-                 변경 후 기존 키로는 복호화가 불가능합니다.`,
+                title: `${keyName} 키를 변경하시겠습니까?`,
+                html: `${keyName} 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 ${keyName} 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -2119,31 +2120,57 @@ init = {
 
         $(document).on("click", ".delete_btn", function () {
             let key_idx = $(this).data("id");
+            let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: '해당 키를\n 삭제하시겠습니까?',
-                html: '해당 키를 삭제하면 해당 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.',
+                title: `${keyName} 키를\n 삭제하시겠습니까?`,
+                html: `<p>${keyName} 키를 삭제하면 ${keyName} 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.</p>
+                        <input class='deleteKeyInput' placeholder='삭제할 KEY 이름을 입력해주세요.'>`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const removed = key.removeKeyRef(key_idx);
-                    const deleted = key.deleteKey(key_idx);
-                    if(removed && deleted) {
-                        Swal.fire({
-                            title: '키 삭제 완료',
-                            icon: 'success',
-                            allowOutsideClick: false
-                        }).then((result) => {
-                            if(result.isConfirmed) location.reload();
-                        })
+                    if(keyName==$(".deleteKeyInput").val()){
+                        const removed = key.removeKeyRef(key_idx);
+                        const deleted = key.deleteKey(key_idx);
+                        if(removed && deleted) {
+                            Swal.fire({
+                                title: '키 삭제 완료',
+                                icon: 'success',
+                                allowOutsideClick: false
+                            }).then((result) => {
+                                if(result.isConfirmed) location.reload();
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                title: '키 삭제 실패',
+                                html: '다시 시도해 주세요',
+                                icon: 'error',
+                                allowOutsideClick: false,
+                                showConfirmButton:false,
+                                showDenyButton:true,
+                            })
+                        }
                     }
-                    else {
+                    else if($(".deleteKeyInput").val()==""){
                         Swal.fire({
                             title: '키 삭제 실패',
-                            html: '다시 시도해 주세요',
+                            html: '삭제할 KEY 이름을 \n입력해주세요.',
                             icon: 'error',
-                            allowOutsideClick: false
+                            denyButtonText:"확 인",
+                            showConfirmButton:false,
+                            showDenyButton:true,
+                        })
+                    }
+                    else if(keyName!=$(".deleteKeyInput").val()){
+                        Swal.fire({
+                            title: '키 삭제 실패',
+                            html: '삭제할 KEY 이름이 \n일치하지 않습니다.',
+                            icon: 'error',
+                            denyButtonText:"확 인",
+                            showConfirmButton:false,
+                            showDenyButton:true,
                         })
                     }
                 }
