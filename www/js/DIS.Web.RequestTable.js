@@ -883,6 +883,7 @@ requestTable = {
             else{
                 for (var i = 0; i < requestList['keyList'].length; i++) {
                     var date = new Date(requestList['keyList'][i]['generated_date'])
+                    var expiry_date = moment(requestList['keyList'][i]['expiry_datetime']).format('YYYY-MM-DD');
                     if (requestList['keyList'][i]['key_memo'] == null || requestList['keyList'][i]['key_memo'] == "") {
                         var memo = ""
                     }
@@ -905,7 +906,7 @@ requestTable = {
                                     <div class="name_content"><p class="keyname'+requestList['keyList'][i]['id']+'">'+ requestList['keyList'][i]['key_name'] + '</p></div>\
                                     <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
                                     <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
-                                    <div class="expiration_content"><p>'+ dateFormat(date) + '</p></div>\
+                                    <div class="expiration_content"><p>'+ expiry_date + '</p></div>\
                                     <div class="memo_content">\
                                         <p class="memo_text">'+ memo + '</p>\
                                     </div>\
