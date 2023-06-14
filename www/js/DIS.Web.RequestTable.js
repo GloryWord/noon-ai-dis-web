@@ -141,6 +141,7 @@ requestTable = {
         }
         else {
             let cnt = 0
+            console.log(requestList);
             if(requestList.length !== 0) {
                 let status;
                 for (var i = 0; i < requestList.length; i++) {
@@ -175,11 +176,14 @@ requestTable = {
                     }
                     else {
                         let fail = 'FAIL'
-                        if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
-                            status = '<p>실패</p>'
-                        }
-                        else {  
-                            status = '<p id="progress"></p>'
+                        if(requestList[i]['status'] === null) status = '<p>실패</p>';
+                        else {
+                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                                status = '<p>실패</p>'
+                            }
+                            else {  
+                                status = '<p id="progress"></p>'
+                            }
                         }
                     }
 
@@ -369,11 +373,14 @@ requestTable = {
                     }
                     else {
                         let fail = 'FAIL'
-                        if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
-                            status = '<p>실패</p>'
-                        }
-                        else {  
-                            status = '<p id="progress"></p>'
+                        if(requestList[i]['status'] === null) status = '<p>실패</p>';
+                        else {
+                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                                status = '<p>실패</p>'
+                            }
+                            else {  
+                                status = '<p id="progress"></p>'
+                            }
                         }
                     }
                     // if(requestList[i]['complete'] == 1){
