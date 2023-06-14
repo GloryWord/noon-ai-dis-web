@@ -72,6 +72,7 @@ key = {
                             headers: {
                                 "Content-Type": "application/json",
                             },
+                            credentials: 'include',
                             body: JSON.stringify({
                                 "fileName": fileName,
                                 "keyName": keyName,
@@ -133,9 +134,7 @@ key = {
                             headers: {
                                 "Content-Type": "application/json",
                             },
-                            xhrFields: {
-                                withCredentials: true
-                            },
+                            credentials: 'include',
                             body: JSON.stringify({
                                 "fileName": fileName,
                                 "keyName": keyName,
