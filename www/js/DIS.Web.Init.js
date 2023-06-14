@@ -695,6 +695,7 @@ init = {
                 return 0
             }
             else {
+                console.log(status);
                 if (status.indexOf('FAIL') == 1 || status.indexOf('Fail') != -1) {
                     Swal.fire({
                         title: '예기치 못한 오류로 작업이 중단됐습니다.',
