@@ -13,6 +13,7 @@ const patterns = {
 };
 
 let whitelist = [
+    { tenant_id: 1 },
     { tenant_id: 2 },
     { tenant_id: 4 },
     { tenant_id: 7 },
@@ -23,6 +24,7 @@ init = {
 
     // 유저 로그인 화면 제어
     index: function () {
+        let isDev = comm.getEnv();
         login.sessionCheck();
         let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
@@ -52,13 +54,13 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let account_name = $('#name').val();
-            let isDev = false;
+            let pass = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id) {
-                    isDev = true;
+                if (val.tenant_id == master_tenant_id || isDev) {
+                    pass = true;
                 }
             });
-            if (isDev) {
+            if (pass) {
                 let accountName = $("#name").val();
                 let password = $("#pass").val();
                 login.login(accountName, password);
@@ -86,6 +88,7 @@ init = {
     },
 
     sublogin: function () {
+        let isDev = comm.getEnv();
         login.sessionCheck();
         let master_tenant_id = null;
         $(document).on("click", "#loginButton", function () {
@@ -119,13 +122,13 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let account_name = $('#name').val();
-            let isDev = false;
+            let pass = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id) {
-                    isDev = true;
+                if (val.tenant_id == master_tenant_id || isDev) {
+                    pass = true;
                 }
             });
-            if (isDev) {
+            if (pass) {
                 let accountName = $("#name").val();
                 let loginAlias = $("#loginAlias").val();
                 let password = $("#pass").val();

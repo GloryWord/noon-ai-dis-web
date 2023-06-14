@@ -133,6 +133,9 @@ key = {
                             headers: {
                                 "Content-Type": "application/json",
                             },
+                            xhrFields: {
+                                withCredentials: true
+                            },
                             body: JSON.stringify({
                                 "fileName": fileName,
                                 "keyName": keyName,

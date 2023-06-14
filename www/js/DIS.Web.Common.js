@@ -619,6 +619,30 @@ comm = {
         });
     },
 
+    getEnv: function () {
+        let baseUrl = '/api/env'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let env = null;
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    env = data.env;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return env;
+    },
+
     test: function (requestIndex) {
         let keyIndex = requestIndex;
         let baseUrl = '/api/test'
