@@ -293,7 +293,6 @@ comm = {
             let curDateTime = moment();
             for (var i = 0; i < result['keyList'].length; i++) {
                 let expiry_notification = (result['keyList'][i]['expiry_notification'] === 1) ? true : false;
-                console.log(expiry_notification);
                 let expiry_datetime = result['keyList'][i]['expiry_datetime'];
                 let validUntil = moment(expiry_datetime).diff(curDateTime, 'days')
                 resultStr += `<div class='dropdown_content' data-idx="${result['keyList'][i]['id']}" data-valid="${validUntil}" data-notification="${expiry_notification}">
