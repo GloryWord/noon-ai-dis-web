@@ -3018,8 +3018,8 @@ init = {
 
             let fileUrl, fileSize;
             if(signedUrl[0][0].indexOf('thumbnail') >= 0) {
-                fileUrl = urlList[1][0];
-                fileSize = urlList[1][1];
+                fileUrl = signedUrl[1][0];
+                fileSize = signedUrl[1][1];
             }
             
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
