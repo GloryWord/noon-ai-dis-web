@@ -1583,7 +1583,6 @@ init = {
             if (decryptAjaxResponse) {
                 uploadID = makeid(6);
                 fileModule.sendDecryptMessage(decryptAjaxResponse.decReqInfo, thumb[1]);
-
                 comm.meterDecrypt(decRequestId, JSON.stringify(fileList), type);
                 comm.loggingDecrypt(decRequestId);
 
@@ -3016,11 +3015,17 @@ init = {
         }
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+
+            let fileUrl, fileSize;
+            if(signedUrl[0][0].indexOf('thumbnail') >= 0) {
+                fileUrl = urlList[1][0];
+                fileSize = urlList[1][1];
+            }
+            
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', signedUrl[0][0]);
+            $('#signedUrl').attr('href', fileUrl);
             $('.fullname').text($('.file_fullname').text())
 
-            var fileSize = signedUrl[0][1];
             var fileName = fileList[0];
 
             $(document).on("click", "#signedUrl", function () {
