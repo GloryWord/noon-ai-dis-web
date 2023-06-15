@@ -695,7 +695,7 @@ init = {
             var status = progressObject['status']
             $('#progress').html(progress);
             if (status == null) {
-                return 0
+                setTimeout(reloadProgress, 200);
             }
             else {
                 console.log(status);
@@ -1374,6 +1374,8 @@ init = {
         let uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
+            console.log(uploadID);
+            console.log(msg.id);
             if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
@@ -1386,6 +1388,7 @@ init = {
             }
         });
 
+        uploadID = makeid(6);
         socket.emit('delUploadedFile', {
             filePath: thumbPath,
             id: uploadID,
@@ -2666,6 +2669,20 @@ init = {
             withCredentials: true,
             transports: ['websocket']
         });
+
+        // socket.on('delMsgToClient', function (msg) {
+        //     console.log(msg)
+        //     if (uploadID == msg.id) {
+        //         Swal.fire({
+        //             title: msg.title,
+        //             html: msg.html,
+        //             confirmButtonText: '확인',
+        //             allowOutsideClick: false,
+        //         }).then((result) => {
+        //             if (result.isConfirmed) location.reload();
+        //         })
+        //     }
+        // });
 
         var queryString = location.search;
         const urlParams = new URLSearchParams(queryString);

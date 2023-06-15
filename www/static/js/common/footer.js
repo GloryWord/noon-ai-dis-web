@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  setTimeout(function() {
+    location.reload();
+  }, 1000 * 60 * 3)
   let url = document.location.href;
   let len = url.split('/').length;
   let pageName = url.split('/')[len - 1];
