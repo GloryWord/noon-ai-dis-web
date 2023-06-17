@@ -40,7 +40,8 @@ $(document).ready(function () {
     $(document).on("click", ".infoConfir", function () {
         // location.href="/myinfo"
         var cur_password = $(".cur_password").val()
-        comm.joinInfo(cur_password);
+        let verify = comm.joinInfo(cur_password);
+        if(verify) location.href = '/myinfo'
     });
 
     $(document).on("click", "#logout", function () {

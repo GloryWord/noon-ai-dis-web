@@ -55,7 +55,7 @@ userinfo = {
                     </div>\
                     <div class="infoBody">\
                         <p>이름</p>\
-                        <input class="view_name" value="'+ requestList[0]['user_name'] + '" placeholder="이름을 입력해 주세요">\
+                        <input class="view_name" value="'+ name + '" placeholder="이름을 입력해 주세요">\
                     </div>\
                     <div class="infoBody">\
                         <p>이메일</p>\
@@ -156,7 +156,9 @@ userinfo = {
     },
 
     infoModi: function (name, email, origin_phone, phone, now_pass, new_pass, new_passConfig, origin_name, origin_email, email_config) {
-        var postdata = { name: name, email: email, origin_phone: origin_phone, phone: phone, now_pass: now_pass, new_pass: new_pass, new_passConfig: new_passConfig, origin_name: origin_name, origin_email: origin_email, email_config: email_config };
+        let encodedName = escapeHTML(name);
+        let encodedEmail = escapeHTML(email);
+        var postdata = { name: encodedName, email: encodedEmail, origin_phone: origin_phone, phone: phone, now_pass: now_pass, new_pass: new_pass, new_passConfig: new_passConfig, origin_name: origin_name, origin_email: origin_email, email_config: email_config };
 
         let baseUrl = `/api/user/info`
         let apiUrl = apiUrlConverter('user-info', baseUrl)

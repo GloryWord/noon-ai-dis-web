@@ -33,10 +33,10 @@ login = {
             error: function (xhr, status) {
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
         })
@@ -63,15 +63,15 @@ login = {
                 lockStatus = login.selectLockStatus('tenant', '', account_name);
                 loginable = lockStatus.loginable
                 activateTime = lockStatus.activateTime
-                
-                if(loginable) {
+
+                if (loginable) {
                     $(".auth_id").val($("#name").val());
-                    $("#authModal").addClass('active');   
+                    $("#authModal").addClass('active');
                 }
                 else {
                     Swal.fire({
                         title: '계정 로그인 비활성화',
-                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`, 
+                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`,
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -81,11 +81,11 @@ login = {
                 master_tenant_id = data.tenant_id;
             },
             error: function (xhr, status) {
-                if(xhr.responseJSON.reason !== 'ID not found') {
+                if (xhr.responseJSON.reason !== 'ID not found') {
                     let loginFailCount = 0;
                     loginFailCount = login.plusLoginFailCount('tenant', '', account_name);
                     let lock_count = Math.floor(loginFailCount / 5)
-                    if(loginFailCount >= 5) login.updateLockStatus('tenant', '', account_name, lock_count);
+                    if (loginFailCount >= 5) login.updateLockStatus('tenant', '', account_name, lock_count);
                 }
 
                 Swal.fire({
@@ -122,10 +122,10 @@ login = {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
         })
@@ -140,7 +140,7 @@ login = {
         $.ajax({
             method: "post",
             url: apiUrl,
-            data : {
+            data: {
                 account_name: account_name,
                 tenant_id: tenant_id
             },
@@ -176,10 +176,10 @@ login = {
             error: function (xhr, status) {
                 Swal.fire({
                     title: '로그인에 실패하였습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
         })
@@ -208,8 +208,8 @@ login = {
                 lockStatus = login.selectLockStatus('sub-account', master_tenant_id, account_name);
                 loginable = lockStatus.loginable
                 activateTime = lockStatus.activateTime
-                
-                if(loginable) {
+
+                if (loginable) {
                     let subEmail = login.getSubEmail(account_name, master_tenant_id);
                     $(".auth_id").val(subEmail);
                     $("#authModal").addClass('active');
@@ -217,7 +217,7 @@ login = {
                 else {
                     Swal.fire({
                         title: '계정 로그인 비활성화',
-                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`, 
+                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`,
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -227,12 +227,12 @@ login = {
             },
             error: function (xhr, status) {
                 let reason = xhr.responseJSON.reason;
-                if(reason !== 'ID not found' && reason !== 'tenant not found') {
+                if (reason !== 'ID not found' && reason !== 'tenant not found') {
                     let tenant_id = xhr.responseJSON.tenant_id;
                     let loginFailCount = 0;
                     loginFailCount = login.plusLoginFailCount('sub-account', tenant_id, account_name);
                     let lock_count = Math.floor(loginFailCount / 5)
-                    if(loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
+                    if (loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
                 }
 
                 Swal.fire({
@@ -274,7 +274,7 @@ login = {
 
         let baseUrl = '/api/token/verify'
         let apiUrl = apiUrlConverter('util', baseUrl)
-        
+
         $.ajax({
             method: "get",
             url: `${apiUrl}/${accountName}/${token}`,
@@ -283,8 +283,9 @@ login = {
             },
             async: false,
             success: function (data) {
-                if(data.message == 'success' && data.result == 'valid') html = validHtml;
-                else if(data.message == 'success' && data.result == 'invalid') html = invalidHtml;
+                if (data.message === 'error') location.href = '/';
+                if (data.message == 'success' && data.result == 'valid') html = validHtml;
+                else if (data.message == 'success' && data.result == 'invalid') html = invalidHtml;
             },
             error: function (xhr, status) {
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -293,24 +294,24 @@ login = {
         return html;
     },
 
-    secondaryEmailSend: function (email) {
+    secondaryEmailSend: function (account_name) {
         let baseUrl = '/api/secondary-email-send'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
-        let result ='';
+        let result = '';
         $.ajax({
             method: "post",
             url: apiUrl,
             data: {
-                email
+                account_name
             },
             xhrFields: {
                 withCredentials: true
             },
             async: false,
             success: function (data) {
-                if(data.message == 'success'){
-                    result = data.verifyCode;
+                if (data.message == 'success') {
+                    result = data.verifyId
                     Swal.fire({
                         title: '인증번호 발송 완료',
                         text: '등록되어 있는 이메일 주소로 인증번호가 발송되었습니다.',
@@ -328,6 +329,35 @@ login = {
         })
 
         return result;
+    },
+
+    verifyOTP: function (id, verifyCode) {
+        let baseUrl = '/api/verifyOTP'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let verify = false;
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                id,
+                verifyCode
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    if (data.verify === true) verify = true;
+                }
+            },
+            error: function (xhr, status) {
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return verify;
     },
 
     authenticationVerify: function () {
@@ -351,49 +381,25 @@ login = {
             }
         })
     },
-    
-    forgetPassword: function (accountName) {
-        let baseUrl = '/api/forget-password'
-        let apiUrl = apiUrlConverter('util', baseUrl)
 
-        $.ajax({
-            method: "post",
-            url: apiUrl,
-            data: {
-                accountName
-            },
-            success: function (data) {
-                if(data.message == 'success') {
-                    Swal.fire({
-                        title: '메일 발송 완료',
-                        text: '등록되어 있는 이메일 주소로 메일이 발송되었습니다.',
-                        confirmButtonText: '확 인',
-                        allowOutsideClick: false,
-                        icon: 'success'
-                    }).then((result) => {
-                        if (result.isConfirmed) location.reload();
-                    })
-                }
-                else if(data.message == 'error') {
-                    Swal.fire({
-                        title: 'ID를 다시 입력해 주세요',
-                        text: data.log,
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    }).then((result) => {
-                        if (result.isConfirmed) location.reload();
-                    })
-                }
-            }, // success 
-            error: function (xhr, status) {
-                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
-            }
-        })
+    forgetPassHtml: function () {
+        let html = `<p>이름, 가입시 등록한 휴대전화 번호 확인 후 이메일로 인증번호가 발송됩니다.</p>
+            <p>이름</p>
+                <div class="emailArea">
+                    <input type="email" class="find_id" value="" id="user_name" placeholder="이름">
+                </div>
+            <p>휴대전화 번호</p>
+                <div class="emailArea">
+                    <input type="email" class="find_id" value="" id="telephone" placeholder="휴대전화 번호(-제외)">
+                    <div class="auth_send" id="email_send">
+                        <h3>인증번호 발송</h3>
+                    </div>
+                </div>
+                `
+        return html;
     },
 
-    resetPassword: function (accountName, password) {
+    resetPassword: function (account_name, user_name, telephone) {
         let baseUrl = '/api/reset-password'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
@@ -401,22 +407,33 @@ login = {
             method: "post",
             url: apiUrl,
             data: {
-                accountName,
-                password
-            },
-            xhrFields: {
-                withCredentials: true
+                account_name,
+                user_name,
+                telephone
             },
             success: function (data) {
-                if(data.message == 'success') {
+                console.log(data);
+                if (data.message == 'success') {
                     Swal.fire({
-                        title: '비밀번호 변경 완료',
-                        text: '새로운 비밀번호로 비밀번호 변경이 완료되었습니다!',
+                        title: '메일 발송 완료',
+                        text: '등록되어 있는 이메일 주소로 임시 비밀번호가 발송되었습니다.',
                         confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'
                     }).then((result) => {
                         if (result.isConfirmed) location.href = '/';
+                    })
+                }
+                else if (data.message == 'fail') {
+                    Swal.fire({
+                        title: '일치하는 계정 없음',
+                        text: '입력한 계정과 이름 또는 휴대전화 번호가 일치하지 않습니다',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    }).then((result) => {
+                        if (result.isConfirmed) location.reload();
                     })
                 }
             }, // success 
@@ -426,7 +443,7 @@ login = {
         })
     },
 
-    sessionCheck: function() {
+    sessionCheck: function () {
         let baseUrl = '/api/session-check'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
@@ -438,10 +455,10 @@ login = {
             },
             async: false,
             success: function (data) {
-                if(data.message == "success"){
+                if (data.message == "success") {
                     location.href = "/main"
                 }
-                else{
+                else {
                     return 0
                 }
             },
@@ -495,7 +512,7 @@ login = {
                 result = data.login_fail_count;
             }, // success 
             error: function (xhr, status) {
-                
+
             },
         });
 
@@ -516,10 +533,10 @@ login = {
             },
             async: false,
             success: function (data) {
-                
+
             }, // success 
             error: function (xhr, status) {
-                
+
             },
         });
     },
@@ -537,10 +554,10 @@ login = {
             },
             async: false,
             success: function (data) {
-                
+
             }, // success 
             error: function (xhr, status) {
-                
+
             },
         });
     },
@@ -558,10 +575,10 @@ login = {
             },
             async: false,
             success: function (data) {
-                
+
             }, // success 
             error: function (xhr, status) {
-                
+
             },
         });
     },

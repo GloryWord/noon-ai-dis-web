@@ -105,7 +105,6 @@ signup = {
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         })
-
         return result;
     }
 }
