@@ -363,6 +363,8 @@ comm = {
     },
 
     generateKey: function (genKeyName, keyMemo) {
+        let encodedKeyName = escapeHTML(genKeyName);
+        let encodedKeyMemo = escapeHTML(keyMemo);
         let baseUrl = '/api/key'
         let apiUrl = apiUrlConverter('key', baseUrl)
 
@@ -370,8 +372,8 @@ comm = {
             method: "post",
             url: apiUrl,
             data: { 
-                'keyName': genKeyName,
-                'keyMemo': keyMemo
+                'keyName': encodedKeyName,
+                'keyMemo': encodedKeyMemo
              },
              xhrFields: {
                 withCredentials: true
@@ -432,11 +434,13 @@ comm = {
         })
     },    
     
-    joinInfo: function(cur_password) {
+    joinInfo: function(cur_password = null) {
         let baseUrl = '/api/user/check'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
         var postdata = {cur_password:cur_password}
+
+        let verify = false;
         $.ajax({
             method: "post",
             url: apiUrl,
@@ -446,20 +450,23 @@ comm = {
             },
             async: false,
             success: function (data) {
-                location.href = "/myinfo" + "?auth=1";
+                verify = data.verify;
+                // location.href = "/myinfo";
             },
             error: function (xhr, status) {
-                Swal.fire({
-                    title: '비밀번호가 틀렸습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
-                });
+                if(xhr.responsJSON.message === 'password is not matching') {
+                    Swal.fire({
+                        title: '비밀번호가 틀렸습니다.',
+                        showConfirmButton:false,
+                        showDenyButton:true,
+                        denyButtonText:"확 인",
+                        icon:"error"
+                    });
+                }
             }
         });
 
-        return 0;
+        return verify;
     },
 
     adminonly: function () {

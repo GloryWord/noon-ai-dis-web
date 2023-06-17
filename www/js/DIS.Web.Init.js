@@ -2,6 +2,18 @@
 
 DIS.Web.Init = DIS.Web.Init || {};
 
+function escapeHTML(text) {
+    var element = document.createElement('div');
+    element.innerText = text;
+    return element.innerHTML;
+}
+
+function htmlDecode(text) {
+    var element = document.createElement('textarea');
+    element.innerHTML = text;
+    return element.value;
+  }
+
 const patterns = {
     account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
     password: /^[\w@-]{8,20}$/,
@@ -46,14 +58,13 @@ init = {
                 });
             }
         });
-        let verifyCode = null;
+        let verifyId = null;
         $(document).on("click", "#email_send", function () {
-            let email = $(".auth_id").val();
-            verifyCode = login.secondaryEmailSend(email);
+            let account_name = $(".auth_id").val();
+            verifyId = login.secondaryEmailSend(account_name);
         });
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
-            let account_name = $('#name').val();
             let pass = false;
             whitelist.forEach((val) => {
                 if (val.tenant_id == master_tenant_id || isDev) {
@@ -68,13 +79,15 @@ init = {
                 login.updateClearLockCount('tenant', mater_tenant_id, accountName);
             }
             else {
-                if (verifyCode == user_code) {
+                let verify = login.verifyOTP(verifyId, user_code);
+                if(verify) {
                     let accountName = $("#name").val();
                     let password = $("#pass").val();
                     login.login(accountName, password);
                     login.updateClearLoginFailCount('tenant', mater_tenant_id, accountName);
                     login.updateClearLockCount('tenant', mater_tenant_id, accountName);
-                } else {
+                }
+                else {
                     Swal.fire({
                         title: "2차 인증에 실패했습니다.",
                         showConfirmButton: false,
@@ -113,15 +126,14 @@ init = {
                 });
             }
         });
-        let verifyCode = null;
+        let verifyId = null;
         $(document).on("click", "#email_send", function () {
-            let email = $(".auth_id").val();
-            verifyCode = login.secondaryEmailSend(email);
+            let account_name = $(".auth_id").val();
+            verifyId = login.secondaryEmailSend(account_name);
         });
 
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
-            let account_name = $('#name').val();
             let pass = false;
             whitelist.forEach((val) => {
                 if (val.tenant_id == master_tenant_id || isDev) {
@@ -137,7 +149,8 @@ init = {
                 login.updateClearLockCount('sub-account', master_tenant_id, accountName);
             }
             else {
-                if (verifyCode == user_code) {
+                let verify = login.verifyOTP(verifyId, user_code);
+                if (verify) {
                     let accountName = $("#name").val();
                     let loginAlias = $("#loginAlias").val();
                     let password = $("#pass").val();
@@ -1928,15 +1941,17 @@ init = {
     },
 
     myinfo: function () {
-        var queryString = location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var auth = urlParams.get('auth');
+        // var queryString = location.search;
+        // const urlParams = new URLSearchParams(queryString);
+        // var auth = urlParams.get('auth');
 
-        $(document).ready(function () {
-            if (auth != "1") {
-                location.href = "/main"
-            }
-        });
+        // $(document).ready(function () {
+        //     if (auth != "1") {
+        //         location.href = "/main"
+        //     }
+        // });
+        let verify = comm.joinInfo();
+        if(!verify) location.href = '/main';
 
         let verifyCode = '';
         let email_config = false;
@@ -2244,6 +2259,8 @@ init = {
     },
 
     submanage: function () {
+        var auth = comm.adminonly();
+        if(auth !== 'master') location.href = '/main'
         $(document).on("click", ".sub_add", function () {
             location.href = "/submanage/add"
         });
@@ -2597,12 +2614,20 @@ init = {
             location.href = "/"
         });
 
+        let account_name = null;
         $(document).on("click", "#email_send", function () {
-            var email = $("#account_name").val();
-            if (email) {
-                var exist = signup.checkDuplicate(email);
+            let user_name = $("#user_name").val();
+            let telephone = $("#telephone").val();
+            login.resetPassword(account_name, user_name, telephone);
+        })
+
+        $(document).on("click", "#check_btn", function () {
+            account_name = $("#account_name").val();
+            if (account_name) {
+                var exist = signup.checkDuplicate(account_name);
                 if (exist) {
-                    login.forgetPassword(email);
+                    let html = login.forgetPassHtml();
+                    $('#findBody').html(html);
                 }
                 else {
                     Swal.fire({
@@ -2656,7 +2681,7 @@ init = {
                     icon: "error"
                 });
                 else {
-                    login.resetPassword(accountName, password);
+                    login.resetPassword(token, password);
                 }
             }
         })
