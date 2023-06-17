@@ -173,7 +173,7 @@ userinfo = {
             async: false,
             success: function (data) {
                 Swal.fire(data.change + '\n완료됐습니다.', '', 'success').then(() => {
-                    location.href = "/myinfo" + "?auth=1";
+                    location.href = "/myinfo";
                 })
             },
             error: function (xhr, status) {

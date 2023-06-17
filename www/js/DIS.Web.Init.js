@@ -2259,6 +2259,8 @@ init = {
     },
 
     submanage: function () {
+        var auth = comm.adminonly();
+        if(auth !== 'master') location.href = '/main'
         $(document).on("click", ".sub_add", function () {
             location.href = "/submanage/add"
         });
