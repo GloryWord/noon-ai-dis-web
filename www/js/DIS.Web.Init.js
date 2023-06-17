@@ -67,7 +67,7 @@ init = {
             let user_code = $("#user_input_code").val();
             let pass = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id || isDev) {
+                if (val.tenant_id == master_tenant_id || isDev === 'dev') {
                     pass = true;
                 }
             });
@@ -136,7 +136,7 @@ init = {
             let user_code = $("#user_input_code").val();
             let pass = false;
             whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id || isDev) {
+                if (val.tenant_id == master_tenant_id || isDev === 'dev') {
                     pass = true;
                 }
             });
