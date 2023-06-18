@@ -12,6 +12,33 @@ DIS.Web.Key = DIS.Web.Key || {};
  */
 var key = DIS.Web.Key;
 key = {
+    getKeyId: function (KeyName) {
+        let keyIndex = false;
+
+        let baseUrl = `/api/key/id/${KeyName}`
+        let apiUrl = apiUrlConverter('key', baseUrl)
+
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    keyIndex = data.keyIndex;
+                }
+            }, // success 
+            error: function (xhr, status) {
+                // result = JSON.parse(xhr.responseJSON.result)
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return keyIndex;
+    },
+
     deleteKey: function (keyIndex) {
         let result = false;
 
