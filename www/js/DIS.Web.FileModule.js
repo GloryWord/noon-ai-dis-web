@@ -727,10 +727,7 @@ fileModule = {
                 }
                 else {
                     keyName = $('#genKeyName').val();
-                    for (var i = 0; i < $('.dropdown_content').length; i++) {
-                        console.log($('.dropdown_content')[i].innerText)
-                        if ($('.dropdown_content').eq(i).text() == keyName) keyIndex = $('.dropdown_content').eq(i).attr('data-idx');
-                    }
+                    keyIndex = key.getKeyId(keyName);
                 }
             }
 
