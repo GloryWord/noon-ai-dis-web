@@ -2086,21 +2086,26 @@ init = {
             $(".keymemo_modi").val(keymemo_modi)
             $("#memoModi").addClass('active')
 
+            // $(document).on("click", ".memosave", function () {
+            //     var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+            //     var key_memo = $(".keymemo_modi").val()
+            //     if (regExp.test(key_memo)) {
+            //         Swal.fire({
+            //             title: 'Key 메모는 특수 문자 사용이 불가능해요.',
+            //             showConfirmButton: false,
+            //             showDenyButton: true,
+            //             denyButtonText: "확 인",
+            //             icon: "error"
+            //         })
+            //     }
+            //     else {
+            //         requestTable.updateKeyMemo(key_idx, key_memo)
+            //     }
+            // });
+
             $(document).on("click", ".memosave", function () {
-                var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-                var key_memo = $(".keymemo_modi").val()
-                if (regExp.test(key_memo)) {
-                    Swal.fire({
-                        title: 'Key 메모는 특수 문자 사용이 불가능해요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    })
-                }
-                else {
-                    requestTable.updateKeyMemo(key_idx, key_memo)
-                }
+                var key_memo = escapeHTML($(".keymemo_modi").val())
+                requestTable.updateKeyMemo(key_idx, key_memo)
             });
         });
 
@@ -2233,15 +2238,15 @@ init = {
                         icon: "error"
                     })
                 }
-                else if (regExp.test(keyMemo)) {
-                    Swal.fire({
-                        title: 'Key 메모는 특수 문자 사용이 불가능해요.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    })
-                }
+                // else if (regExp.test(keyMemo)) {
+                //     Swal.fire({
+                //         title: 'Key 메모는 특수 문자 사용이 불가능해요.',
+                //         showConfirmButton: false,
+                //         showDenyButton: true,
+                //         denyButtonText: "확 인",
+                //         icon: "error"
+                //     })
+                // }
                 else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                     Swal.fire({
                         title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
@@ -2273,19 +2278,20 @@ init = {
 
         $(document).on("click", ".keyConfig", function () {
             var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-            var accessKey = $(".accessKey").val();
-            if (regExp.test(accessKey)) {
-                Swal.fire({
-                    title: '접속 키는 특수 문자 사용이 불가능해요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                })
-            }
-            else {
-                subaccount.putAccessKey(accessKey)
-            }
+            var accessKey = escapeHTML($(".accessKey").val());
+            subaccount.putAccessKey(accessKey)
+            // if (regExp.test(accessKey)) {
+            //     Swal.fire({
+            //         title: '접속 키는 특수 문자 사용이 불가능해요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     })
+            // }
+            // else {
+            //     subaccount.putAccessKey(accessKey)
+            // }
         });
 
         $(document).on("click", ".pass_modi", function () {
