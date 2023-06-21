@@ -58,25 +58,16 @@ login = {
             success: function (data) {
                 let lockStatus = null;
                 let loginable = false;
-                let activateTime = null;
 
                 lockStatus = login.selectLockStatus('tenant', '', account_name);
                 loginable = lockStatus.loginable
-                activateTime = lockStatus.activateTime
 
                 if (loginable) {
                     $(".auth_id").val($("#name").val());
                     $("#authModal").addClass('active');
                 }
                 else {
-                    Swal.fire({
-                        title: '계정 로그인 비활성화',
-                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`,
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
+                    login.resetPasswordAfterLock(account_name);
                 }
                 master_tenant_id = data.tenant_id;
             },
@@ -217,7 +208,7 @@ login = {
                 else {
                     Swal.fire({
                         title: '계정 로그인 비활성화',
-                        text: `5회 이상 로그인에 실패하였습니다.\n ${activateTime} 이후 다시 시도해 주세요.`,
+                        text: `소속된 기관의 관리자를 통해 잠금을 해제해 주세요.`,
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -439,6 +430,69 @@ login = {
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+    },
+
+    resetPasswordAfterLock: function (account_name) {
+        let user_name, telephone;
+        Swal.fire({
+            title: '비밀번호를 5회 이상 잘못 입력하셨습니다.',
+            html: `회원가입 시 사용한 이메일을 입력해 주세요.<br>본인확인 후 비밀번호를 초기화 할 수 있습니다.`,
+            showConfirmButton: true,
+            confirmButtonText: '본인확인 이메일 전송',
+            showDenyButton: true,
+            denyButtonText: "취소",
+        }).then(async (result) => {
+            if(result.isConfirmed) {
+                const apiResult = await Swal.fire({
+                    title: '이름, 가입시 등록한 휴대전화번호 확인 후 이메일이 발송됩니다.',
+                    html: '이름: <input id="swal-input1" class="username"><br>' +
+                    '휴대전화 번호: <input id="swal-input2" class="telephone">',
+                    showCancelButton: false,
+                    showLoaderOnConfirm: true,
+                    preConfirm: async () => {
+                        user_name = document.getElementById('swal-input1').value;
+                        telephone = document.getElementById('swal-input2').value
+                        let baseUrl = `/api/auth/tenant/identify`
+                        let apiUrl = apiUrlConverter('util', baseUrl)
+                        return fetch(apiUrl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify({
+                                "account_name": account_name,
+                                "user_name": user_name,
+                                "telephone": telephone
+                            })
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(response.statusText)
+                                }
+                                return response.json()
+                            })
+                            .catch(error => {
+                                Swal.showValidationMessage(
+                                    `Request failed: ${error}`
+                                )
+                            })
+                    }
+                })
+                let identify = apiResult.value.identify;
+                if(identify) {
+                    login.resetPassword(account_name, user_name, telephone);
+                }
+                else {
+                    Swal.fire({
+                        title: '개인정보 불일치',
+                        html: '로그인한 계정과 입력된 정보가 일치하지 않습니다.',
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
+                }
             }
         })
     },
