@@ -2307,6 +2307,11 @@ init = {
             $("#authModi").addClass('active')
         });
 
+        $(document).on("click", ".lockBtn", function () {
+            let idx = $(this).data("id");
+            subaccount.unlock(idx);
+        });
+
         $(document).on("click", ".authConfig", function () {
             var bucketAuth = ""
             var dbAuth = ""

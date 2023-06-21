@@ -49,7 +49,7 @@
 
 .subHeader {
     margin: 100px auto 20px;
-    width: 988px;
+    width: 1220px;
     height: 40px;
     display: flex;
 }
@@ -86,7 +86,7 @@
 }
 
 .sub_table {
-    width: 988px;
+    width: 1220px;
     height: auto;
     min-height: 376px;
     display: flex;
@@ -97,7 +97,7 @@
 }
 
 .sub_table .subList {
-    width: 988px;
+    width: 1220px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -110,7 +110,7 @@
 }
 
 .sub_table .subList .listHeader .headArea {
-    width: 940px;
+    width: 1184px;
     height: 62px;
     display: flex;
     border-bottom: solid 1px #707070;
@@ -122,8 +122,10 @@
 .sub_table .subList .listHeader .headArea .name_head,
 .sub_table .subList .listHeader .headArea .last_head,
 .sub_table .subList .listHeader .headArea .create_head,
+.sub_table .subList .listHeader .headArea .lock_head,
 .sub_table .subList .listHeader .headArea .pass_head,
 .sub_table .subList .listHeader .headArea .auth_head,
+.sub_table .subList .listHeader .headArea .lockbtn_head,
 .sub_table .subList .listHeader .headArea .del_head {
     height: 18px;
     display: flex;
@@ -150,11 +152,19 @@
     width: 150px;
 }
 
+.sub_table .subList .listHeader .headArea .lock_head {
+    width: 74px;
+}
+
 .sub_table .subList .listHeader .headArea .pass_head {
     width: 122px;
 }
 
 .sub_table .subList .listHeader .headArea .auth_head {
+    width: 122px;
+}
+
+.sub_table .subList .listHeader .headArea .lockbtn_head {
     width: 122px;
 }
 
@@ -177,7 +187,7 @@
 }
 
 .sub_table .subList .listContent {
-    width: 940px;
+    width: 1184px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -196,8 +206,10 @@
 .sub_table .subList .listContent .tableContent .name_content,
 .sub_table .subList .listContent .tableContent .last_content,
 .sub_table .subList .listContent .tableContent .create_content,
+.sub_table .subList .listContent .tableContent .lock_content,
 .sub_table .subList .listContent .tableContent .pass_content,
 .sub_table .subList .listContent .tableContent .auth_content,
+.sub_table .subList .listContent .tableContent .lockbtn_content,
 .sub_table .subList .listContent .tableContent .del_content {
     height: 57px;
     display: flex;
@@ -224,11 +236,19 @@
     width: 150px;
 }
 
+.sub_table .subList .listContent .tableContent .lock_content {
+    width: 74px;
+}
+
 .sub_table .subList .listContent .tableContent .pass_content {
     width: 122px;
 }
 
 .sub_table .subList .listContent .tableContent .auth_content {
+    width: 122px;
+}
+
+.sub_table .subList .listContent .tableContent .lockbtn_content {
     width: 122px;
 }
 
@@ -249,7 +269,8 @@
     margin: auto;
 }
 
-.sub_table .subList .listContent .tableContent .pass_content .pass_modi {
+.sub_table .subList .listContent .tableContent .pass_content .pass_modi,
+.sub_table .subList .listContent .tableContent .lockbtn_content .lockBtn {
     width: 64px;
     height: 24px;
     margin: auto;
@@ -259,7 +280,13 @@
     cursor: pointer;
 }
 
-.sub_table .subList .listContent .tableContent .pass_content .pass_modi p {
+.sub_table .subList .listContent .tableContent .lockbtn_content .lockBtn.lockOff {
+    background-color: #16284d;
+    pointer-events: none;
+}
+
+.sub_table .subList .listContent .tableContent .pass_content .pass_modi p,
+.sub_table .subList .listContent .tableContent .lockbtn_content .lockBtn p {
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 12px;
     font-weight: bold;
