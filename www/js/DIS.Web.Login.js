@@ -437,62 +437,90 @@ login = {
     resetPasswordAfterLock: function (account_name) {
         let user_name, telephone;
         Swal.fire({
-            title: '비밀번호를 5회 이상 잘못 입력하셨습니다.',
-            html: `회원가입 시 사용한 이메일을 입력해 주세요.<br>본인확인 후 비밀번호를 초기화 할 수 있습니다.`,
+            title: '비밀번호를 5회 이상 \n잘못 입력하셨습니다.',
+            html: `<p class='loginSwalText'>회원가입 시 사용한 이메일을 <br>입력해 주세요. 본인 확인 후 <br>비밀번호를 초기화 할 수 있습니다.</p>`,
             showConfirmButton: true,
             confirmButtonText: '본인확인 이메일 전송',
-            showDenyButton: true,
-            denyButtonText: "취소",
+            showCancelButton: true,
+            cancelButtonText: "취소",
         }).then(async (result) => {
             if(result.isConfirmed) {
-                const apiResult = await Swal.fire({
-                    title: '이름, 가입시 등록한 휴대전화번호 확인 후 이메일이 발송됩니다.',
-                    html: '이름: <input id="swal-input1" class="username"><br>' +
-                    '휴대전화 번호: <input id="swal-input2" class="telephone">',
-                    showCancelButton: false,
-                    showLoaderOnConfirm: true,
-                    preConfirm: async () => {
-                        user_name = document.getElementById('swal-input1').value;
-                        telephone = document.getElementById('swal-input2').value
-                        let baseUrl = `/api/auth/tenant/identify`
-                        let apiUrl = apiUrlConverter('util', baseUrl)
-                        return fetch(apiUrl, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            credentials: 'include',
-                            body: JSON.stringify({
-                                "account_name": account_name,
-                                "user_name": user_name,
-                                "telephone": telephone
-                            })
-                        })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error(response.statusText)
-                                }
-                                return response.json()
-                            })
-                            .catch(error => {
-                                Swal.showValidationMessage(
-                                    `Request failed: ${error}`
-                                )
-                            })
-                    }
-                })
-                let identify = apiResult.value.identify;
-                if(identify) {
-                    login.resetPassword(account_name, user_name, telephone);
-                }
-                else {
-                    Swal.fire({
-                        title: '개인정보 불일치',
-                        html: '로그인한 계정과 입력된 정보가 일치하지 않습니다.',
-                        icon: 'error',
-                        showConfirmButton: true
+                $("#lockModal").addClass("active")
+                $(document).on("click", ".lock_confirm", function(){
+                    user_name = $(".lock_name").val()
+                    telephone = $(".lock_phone").val()
+                    let baseUrl = `/api/auth/tenant/identify`
+                    let apiUrl = apiUrlConverter('util', baseUrl)
+                    $.ajax({
+                        method: "post",
+                        url: apiUrl,
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        async: false,
+                        data: {
+                            account_name,
+                            user_name,
+                            telephone
+                        },
+                        success: function (data) {                
+                            let identify = data.identify;
+                            if(identify) {
+                                login.resetPassword(account_name, user_name, telephone);
+                            }
+                            else {
+                                Swal.fire({
+                                    title: '개인정보 불일치',
+                                    html: '로그인한 계정과 입력된 정보가 일치하지 않습니다.',
+                                    icon: 'error',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                })
+                            }
+                        }, // success 
+                        error: function (xhr, status) {
+                            console.log("error")
+                        }
                     })
-                }
+                })
+                // const apiResult = await Swal.fire({
+                //     title: '이름, 가입시 등록한 휴대전화번호 확인 후 이메일이 발송됩니다.',
+                //     html: '이름: <input id="swal-input1" class="username"><br>' +
+                //     '휴대전화 번호: <input id="swal-input2" class="telephone">',
+                //     showCancelButton: false,
+                //     showLoaderOnConfirm: true,
+                //     preConfirm: async () => {
+                //         user_name = document.getElementById('swal-input1').value;
+                //         telephone = document.getElementById('swal-input2').value
+                //         let baseUrl = `/api/auth/tenant/identify`
+                //         let apiUrl = apiUrlConverter('util', baseUrl)
+                //         return fetch(apiUrl, {
+                //             method: "POST",
+                //             headers: {
+                //                 "Content-Type": "application/json",
+                //             },
+                //             credentials: 'include',
+                //             body: JSON.stringify({
+                //                 "account_name": account_name,
+                //                 "user_name": user_name,
+                //                 "telephone": telephone
+                //             })
+                //         })
+                //             .then(response => {
+                //                 if (!response.ok) {
+                //                     throw new Error(response.statusText)
+                //                 }
+                //                 return response.json()
+                //             })
+                //             .catch(error => {
+                //                 Swal.showValidationMessage(
+                //                     `Request failed: ${error}`
+                //                 )
+                //             })
+                //     }
+                // })
+
             }
         })
     },

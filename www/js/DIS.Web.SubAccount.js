@@ -145,6 +145,8 @@ subaccount = {
             title: '서브계정 로그인 잠금 해제',
             html: '로그인 5회 이상 실패한 계정입니다.<br>잠금을 해제하시겠습니까?',
             showCancelButton: true,
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
         }).then((result) => {
             if (result.isConfirmed) {
                 let baseUrl = `/api/subaccount/unlock`

@@ -238,6 +238,16 @@ fileModule = {
                     fileHeight.push(img.height);
                     fileCount += 1;
                 }
+                img.onerror = (error) => {
+                    Swal.fire({
+                        title: '파일 에러',
+                        html: '올바르지 않은 파일을<br>업로드하였습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    }).then(() => location.reload())
+                }
             }
             else if (fileType[i] == 'video') {
                 const video = document.createElement('video');
@@ -560,7 +570,15 @@ fileModule = {
                                     var curFile = ffmpegInfo[i]
                                     var info_content = document.querySelector(".info_content")
                                     var charge_content = document.querySelector(".charge_content")
-
+                                    console.log(curFile);
+                                    if(curFile.bit_rate === 'N/A') Swal.fire({
+                                        title: '파일 에러',
+                                        html: '올바르지 않은 파일을<br>업로드하였습니다.',
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
+                                    }).then(() => location.reload())
                                     if(fileWidth[i] === 0 && fileHeight[i] === 0) {
                                         fileWidth[i] = curFile.width;
                                         fileHeight[i] = curFile.height;
