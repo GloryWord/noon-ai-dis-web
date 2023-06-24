@@ -157,6 +157,9 @@ subaccount = {
                     data: {
                         user_id: idx,
                     },
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     success: function (data) {
                         if (data.message === 'success') {
                             Swal.fire({
