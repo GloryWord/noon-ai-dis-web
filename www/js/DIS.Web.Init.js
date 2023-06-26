@@ -374,6 +374,10 @@ init = {
         $(document).on("click", ".allDelete", function () {
             fileModule.alldeleteFile();
             fileCount = 0;
+            $(".uploadFooter").removeClass('active')
+            $(".uploadBtn_area").removeClass('hide')
+            $(".nextBtn").removeClass('hide')
+            $(".progressContainer").addClass('hide')
         });
 
         // 파일 삭제버튼 누를경우 작동 (튼튼함)
@@ -384,6 +388,12 @@ init = {
             fileIndex = fileIndex.filter(function (item) {
                 return item !== Number(idx);
             })
+            if(fileCount==0){
+                $(".uploadFooter").removeClass('active')
+                $(".uploadBtn_area").removeClass('hide')
+                $(".nextBtn").removeClass('hide')
+                $(".progressContainer").addClass('hide')
+            }
         });
 
         var cKey = 1
@@ -833,6 +843,11 @@ init = {
         $(document).on("click", ".uploadDelete", function () {
             var idx = $(this).attr('value')
             fileModule.deleteFile(idx);
+            $(".file_info_area").removeClass('active')
+            $(".uploadFooter").removeClass('active')
+            $(".uploadBtn_area").removeClass('hide')
+            $(".nextBtn").removeClass('hide')
+            $(".progressContainer").addClass('hide')
         });
 
         var cKey = 1
