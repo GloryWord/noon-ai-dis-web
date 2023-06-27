@@ -1955,7 +1955,7 @@ init = {
         }
     },
 
-    myinfo: function () {
+    myinfo: async function () {
         // var queryString = location.search;
         // const urlParams = new URLSearchParams(queryString);
         // var auth = urlParams.get('auth');
@@ -1965,8 +1965,9 @@ init = {
         //         location.href = "/main"
         //     }
         // });
-        let verify = comm.joinInfo();
+        let verify = await comm.joinInfo();
         if(!verify) location.href = '/main';
+        await comm.expireJoinInfo();
 
         let verifyCode = '';
         let email_config = false;
