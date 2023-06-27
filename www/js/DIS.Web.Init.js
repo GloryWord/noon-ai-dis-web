@@ -3066,11 +3066,14 @@ init = {
         }
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-
             let fileUrl, fileSize;
             if(signedUrl[0][0].indexOf('thumbnail') >= 0) {
                 fileUrl = signedUrl[1][0];
                 fileSize = signedUrl[1][1];
+            }
+            else {
+                fileUrl = signedUrl[0][0];
+                fileSize = signedUrl[0][1];
             }
             
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
