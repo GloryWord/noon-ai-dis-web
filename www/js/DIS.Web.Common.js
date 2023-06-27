@@ -469,6 +469,26 @@ comm = {
         return verify;
     },
 
+    expireJoinInfo: function() {
+        let baseUrl = '/api/user/check/expire'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                
+            },
+            error: function (xhr, status) {
+                
+            }
+        });
+    },
+
     adminonly: function () {
         let baseUrl = '/api/get-auth'
         let apiUrl = apiUrlConverter('util', baseUrl)
