@@ -12,7 +12,7 @@ function htmlDecode(text) {
     var element = document.createElement('textarea');
     element.innerHTML = text;
     return element.value;
-  }
+}
 
 const patterns = {
     account_name: /^([a-z\d.-]+)@([a-z\d-]+\.)+([a-z]{2,})$/,
@@ -78,7 +78,7 @@ init = {
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
-                if(verify) {
+                if (verify) {
                     let accountName = $("#name").val();
                     let password = $("#pass").val();
                     login.login(accountName, password);
@@ -201,14 +201,14 @@ init = {
                 $(".checkAll").removeClass("active")
                 $(".noneServiceCheck").addClass("active")
                 $(".checkService").removeClass("active")
-                if($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")){
+                if ($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")) {
                     $(".nextBtn").addClass("disable")
                 }
             }
             else {
                 $(".noneServiceCheck").removeClass("active")
                 $(".checkService").addClass("active")
-                if($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")){
+                if ($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")) {
                     $(".nextBtn").removeClass("disable")
                 }
             }
@@ -221,14 +221,14 @@ init = {
                 $(".checkAll").removeClass("active")
                 $(".nonePrivacyCheck").addClass("active")
                 $(".checkPrivacy").removeClass("active")
-                if($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")){
+                if ($(".noneServiceCheck").hasClass("active") || $(".nonePrivacyCheck").hasClass("active")) {
                     $(".nextBtn").addClass("disable")
                 }
             }
             else {
                 $(".nonePrivacyCheck").removeClass("active")
                 $(".checkPrivacy").addClass("active")
-                if($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")){
+                if ($(".checkService").hasClass("active") && $(".checkPrivacy").hasClass("active")) {
                     $(".nextBtn").removeClass("disable")
                 }
             }
@@ -287,15 +287,16 @@ init = {
         $(".mainLog").html(mainLog);
 
         $(document).on("click", ".detailInfo", function () {
-            var type = $(this).data('type')
+            let type = $(this).data('type')
+            let restoration = $(this).data('restoration')
             if (type == '동영상 파일') {
-                location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";
+                location.href = `/encrypt/video/detail?type=video&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=single`;
             }
             else if (type == '이미지 파일') {
-                location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                location.href = `/encrypt/image/detail?type=image&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=single`;
             }
             else if (type == '이미지 그룹') {
-                location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                location.href = `/encrypt/album/detail?type=image&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=group`;
             }
         });
 
@@ -386,7 +387,7 @@ init = {
             fileIndex = fileIndex.filter(function (item) {
                 return item !== Number(idx);
             })
-            if(fileCount==0){
+            if (fileCount == 0) {
                 $(".uploadFooter").removeClass('active')
                 $(".uploadBtn_area").removeClass('hide')
                 $(".nextBtn").removeClass('hide')
@@ -459,7 +460,7 @@ init = {
             let key_idx = $(this).data("idx")
             let validUntil = $(this).data("valid")
             let notification = $(this).data("notification")
-            if(validUntil < 90 && notification) {
+            if (validUntil < 90 && notification) {
                 Swal.fire({
                     title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
                     html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
@@ -627,6 +628,22 @@ init = {
             var index = urlParams.get('id');
             var encid = urlParams.get('encid');
         }
+        else if(service == "check") {
+            let enc_id = urlParams.get('requestID');
+            let restoration = urlParams.get('restoration');
+            let mode = urlParams.get('mode');
+            if(type=="image"){
+                if(mode=="single"){
+                    let detail = "image"
+                }
+                else if(mode=="group"){
+                    let detail = "album"
+                }
+            }
+            else if(type=="video"){
+                let detail = "video"
+            }
+        }
         var eventIndex = urlParams.get('id');
 
         var progressObject = ''
@@ -682,7 +699,8 @@ init = {
                                 title: '다운로드가 시작됩니다!',
                                 text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
                                 confirmButtonText: '확인',
-                                allowOutsideClick: false
+                                allowOutsideClick: false,
+                                icon: 'success'
                             }).then((result) => {
                                 if (result.isConfirmed) location.href = '/main';
                             })
@@ -711,6 +729,7 @@ init = {
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
+            else if (service == 'check') progressObject = requestTable.getCheckProgress();
             console.log(progressObject);
             var progress = progressObject['progress'];
             var status = progressObject['status']
@@ -738,6 +757,7 @@ init = {
                         if (service == 'encrypt') var msg = '비식별화가';
                         else if (service == 'decrypt') var msg = '복호화가';
                         else if (service == 'thumbnail') var msg = '썸네일 생성이';
+                        else if (service == 'check') var msg = '비식별화 추가가';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
                             showCancelButton: false,
@@ -748,6 +768,7 @@ init = {
                             if (result.isConfirmed) {
                                 if (service == 'encrypt') location.href = '/encrypt/log';
                                 if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}`;
+                                if (service == 'check') location.href = `/encrypt/${detail}/detail?type=${type}&id=${requestID}&restoration=${restoration}&mode=${mode}`;
                                 if (service == 'decrypt') {
                                     let timerInterval;
                                     var typeStr = (type == 'image') ? '이미지' : '영상';
@@ -911,7 +932,7 @@ init = {
         $(document).on("click", ".dropdown_content", function () {
             sKey = "select"
             let validUntil = $(this).data("valid")
-            if(validUntil < 90) {
+            if (validUntil < 90) {
                 Swal.fire({
                     title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
                     html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
@@ -1309,14 +1330,15 @@ init = {
         $(document).on("click", ".detailInfo", function () {
             if (requestType == 'encrypt') {
                 var type = $(this).data('type')
+                let restoration = $(this).data('restoration')
                 if (type == '동영상 파일') {
-                    location.href = "/encrypt/video/detail" + "?type=video&id=" + $(this).attr('data-id') + "&mode=single";;
+                    location.href = `/encrypt/video/detail?type=video&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=single`;
                 }
                 else if (type == '이미지 파일') {
-                    location.href = "/encrypt/image/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=single";
+                    location.href = `/encrypt/image/detail?type=image&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=single`;
                 }
                 else if (type == '이미지 그룹') {
-                    location.href = "/encrypt/album/detail" + "?type=image&id=" + $(this).attr('data-id') + "&mode=group";
+                    location.href = `/encrypt/album/detail?type=image&id=${$(this).attr('data-id')}&restoration=${restoration}&mode=group`;
                 }
             }
         });
@@ -1964,7 +1986,7 @@ init = {
         //     }
         // });
         let verify = await comm.joinInfo();
-        if(!verify) location.href = '/main';
+        if (!verify) location.href = '/main';
         await comm.expireJoinInfo();
 
         let verifyCode = '';
@@ -2138,14 +2160,14 @@ init = {
                     const { changed, count } = await key.changeKeyAll(socket, key_idx);
                     console.log(changed)
                     console.log(count);
-                    if(changed) {
+                    if (changed) {
                         Swal.fire({
                             title: '키 변경 완료',
                             icon: 'success',
                             html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
-                            if(result.isConfirmed) location.reload();
+                            if (result.isConfirmed) location.reload();
                         })
                     }
                 }
@@ -2164,16 +2186,16 @@ init = {
                 cancelButtonText: '취소'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    if(keyName==$(".deleteKeyInput").val()){
+                    if (keyName == $(".deleteKeyInput").val()) {
                         const removed = key.removeKeyRef(key_idx);
                         const deleted = key.deleteKey(key_idx);
-                        if(removed && deleted) {
+                        if (removed && deleted) {
                             Swal.fire({
                                 title: '키 삭제 완료',
                                 icon: 'success',
                                 allowOutsideClick: false
                             }).then((result) => {
-                                if(result.isConfirmed) location.reload();
+                                if (result.isConfirmed) location.reload();
                             })
                         }
                         else {
@@ -2182,29 +2204,29 @@ init = {
                                 html: '다시 시도해 주세요',
                                 icon: 'error',
                                 allowOutsideClick: false,
-                                showConfirmButton:false,
-                                showDenyButton:true,
+                                showConfirmButton: false,
+                                showDenyButton: true,
                             })
                         }
                     }
-                    else if($(".deleteKeyInput").val()==""){
+                    else if ($(".deleteKeyInput").val() == "") {
                         Swal.fire({
                             title: '키 삭제 실패',
                             html: '삭제할 KEY 이름을 \n입력해주세요.',
                             icon: 'error',
-                            denyButtonText:"확 인",
-                            showConfirmButton:false,
-                            showDenyButton:true,
+                            denyButtonText: "확 인",
+                            showConfirmButton: false,
+                            showDenyButton: true,
                         })
                     }
-                    else if(keyName!=$(".deleteKeyInput").val()){
+                    else if (keyName != $(".deleteKeyInput").val()) {
                         Swal.fire({
                             title: '키 삭제 실패',
                             html: '삭제할 KEY 이름이 \n일치하지 않습니다.',
                             icon: 'error',
-                            denyButtonText:"확 인",
-                            showConfirmButton:false,
-                            showDenyButton:true,
+                            denyButtonText: "확 인",
+                            showConfirmButton: false,
+                            showDenyButton: true,
                         })
                     }
                 }
@@ -2279,7 +2301,7 @@ init = {
 
     submanage: function () {
         var auth = comm.adminonly();
-        if(auth !== 'master') location.href = '/main'
+        if (auth !== 'master') location.href = '/main'
         $(document).on("click", ".sub_add", function () {
             location.href = "/submanage/add"
         });
@@ -2738,6 +2760,7 @@ init = {
         var type = urlParams.get('type');
         var eventIndex = urlParams.get('id');
         var mode = urlParams.get('mode');
+        var restoration = urlParams.get('restoration');
         var selectModalImg = 0;
 
         let uploadID = 0;
@@ -2777,14 +2800,14 @@ init = {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const { changed, count } = await key.changeKeyElement(socket, key_idx, eventIndex);
-                    if(changed) {
+                    if (changed) {
                         Swal.fire({
                             title: '키 변경 완료',
                             icon: 'success',
                             html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
-                            if(result.isConfirmed) location.reload();
+                            if (result.isConfirmed) location.reload();
                         })
                     }
                 }
@@ -2809,6 +2832,15 @@ init = {
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#file").on('change', function () {
             var file = document.getElementById('file').files[0];
+            var fileName = file.name;
+            $('.pemUpload').val(fileName);
+            $('.pemUpload').addClass("active");
+            $('.uploadBtn').addClass("active");
+        });
+
+        // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
+        $("#addfile").on('change', function () {
+            var file = document.getElementById('addfile').files[0];
             var fileName = file.name;
             $('.pemUpload').val(fileName);
             $('.pemUpload').addClass("active");
@@ -3066,7 +3098,7 @@ init = {
         else if (type == 'video') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             let fileUrl, fileSize;
-            if(signedUrl[0][0].indexOf('thumbnail') >= 0) {
+            if (signedUrl[0][0].indexOf('thumbnail') >= 0) {
                 fileUrl = signedUrl[1][0];
                 fileSize = signedUrl[1][1];
             }
@@ -3074,7 +3106,7 @@ init = {
                 fileUrl = signedUrl[0][0];
                 fileSize = signedUrl[0][1];
             }
-            
+
             var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
             $('#signedUrl').attr('href', fileUrl);
             $('.fullname').text($('.file_fullname').text())
@@ -3085,6 +3117,282 @@ init = {
                 comm.meterDownload(eventIndex, type, fileName, fileSize);
             })
         }
+
+        $(document).on("click", ".checkBtn", function () {
+            uploadID = makeid(6);
+            if (restoration === '1') {
+                $('#addfile').val('');
+                $('.pemUpload').val('');
+                $('.addConfirm').attr('data-value', $(this).data('value'));
+                $("#addData").addClass('active')
+
+                $(document).on("click", ".addConfirm", function () {
+                    let key_name = $('.file_key')[0].children[1].innerHTML
+                    let uploadResult = fileModule.uploadKey('addfile');
+
+                    uploadResult.then(async (data) => {
+                        let file_name = data[0]
+                        let keyPath = data[1]
+                        socket.emit('delUploadedFile', {
+                            filePath: keyPath,
+                            id: uploadID,
+                            immediate: 'false'
+                        })
+
+                        if (file_name) {
+                            console.log('file_name : ' + JSON.stringify(file_name));
+                            let verify_result = fileModule.verifyKey(file_name, key_name);
+                            const { valid, msg, keyPath } = verify_result;
+                            if(!valid) {
+                                    Swal.fire({
+                                    title: '복호화 키 불일치',
+                                    text: msg,
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                });
+                            }
+                            else {
+                                let result = await fileModule.makePasswordbin(eventIndex, keyPath);
+                                if(result) {
+                                    if(type=='image'){
+                                        if(mode=='single'){
+                                            location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                        }
+                                        else if(mode=='group'){
+                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                        }
+                                    }
+                                    else if(type=='video'){
+                                        location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                    }
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: '작업 실패',
+                                        text: '다시 시도해 주세요',
+                                        showCancelButton: false,
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                        }
+                        else {
+                            console.log('file_name : ' + file_name);
+                            Swal.fire({
+                                title: '키 파일 업로드 실패',
+                                text: '키 파일을 다시 업로드해주세요.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            });
+                        }
+                    })
+                })
+            }
+            else {
+                if(type=='image'){
+                    if(mode=='single'){
+                        location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                    }
+                    else if(mode=='group'){
+                        location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                    }
+                }
+                else if(type=='video'){
+                    location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                }
+            }
+        })
+    },
+
+    check: async function () {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
+            withCredentials: true,
+            transports: ['websocket']
+        });
+
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var token = urlParams.get('token');
+        var requestId = urlParams.get('id');
+        var mode = urlParams.get('mode');
+        var restoration = urlParams.get('restoration');
+        var imgNum = urlParams.get('imgNum');
+        var encFileInfo = resultLoader.getEncFileInfo(requestId); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
+        console.log(fileList)
+
+        if (type == 'image') {
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            if (mode == 'single') {
+                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+                console.log(coordinates)
+
+                let thumbnailImg = document.getElementById('canvasBackImg')
+                thumbnailImg.src = signedUrl[imgNum][0]
+                thumbnailImg.onload = function () {
+                    const canvas = document.getElementById('canvas');
+                    var height = document.getElementById('canvasBackImg').clientHeight;
+                    canvas.height = Number(height)
+                    var script = document.createElement('script');
+                    script.src = '../../static/js/check/check.js';
+                    document.head.appendChild(script);
+                }
+
+                //check.js가 헤더에 포함되기를 기다림.
+                let intervalId = setInterval(async ()=> {
+                    let headScripts = document.head.getElementsByTagName('script');
+                    for (let i = 0; i < headScripts.length; i++) {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+
+                            //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                            if(coordinates) {
+                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[0]]);
+                                let canvasCoord = coordTritonToWeb.canvasCoord;
+                                let originCoord = coordTritonToWeb.originCoord;
+                                let classArray = coordTritonToWeb.classArray;
+                                if(canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                            }
+                            clearInterval(intervalId);
+                            break;
+                        }
+                    }
+                }, 50)
+                
+            }
+            else if (mode == 'group') {
+                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+                console.log(coordinates)
+                let imgList = ``
+                console.log(signedUrl)
+                for(let i=0;i<signedUrl.length;i++){
+                    imgList += `<img class='thumbnailImg' src=${signedUrl[i][0]} data-imgNum=${i}>`
+                }
+                $(".imglist").html(imgList)
+                let thumbnailImg = document.getElementById('canvasBackImg')
+                thumbnailImg.src = signedUrl[imgNum][0]
+                thumbnailImg.onload = function () {
+                    const canvas = document.getElementById('canvas');
+                    var height = document.getElementById('canvasBackImg').clientHeight;
+                    canvas.height = Number(height)
+                    var script = document.createElement('script');
+                    script.src = '../../static/js/check/check.js';
+                    document.head.appendChild(script);
+                }
+
+                //check.js가 헤더에 포함되기를 기다림.
+                let intervalId = setInterval(async ()=> {
+                    let headScripts = document.head.getElementsByTagName('script');
+                    for (let i = 0; i < headScripts.length; i++) {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+
+                            //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                            if(coordinates) {
+                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[imgNum]]);
+                                let canvasCoord = coordTritonToWeb.canvasCoord;
+                                let originCoord = coordTritonToWeb.originCoord;
+                                let classArray = coordTritonToWeb.classArray;
+                                if(canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                            }
+                            clearInterval(intervalId);
+                            break;
+                        }
+                    }
+                }, 50)
+            }
+        }
+        else if (type == 'video') {
+            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+        }
+
+        $(document).on("click", ".thumbnailImg", async function(){        
+            let num = $(this).data("imgnum")
+            if(type=='image'){
+                if(mode=='group'){
+                    location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
+                }
+            }
+            else if(type=='video'){
+                location.href = `/encrypt/video/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
+            }
+        })
+        
+        let totalCoordinates = {};
+        let detail;
+        $(document).on("click", ".save", async function(){
+            let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+            if(beforeCoordinates) totalCoordinates = beforeCoordinates
+            let curCoordinates = saveInput();
+            
+            let parsedCoordinates = comm.parseCoordWebToTriton(curCoordinates);
+            if(parsedCoordinates) {
+                totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+            }
+            beforeColor = ""
+        
+            let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
+            socket.emit('delUploadedFile', {
+                filePath: filePath,
+                id: token,
+                immediate: 'false'
+            })
+            console.log(totalCoordinates)
+
+            //DB에 비식별화 추가 관련 정보 쿼리
+            //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+            let additionalFileList = Object.keys(totalCoordinates)
+            let fileCount = additionalFileList.length 
+            detail = {
+                'token': token,
+                'fileList': additionalFileList,
+                'fileCount': fileCount,
+            }
+            if(type=="image" && mode=="single"){
+                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                if(addMessage){
+                    Swal.fire({
+                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                        showCancelButton: false,
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon:'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                        }
+                    })
+                }
+            }
+        })
+
+        $(document).on("click", ".confirmAdd", async function(){            
+            let insertId, encReqInfo = await fileModule.additionalEncrypt(detail, requestId);
+            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+            if(addMessage){
+                Swal.fire({
+                    title: '비식별화 추가 요청이 \n완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon:'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                    }
+                })
+            }
+        })
     },
 };
 

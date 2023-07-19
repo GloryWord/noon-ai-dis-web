@@ -43,6 +43,7 @@
 .key_content {
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 436px);
 }
 
 .keyHeader {

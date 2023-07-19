@@ -54,6 +54,12 @@
     font-style: normal;
 }
 
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 436px);
+}
+
 .select_area{
     width: 100%;
     height: 380px;
@@ -131,6 +137,7 @@
 .logTable {
     width: 100%;
     height: 616px;
+    min-height: calc(100vh - 816px);
     display: flex;
     flex-direction: column;  
     background-color: #e9f6ff;

@@ -227,6 +227,7 @@
     flex-direction: column;
     width: 100%;
     height: auto;  
+    min-height: calc(100vh - 830px);
     background-color: #e9f6ff;
 }
 
@@ -707,7 +708,8 @@
     margin: 6px auto 54px;
 }
 
-.layerPopupBox .inner .recoContent .recoBody .recoFooter .recoConfirm {
+.layerPopupBox .inner .recoContent .recoBody .recoFooter .recoConfirm,
+.layerPopupBox .inner .recoContent .recoBody .recoFooter .addConfirm {
     width: 140px;
     height: 40px;
     margin: 0 14px 0 0;
@@ -730,6 +732,7 @@
 }
 
 .layerPopupBox .inner .recoContent .recoBody .recoFooter .recoConfirm p,
+.layerPopupBox .inner .recoContent .recoBody .recoFooter .addConfirm p,
 .layerPopupBox .inner .recoContent .recoBody .recoFooter .cancel p {
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;

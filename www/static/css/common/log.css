@@ -43,6 +43,7 @@
 .log_content {
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 436px);
 }
 
 .log_content .search_area {
