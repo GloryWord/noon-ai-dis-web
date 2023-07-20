@@ -681,7 +681,7 @@
 
 .logTable .mainLog .logContent .detail_content .detailInfo.disable {
     pointer-events: none;
-    background-color: #595959;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .logTable .mainLog .logContent .detail_content .detailInfo p {
@@ -695,6 +695,10 @@
     text-align: center;
     color: #fff;
     margin: auto;
+}
+
+.logTable .mainLog .logContent .detail_content .detailInfo.disable p {
+    color: #595959;
 }
 
 .logTable .btn-wrap {

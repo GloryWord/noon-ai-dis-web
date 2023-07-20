@@ -710,13 +710,13 @@ comm = {
 
             for(let i = 0; i < keys.length; i++) {
                 console.log(curCoordinates[0])
-                for(let j = 0; j < curCoordinates[i].canvas.length; j++) {
+                for(let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
                     //canvas 좌상단, 우하단
-                    let canvasLeftTop = [curCoordinates[i].canvas[j][0], curCoordinates[i].canvas[j][1]]
-                    let canvasRightBottom = [curCoordinates[i].canvas[j][2], curCoordinates[i].canvas[j][3]] 
+                    let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
+                    let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]] 
                     //real 좌상단, 우하단
-                    let realLeftTop = [curCoordinates[i].real[j][0], curCoordinates[i].real[j][1]]
-                    let realRightBottom = [curCoordinates[i].real[j][2], curCoordinates[i].real[j][3]] 
+                    let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
+                    let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]] 
     
                     canvasCoord.push([canvasLeftTop, canvasRightBottom])
                     originCoord.push([realLeftTop, realRightBottom])
