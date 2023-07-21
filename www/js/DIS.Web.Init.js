@@ -3281,10 +3281,18 @@ init = {
                     imgList += `<img class='thumbnailImg img${i}' src=${signedUrl[i][0]} data-imgNum=${i}>`
                 }
                 $(".checkImgList").html(imgList)
-                $(".selectImgNum").text(`${Number(imgNum)+1}/${signedUrl.length}`)
+                let imgNumDiv  = `<input class='selectInputNum' value=${Number(imgNum)+1}><p>/ ${signedUrl.length}</p>`
+                $(".selectImgNum").html(imgNumDiv)
 
                 $(`.thumbnailImg`).removeClass("active")
                 $(`.img${imgNum}`).addClass("active")
+
+                $(document).on("change", ".selectInputNum", function () {
+                    let num = Number($(".selectInputNum").val())
+                    if(num<=signedUrl.length){
+                        location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&mode=${mode}&restoration=${restoration}&imgNum=${num-1}`
+                    }
+                });
 
                 let scrollableDiv = document.getElementById('imgDiv');
 

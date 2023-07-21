@@ -99,13 +99,16 @@
     width: 988px;
     display: flex;
     flex-direction: column;
-    margin: 30px auto 0;
+    margin: 0 auto 24px;
 }
 
 .checkArea .checkContent .checkImgContent .checkImgContentHeader {  
     width: 988px;
+    height: 42px;
     display: flex;
-    margin: 0 auto 12px 0;
+    margin: 0 auto;
+    border-radius: 12px 12px 0 0;
+    background-color: #595959;
 }
 
 .checkArea .checkContent .checkImgContent .checkImgContentHeader h1 {  
@@ -114,46 +117,63 @@
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.25;
+    line-height: 1.22;
     letter-spacing: normal;
     text-align: left;
-    color: #595959;
-    margin: auto auto auto 0;
+    color: #fff;
+    margin: 12px auto auto 24px;
 }
 
-.checkArea .checkContent .checkImgContent .checkImgContentHeader .confirmAdd {  
-    width: 160px;
-    height: 40px;
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum {  
+    width: auto;
+    height: auto;
     display: flex;
-    margin: 0 0 12px;
-    border-radius: 20px;
-    background-color: #3fa9f5;
-    cursor: pointer;
+    margin: 12px 24px auto 0;
 }
 
-.checkArea .checkContent .checkImgContent .checkImgContentHeader .confirmAdd p {
-    font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
-    font-weight: bold;
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum .selectInputNum {  
+    width: 44px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 4px 7px 3px;
+    border: solid 1px #f2f2f2;
+    background-color: #fff;
+    text-align: right;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.29;
+    line-height: 1.25;
     letter-spacing: normal;
-    text-align: center;
+    text-align: right;
+    color: #3fa9f5;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum p {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
     color: #fff;
-    margin: auto;
+    margin: 4px 0 auto 0;
 }
 
 .checkArea .checkContent .checkImgContent .checkImgList {  
     width: 988px;
-    height: 140px;
+    height: 166px;
     display: flex;
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
     background-color: #efefef;
-    border-radius: 10px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 0 0 12px 12px;
 }
 
 /* .checkArea .checkContent .checkImgContent .checkImgList .imglist {  
