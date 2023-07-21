@@ -3,12 +3,14 @@ var canvasImg = document.getElementById('canvasBackImg');;
 var url = canvasImg.src;;
 var img = new Image();
 var ctx = canvas.getContext("2d");;
+ctx.lineWidth = 4;
 var arRectangle = new Array();
 var sx, sy;                  // 드래그 시작점
 var ex, ey;                  // 드래그 끝점
 var selectorClass = 0;
-var selectorColor = "rgba(255,255,0,0.2)";
-var color = "rgba(255,255,0,0.2)"; // 현재 색상
+var selectorColor = "rgba(226,214,255,0.6)";
+var color = "rgba(226,214,255,0.6)"; // 현재 색상
+var strokeColor
 var drawing;                // 그리고 있는 중인가
 var moving = false             // 이동중인 도형 첨자
 var classLoc
@@ -19,6 +21,9 @@ var beforeColor = ""
 var tagdiv = document.getElementById("layer")
 var u = 0.01;
 var scale = 1.0; // 현재 확대/축소 비율
+var bodyNum = 1
+var headNum = 1
+var carNum = 1
 
 $(document).ready(function () {
     img.src = url;
@@ -63,8 +68,19 @@ function drawRects() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < arRectangle.length; i++) {
         var r = arRectangle[i];
+        var rStrokeColor
+        if(r.color=="rgba(226,214,255,0.6)"||r.color=="rgba(161,122,255,0.6)"){
+            rStrokeColor = "rgba(161,122,255,0.6)"
+        }
+        else if(r.color=="rgba(210,223,255,0.6)"||r.color=="rgba(109,153,255,0.6)"){
+            rStrokeColor = "rgba(109,153,255,0.6)"
+        }
+        else if(r.color=="rgb(192,237,234,0.6)"||r.color=="rgb(51,199,187,0.6)"){
+            rStrokeColor = "rgb(51,199,187,0.6)"
+        }
         if (r.sx != r.ex && r.sy != r.ey) {
             ctx.fillStyle = r.color;
+            ctx.strokeStyle = rStrokeColor;
             ctx.fillRect(r.sx, r.sy, r.ex - r.sx, r.ey - r.sy);
             ctx.strokeRect(r.sx, r.sy, r.ex - r.sx, r.ey - r.sy);
         }
@@ -120,15 +136,23 @@ function handleMouseWheel(event) {
 
 window.onload = function () {
     if (canvas == null || canvas.getContext == null) return;
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
     $(document).on("click", ".colorDiv", function () {
         $(".colorDiv").removeClass("active")
         $(this).addClass("active")
         selectorClass = $(this).data("class")
         selectorColor = $(this).data("color")
-        color = selectorColor;
+        color = selectorColor
         ctx.fillStyle = color;
+        if(selectorClass=="0"){
+            strokeColor = "rgba(161,122,255,0.6)"
+        }
+        else if(selectorClass=="1"){
+            strokeColor = "rgba(109,153,255,0.6)"
+        }
+        else if(selectorClass=="2"){
+            strokeColor = "rgb(51,199,187,0.6)"
+        }
+        ctx.strokeStyle = strokeColor;
     })
 
     canvas.onmousedown = function (e) {
@@ -152,6 +176,16 @@ window.onload = function () {
         if (drawing) {
             drawRects();
             ctx.fillStyle = color;
+            if(selectorClass=="0"){
+                strokeColor = "rgba(161,122,255,0.6)"
+            }
+            else if(selectorClass=="1"){
+                strokeColor = "rgba(109,153,255,0.6)"
+            }
+            else if(selectorClass=="2"){
+                strokeColor = "rgb(51,199,187,0.6)"
+            }
+            ctx.strokeStyle = strokeColor;
             ctx.fillRect(sx, sy, ex - sx, ey - sy);
             ctx.strokeRect(sx, sy, ex - sx, ey - sy);
         }
@@ -198,9 +232,47 @@ window.onload = function () {
             var a = $('.location').val()
             a += start + "," + end + "/"
             $('.location').val(a)
-            var tag1 = "<div class='tag' style='display:flex; background-color:" + selectorColor + ";' data-loc=" + start + "," + end + " data-class=" + classLoc + ">\
-            <p class='tagdel' data-loc="+ start + "," + end + " data-class=" + classLoc + " style='cursor:pointer; z-index:10; margin:auto 10px auto auto'>삭제</p></div>"
+            var divClass
+            if(classLoc=="0"){
+                divClass = "body"
+            }
+            else if(classLoc=="1"){
+                divClass = "head"
+            }
+            else if(classLoc=="2"){
+                divClass = "car"
+            }
+            var tag1 = "<div class='tag "+divClass+"' style='background-color:" + selectorColor + ";' data-loc=" + start + "," + end + " data-class=" + classLoc + ">"
+                    if(divClass=="body"){
+                        tag1 +="<p>사람 - 전신 "+bodyNum+"</p>"
+                        bodyNum += 1
+                    }
+                    else if(divClass=="head"){
+                        tag1 +="<p>사람 - 얼굴 "+headNum+"</p>"
+                        headNum += 1
+                    }
+                    else if(divClass=="car"){
+                        tag1 +="<p>차량번호판 "+carNum+"</p>"
+                        carNum += 1
+                    }
+                    tag1 += "<img class='tagdel off active' data-loc="+ start + "," + end + " data-class=" + classLoc + " src='../../static/imgs/check/offDelete.png'>\
+                            <img class='tagdel on' data-loc="+ start + "," + end + " data-class=" + classLoc + " src='../../static/imgs/check/onDelete.png'>\
+                        </div>"
             tagdiv.innerHTML += tag1
+
+            const divs = document.querySelectorAll('.tag'); // 모든 .tag 요소 선택
+            const body = document.querySelector('.tagdiv'); // 부모 요소의 클래스 이름 사용
+        
+            // divs를 배열로 변환하여 순서를 다시 설정
+            const divArray = Array.from(divs);
+            divArray.sort((a, b) => {
+                // 순서를 변경하고 싶은 클래스 이름의 우선순위를 정의 (body < head < car)
+                const classPriority = ['body', 'head', 'car'];
+                return classPriority.indexOf(a.className.split(' ')[1]) - classPriority.indexOf(b.className.split(' ')[1]);
+            });
+
+            // 변경된 순서대로 다시 부모 요소에 추가
+            divArray.forEach(div => body.appendChild(div));
         }
         else {
             $('.dellocation').val(end)
@@ -219,6 +291,9 @@ $(document).on("click", ".clear", function () {
     $('.locClass').val("");
     beforeColor = ""
     tagdiv.innerHTML = ""
+    bodyNum = 1
+    headNum = 1
+    carNum = 1
 })
 
 function canvasX(clientX) {
@@ -239,40 +314,41 @@ $(document).on("mousemove", ".canvasClass", function () {
 
 var tagInfo
 $(document).on("click", ".tag", function () {
+    $(".tag").removeClass("active")
+    $(this).addClass("active")
     var tagloc = $(this).data("loc")
     tagInfo = $(this)
+
+    $(".tagdel.off").addClass("active")
+    $(".tagdel.on").removeClass("active")
+    $(this).find(".tagdel.off").removeClass("active")
+    $(this).find(".tagdel.on").addClass("active")
+
     $('.dellocation').val(tagloc)
     var tagclass = $(this).data("class")
     var tagArr = tagloc.split(",")
     for (var i = 0; i < document.getElementsByClassName("tag").length; i++) {
         if (document.getElementsByClassName("tag")[i].dataset['class'] == 0) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(255,255,0,0.2)"
+            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(226,214,255,0.6)"
         }
         else if (document.getElementsByClassName("tag")[i].dataset['class'] == 1) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(255,0,0,0.2)"
+            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(210,223,255,0.6)"
         }
         else if (document.getElementsByClassName("tag")[i].dataset['class'] == 2) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgb(0,255,0,0.2)"
-        }
-        else if (document.getElementsByClassName("tag")[i].dataset['class'] == 3) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(0,0,255,0.2)"
+            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgb(192,237,234,0.6)"
         }
     }
     for (var i = 0; i < arRectangle.length; i++) {
-        if (arRectangle[i].color == "rgba(255,255,0,0.6)") {
-            var orColor = "rgba(255,255,0,0.2)"
+        if (arRectangle[i].color == "rgba(161,122,255,0.6)") {
+            var orColor = "rgba(226,214,255,0.6)"
             arRectangle[i].color = orColor;
         }
-        else if (arRectangle[i].color == "rgba(255,0,0,0.6)") {
-            var orColor = "rgba(255,0,0,0.2)"
+        else if (arRectangle[i].color == "rgba(109,153,255,0.6)") {
+            var orColor = "rgba(210,223,255,0.6)"
             arRectangle[i].color = orColor;
         }
-        else if (arRectangle[i].color == "rgb(0,255,0,0.6)") {
-            var orColor = "rgb(0,255,0,0.2)"
-            arRectangle[i].color = orColor;
-        }
-        else if (arRectangle[i].color == "rgba(0,0,255,0.6)") {
-            var orColor = "rgba(0,0,255,0.2)"
+        else if (arRectangle[i].color == "rgb(51,199,187,0.6)") {
+            var orColor = "rgb(192,237,234,0.6)"
             arRectangle[i].color = orColor;
         }
     }
@@ -280,22 +356,19 @@ $(document).on("click", ".tag", function () {
     for (var i = 0; i < arRectangle.length; i++) {
         if (tagArr[0] == arRectangle[i].sx && tagArr[1] == arRectangle[i].sy && tagArr[2] == arRectangle[i].ex && tagArr[3] == arRectangle[i].ey) {
             if (tagclass == 0) {
-                var tagcolor = "rgba(255,255,0,0.6)"
-                this.style.backgroundColor = "rgba(255,255,0,0.6)"
+                var tagcolor = "rgba(161,122,255,0.6)"
+                this.style.backgroundColor = "rgba(161,122,255,0.6)"
             }
             else if (tagclass == 1) {
-                var tagcolor = "rgba(255,0,0,0.6)"
-                this.style.backgroundColor = "rgba(255,0,0,0.6)"
+                var tagcolor = "rgba(109,153,255,0.6)"
+                this.style.backgroundColor = "rgba(109,153,255,0.6)"
             }
             else if (tagclass == 2) {
-                var tagcolor = "rgb(0,255,0,0.6)"
-                this.style.backgroundColor = "rgb(0,255,0,0.6)"
-            }
-            else if (tagclass == 3) {
-                var tagcolor = "rgba(0,0,255,0.6)"
-                this.style.backgroundColor = "rgba(0,0,255,0.6)"
+                var tagcolor = "rgb(51,199,187,0.6)"
+                this.style.backgroundColor = "rgb(51,199,187,0.6)"
             }
             arRectangle[i].color = tagcolor;
+            arRectangle[i].strokeStyle = tagcolor;
             drawRects();
             break
         }
@@ -441,19 +514,52 @@ function loadData(canvasCoord, originCoord, classArray) {
     var loadtag = ""
     tagdiv.innerHTML = ""
     for(var i=0; i<locArr.length; i++){
+        var divClass
         if(colorArr[i]==0){
-            color="rgba(255,255,0,0.2)"
+            color="rgba(226,214,255,0.6)"
+            divClass = "body"
         }
         else if(colorArr[i]==1){
-            color="rgba(255,0,0,0.2)"
+            color="rgba(210,223,255,0.6)"
+            divClass = "head"
         }
         else if(colorArr[i]==2){
-            color="rgb(0,255,0,0.2)"
+            color="rgb(192,237,234,0.6)"
+            divClass = "car"
         }
-        loadtag += "<div class='tag' style='display:flex; background-color:"+color+";' data-loc="+locArr[i]+" data-class="+colorArr[i]+">\
-            <p class='tagdel' data-loc="+locArr[i]+" data-class="+colorArr[i]+" style='cursor:pointer; z-index:10; margin:auto 10px auto auto'>삭제</p></div>"
+        loadtag += "<div class='tag "+divClass+"' style='background-color:"+color+";' data-loc="+locArr[i]+" data-class="+colorArr[i]+">"
+                if(divClass=="body"){
+                    loadtag +="<p>사람 - 전신 "+bodyNum+"</p>"
+                    bodyNum += 1
+                }
+                else if(divClass=="head"){
+                    loadtag +="<p>사람 - 얼굴 "+headNum+"</p>"
+                    headNum += 1
+                }
+                else if(divClass=="car"){
+                    loadtag +="<p>차량번호판 "+carNum+"</p>"
+                    carNum += 1
+                }
+            loadtag += "<img class='tagdel off active' data-loc="+locArr[i]+" data-class="+colorArr[i]+" src='../../static/imgs/check/offDelete.png'>\
+                        <img class='tagdel on' data-loc="+locArr[i]+" data-class="+colorArr[i]+" src='../../static/imgs/check/onDelete.png'>\
+                    </div>"
     }
     tagdiv.innerHTML += loadtag
+    
+    const divs = document.querySelectorAll('.tag'); // 모든 .tag 요소 선택
+    const body = document.querySelector('.tagdiv'); // 부모 요소의 클래스 이름 사용
+
+    // divs를 배열로 변환하여 순서를 다시 설정
+    const divArray = Array.from(divs);
+    divArray.sort((a, b) => {
+        // 순서를 변경하고 싶은 클래스 이름의 우선순위를 정의 (body < head < car)
+        const classPriority = ['body', 'head', 'car'];
+        return classPriority.indexOf(a.className.split(' ')[1]) - classPriority.indexOf(b.className.split(' ')[1]);
+    });
+
+    // 변경된 순서대로 다시 부모 요소에 추가
+    divArray.forEach(div => body.appendChild(div));
+
     for(var i=0; i<locArr.length; i++){
         var locArr1 = locArr[i].split(",");
         var locArr2 = []
@@ -465,15 +571,15 @@ function loadData(canvasCoord, originCoord, classArray) {
         color = colorArr[i]
         var colorClass = ""
         if(color==0){
-            color="rgba(255,255,0,0.2)"
+            color="rgba(226,214,255,0.6)"
             colorClass=0
         }
         else if(color==1){
-            color="rgba(255,0,0,0.2)"
+            color="rgba(210,223,255,0.6)"
             colorClass=1
         }
         else if(color==2){
-            color="rgb(0,255,0,0.2)"
+            color="rgb(192,237,234,0.6)"
             colorClass=2
         }
         var start = [locArr2[0], locArr2[1]];
@@ -495,7 +601,7 @@ function loadData(canvasCoord, originCoord, classArray) {
         classResult.push(colorClass,"/")
         arRectangle.push(new LoadRectangle(locArr2[0], locArr2[1], locArr2[2], locArr2[3], color))
     }
-    color="rgba(255,255,0,0.2)"
+    color="rgba(226,214,255,0.6)"
     colorClass=0
     drawRects();
     beforeColor = ""

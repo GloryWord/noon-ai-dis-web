@@ -623,25 +623,26 @@ init = {
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var service = urlParams.get('service');
+        let detail, restoration, mode, requestID, reportErrorestoration;
         if (service == 'thumbnail') {
-            var mode = urlParams.get('mode');
+            mode = urlParams.get('mode');
             var index = urlParams.get('id');
             var encid = urlParams.get('encid');
         }
-        else if(service == "check") {
-            let enc_id = urlParams.get('requestID');
-            let restoration = urlParams.get('restoration');
-            let mode = urlParams.get('mode');
-            if(type=="image"){
-                if(mode=="single"){
-                    let detail = "image"
+        else if (service == "check") {
+            requestID = urlParams.get('requestID');
+            reportErrorestoration = urlParams.get('restoration');
+            mode = urlParams.get('mode');
+            if (type == "image") {
+                if (mode == "single") {
+                    detail = "image"
                 }
-                else if(mode=="group"){
-                    let detail = "album"
+                else if (mode == "group") {
+                    detail = "album"
                 }
             }
-            else if(type=="video"){
-                let detail = "video"
+            else if (type == "video") {
+                detail = "video"
             }
         }
         var eventIndex = urlParams.get('id');
@@ -3143,8 +3144,8 @@ init = {
                             console.log('file_name : ' + JSON.stringify(file_name));
                             let verify_result = fileModule.verifyKey(file_name, key_name);
                             const { valid, msg, keyPath } = verify_result;
-                            if(!valid) {
-                                    Swal.fire({
+                            if (!valid) {
+                                Swal.fire({
                                     title: '복호화 키 불일치',
                                     text: msg,
                                     showCancelButton: false,
@@ -3156,16 +3157,16 @@ init = {
                             }
                             else {
                                 let result = await fileModule.makePasswordbin(eventIndex, keyPath);
-                                if(result) {
-                                    if(type=='image'){
-                                        if(mode=='single'){
+                                if (result) {
+                                    if (type == 'image') {
+                                        if (mode == 'single') {
                                             location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                         }
-                                        else if(mode=='group'){
+                                        else if (mode == 'group') {
                                             location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                         }
                                     }
-                                    else if(type=='video'){
+                                    else if (type == 'video') {
                                         location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                     }
                                 }
@@ -3197,15 +3198,15 @@ init = {
                 })
             }
             else {
-                if(type=='image'){
-                    if(mode=='single'){
+                if (type == 'image') {
+                    if (mode == 'single') {
                         location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
-                    else if(mode=='group'){
+                    else if (mode == 'group') {
                         location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
                 }
-                else if(type=='video'){
+                else if (type == 'video') {
                     location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                 }
             }
@@ -3247,38 +3248,102 @@ init = {
                     var script = document.createElement('script');
                     script.src = '../../static/js/check/check.js';
                     document.head.appendChild(script);
+                    document.getElementById("layer").style.height = `${Number(height-39)}px`
                 }
 
                 //check.js가 헤더에 포함되기를 기다림.
-                let intervalId = setInterval(async ()=> {
+                let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
                         if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
-                            if(coordinates) {
+                            if (coordinates) {
                                 let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[0]]);
                                 let canvasCoord = coordTritonToWeb.canvasCoord;
                                 let originCoord = coordTritonToWeb.originCoord;
                                 let classArray = coordTritonToWeb.classArray;
-                                if(canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
                             }
                             clearInterval(intervalId);
                             break;
                         }
                     }
                 }, 50)
-                
+
             }
             else if (mode == 'group') {
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
                 console.log(coordinates)
                 let imgList = ``
                 console.log(signedUrl)
-                for(let i=0;i<signedUrl.length;i++){
-                    imgList += `<img class='thumbnailImg' src=${signedUrl[i][0]} data-imgNum=${i}>`
+                for (let i = 0; i < signedUrl.length; i++) {
+                    imgList += `<img class='thumbnailImg img${i}' src=${signedUrl[i][0]} data-imgNum=${i}>`
                 }
-                $(".imglist").html(imgList)
+                $(".checkImgList").html(imgList)
+                $(".selectImgNum").text(`${Number(imgNum)+1}/${signedUrl.length}`)
+
+                $(`.thumbnailImg`).removeClass("active")
+                $(`.img${imgNum}`).addClass("active")
+
+                let scrollableDiv = document.getElementById('imgDiv');
+
+                scrollableDiv.addEventListener('wheel', (event) => {
+                    event.preventDefault();
+                    let scrollDirection = 0;
+                    let scrollSpeed = 10;
+                    if (event.deltaY < 0) {
+                        // 휠업 이벤트 처리
+                        scrollDirection = -1;
+                    }
+                    else if (event.deltaY > 0) {
+                        // 휠다운 이벤트 처리
+                        scrollDirection = 1;
+                    }
+
+                    scrollableDiv.scrollLeft += scrollDirection * scrollSpeed;
+                });
+
+                const imgDiv = document.getElementById('imgDiv');
+                const thumbnailImgs = document.querySelectorAll('.thumbnailImg');
+
+                // 이미지가 모두 로드될 때까지 대기
+                let loadedImages = 0;
+                thumbnailImgs.forEach((img) => {
+                    img.addEventListener('load', () => {
+                        loadedImages++;
+                        if (loadedImages === thumbnailImgs.length) {
+                            // 모든 이미지가 로드되었을 때 실행될 코드
+                            // 활성화된 이미지 찾기
+                            let activeImgIndex = -1;
+                            thumbnailImgs.forEach((img, index) => {
+                                if (img.classList.contains('active')) {
+                                    activeImgIndex = index;
+                                }
+                            });
+
+                            // 활성화된 이미지가 가운데로 오도록 스크롤 위치 조정
+                            if (activeImgIndex !== -1) {
+                                const activeImg = thumbnailImgs[activeImgIndex];
+                                const imgOffsetLeft = activeImg.offsetLeft;
+                                const imgWidth = activeImg.offsetWidth;
+                                const containerWidth = imgDiv.offsetWidth;
+
+                                let scrollOffset;
+                                if (activeImgIndex === 0) {
+                                    // 첫 번째 이미지(child 0)는 좌측 마진 고려
+                                    scrollOffset = imgOffsetLeft - (containerWidth - imgWidth - 2 * 24) / 2;
+                                } else {
+                                    // 그 외의 이미지는 오른쪽 마진만 고려
+                                    scrollOffset = imgOffsetLeft - (containerWidth - imgWidth - 24) / 2;
+                                }
+                                console.log(scrollOffset)
+                                imgDiv.scrollLeft = scrollOffset;
+                            }
+                        }
+                    });
+                });
+
                 let thumbnailImg = document.getElementById('canvasBackImg')
                 thumbnailImg.src = signedUrl[imgNum][0]
                 thumbnailImg.onload = function () {
@@ -3288,21 +3353,22 @@ init = {
                     var script = document.createElement('script');
                     script.src = '../../static/js/check/check.js';
                     document.head.appendChild(script);
+                    document.getElementById("layer").style.height = `${Number(height-69)}px`
                 }
 
                 //check.js가 헤더에 포함되기를 기다림.
-                let intervalId = setInterval(async ()=> {
+                let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
                         if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
-                            if(coordinates) {
+                            if (coordinates) {
                                 let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[imgNum]]);
                                 let canvasCoord = coordTritonToWeb.canvasCoord;
                                 let originCoord = coordTritonToWeb.originCoord;
                                 let classArray = coordTritonToWeb.classArray;
-                                if(canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
                             }
                             clearInterval(intervalId);
                             break;
@@ -3315,31 +3381,31 @@ init = {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
         }
 
-        $(document).on("click", ".thumbnailImg", async function(){        
+        $(document).on("click", ".thumbnailImg", async function () {
             let num = $(this).data("imgnum")
-            if(type=='image'){
-                if(mode=='group'){
+            if (type == 'image') {
+                if (mode == 'group') {
                     location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
                 }
             }
-            else if(type=='video'){
+            else if (type == 'video') {
                 location.href = `/encrypt/video/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
             }
         })
-        
+
         let totalCoordinates = {};
         let detail;
-        $(document).on("click", ".save", async function(){
+        $(document).on("click", ".save", async function () {
             let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-            if(beforeCoordinates) totalCoordinates = beforeCoordinates
+            if (beforeCoordinates) totalCoordinates = beforeCoordinates
             let curCoordinates = saveInput();
-            
+
             let parsedCoordinates = comm.parseCoordWebToTriton(curCoordinates);
-            if(parsedCoordinates) {
+            if (parsedCoordinates) {
                 totalCoordinates[fileList[imgNum]] = parsedCoordinates;
             }
             beforeColor = ""
-        
+
             let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
             socket.emit('delUploadedFile', {
                 filePath: filePath,
@@ -3351,22 +3417,22 @@ init = {
             //DB에 비식별화 추가 관련 정보 쿼리
             //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
             let additionalFileList = Object.keys(totalCoordinates)
-            let fileCount = additionalFileList.length 
+            let fileCount = additionalFileList.length
             detail = {
                 'token': token,
                 'fileList': additionalFileList,
                 'fileCount': fileCount,
             }
-            if(type=="image" && mode=="single"){
+            if (type == "image" && mode == "single") {
                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
-                if(addMessage){
+                if (addMessage) {
                     Swal.fire({
                         title: '비식별화 추가 요청이 \n완료되었습니다.',
                         showCancelButton: false,
                         confirmButtonText: '확인',
                         allowOutsideClick: false,
-                        icon:'success'
+                        icon: 'success'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
@@ -3376,16 +3442,16 @@ init = {
             }
         })
 
-        $(document).on("click", ".confirmAdd", async function(){            
-            let insertId, encReqInfo = await fileModule.additionalEncrypt(detail, requestId);
+        $(document).on("click", ".confirmAdd", async function () {
+            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
             let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
-            if(addMessage){
+            if (addMessage) {
                 Swal.fire({
                     title: '비식별화 추가 요청이 \n완료되었습니다.',
                     showCancelButton: false,
                     confirmButtonText: '확인',
                     allowOutsideClick: false,
-                    icon:'success'
+                    icon: 'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`

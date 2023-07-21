@@ -63,54 +63,63 @@
     <div class="checkArea">
         <div class="checkContent">
             <div class="checkHeader">
-                <img src="../../static/imgs/detail/detail_icon.png">
-                <h1>비식별화 추가</h1>
+                <img src="../../static/imgs/check/checkIcon.png">
+                <h1>추가 비식별화</h1>
+                <p>결과물에 추가적으로  비식별화를 진행하실 수 있습니다.</p>
             </div>
             <div class="checkImgContent">
                 <div class="checkImgContentHeader">
                     <h1>비식별화 이미지</h1>
-                    <div class="confirmAdd">
-                        <p>추가 완료</p>
-                    </div>
+                    <h2 class="selectImgNum"></h2>
                 </div>
-                <div class="checkImgList">
-                    <div class="imglist"></div>
+                <div id="imgDiv" class="checkImgList">
                 </div>
             </div>
             <div class="drawArea">
-                <div class="canvasArea">
+                <div class="drawHeader">
+                    <h1>추가 비식별화 영역 설정</h1>
+                </div>
+                <div class="drawContent">
                     <div class="colorArea">
-                        <div class="colorDiv body active" data-class="0" data-color="rgba(255,255,0,0.2)">
-                            <p>전 신</p>
+                        <span>비식별 객체 선택</span>
+                        <div class="colorDiv body active" data-class="0" data-color="rgba(226,214,255,0.6)">
+                            <p>사람 - 전신</p>
                         </div>
-                        <div class="colorDiv head" data-class="1" data-color="rgba(255,0,0,0.2)">
-                            <p>얼 굴</p>
+                        <div class="colorDiv head" data-class="1" data-color="rgba(210,223,255,0.6)">
+                            <p>사람 - 얼굴</p>
                         </div>
-                        <div class="colorDiv car" data-class="2" data-color="rgb(0,255,0,0.2)">
+                        <div class="colorDiv car" data-class="2" data-color="rgb(192,237,234,0.6)">
                             <p>차량 번호판</p>
                         </div>
                     </div>
-                    <div class="area">
-                        <canvas id="canvas" width="764"></canvas>
-                        <img id="canvasBackImg" class="checkImg">
+                    <div class="contentArea">
+                        <div class="canvasArea">
+                            <div class="area">
+                                <canvas id="canvas" width="776"></canvas>
+                                <img id="canvasBackImg" class="checkImg">
+                            </div>
+                            <input type='hidden' class='location'>
+                            <input type='hidden' class='originLocation'>
+                            <input type='hidden' class='dellocation'>
+                            <input type='hidden' class='locClass'>
+                        </div>
+                        <div class="tagArea">
+                            <div class="tagHeader">
+                                <h1>비식별 영역 리스트</h1>
+                                <img class="clear" src="../../static/imgs/check/allDelete.png">
+                            </div>
+                            <div id="layer" class="tagdiv">
+                            </div>
+                            <div class="save">
+                                <p>영역 저장</p>
+                            </div>
+                        </div>
                     </div>
-                    <input type='hidden' class='location'>
-                    <input type='hidden' class='originLocation'>
-                    <input type='hidden' class='dellocation'>
-                    <input type='hidden' class='locClass'>
                 </div>
-                <div class="tagArea">
-                    <h1>추가 목록</h1>
-                    <div id="layer" class="tagdiv">
-                    </div>
-                    <div class="btnArea">
-                        <div class="clear">
-                            <p>전체 삭제</p>
-                        </div>
-                        <div class="save">
-                            <p>저 장</p>
-                        </div>
-                    </div>
+            </div>
+            <div class="saveArea">
+                <div class="confirmAdd">
+                    <p>추가 비식별화 진행하기</p>
                 </div>
             </div>
         </div>
