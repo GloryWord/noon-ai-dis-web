@@ -3248,7 +3248,7 @@ init = {
                     var script = document.createElement('script');
                     script.src = '../../static/js/check/check.js';
                     document.head.appendChild(script);
-                    document.getElementById("layer").style.height = `${Number(height-39)}px`
+                    document.getElementById("layer").style.height = `${Number(height - 39)}px`
                 }
 
                 //check.js가 헤더에 포함되기를 기다림.
@@ -3278,19 +3278,45 @@ init = {
                 let imgList = ``
                 console.log(signedUrl)
                 for (let i = 0; i < signedUrl.length; i++) {
-                    imgList += `<img class='thumbnailImg img${i}' src=${signedUrl[i][0]} data-imgNum=${i}>`
+                    imgList += `<div class='listImgDiv'>
+                                    <div class='saveIcon'>
+                                        <img src='../../static/imgs/check/saveIcon.png'>
+                                    </div>
+                                    <div class='thumbnailImg img${i}' style='background:url(${signedUrl[i][0]}); background-size: cover; background-position: 50% 50%;' data-imgNum=${i}></div>
+                                    <p>${fileList[i]}</p>
+                                </div>`
                 }
                 $(".checkImgList").html(imgList)
-                let imgNumDiv  = `<input class='selectInputNum' value=${Number(imgNum)+1}><p>/ ${signedUrl.length}</p>`
+                let imgNumDiv = `<input class='selectInputNum' value=${Number(imgNum) + 1}><p>/ ${signedUrl.length}</p>`
                 $(".selectImgNum").html(imgNumDiv)
 
                 $(`.thumbnailImg`).removeClass("active")
                 $(`.img${imgNum}`).addClass("active")
 
+                if (coordinates != false) {
+                    // 모든 listImgDiv 클래스를 가진 요소들을 가져옵니다.
+                    const listImgDivElements = document.querySelectorAll(".listImgDiv");
+
+                    // 각 요소에 대해 작업을 수행합니다.
+                    listImgDivElements.forEach((element) => {
+                        // p 태그의 텍스트를 가져옵니다.
+                        const pText = element.querySelector("p").innerText;
+
+                        // coordinates 객체에서 pText에 해당하는 값들을 찾아냅니다.
+                        const matchingKeys = Object.keys(coordinates).filter((key) => key === pText);
+
+                        // 일치하는 값이 존재하는 경우
+                        if (matchingKeys.length > 0) {
+                            // 해당 listImgDiv 요소의 saveIcon 클래스에 active 클래스를 추가합니다.
+                            element.querySelector(".saveIcon").classList.add("active");
+                        }
+                    });
+                }
+
                 $(document).on("change", ".selectInputNum", function () {
                     let num = Number($(".selectInputNum").val())
-                    if(num<=signedUrl.length){
-                        location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&mode=${mode}&restoration=${restoration}&imgNum=${num-1}`
+                    if (num <= signedUrl.length) {
+                        location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&mode=${mode}&restoration=${restoration}&imgNum=${num - 1}`
                     }
                 });
 
@@ -3361,7 +3387,7 @@ init = {
                     var script = document.createElement('script');
                     script.src = '../../static/js/check/check.js';
                     document.head.appendChild(script);
-                    document.getElementById("layer").style.height = `${Number(height-69)}px`
+                    document.getElementById("layer").style.height = `${Number(height - 69)}px`
                 }
 
                 //check.js가 헤더에 포함되기를 기다림.
@@ -3402,7 +3428,7 @@ init = {
         })
 
         let totalCoordinates = {};
-        let detail;
+        var detail;
         $(document).on("click", ".save", async function () {
             let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
             if (beforeCoordinates) totalCoordinates = beforeCoordinates
@@ -3411,6 +3437,9 @@ init = {
             let parsedCoordinates = comm.parseCoordWebToTriton(curCoordinates);
             if (parsedCoordinates) {
                 totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+            }
+            else {
+                if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
             }
             beforeColor = ""
 

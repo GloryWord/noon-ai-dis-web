@@ -181,19 +181,73 @@
     height: 100%;
 } */
 
-.checkArea .checkContent .checkImgContent .checkImgList .thumbnailImg {  
-    width: auto;
-    height: 100px;
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv {  
+    width: 176px;
+    height: auto;
+    border-radius: 8px;
+    margin: auto 12px auto 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon {  
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #3fa9f5;
+    display: none;
+    position: absolute;
+    top: -14px;
+    left: 8px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon.active {  
+    display: flex;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon img {  
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin: auto;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-child(1) {
+    margin: auto 12px auto 24px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-last-child(1) {
     margin: auto 24px auto 0;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .thumbnailImg {  
+    width: 176px;
+    height: 99px;
+    border-radius: 8px;
+    margin: 0 0 2px;
     cursor: pointer;
 }
 
-.checkArea .checkContent .checkImgContent .checkImgList .thumbnailImg.active {  
-    border: 1px solid red;
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .thumbnailImg.active {  
+    width: 168px;
+    height: 91px;
+    border: solid 4px #3fa9f5;
 }
 
-.checkArea .checkContent .checkImgContent .checkImgList .thumbnailImg:nth-child(1) {
-    margin: auto 24px;
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .checkArea .checkContent .drawArea {  
