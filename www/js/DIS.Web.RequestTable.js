@@ -114,6 +114,35 @@ requestTable = {
         return result;
     },
 
+    getCheckProgress: function () {
+        var result = {
+            'progress': '',
+            'type': '',
+            'status': ''
+        }
+
+        let baseUrl = '/api/progress/check'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
     getRecentRequest: function (requestType) {
         let baseUrl = `/api/request/${requestType}/recent`
         let apiUrl = apiUrlConverter(requestType, baseUrl)
@@ -228,7 +257,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -287,7 +316,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" data-restoration="' + archived[i]['restoration'] + '" class="detailInfo '+disable+'">\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -423,7 +452,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -481,7 +510,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ archived[i]['fk_enc_request_list_id'] + '" data-type="' + type + '" data-restoration="' + archived[i]['restoration'] + '" class="detailInfo '+disable+'">\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -596,7 +625,7 @@ requestTable = {
                         <div class="rest_content"><p>'+ restoration + '</p></div>\
                         <div class="status_content">'+ status + '</div>\
                         <div class="detail_content">\
-                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" class="detailInfo '+disable+'">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
                                 <p>'+text+'</p>\
                             </div>\
                         </div>\
