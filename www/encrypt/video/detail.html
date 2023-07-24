@@ -14,12 +14,13 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.1/video-js.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.1/video.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <script type="text/javascript" src="../../js/jquery.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.UserInfo.js"></script>
-    <script type="text/javascript" src="../../js/DIS.Web.ResultLoader.js"></script>
+    <script type="text/javascript" src="../../js/DIS.Web.ResultLoader.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/DIS.Web.FileModule.js"></script>
     <script type="text/javascript" src="../../js/DIS.Web.Key.js"></script>
     <script src="../../static/js/socket.io/socket.io.min.js"></script>
@@ -116,7 +117,11 @@
                     <p class="fullname"></p>
                 </div>
             </div>
-            <!-- <div class="recoBtn"><p>이동</p></div> -->
+            <div id="canvasDiv" style="display: block;">
+                <canvas id="captureCanvas" crossorigin="anonymous"></canvas>
+                <img crossorigin="anonymous">
+            </div>
+            <div class="captureBtn"><p>캡쳐</p></div>
         </div>
     </div>
     <div class="footer">

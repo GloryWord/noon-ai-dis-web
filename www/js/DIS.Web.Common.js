@@ -669,6 +669,71 @@ comm = {
         return env;
     },
 
+    parseCoordWebToTriton: function (curCoordinates) {
+        let keys = Object.keys(curCoordinates)
+        let parsedCurCoordinates = {};
+        if(keys.length === 0) return false;
+        else {
+            for(let i = 0; i < keys.length; i++) {
+                let curClass = curCoordinates[i].class
+                if(!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                if(!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
+                if(!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
+
+                // //좌상단
+                // let leftTop = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1]]
+
+                // //우하단
+                // let rightBottom = [curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                // parsedCurCoordinates[curClass]['real'].push([leftTop, rightBottom])
+                let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                parsedCurCoordinates[curClass]['real'].push(loc)
+
+                // leftTop = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1]]
+                // rightBottom = [curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                // parsedCurCoordinates[curClass]['canvas'].push([leftTop, rightBottom])
+                loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                parsedCurCoordinates[curClass]['canvas'].push(loc)
+            }
+        }
+        return parsedCurCoordinates;
+    },
+
+    parseCoordTritonToWeb: async function (curCoordinates) {
+        console.log(curCoordinates)
+        let canvasCoord = [];
+        let originCoord = [];
+        let classArray = [];
+        let keys = '';
+        if(curCoordinates) {
+            keys = Object.keys(curCoordinates);
+
+            for(let i = 0; i < keys.length; i++) {
+                console.log(curCoordinates[0])
+                for(let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
+                    //canvas 좌상단, 우하단
+                    let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
+                    let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]] 
+                    //real 좌상단, 우하단
+                    let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
+                    let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]] 
+    
+                    canvasCoord.push([canvasLeftTop, canvasRightBottom])
+                    originCoord.push([realLeftTop, realRightBottom])
+                    classArray.push(Number(keys[i]))
+                }
+            }
+            console.log(classArray)
+            console.log(canvasCoord)
+        }
+
+        return {
+            'canvasCoord': canvasCoord,
+            'originCoord': originCoord,
+            'classArray': classArray
+        };
+    },
+
     test: function (requestIndex) {
         let keyIndex = requestIndex;
         let baseUrl = '/api/test'

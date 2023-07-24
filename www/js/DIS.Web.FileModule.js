@@ -782,7 +782,7 @@ fileModule = {
         }).then(() => {
             let baseUrl = '/api/sendMessage/encrypt'
             let apiUrl = apiUrlConverter('encrypt', baseUrl)
-
+            console.log(postData);
             $.ajax({
                 method: "post",
                 url: apiUrl,
@@ -807,6 +807,7 @@ fileModule = {
                     showCancelButton: false,
                     confirmButtonText: '확인',
                     allowOutsideClick: false,
+                    icon:'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.href = '/loading?type=' + fileType + '&service=encrypt';
@@ -820,7 +821,7 @@ fileModule = {
         return new Promise((resolve, reject) => {
             let formData = new FormData();
             let file = null;
-            if(inputElementClass === 'file') file = document.getElementById(inputElementClass).files[0];
+            if(inputElementClass === 'file' || inputElementClass === 'addfile') file = document.getElementById(inputElementClass).files[0];
             else file = document.getElementsByClassName(inputElementClass)[0].files[0];
             let upload_result, keyPath;
             let file_name = (file != undefined) ? file.name : null;
@@ -1652,5 +1653,164 @@ fileModule = {
                 // alert(JSON.stringify(xhr));
             }
         });
+    },
+
+    sendAdditionalEncryptMessage: async function (msg) {
+        let baseUrl = '/api/sendMessage/encrypt/additional'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+        let result = false;
+        $.ajax({
+            method: "post",
+            url: apiUrl, //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            dataType: "json",
+            data: {
+                msgTemplate: JSON.stringify(msg),
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') result = true;
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                // alert(JSON.stringify(xhr));
+            }
+        });
+        return result
+    },
+
+    makePasswordbin: async function (enc_request_id, keyPath) {
+        let baseUrl = '/api/passwordbin'
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+
+        let result = false;
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            dataType: "json",
+            data: {
+                enc_request_id,
+                keyPath
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') result = true;
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                // alert(JSON.stringify(xhr));
+            }
+        });
+
+        return result;
+    },
+
+    writeCoordinatesToJson: async function (token, requestId, totalCoordinates = {}) {
+        let baseUrl = '/api/coordinates'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let filePath = '';
+        
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'token': token,
+                'requestId': requestId,
+                'totalCoordinates': JSON.stringify(totalCoordinates)
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    filePath = data.filePath;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return filePath;
+    },
+
+    readCoordinatesToJson: async function (token, mode, requestId) {
+        let baseUrl = `/api/coordinates/${token}/${mode}/${requestId}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let coordinates = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.coordinates !== '') coordinates = JSON.parse(data.coordinates);
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return coordinates;
+    },
+
+    additionalEncrypt: async function (detail, requestId) {
+        let userAuth = comm.getAuth();
+        let detailStr = JSON.stringify(detail);
+        let account_auth_id = userAuth.id;
+
+        let insertId = ''
+        let encReqInfo = ''
+        if (userAuth['encrypt_auth'] === 0) {
+            Swal.fire({
+                title: '비식별화화 권한이 없어요.',
+                showCancelButton: false,
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
+            })
+            location.reload;
+        }
+        else {
+            let baseUrl = `/api/request/encrypt/additional`;
+            let apiUrl = apiUrlConverter('encrypt', baseUrl);
+            $.ajax({
+                method: "POST",
+                url: apiUrl,
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    detailStr,
+                    account_auth_id,
+                    requestId
+                },
+                async: false,
+                success: function (data) {
+                    if(data.message === 'success') {
+                        console.log(data)
+                        insertId = data.insertId;
+                        encReqInfo = data.encReqInfo;
+                    }
+                },
+                error: function (xhr, status) {
+                    // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                }
+            });
+        }
+        return [insertId, encReqInfo];
     }
 }

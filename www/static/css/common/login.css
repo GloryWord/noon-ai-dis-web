@@ -302,8 +302,8 @@ a {
 }
 
 .swal2-icon.swal2-success .swal2-success-ring {
-    border: 0.25em solid #3fa9f5 !important;
-    background-color: #3fa9f5 !important;
+    border: 0.25em solid #4b8bff !important;
+    background-color: #4b8bff !important;
 }
 
 .swal2-icon.swal2-error {
@@ -358,7 +358,7 @@ a {
     padding: 0 !important;
     border-radius: 20px !important;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16) !important;
-    background-color: #3fa9f5 !important;
+    background-color: #4b8bff !important;
     color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;

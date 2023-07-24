@@ -45,6 +45,7 @@
     flex-direction: column;
     width: 100%;
     height: auto;
+    min-height: calc(100vh - 436px);
 }
 
 .subHeader {

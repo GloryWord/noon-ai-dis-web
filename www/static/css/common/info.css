@@ -50,6 +50,7 @@
 .info_content {
     width: 100%;
     height: auto;
+    min-height: calc(100vh - 436px);
     display: flex;
     flex-direction: column;
 }
