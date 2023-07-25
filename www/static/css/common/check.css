@@ -1,0 +1,628 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.checkArea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 436px);
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+.checkArea .checkContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.checkArea .checkContent .checkHeader {
+    display: flex;
+    width: 988px;
+    margin: 100px auto 18px;
+}
+
+.checkArea .checkContent .checkHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.checkArea .checkContent .checkHeader h1 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px auto 0;
+}
+
+.checkArea .checkContent .checkHeader p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px 0px auto;
+}
+
+.checkArea .checkContent .checkImgContent {  
+    width: 988px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 24px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader {  
+    width: 988px;
+    height: 42px;
+    display: flex;
+    margin: 0 auto;
+    border-radius: 12px 12px 0 0;
+    background-color: #595959;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader h1 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: 12px auto auto 24px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum {  
+    width: auto;
+    height: auto;
+    display: flex;
+    margin: 12px 24px auto 0;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum .selectInputNum {  
+    width: 44px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 4px 7px 3px;
+    border: solid 1px #f2f2f2;
+    background-color: #fff;
+    text-align: right;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgContentHeader .selectImgNum p {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #fff;
+    margin: 4px 0 auto 0;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList {  
+    width: 988px;
+    height: 166px;
+    display: flex;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    background-color: #efefef;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 0 0 12px 12px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList::-webkit-scrollbar {
+    width: auto;
+    height: 8px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: #bcc5cb;
+}
+
+/* .checkArea .checkContent .checkImgContent .checkImgList .imglist {  
+    display: flex;
+    height: 100%;
+} */
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv {  
+    width: 176px;
+    height: auto;
+    border-radius: 8px;
+    margin: 24px 12px 12px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon {  
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #3fa9f5;
+    display: none;
+    position: absolute;
+    top: -14px;
+    left: 8px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon.active {  
+    display: flex;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .saveIcon img {  
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin: auto;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-child(1) {
+    margin: auto 12px auto 24px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-last-child(1) {
+    margin: auto 24px auto 0;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .thumbnailImg {  
+    width: 176px;
+    height: 99px;
+    border-radius: 8px;
+    margin: 0 0 2px;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .thumbnailImg.active {  
+    width: 168px;
+    height: 91px;
+    border: solid 4px #3fa9f5;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.checkArea .checkContent .drawArea {  
+    width: 988px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 48px;
+}
+
+.checkArea .checkContent .saveArea {
+    display: flex;
+}
+
+.checkArea .checkContent .saveArea .save,
+.checkArea .checkContent .saveArea .confirmAdd {  
+    width: 294px;
+    height: 60px;
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #16284d;
+    margin: 0 auto 90px;
+}
+
+.checkArea .checkContent .saveArea .save p,
+.checkArea .checkContent .saveArea .confirmAdd p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.checkArea .checkContent .drawArea .drawHeader {  
+    width: 988px;
+    height: 42px;
+    display: flex;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+    background-color: #595959;
+}
+
+.checkArea .checkContent .drawArea .drawHeader h1 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: 12px auto auto 24px;
+}
+
+.checkArea .checkContent .drawArea .drawContent {  
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: #595959;  
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea {  
+    width: 100%;
+    height: 48px;
+    display: flex;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea span {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 16px 24px auto 32px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv {  
+    width: 160px;
+    height: 28px;
+    margin: 10px 8px auto 0;
+    border-radius: 15px;
+    display: flex;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv:nth-last-child(1) {
+    margin: 10px auto auto 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.body {
+    background-color: #fff;
+    border: solid 1px #a17aff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head {
+    background-color: #fff;
+    border: solid 1px #6d99ff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car {
+    background-color: #fff;
+    border: solid 1px #33c7bb;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.body.active {
+    background-color: #a17aff;
+    border: solid 1px #a17aff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head.active {
+    background-color: #6d99ff;
+    border: solid 1px #6d99ff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car.active {
+    background-color: #33c7bb;
+    border: solid 1px #33c7bb;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    margin: auto;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.body p {  
+    color: #a17aff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head p {  
+    color: #6d99ff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car p {  
+    color: #33c7bb;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.active p {  
+    color: #fff;
+}
+
+.checkArea .checkContent .drawArea .contentArea {  
+    display: flex;
+    height: auto;
+}
+
+.checkArea .checkContent .drawArea .canvasArea {  
+    width: 776px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px 24px 24px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    border: solid 1px #707070;
+}
+
+.checkArea .checkContent .drawArea .canvasArea .area {
+    width: 100%;
+    height: auto;
+    display: flex;
+    position: relative;
+}
+
+.checkArea .checkContent .drawArea .canvasArea .area #canvas {
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+.checkArea .checkContent .drawArea .canvasArea .area .checkImg {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.checkArea .checkContent .drawArea .tagArea {
+    width: 162px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.checkArea .checkContent .drawArea .tagArea .save {
+    width: 146px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #3fa9f5;
+    display: flex;
+    margin: 0 auto 0 8px;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .tagArea .save p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagHeader {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    margin: 0 auto 8px;
+    border-bottom: 1px solid #707070;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagHeader h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 8px auto auto 8px;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagHeader img {
+    width: 30px;
+    height: 30px;
+    margin: auto 0 3px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv {
+    display: flex;
+    flex-direction: column;
+    width: 176px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0 0 2px;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #bcc5cb;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag {
+    width: 160px; 
+    height: 28px;
+    display: flex;
+    border: solid 1px;
+    margin: 0 auto 2px 0;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto auto auto 12px;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.active p {
+    color: #fff;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.body {
+    border: solid 1px #a17aff;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.head {
+    border: solid 1px #6d99ff;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.car {
+    border: solid 1px #33c7bb;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag .tagdel {
+    width: 30px; 
+    height: 30px;
+    display: none;
+    cursor: pointer; 
+    z-index:10; 
+    margin:auto 0 auto auto;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag .tagdel.active {
+    display: flex;
+}
+
+.checkArea .checkContent .drawArea .tagArea .btnArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.checkArea .checkContent .drawArea .tagArea .btnArea .clear {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    margin: 0 0 12px;
+    border-radius: 20px;
+    background-color: #3fa9f5;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .tagArea .btnArea .save {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    margin: 0;
+    border-radius: 20px;
+    background-color: #16284d;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .tagArea .btnArea .clear p,
+.checkArea .checkContent .drawArea .tagArea .btnArea .save p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}

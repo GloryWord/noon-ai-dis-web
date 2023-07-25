@@ -91,7 +91,7 @@
 .uploadArea {
     width: 100%;
     height: auto;
-    min-height: 564px;
+    min-height: calc(100vh - 526px);
     display: flex;
     flex-direction: column;
     background-color: #f2f2f2;

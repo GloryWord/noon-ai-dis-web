@@ -102,7 +102,10 @@
                 <!-- <div class="file_recoConfirm hide" data-value="all">
                     <p>전체 원본 복원하기</p>
                 </div> -->
-                <input class="allselect hide" type="checkbox"><label class="allselect hide">전체 선택</label>
+                <input class="allselect" type="checkbox"><label class="allselect">전체 선택</label>
+                <div class="checkBtn">
+                    <p>추가 비식별화</p>
+                </div>
                 <div class="select_recoConfirm hide" data-value="select">
                     <p>선택 원본 복원하기</p>
                 </div>
@@ -111,7 +114,6 @@
                 <div class="lockDataList">
                 </div>
             </div>
-            <!-- <div class="recoBtn"><p>이동</p></div> -->
         </div>
     </div>
     <div class="footer">
@@ -260,6 +262,37 @@
                 </div>
                 <div class="imgContent" id="selectImgArea">
                     <!-- <img class="viewImg" src="../../static/imgs/1920main_bg.png"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addData" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="recoContent">
+                    <div class="recoHeader">
+                        <h1>비식별화 추가</h1>
+                    </div>
+                    <div class="recoBody">
+                        <div class="recoMiddle">
+                            <input class="pemUpload" value="" readonly>
+                            <label class="uploadBtn" for="addfile">
+                                <p>키 파일 업로드</p>
+                            </label>
+                            <input type="file" id="addfile" value="키 선택" name="addfile" accept=".pem" />
+                        </div>
+                        <div class="recoFooter">
+                            <div class="addConfirm">
+                                <p>추가</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
