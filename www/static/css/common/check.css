@@ -176,6 +176,16 @@
     border-radius: 0 0 12px 12px;
 }
 
+.checkArea .checkContent .checkImgContent .checkImgList::-webkit-scrollbar {
+    width: auto;
+    height: 8px;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: #bcc5cb;
+}
+
 /* .checkArea .checkContent .checkImgContent .checkImgList .imglist {  
     display: flex;
     height: 100%;
@@ -185,7 +195,7 @@
     width: 176px;
     height: auto;
     border-radius: 8px;
-    margin: auto 12px auto 0;
+    margin: 24px 12px 12px 0;
     cursor: pointer;
     position: relative;
 }

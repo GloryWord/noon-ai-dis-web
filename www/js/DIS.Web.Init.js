@@ -3329,7 +3329,7 @@ init = {
                 scrollableDiv.addEventListener('wheel', (event) => {
                     event.preventDefault();
                     let scrollDirection = 0;
-                    let scrollSpeed = 10;
+                    let scrollSpeed = 40;
                     if (event.deltaY < 0) {
                         // 휠업 이벤트 처리
                         scrollDirection = -1;
@@ -3341,6 +3341,28 @@ init = {
 
                     scrollableDiv.scrollLeft += scrollDirection * scrollSpeed;
                 });
+
+                const container = document.getElementById("imgDiv");
+                const activeElement = container.querySelector(".thumbnailImg.active").parentElement;
+                if (activeElement) {
+                    const containerWidth = container.offsetWidth;
+                    const containerScrollLeft = container.scrollLeft;
+                    const activeElementWidth = activeElement.offsetWidth;
+                    const activeElementLeft = activeElement.offsetLeft-((screen.width-988)/2);
+                    const activeElementRight = activeElementLeft + activeElementWidth;
+                    const centerPosition = containerScrollLeft + containerWidth / 2;
+
+                    // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
+                    if (activeElementLeft < centerPosition+(screen.width-988)/2 || activeElementRight > containerScrollLeft + containerWidth) {
+                        const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
+
+                        // 스크롤 이동
+                        container.scrollTo({
+                            left: scrollOffset,
+                            // behavior: "smooth" // 부드러운 스크롤
+                        });
+                    }
+                }
 
                 const imgDiv = document.getElementById('imgDiv');
                 const thumbnailImgs = document.querySelectorAll('.thumbnailImg');
