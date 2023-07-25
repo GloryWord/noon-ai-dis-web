@@ -584,7 +584,9 @@ init = {
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum);
-                socket.emit('cancelDeleteFile', 'cancel')
+                socket.emit('cancelDeleteFile', {
+                    id: uploadID
+                })
             }
             else if (allCheck == "false") {
                 Swal.fire({
@@ -1080,7 +1082,9 @@ init = {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum);
-                socket.emit('cancelDeleteFile', 'cancel')
+                socket.emit('cancelDeleteFile', {
+                    id: uploadID
+                })
             }
             else if (allCheck == "false") {
                 Swal.fire({
@@ -3466,13 +3470,16 @@ init = {
             beforeColor = ""
 
             let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
+            console.log(filePath)
+            socket.emit('cancelDeleteFile', {
+                id: token
+            })
             socket.emit('delUploadedFile', {
                 filePath: filePath,
                 id: token,
                 immediate: 'false'
             })
             console.log(totalCoordinates)
-
             //DB에 비식별화 추가 관련 정보 쿼리
             //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
             let additionalFileList = Object.keys(totalCoordinates)
