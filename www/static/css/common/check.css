@@ -281,6 +281,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #16284d;
     margin: 0 auto 90px;
+    cursor: pointer;
 }
 
 .checkArea .checkContent .saveArea .save p,
