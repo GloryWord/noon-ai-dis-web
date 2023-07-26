@@ -123,6 +123,13 @@ resultLoader = {
                 }
             })
         }
+
+        result.sort((entry1, entry2) => {
+            let index1 = objectName.indexOf(entry1[0]);
+            let index2 = objectName.indexOf(entry2[0]);
+
+            return index1 - index2;
+        });
         return result;
     },
 
