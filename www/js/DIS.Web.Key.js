@@ -88,7 +88,7 @@ key = {
                 let newKeyId = result.value;
                 await Swal.fire({
                     title: '암호화 키 변경',
-                    html: '기존 키로 암호화된 정보를 새로운 키로 암호화합니다..',
+                    html: '기존 키로 암호화된 정보를 새로운 키로 암호화합니다.',
                     showCancelButton: false,
                     showLoaderOnConfirm: true,
                     preConfirm: () => {
