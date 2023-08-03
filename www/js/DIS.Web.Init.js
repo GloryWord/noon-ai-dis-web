@@ -3449,7 +3449,8 @@ init = {
             }
         })
 
-        async function reloadAndWriteCoordinates(totalCoordinates) {
+        async function reloadAndWriteCoordinates() {
+            let totalCoordinates = {};
             let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
             if (beforeCoordinates) totalCoordinates = beforeCoordinates
             let curCoordinates = saveInput();
@@ -3461,19 +3462,17 @@ init = {
             else {
                 if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
             }
-
             let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
-
-            return filePath
+            return [totalCoordinates, filePath]
         }
 
-        let totalCoordinates = {};
+        var totalCoordinates = {};
+        var filePath;
         var detail;
         $(document).on("click", ".save", async function () {
-            beforeColor = ""
+            beforeColor = "";
 
-            let filePath = await reloadAndWriteCoordinates(totalCoordinates);
-            console.log(filePath)
+            [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
             socket.emit('cancelDeleteFile', {
                 id: token
             })
@@ -3482,13 +3481,13 @@ init = {
                 id: token,
                 immediate: 'false'
             })
-            console.log(totalCoordinates)
         })
 
         $(document).on("click", ".confirmAdd", async function () {
             //DB에 비식별화 추가 관련 정보 쿼리
             //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-            if(type === "image" && mode === "single") await reloadAndWriteCoordinates(totalCoordinates);
+            if(type === "image" && mode === "single") [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
+            console.log(totalCoordinates);
             let additionalFileList = Object.keys(totalCoordinates)
             let fileCount = additionalFileList.length
             detail = {
