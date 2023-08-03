@@ -3470,8 +3470,6 @@ init = {
         var filePath;
         var detail;
         $(document).on("click", ".save", async function () {
-            beforeColor = "";
-
             [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
             socket.emit('cancelDeleteFile', {
                 id: token
