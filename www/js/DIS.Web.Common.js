@@ -518,6 +518,7 @@ comm = {
         // var fileNameList = getFiles();
         var strFileWidth = JSON.stringify(fileWidth)
         var strFileHeight = JSON.stringify(fileHeight)
+        let requestType = 'encrypt';
         $.ajax({
             method: "post",
             url: apiUrl,
@@ -526,7 +527,8 @@ comm = {
                 strFileWidth,
                 strFileHeight,
                 requestIndex,
-                restoration
+                restoration,
+                requestType
             },
             xhrFields: {
                 withCredentials: true
@@ -667,6 +669,31 @@ comm = {
             }
         });
         return env;
+    },
+
+    increaseRequestCount: function(requestIndex, fileNames, requestType) {
+        let baseUrl = `/api/request/additional/increaseCount`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        console.log('fileNamse of increaseRequestCount : ',fileNames);
+        $.ajax({
+            method: "PATCH",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'requestIndex': requestIndex,
+                'fileNames': fileNames,
+                'requestType': requestType
+            },
+            async: false,
+            success: function() {
+                
+            },
+            error: function(xhr, status) {
+
+            }
+        })
     },
 
     parseCoordWebToTriton: function (curCoordinates) {

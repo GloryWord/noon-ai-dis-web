@@ -73,8 +73,8 @@ init = {
                 let accountName = $("#name").val();
                 let password = $("#pass").val();
                 login.login(accountName, password);
-                login.updateClearLoginFailCount('tenant', mater_tenant_id, accountName);
-                login.updateClearLockCount('tenant', mater_tenant_id, accountName);
+                login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
+                login.updateClearLockCount('tenant', master_tenant_id, accountName);
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
@@ -550,6 +550,8 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
+            console.log('fileWidth : ',fileWidth);
+            console.log('fileHeight : ',fileHeight);
             var encryptObject = []
             var allCheck = ""
             for (var i = 0; i < fileCount; i++) {
@@ -583,7 +585,7 @@ init = {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum, 0);
                 socket.emit('cancelDeleteFile', {
                     id: uploadID
                 })
@@ -697,7 +699,8 @@ init = {
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
                             comm.meterDownload(eventIndex, type, fileName, fileSize);
-
+                            let requestType = 'download';
+                            comm.increaseRequestCount(eventIndex, fileList, requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
                                 text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
@@ -770,7 +773,10 @@ init = {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 if (service == 'encrypt') location.href = '/encrypt/log';
-                                if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}`;
+                                if (service == 'thumbnail') {
+                                    let fileNamse = urlParams.get('fileNames');
+                                    location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}&fileNames=${fileNamse}`;
+                                }
                                 if (service == 'check') location.href = `/encrypt/${detail}/detail?type=${type}&id=${requestID}&restoration=${restoration}&mode=${mode}`;
                                 if (service == 'decrypt') {
                                     let timerInterval;
@@ -1081,7 +1087,7 @@ init = {
             if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum, videoDuration);
                 socket.emit('cancelDeleteFile', {
                     id: uploadID
                 })
@@ -1427,8 +1433,6 @@ init = {
         let uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
-            console.log(uploadID);
-            console.log(msg.id);
             if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
@@ -1631,6 +1635,12 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
+            console.log('selectedFile : ',selectedFile);
+            // 복호화 카운트 증가시키는 함수 추가
+            let fileNames = urlParams.get('fileNames');
+            fileNames = fileNames.split(',');
+            let requestType = 'restoration';
+            comm.increaseRequestCount(encryptIdx,fileNames,requestType);
             let decRequestId = decryptAjaxResponse.decReqInfo.decRequestId;
             let fileList = decryptAjaxResponse.fileList;
             if (decryptAjaxResponse) {
@@ -2881,7 +2891,6 @@ init = {
                         console.log('file_name : ' + JSON.stringify(file_name));
                         let verify_result = fileModule.verifyKey(file_name, key_name);
                         let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                        console.log('restorationReq : ' + JSON.stringify(restorationReq));
                         fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                     }
                     else {
@@ -2915,7 +2924,7 @@ init = {
                         if (selected == 'all') {
                             let verify_result = fileModule.verifyKey(file_name, key_name);
                             let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                            fileModule.sendThumbnailMessage(restorationReq, type, mode);
+                            fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                         }
                         else if (selected == 'select') {
                             if (selectedFile.length == 0) Swal.fire({
@@ -2929,7 +2938,7 @@ init = {
                             else {
                                 let verify_result = fileModule.verifyKey(file_name, key_name);
                                 let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
-                                fileModule.sendThumbnailMessage(restorationReq, type, mode);
+                                fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                             }
                         }
                     }
@@ -3491,7 +3500,8 @@ init = {
             }
             if (type == "image" && mode == "single") {
                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                console.log('additionalFileList : ',additionalFileList);
+                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                 if (addMessage) {
                     Swal.fire({
                         title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -3509,8 +3519,14 @@ init = {
         })
 
         $(document).on("click", ".confirmAdd", async function () {
+            //  additional_request에서 해당 요청의 카운트를 증가시키는 함수 실행
+            // let requestType = 'masking';
+            // comm.increaseRequestCount(requestId, fileList, requestType);
+            for(let i = 0; i<fileList.length; i++) {
+                console.log(`fileList ${i} : `,fileList[i]);
+            }
             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
             if (addMessage) {
                 Swal.fire({
                     title: '비식별화 추가 요청이 \n완료되었습니다.',

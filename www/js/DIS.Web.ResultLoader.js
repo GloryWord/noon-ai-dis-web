@@ -29,31 +29,28 @@ resultLoader = {
             success: function (data) {
                 if (data.message == 'success') {
                     result = data.result;
+                    var parsedDirectory = result.encrypt_directory.split('/');
+                    var encDirectory = [parsedDirectory[0], ''];
+                    for (var i = 1; i < parsedDirectory.length; i++) {
+                        if (i == 1) encDirectory[1] += parsedDirectory[i];
+                        else encDirectory[1] += '/' + parsedDirectory[i];
+                    } 
+
+                    var fileList = result.fileList.split('\n');
+
+                    if (fileList[fileList.length - 1] == '') fileList = fileList.splice(0, fileList.length - 1);
+
+                    result = {
+                        encDirectory: encDirectory,
+                        fileList: fileList
+                    }
                 }
             }, // success 
             error: function (xhr, status) {
                 // alert("error : " + xhr + " : " + JSON.stringify(status));
             }
         })
-
-        var parsedDirectory = result.encrypt_directory.split('/');
-        var encDirectory = [parsedDirectory[0], ''];
-        for (var i = 1; i < parsedDirectory.length; i++) {
-            if (i == 1) encDirectory[1] += parsedDirectory[i];
-            else encDirectory[1] += '/' + parsedDirectory[i];
-        }
-
-        var fileList = result.fileList.split('\n');
-
-        if (fileList[fileList.length - 1] == '') fileList = fileList.splice(0, fileList.length - 1);
-
-        result = {
-            encDirectory: encDirectory,
-            fileList: fileList
-        }
-
-        // return [encDirectory, fileList];
-        return result
+        return result;
     },
 
     getDecFileInfo: function (index) {
