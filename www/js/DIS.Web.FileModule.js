@@ -592,7 +592,6 @@ fileModule = {
                                     coefficient.frame_rate = avg_frame_rate / 30;
 
                                     coefficient.duration = curFile.duration / 60;
-
                                     bitrateArray.push(curFile.bit_rate)
                                     coefficient.bitrate = curFile.bit_rate / (((640 * 640) * 30) / 4);
 
@@ -731,7 +730,7 @@ fileModule = {
         })
     },
 
-    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType, checksum) {
+    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType, checksum, videoDuration) {
         new Promise((resolve, reject) => {
             var requestIndex = ''
 
@@ -777,12 +776,12 @@ fileModule = {
                 }
             });
             postData['bitrate'] = JSON.stringify(bitrateArray);
+            postData['videoDuration'] = videoDuration;
             postData['requestIndex'] = requestIndex;
             resolve();
         }).then(() => {
             let baseUrl = '/api/sendMessage/encrypt'
             let apiUrl = apiUrlConverter('encrypt', baseUrl)
-            console.log(postData);
             $.ajax({
                 method: "post",
                 url: apiUrl,
@@ -999,8 +998,7 @@ fileModule = {
             delete msgTemplate.reqInfo;
 
             let baseUrl = '/api/sendMessage/thumbnail'
-            let apiUrl = apiUrlConverter('decrypt', baseUrl)
-
+            let apiUrl = apiUrlConverter('decrypt', baseUrl);
             $.ajax({
                 method: 'post',
                 url: apiUrl,
@@ -1014,8 +1012,9 @@ fileModule = {
                 },
                 async: false,
                 success: function (data) {
+                    let fileNames = data.fileNames;
                     console.log('last request success');
-                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail&encid='+eventIndex;
+                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail&encid='+eventIndex + '&fileNames='+fileNames;
                 },
                 error: function (xhr, status) {
                     console.log('encrypt request message send failed');
@@ -1655,9 +1654,10 @@ fileModule = {
         });
     },
 
-    sendAdditionalEncryptMessage: async function (msg) {
+    sendAdditionalEncryptMessage: function (msg, fileList) {
         let baseUrl = '/api/sendMessage/encrypt/additional'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
+        console.log('sendAdditionalEncryptMessage fileList : ',fileList);
         let result = false;
         $.ajax({
             method: "post",
@@ -1665,6 +1665,7 @@ fileModule = {
             dataType: "json",
             data: {
                 msgTemplate: JSON.stringify(msg),
+                fileList: fileList
             },
             xhrFields: {
                 withCredentials: true
