@@ -3246,12 +3246,10 @@ init = {
         var fileList = encFileInfo.fileList;
         console.log(fileList)
 
+        let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
         if (type == 'image') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             if (mode == 'single') {
-                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-                console.log(coordinates)
-
                 let thumbnailImg = document.getElementById('canvasBackImg')
                 thumbnailImg.src = signedUrl[imgNum][0]
                 thumbnailImg.onload = function () {
@@ -3286,8 +3284,6 @@ init = {
 
             }
             else if (mode == 'group') {
-                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-                console.log(coordinates)
                 let imgList = ``
                 console.log(signedUrl)
                 for (let i = 0; i < signedUrl.length; i++) {
@@ -3462,9 +3458,8 @@ init = {
             }
         })
 
-        let totalCoordinates = {};
-        var detail;
-        $(document).on("click", ".save", async function () {
+        async function reloadAndWriteCoordinates() {
+            let totalCoordinates = {};
             let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
             if (beforeCoordinates) totalCoordinates = beforeCoordinates
             let curCoordinates = saveInput();
@@ -3476,10 +3471,15 @@ init = {
             else {
                 if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
             }
-            beforeColor = ""
-
             let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
-            console.log(filePath)
+            return [totalCoordinates, filePath]
+        }
+
+        var totalCoordinates = {};
+        var filePath;
+        var detail;
+        $(document).on("click", ".save", async function () {
+            [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
             socket.emit('cancelDeleteFile', {
                 id: token
             })
@@ -3488,9 +3488,13 @@ init = {
                 id: token,
                 immediate: 'false'
             })
-            console.log(totalCoordinates)
+        })
+
+        $(document).on("click", ".confirmAdd", async function () {
             //DB에 비식별화 추가 관련 정보 쿼리
             //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+            if(type === "image" && mode === "single") [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
+            console.log(totalCoordinates);
             let additionalFileList = Object.keys(totalCoordinates)
             let fileCount = additionalFileList.length
             detail = {
@@ -3515,30 +3519,6 @@ init = {
                         }
                     })
                 }
-            }
-        })
-
-        $(document).on("click", ".confirmAdd", async function () {
-            //  additional_request에서 해당 요청의 카운트를 증가시키는 함수 실행
-            // let requestType = 'masking';
-            // comm.increaseRequestCount(requestId, fileList, requestType);
-            for(let i = 0; i<fileList.length; i++) {
-                console.log(`fileList ${i} : `,fileList[i]);
-            }
-            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-            if (addMessage) {
-                Swal.fire({
-                    title: '비식별화 추가 요청이 \n완료되었습니다.',
-                    showCancelButton: false,
-                    confirmButtonText: '확인',
-                    allowOutsideClick: false,
-                    icon: 'success'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                    }
-                })
             }
         })
     },
