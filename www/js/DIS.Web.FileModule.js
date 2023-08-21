@@ -232,12 +232,6 @@ fileModule = {
             if (fileType[i] == 'image') {
                 let img = new Image()
                 img.src = window.URL.createObjectURL(files[i])
-                img.onload = () => {
-                    // alert(img.width + " " + img.height);
-                    fileWidth.push(img.width);
-                    fileHeight.push(img.height);
-                    fileCount += 1;
-                }
                 img.onerror = (error) => {
                     Swal.fire({
                         title: '파일 에러',
@@ -438,7 +432,7 @@ fileModule = {
 
         }
         if (type == 'image') html += '</div>'
-        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration];
+        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDurationm, files];
     },
 
     alldeleteFile: function () {
@@ -1657,7 +1651,6 @@ fileModule = {
     sendAdditionalEncryptMessage: function (msg, fileList) {
         let baseUrl = '/api/sendMessage/encrypt/additional'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
-        console.log('sendAdditionalEncryptMessage fileList : ',fileList);
         let result = false;
         $.ajax({
             method: "post",
@@ -1770,6 +1763,7 @@ fileModule = {
     additionalEncrypt: async function (detail, requestId) {
         let userAuth = comm.getAuth();
         let detailStr = JSON.stringify(detail);
+        console.log('detailStr : ',detailStr);
         let account_auth_id = userAuth.id;
 
         let insertId = ''
