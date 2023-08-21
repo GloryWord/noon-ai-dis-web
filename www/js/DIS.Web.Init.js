@@ -3519,7 +3519,7 @@ init = {
                 'fileList': additionalFileList,
                 'fileCount': fileCount,
             }
-            // if (type == "image" && mode == "single") {
+            if (type == "image" && mode == "single") {
                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                 console.log('additionalFileList : ',additionalFileList);
                 // restoration -> 선언됨
@@ -3539,32 +3539,8 @@ init = {
                         }
                     })
                 }
-            // }
+            }
         })
-
-        // $(document).on("click", ".confirmAdd", async function () {
-        //     //  additional_request에서 해당 요청의 카운트를 증가시키는 함수 실행
-        //     // let requestType = 'masking';
-        //     // comm.increaseRequestCount(requestId, fileList, requestType);
-        //     for(let i = 0; i<fileList.length; i++) {
-        //         console.log(`fileList ${i} : `,fileList[i]);
-        //     }
-        //     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-        //     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-        //     if (addMessage) {
-        //         Swal.fire({
-        //             title: '비식별화 추가 요청이 \n완료되었습니다.',
-        //             showCancelButton: false,
-        //             confirmButtonText: '확인',
-        //             allowOutsideClick: false,
-        //             icon: 'success'
-        //         }).then((result) => {
-        //             if (result.isConfirmed) {
-        //                 location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-        //             }
-        //         })
-        //     }
-        // })
     },
 };
 
