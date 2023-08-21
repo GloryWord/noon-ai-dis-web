@@ -349,12 +349,29 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
-                fileCount = fileWidth.length;
+                fileCount = fileSize.length;
                 fileIndex = [];
-                for (var i = 0; i < fileCount; i++) fileIndex.push(i);
+                for (var i = 0; i < fileCount; i++) {
+                    fileIndex.push(i);
+                }
+                for (var i = 0; i < fileCount; i++) {
+                    let img = new Image();
+                    img.src = window.URL.createObjectURL(files[i]);
+                    imgInfo.push(img);
+                    fileWidth.push(0); // 초기값으로 넣어둠
+                    fileHeight.push(0); // 초기값으로 넣어둠
+                  
+                    img.onload = function() {
+                      const loadedImgIndex = imgInfo.indexOf(this);
+                      if (loadedImgIndex !== -1) {
+                        fileWidth[loadedImgIndex] = this.width;
+                        fileHeight[loadedImgIndex] = this.height;
+                      }
+                    };
+                }
             }, 200)
         });
 
@@ -3493,10 +3510,10 @@ init = {
         $(document).on("click", ".confirmAdd", async function () {
             //DB에 비식별화 추가 관련 정보 쿼리
             //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-            if(type === "image" && mode === "single") [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
+            [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
             console.log(totalCoordinates);
-            let additionalFileList = Object.keys(totalCoordinates)
-            let fileCount = additionalFileList.length
+            let additionalFileList = Object.keys(totalCoordinates);
+            let fileCount = additionalFileList.length;
             detail = {
                 'token': token,
                 'fileList': additionalFileList,
@@ -3505,6 +3522,9 @@ init = {
             if (type == "image" && mode == "single") {
                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                 console.log('additionalFileList : ',additionalFileList);
+                // restoration -> 선언됨
+                // requestId -> 선언됨
+                // type -> 선언됨
                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                 if (addMessage) {
                     Swal.fire({
