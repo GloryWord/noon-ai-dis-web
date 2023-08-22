@@ -245,6 +245,7 @@ init = {
     },
 
     main: function () {
+        console.log('test');
         var temp = comm.getUser()
 
         $(".curTenant").html(temp);
