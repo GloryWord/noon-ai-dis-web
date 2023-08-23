@@ -245,6 +245,7 @@ init = {
     },
 
     main: function () {
+        console.log('test');
         var temp = comm.getUser()
 
         $(".curTenant").html(temp);
@@ -3193,6 +3194,13 @@ init = {
                                             location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                         }
                                         else if (mode == 'group') {
+                                            selectedFile = [];
+                                            var imgDivList = document.getElementsByClassName('check_reco');
+                                            var len = imgDivList.length;
+                                            for (var i = 0; i < len; i++) {
+                                                if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                            }
+                                            console.log(selectedFile)
                                             location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                         }
                                     }
@@ -3233,6 +3241,13 @@ init = {
                         location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
                     else if (mode == 'group') {
+                        selectedFile = [];
+                        var imgDivList = document.getElementsByClassName('check_reco');
+                        var len = imgDivList.length;
+                        for (var i = 0; i < len; i++) {
+                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                        }
+                        console.log(selectedFile)
                         location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
                 }
@@ -3520,6 +3535,94 @@ init = {
                 'fileCount': fileCount,
             }
             if (type == "image" && mode == "single") {
+                if(restoration==0){
+                    Swal.fire({
+                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                        showCancelButton: true,
+                        confirmButtonText: '네',
+                        cancelButtonText: '취소',
+                        icon:"info"
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            if (addMessage) {
+                                Swal.fire({
+                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                    allowOutsideClick: false,
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+                else{
+                    let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    if (addMessage) {
+                        Swal.fire({
+                            title: '비식별화 추가 요청이 \n완료되었습니다.',
+                            showCancelButton: false,
+                            confirmButtonText: '확인',
+                            allowOutsideClick: false,
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                            }
+                        })
+                    }
+                }
+            }
+            else{
+                Swal.fire({
+                    title: '저장이 완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'success'
+                })
+                if(document.querySelectorAll(".tag").length!=0){
+                    $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
+                }
+            }
+        })
+
+        $(document).on("click", ".confirmAdd", async function () {
+            if(restoration==0){
+                Swal.fire({
+                    title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                    showCancelButton: true,
+                    confirmButtonText: '네',
+                    cancelButtonText: '취소',
+                    icon:"info"
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+            else{
                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                 console.log('additionalFileList : ',additionalFileList);
                 // restoration -> 선언됨
