@@ -3724,18 +3724,42 @@ init = {
 
                                 //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                                 if (videoJson) {
-                                    let coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
-                                    if(restoration==1){
-                                        loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
-                                    }
-                                    if(coordTritonToWeb!=null){
-                                        let canvasCoord = coordTritonToWeb.canvas;
-                                        let originCoord = coordTritonToWeb.origin;
-                                        let classArray = coordTritonToWeb.class;
-                                        if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                    let coordTritonToWeb
+                                    if(imgNum==0){
+                                        coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
                                     }
                                     else{
-                                        setTimeout(() => 50)
+                                        coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                                        if(coordTritonToWeb["canvas"].length==0){
+                                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                                        }
+                                    }
+                                    
+                                    if(restoration==0){
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+    
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
+                                        }
+                                        else{
+                                            setTimeout(() => 50)
+                                        }
+                                    }
+                                    else {
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+                                            let objectArray = coordTritonToWeb.objectID;
+
+                                            loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
+                                        }
+                                        else{
+                                            setTimeout(() => 50)
+                                        }
                                     }
                                 }
                                 clearInterval(intervalId);
@@ -3843,12 +3867,18 @@ init = {
                 }
                 else {
                     parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                    if(restoration==1) {
+                        let classMax = sendCount()
+                        totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                        totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                        totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                    }
                     if (parsedCoordinates) {
                         totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                         console.log(totalCoordinates)
                     }
                     else {
-                        if (totalCoordinates[imgNum]) delete totalCoordinates[imgNum]
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
                     }
                 }
             }

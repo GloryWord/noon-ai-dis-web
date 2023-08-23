@@ -412,21 +412,38 @@ canvas.on('selection:cleared', function (event) {
 
 function saveInput(sectorType, restoration) {
     let objJson = {}
-    let index = 0
-    for (const key in areas) {
-        const area = areas[key];
-        const canvas = [area.left, area.top, area.right, area.bottom];
-        const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
-        const cls = area.class;
-      
-        objJson[index] = { canvas, real, class: cls };
-        index++
-      }
-    console.log(objJson)
-    return objJson
+    if(sectorType=="detail" && restoration==1){
+        let index = 0
+        for (const key in areas) {
+            const area = areas[key];
+            const canvas = [area.left, area.top, area.right, area.bottom];
+            const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
+            const cls = area.class;
+            const classid = area.classID
+          
+            objJson[index] = { canvas, real, class: cls, objectID: classid };
+            index++
+          }
+        console.log(objJson)
+        return objJson
+    }
+    else{
+        let index = 0
+        for (const key in areas) {
+            const area = areas[key];
+            const canvas = [area.left, area.top, area.right, area.bottom];
+            const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
+            const cls = area.class;
+          
+            objJson[index] = { canvas, real, class: cls };
+            index++
+          }
+        console.log(objJson)
+        return objJson
+    }
 }
 
-function loadData(canvasCoord, originCoord, classArray) {
+function loadData(canvasCoord, originCoord, classArray, restoration, sectorType, objectID) {
     result = canvasCoord;
     originResult = originCoord;
     classResult = classArray;
@@ -435,29 +452,50 @@ function loadData(canvasCoord, originCoord, classArray) {
     let loadBackColor
     let loadStrokeColor
     for(let i=0;i<result.length;i++){
-        if(classResult[i]==0){
-            classNum = bodyClass
-            bodyClass++
-            loadBackColor = "rgba(226,214,255,0.6)"
-            loadStrokeColor = "rgba(161,122,255)"
-        }
-        else if(classResult[i]==1){
-            classNum = headClass
-            headClass++
-            loadBackColor = "rgba(252,230,247,0.6)"
-            loadStrokeColor = "rgba(255,97,208)"
-        }
-        else if(classResult[i]==2){
-            classNum = carClass
-            carClass++
-            loadBackColor = "rgb(192,237,234,0.6)"
-            loadStrokeColor = "rgb(51,199,187)"
-        }
         
-        areas[(i+1)] = { left: result[i][0][0], top: result[i][0][1], right: result[i][1][0], bottom: result[i][1][1], width: (result[i][1][0]-result[i][0][0]), height: (result[i][1][1]-result[i][0][1]), class: classResult[i], classID: classNum };
-        original[(i+1)] = { left: originResult[i][0][0], top: originResult[i][0][1], right: originResult[i][1][0], bottom: originResult[i][1][1], width: (originResult[i][1][0]-originResult[i][0][0]), height: (originResult[i][1][1]-originResult[i][0][1]), class: classResult[i], classID: classNum };
+        if(restoration==1 && sectorType=="detail"){
+            classNum = objectID[i]
+            if(classResult[i]==0){
+                loadBackColor = "rgba(226,214,255,0.6)"
+                loadStrokeColor = "rgba(161,122,255)"
+            }
+            else if(classResult[i]==1){
+                loadBackColor = "rgba(252,230,247,0.6)"
+                loadStrokeColor = "rgba(255,97,208)"
+            }
+            else if(classResult[i]==2){
+                loadBackColor = "rgb(192,237,234,0.6)"
+                loadStrokeColor = "rgb(51,199,187)"
+            }
+            areas[(i+1)] = { left: result[i][0][0], top: result[i][0][1], right: result[i][1][0], bottom: result[i][1][1], width: (result[i][1][0]-result[i][0][0]), height: (result[i][1][1]-result[i][0][1]), class: classResult[i], classID: classNum };
+            original[(i+1)] = { left: originResult[i][0][0], top: originResult[i][0][1], right: originResult[i][1][0], bottom: originResult[i][1][1], width: (originResult[i][1][0]-originResult[i][0][0]), height: (originResult[i][1][1]-originResult[i][0][1]), class: classResult[i], classID: classNum };    
         
-        createBlock((i+1), result[i][0][0], result[i][0][1], result[i][1][0], result[i][1][1], (result[i][1][0]-result[i][0][0]), (result[i][1][1]-result[i][0][1]), classResult[i], classNum)
+            createBlock((i+1), result[i][0][0], result[i][0][1], result[i][1][0], result[i][1][1], (result[i][1][0]-result[i][0][0]), (result[i][1][1]-result[i][0][1]), classResult[i], classNum)
+        }
+        else{
+            if(classResult[i]==0){
+                classNum = bodyClass
+                bodyClass++
+                loadBackColor = "rgba(226,214,255,0.6)"
+                loadStrokeColor = "rgba(161,122,255)"
+            }
+            else if(classResult[i]==1){
+                classNum = headClass
+                headClass++
+                loadBackColor = "rgba(252,230,247,0.6)"
+                loadStrokeColor = "rgba(255,97,208)"
+            }
+            else if(classResult[i]==2){
+                classNum = carClass
+                carClass++
+                loadBackColor = "rgb(192,237,234,0.6)"
+                loadStrokeColor = "rgb(51,199,187)"
+            }
+            areas[(i+1)] = { left: result[i][0][0], top: result[i][0][1], right: result[i][1][0], bottom: result[i][1][1], width: (result[i][1][0]-result[i][0][0]), height: (result[i][1][1]-result[i][0][1]), class: classResult[i], classID: classNum };
+            original[(i+1)] = { left: originResult[i][0][0], top: originResult[i][0][1], right: originResult[i][1][0], bottom: originResult[i][1][1], width: (originResult[i][1][0]-originResult[i][0][0]), height: (originResult[i][1][1]-originResult[i][0][1]), class: classResult[i], classID: classNum };    
+        
+            createBlock((i+1), result[i][0][0], result[i][0][1], result[i][1][0], result[i][1][1], (result[i][1][0]-result[i][0][0]), (result[i][1][1]-result[i][0][1]), classResult[i], classNum)
+        }
 
         rect = new fabric.Rect({
             left: result[i][0][0],
@@ -479,4 +517,8 @@ function loadCount(body, head, car){
     bodyClass = body
     headClass = head
     carClass = car
+}
+
+function sendCount() {
+    return[bodyClass, headClass, carClass]
 }

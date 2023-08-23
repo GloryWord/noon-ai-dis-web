@@ -176,21 +176,32 @@ $(document).on('click', '.sectorDelete', function () {
 });
 
 $(document).on('click', '.confirmSave', async function () {
-    var token = makeid(6);
-    let sectorResult = await fileModule.writeSectorToJson(token, requestId, sectors, type, mode, restoration)
-    let sectorMessage = await fileModule.sendSectorEncryptMessage(sectorResult['sectorEncReqInfo']);
-    if (sectorMessage) {
+    if(document.querySelectorAll(".sector").length==0){
         Swal.fire({
-            title: '구간이 저장되었습니다.',
-            showCancelButton: false,
-            confirmButtonText: '확인',
+            title: '지정한 구간이 없습니다.',
+            icon: 'error',
             allowOutsideClick: false,
-            icon: 'success'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${sectorResult['insertId']}&restoration=${restoration}&mode=${mode}&service=sector`
-            }
+            showConfirmButton: false,
+            showDenyButton: true,
         })
+    }
+    else{
+        var token = makeid(6);
+        let sectorResult = await fileModule.writeSectorToJson(token, requestId, sectors, type, mode, restoration)
+        let sectorMessage = await fileModule.sendSectorEncryptMessage(sectorResult['sectorEncReqInfo']);
+        if (sectorMessage) {
+            Swal.fire({
+                title: '구간이 저장되었습니다.',
+                showCancelButton: false,
+                confirmButtonText: '확인',
+                allowOutsideClick: false,
+                icon: 'success'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${sectorResult['insertId']}&restoration=${restoration}&mode=${mode}&service=sector`
+                }
+            })
+        }
     }
 });
 
