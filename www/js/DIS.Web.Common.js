@@ -831,18 +831,18 @@ comm = {
                 }
                 else{
                     for (let i = 0; i < keys.length; i++) {
-                        let classID = curCoordinates[i].objectID
                         let curClass = curCoordinates[i].class
-                        if (!parsedCurCoordinates[classID]) parsedCurCoordinates[classID] = {};
-                        if (!parsedCurCoordinates[classID][curClass]) parsedCurCoordinates[classID][curClass] = {};
-                        if (!parsedCurCoordinates[classID][curClass]['real']) parsedCurCoordinates[classID][curClass]['real'] = []
-                        if (!parsedCurCoordinates[classID][curClass]['canvas']) parsedCurCoordinates[classID][curClass]['canvas'] = []
+                        let classID = curCoordinates[i].objectID
+                        if (!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                        if (!parsedCurCoordinates[curClass][classID]) parsedCurCoordinates[curClass][classID] = {};
+                        if (!parsedCurCoordinates[curClass][classID]['real']) parsedCurCoordinates[curClass][classID]['real'] = []
+                        if (!parsedCurCoordinates[curClass][classID]['canvas']) parsedCurCoordinates[curClass][classID]['canvas'] = []
 
                         let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
-                        parsedCurCoordinates[classID][curClass]['real'].push(loc)
+                        parsedCurCoordinates[curClass][classID]['real'].push(loc)
 
                         loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
-                        parsedCurCoordinates[classID][curClass]['canvas'].push(loc)
+                        parsedCurCoordinates[curClass][classID]['canvas'].push(loc)
                     }
                 }
             }
@@ -945,6 +945,7 @@ comm = {
                 };
             }
             else {
+                let objectArray = []
                 if (curCoordinates) {
                     keys = Object.keys(curCoordinates);
                     console.log(keys)
@@ -964,7 +965,8 @@ comm = {
                 
                                     canvasCoord.push([canvasLeftTop, canvasRightBottom])
                                     originCoord.push([realLeftTop, realRightBottom])
-                                    classArray.push(Number(objectKeys[j]))
+                                    classArray.push(Number(keys[i]))
+                                    objectArray.push(Number(objectKeys[j]))
                                 }
                             }
                         }
@@ -974,7 +976,8 @@ comm = {
                 return {
                     'canvas': canvasCoord,
                     'origin': originCoord,
-                    'class': classArray
+                    'class': classArray,
+                    'objectID': objectArray
                 };
             }
         }

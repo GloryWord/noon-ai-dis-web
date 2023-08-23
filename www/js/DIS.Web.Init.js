@@ -3735,21 +3735,31 @@ init = {
                                         }
                                     }
                                     
-                                    if(coordTritonToWeb!=null){
-                                        let canvasCoord = coordTritonToWeb.canvas;
-                                        let originCoord = coordTritonToWeb.origin;
-                                        let classArray = coordTritonToWeb.class;
-
-                                        if(restoration==1){
-                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
-                                            // loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                    if(restoration==0){
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+    
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
                                         }
                                         else{
-                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                            setTimeout(() => 50)
                                         }
                                     }
-                                    else{
-                                        setTimeout(() => 50)
+                                    else {
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+                                            let objectArray = coordTritonToWeb.objectID;
+
+                                            loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
+                                        }
+                                        else{
+                                            setTimeout(() => 50)
+                                        }
                                     }
                                 }
                                 clearInterval(intervalId);
