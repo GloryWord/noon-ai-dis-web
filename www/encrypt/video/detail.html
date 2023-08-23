@@ -104,7 +104,10 @@
                         <p>영상 다운로드</p>
                     </div>
                 </a>
-                <div class="file_recoConfirm single hide">
+                <div class="checkBtn single">
+                    <p>추가 비식별화</p>
+                </div>
+                <div class="file_recoConfirm hide">
                     <p>원본 복원</p>
                 </div>
             </div>
@@ -240,5 +243,36 @@
 <div id="servicePrivacyView" class="modal"></div>
 
 <div id="emailPrivacyView" class="modal"></div>
+
+<div id="addData" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="recoContent">
+                    <div class="recoHeader">
+                        <h1>비식별화 추가</h1>
+                    </div>
+                    <div class="recoBody">
+                        <div class="recoMiddle">
+                            <input class="pemUpload" value="" readonly>
+                            <label class="uploadBtn" for="addfile">
+                                <p>키 파일 업로드</p>
+                            </label>
+                            <input type="file" id="addfile" value="키 선택" name="addfile" accept=".pem" />
+                        </div>
+                        <div class="recoFooter">
+                            <div class="addConfirm">
+                                <p>추가</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </html>

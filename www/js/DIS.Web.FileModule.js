@@ -42,7 +42,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
     avg_frame_rate = avg_frame_rate.split('/');
     avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
 
-    var [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge] = chargeArray
+    var [resolution_charge, duration_charge] = chargeArray
     if (screen.width <= 600) {
         info_content_html = "<div class='info_area'>\
                                     <div class='first_area'>\
@@ -52,7 +52,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='frame_content'>\
                                             <h1>프레임 레이트</h1>\
-                                            <p>"+ avg_frame_rate + " FPS</p>\
+                                            <p>FPS</p>\
                                         </div>\
                                     </div>\
                                     <div class='second_area'>\
@@ -62,7 +62,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>\
                                         <div class='bit_content'>\
                                             <h1>비트 레이트</h1>\
-                                            <p>"+ currentFile.bit_rate + " bps</p>\
+                                            <p>bps</p>\
                                         </div>\
                                     </div>\
                                 </div>"
@@ -73,13 +73,13 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         <p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p>\
                                     </div>\
                                     <div class='frame_content'>\
-                                        <p>"+ avg_frame_rate + " FPS</p>\
+                                        <p>FPS</p>\
                                     </div>\
                                     <div class='dur_content'>\
                                         <p>"+ time_change(currentFile.duration) + "</p>\
                                     </div>\
                                     <div class='bit_content'>\
-                                        <p>"+ currentFile.bit_rate + " bps</p>\
+                                        <p>bps</p>\
                                     </div>\
                                 </div>"
 
@@ -87,22 +87,22 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>해상도</p></div>\
                                             <div class='content_content'><p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p></div>\
-                                            <div class='price_content'><p>"+ price_three(resolution_charge) + "원</p></div>\
+                                            <div class='price_content'><p>"+ resolution_charge + "원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>프레임 레이트</p></div>\
-                                            <div class='content_content'><p>"+ avg_frame_rate + " FPS</p></div>\
-                                            <div class='price_content'><p>"+ price_three(frame_rate_charge) + "원</p></div>\
+                                            <div class='content_content'><p>FPS</p></div>\
+                                            <div class='price_content'><p>원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>길 이</p></div>\
                                             <div class='content_content'><p>"+ time_change(currentFile.duration) + "</p></div>\
-                                            <div class='price_content'><p>"+ price_three(duration_charge) + "원</p></div>\
+                                            <div class='price_content'><p>"+ duration_charge + "원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>비트 레이트</p></div>\
-                                            <div class='content_content'><p>"+ currentFile.bit_rate + " bps</p></div>\
-                                            <div class='price_content'><p>"+ price_three(bitrate_charge) + "원</p></div>\
+                                            <div class='content_content'><p>bps</p></div>\
+                                            <div class='price_content'><p>원</p></div>\
                                         </div>\
                                         <div class='charge_info'>\
                                             <div class='category_content'><p>평균 객체 수</p></div>\
@@ -432,7 +432,7 @@ fileModule = {
 
         }
         if (type == 'image') html += '</div>'
-        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDurationm, files];
+        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files];
     },
 
     alldeleteFile: function () {
@@ -538,7 +538,7 @@ fileModule = {
                         var response = JSON.parse(this.responseText);
                         if (response.message == 'success') {
                             let coefficient = {};
-                            let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
+                            let resolution_charge, frame_rate_charge, duration_charge, duration_base, duration_add, bitrate_charge, avg_object_charge;
                             let base_charge;
 
                             checksum = response.checksum;
@@ -552,12 +552,10 @@ fileModule = {
                                 
                                 coefficient = {
                                     resolution: '',
-                                    frame_rate: '',
                                     duration: '',
-                                    bitrate: '',
                                     avg_object: 1
                                 }
-                                base_charge = 2000;
+                                base_charge = 5000;
                                 const charging_variable_count = Object.keys(coefficient).length;
 
                                 for (var i = 0; i < fileWidth.length; i++) {
@@ -578,35 +576,46 @@ fileModule = {
                                         fileHeight[i] = curFile.height;
                                     }
 
-                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-
-                                    var avg_frame_rate = curFile.avg_frame_rate
-                                    avg_frame_rate = avg_frame_rate.split('/');
-                                    avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
-                                    coefficient.frame_rate = avg_frame_rate / 30;
-
-                                    coefficient.duration = curFile.duration / 60;
-                                    bitrateArray.push(curFile.bit_rate)
-                                    coefficient.bitrate = curFile.bit_rate / (((640 * 640) * 30) / 4);
-
+                                    // coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
                                     // 요금 = (각 항목별 상대계수 X 기본요금) / 총 항목 갯수
                                     // 요금은 소숫점 둘째자리까지 반올림하여 계산
-                                    resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                    resolution_charge = Math.round(resolution_charge * 100) / 100
+                                    // resolution_charge = coefficient.resolution * base_charge;
+                                    // resolution_charge = Math.round(resolution_charge * 100) / 100
 
-                                    frame_rate_charge = coefficient.frame_rate * base_charge / charging_variable_count;
-                                    frame_rate_charge = Math.round(frame_rate_charge * 100) / 100
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i])
+                                    if(coefficient.resolution<=921600){
+                                        resolution_charge = 1
+                                    }
+                                    else if(921600<coefficient.resolution<=2073600){
+                                        resolution_charge = 1.5
+                                    }
+                                    else{
+                                        //미정
+                                        resolution_charge = 2
+                                    }
 
-                                    duration_charge = coefficient.duration * base_charge / charging_variable_count;
-                                    duration_charge = Math.round(duration_charge * 100) / 100
+                                    // coefficient.duration = curFile.duration / 60;
+                                    if(curFile.duration<=180){
+                                        coefficient.duration = [1, 0]
+                                        // duration_charge = coefficient.duration[0]
+                                        duration_base = Math.round(coefficient.duration[0])
+                                        duration_add = coefficient.duration[1].toFixed(2)
+                                    }
+                                    else if(180<curFile.duration<=300){
+                                        coefficient.duration = [1.5, 0]
+                                        // duration_charge = coefficient.duration[1].toFixed(2)
+                                        duration_base = Math.round(coefficient.duration[0])
+                                        duration_add = coefficient.duration[1].toFixed(2)
+                                        // duration_charge = coefficient.duration[0] + coefficient.duration[1]
+                                    }
+                                    else {
+                                        let addTime = ((curFile.duration - 300)/10)*0.03
+                                        coefficient.duration = [1.5, addTime]
+                                        duration_base = Math.round(coefficient.duration[0])
+                                        duration_add = coefficient.duration[1]
+                                    }
 
-                                    bitrate_charge = coefficient.bitrate * base_charge / charging_variable_count;
-                                    bitrate_charge = Math.round(bitrate_charge * 100) / 100
-
-                                    avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                    if (restoration == 1) avg_object_charge = avg_object_charge * 1.5
-
-                                    var chargeArray = [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge]
+                                    var chargeArray = [resolution_charge, duration_charge]
 
                                     var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
 
@@ -615,8 +624,6 @@ fileModule = {
                                 }
                             }
                             else if (fileType == "image") {
-                                base_charge = 200;
-
                                 var chargeArray = [];
                                 for (var i = 0; i < fileWidth.length; i++) {
                                     coefficient = {
@@ -630,12 +637,17 @@ fileModule = {
                                         total_charge: 0
                                     }
 
-                                    const charging_variable_count = Object.keys(coefficient).length;
-                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-                                    charge.resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                    charge.resolution_charge = Math.round(charge.resolution_charge * 100) / 100
-                                    charge.avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                    if (restoration == 1) charge.avg_object_charge = charge.avg_object_charge * 1.5
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i])
+                                    if(coefficient.resolution<=921600){
+                                        resolution_charge = 1
+                                    }
+                                    else if(921600<coefficient.resolution<=2073600){
+                                        resolution_charge = 1.5
+                                    }
+                                    else{
+                                        //미정
+                                        resolution_charge = 2
+                                    }
 
                                     chargeArray.push(charge);
                                 }
@@ -645,50 +657,150 @@ fileModule = {
                                 charge_content.innerHTML = html;
                             }
 
-                            $('input[type=radio][name=restoration]').on('change', function () {
-                                if ($(this).val() == 'true') {
-                                    if (fileType == "video") avg_object_charge *= 1.5
-                                    else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge *= 1.5
-                                    }
-                                }
-                                else {
-                                    if (fileType == "video") avg_object_charge /= 1.5;
-                                    else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge *= 1.5
-                                    }
-                                }
+                            // $('input[type=radio][name=restoration]').on('change', function () {
+                            //     if ($(this).val() == 'true') {
+                            //         if (fileType == "video") {
+                            //             // avg_object_charge = (coefficient.avg_object*0.1) * base_charge;
+                            //             if(coefficient.avg_object<=5){
+                            //                 avg_object_charge = 1;
+                            //             }
+                            //             else{
+                            //                 avg_object_charge = coefficient.avg_object/5;
+                            //             }
+                            //             // avg_object_charge *= 1.5
+                            //         }
+                            //         else for (let i = 0; i < chargeArray.length; i++) {
+                            //             if(chargeArray[i].avg_object_charge<=5){
+                            //                 chargeArray[i].avg_object_charge = 1;
+                            //             }
+                            //             else{
+                            //                 chargeArray[i].avg_object_charge = coefficient.avg_object/5;
+                            //             }
+                            //             // chargeArray[i].avg_object_charge = (coefficient.avg_object*0.1) * base_charge;
+                            //             // chargeArray[i].avg_object_charge *= 1.5
+                            //         }
+                            //     }
+                            //     else {
+                            //         if (fileType == "video"){
+                            //             // avg_object_charge = (coefficient.avg_object*0.1) * base_charge;
+                            //             // avg_object_charge /= 1;
+                            //             if(coefficient.avg_object<=5){
+                            //                 avg_object_charge = 1;
+                            //             }
+                            //             else{
+                            //                 avg_object_charge = coefficient.avg_object/5;
+                            //             }
+                            //         }
+                            //         else for (let i = 0; i < chargeArray.length; i++) {
+                            //             // chargeArray[i].avg_object_charge = (coefficient.avg_object*0.1) * base_charge;
+                            //             // chargeArray[i].avg_object_charge *= 1
+                            //             if(chargeArray[i].avg_object_charge<=5){
+                            //                 chargeArray[i].avg_object_charge = 1;
+                            //             }
+                            //             else{
+                            //                 chargeArray[i].avg_object_charge = coefficient.avg_object/5;
+                            //             }
+                            //         }
+                            //     }
+                            // });
+
+                            $(document).on("click", ".cancel", function () {
+                                $(".modal").removeClass("active")
+                                $(".object_number").val("")
+                                $(".price_text").text("?원")
+                                $(".charge_text").text("?원")
+                                $(".total_text").text("?원")
                             });
 
                             $(document).on("change", ".object_number", function () {
-                                var object_num = $(this).val();
+                                var object_num = Number($(this).val());
                                 var num = $(this).data("num")
                                 var total = 0;
                                 if (fileType == "video") {
-                                    var total_avg_object_charge = object_num * avg_object_charge
-                                    var total_charge = resolution_charge + frame_rate_charge + duration_charge + bitrate_charge + total_avg_object_charge;
-                                    total_charge = Math.round(total_charge * 100) / 100
+                                    var total_avg_object_charge
+                                    var add_charge
+                                    if(object_num<=5){
+                                        total_avg_object_charge = [1, 0]
+                                    }
+                                    else if(object_num<=10){
+                                        total_avg_object_charge = [1.5, 0]
+                                    }
+                                    else if(10<object_num){
+                                        let addObject = ((object_num - 10))*0.08
+                                        total_avg_object_charge = [1.5, addObject]
+                                    }
+
+                                    var total_charge
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        // total_charge = Math.round((((resolution_charge)/3) * duration_base * total_avg_object_charge * 5000) + (((resolution_charge)/3) * duration_add * total_avg_object_charge * 3000));
+                                        total_charge = 10000*resolution_charge*Number(duration_base)*total_avg_object_charge[0]
+                                        if(Number(duration_add)!=0 || total_avg_object_charge[1]!=0){
+                                            add_charge = 5000*(1+Number(duration_add))*(1+total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            add_charge = 0
+                                        }
+                                    }
+                                    else{
+                                        total_charge = 7000*resolution_charge*Number(duration_base)*total_avg_object_charge[0]
+                                        if(Number(duration_add)!=0 || total_avg_object_charge[1]!=0){
+                                            add_charge = 3500*(1+Number(duration_add))*(1+total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            add_charge = 0
+                                        }
+                                    }
+                                    // total_charge = Math.round(total_charge * 100) / 100
                                     $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                    $(".charge_text." + num + "").text(price_three(total_charge) + "원")
+                                    $(".charge_text." + num + "").text(`${price_three(total_charge)} 원, ${price_three(add_charge)}`)
                                 }
                                 else if (fileType == "image") {
-
-                                    var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
-                                    for (var i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].total_charge = 0;
-                                        chargeArray[i].total_charge += chargeArray[i].resolution_charge;
-                                        chargeArray[i].total_charge += chargeArray[i].avg_object_charge * object_num;
-                                        chargeArray[i].total_charge = Math.round(chargeArray[i].total_charge * 100) / 100
+                                    chargeArray[num].total_charge = 0;
+                                    chargeArray[num].add_charge = 0;
+                                    chargeArray[num].total_avg_object_charge
+                                    if(object_num<=5){
+                                        chargeArray[num].total_avg_object_charge = [1, 0]
+                                    }
+                                    else if(object_num<=10){
+                                        chargeArray[num].total_avg_object_charge = [1.5, 0]
+                                    }
+                                    else if(10<object_num){
+                                        let addObject = ((object_num - 10))*0.08
+                                        chargeArray[num].total_avg_object_charge = [1.5, addObject]
                                     }
 
-                                    $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                    $(".charge_text." + num + "").text(price_three(chargeArray[num].total_charge) + "원")
+                                    
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        chargeArray[num].total_charge = 600*resolution_charge*chargeArray[num].total_avg_object_charge[0]
+                                        if(chargeArray[num].total_avg_object_charge[1]!=0){
+                                            chargeArray[num].add_charge = 300*(1+chargeArray[num].total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            chargeArray[num].add_charge = 0
+                                        }
+                                    }
+                                    else{
+                                        chargeArray[num].total_charge = 400*resolution_charge*chargeArray[num].total_avg_object_charge[0]
+                                        if(chargeArray[num].total_avg_object_charge[1]){
+                                            chargeArray[num].add_charge = 200*(1+chargeArray[num].total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            chargeArray[num].add_charge = 0
+                                        }
+                                    }
+
+                                    $(".price_text." + num + "").text(price_three(chargeArray[num].total_avg_object_charge) + "원")
+                                    $(".charge_text." + num + "").text(`${price_three(chargeArray[num].total_charge)} 원, ${price_three(chargeArray[num].add_charge)} 원`)
+                                    var add_total
                                     for (var i = 0; i < $(".charge_text").length; i++) {
-                                        const regex = /[^0-9.]/g;
-                                        const result = $(".charge_text." + i + "").text().replace(regex, "");
-                                        total += Number(result)
+                                        // const regex = /[^0-9.]/g;
+                                        // const result = $(".charge_text." + i + "").text().replace(regex, "");
+                                        // total += Number(result)
+                                        total += chargeArray[num].total_charge
+                                        add_total += chargeArray[num].add_charge
                                     }
-                                    $(".total_text").text(price_three(Math.round(total * 100) / 100) + "원")
+                                    // $(".total_text").text(price_three(Math.round(total * 100) / 100) + "원")
+                                    $(".total_text").text(`${price_three(total)} 원, ${price_three(add_total)} 원`)
                                 }
                             });
 
@@ -1675,6 +1787,32 @@ fileModule = {
         return result
     },
 
+    sendSectorEncryptMessage: async function (msg) {
+        let baseUrl = '/api/sendMessage/encrypt/sector'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+        let result = false;
+        $.ajax({
+            method: "post",
+            url: apiUrl, //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            dataType: "json",
+            data: {
+                msgTemplate: JSON.stringify(msg),
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') result = true;
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                // alert(JSON.stringify(xhr));
+            }
+        });
+        return result
+    },
+
     makePasswordbin: async function (enc_request_id, keyPath) {
         let baseUrl = '/api/passwordbin'
         let apiUrl = apiUrlConverter('decrypt', baseUrl)
@@ -1704,6 +1842,61 @@ fileModule = {
         return result;
     },
 
+    writeSectorToJson: async function (token, requestId, sectors, type, mode, restoration) {
+        let userAuth = comm.getAuth();
+        let account_auth_id = userAuth.id;
+        let baseUrl = '/api/sector'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let result
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'token': token,
+                'requestId': requestId,
+                'sectors': JSON.stringify(sectors),
+                'account_auth_id' : account_auth_id
+            },
+            async: false,
+            success: function (data) {
+                result = data
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result
+    },
+
+    readSectorToJson: async function (token, requestId) {
+        let baseUrl = `/api/sector/${token}/${requestId}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let sectors = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.sectors !== '') sectors = data.sectors;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return sectors;
+    },
+
     writeCoordinatesToJson: async function (token, requestId, totalCoordinates = {}) {
         let baseUrl = '/api/coordinates'
         let apiUrl = apiUrlConverter('util', baseUrl)
@@ -1719,6 +1912,88 @@ fileModule = {
             data: {
                 'token': token,
                 'requestId': requestId,
+                'totalCoordinates': JSON.stringify(totalCoordinates)
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    filePath = data.filePath;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return filePath;
+    },
+
+    readSectorImg: async function (type, token, requestId, sectorNum) {
+        let baseUrl = `/api/sector/${type}/${token}/${requestId}/${sectorNum}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let imageFiles = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.imageFiles !== '') imageFiles = JSON.parse(data.imageFiles);
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return imageFiles;
+    },
+
+    readVideoJson: async function (type, token, requestId, sectorNum) {
+        let baseUrl = `/api/video/${type}/${token}/${requestId}/${sectorNum}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let coordinates = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.coordinates !== '') coordinates = JSON.parse(data.coordinates);
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return coordinates;
+    },
+
+    writeVideoJson: async function (token, requestId, sectorNum, totalCoordinates = {}) {
+        let baseUrl = '/api/video'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let filePath = '';
+        
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'token': token,
+                'requestId': requestId,
+                'sectorNum': sectorNum,
                 'totalCoordinates': JSON.stringify(totalCoordinates)
             },
             async: false,
@@ -1781,6 +2056,54 @@ fileModule = {
         }
         else {
             let baseUrl = `/api/request/encrypt/additional`;
+            let apiUrl = apiUrlConverter('encrypt', baseUrl);
+            $.ajax({
+                method: "POST",
+                url: apiUrl,
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    detailStr,
+                    account_auth_id,
+                    requestId
+                },
+                async: false,
+                success: function (data) {
+                    if(data.message === 'success') {
+                        console.log(data)
+                        insertId = data.insertId;
+                        encReqInfo = data.encReqInfo;
+                    }
+                },
+                error: function (xhr, status) {
+                    // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                }
+            });
+        }
+        return [insertId, encReqInfo];
+    },
+
+    additionalVideoEncrypt: async function (detail, requestId) {
+        let userAuth = comm.getAuth();
+        let detailStr = JSON.stringify(detail);
+        let account_auth_id = userAuth.id;
+
+        let insertId = ''
+        let encReqInfo = ''
+        if (userAuth['encrypt_auth'] === 0) {
+            Swal.fire({
+                title: '비식별화화 권한이 없어요.',
+                showCancelButton: false,
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
+            })
+            location.reload;
+        }
+        else {
+            let baseUrl = `/api/request/encrypt/video`;
             let apiUrl = apiUrlConverter('encrypt', baseUrl);
             $.ajax({
                 method: "POST",

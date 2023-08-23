@@ -1,10 +1,10 @@
 'use strict';
 
 function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
@@ -178,33 +178,33 @@ function time_change(duration) {
     return hours + ':' + minutes + ':' + seconds;
 }
 
-function onlyNumber(event) { 
-    event = event || window.event; 
-    var keyID = (event.which) ? event.which : event.keyCode; 
-    if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) 
-        return; 
-    else 
-        return false; 
-} 
-
-function removeChar(event) { 
-    event = event || window.event; 
-    var keyID = (event.which) ? event.which : event.keyCode; 
-    if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) 
-        return; 
-    else event.target.value = event.target.value.replace(/[^0-9]/g, ""); 
+function onlyNumber(event) {
+    event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+        return;
+    else
+        return false;
 }
 
-function price_three(price){
+function removeChar(event) {
+    event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+        return;
+    else event.target.value = event.target.value.replace(/[^0-9]/g, "");
+}
+
+function price_three(price) {
     var result = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return result
 }
 
 function apiUrlConverter(endpoint, baseUrl) {
-    if(location.host === 'dis.noonai.kr') {
+    if (location.host === 'dis.noonai.kr') {
         return `https://${endpoint}-api.noonai.kr${baseUrl}`
     }
-    else if(endpoint === 'socket'){
+    else if (endpoint === 'socket') {
         return ''
     }
     else {
@@ -264,7 +264,7 @@ comm = {
                 // alert(xhr + " : " + status);
             }
         });
-        resultStr = "<p>"+result.user_name+'님</p>'
+        resultStr = "<p>" + result.user_name + '님</p>'
         return resultStr;
     },
 
@@ -285,7 +285,7 @@ comm = {
                 result = data
             },
             error: function (xhr, status) {
-                
+
             }
         });
 
@@ -316,7 +316,7 @@ comm = {
             },
             async: false,
             success: function (data) {
-                if(data.statusCode == 200) result = data.userAuth;
+                if (data.statusCode == 200) result = data.userAuth;
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -348,15 +348,15 @@ comm = {
                 if (verify) Swal.fire('2차 인증이 완료되었습니다.', '', 'success')
                 else Swal.fire({
                     title: '2차 인증에 실패하였습니다.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 }).then(() => {
                     location.href = '/submanage';
                 })
             }
-            else{
+            else {
                 location.href = '/submanage';
             }
         })
@@ -371,39 +371,39 @@ comm = {
         $.ajax({
             method: "post",
             url: apiUrl,
-            data: { 
+            data: {
                 'keyName': encodedKeyName,
                 'keyMemo': encodedKeyMemo
-             },
-             xhrFields: {
+            },
+            xhrFields: {
                 withCredentials: true
             },
             success: function (data) {
-                if(data.message == 'success') {
+                if (data.message == 'success') {
                     new Promise((resolve, reject) => {
                         download(data.privateKey, data.keyName + ".pem", "text/plain")
                         resolve();
                     }).then(() => {
                         Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
-                            if(window.location.pathname == '/key') {
+                            if (window.location.pathname == '/key') {
                                 location.reload();
                             }
                             else {
                                 $("#selectKeyName").html(comm.getKeyList());
-                                $("#genKeyName").attr("disabled", true);    
+                                $("#genKeyName").attr("disabled", true);
                             }
                         })
                     })
                 }
-                else if(data.message == 'fail') {
+                else if (data.message == 'fail') {
                     Swal.fire({
-                        title:'동일 이름의 키가 존재합니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        title: '동일 이름의 키가 존재합니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     }).then(() => {
-                        if(window.location.pathname == '/encrypt/image' || window.location.pathname == '/encrypt/video') {
+                        if (window.location.pathname == '/encrypt/image' || window.location.pathname == '/encrypt/video') {
                             location.reload();
                         }
                     });
@@ -432,13 +432,13 @@ comm = {
                 console.log('logout failed');
             }
         })
-    },    
-    
-    joinInfo: function(cur_password = null) {
+    },
+
+    joinInfo: function (cur_password = null) {
         let baseUrl = '/api/user/check'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
-        var postdata = {cur_password:cur_password}
+        var postdata = { cur_password: cur_password }
 
         let verify = false;
         $.ajax({
@@ -454,13 +454,13 @@ comm = {
                 // location.href = "/myinfo";
             },
             error: function (xhr, status) {
-                if(xhr.responsJSON.message === 'password is not matching') {
+                if (xhr.responsJSON.message === 'password is not matching') {
                     Swal.fire({
                         title: '비밀번호가 틀렸습니다.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     });
                 }
             }
@@ -469,7 +469,7 @@ comm = {
         return verify;
     },
 
-    expireJoinInfo: function() {
+    expireJoinInfo: function () {
         let baseUrl = '/api/user/check/expire'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
@@ -481,10 +481,10 @@ comm = {
             },
             async: false,
             success: function (data) {
-                
+
             },
             error: function (xhr, status) {
-                
+
             }
         });
     },
@@ -535,8 +535,8 @@ comm = {
             },
             async: false,
             success: function (data) {
-                if(data.message == "success"){
-                    
+                if (data.message == "success") {
+
                 }
             },
             error: function (xhr, status) {
@@ -562,8 +562,8 @@ comm = {
                 withCredentials: true
             },
             success: function (data) {
-                if(data.message == "success"){
-                    
+                if (data.message == "success") {
+
                 }
             },
             error: function (xhr, status) {
@@ -589,8 +589,8 @@ comm = {
                 withCredentials: true
             },
             success: function (data) {
-                if(data.message == "success"){
-                    
+                if (data.message == "success") {
+
                 }
             },
             error: function (xhr, status) {
@@ -613,7 +613,7 @@ comm = {
                 withCredentials: true
             },
             success: function (data) {
-                if(data.message == "success"){
+                if (data.message == "success") {
                     console.log(data.result)
                 }
             },
@@ -637,7 +637,7 @@ comm = {
                 withCredentials: true
             },
             success: function (data) {
-                if(data.message == "success"){
+                if (data.message == "success") {
                     console.log(data.result)
                 }
             },
@@ -660,7 +660,7 @@ comm = {
             },
             async: false,
             success: function (data) {
-                if(data.message === 'success') {
+                if (data.message === 'success') {
                     env = data.env;
                 }
             },
@@ -699,13 +699,13 @@ comm = {
     parseCoordWebToTriton: function (curCoordinates) {
         let keys = Object.keys(curCoordinates)
         let parsedCurCoordinates = {};
-        if(keys.length === 0) return false;
+        if (keys.length === 0) return false;
         else {
-            for(let i = 0; i < keys.length; i++) {
+            for (let i = 0; i < keys.length; i++) {
                 let curClass = curCoordinates[i].class
-                if(!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
-                if(!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
-                if(!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
+                if (!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                if (!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
+                if (!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
 
                 // //좌상단
                 // let leftTop = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1]]
@@ -732,19 +732,19 @@ comm = {
         let originCoord = [];
         let classArray = [];
         let keys = '';
-        if(curCoordinates) {
+        if (curCoordinates) {
             keys = Object.keys(curCoordinates);
 
-            for(let i = 0; i < keys.length; i++) {
+            for (let i = 0; i < keys.length; i++) {
                 console.log(curCoordinates[0])
-                for(let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
+                for (let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
                     //canvas 좌상단, 우하단
                     let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
-                    let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]] 
+                    let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]]
                     //real 좌상단, 우하단
                     let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
-                    let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]] 
-    
+                    let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
+
                     canvasCoord.push([canvasLeftTop, canvasRightBottom])
                     originCoord.push([realLeftTop, realRightBottom])
                     classArray.push(Number(keys[i]))
@@ -759,6 +759,170 @@ comm = {
             'originCoord': originCoord,
             'classArray': classArray
         };
+    },
+
+    parseCoordWebToTritonVideo: function (type, restoration, curCoordinates, frameNumber) {
+        let keys = Object.keys(curCoordinates)
+        let parsedCurCoordinates = {};
+        if (keys.length === 0) return false;
+        else {
+            if (restoration == 0) {
+                if (type == "fix") {
+                    for (let i = 0; i < keys.length; i++) {
+                        let curClass = curCoordinates[i].class
+                        if (!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                        if (!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
+                        if (!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
+
+                        // //좌상단
+                        // let leftTop = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1]]
+
+                        // //우하단
+                        // let rightBottom = [curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        // parsedCurCoordinates[curClass]['real'].push([leftTop, rightBottom])
+                        let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        parsedCurCoordinates[curClass]['real'].push(loc)
+
+                        // leftTop = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1]]
+                        // rightBottom = [curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        // parsedCurCoordinates[curClass]['canvas'].push([leftTop, rightBottom])
+                        loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        parsedCurCoordinates[curClass]['canvas'].push(loc)
+                    }
+                }
+                else {
+                    for (let i = 0; i < keys.length; i++) {
+                        let curClass = curCoordinates[i].class
+                        if (!parsedCurCoordinates[frameNumber][curClass]) parsedCurCoordinates[frameNumber][curClass] = {};
+                        if (!parsedCurCoordinates[frameNumber][curClass]['real']) parsedCurCoordinates[frameNumber][curClass]['real'] = []
+                        if (!parsedCurCoordinates[frameNumber][curClass]['canvas']) parsedCurCoordinates[frameNumber][curClass]['canvas'] = []
+
+                        let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        parsedCurCoordinates[frameNumber][curClass]['real'].push(loc)
+
+                        loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        parsedCurCoordinates[frameNumber][curClass]['canvas'].push(loc)
+                    }
+                }
+            }
+            else {
+                if (type == "fix") {
+                    for (let i = 0; i < keys.length; i++) {
+                        let curClass = curCoordinates[i].class
+                        if (!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                        if (!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
+                        if (!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
+
+                        // //좌상단
+                        // let leftTop = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1]]
+
+                        // //우하단
+                        // let rightBottom = [curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        // parsedCurCoordinates[curClass]['real'].push([leftTop, rightBottom])
+                        let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        parsedCurCoordinates[curClass]['real'].push(loc)
+
+                        // leftTop = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1]]
+                        // rightBottom = [curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        // parsedCurCoordinates[curClass]['canvas'].push([leftTop, rightBottom])
+                        loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        parsedCurCoordinates[curClass]['canvas'].push(loc)
+                    }
+                }
+            }
+        }
+        return parsedCurCoordinates;
+    },
+
+    parseCoordTritonToWebVideo: async function (type, restoration, curCoordinates) {
+        console.log(curCoordinates)
+        let canvasCoord = [];
+        let originCoord = [];
+        let classArray = [];
+        let keys = '';
+        if (restoration == 0) {
+            if (type == "fix") {
+                if (curCoordinates) {
+                    keys = Object.keys(curCoordinates);
+
+                    for (let i = 0; i < keys.length; i++) {
+                        for (let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
+                            //canvas 좌상단, 우하단
+                            let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
+                            let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]]
+                            //real 좌상단, 우하단
+                            let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
+                            let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
+        
+                            canvasCoord.push([canvasLeftTop, canvasRightBottom])
+                            originCoord.push([realLeftTop, realRightBottom])
+                            classArray.push(Number(keys[i]))
+                        }
+                    }
+                    console.log(classArray)
+                    console.log(canvasCoord)
+                }
+
+                return {
+                    'canvas': canvasCoord,
+                    'origin': originCoord,
+                    'class': classArray
+                };
+            }
+            else {
+                if (curCoordinates) {
+                    keys = Object.keys(curCoordinates);
+                    console.log(keys)
+
+                    for (let i = 0; i < keys.length; i++) {
+                        if( curCoordinates[keys[i]].canvas){
+                            for (let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
+                                //canvas 좌상단, 우하단
+                                let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
+                                let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]]
+                                //real 좌상단, 우하단
+                                let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
+                                let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
+            
+                                canvasCoord.push([canvasLeftTop, canvasRightBottom])
+                                originCoord.push([realLeftTop, realRightBottom])
+                                classArray.push(Number(keys[i]))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            if (type == "fix") {
+                if (curCoordinates) {
+                    keys = Object.keys(curCoordinates);
+
+                    for (let i = 0; i < keys.length; i++) {
+                        for (let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
+                            //canvas 좌상단, 우하단
+                            let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
+                            let canvasRightBottom = [curCoordinates[keys[i]].canvas[j][2], curCoordinates[keys[i]].canvas[j][3]]
+                            //real 좌상단, 우하단
+                            let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
+                            let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
+        
+                            canvasCoord.push([canvasLeftTop, canvasRightBottom])
+                            originCoord.push([realLeftTop, realRightBottom])
+                            classArray.push(Number(keys[i]))
+                        }
+                    }
+                    console.log(classArray)
+                    console.log(canvasCoord)
+                }
+
+                return {
+                    'canvas': canvasCoord,
+                    'origin': originCoord,
+                    'class': classArray
+                };
+            }
+        }
     },
 
     test: function (requestIndex) {

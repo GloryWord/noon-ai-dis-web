@@ -68,19 +68,22 @@
                 <h1>추가 비식별화</h1>
                 <p>결과물에 추가적으로  비식별화를 진행하실 수 있습니다.</p>
             </div>
-            <div class="checkImgContent">
-                <div class="checkImgContentHeader">
-                    <h1>비식별화 결과물 리스트</h1>
-                    <div class="selectImgNum"></div>
+            <div class="checkSectorContent">
+                <div class="checkSectorContentHeader">
+                    <h1>프레임 구간 리스트</h1>
+                    <div class="selectSectorNum"></div>
                 </div>
-                <div id="imgDiv" class="checkImgList">
+                <div id="sectorDiv" class="checkSectorList">
                 </div>
             </div>
             <div class="drawArea">
                 <div class="drawHeader">
-                    <h1>추가 비식별화 영역 설정</h1>
+                    <span class="nowSectorInfo">{선택Sector 시작프레임 ~ 종료프레임}</span>
+                    <h1 style="margin-left: 0;">추가 비식별화 영역 설정</h1>
+                    <p class="selectImgNum">1 / 999,999</p>
                 </div>
                 <div class="drawContent">
+                    <div class="imgList"></div>
                     <div class="colorArea">
                         <span>영역 객체 선택</span>
                         <div class="colorDiv body active" data-class="0" data-color="rgba(226,214,255,0.6)">
@@ -91,6 +94,10 @@
                         </div>
                         <div class="colorDiv car" data-class="2" data-color="rgb(192,237,234,0.6)">
                             <p>차량 번호판</p>
+                        </div>
+                        <div class="loadArea">
+                            <img src="../../static/imgs/check/loadIcon.png">
+                            <p>영역 불러오기</p>
                         </div>
                         <div class="tagHeader">
                             <h1>영역 리스트</h1>

@@ -7,7 +7,7 @@
     <link rel="icon" href="../../static/imgs/favicon/android-icon-48x48.png">
 
     <link rel="stylesheet" href="../../static/css/common/base.css" type="text/css" />
-    <link rel="stylesheet" href="../../static/css/common/check.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/css/common/select.css" type="text/css" />
     <link rel="stylesheet" href="../../static/css/common/header.css" type="text/css" />
     <link rel="stylesheet" href="../../static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="../../static/css/common/modal.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../static/js/common/common.js"></script>
     <script src="../../static/js/common/header.js"></script>
     <script src="../../static/js/common/footer.js"></script>
-    <script src="../../static/js/check/fabric.min.js"></script>
+    <!-- <script src="../../static/js/check/select.js"></script> -->
     <style>
         .swal2-actions {
             margin: 0 !important;
@@ -33,6 +33,7 @@
 </head>
 
 <!-- <body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'> -->
+
 <body>
     <div class="header">
         <div class="header_content">
@@ -61,66 +62,51 @@
             </div>
         </div>
     </div>
-    <div class="checkArea">
-        <div class="checkContent">
-            <div class="checkHeader">
+    <div class="selectArea">
+        <div class="selectContent">
+            <div class="selectHeader">
                 <img src="../../static/imgs/check/checkIcon.png">
                 <h1>추가 비식별화</h1>
-                <p>결과물에 추가적으로  비식별화를 진행하실 수 있습니다.</p>
+                <p>결과물에 추가적으로 비식별화를 진행하실 수 있습니다.</p>
             </div>
-            <div class="checkImgContent">
-                <div class="checkImgContentHeader">
-                    <h1>비식별화 결과물 리스트</h1>
-                    <div class="selectImgNum"></div>
+            <div class="videoArea">
+                <div class="videoHeader">
+                    <h1>추가 비식별화 프레임 구간 선택</h1>
                 </div>
-                <div id="imgDiv" class="checkImgList">
-                </div>
-            </div>
-            <div class="drawArea">
-                <div class="drawHeader">
-                    <h1>추가 비식별화 영역 설정</h1>
-                </div>
-                <div class="drawContent">
-                    <div class="colorArea">
-                        <span>영역 객체 선택</span>
-                        <div class="colorDiv body active" data-class="0" data-color="rgba(226,214,255,0.6)">
-                            <p>사람 - 전신</p>
-                        </div>
-                        <div class="colorDiv head" data-class="1" data-color="rgba(210,223,255,0.6)">
-                            <p>사람 - 얼굴</p>
-                        </div>
-                        <div class="colorDiv car" data-class="2" data-color="rgb(192,237,234,0.6)">
-                            <p>차량 번호판</p>
-                        </div>
-                        <div class="tagHeader">
-                            <h1>영역 리스트</h1>
-                            <img class="clear" src="../../static/imgs/check/allDelete.png">
+                <div class="videoContent">
+                    <div class="viewArea">
+                        <video id="video" type="video/mp4">
+                        </video>
+                        <div class="controlBar">
+                            <div class="playBtn">
+                                <img class="playIcon active" src="../../static/imgs/check/playIcon.png">
+                                <img class="pauseIcon active" src="../../static/imgs/check/pauseIcon.png">
+                            </div>
+                            <div class="leftArrow">
+                                <img src="../../static/imgs/check/leftArrowIcon.png">
+                            </div>
+                            <div class="rightArrow">
+                                <img src="../../static/imgs/check/rightArrowIcon.png">
+                            </div>
+                            <input type="range" id="frame-slider" class="frameBar" min="1" max="1" step="1">
+                            <div class="startFrame active"><img src="../../static/imgs/check/startFrameIcon.png"></div>
+                            <div class="endFrame"><img src="../../static/imgs/check/endFrameIcon.png"></div>
+                            <span id="frame-indicator">0 / 0</span>
                         </div>
                     </div>
-                    <div class="contentArea">
-                        <div class="canvasArea">
-                            <div class="area">
-                                <canvas id="canvas" width="776"></canvas>
-                                <img id="canvasBackImg" class="checkImg">
-                            </div>
-                            <input type='hidden' class='location'>
-                            <input type='hidden' class='originLocation'>
-                            <input type='hidden' class='dellocation'>
-                            <input type='hidden' class='locClass'>
+                    <div class="frameArea">
+                        <div class="frameHeader">
+                            <h3>프레임 구간 리스트</h3>
+                            <img class="sectorAllDelete" src="../../static/imgs/check/sectorAlldelete.png">
                         </div>
-                        <div class="tagArea">
-                            <div id="layer" class="tagdiv">
-                            </div>
-                            <div class="save">
-                                <p>영역 저장</p>
-                            </div>
+                        <div class="frameContent">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="saveArea">
-                <div class="confirmAdd">
-                    <p>추가 비식별화 진행하기</p>
+                <div class="confirmSave">
+                    <p>구간별 추가 비식별화 진행하기</p>
                 </div>
             </div>
         </div>
@@ -170,6 +156,28 @@
 
 <div id="emailPrivacyView" class="modal"></div>
 
+<div id="sectorClass" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="sectorClassContent">
+                    <div class="sectorClassHeader">
+                        <p>
+                            상세 비식별화는 구간 내 모든 프레임을 검수하여 추가 비식별화를 진행합니다.<br>
+                            <br>
+                            고정 비식별화는 구간의 시작과 종료 프레임을 검수하여 고정된 영역으로 비식별화를 진행합니다.
+                        </p>
+                    </div>
+                    <div class="sectorClassBody">
+                        <div class="detailSector"><p>상세 비식별화</p></div>
+                        <div class="fixSector"><p>고정 비식별화</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // // F12 버튼 방지
     // $(document).ready(function () {
@@ -180,8 +188,14 @@
     //         }
     //     });
     // });
-    
-    $(document).on('contextmenu', function() {
+    $(document).keydown(function (event) {
+        if (event.keyCode == 32) {
+            event.preventDefault();
+            //기능구현
+        }
+    });
+
+    $(document).on('contextmenu', function () {
         return false;
     });
 </script>

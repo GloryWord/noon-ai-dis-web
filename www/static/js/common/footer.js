@@ -1,19 +1,20 @@
 $(document).ready(function () {
-  setTimeout(function() {
-    location.reload();
-  }, 1000 * 60 * 3)
   let url = document.location.href;
   let len = url.split('/').length;
   let pageName = url.split('/')[len - 1];
   pageName = pageName.split('#')[0]
   pageName = pageName.split('?')[0]
   let imgPath = ""
-  if(pageName=='detail') imgPath = "../../"
-  else if(pageName=='inspection'||pageName=='image'||pageName=='video'||pageName=='log'||pageName=='add') imgPath = "../"
+  if (pageName == 'detail') imgPath = "../../"
+  else if (pageName == 'inspection' || pageName == 'image' || pageName == 'video' || pageName == 'log' || pageName == 'add') imgPath = "../"
   else imgPath = "./"
-
+  setTimeout(function () {
+    if (pageName !== "inspection" && pageName !== "select" && pageName !== "check" && pageName !== "image" && pageName !== "video") {
+      location.reload();
+    }
+  }, 1000 * 60 * 3)
   $(document).on("click", ".privacy", function () {
-      document.getElementById("privacyView").innerHTML = `<div id="wrap">
+    document.getElementById("privacyView").innerHTML = `<div id="wrap">
       <div class="layerPopupBox active">
         <div id="privacy_inner" class="privacyInner">
           <div class="privacyHeader">
@@ -226,11 +227,11 @@ $(document).ready(function () {
         </div>
       </div>
     </div>`
-      $('#privacyView').addClass('active')
+    $('#privacyView').addClass('active')
   });
 
-$(document).on("click", ".emailPrivacy", function () {
-  document.getElementById("emailPrivacyView").innerHTML = `<div id="wrap">
+  $(document).on("click", ".emailPrivacy", function () {
+    document.getElementById("emailPrivacyView").innerHTML = `<div id="wrap">
   <div class="layerPopupBox active">
     <div id="privacy_inner" class="privacyInner">
       <div class="privacyHeader">
@@ -254,11 +255,11 @@ $(document).on("click", ".emailPrivacy", function () {
     </div>
   </div>
 </div>`
-  $('#emailPrivacyView').addClass('active')
-});
+    $('#emailPrivacyView').addClass('active')
+  });
 
-$(document).on("click", ".servicePrivacy", function () {
-  document.getElementById("servicePrivacyView").innerHTML = `<div id="wrap">
+  $(document).on("click", ".servicePrivacy", function () {
+    document.getElementById("servicePrivacyView").innerHTML = `<div id="wrap">
   <div class="layerPopupBox active">
     <div id="privacy_inner" class="privacyInner">
       <div class="privacyHeader">
@@ -690,10 +691,10 @@ $(document).on("click", ".servicePrivacy", function () {
     </div>
   </div>
 </div>`
-  $('#servicePrivacyView').addClass('active')
-});
+    $('#servicePrivacyView').addClass('active')
+  });
 
   $(document).on("click", ".privacyCancel", function () {
-      $('.modal').removeClass('active')
+    $('.modal').removeClass('active')
   });
 });

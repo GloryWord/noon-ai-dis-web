@@ -25,6 +25,14 @@ var bodyNum = 1
 var headNum = 1
 var carNum = 1
 
+// 박스 크기 조절 관련 변수
+var resizing = false;
+var resizeStartX, resizeStartY;
+
+// 박스 이동 관련 변수
+var movingBox = false;
+var moveStartX, moveStartY;
+
 $(document).ready(function () {
     img.src = url;
 
@@ -156,7 +164,7 @@ window.onload = function () {
     })
 
     canvas.onmousedown = function (e) {
-        if (event.buttons == 1) {
+        if (e.buttons == 1) {
             e.preventDefault();
             // 클릭한 좌표 구하고 그 위치에 도형이 있는지 조사
             sx = canvasX(e.clientX);
@@ -165,6 +173,17 @@ window.onload = function () {
             // 도형을 클릭한 것이 아니면 그리기 시작
             drawing = true;
             moving = true;
+        }
+        // 박스 크기 조절 기능 추가
+        if (resizing) {
+            resizeStartX = ex;
+            resizeStartY = ey;
+        }
+    
+        // 박스 이동 기능 추가
+        if (movingBox) {
+            moveStartX = ex;
+            moveStartY = ey;
         }
     }
 
@@ -189,6 +208,37 @@ window.onload = function () {
             ctx.fillRect(sx, sy, ex - sx, ey - sy);
             ctx.strokeRect(sx, sy, ex - sx, ey - sy);
         }
+        // 박스 크기 조절 기능 추가
+        if (resizing) {
+            var diffX = ex - resizeStartX;
+            var diffY = ey - resizeStartY;
+    
+            // 화면 다시 그리고 현재 도형 그림
+            drawRects();
+    
+            // 박스 크기 조절 미리보기
+            ctx.fillStyle = color;
+            ctx.fillRect(sx, sy, diffX, diffY);
+            ctx.strokeRect(sx, sy, diffX, diffY);
+        }
+    
+        // 박스 이동 기능 추가
+        if (movingBox) {
+            var diffX = ex - moveStartX;
+            var diffY = ey - moveStartY;
+    
+            // 화면 다시 그리고 현재 도형 그림
+            drawRects();
+    
+            // 박스 이동
+            sx += diffX;
+            ex += diffX;
+            sy += diffY;
+            ey += diffY;
+            ctx.fillStyle = color;
+            ctx.fillRect(sx, sy, ex - sx, ey - sy);
+            ctx.strokeRect(sx, sy, ex - sx, ey - sy);
+        }
     }
 
     canvas.addEventListener("wheel", handleMouseWheel);
@@ -205,6 +255,17 @@ window.onload = function () {
             if ((x2 - x1) > 20 && y2 - y1 > 20) {
                 arRectangle.push(new Rectangle(x1.toFixed(0), y1.toFixed(0), x2.toFixed(0), y2.toFixed(0), color));
             }
+        }
+        // 박스 크기 조절 기능 추가
+        if (resizing) {
+            var diffX = ex - resizeStartX;
+            var diffY = ey - resizeStartY;
+
+            // 박스 크기 조절 완료 후 업데이트
+            ex += diffX;
+            ey += diffY;
+            arRectangle.push(new Rectangle(sx, sy, ex, ey, color));
+            result.push([start, end], "/");
         }
         drawing = false;
         var start = [x1.toFixed(0), y1.toFixed(0)];
@@ -314,64 +375,107 @@ $(document).on("mousemove", ".canvasClass", function () {
 
 var tagInfo
 $(document).on("click", ".tag", function () {
-    $(".tag").removeClass("active")
-    $(this).addClass("active")
-    var tagloc = $(this).data("loc")
-    tagInfo = $(this)
-
-    $(".tagdel.off").addClass("active")
-    $(".tagdel.on").removeClass("active")
-    $(this).find(".tagdel.off").removeClass("active")
-    $(this).find(".tagdel.on").addClass("active")
-
-    $('.dellocation').val(tagloc)
-    var tagclass = $(this).data("class")
-    var tagArr = tagloc.split(",")
-    for (var i = 0; i < document.getElementsByClassName("tag").length; i++) {
-        if (document.getElementsByClassName("tag")[i].dataset['class'] == 0) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(226,214,255,0.6)"
+    if($(this).hasClass("active")==true){
+        $(".tag").removeClass("active")
+        $(".tagdel.off").addClass("active")
+        $(".tagdel.on").removeClass("active")
+        var tagloc = $(this).data("loc")
+        tagInfo = $(this)
+        var tagclass = $(this).data("class")
+        var tagArr = tagloc.split(",")
+        for (var i = 0; i < document.getElementsByClassName("tag").length; i++) {
+            if (document.getElementsByClassName("tag")[i].dataset['class'] == 0) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(226,214,255,0.6)"
+            }
+            else if (document.getElementsByClassName("tag")[i].dataset['class'] == 1) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(210,223,255,0.6)"
+            }
+            else if (document.getElementsByClassName("tag")[i].dataset['class'] == 2) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgb(192,237,234,0.6)"
+            }
         }
-        else if (document.getElementsByClassName("tag")[i].dataset['class'] == 1) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(210,223,255,0.6)"
+        for (var i = 0; i < arRectangle.length; i++) {
+            if (arRectangle[i].color == "rgba(161,122,255,0.6)") {
+                var orColor = "rgba(226,214,255,0.6)"
+                arRectangle[i].color = orColor;
+            }
+            else if (arRectangle[i].color == "rgba(109,153,255,0.6)") {
+                var orColor = "rgba(210,223,255,0.6)"
+                arRectangle[i].color = orColor;
+            }
+            else if (arRectangle[i].color == "rgb(51,199,187,0.6)") {
+                var orColor = "rgb(192,237,234,0.6)"
+                arRectangle[i].color = orColor;
+            }
         }
-        else if (document.getElementsByClassName("tag")[i].dataset['class'] == 2) {
-            document.getElementsByClassName("tag")[i].style.backgroundColor = "rgb(192,237,234,0.6)"
-        }
+        drawRects();
+        drawing = true;
+        resizing = false;
+        movingBox = false;
     }
-    for (var i = 0; i < arRectangle.length; i++) {
-        if (arRectangle[i].color == "rgba(161,122,255,0.6)") {
-            var orColor = "rgba(226,214,255,0.6)"
-            arRectangle[i].color = orColor;
-        }
-        else if (arRectangle[i].color == "rgba(109,153,255,0.6)") {
-            var orColor = "rgba(210,223,255,0.6)"
-            arRectangle[i].color = orColor;
-        }
-        else if (arRectangle[i].color == "rgb(51,199,187,0.6)") {
-            var orColor = "rgb(192,237,234,0.6)"
-            arRectangle[i].color = orColor;
-        }
-    }
-    drawRects();
-    for (var i = 0; i < arRectangle.length; i++) {
-        if (tagArr[0] == arRectangle[i].sx && tagArr[1] == arRectangle[i].sy && tagArr[2] == arRectangle[i].ex && tagArr[3] == arRectangle[i].ey) {
-            if (tagclass == 0) {
-                var tagcolor = "rgba(161,122,255,0.6)"
-                this.style.backgroundColor = "rgba(161,122,255,0.6)"
+    else{
+        $(".tag").removeClass("active")
+        $(this).addClass("active")
+        var tagloc = $(this).data("loc")
+        tagInfo = $(this)
+    
+        $(".tagdel.off").addClass("active")
+        $(".tagdel.on").removeClass("active")
+        $(this).find(".tagdel.off").removeClass("active")
+        $(this).find(".tagdel.on").addClass("active")
+    
+        $('.dellocation').val(tagloc)
+        var tagclass = $(this).data("class")
+        var tagArr = tagloc.split(",")
+        for (var i = 0; i < document.getElementsByClassName("tag").length; i++) {
+            if (document.getElementsByClassName("tag")[i].dataset['class'] == 0) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(226,214,255,0.6)"
             }
-            else if (tagclass == 1) {
-                var tagcolor = "rgba(109,153,255,0.6)"
-                this.style.backgroundColor = "rgba(109,153,255,0.6)"
+            else if (document.getElementsByClassName("tag")[i].dataset['class'] == 1) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgba(210,223,255,0.6)"
             }
-            else if (tagclass == 2) {
-                var tagcolor = "rgb(51,199,187,0.6)"
-                this.style.backgroundColor = "rgb(51,199,187,0.6)"
+            else if (document.getElementsByClassName("tag")[i].dataset['class'] == 2) {
+                document.getElementsByClassName("tag")[i].style.backgroundColor = "rgb(192,237,234,0.6)"
             }
-            arRectangle[i].color = tagcolor;
-            arRectangle[i].strokeStyle = tagcolor;
-            drawRects();
-            break
         }
+        for (var i = 0; i < arRectangle.length; i++) {
+            if (arRectangle[i].color == "rgba(161,122,255,0.6)") {
+                var orColor = "rgba(226,214,255,0.6)"
+                arRectangle[i].color = orColor;
+            }
+            else if (arRectangle[i].color == "rgba(109,153,255,0.6)") {
+                var orColor = "rgba(210,223,255,0.6)"
+                arRectangle[i].color = orColor;
+            }
+            else if (arRectangle[i].color == "rgb(51,199,187,0.6)") {
+                var orColor = "rgb(192,237,234,0.6)"
+                arRectangle[i].color = orColor;
+            }
+        }
+        drawRects();
+        for (var i = 0; i < arRectangle.length; i++) {
+            if (tagArr[0] == arRectangle[i].sx && tagArr[1] == arRectangle[i].sy && tagArr[2] == arRectangle[i].ex && tagArr[3] == arRectangle[i].ey) {
+                if (tagclass == 0) {
+                    var tagcolor = "rgba(161,122,255,0.6)"
+                    this.style.backgroundColor = "rgba(161,122,255,0.6)"
+                }
+                else if (tagclass == 1) {
+                    var tagcolor = "rgba(109,153,255,0.6)"
+                    this.style.backgroundColor = "rgba(109,153,255,0.6)"
+                }
+                else if (tagclass == 2) {
+                    var tagcolor = "rgb(51,199,187,0.6)"
+                    this.style.backgroundColor = "rgb(51,199,187,0.6)"
+                }
+                arRectangle[i].color = tagcolor;
+                arRectangle[i].strokeStyle = tagcolor;
+                drawRects();
+                break
+            }
+        }
+        drawing = false;      
+        resizing = true;
+        movingBox = true;
     }
 });
 
