@@ -412,18 +412,35 @@ canvas.on('selection:cleared', function (event) {
 
 function saveInput(sectorType, restoration) {
     let objJson = {}
-    let index = 0
-    for (const key in areas) {
-        const area = areas[key];
-        const canvas = [area.left, area.top, area.right, area.bottom];
-        const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
-        const cls = area.class;
-      
-        objJson[index] = { canvas, real, class: cls };
-        index++
-      }
-    console.log(objJson)
-    return objJson
+    if(sectorType=="detail" && restoration==1){
+        let index = 0
+        for (const key in areas) {
+            const area = areas[key];
+            const canvas = [area.left, area.top, area.right, area.bottom];
+            const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
+            const cls = area.class;
+            const classid = area.classID
+          
+            objJson[index] = { canvas, real, class: cls, objectID: classid };
+            index++
+          }
+        console.log(objJson)
+        return objJson
+    }
+    else{
+        let index = 0
+        for (const key in areas) {
+            const area = areas[key];
+            const canvas = [area.left, area.top, area.right, area.bottom];
+            const real = [original[key].left, original[key].top, original[key].right, original[key].bottom];
+            const cls = area.class;
+          
+            objJson[index] = { canvas, real, class: cls };
+            index++
+          }
+        console.log(objJson)
+        return objJson
+    }
 }
 
 function loadData(canvasCoord, originCoord, classArray) {
@@ -479,4 +496,8 @@ function loadCount(body, head, car){
     bodyClass = body
     headClass = head
     carClass = car
+}
+
+function sendCount() {
+    return[bodyClass, headClass, carClass]
 }

@@ -793,15 +793,15 @@ comm = {
                 else {
                     for (let i = 0; i < keys.length; i++) {
                         let curClass = curCoordinates[i].class
-                        if (!parsedCurCoordinates[frameNumber][curClass]) parsedCurCoordinates[frameNumber][curClass] = {};
-                        if (!parsedCurCoordinates[frameNumber][curClass]['real']) parsedCurCoordinates[frameNumber][curClass]['real'] = []
-                        if (!parsedCurCoordinates[frameNumber][curClass]['canvas']) parsedCurCoordinates[frameNumber][curClass]['canvas'] = []
+                        if (!parsedCurCoordinates[curClass]) parsedCurCoordinates[curClass] = {};
+                        if (!parsedCurCoordinates[curClass]['real']) parsedCurCoordinates[curClass]['real'] = []
+                        if (!parsedCurCoordinates[curClass]['canvas']) parsedCurCoordinates[curClass]['canvas'] = []
 
                         let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
-                        parsedCurCoordinates[frameNumber][curClass]['real'].push(loc)
+                        parsedCurCoordinates[curClass]['real'].push(loc)
 
                         loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
-                        parsedCurCoordinates[frameNumber][curClass]['canvas'].push(loc)
+                        parsedCurCoordinates[curClass]['canvas'].push(loc)
                     }
                 }
             }
@@ -827,6 +827,22 @@ comm = {
                         // parsedCurCoordinates[curClass]['canvas'].push([leftTop, rightBottom])
                         loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
                         parsedCurCoordinates[curClass]['canvas'].push(loc)
+                    }
+                }
+                else{
+                    for (let i = 0; i < keys.length; i++) {
+                        let classID = curCoordinates[i].objectID
+                        let curClass = curCoordinates[i].class
+                        if (!parsedCurCoordinates[classID]) parsedCurCoordinates[classID] = {};
+                        if (!parsedCurCoordinates[classID][curClass]) parsedCurCoordinates[classID][curClass] = {};
+                        if (!parsedCurCoordinates[classID][curClass]['real']) parsedCurCoordinates[classID][curClass]['real'] = []
+                        if (!parsedCurCoordinates[classID][curClass]['canvas']) parsedCurCoordinates[classID][curClass]['canvas'] = []
+
+                        let loc = [curCoordinates[i]['real'][0], curCoordinates[i]['real'][1], curCoordinates[i]['real'][2], curCoordinates[i]['real'][3]]
+                        parsedCurCoordinates[classID][curClass]['real'].push(loc)
+
+                        loc = [curCoordinates[i]['canvas'][0], curCoordinates[i]['canvas'][1], curCoordinates[i]['canvas'][2], curCoordinates[i]['canvas'][3]]
+                        parsedCurCoordinates[classID][curClass]['canvas'].push(loc)
                     }
                 }
             }
@@ -891,6 +907,12 @@ comm = {
                         }
                     }
                 }
+
+                return {
+                    'canvas': canvasCoord,
+                    'origin': originCoord,
+                    'class': classArray
+                };
             }
         }
         else {
@@ -914,6 +936,39 @@ comm = {
                     }
                     console.log(classArray)
                     console.log(canvasCoord)
+                }
+
+                return {
+                    'canvas': canvasCoord,
+                    'origin': originCoord,
+                    'class': classArray
+                };
+            }
+            else {
+                if (curCoordinates) {
+                    keys = Object.keys(curCoordinates);
+                    console.log(keys)
+
+                    for (let i = 0; i < keys.length; i++) {
+                        let objectKeys = Object.keys(curCoordinates[keys[i]]);
+                        console.log(objectKeys)
+                        for(let j=0;j<objectKeys.length;j++){
+                            if( curCoordinates[keys[i]][objectKeys[j]].canvas){
+                                for (let k = 0; k < curCoordinates[keys[i]][objectKeys[j]].canvas.length; k++) {
+                                    //canvas 좌상단, 우하단
+                                    let canvasLeftTop = [curCoordinates[keys[i]][objectKeys[j]].canvas[k][0], curCoordinates[keys[i]][objectKeys[j]].canvas[k][1]]
+                                    let canvasRightBottom = [curCoordinates[keys[i]][objectKeys[j]].canvas[k][2], curCoordinates[keys[i]][objectKeys[j]].canvas[k][3]]
+                                    //real 좌상단, 우하단
+                                    let realLeftTop = [curCoordinates[keys[i]][objectKeys[j]].real[k][0], curCoordinates[keys[i]][objectKeys[j]].real[k][1]]
+                                    let realRightBottom = [curCoordinates[keys[i]][objectKeys[j]].real[k][2], curCoordinates[keys[i]][objectKeys[j]].real[k][3]]
+                
+                                    canvasCoord.push([canvasLeftTop, canvasRightBottom])
+                                    originCoord.push([realLeftTop, realRightBottom])
+                                    classArray.push(Number(objectKeys[j]))
+                                }
+                            }
+                        }
+                    }
                 }
 
                 return {

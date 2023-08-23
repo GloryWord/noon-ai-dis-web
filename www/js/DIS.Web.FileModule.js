@@ -575,6 +575,7 @@ fileModule = {
                                         fileWidth[i] = curFile.width;
                                         fileHeight[i] = curFile.height;
                                     }
+                                    bitrateArray.push(curFile.bit_rate)
 
                                     // coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
                                     // 요금 = (각 항목별 상대계수 X 기본요금) / 총 항목 갯수
@@ -882,7 +883,7 @@ fileModule = {
                 }
             });
             postData['bitrate'] = JSON.stringify(bitrateArray);
-            postData['videoDuration'] = videoDuration;
+            postData['videoDuration'] = JSON.stringify(videoDuration);
             postData['requestIndex'] = requestIndex;
             resolve();
         }).then(() => {
