@@ -90,6 +90,32 @@ resultLoader = {
         return [decDirectory, fileList];
     },
 
+    getVideoData: function (index) {
+        var result = ''
+
+        let baseUrl = `/api/encrypt/info/${index}`
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    result = data.result;
+                }
+            }, // success 
+            error: function (xhr, status) {
+                // alert("error : " + xhr + " : " + JSON.stringify(status));
+            }
+        })
+        
+        return result
+    },
+
     getFileUrl: function (bucketName, subDirectory, objectName) {
         var result = [];
 
@@ -152,7 +178,7 @@ resultLoader = {
                             <div class="albumFooter">\
                                 <p>'+ objectName[i] + '</p>\
                             </div>\
-                            <input class="check_reco" type="checkbox">\
+                            <input class="check_reco hide" type="checkbox">\
                             <div class="'+ i + ' hoverdiv hide" data-num=' + i + '><p>이미지 크게 보기</p></div>\
                         </div>'
                 if (cur == i - 2 || i == urlList.length - 1) html += '</div>';

@@ -24,6 +24,7 @@
     <script src="../../static/js/common/common.js"></script>
     <script src="../../static/js/common/header.js"></script>
     <script src="../../static/js/common/footer.js"></script>
+    <script src="../../static/js/check/fabric.min.js"></script>
     <style>
         .swal2-actions {
             margin: 0 !important;
@@ -73,7 +74,7 @@
                 </div>
                 <div class="drawContent">
                     <div class="colorArea">
-                        <span>비식별 객체 선택</span>
+                        <span>영역 객체 선택</span>
                         <div class="colorDiv body active" data-class="0" data-color="rgba(226,214,255,0.6)">
                             <p>사람 - 전신</p>
                         </div>
@@ -82,6 +83,10 @@
                         </div>
                         <div class="colorDiv car" data-class="2" data-color="rgb(192,237,234,0.6)">
                             <p>차량 번호판</p>
+                        </div>
+                        <div class="tagHeader">
+                            <h1>영역 리스트</h1>
+                            <img class="clear" src="../../static/imgs/check/allDelete.png">
                         </div>
                     </div>
                     <div class="contentArea">
@@ -96,10 +101,6 @@
                             <input type='hidden' class='locClass'>
                         </div>
                         <div class="tagArea">
-                            <div class="tagHeader">
-                                <h1>비식별 영역 리스트</h1>
-                                <img class="clear" src="../../static/imgs/check/allDelete.png">
-                            </div>
                             <div id="layer" class="tagdiv">
                             </div>
                         </div>

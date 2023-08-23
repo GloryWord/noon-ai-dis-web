@@ -40,6 +40,10 @@
     font-style: normal;
 }
 
+.upper-canvas {
+    z-index: 2;
+}
+
 .checkArea {
     display: flex;
     flex-direction: column;
@@ -94,6 +98,225 @@
     color: #3fa9f5;
     margin: 17px 0px auto;
 }
+
+
+
+.checkArea .checkContent .checkSectorContent {  
+    width: 988px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 24px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorContentHeader {  
+    width: 988px;
+    height: 42px;
+    display: flex;
+    margin: 0 auto;
+    border-radius: 12px 12px 0 0;
+    background-color: #595959;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorContentHeader h1 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: 12px auto auto 24px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorContentHeader .selectSectorNum {  
+    width: auto;
+    height: auto;
+    display: flex;
+    margin: 12px 24px auto 0;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorContentHeader .selectSectorNum p {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #fff;
+    margin: 4px 0 auto 0;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList {  
+    width: 988px;
+    height: 100px;
+    display: flex;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    background-color: #efefef;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 0 0 12px 12px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList::-webkit-scrollbar {
+    width: auto;
+    height: 8px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: #bcc5cb;
+}
+
+/* .checkArea .checkContent .checkSectorContent .checkSectorList .imglist {  
+    display: flex;
+    height: 100%;
+} */
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv {  
+    width: 162px;
+    height: auto;
+    border-radius: 8px;
+    margin: 24px 12px 12px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .saveIcon {  
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #3fa9f5;
+    display: none;
+    position: absolute;
+    top: -14px;
+    left: 8px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .saveIcon.active {  
+    display: flex;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .saveIcon img {  
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin: auto;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv:nth-last-child(1) {
+    margin: 24px 24px 12px 0;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv:nth-child(1) {
+    margin: 24px 12px 12px 24px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox {  
+    width: 162px;
+    height: 48px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail {  
+    border: solid 1px #3fa9f5;
+    background-color: #e3f3fd;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail.active {  
+    border: solid 1px #3fa9f5;
+    background-color: #3fa9f5;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix {  
+    border: solid 1px #16284d;
+    background-color: #e6eaef;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix.active {    
+    border: solid 1px #16284d;
+    background-color: #16284d;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox .textArea {  
+    width: 122px;
+    display: flex;
+    flex-direction: column;
+    margin: 8px 2px auto 8px;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox .textArea h2 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 0 auto 0 0;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox .textArea p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 0 auto 0 0;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail .textArea h2,
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail .textArea p {
+    color: #3fa9f5;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix .textArea h2,
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix .textArea p {
+    color: #16284d;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail.active .textArea h2,
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.detail.active .textArea p,
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix.active .textArea h2,
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv .sectorBox.fix.active .textArea p {
+    color: #fff;
+}
+
+.checkArea .checkContent .checkSectorContent .checkSectorList .listSectorDiv p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
 
 .checkArea .checkContent .checkImgContent {  
     width: 988px;
@@ -307,6 +530,19 @@
     background-color: #595959;
 }
 
+.checkArea .checkContent .drawArea .drawHeader span {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fff;
+    margin: 14px 6px auto 24px;
+}
+
 .checkArea .checkContent .drawArea .drawHeader h1 {  
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;
@@ -320,6 +556,19 @@
     margin: 12px auto auto 24px;
 }
 
+.checkArea .checkContent .drawArea .drawHeader p {  
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #fff;
+    margin: 16px 24px auto 0;
+}
+
 .checkArea .checkContent .drawArea .drawContent {  
     display: flex;
     flex-direction: column;
@@ -330,36 +579,182 @@
     background-color: #fff;
 }
 
+.checkArea .checkContent .drawArea .drawContent .imgList {  
+    width: 940px;
+    height: 240px;
+    border-bottom: solid 1px #bcc5cb;
+    margin: 0 auto 3px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox {  
+    width: 320px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail {  
+    width: 256px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail.active {  
+    width: 320px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox:nth-child(1) {  
+    margin: 24px 58px 0px 92px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox:nth-last-child(1) {  
+    margin: 24px 92px 0px 58px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail {  
+    margin: 44px 0 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail.active {  
+    margin: 24px 0 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .blankArea {  
+    width: 310px;
+    margin: 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .detailPreBtn {  
+    width: 28px;
+    height: 28px;
+    border-radius: 16px;
+    background-color: #fff;
+    border: solid 2px #3fa9f5;
+    margin: 98px 11px 0;
+    display: flex;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .detailNextBtn {  
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #3fa9f5;
+    margin: 98px 11px 0;
+    display: flex;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .detailPreBtn img,
+.checkArea .checkContent .drawArea .drawContent .imgList .detailNextBtn img {
+    width: 10px;
+    height: 12px;
+    object-fit: contain;
+    margin: auto;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox .sectorFrame {  
+    width: 320px;
+    height: 180px;
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.active .sectorFrame { 
+    width: 312px;
+    height: 172px; 
+    border: solid 4px #3fa9f5;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail .sectorFrame {  
+    width: 256px;
+    height: 144px;
+    margin: 0 0 4px;
+    border-radius: 8px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail.active .sectorFrame {  
+    width: 312px;
+    height: 172px;
+    margin: 0 0 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.16);
+    border: solid 4px #3fa9f5;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    margin: 10px auto 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.active p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    color: #3fa9f5;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    margin: 0 auto;
+}
+
+.checkArea .checkContent .drawArea .drawContent .imgList .frameBox.detail.active p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    color: #3fa9f5;
+}
+
 .checkArea .checkContent .drawArea .drawContent .colorArea {  
     width: 100%;
-    height: 48px;
+    height: 50px;
     display: flex;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea span {  
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.29;
+    line-height: 1.31;
     letter-spacing: normal;
     text-align: left;
-    color: #16284d;
-    margin: 16px 24px auto 32px;
+    color: #595959;
+    margin: 17px 38px auto 24px;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv {  
-    width: 160px;
-    height: 28px;
-    margin: 10px 8px auto 0;
-    border-radius: 15px;
+    width: 144px;
+    height: 30px;
+    margin: 12px 16px auto 0;
+    border-radius: 4px;
     display: flex;
     cursor: pointer;
 }
 
-.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv:nth-last-child(1) {
-    margin: 10px auto auto 0;
+.checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv:nth-last-child(2) {
+    margin: 12px auto auto 0;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.body {
@@ -369,7 +764,7 @@
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head {
     background-color: #fff;
-    border: solid 1px #6d99ff;
+    border: solid 1px #ff61d0;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car {
@@ -383,8 +778,8 @@
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head.active {
-    background-color: #6d99ff;
-    border: solid 1px #6d99ff;
+    background-color: #ff61d0;
+    border: solid 1px #ff61d0;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car.active {
@@ -409,7 +804,7 @@
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.head p {  
-    color: #6d99ff;
+    color: #ff61d0;
 }
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.car p {  
@@ -418,6 +813,66 @@
 
 .checkArea .checkContent .drawArea .drawContent .colorArea .colorDiv.active p {  
     color: #fff;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .loadArea {  
+    display: none;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .loadArea.active {  
+    width: auto;
+    height: auto;
+    margin: 15px 0 8px 50px;
+    display: flex;
+    cursor: pointer;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .loadArea.active img {  
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .loadArea.active p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .tagHeader {
+    width: 146px;
+    height: auto;
+    display: flex;
+    margin: 12px 18px 0 auto;
+    border-bottom: 1px solid #707070;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .tagHeader h1 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    margin: 5px auto auto 2px;
+}
+
+.checkArea .checkContent .drawArea .drawContent .colorArea .tagHeader img {
+    width: 30px;
+    height: 30px;
+    margin: 0 0 8px;
+    object-fit: contain;
+    cursor: pointer;
 }
 
 .checkArea .checkContent .drawArea .contentArea {  
@@ -430,7 +885,7 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    margin: 0 8px 24px 24px;
+    margin: 0 22px 24px 24px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     border: solid 1px #707070;
 }
@@ -470,7 +925,7 @@
     border-radius: 15px;
     background-color: #3fa9f5;
     display: flex;
-    margin: 0 auto 0 8px;
+    margin: 0 auto 0 2px;
     cursor: pointer;
 }
 
@@ -487,42 +942,13 @@
     margin: auto;
 }
 
-.checkArea .checkContent .drawArea .tagArea .tagHeader {
-    width: 100%;
-    height: 30px;
-    display: flex;
-    margin: 0 auto 8px;
-    border-bottom: 1px solid #707070;
-}
-
-.checkArea .checkContent .drawArea .tagArea .tagHeader h1 {
-    font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.29;
-    letter-spacing: normal;
-    text-align: left;
-    color: #16284d;
-    margin: 8px auto auto 8px;
-}
-
-.checkArea .checkContent .drawArea .tagArea .tagHeader img {
-    width: 30px;
-    height: 30px;
-    margin: auto 0 3px;
-    object-fit: contain;
-    cursor: pointer;
-}
-
 .checkArea .checkContent .drawArea .tagArea .tagdiv {
     display: flex;
     flex-direction: column;
-    width: 176px;
+    width: 152px;
     overflow-x: hidden;
     overflow-y: auto;
-    margin: 0 0 2px;
+    margin: 0 0 8px;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv::-webkit-scrollbar {
@@ -536,11 +962,11 @@
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag {
-    width: 160px; 
-    height: 28px;
+    width: 144px;
+    height: 30px;
+    margin: 2px 2px 0;
+    border-radius: 4px;
     display: flex;
-    border: solid 1px;
-    margin: 0 auto 2px 0;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag p {
@@ -552,8 +978,8 @@
     line-height: 1.29;
     letter-spacing: normal;
     text-align: left;
-    color: #595959;
-    margin: auto auto auto 12px;
+    color: #707070;
+    margin: 7px auto auto 8px;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag.active p {
@@ -561,15 +987,30 @@
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag.body {
+    background-color: #f1e8ff;
     border: solid 1px #a17aff;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag.head {
-    border: solid 1px #6d99ff;
+    background-color: #fce6f7;
+    border: solid 1px #ff61d0;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag.car {
+    background-color: #dff5f4;
     border: solid 1px #33c7bb;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.body.active {
+    background-color: #a17aff;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.head.active {
+    background-color: #ff61d0;
+}
+
+.checkArea .checkContent .drawArea .tagArea .tagdiv .tag.car.active {
+    background-color: #33c7bb;
 }
 
 .checkArea .checkContent .drawArea .tagArea .tagdiv .tag .tagdel {

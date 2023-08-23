@@ -1,5 +1,7 @@
 'use strict';
 
+// const { off } = require("process");
+
 DIS.Web.Init = DIS.Web.Init || {};
 
 function escapeHTML(text) {
@@ -245,7 +247,6 @@ init = {
     },
 
     main: function () {
-        console.log('test');
         var temp = comm.getUser()
 
         $(".curTenant").html(temp);
@@ -330,6 +331,8 @@ init = {
         var fileSize = []
         var videoDuration = []
         let checksum = null;
+        var files = [];
+        var imgInfo = []
 
         var uploadID = 0;
 
@@ -536,7 +539,7 @@ init = {
         });
 
         var postData, filePath;
-        $(document).on("click", ".nextBtn", function () {
+        $(document).on("click", ".nextBtn", async function () {
             if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
@@ -645,7 +648,7 @@ init = {
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var service = urlParams.get('service');
-        let detail, restoration, mode, requestID, reportErrorestoration;
+        let detail, restoration, mode, requestID, reportErrorestoration, sectorid, token;
         if (service == 'thumbnail') {
             mode = urlParams.get('mode');
             var index = urlParams.get('id');
@@ -654,7 +657,26 @@ init = {
         else if (service == "check") {
             requestID = urlParams.get('requestID');
             reportErrorestoration = urlParams.get('restoration');
+            // endID = urlParams.get('restoration');
             mode = urlParams.get('mode');
+            if (type == "image") {
+                if (mode == "single") {
+                    detail = "image"
+                }
+                else if (mode == "group") {
+                    detail = "album"
+                }
+            }
+            else if (type == "video") {
+                detail = "video"
+            }
+        }
+        else if (service == "sector") {
+            requestID = urlParams.get('requestID');
+            restoration = urlParams.get('restoration');
+            sectorid = urlParams.get('id');
+            mode = urlParams.get('mode');
+            token = urlParams.get('token');
             if (type == "image") {
                 if (mode == "single") {
                     detail = "image"
@@ -754,6 +776,7 @@ init = {
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
             else if (service == 'check') progressObject = requestTable.getCheckProgress();
+            else if (service == 'sector') progressObject = requestTable.getSectorProgress();
             console.log(progressObject);
             var progress = progressObject['progress'];
             var status = progressObject['status']
@@ -782,6 +805,7 @@ init = {
                         else if (service == 'decrypt') var msg = '복호화가';
                         else if (service == 'thumbnail') var msg = '썸네일 생성이';
                         else if (service == 'check') var msg = '비식별화 추가가';
+                        else if (service == 'sector') var msg = '프레임 이미지 \n생성이';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
                             showCancelButton: false,
@@ -796,6 +820,7 @@ init = {
                                     location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}&fileNames=${fileNamse}`;
                                 }
                                 if (service == 'check') location.href = `/encrypt/${detail}/detail?type=${type}&id=${requestID}&restoration=${restoration}&mode=${mode}`;
+                                if (service == 'sector') location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorid}&id=${requestID}&restoration=${restoration}&mode=${mode}&sectorNum=1&imgNum=0`;
                                 if (service == 'decrypt') {
                                     let timerInterval;
                                     var typeStr = (type == 'image') ? '이미지' : '영상';
@@ -3205,7 +3230,7 @@ init = {
                                         }
                                     }
                                     else if (type == 'video') {
-                                        location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                        location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                                     }
                                 }
                                 else {
@@ -3252,10 +3277,53 @@ init = {
                     }
                 }
                 else if (type == 'video') {
-                    location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                    location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                 }
             }
         })
+    },
+
+    select: async function () {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
+            withCredentials: true,
+            transports: ['websocket']
+        });
+
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var requestId = urlParams.get('id');
+        var mode = urlParams.get('mode');
+        var restoration = urlParams.get('restoration');
+        var encFileInfo = resultLoader.getEncFileInfo(requestId); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
+        let encVideoData = resultLoader.getVideoData(requestId);
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
+        console.log(fileList)
+
+        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+
+        let thumbnailVideo = document.getElementById('video')
+        thumbnailVideo.src = signedUrl[0][0]
+
+        thumbnailVideo.onloadeddata = function async() {
+            var script = document.createElement('script');
+            script.src = '../../static/js/check/select.js';
+            script.onload = function () {
+                // 스크립트 로드 후에 실행되는 부분
+                // 스크립트 로드 후에 할 작업들을 여기에 추가하세요.
+            };
+            // 이제 스크립트는 영상 로딩 후에 추가됩니다.
+            document.head.appendChild(script);
+
+            const frameSlider = document.getElementById('frame-slider');
+            const frameIndicator = document.getElementById('frame-indicator');
+            // const totalFrames = Math.round(thumbnailVideo.duration * encVideoData["fps"]);
+            const totalFrames = encVideoData["frame_count"];
+            frameSlider.max = totalFrames;
+            frameIndicator.textContent = `1 / ${totalFrames}`;
+        };
     },
 
     check: async function () {
@@ -3278,9 +3346,14 @@ init = {
         var fileList = encFileInfo.fileList;
         console.log(fileList)
 
-        let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+        let totalCoordinates = {};
+        var detail;
+        let beforeCoordinates
+
         if (type == 'image') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+            if (beforeCoordinates) totalCoordinates = beforeCoordinates
             if (mode == 'single') {
                 let thumbnailImg = document.getElementById('canvasBackImg')
                 thumbnailImg.src = signedUrl[imgNum][0]
@@ -3289,16 +3362,16 @@ init = {
                     var height = document.getElementById('canvasBackImg').clientHeight;
                     canvas.height = Number(height)
                     var script = document.createElement('script');
-                    script.src = '../../static/js/check/check.js';
+                    script.src = '../../static/js/check/image.js';
                     document.head.appendChild(script);
                     document.getElementById("layer").style.height = `${Number(height - 39)}px`
                 }
 
-                //check.js가 헤더에 포함되기를 기다림.
+                //image.js가 헤더에 포함되기를 기다림.
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
-                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/image.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                             if (coordinates) {
@@ -3385,12 +3458,12 @@ init = {
                     const containerWidth = container.offsetWidth;
                     const containerScrollLeft = container.scrollLeft;
                     const activeElementWidth = activeElement.offsetWidth;
-                    const activeElementLeft = activeElement.offsetLeft-((screen.width-988)/2);
+                    const activeElementLeft = activeElement.offsetLeft - ((screen.width - 988) / 2);
                     const activeElementRight = activeElementLeft + activeElementWidth;
                     const centerPosition = containerScrollLeft + containerWidth / 2;
 
                     // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
-                    if (activeElementLeft < centerPosition+(screen.width-988)/2 || activeElementRight > containerScrollLeft + containerWidth) {
+                    if (activeElementLeft < centerPosition + (screen.width - 988) / 2 || activeElementRight > containerScrollLeft + containerWidth) {
                         const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
 
                         // 스크롤 이동
@@ -3448,16 +3521,16 @@ init = {
                     var height = document.getElementById('canvasBackImg').clientHeight;
                     canvas.height = Number(height)
                     var script = document.createElement('script');
-                    script.src = '../../static/js/check/check.js';
+                    script.src = '../../static/js/check/image.js';
                     document.head.appendChild(script);
-                    document.getElementById("layer").style.height = `${Number(height - 69)}px`
+                    document.getElementById("layer").style.height = `${Number(height - 38)}px`
                 }
 
-                //check.js가 헤더에 포함되기를 기다림.
+                //image.js가 헤더에 포함되기를 기다림.
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
-                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/image.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                             if (coordinates) {
@@ -3475,8 +3548,265 @@ init = {
             }
         }
         else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+            var sectorNum = urlParams.get('sectorNum');
+            var sectorId = urlParams.get('sectorID');
+            var sectorInfo = await fileModule.readSectorToJson(token, requestId)
+            beforeCoordinates = await fileModule.readVideoJson(type, token, requestId, sectorNum);
+            if (beforeCoordinates) totalCoordinates = beforeCoordinates
+            console.log(sectorInfo)
+            let sectorList = ``
+            for (let i = 0; i < Object.keys(sectorInfo).length; i++) {
+                sectorList += `<div class='listSectorDiv'>
+                                    <div class='saveIcon'>
+                                        <img src='../../static/imgs/check/saveIcon.png'>
+                                    </div>
+                                    <div class='sectorBox sector${(i + 1)} ${sectorInfo[Object.keys(sectorInfo)[i]]["type"]}' data-type=${sectorInfo[Object.keys(sectorInfo)[i]]["type"]} 
+                                    data-start=${sectorInfo[Object.keys(sectorInfo)[i]]["start"]} data-end=${sectorInfo[Object.keys(sectorInfo)[i]]["end"]} data-sectornum=${(i + 1)}>
+                                        <div class='textArea'>
+                                            <h2>Sector${Object.keys(sectorInfo)[i]}</h2>
+                                            <p>${sectorInfo[Object.keys(sectorInfo)[i]]["start"]}~${sectorInfo[Object.keys(sectorInfo)[i]]["end"]}</p>
+                                        </div>
+                                    </div>
+                                </div>`
+            }
+            $(".checkSectorList").html(sectorList)
+            let sectorNumDiv = `<p>${sectorNum} / ${Object.keys(sectorInfo).length}</p>`
+            $(".selectSectorNum").html(sectorNumDiv)
+
+            $(`.sectorBox`).removeClass("active")
+            $(`.sector${sectorNum}`).addClass("active")
+
+            if (sectorInfo != false) {
+                // 모든 listImgDiv 클래스를 가진 요소들을 가져옵니다.
+                const listImgDivElements = document.querySelectorAll(".sectorBox");
+                await $(".nowSectorInfo").text(`Sector${$(".sectorBox.active").data("sectornum")} ${$(".sectorBox.active").data("start")}~${$(".sectorBox.active").data("end")}`)
+                await $(".imgList").addClass(`${$(".sectorBox.active").data("type")}`)
+                // 이미지 요소들을 선택합니다. 여기에서는 클래스 이름이 'imgList'인 요소들을 선택하겠습니다.
+                var imgElement = document.querySelector('.imgList');
+                imgElement.setAttribute('data-sectortype', `${$(".sectorBox.active").data("type")}`);
+
+                let imgLocList = await fileModule.readSectorImg(type, token, requestId, sectorNum)
+                console.log(imgLocList)
+                let imgListHtml = ``
+                let videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                console.log(videoJson)
+                if ($(".imgList").hasClass("fix") == true) {
+                    for (let i = 0; i < imgLocList.length; i++) {
+                        let imgName = imgLocList[i].split("/")
+                        imgName = imgName[imgName.length - 1].split(".")[0]
+                        let frameOrder
+                        if (i == 0) {
+                            frameOrder = "시작 프레임"
+                        }
+                        else {
+                            frameOrder = "종료 프레임"
+                        }
+
+                        let activeStatus
+                        if (imgNum == i) {
+                            activeStatus = "active"
+                        }
+                        else {
+                            activeStatus = ""
+                        }
+
+                        imgListHtml += `<div class='frameBox ${activeStatus}' data-imgnum=${i} data-framenum=${imgName}>
+                                            <div class='sectorFrame active' style="background-image: url(../../${imgLocList[i]}); background-size:cover;"></div>
+                                            <p>${frameOrder} ${imgName}</p>
+                                        </div>`
+                    }
+                    $(".imgList").html(imgListHtml)
+                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+
+                    let selectSectorType = $(".imgList").data("sectortype")
+
+                    let thumbnailImg = document.getElementById('canvasBackImg')
+                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.onload = function () {
+                        const canvas = document.getElementById('canvas');
+                        var height = document.getElementById('canvasBackImg').clientHeight;
+                        canvas.height = Number(height)
+                        var script = document.createElement('script');
+                        script.src = '../../static/js/check/video.js';
+                        document.head.appendChild(script);
+                        document.getElementById("layer").style.height = `${Number(height - 38)}px`
+                    }
+
+                    //video.js가 헤더에 포함되기를 기다림.
+                    let intervalId = setInterval(async () => {
+                        let headScripts = document.head.getElementsByTagName('script');
+                        for (let i = 0; i < headScripts.length; i++) {
+                            if (headScripts[i].attributes.src.value === '../../static/js/check/video.js') {
+
+                                //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                                if (videoJson) {
+                                    let coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"]);
+                                    if(coordTritonToWeb!=null){
+                                        let canvasCoord = coordTritonToWeb.canvas;
+                                        let originCoord = coordTritonToWeb.origin;
+                                        let classArray = coordTritonToWeb.class;
+                                        if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                    }
+                                    else{
+                                        setTimeout(() => 50)
+                                    }
+                                }
+                                clearInterval(intervalId);
+                                break;
+                            }
+                        }
+                    }, 50)
+
+                    $(document).on("click", ".frameBox", async function () {
+                        let num = $(this).data("imgnum")
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+                }
+                else {
+                    $(".loadArea").addClass("active")
+                    let imgName = imgLocList[Number(imgNum)].split("/")
+                    imgName = imgName[imgName.length - 1].split(".")[0]
+                    if(imgNum!=0){
+                        let preImgName = imgLocList[Number(imgNum)-1].split("/")
+                        preImgName = preImgName[preImgName.length - 1].split(".")[0]
+                        imgListHtml += `<div class='frameBox detail' data-imgnum=${Number(imgNum)-1} data-framenum=${preImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)-1]}); background-size:cover;"></div>
+                                            <p>Sector${sectorNum} ${preImgName}</p>
+                                        </div>
+                                        <div class='detailPreBtn' data-imgnum=${Number(imgNum)-1}>
+                                            <img src='../../static/imgs/check/detailPreBtn.png'>
+                                        </div>`
+                    }
+                    else {
+                        imgListHtml += `<div class='blankArea'></div>`
+                    }
+                    imgListHtml += `<div class='frameBox detail active' data-imgnum=${Number(imgNum)} data-framenum=${imgName}>
+                                        <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)]}); background-size:cover;"></div>
+                                        <p>Sector${sectorNum} ${imgName}</p>
+                                    </div>`
+                    if(imgNum!=(imgLocList.length - 1)){
+                        let nextImgName = imgLocList[Number(imgNum)+1].split("/")
+                        nextImgName = nextImgName[nextImgName.length - 1].split(".")[0]
+                        imgListHtml += `<div class='detailNextBtn' data-imgnum=${Number(imgNum)+1}>
+                                            <img src='../../static/imgs/check/detailNextBtn.png'>
+                                        </div>
+                                        <div class='frameBox detail' data-imgnum=${Number(imgNum)+1} data-framenum=${nextImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)+1]}); background-size:cover;"></div>
+                                            <p>Sector${sectorNum} ${nextImgName}</p>
+                                        </div>`
+                    }
+                    else {
+                        imgListHtml += `<div class='blankArea'></div>`
+                    }
+
+                    $(".imgList").html(imgListHtml)
+                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+
+                    let selectSectorType = $(".imgList").data("sectortype")
+
+                    let thumbnailImg = document.getElementById('canvasBackImg')
+                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.onload = function () {
+                        const canvas = document.getElementById('canvas');
+                        var height = document.getElementById('canvasBackImg').clientHeight;
+                        canvas.height = Number(height)
+                        var script = document.createElement('script');
+                        script.src = '../../static/js/check/video.js';
+                        document.head.appendChild(script);
+                        document.getElementById("layer").style.height = `${Number(height - 38)}px`
+                    }
+
+                    //video.js가 헤더에 포함되기를 기다림.
+                    let intervalId = setInterval(async () => {
+                        let headScripts = document.head.getElementsByTagName('script');
+                        for (let i = 0; i < headScripts.length; i++) {
+                            if (headScripts[i].attributes.src.value === '../../static/js/check/video.js') {
+
+                                //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                                if (videoJson) {
+                                    let coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                                    if(restoration==1){
+                                        loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                    }
+                                    if(coordTritonToWeb!=null){
+                                        let canvasCoord = coordTritonToWeb.canvas;
+                                        let originCoord = coordTritonToWeb.origin;
+                                        let classArray = coordTritonToWeb.class;
+                                        if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                    }
+                                    else{
+                                        setTimeout(() => 50)
+                                    }
+                                }
+                                clearInterval(intervalId);
+                                break;
+                            }
+                        }
+                    }, 50)
+
+                    $(document).on("click", ".frameBox", async function () {
+                        let num = $(this).data("imgnum")
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+
+                    $(document).on("click", ".detailPreBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+
+                    $(document).on("click", ".detailNextBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+                }
+            }
+
+            let scrollableDiv = document.getElementById('sectorDiv');
+
+            scrollableDiv.addEventListener('wheel', (event) => {
+                event.preventDefault();
+                let scrollDirection = 0;
+                let scrollSpeed = 40;
+                if (event.deltaY < 0) {
+                    // 휠업 이벤트 처리
+                    scrollDirection = -1;
+                }
+                else if (event.deltaY > 0) {
+                    // 휠다운 이벤트 처리
+                    scrollDirection = 1;
+                }
+
+                scrollableDiv.scrollLeft += scrollDirection * scrollSpeed;
+            });
+
+            const container = document.getElementById("sectorDiv");
+            const activeElement = container.querySelector(".sectorBox.active").parentElement;
+            if (activeElement) {
+                const containerWidth = container.offsetWidth;
+                const containerScrollLeft = container.scrollLeft;
+                const activeElementWidth = activeElement.offsetWidth;
+                const activeElementLeft = activeElement.offsetLeft - ((screen.width - 988) / 2);
+                const activeElementRight = activeElementLeft + activeElementWidth;
+                const centerPosition = containerScrollLeft + containerWidth / 2;
+
+                // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
+                if (activeElementLeft < centerPosition + (screen.width - 988) / 2 || activeElementRight > containerScrollLeft + containerWidth) {
+                    const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
+
+                    // 스크롤 이동
+                    container.scrollTo({
+                        left: scrollOffset,
+                        // behavior: "smooth" // 부드러운 스크롤
+                    });
+                }
+            }
+            // var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
         }
+
+        $(document).on("click", ".sectorBox", async function () {
+            let num = $(this).data("sectornum")
+            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${num}&imgNum=0`;
+        })
 
         $(document).on("click", ".thumbnailImg", async function () {
             let num = $(this).data("imgnum")
@@ -3485,63 +3815,87 @@ init = {
                     location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
                 }
             }
-            else if (type == 'video') {
-                location.href = `/encrypt/video/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
-            }
         })
-
-        async function reloadAndWriteCoordinates() {
-            let totalCoordinates = {};
-            let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-            if (beforeCoordinates) totalCoordinates = beforeCoordinates
-            let curCoordinates = saveInput();
-
-            let parsedCoordinates = comm.parseCoordWebToTriton(curCoordinates);
-            if (parsedCoordinates) {
-                totalCoordinates[fileList[imgNum]] = parsedCoordinates;
-            }
-            else {
-                if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
-            }
-            let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
-            return [totalCoordinates, filePath]
-        }
-
-        var totalCoordinates = {};
-        var filePath;
-        var detail;
         $(document).on("click", ".save", async function () {
-            [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
-            socket.emit('cancelDeleteFile', {
-                id: token
-            })
-            socket.emit('delUploadedFile', {
-                filePath: filePath,
-                id: token,
-                immediate: 'false'
-            })
-        })
+            let sectorType = $(".imgList").data("sectortype")
+            let curCoordinates = saveInput(sectorType, restoration);
+            let frameNumber = $(".frameBox.active").data("framenum");
+            let parsedCoordinates
+            if(type=="image"){
+                parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                if (parsedCoordinates) {
+                    totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+                }
+                else {
+                    if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
+                }
+            }
+            else if(type=="video"){
+                if(sectorType=="fix"){
+                    parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates["frame"]["location"] = parsedCoordinates;
+                        console.log(totalCoordinates)
+                    }
+                    else {
+                        if (totalCoordinates["frame"]["location"]) delete totalCoordinates["frame"]["location"]
+                    }
+                }
+                else {
+                    parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                    if (parsedCoordinates) {
+                        totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                        console.log(totalCoordinates)
+                    }
+                    else {
+                        if (totalCoordinates[imgNum]) delete totalCoordinates[imgNum]
+                    }
+                }
+            }
+            // beforeColor = ""
 
-        $(document).on("click", ".confirmAdd", async function () {
-            //DB에 비식별화 추가 관련 정보 쿼리
-            //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-            [totalCoordinates, filePath] = await reloadAndWriteCoordinates(totalCoordinates);
-            console.log(totalCoordinates);
-            let additionalFileList = Object.keys(totalCoordinates);
-            let fileCount = additionalFileList.length;
-            detail = {
-                'token': token,
-                'fileList': additionalFileList,
-                'fileCount': fileCount,
+            if(type=="image"){
+                let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
+                console.log(filePath)
+                socket.emit('cancelDeleteFile', {
+                    id: token
+                })
+                socket.emit('delUploadedFile', {
+                    filePath: filePath,
+                    id: token,
+                    immediate: 'false'
+                })
+                console.log(totalCoordinates)
+            }
+            else if(type=="video"){
+                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                socket.emit('cancelDeleteFile', {
+                    id: token
+                })
+                socket.emit('delUploadedFile', {
+                    filePath: filePath,
+                    id: token,
+                    immediate: 'false'
+                })
+                console.log(totalCoordinates)
             }
             if (type == "image" && mode == "single") {
-                if(restoration==0){
+                //DB에 비식별화 추가 관련 정보 쿼리
+                //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                let additionalFileList = Object.keys(totalCoordinates)
+                let fileCount = additionalFileList.length
+                detail = {
+                    'token': token,
+                    'fileList': additionalFileList,
+                    'fileCount': fileCount,
+                }
+                if (restoration == 0) {
                     Swal.fire({
                         title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
                         showCancelButton: true,
                         confirmButtonText: '네',
                         cancelButtonText: '취소',
-                        icon:"info"
+                        icon: "info"
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
@@ -3562,7 +3916,7 @@ init = {
                         }
                     })
                 }
-                else{
+                else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
                     if (addMessage) {
@@ -3580,7 +3934,7 @@ init = {
                     }
                 }
             }
-            else{
+            else {
                 Swal.fire({
                     title: '저장이 완료되었습니다.',
                     showCancelButton: false,
@@ -3588,59 +3942,131 @@ init = {
                     allowOutsideClick: false,
                     icon: 'success'
                 })
-                if(document.querySelectorAll(".tag").length!=0){
+                if (document.querySelectorAll(".tag").length != 0) {
                     $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
                 }
             }
         })
 
         $(document).on("click", ".confirmAdd", async function () {
-            if(restoration==0){
-                Swal.fire({
-                    title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
-                    showCancelButton: true,
-                    confirmButtonText: '네',
-                    cancelButtonText: '취소',
-                    icon:"info"
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
-                        if (addMessage) {
-                            Swal.fire({
-                                title: '비식별화 추가 요청이 \n완료되었습니다.',
-                                showCancelButton: false,
-                                confirmButtonText: '확인',
-                                allowOutsideClick: false,
-                                icon: 'success'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                                }
-                            })
-                        }
+            if (restoration == 0) {
+                if(type=="image"){
+                    //DB에 비식별화 추가 관련 정보 쿼리
+                    //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                    let additionalFileList = Object.keys(totalCoordinates)
+                    let fileCount = additionalFileList.length
+                    detail = {
+                        'token': token,
+                        'fileList': additionalFileList,
+                        'fileCount': fileCount,
                     }
-                })
-            }
-            else{
-                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                console.log('additionalFileList : ',additionalFileList);
-                // restoration -> 선언됨
-                // requestId -> 선언됨
-                // type -> 선언됨
-                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-                if (addMessage) {
                     Swal.fire({
-                        title: '비식별화 추가 요청이 \n완료되었습니다.',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'success'
-                    }).then((result) => {
+                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                        showCancelButton: true,
+                        confirmButtonText: '네',
+                        cancelButtonText: '취소',
+                        icon: "info"
+                    }).then(async (result) => {
                         if (result.isConfirmed) {
-                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            if (addMessage) {
+                                Swal.fire({
+                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                    allowOutsideClick: false,
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                    }
+                                })
+                            }
                         }
                     })
+                }
+                else if(type=="video"){
+                    detail = {
+                        'token': token,
+                        'sectorList': Object.keys(sectorInfo)
+                    }
+                    Swal.fire({
+                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                        showCancelButton: true,
+                        confirmButtonText: '네',
+                        cancelButtonText: '취소',
+                        icon: "info"
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                            console.log(encReqInfo)
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            if (addMessage) {
+                                Swal.fire({
+                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                    allowOutsideClick: false,
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+            else {
+                if(type=="image"){
+                    //DB에 비식별화 추가 관련 정보 쿼리
+                    //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                    let additionalFileList = Object.keys(totalCoordinates)
+                    let fileCount = additionalFileList.length
+                    detail = {
+                        'token': token,
+                        'fileList': additionalFileList,
+                        'fileCount': fileCount,
+                    }
+                    let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    if (addMessage) {
+                        Swal.fire({
+                            title: '비식별화 추가 요청이 \n완료되었습니다.',
+                            showCancelButton: false,
+                            confirmButtonText: '확인',
+                            allowOutsideClick: false,
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                            }
+                        })
+                    }
+                }
+                else if(type=="video"){
+                    detail = {
+                        'token': token,
+                        'sectorList': Object.keys(sectorInfo)
+                    }
+                    let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                    console.log(encReqInfo)
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    if (addMessage) {
+                        Swal.fire({
+                            title: '비식별화 추가 요청이 \n완료되었습니다.',
+                            showCancelButton: false,
+                            confirmButtonText: '확인',
+                            allowOutsideClick: false,
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                            }
+                        })
+                    }
                 }
             }
         })
