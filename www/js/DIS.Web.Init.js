@@ -3177,6 +3177,7 @@ init = {
 
         $(document).on("click", ".checkBtn", function () {
             uploadID = makeid(6);
+            console.log('restoration : ',restoration);
             if (restoration === '1') {
                 $('#addfile').val('');
                 $('.pemUpload').val('');
@@ -3357,7 +3358,6 @@ init = {
         var encFileInfo = resultLoader.getEncFileInfo(requestId); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
         var encDirectory = encFileInfo.encDirectory;
         var fileList = encFileInfo.fileList;
-        console.log(fileList)
 
         let totalCoordinates = {};
         var detail;
@@ -4118,7 +4118,9 @@ init = {
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let requestType = 'masking';
+                            comm.increaseRequestCount(requestId, additionalFileList, requestType);
                             if (addMessage) {
                                 Swal.fire({
                                     title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -4137,7 +4139,9 @@ init = {
                 }
                 else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let requestType = 'masking';
+                    comm.increaseRequestCount(requestId, additionalFileList, requestType);
                     if (addMessage) {
                         Swal.fire({
                             title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -4194,7 +4198,9 @@ init = {
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let requestType = 'masking';
+                            comm.increaseRequestCount(requestId, fileList, requestType);
                             if (addMessage) {
                                 Swal.fire({
                                     title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -4226,7 +4232,9 @@ init = {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
                             console.log(encReqInfo)
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let requestType = 'masking';
+                            comm.increaseRequestCount(requestId, fileList, requestType);
                             if (addMessage) {
                                 Swal.fire({
                                     title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -4256,7 +4264,9 @@ init = {
                         'fileCount': fileCount,
                     }
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let requestType = 'masking';
+                    comm.increaseRequestCount(requestId, fileList, requestType);
                     if (addMessage) {
                         Swal.fire({
                             title: '비식별화 추가 요청이 \n완료되었습니다.',
@@ -4278,7 +4288,9 @@ init = {
                     }
                     let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
                     console.log(encReqInfo)
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let requestType = 'masking';
+                    comm.increaseRequestCount(requestId, additionalFileList, requestType);
                     if (addMessage) {
                         Swal.fire({
                             title: '비식별화 추가 요청이 \n완료되었습니다.',
