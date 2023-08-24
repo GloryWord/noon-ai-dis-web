@@ -3793,7 +3793,7 @@ init = {
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
                         if($(this).hasClass("next")){
-                            if(num==0){
+                            if($(".frameBox.active").data("imgnum")==0){
                                 if (parsedCoordinates) {
                                     totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                                     console.log(totalCoordinates)
@@ -3823,14 +3823,16 @@ init = {
                                         id: token,
                                         immediate: 'false'
                                     })
+
+                                    location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                                 }
                                 else{
                                     Swal.fire({
                                         title: '영역을 그려주세요.',
-                                        showCancelButton: false,
-                                        confirmButtonText: '확인',
-                                        allowOutsideClick: false,
-                                        icon:'error'
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
                                     }).then((result) => {
                                     })
                                 }
@@ -3869,16 +3871,12 @@ init = {
                                     id: token,
                                     immediate: 'false'
                                 })
+
+                                location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                             }
                         }
                         else if($(this).hasClass("prev")){
-                            if (parsedCoordinates) {
-                                totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
-                                console.log(totalCoordinates)
-                            }
-                            else {
-                                if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
-                            }
+                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
                             let isComplete = true;
                             for (let key in totalCoordinates["frame"]["location"]) {
                                 if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
@@ -3899,9 +3897,9 @@ init = {
                                 id: token,
                                 immediate: 'false'
                             })
-                        }
 
-                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                        }
                     })
 
                     $(document).on("click", ".detailPreBtn", async function () {
