@@ -83,10 +83,7 @@ function activateMoveResizeMode() {
 }
 
 $(document).on("click", ".clear", function () {
-    canvas.clear();
-    areas = {};
-    original = {};
-    updateAreaDisplay();
+    allClear();
 })
 
 function sortTags() {
@@ -511,6 +508,16 @@ function loadData(canvasCoord, originCoord, classArray, restoration, sectorType,
         canvas.add(rect);
     }
     rect=null
+    $(".tag").removeClass("active")
+    $(".tagdel.off").addClass("active")
+    $(".tagdel.on").removeClass("active")
+}
+
+function allClear(){
+    canvas.clear();
+    areas = {};
+    original = {};
+    updateAreaDisplay();
 }
 
 function loadCount(body, head, car){

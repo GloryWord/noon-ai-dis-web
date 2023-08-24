@@ -3317,12 +3317,25 @@ init = {
             // 이제 스크립트는 영상 로딩 후에 추가됩니다.
             document.head.appendChild(script);
 
-            const frameSlider = document.getElementById('frame-slider');
-            const frameIndicator = document.getElementById('frame-indicator');
-            // const totalFrames = Math.round(thumbnailVideo.duration * encVideoData["fps"]);
-            const totalFrames = encVideoData["frame_count"];
-            frameSlider.max = totalFrames;
-            frameIndicator.textContent = `1 / ${totalFrames}`;
+            //select.js가 헤더에 포함되기를 기다림.
+            let intervalId = setInterval(async () => {
+                let headScripts = document.head.getElementsByTagName('script');
+                for (let i = 0; i < headScripts.length; i++) {
+                    if (headScripts[i].attributes.src.value === '../../static/js/check/select.js') {
+
+                        frameRate(encVideoData["fps"])
+                        const frameSlider = document.getElementById('frame-slider');
+                        const frameIndicator = document.getElementById('frame-indicator');
+                        // const totalFrames = Math.round(thumbnailVideo.duration * encVideoData["fps"]);
+                        const totalFrames = encVideoData["frame_count"];
+                        frameSlider.max = totalFrames;
+                        frameIndicator.textContent = `1 / ${totalFrames}`;
+
+                        clearInterval(intervalId);
+                        break;
+                    }
+                }
+            }, 50)
         };
     },
 
@@ -3352,9 +3365,10 @@ init = {
 
         if (type == 'image') {
             var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-            if (beforeCoordinates) totalCoordinates = beforeCoordinates
             if (mode == 'single') {
+                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+                console.log(coordinates)
+
                 let thumbnailImg = document.getElementById('canvasBackImg')
                 thumbnailImg.src = signedUrl[imgNum][0]
                 thumbnailImg.onload = function () {
@@ -3367,7 +3381,7 @@ init = {
                     document.getElementById("layer").style.height = `${Number(height - 39)}px`
                 }
 
-                //image.js가 헤더에 포함되기를 기다림.
+                //check.js가 헤더에 포함되기를 기다림.
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
@@ -3389,6 +3403,8 @@ init = {
 
             }
             else if (mode == 'group') {
+                let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+                console.log(coordinates)
                 let imgList = ``
                 console.log(signedUrl)
                 for (let i = 0; i < signedUrl.length; i++) {
@@ -3458,12 +3474,12 @@ init = {
                     const containerWidth = container.offsetWidth;
                     const containerScrollLeft = container.scrollLeft;
                     const activeElementWidth = activeElement.offsetWidth;
-                    const activeElementLeft = activeElement.offsetLeft - ((screen.width - 988) / 2);
+                    const activeElementLeft = activeElement.offsetLeft-((screen.width-988)/2);
                     const activeElementRight = activeElementLeft + activeElementWidth;
                     const centerPosition = containerScrollLeft + containerWidth / 2;
 
                     // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
-                    if (activeElementLeft < centerPosition + (screen.width - 988) / 2 || activeElementRight > containerScrollLeft + containerWidth) {
+                    if (activeElementLeft < centerPosition+(screen.width-988)/2 || activeElementRight > containerScrollLeft + containerWidth) {
                         const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
 
                         // 스크롤 이동
@@ -3523,10 +3539,10 @@ init = {
                     var script = document.createElement('script');
                     script.src = '../../static/js/check/image.js';
                     document.head.appendChild(script);
-                    document.getElementById("layer").style.height = `${Number(height - 38)}px`
+                    document.getElementById("layer").style.height = `${Number(height - 69)}px`
                 }
 
-                //image.js가 헤더에 포함되기를 기다림.
+                //check.js가 헤더에 포함되기를 기다림.
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
@@ -3576,6 +3592,7 @@ init = {
             $(`.sectorBox`).removeClass("active")
             $(`.sector${sectorNum}`).addClass("active")
 
+            var videoJson
             if (sectorInfo != false) {
                 // 모든 listImgDiv 클래스를 가진 요소들을 가져옵니다.
                 const listImgDivElements = document.querySelectorAll(".sectorBox");
@@ -3588,7 +3605,7 @@ init = {
                 let imgLocList = await fileModule.readSectorImg(type, token, requestId, sectorNum)
                 console.log(imgLocList)
                 let imgListHtml = ``
-                let videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
                 console.log(videoJson)
                 if ($(".imgList").hasClass("fix") == true) {
                     for (let i = 0; i < imgLocList.length; i++) {
@@ -3770,6 +3787,36 @@ init = {
 
                     $(document).on("click", ".frameBox", async function () {
                         let num = $(this).data("imgnum")
+                        
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if(restoration==1) {
+                            let classMax = sendCount()
+                            totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                            totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                            totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                        }
+                        if (parsedCoordinates) {
+                            totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                            console.log(totalCoordinates)
+                        }
+                        else {
+                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        }
+                        let isComplete = true;
+                        for (let key in totalCoordinates["frame"]["location"]) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                totalCoordinates["complete"] = 0;
+                                isComplete = false;
+                                break;
+                            }
+                        }
+                        if(isComplete){
+                            totalCoordinates["complete"] = 1;
+                        }
+
                         location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                     })
 
@@ -3781,6 +3828,53 @@ init = {
                     $(document).on("click", ".detailNextBtn", async function () {
                         let num = $(this).data("imgnum")
                         location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+
+                    $(document).on("click", ".loadArea", async function () {
+                        let coordTritonToWeb
+                        allClear()
+                        if(restoration==1){
+                            loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                        }
+                        else{
+                            loadCount(1, 1, 1)
+                        }
+                        if(imgNum==0){
+                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                        }
+                        else{
+                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                            if(coordTritonToWeb["canvas"].length==0){
+                                coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                            }
+                        }
+                        
+                        if(restoration==0){
+                            if(coordTritonToWeb!=null){
+                                let canvasCoord = coordTritonToWeb.canvas;
+                                let originCoord = coordTritonToWeb.origin;
+                                let classArray = coordTritonToWeb.class;
+
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
+                            }
+                            else{
+                                setTimeout(() => 50)
+                            }
+                        }
+                        else {
+                            if(coordTritonToWeb!=null){
+                                let canvasCoord = coordTritonToWeb.canvas;
+                                let originCoord = coordTritonToWeb.origin;
+                                let classArray = coordTritonToWeb.class;
+                                let objectArray = coordTritonToWeb.objectID;
+
+                                loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
+                            }
+                            else{
+                                setTimeout(() => 50)
+                            }
+                        }
                     })
                 }
             }
@@ -3859,10 +3953,12 @@ init = {
                     parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates);
                     if (parsedCoordinates) {
                         totalCoordinates["frame"]["location"] = parsedCoordinates;
+                        totalCoordinates["complete"] = 1;
                         console.log(totalCoordinates)
                     }
                     else {
                         if (totalCoordinates["frame"]["location"]) delete totalCoordinates["frame"]["location"]
+                        totalCoordinates["complete"] = 0;
                     }
                 }
                 else {
@@ -3879,6 +3975,17 @@ init = {
                     }
                     else {
                         if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                    }
+                    let isComplete = true;
+                    for (let key in totalCoordinates["frame"]["location"]) {
+                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                            totalCoordinates["complete"] = 0;
+                            isComplete = false;
+                            break;
+                        }
+                    }
+                    if(isComplete){
+                        totalCoordinates["complete"] = 1;
                     }
                 }
             }
@@ -3974,6 +4081,8 @@ init = {
                 })
                 if (document.querySelectorAll(".tag").length != 0) {
                     $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
+                    videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                    console.log(videoJson)
                 }
             }
         })
