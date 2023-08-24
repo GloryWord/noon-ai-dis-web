@@ -2,7 +2,7 @@ const video = document.getElementById('video');
 const frameSlider = document.getElementById('frame-slider');
 const frameIndicator = document.getElementById('frame-indicator');
 
-let FPS = 30;
+let FPS
 let isPlaying = false;
 let isSliding = false; // Variable to track slider interaction
 let startFrame = 1; // Starting frame of the selected range
@@ -50,6 +50,9 @@ video.addEventListener('timeupdate', function () {
 
 $(document).on("click", ".startFrame", function () {
     startFrame = Math.round(video.currentTime * FPS);
+    if(startFrame==0){
+        startFrame = 1;
+    }
     if(isOverlapWithExistingSectors(startFrame)==false){
         $(".startFrame").removeClass("active")
         $(".endFrame").addClass("active")
@@ -59,7 +62,10 @@ $(document).on("click", ".startFrame", function () {
         $(".playIcon").addClass("active");
         $(".pauseIcon").removeClass("active");
         const currentTime = video.currentTime;
-        const currentFrame = Math.round(currentTime * FPS) + 1;
+        let currentFrame = Math.round(currentTime * FPS) + 1;
+        if(currentFrame==0){
+            currentFrame = 1;
+        }
         frameSlider.value = currentFrame;
         frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
         video.currentTime = (currentFrame / FPS);
@@ -76,6 +82,9 @@ $(document).on("click", ".startFrame", function () {
 
 $(document).on("click", ".endFrame", function () {
     endFrame = Math.round(video.currentTime * FPS);
+    if(endFrame==0){
+        endFrame = 1;
+    }
     if(endFrame<startFrame){
         Swal.fire({
             title:'시작 프레임이 \n종료 프레임보다 큽니다.',
@@ -93,7 +102,10 @@ $(document).on("click", ".endFrame", function () {
             $(".playIcon").addClass("active");
             $(".pauseIcon").removeClass("active");
             const currentTime = video.currentTime;
-            const currentFrame = Math.round(currentTime * FPS);
+            let currentFrame = Math.round(currentTime * FPS);
+            if(currentFrame==0){
+                currentFrame = 1;
+            }
             frameSlider.value = currentFrame;
             frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
             video.currentTime = (currentFrame / FPS);
@@ -125,6 +137,7 @@ $(document).on("click", ".detailSector", function () {
     const sectorData = {
         'type': 'detail',
         'restoration' : restoration,
+        'complete':0,
         'frame' : {
             'start': startFrame,
             'end': endFrame,
@@ -151,6 +164,7 @@ $(document).on("click", ".fixSector", function () {
     const sectorData = {
         'type': 'fix',
         'restoration' : restoration,
+        'complete':0,
         'frame' : {
             'start': startFrame,
             'end': endFrame,
@@ -310,4 +324,8 @@ function rightMove() {
     const currentFrame = Math.round(newTime * FPS);
     video.currentTime = newTime;
     frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
+}
+
+function frameRate(frame) {
+    FPS = frame
 }
