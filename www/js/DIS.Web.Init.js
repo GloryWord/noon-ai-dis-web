@@ -3405,6 +3405,7 @@ init = {
             else if (mode == 'group') {
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
                 console.log(coordinates)
+                if(coordinates) totalCoordinates = coordinates
                 let imgList = ``
                 console.log(signedUrl)
                 for (let i = 0; i < signedUrl.length; i++) {
@@ -3686,7 +3687,7 @@ init = {
                     if(imgNum!=0){
                         let preImgName = imgLocList[Number(imgNum)-1].split("/")
                         preImgName = preImgName[preImgName.length - 1].split(".")[0]
-                        imgListHtml += `<div class='frameBox detail' data-imgnum=${Number(imgNum)-1} data-framenum=${preImgName}>
+                        imgListHtml += `<div class='frameBox detail prev' data-imgnum=${Number(imgNum)-1} data-framenum=${preImgName}>
                                             <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)-1]}); background-size:cover;"></div>
                                             <p>Sector${sectorNum} ${preImgName}</p>
                                         </div>
@@ -3707,7 +3708,7 @@ init = {
                         imgListHtml += `<div class='detailNextBtn' data-imgnum=${Number(imgNum)+1}>
                                             <img src='../../static/imgs/check/detailNextBtn.png'>
                                         </div>
-                                        <div class='frameBox detail' data-imgnum=${Number(imgNum)+1} data-framenum=${nextImgName}>
+                                        <div class='frameBox detail next' data-imgnum=${Number(imgNum)+1} data-framenum=${nextImgName}>
                                             <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)+1]}); background-size:cover;"></div>
                                             <p>Sector${sectorNum} ${nextImgName}</p>
                                         </div>`
@@ -3787,34 +3788,117 @@ init = {
 
                     $(document).on("click", ".frameBox", async function () {
                         let num = $(this).data("imgnum")
-                        
                         let sectorType = $(".imgList").data("sectortype")
                         let curCoordinates = saveInput(sectorType, restoration);
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
-                        if(restoration==1) {
-                            let classMax = sendCount()
-                            totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
-                            totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
-                            totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
-                        }
-                        if (parsedCoordinates) {
-                            totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
-                            console.log(totalCoordinates)
-                        }
-                        else {
-                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
-                        }
-                        let isComplete = true;
-                        for (let key in totalCoordinates["frame"]["location"]) {
-                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
-                                totalCoordinates["complete"] = 0;
-                                isComplete = false;
-                                break;
+                        if($(this).hasClass("next")){
+                            if(num==0){
+                                if (parsedCoordinates) {
+                                    totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                    console.log(totalCoordinates)
+                                    if(restoration==1) {
+                                        let classMax = sendCount()
+                                        totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                        totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                        totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                    }
+                                    let isComplete = true;
+                                    for (let key in totalCoordinates["frame"]["location"]) {
+                                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                            totalCoordinates["complete"] = 0;
+                                            isComplete = false;
+                                            break;
+                                        }
+                                    }
+                                    if(isComplete){
+                                        totalCoordinates["complete"] = 1;
+                                    }
+                                    let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                    socket.emit('cancelDeleteFile', {
+                                        id: token
+                                    })
+                                    socket.emit('delUploadedFile', {
+                                        filePath: filePath,
+                                        id: token,
+                                        immediate: 'false'
+                                    })
+                                }
+                                else{
+                                    Swal.fire({
+                                        title: '영역을 그려주세요.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon:'error'
+                                    }).then((result) => {
+                                    })
+                                }
+                            }
+                            else{
+                                if(restoration==1) {
+                                    let classMax = sendCount()
+                                    totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                    totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                    totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                }
+                                if (parsedCoordinates) {
+                                    totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                    console.log(totalCoordinates)
+                                }
+                                else {
+                                    if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                                }
+                                let isComplete = true;
+                                for (let key in totalCoordinates["frame"]["location"]) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                        totalCoordinates["complete"] = 0;
+                                        isComplete = false;
+                                        break;
+                                    }
+                                }
+                                if(isComplete){
+                                    totalCoordinates["complete"] = 1;
+                                }
+                                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                socket.emit('cancelDeleteFile', {
+                                    id: token
+                                })
+                                socket.emit('delUploadedFile', {
+                                    filePath: filePath,
+                                    id: token,
+                                    immediate: 'false'
+                                })
                             }
                         }
-                        if(isComplete){
-                            totalCoordinates["complete"] = 1;
+                        else if($(this).hasClass("prev")){
+                            if (parsedCoordinates) {
+                                totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                console.log(totalCoordinates)
+                            }
+                            else {
+                                if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                            }
+                            let isComplete = true;
+                            for (let key in totalCoordinates["frame"]["location"]) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    totalCoordinates["complete"] = 0;
+                                    isComplete = false;
+                                    break;
+                                }
+                            }
+                            if(isComplete){
+                                totalCoordinates["complete"] = 1;
+                            }
+                            let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                            socket.emit('cancelDeleteFile', {
+                                id: token
+                            })
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath,
+                                id: token,
+                                immediate: 'false'
+                            })
                         }
 
                         location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
@@ -4084,9 +4168,13 @@ init = {
                     icon: 'success'
                 })
                 if (document.querySelectorAll(".tag").length != 0) {
-                    $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
-                    videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
-                    console.log(videoJson)
+                    if(type == "image" && mode == "group"){
+                        $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
+                    }
+                    else if(type == "video" && mode == "single") {
+                        videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                        console.log(videoJson)
+                    }
                 }
             }
         })
