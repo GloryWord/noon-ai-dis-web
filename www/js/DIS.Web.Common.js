@@ -674,7 +674,6 @@ comm = {
     increaseRequestCount: function(requestIndex, fileNames, requestType) {
         let baseUrl = `/api/request/additional/increaseCount`;
         let apiUrl = apiUrlConverter('util', baseUrl);
-        console.log('fileNamse of increaseRequestCount : ',fileNames);
         $.ajax({
             method: "PATCH",
             url: apiUrl,
