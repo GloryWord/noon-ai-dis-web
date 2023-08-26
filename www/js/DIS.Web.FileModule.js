@@ -2039,7 +2039,6 @@ fileModule = {
     additionalEncrypt: async function (detail, requestId) {
         let userAuth = comm.getAuth();
         let detailStr = JSON.stringify(detail);
-        console.log('detailStr : ',detailStr);
         let account_auth_id = userAuth.id;
 
         let insertId = ''
