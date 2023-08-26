@@ -599,6 +599,34 @@ comm = {
         });
     },
 
+    meterAdditionalEncrypt: function(requestID, fileNames, type) {
+        let baseUrl = '/api/meterUsage/encrypt/additional';
+        let apiUrl = apiUrlConverter('encrypt', baseUrl);
+
+        let postData = {
+            requestID,
+            fileNames,
+            type
+        }
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: postData,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == "success") {
+                    
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
     loggingEncrypt: function (requestIndex) {
         let baseUrl = '/api/logging'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
