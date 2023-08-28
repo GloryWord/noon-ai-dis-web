@@ -22,7 +22,7 @@ let sectors = [];
 video.addEventListener('loadedmetadata', function () {
     // FPS = video.webkitDecodedFrameCount || FPS; // Try to get the actual FPS, if available
 
-    const totalFrames = Math.round(video.duration * FPS);
+    const totalFrames = Math.floor(video.duration * FPS);
     frameSlider.max = totalFrames;
     frameIndicator.textContent = `1 / ${totalFrames}`;
 });
@@ -42,14 +42,14 @@ frameSlider.addEventListener('change', function () {
 video.addEventListener('timeupdate', function () {
     if (!isSliding) { // Only update when not sliding
         const currentTime = video.currentTime;
-        const currentFrame = Math.round(currentTime * FPS);
+        const currentFrame = Math.floor(currentTime * FPS);
         frameSlider.value = currentFrame;
         frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
     }
 });
 
 $(document).on("click", ".startFrame", function () {
-    startFrame = Math.round(video.currentTime * FPS);
+    startFrame = Math.floor(video.currentTime * FPS);
     if(startFrame==0){
         startFrame = 1;
     }
@@ -62,7 +62,7 @@ $(document).on("click", ".startFrame", function () {
         $(".playIcon").addClass("active");
         $(".pauseIcon").removeClass("active");
         const currentTime = video.currentTime;
-        let currentFrame = Math.round(currentTime * FPS) + 1;
+        let currentFrame = Math.floor(currentTime * FPS) + 1;
         if(currentFrame==0){
             currentFrame = 1;
         }
@@ -81,7 +81,7 @@ $(document).on("click", ".startFrame", function () {
 })
 
 $(document).on("click", ".endFrame", function () {
-    endFrame = Math.round(video.currentTime * FPS);
+    endFrame = Math.floor(video.currentTime * FPS);
     if(endFrame==0){
         endFrame = 1;
     }
@@ -102,7 +102,7 @@ $(document).on("click", ".endFrame", function () {
             $(".playIcon").addClass("active");
             $(".pauseIcon").removeClass("active");
             const currentTime = video.currentTime;
-            let currentFrame = Math.round(currentTime * FPS);
+            let currentFrame = Math.floor(currentTime * FPS);
             if(currentFrame==0){
                 currentFrame = 1;
             }
@@ -117,7 +117,7 @@ $(document).on("click", ".endFrame", function () {
             $(".playIcon").addClass("active");
             $(".pauseIcon").removeClass("active");
             const currentTime = video.currentTime;
-            const currentFrame = Math.round(currentTime * FPS) + 1;
+            const currentFrame = Math.floor(currentTime * FPS) + 1;
             frameSlider.value = currentFrame;
             frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
             video.currentTime = (currentFrame / FPS);
@@ -258,9 +258,9 @@ function rearrangeSectors() {
 function isOverlapWithExistingSectors(newSector) {
     for (const sector of sectors) {
       if (
-        (newSector >= sector.start && newSector <= sector.end) ||
-        (newSector >= sector.start && newSector <= sector.end) ||
-        (newSector <= sector.start && newSector >= sector.end)
+        (newSector >= sector.frame.start && newSector <= sector.frame.end) ||
+        (newSector >= sector.frame.start && newSector <= sector.frame.end) ||
+        (newSector <= sector.frame.start && newSector >= sector.frame.end)
       ) {
         return true;
       }
@@ -296,7 +296,7 @@ function playPause() {
         $(".playIcon").addClass("active");
         $(".pauseIcon").removeClass("active");
         const currentTime = video.currentTime;
-        const currentFrame = Math.round(currentTime * FPS) + 1;
+        const currentFrame = Math.floor(currentTime * FPS) + 1;
         frameSlider.value = currentFrame;
         frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
         video.currentTime = (currentFrame / FPS);
@@ -313,7 +313,7 @@ function playPause() {
 function leftMove() {
     const currentTime = video.currentTime;
     const newTime = currentTime - 1 / FPS;
-    const currentFrame = Math.round(newTime * FPS);
+    const currentFrame = Math.floor(newTime * FPS);
     video.currentTime = newTime;
     frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
 }
@@ -321,7 +321,7 @@ function leftMove() {
 function rightMove() {
     const currentTime = video.currentTime;
     const newTime = currentTime + 1 / FPS;
-    const currentFrame = Math.round(newTime * FPS);
+    const currentFrame = Math.floor(newTime * FPS);
     video.currentTime = newTime;
     frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
 }

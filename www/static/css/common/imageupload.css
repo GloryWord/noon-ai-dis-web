@@ -1070,6 +1070,43 @@
     flex-direction: column;
 }
 
+.layerPopupBox .charge_inner .chargeContent .name_text_area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 20px auto 8px 9px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .name_text_area h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto 4px auto 0;
+}
+
+.layerPopupBox .charge_inner .chargeContent .name_text_area p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #595959;
+    margin: auto 0;
+}
+
+.layerPopupBox .charge_inner .chargeContent .name_text_area:nth-child(1) {
+    margin: 0 auto 8px 9px;
+}
+
 .layerPopupBox .charge_inner .chargeContent .chargeHeader {
     margin: 16px 22px 14px 46px;
     display: flex;
@@ -1152,88 +1189,97 @@
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader {
     display: flex;
     flex-direction: column;
-    width: 988px;
-    height: auto;
-    margin: 0 auto;
+    width: 100%;
+    max-height: 528px;
+    background-color: #e9f6ff;
+    margin: 0;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header {
     display: flex;
-    width: 100%;
-    height: 42px;
+    width: 986px;
+    height: 48px;
     border: solid 1px #707070;
     background-color: #f2f2f2;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.29;
+    line-height: 1.31;
     letter-spacing: normal;
     text-align: center;
-    color: #595959;
+    color: #16284d;
     margin: auto;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header .category_header {
-    width: 328px;
-    height: 100%;
+    width: 246px;
+    height: 48px;
     display: flex;
-    border-right: solid 1px #bcc5cb;
+    border-right: solid 1px #707070;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header .content_header {
-    width: 330px;
-    height: 100%;
+    width: 246px;
+    height: 48px;
     display: flex;
-    border-right: solid 1px #bcc5cb;
+    border-right: solid 1px #707070;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header .price_header {
-    width: 328px;
-    height: 100%;
+    width: 246px;
+    height: 48px;
+    display: flex;
+    border-right: solid 1px #707070;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_tb_header .add_price_header {
+    width: 246px;
+    height: 48px;
     display: flex;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content {
     width: 988px;
     height: auto;
-    max-height: 500px;
     display: flex;
     flex-direction: column;
+    height: auto;
     overflow-y: auto;
+    overflow-x: hidden;
+    margin: 24px auto;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content::-webkit-scrollbar {
     width: 0px;
     height: 0px;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content::-webkit-scrollbar-track {
-    background-color: none;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content::-webkit-scrollbar-thumb {
-    border-radius: none;
-    background-color: none;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
+    width: 0px;
+    height: 0px;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content {
-    width: 988px;
+    width: 986px;
     height: auto;
     display: flex;
     flex-direction: column;
     border-right: solid 1px #707070;
     border-left: solid 1px #707070;
     border-bottom: solid 1px #707070;
+    margin: 0 0 2px;
+    background-color: #fff;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content:nth-last-child(1) {
+    margin: 0;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info {
@@ -1243,19 +1289,16 @@
     border-bottom: solid 1px #bcc5cb;
 }
 
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(2) {
-    height: 80px;
-}
-
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(1) {
+    height: 80px;
     border-bottom: none;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .category_content {
-    width: 328px;
+    width: 246px;
     height: 100%;
     display: flex;
-    border-right: solid 1px #bcc5cb;
+    border-right: solid 1px #707070;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .category_content p {
@@ -1265,47 +1308,67 @@
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
-    letter-spacing: -0.14px;
+    letter-spacing: normal;
     text-align: center;
-    color: #707070;
-    margin: 11px auto auto;
+    color: #16284d;
+    margin: auto;
 }
 
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(2) .category_content p {
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(1) .category_content p {
     margin: auto;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content {
-    width: 330px;
+    width: 246px;
     height: 100%;
     display: flex;
-    border-right: solid 1px #bcc5cb;
+    border-right: solid 1px #707070;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content .textArea {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content .textArea h5 {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #595959;
+    margin: auto auto 4px;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content p {
-    font-family: SpoqaHanSansNeo-Bold;
+    font-family: SpoqaHanSansNeo-Light;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 300;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
-    letter-spacing: -0.14px;
+    letter-spacing: normal;
     text-align: center;
     color: #707070;
-    margin: 11px auto auto;
+    margin: auto;
 }
 
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(2) .content_content p {
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(1) .content_content p {
     margin: auto;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content textarea {
-    width: 266px;
-    height: 40px;
+    width: 214px;
+    height: 36px;
     margin: auto;
-    padding: 11px 14px;
+    padding: 6px 10px;
+    border: none;
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
@@ -1317,7 +1380,7 @@
     text-align: center;
     color: #707070;
     resize: none;
-    vertical-align: middle;
+    ime-mode:disabled
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .content_content textarea::placeholder {
@@ -1326,87 +1389,238 @@
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.43;
+    line-height: 1.29;
     letter-spacing: -0.14px;
-    text-align: left;
+    text-align: center;
     color: #707070;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .price_content {
-    width: 328px;
+    width: 246px;
     height: 100%;
     display: flex;
+    border-right: solid 1px #707070;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .price_content p {
-    font-family: SpoqaHanSansNeo-Bold;
-    font-size: 14px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.29;
-    letter-spacing: -0.14px;
-    text-align: center;
-    color: #16284d;
-    margin: 11px auto auto;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(2) .price_content p {
-    margin: auto;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer {
-    width: 988px;
-    height: auto;
-    display: flex;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer .empty_area {
-    width: 328px;
-    height: 43px;
-    display: flex;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer .text_area {
-    width: 330px;
-    height: 43px;
-    display: flex;
-}
-
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer .text_area p {
-    font-family: SpoqaHanSansNeo-Bold;
+    font-family: SpoqaHanSansNeo-Medium;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.31;
     letter-spacing: normal;
     text-align: center;
-    color: #16284d;
-    margin: auto auto 2px;
+    color: #595959;
+    margin: auto;
 }
 
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer .price_area {
-    width: 328px;
-    height: 43px;
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(1) .price_content p {
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .add_price_content {
+    width: 246px;
+    height: 100%;
     display: flex;
 }
 
-.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_footer .price_area p {
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .add_price_content .textArea {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .add_price_content .textArea h5 {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    margin: auto auto 4px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info .add_price_content p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info:nth-last-child(1) .add_price_content p {
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price {
+    width: 988px;
+    height: auto;
+    display: flex;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .total_price_area {
+    width: 493px;
+    height: 64px;
+    display: flex;
+    border-right: 1px solid #707070;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .total_price_area p {
     font-family: SpoqaHanSansNeo-Bold;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.05;
-    letter-spacing: -0.2px;
-    text-align: center;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 71px auto 141px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .total_price_area span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
     color: #3fa9f5;
-    margin: auto auto 0;
+    margin: auto auto auto 0;
+    display: flex;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .total_price_area span h4 {
+    font-family: SpoqaHanSansNeo-Bold;  
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+    margin: auto 0 auto 4px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .price_area {
+    width: 492px;
+    height: 64px;
+    display: flex;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .price_area p {
+    width: 466px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyHeader .charge_content .charge_tb_content .charge_info.price .price_area p:nth-child(2) {
+    width: auto;
+    margin: auto 0;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle {
+    width: 988px;
+    height: auto;
+    display: flex;
+    margin: 16px auto 0 auto;
+    border: 1px solid #707070;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .total_price_area {
+    width: 493px;
+    height: 64px;
+    display: flex;
+    border-right: 1px solid #707070;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .total_price_area p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto 24px auto 95px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .total_price_area span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+    margin: auto auto auto 0;
+    display: flex;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .total_price_area span h4 {
+    font-family: SpoqaHanSansNeo-Bold;  
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+    margin: auto 0 auto 4px;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .price_area {
+    width: 492px;
+    height: 64px;
+    display: flex;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .price_area p {
+    width: 466px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.layerPopupBox .charge_inner .chargeContent .chargeBody .bodyMiddle .price_area p:nth-child(2) {
+    width: auto;
+    margin: auto 0;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .chargeFooter {
-    margin: 46px auto 48px;
+    margin: 24px auto;
 }
 
 .layerPopupBox .charge_inner .chargeContent .chargeBody .chargeFooter .encryptBtn {
