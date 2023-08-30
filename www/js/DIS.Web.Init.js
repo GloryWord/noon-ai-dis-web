@@ -748,7 +748,9 @@ init = {
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
                             comm.meterDownload(eventIndex, type, fileName, fileSize);
                             let requestType = 'download';
-                            comm.increaseRequestCount(eventIndex, fileList, requestType);
+                            let originEncIndex = urlParams.get('encID');
+                            if(fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);
+                            else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
                                 text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
@@ -1714,7 +1716,7 @@ init = {
                     icon: 'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt';
+                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt' + '&encID='+encryptIdx;
                     }
                 })
             }
@@ -3051,6 +3053,8 @@ init = {
 
                 $(document).on("click", "#signedUrl", function () {
                     comm.meterDownload(eventIndex, type, fileName, fileSize);
+                    let requestType = 'download';
+                    comm.increaseRequestCount(eventIndex, [fileName], requestType);
                 })
             }
             else if (mode == 'group') {
@@ -3095,6 +3099,8 @@ init = {
                     console.log(selectModalImg)
                     var selectSize = signedUrl[selectModalImg][1];
                     comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                    let requestType = 'download';
+                    comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                 });
 
                 $(document).on("click", ".allselect", function () {
@@ -3181,6 +3187,8 @@ init = {
                                     location.href = fileUrl;
 
                                     comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                    let requestType = 'download';
+                                    comm.increaseRequestCount(eventIndex, fileList, requestType);
                                     resolve();
                                 }).then(() => {
                                     Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
@@ -3212,6 +3220,8 @@ init = {
 
             $(document).on("click", "#signedUrl", function () {
                 comm.meterDownload(eventIndex, type, fileName, fileSize);
+                let requestType = 'download';
+                comm.increaseRequestCount(eventIndex, fileList, requestType);
             })
         }
 
@@ -4303,6 +4313,9 @@ init = {
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                            // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
+                            // restoration, request_id, fileList, postData.fileNameList
+                            comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                             let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, additionalFileList, requestType);
@@ -4324,6 +4337,7 @@ init = {
                 }
                 else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                    comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, additionalFileList, requestType);
@@ -4383,6 +4397,7 @@ init = {
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                            comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                             let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4418,7 +4433,7 @@ init = {
                         }).then(async (result) => {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                                console.log(encReqInfo)
+                                comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4461,6 +4476,7 @@ init = {
                         'fileCount': fileCount,
                     }
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                    comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4486,7 +4502,7 @@ init = {
                             'sectorList': Object.keys(sectorInfo)
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                        console.log(encReqInfo)
+                        comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
                         let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                         let requestType = 'masking';
                         comm.increaseRequestCount(requestId, fileList, requestType);
