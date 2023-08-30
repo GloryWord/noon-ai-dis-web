@@ -36,6 +36,10 @@ let whitelist = [
 var init = DIS.Web.Init;
 init = {
 
+    service: function () {
+
+    },
+
     // 유저 로그인 화면 제어
     index: function () {
         let isDev = comm.getEnv();
@@ -659,6 +663,7 @@ init = {
         }
         else if (service == "check") {
             requestID = urlParams.get('requestID');
+            restoration = urlParams.get('restoration');
             reportErrorestoration = urlParams.get('restoration');
             // endID = urlParams.get('restoration');
             mode = urlParams.get('mode');
@@ -1856,6 +1861,28 @@ init = {
         }
     },
 
+    test: function () {        
+        function dateChange(year, month) {
+            $(".selectYearText").text(`${year}년`)
+            $(".selectMonthText").text(`${month}월`)
+            $(".monthPriceText").text(`${month}월 이용 요금`)
+        }
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 +1 해줍니다.
+    
+        // 월을 두 자리로 표현하도록 포맷팅합니다.
+        let formattedMonth = currentMonth.toString().padStart(2, "0");
+
+        $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
+        
+        dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+
+        $(document).on("change", "#searchMonth", function(){
+            dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+        })
+    },
+
     decrypt_log: function () {
 
         function reloadProgress() {
@@ -2175,6 +2202,16 @@ init = {
         $(document).on("click", ".key_add", function () {
             $("#keyAdd").addClass('active')
             $("#keyAdd").find('[autofocus]').focus();
+        });
+
+        $(document).on("mouseover", ".memo_text", function () { 
+            let num = $(this).data("id")
+            $(".memoModal").removeClass("active")
+            $(`.memoModal.num${num}`).addClass("active")
+        });
+
+        $(document).on("mouseleave", ".memo_text", function () { 
+            $(".memoModal").removeClass("active")
         });
 
         $(document).on("click", ".memo_modi", function () {
@@ -3309,7 +3346,12 @@ init = {
         var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
 
         let thumbnailVideo = document.getElementById('video')
-        thumbnailVideo.src = signedUrl[0][0]
+        if(signedUrl[0][0].indexOf("thumbnail.mp4")!=-1){
+            thumbnailVideo.src = signedUrl[1][0]
+        }
+        else{
+            thumbnailVideo.src = signedUrl[0][0]
+        }
 
         thumbnailVideo.onloadeddata = function async() {
             var script = document.createElement('script');

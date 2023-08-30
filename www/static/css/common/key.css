@@ -47,9 +47,8 @@
 }
 
 .keyHeader {
-    margin: 100px auto 20px;
-    /* width: 988px; */
-    width: 1238px;
+    margin: 90px auto 20px;
+    width: 988px;
     height: 40px;
     display: flex;
 }
@@ -70,7 +69,20 @@
     letter-spacing: normal;
     text-align: left;
     color: #595959;
-    margin: auto 0;
+    margin: 7px 8px auto 0;
+}
+
+.keyHeader h5 {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px auto auto 0;
 }
 
 .keyHeader .key_add {
@@ -98,10 +110,8 @@
 }
 
 .key_table {
-    /* width: 988px; */
-    width: 1238px;
+    width: 988px;
     height: auto;
-    min-height: 376px;
     display: flex;
     margin: 0 auto 103px;
     border-radius: 24px;
@@ -110,8 +120,7 @@
 }
 
 .key_table .keyList {
-    /* width: 988px; */
-    width: 1238px;
+    width: 988px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -124,67 +133,54 @@
 }
 
 .key_table .keyList .listHeader .headArea {
-    /* width: 940px; */
-    width: 1190px;
-    height: 62px;
+    width: 940px;
+    height: 64px;
     display: flex;
     border-bottom: solid 1px #707070;
     margin: 0 auto;
 }
 
-.key_table .keyList .listHeader .headArea .number_head,
-.key_table .keyList .listHeader .headArea .name_head,
-.key_table .keyList .listHeader .headArea .user_head,
-.key_table .keyList .listHeader .headArea .create_head,
-.key_table .keyList .listHeader .headArea .expiration_head,
-.key_table .keyList .listHeader .headArea .memo_head,
-.key_table .keyList .listHeader .headArea .modi_head,
-.key_table .keyList .listHeader .headArea .change_head,
-.key_table .keyList .listHeader .headArea .delete_head {
-    height: 18px;
-    display: flex;
-    margin: 24px 0 20px;
-}
-
 .key_table .keyList .listHeader .headArea .number_head {
-    width: 100px;
+    width: 88px;
+    margin: 24px 0 auto;
 }
 
 .key_table .keyList .listHeader .headArea .name_head {
-    width: 200px;
+    width: 180px;
+    margin: 24px 0 auto 20px;
 }
 
 .key_table .keyList .listHeader .headArea .user_head {
-    width: 100px;
+    width: 88px;
+    margin: 24px 0 auto;
 }
 
 .key_table .keyList .listHeader .headArea .create_head {
-    width: 150px;
+    width: 90px;
+    margin: 24px 4px auto 0;
 }
 
 .key_table .keyList .listHeader .headArea .expiration_head {
-    width: 150px;
+    width: 90px;
+    margin: 24px 0 auto;
 }
 
 .key_table .keyList .listHeader .headArea .memo_head {
-    width: 250px;
-}
-
-.key_table .keyList .listHeader .headArea .modi_head {
-    width: 80px;
+    width: 228px;
+    margin: 24px 16px auto 0;
 }
 
 .key_table .keyList .listHeader .headArea .change_head {
-    width: 80px;
+    width: 60px;
+    margin: 24px 16px auto 0;
 }
 
 .key_table .keyList .listHeader .headArea .delete_head {
-    width: 80px;
+    width: 60px;
+    margin: 24px 0 auto;
 }
 
 .key_table .keyList .listHeader .headArea h3 {
-    height: 18px;
-    margin: auto;  
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
     font-weight: bold;
@@ -193,12 +189,12 @@
     line-height: 1.29;
     letter-spacing: normal;
     text-align: center;
-    color: #16284d;
+    color: #16284d; 
+    margin: auto;
 }
 
 .key_table .keyList .listContent {
-    /* width: 940px; */
-    width: 1190px;
+    width: 940px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -207,76 +203,99 @@
 
 .key_table .keyList .listContent .tableContent {
     width: 100%;
-    height: 57px;
+    height: 64px;
     display: flex;
     border-bottom: solid 1px #bcc5cb;
 }
 
-.key_table .keyList .listContent .tableContent .number_content,
-.key_table .keyList .listContent .tableContent .name_content,
-.key_table .keyList .listContent .tableContent .user_content,
-.key_table .keyList .listContent .tableContent .create_content,
-.key_table .keyList .listContent .tableContent .expiration_content,
-.key_table .keyList .listContent .tableContent .memo_content,
-.key_table .keyList .listContent .tableContent .modi_content,
-.key_table .keyList .listContent .tableContent .change_content,
-.key_table .keyList .listContent .tableContent .delete_content {
-    height: 57px;
-    display: flex;
+.key_table .keyList .listContent .tableContent .number_content {
+    width: 88px;
     margin: auto 0;
 }
 
-.key_table .keyList .listContent .tableContent .number_content {
-    width: 100px;
-}
-
 .key_table .keyList .listContent .tableContent .name_content {
-    width: 200px;
-}
-
-.key_table .keyList .listContent .tableContent .name_content p {
-    width: 200px;
+    width: 180px;
+    margin: auto 0 auto 20px;
 }
 
 .key_table .keyList .listContent .tableContent .user_content {
-    width: 100px;
+    width: 88px;
+    margin: auto 0;
 }
 
 .key_table .keyList .listContent .tableContent .create_content {
-    width: 150px;
+    width: 90px;
+    margin: auto 4px auto 0;
 }
 
 .key_table .keyList .listContent .tableContent .expiration_content {
-    width: 150px;
+    width: 90px;
+    margin: auto 0;
 }
 
 .key_table .keyList .listContent .tableContent .memo_content {
-    width: 250px;
-}
-
-.key_table .keyList .listContent .tableContent .modi_content {
-    width: 80px;
+    width: 228px;
+    margin: auto 16px auto 0;
+    display: flex;
+    position: relative;
 }
 
 .key_table .keyList .listContent .tableContent .change_content {
-    width: 80px;
+    width: 60px;
+    margin: auto 16px auto 0;
+    display: flex;
 }
 
 .key_table .keyList .listContent .tableContent .delete_content {
-    width: 80px;
+    width: 60px;
+    margin: auto 0;
+    display: flex;
 }
 
 .key_table .keyList .listContent .tableContent .memo_content .memo_text {
+    width: 202px;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+.key_table .keyList .listContent .tableContent .memo_content .memoModal {
+    width: 314px;
+    height: auto;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    z-index: 3;
+    display: none;
+}
+
+.key_table .keyList .listContent .tableContent .memo_content .memoModal.active {
+    display: block;
+}
+
+.key_table .keyList .listContent .tableContent .memo_content .memoModal span {
+    display: block;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    word-break: break-all;
+}
+
 .key_table .keyList .listContent .tableContent p {
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.29;
@@ -286,32 +305,21 @@
     margin: auto;
 }
 
-.key_table .keyList .listContent .tableContent .modi_content .memo_modi {
-    width: 64px;
-    height: 24px;
-    margin: auto;
-    border-radius: 13px;
-    background-color: #3fa9f5;
-    display: flex;
+.key_table .keyList .listContent .tableContent .memo_content img {
+    width: 26px;
+    height: 26px;
+    margin: auto 0;
+    object-fit: contain;
     cursor: pointer;
 }
 
-.key_table .keyList .listContent .tableContent .change_content .change_btn {
-    width: 64px;
-    height: 24px;
-    margin: auto;
-    border-radius: 13px;
-    background-color: #16284d;
-    display: flex;
-    cursor: pointer;
-}
-
+.key_table .keyList .listContent .tableContent .change_content .change_btn,
 .key_table .keyList .listContent .tableContent .delete_content .delete_btn {
-    width: 64px;
+    width: 60px;
     height: 24px;
-    margin: auto;
     border-radius: 13px;
-    background-color: #595959;
+    border: solid 1px #3fa9f5;
+    background-color: #fff;
     display: flex;
     cursor: pointer;
 }
@@ -322,42 +330,17 @@
     display: none;
 }
 
-.key_table .keyList .listContent .tableContent .modi_content .memo_modi p {
-    font-family: SpoqaHanSansNeo-Bold;
+.key_table .keyList .listContent .tableContent .change_content .change_btn p,
+.key_table .keyList .listContent .tableContent .delete_content .delete_btn p  {
+    font-family: SpoqaHanSansNeo-Medium;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.25;
     letter-spacing: normal;
     text-align: center;
-    color: #fff;
-    margin: auto;
-}
-
-.key_table .keyList .listContent .tableContent .change_content .change_btn p {
-    font-family: SpoqaHanSansNeo-Bold;
-    font-size: 12px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.25;
-    letter-spacing: normal;
-    text-align: center;
-    color: #fff;
-    margin: auto;
-}
-
-.key_table .keyList .listContent .tableContent .delete_content .delete_btn p {
-    font-family: SpoqaHanSansNeo-Bold;
-    font-size: 12px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.25;
-    letter-spacing: normal;
-    text-align: center;
-    color: #fff;
+    color: #3fa9f5;
     margin: auto;
 }
 
