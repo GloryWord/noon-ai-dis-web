@@ -234,8 +234,8 @@
 }
 
 .key_table .keyList .listContent .tableContent .memo_content {
-    width: 228px;
-    margin: auto 16px auto 0;
+    width: 212px;
+    margin: auto 16px;
     display: flex;
     position: relative;
 }

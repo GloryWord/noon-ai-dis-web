@@ -9,7 +9,7 @@ $(document).ready(function () {
   else if (pageName == 'inspection' || pageName == 'image' || pageName == 'video' || pageName == 'log' || pageName == 'add') imgPath = "../"
   else imgPath = "./"
   setTimeout(function () {
-    if (pageName !== "inspection" && pageName !== "select" && pageName !== "check" && pageName !== "image" && pageName !== "video" && pageName !== "key") {
+    if (pageName !== "inspection" && pageName !== "select" && pageName !== "check" && pageName !== "image" && pageName !== "video") {
       location.reload();
     }
   }, 1000 * 60 * 3)

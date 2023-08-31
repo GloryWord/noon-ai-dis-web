@@ -1883,6 +1883,16 @@ init = {
         $(document).on("change", "#searchMonth", function(){
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
         })
+
+        $(document).on("click", ".logBtn", function(){
+            let viewType = $(this).data("type")
+            $(".excelDownload").removeClass("file")
+            $(".excelDownload").removeClass("work")
+            $(".excelDownload").removeClass("credit")
+            $(".excelDownload").addClass(`${viewType}`)
+            $(".logBtn").removeClass("active")
+            $(this).addClass("active")
+        })
     },
 
     decrypt_log: function () {
@@ -4433,7 +4443,7 @@ init = {
                         }).then(async (result) => {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                                comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                                comm.meterAdditionalEncrypt(requestId, 1, type);
                                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4502,7 +4512,7 @@ init = {
                             'sectorList': Object.keys(sectorInfo)
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                        comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                        comm.meterAdditionalEncrypt(requestId, 1, type);
                         let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                         let requestType = 'masking';
                         comm.increaseRequestCount(requestId, fileList, requestType);

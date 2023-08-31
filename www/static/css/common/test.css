@@ -150,7 +150,7 @@
 .log_content .search_area .searchContent .selectMonth .selectDate {
     width: 30px;
     height: 48px;
-    margin: auto 0 5px;
+    margin: auto 17px 5px 0;
     background-color: #f9f9f9;
     display: flex;
     cursor: pointer;
@@ -188,6 +188,24 @@
 
 .log_content .search_area .searchContent .selectMonth .selectDate input::-webkit-clear-button {
     display: none;
+}
+
+.log_content .search_area .searchContent .selectMonth .periodUse {
+    display: flex;
+    margin: auto 0 11px;
+}
+
+.log_content .search_area .searchContent .selectMonth .periodUse p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto;
 }
 
 .log_content .search_area .searchContent .totalPrice {
@@ -372,7 +390,7 @@
 }
 
 .logArea .btnArea {
-    width: auto;
+    width: 1470px;
     height: auto;
     margin: 0 auto 24px;
     display: flex;
@@ -389,6 +407,11 @@
     margin: auto 24px auto 0;
     cursor: pointer;
 }
+
+.logArea .btnArea .logBtn:nth-child(1) {
+    margin: auto 24px auto auto;
+}
+
 
 .logArea .btnArea .logBtn:nth-last-child(1) {
     margin: auto 0;
@@ -413,4 +436,29 @@
 
 .logArea .btnArea .logBtn.active p {  
     color: #fff;
+}
+
+.logArea .btnArea .excelDownload {
+    display: flex;
+    margin: auto 24px auto 218px;
+}
+
+.logArea .btnArea .excelDownload p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto 6px auto 0;
+}
+
+.logArea .btnArea .excelDownload img {
+    width: 22px;
+    height: 19px;
+    object-fit: contain;
+    margin: auto 0;
 }
