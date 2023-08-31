@@ -1799,6 +1799,7 @@ init = {
         $(".logArea").html(getMonthUsage);
 
         $(document).on("click", ".search", function () {
+            // resultLoader.meterUsageExcel();
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
             if (type == "all_count") {
@@ -4443,7 +4444,7 @@ init = {
                         }).then(async (result) => {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                                comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                                comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
                                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4512,7 +4513,7 @@ init = {
                             'sectorList': Object.keys(sectorInfo)
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                        comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                        comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
                         let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                         let requestType = 'masking';
                         comm.increaseRequestCount(requestId, fileList, requestType);
