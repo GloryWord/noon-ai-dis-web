@@ -46,13 +46,23 @@ subaccount = {
                     let date_login = (result[i].last_login !== null) ? new Date(result[i].last_login) : '-'
                     if(date_login !== '-') date_login = moment(date_login).format('YYYY.MM.DD');
                     let date_register = moment(result[i].register_date).format('YYYY.MM.DD');
+                    let lockText
+                    let lockBtn
+                    if(result[i].is_lock==1){
+                        lockText = "O"
+                        lockBtn = "lockOn"
+                    }
+                    else{
+                        lockText = "X"
+                        lockBtn = "lockOff"
+                    }
                     html += '<div class="tableContent">\
                                 <div class="id_content"><p>'+result[i].account_name+'</p></div>\
                                 <div class="middle_content">\
                                     <div class="number_content"><p>'+result[i].id+'</p></div>\
                                     <div class="name_content"><p>'+result[i].user_name+'</p></div>\
-                                    <div class="last_content"><p>'+date_login+'</p></div>\
                                     <div class="create_content"><p>'+date_register+'</p></div>\
+                                    <div class="last_content"><p>'+date_login+'</p></div>\
                                     <div class="lock_content"><p>'+lockText+'</p></div>\
                                 </div>\
                                 <div class="bottom_content">\
@@ -65,8 +75,11 @@ subaccount = {
                                     <div class="auth_content">\
                                         <div class="auth_modi" data-account='+result[i].account_name+'><p>잠금 해제</p></div>\
                                     </div>\
+                                    <div class="lockbtn_content">\
+                                        <div class="lockBtn '+lockBtn+'" data-id='+result[i].id+'><p>해제</p></div>\
+                                    </div>\
                                     <div class="del_content">\
-                                        <div class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                        <div class="delBtn" value='+result[i].id+'><p>삭제</p></div>\
                                     </div>\
                                 </div>\
                             </div>';
@@ -91,8 +104,8 @@ subaccount = {
                                 <div class="number_content"><p>'+result[i].id+'</p></div>\
                                 <div class="id_content"><p>'+result[i].account_name+'</p></div>\
                                 <div class="name_content"><p>'+result[i].user_name+'</p></div>\
-                                <div class="last_content"><p>'+date_login+'</p></div>\
                                 <div class="create_content"><p>'+date_register+'</p></div>\
+                                <div class="last_content"><p>'+date_login+'</p></div>\
                                 <div class="lock_content"><p>'+lockText+'</p></div>\
                                 <div class="pass_content">\
                                     <div class="pass_modi" value='+result[i].id+'><p>재설정</p></div>\
@@ -101,10 +114,10 @@ subaccount = {
                                     <div class="auth_modi" data-account='+result[i].account_name+'><p>권한 설정</p></div>\
                                 </div>\
                                 <div class="lockbtn_content">\
-                                    <div class="lockBtn '+lockBtn+'" data-id='+result[i].id+'><p>잠금 해제</p></div>\
+                                    <div class="lockBtn '+lockBtn+'" data-id='+result[i].id+'><p>해제</p></div>\
                                 </div>\
                                 <div class="del_content">\
-                                    <div class="delBtn" value='+result[i].id+'><p>삭제하기</p></div>\
+                                    <div class="delBtn" value='+result[i].id+'><p>삭제</p></div>\
                                 </div>\
                             </div>';
                 }

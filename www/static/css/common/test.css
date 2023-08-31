@@ -1,0 +1,464 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.log_content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 436px);
+}
+
+.log_content .search_area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.log_content .search_area .searchHeader {
+    width: 988px;
+    display: flex;
+    margin: 100px auto 30px;
+}
+
+.log_content .search_area .searchHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+}
+
+.log_content .search_area .searchHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader label {
+    font-family: SpoqaHanSansNeo-Regular;
+    height: 15px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0 8px 8px;
+}
+
+.log_content .search_area .searchContent {
+    width: 988px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 72px;
+    border-bottom: solid 1px #707070;
+}
+
+.log_content .search_area .searchContent .totalPriceAndSearch {
+    display: flex;
+    border-bottom: solid 1px #bcc5cb;
+}
+
+.log_content .search_area .searchContent .selectMonth {
+    width: auto;
+    height: auto;
+    display: flex;
+    margin: 0 auto 16px 44px;
+}
+
+.log_content .search_area .searchContent .selectMonth .textArea {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 6px 0 0;
+}
+
+.log_content .search_area .searchContent .selectMonth .textArea p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 3px 0;
+}
+
+.log_content .search_area .searchContent .selectMonth .textArea span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate {
+    width: 30px;
+    height: 48px;
+    margin: auto 17px 5px 0;
+    background-color: #f9f9f9;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    margin: auto;
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate input::-webkit-calendar-picker-indicator {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    -webkit-appearance: none;
+    opacity: 0;
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate input:focus {
+    outline: none;
+}
+
+.log_content .search_area .searchContent .selectMonth .selectDate input::-webkit-clear-button {
+    display: none;
+}
+
+.log_content .search_area .searchContent .selectMonth .periodUse {
+    display: flex;
+    margin: auto 0 11px;
+}
+
+.log_content .search_area .searchContent .selectMonth .periodUse p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto;
+}
+
+.log_content .search_area .searchContent .totalPrice {
+    display: flex;
+    margin: auto 44px 16px auto;
+}
+
+.log_content .search_area .searchContent .totalPrice .monthPriceText {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 12px auto 0;
+}
+
+.log_content .search_area .searchContent .totalPrice .priceText {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+    margin: auto 4px auto 0;
+}
+
+.log_content .search_area .searchContent .totalPrice .tailText {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchContent .calcPrice {
+    width: 100%;
+    height: 47px;
+    display: flex;
+}
+
+.log_content .search_area .searchContent .calcPrice p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 44px auto auto;
+}
+
+.log_content .search_area .totalUsage {
+    width: 988px;
+    height: auto;
+    margin: 0 auto 72px;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .totalUsage h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 8px 24px;
+}
+
+.log_content .search_area .totalUsage .usageTable {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableHeader {
+    width: 100%;
+    height: 42px;
+    margin: 0;
+    display: flex;
+    background-color: #f2f2f2;
+    border-top: 1px solid #595959;
+    border-bottom: 1px solid #595959;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableHeader .usageHaederText {
+    width: 150px;
+    height: auto;
+    display: flex;
+    margin: auto 8px auto 0;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableHeader .usageHaederText:nth-child(1) {
+    margin: auto 8px auto 24px;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableHeader .usageHaederText:nth-last-child(1) {
+    margin: auto 24px auto 0;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableHeader .usageHaederText p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: auto auto auto 0;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent .usageTableInfo {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    border-bottom: 1px solid #bcc5cb;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent .usageTableInfo .usageContentText {
+    width: 150px;
+    height: auto;
+    display: flex;
+    margin: auto 8px auto 0;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent .usageTableInfo .usageContentText:nth-child(1) {
+    margin: auto 8px auto 24px;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent .usageTableInfo .usageContentText:nth-last-child(1) {
+    margin: auto 24px auto 0;
+}
+
+.log_content .search_area .totalUsage .usageTable .usageTableContent .usageTableInfo .usageContentText p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: auto auto auto 0;
+}
+
+.logArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;  
+    background-color: #e9f6ff;
+    padding: 60px 0 90px;
+}
+
+.logArea .btnArea {
+    width: 1470px;
+    height: auto;
+    margin: 0 auto 24px;
+    display: flex;
+}
+
+.logArea .btnArea .logBtn {
+    width: 240px;
+    height: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    border: solid 1px #3fa9f5;
+    background-color: #fff;
+    display: flex;
+    margin: auto 24px auto 0;
+    cursor: pointer;
+}
+
+.logArea .btnArea .logBtn:nth-child(1) {
+    margin: auto 24px auto auto;
+}
+
+
+.logArea .btnArea .logBtn:nth-last-child(1) {
+    margin: auto 0;
+}
+
+.logArea .btnArea .logBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #3fa9f5;
+    margin: auto;
+}
+
+.logArea .btnArea .logBtn.active {  
+    background-color: #3fa9f5;
+}
+
+.logArea .btnArea .logBtn.active p {  
+    color: #fff;
+}
+
+.logArea .btnArea .excelDownload {
+    display: flex;
+    margin: auto 24px auto 218px;
+}
+
+.logArea .btnArea .excelDownload p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto 6px auto 0;
+}
+
+.logArea .btnArea .excelDownload img {
+    width: 22px;
+    height: 19px;
+    object-fit: contain;
+    margin: auto 0;
+}

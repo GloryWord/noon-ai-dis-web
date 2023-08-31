@@ -2,6 +2,10 @@ $(document).ready(function () {
     var loginUser = comm.getUser()
     $(".login_user").html(loginUser);
 
+    if(screen.width<=600){
+        $(".onlyPC").addClass("hide")
+    }
+
     $(document).on("click", ".menuBtn", function () {
         if($('.dropdown-content').hasClass('on')){
             $('.dropdown-content').removeClass('on')

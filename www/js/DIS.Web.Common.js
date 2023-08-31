@@ -61,22 +61,43 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 function getFiles() {
-    var files = document.getElementById("file").files;
-    var myArray = {};
-    var file = {};
+    let files = document.getElementById("file").files;
+    let myArray = {};
+    let file = {};
 
     // manually create a new file obj for each File in the FileList
-    for (var i = 0; i < files.length; i++) {
-        var parsedArray = files[i].name.split('.');
-        var ext = parsedArray[parsedArray.length - 1];
+    for (let i = 0; i < files.length; i++) {
+        let parsedArray = files[i].name.split('.');
+        let ext = parsedArray[parsedArray.length - 1];
         parsedArray = parsedArray.splice(0, parsedArray.length - 1);
-        var fileName = parsedArray.join('.');
+        let fileName = parsedArray.join('.');
         file = {
             'lastMod': files[i].lastModified,
             'lastModDate': files[i].lastModifiedDate,
             'name': fileName + '-' + getToday() + '.' + ext,
             'size': files[i].size,
             'type': files[i].type,
+        }
+        //add the file obj to your array
+        myArray[i] = file
+    }
+    //stringify array
+    return JSON.stringify(myArray);
+}
+
+function getFileNames() {
+    let files = document.getElementById("file").files;
+    let myArray = {};
+    let file = {};
+
+    // manually create a new file obj for each File in the FileList
+    for (let i = 0; i < files.length; i++) {
+        let parsedArray = files[i].name.split('.');
+        let ext = parsedArray[parsedArray.length - 1];
+        parsedArray = parsedArray.splice(0, parsedArray.length - 1);
+        let fileName = parsedArray.join('.');
+        file = {
+            'name': fileName + '.' + ext
         }
         //add the file obj to your array
         myArray[i] = file
@@ -175,7 +196,13 @@ function time_change(duration) {
     if (hours < 10) { hours = "0" + hours; }
     if (minutes < 10) { minutes = "0" + minutes; }
     if (seconds < 10) { seconds = "0" + seconds; }
-    return hours + ':' + minutes + ':' + seconds;
+
+    if(hours=="00"){
+        return minutes + '분 ' + seconds + '초';
+    }
+    else {
+        return hours + '시 ' + minutes + '분 ' + seconds + '초';
+    }
 }
 
 function onlyNumber(event) {

@@ -210,6 +210,16 @@
     position: relative;
 }
 
+.menuBtn .onlyPC,
+.menuBtn .admin_only {
+    display: flex;
+}
+
+.menuBtn .onlyPC.hide,
+.menuBtn .admin_only.hide {
+    display: none;
+}
+
 .menuBtn:hover {
     background-color: #3fa9f5;
     cursor: pointer;
