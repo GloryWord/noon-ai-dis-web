@@ -414,4 +414,23 @@ resultLoader = {
             }
         })
     },
+    // meterUsageExcel: function () {
+    //     let baseUrl = `/api/meterUsage/excel`
+    //     let apiUrl = apiUrlConverter('util', baseUrl)
+
+    //     $.ajax({
+    //         method: "get",
+    //         url: apiUrl,
+    //         xhrFields: {
+    //             withCredentials: true
+    //         },
+    //         async: false,
+    //         success: function (data) {
+    //             console.log('엑셀 다운로드 완료');
+    //         },
+    //         error: function (xhr, status) {
+    //             console.log('엑셀 다운로드 실패');
+    //         }
+    //     })
+    // },
 }

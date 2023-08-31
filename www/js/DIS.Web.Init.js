@@ -1799,6 +1799,7 @@ init = {
         $(".logArea").html(getMonthUsage);
 
         $(document).on("click", ".search", function () {
+            // resultLoader.meterUsageExcel();
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
             if (type == "all_count") {
@@ -4500,7 +4501,7 @@ init = {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                             // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
                             // restoration, request_id, fileList, postData.fileNameList
-                            comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                             let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, additionalFileList, requestType);
@@ -4522,7 +4523,7 @@ init = {
                 }
                 else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, additionalFileList, requestType);
@@ -4582,7 +4583,7 @@ init = {
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                            comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                             let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4618,7 +4619,7 @@ init = {
                         }).then(async (result) => {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                                comm.meterAdditionalEncrypt(requestId, 1, type);
+                                comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
                                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4661,7 +4662,7 @@ init = {
                         'fileCount': fileCount,
                     }
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    comm.meterAdditionalEncrypt(requestId, additionalFileList, type);
+                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4687,7 +4688,7 @@ init = {
                             'sectorList': Object.keys(sectorInfo)
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                        comm.meterAdditionalEncrypt(requestId, 1, type);
+                        comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
                         let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                         let requestType = 'masking';
                         comm.increaseRequestCount(requestId, fileList, requestType);
