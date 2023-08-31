@@ -511,6 +511,7 @@ function loadData(canvasCoord, originCoord, classArray, restoration, sectorType,
     $(".tag").removeClass("active")
     $(".tagdel.off").addClass("active")
     $(".tagdel.on").removeClass("active")
+    activateDrawingMode();
 }
 
 function allClear(){

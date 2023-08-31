@@ -958,32 +958,38 @@ requestTable = {
 
                     let visible = ""
                     if(auth !== 'master') visible = "hide";
+
+                    let memoModal = ""
+                    if(memo!=""){
+                        memoModal = `<div class='memoModal num${requestList['keyList'][i]['id']}'>
+                                        <span>${memo}</span>
+                                    </div>`
+                    }
     
-                    htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
-                                    <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                    <div class="name_content"><p class="keyname'+requestList['keyList'][i]['id']+'">'+ requestList['keyList'][i]['key_name'] + '</p></div>\
-                                    <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
-                                    <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
-                                    <div class="expiration_content"><p>'+ expiry_date + '</p></div>\
-                                    <div class="memo_content">\
-                                        <p class="memo_text">'+ memo + '</p>\
-                                    </div>\
-                                    <div class="modi_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
-                                            <p>수정</p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="change_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="change_btn">\
-                                            <p>변경</p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="delete_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="delete_btn">\
-                                            <p>삭제</p>\
-                                        </div>\
-                                    </div>\
-                                </div>'
+                    htmlStr += `<div class="tableContent" id=key_index-${requestList['keyList'][i]['id']}>
+                                    <div class="number_content"><p>${requestList['keyList'][i]['id']}</p></div>
+                                    <div class="name_content"><p class="keyname${requestList['keyList'][i]['id']}">${requestList['keyList'][i]['key_name']}</p></div>
+                                    <div class="user_content"><p>${requestList['keyList'][i]['user_name']}</p></div>
+                                    <div class="create_content"><p>${dateFormat(date)}</p></div>
+                                    <div class="expiration_content"><p>${expiry_date}</p></div>
+                                    <div class="memo_content">
+                                        <p class="memo_text" data-id="${requestList['keyList'][i]['id']}">${memo}</p>
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="memo_modi ${modi}">
+                                            <img src="./static/imgs/key/memoModidyIcon.png">
+                                        </div>
+                                        ${memoModal}
+                                    </div>
+                                    <div class="change_content">
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="change_btn">
+                                            <p>변경</p>
+                                        </div>
+                                    </div>
+                                    <div class="delete_content">
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="delete_btn">
+                                            <p>삭제</p>
+                                        </div>
+                                    </div>
+                                </div>`
                 }
             }
 

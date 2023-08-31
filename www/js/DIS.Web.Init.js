@@ -1,5 +1,7 @@
 'use strict';
 
+// const { all } = require("../../../noon-ai-dis-was/noon-ai-dis-was-util/api/api");
+
 // const { off } = require("process");
 
 DIS.Web.Init = DIS.Web.Init || {};
@@ -33,6 +35,10 @@ let whitelist = [
 
 var init = DIS.Web.Init;
 init = {
+
+    service: function () {
+
+    },
 
     // 유저 로그인 화면 제어
     index: function () {
@@ -361,12 +367,13 @@ init = {
                 for (var i = 0; i < fileCount; i++) {
                     fileIndex.push(i);
                 }
+                imgInfo=[]
                 for (var i = 0; i < fileCount; i++) {
                     let img = new Image();
                     img.src = window.URL.createObjectURL(files[i]);
                     imgInfo.push(img);
-                    fileWidth.push(0); // 초기값으로 넣어둠
-                    fileHeight.push(0); // 초기값으로 넣어둠
+                    // fileWidth.push(0); // 초기값으로 넣어둠
+                    // fileHeight.push(0); // 초기값으로 넣어둠
                   
                     img.onload = function() {
                       const loadedImgIndex = imgInfo.indexOf(this);
@@ -656,6 +663,7 @@ init = {
         }
         else if (service == "check") {
             requestID = urlParams.get('requestID');
+            restoration = urlParams.get('restoration');
             reportErrorestoration = urlParams.get('restoration');
             // endID = urlParams.get('restoration');
             mode = urlParams.get('mode');
@@ -1855,6 +1863,38 @@ init = {
         }
     },
 
+    test: function () {        
+        function dateChange(year, month) {
+            $(".selectYearText").text(`${year}년`)
+            $(".selectMonthText").text(`${month}월`)
+            $(".monthPriceText").text(`${month}월 이용 요금`)
+        }
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 +1 해줍니다.
+    
+        // 월을 두 자리로 표현하도록 포맷팅합니다.
+        let formattedMonth = currentMonth.toString().padStart(2, "0");
+
+        $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
+        
+        dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+
+        $(document).on("change", "#searchMonth", function(){
+            dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+        })
+
+        $(document).on("click", ".logBtn", function(){
+            let viewType = $(this).data("type")
+            $(".excelDownload").removeClass("file")
+            $(".excelDownload").removeClass("work")
+            $(".excelDownload").removeClass("credit")
+            $(".excelDownload").addClass(`${viewType}`)
+            $(".logBtn").removeClass("active")
+            $(this).addClass("active")
+        })
+    },
+
     decrypt_log: function () {
 
         function reloadProgress() {
@@ -2174,6 +2214,16 @@ init = {
         $(document).on("click", ".key_add", function () {
             $("#keyAdd").addClass('active')
             $("#keyAdd").find('[autofocus]').focus();
+        });
+
+        $(document).on("mouseover", ".memo_text", function () { 
+            let num = $(this).data("id")
+            $(".memoModal").removeClass("active")
+            $(`.memoModal.num${num}`).addClass("active")
+        });
+
+        $(document).on("mouseleave", ".memo_text", function () { 
+            $(".memoModal").removeClass("active")
         });
 
         $(document).on("click", ".memo_modi", function () {
@@ -3316,7 +3366,12 @@ init = {
         var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
 
         let thumbnailVideo = document.getElementById('video')
-        thumbnailVideo.src = signedUrl[0][0]
+        if(signedUrl[0][0].indexOf("thumbnail.mp4")!=-1){
+            thumbnailVideo.src = signedUrl[1][0]
+        }
+        else{
+            thumbnailVideo.src = signedUrl[0][0]
+        }
 
         thumbnailVideo.onloadeddata = function async() {
             var script = document.createElement('script');
@@ -3583,8 +3638,12 @@ init = {
             console.log(sectorInfo)
             let sectorList = ``
             for (let i = 0; i < Object.keys(sectorInfo).length; i++) {
+                let iconActive = ''
+                if(sectorInfo[Object.keys(sectorInfo)[i]]["complete"]==1){
+                    iconActive = "active"
+                }
                 sectorList += `<div class='listSectorDiv'>
-                                    <div class='saveIcon'>
+                                    <div class='saveIcon ${iconActive}'>
                                         <img src='../../static/imgs/check/saveIcon.png'>
                                     </div>
                                     <div class='sectorBox sector${(i + 1)} ${sectorInfo[Object.keys(sectorInfo)[i]]["type"]}' data-type=${sectorInfo[Object.keys(sectorInfo)[i]]["type"]} 
@@ -3803,7 +3862,7 @@ init = {
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
                         if($(this).hasClass("next")){
-                            if(num==0){
+                            if($(".frameBox.active").data("imgnum")==0){
                                 if (parsedCoordinates) {
                                     totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                                     console.log(totalCoordinates)
@@ -3833,14 +3892,16 @@ init = {
                                         id: token,
                                         immediate: 'false'
                                     })
+
+                                    location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                                 }
                                 else{
                                     Swal.fire({
                                         title: '영역을 그려주세요.',
-                                        showCancelButton: false,
-                                        confirmButtonText: '확인',
-                                        allowOutsideClick: false,
-                                        icon:'error'
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
                                     }).then((result) => {
                                     })
                                 }
@@ -3879,9 +3940,125 @@ init = {
                                     id: token,
                                     immediate: 'false'
                                 })
+
+                                location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                             }
                         }
                         else if($(this).hasClass("prev")){
+                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                            let isComplete = true;
+                            for (let key in totalCoordinates["frame"]["location"]) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    totalCoordinates["complete"] = 0;
+                                    isComplete = false;
+                                    break;
+                                }
+                            }
+                            if(isComplete){
+                                totalCoordinates["complete"] = 1;
+                            }
+                            let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                            socket.emit('cancelDeleteFile', {
+                                id: token
+                            })
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath,
+                                id: token,
+                                immediate: 'false'
+                            })
+
+                            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                        }
+                    })
+
+                    $(document).on("click", ".detailPreBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        let isComplete = true;
+                        for (let key in totalCoordinates["frame"]["location"]) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                totalCoordinates["complete"] = 0;
+                                isComplete = false;
+                                break;
+                            }
+                        }
+                        if(isComplete){
+                            totalCoordinates["complete"] = 1;
+                        }
+                        let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                        socket.emit('cancelDeleteFile', {
+                            id: token
+                        })
+                        socket.emit('delUploadedFile', {
+                            filePath: filePath,
+                            id: token,
+                            immediate: 'false'
+                        })
+
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+
+                    $(document).on("click", ".detailNextBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if($(".frameBox.active").data("imgnum")==0){
+                            if (parsedCoordinates) {
+                                totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                console.log(totalCoordinates)
+                                if(restoration==1) {
+                                    let classMax = sendCount()
+                                    totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                    totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                    totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                }
+                                let isComplete = true;
+                                for (let key in totalCoordinates["frame"]["location"]) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                        totalCoordinates["complete"] = 0;
+                                        isComplete = false;
+                                        break;
+                                    }
+                                }
+                                if(isComplete){
+                                    totalCoordinates["complete"] = 1;
+                                }
+                                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                socket.emit('cancelDeleteFile', {
+                                    id: token
+                                })
+                                socket.emit('delUploadedFile', {
+                                    filePath: filePath,
+                                    id: token,
+                                    immediate: 'false'
+                                })
+
+                                location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                            }
+                            else{
+                                Swal.fire({
+                                    title: '영역을 그려주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                }).then((result) => {
+                                })
+                            }
+                        }
+                        else{
+                            if(restoration==1) {
+                                let classMax = sendCount()
+                                totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                            }
                             if (parsedCoordinates) {
                                 totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                                 console.log(totalCoordinates)
@@ -3909,19 +4086,9 @@ init = {
                                 id: token,
                                 immediate: 'false'
                             })
+
+                            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                         }
-
-                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
-                    })
-
-                    $(document).on("click", ".detailPreBtn", async function () {
-                        let num = $(this).data("imgnum")
-                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
-                    })
-
-                    $(document).on("click", ".detailNextBtn", async function () {
-                        let num = $(this).data("imgnum")
-                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                     })
 
                     $(document).on("click", ".loadArea", async function () {
@@ -4048,11 +4215,23 @@ init = {
                     if (parsedCoordinates) {
                         totalCoordinates["frame"]["location"] = parsedCoordinates;
                         totalCoordinates["complete"] = 1;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').addClass('active');
+                            }
+                        });
                         console.log(totalCoordinates)
                     }
                     else {
                         if (totalCoordinates["frame"]["location"]) delete totalCoordinates["frame"]["location"]
                         totalCoordinates["complete"] = 0;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').removeClass('active');
+                            }
+                        });
                     }
                 }
                 else {
@@ -4072,14 +4251,28 @@ init = {
                     }
                     let isComplete = true;
                     for (let key in totalCoordinates["frame"]["location"]) {
-                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
-                            totalCoordinates["complete"] = 0;
-                            isComplete = false;
-                            break;
+                        if (!isNaN(key)) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                totalCoordinates["complete"] = 0;
+                                isComplete = false;
+                                $('.listSectorDiv').each(function() {
+                                    if ($(this).find('.sectorBox').hasClass('active')) {
+                                        // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                        $(this).find('.saveIcon').removeClass('active');
+                                    }
+                                });
+                                break;
+                            }
                         }
                     }
                     if(isComplete){
                         totalCoordinates["complete"] = 1;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').addClass('active');
+                            }
+                        });
                     }
                 }
             }
@@ -4235,6 +4428,7 @@ init = {
                     })
                 }
                 else if(type=="video"){
+<<<<<<< HEAD
                     detail = {
                         'token': token,
                         'sectorList': Object.keys(sectorInfo)
@@ -4265,8 +4459,52 @@ init = {
                                     }
                                 })
                             }
+=======
+                    let allSectorClear = await fileModule.readallSectorClear(token, requestId)
+                    if(allSectorClear==true){
+                        detail = {
+                            'token': token,
+                            'sectorList': Object.keys(sectorInfo)
+>>>>>>> 703c8d219d6f497e77772c6898e281a192d0d2eb
                         }
-                    })
+                        Swal.fire({
+                            title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '네',
+                            cancelButtonText: '취소',
+                            icon: "info"
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                                comm.meterAdditionalEncrypt(requestId, 1, type);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let requestType = 'masking';
+                                comm.increaseRequestCount(requestId, fileList, requestType);
+                                if (addMessage) {
+                                    Swal.fire({
+                                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon: 'success'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+                    else{
+                        Swal.fire({
+                            title: '모든 구간의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
                 }
             }
             else {
@@ -4300,27 +4538,48 @@ init = {
                     }
                 }
                 else if(type=="video"){
-                    detail = {
-                        'token': token,
-                        'sectorList': Object.keys(sectorInfo)
+                    let allSectorClear = await fileModule.readallSectorClear(token, requestId)
+                    if(allSectorClear==true){
+                        detail = {
+                            'token': token,
+                            'sectorList': Object.keys(sectorInfo)
+                        }
+                        let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                        comm.meterAdditionalEncrypt(requestId, 1, type);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                        let requestType = 'masking';
+                        comm.increaseRequestCount(requestId, fileList, requestType);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
                     }
+<<<<<<< HEAD
                     let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
                     comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                     let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, additionalFileList, requestType);
                     if (addMessage) {
+=======
+                    else{
+>>>>>>> 703c8d219d6f497e77772c6898e281a192d0d2eb
                         Swal.fire({
-                            title: '비식별화 추가 요청이 \n완료되었습니다.',
-                            showCancelButton: false,
-                            confirmButtonText: '확인',
-                            allowOutsideClick: false,
-                            icon: 'success'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                            }
-                        })
+                            title: '모든 구간의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
                     }
                 }
             }

@@ -51,8 +51,8 @@
                     <a href="/main">홈</a>
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
-                    <a href="/usage">사용량 조회</a>
-                    <a href="/key">KEY 관리</a>
+                    <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
                     <div id="logout">로그아웃</div>
@@ -265,11 +265,12 @@
                     </div>
                     <div class="chargeBody">
                         <div class="bodyHeader">
-                            <div class="charge_tb_header">
+                            <!-- <div class="charge_tb_header">
                                 <div class="category_header"><p>구 분</p></div>
-                                <div class="content_header"><p>내 용</p></div>
-                                <div class="price_header"><p>단 가</p></div>
-                            </div>
+                                <div class="content_header"><p>파일 정보</p></div>
+                                <div class="price_header"><p>기본 서비스 요금</p></div>
+                                <div class="add_price_header"><p>추가 요금</p></div>
+                            </div> -->
                             <div class="charge_content">
                                 <!-- <div class="charge_tb_content">
                                     <div class="charge_info">
@@ -284,6 +285,10 @@
                                     <div class="price_area"><p>000,000원</p></div>
                                 </div> -->
                             </div>
+                        </div>
+                        <div class="bodyMiddle">
+                            <div class="total_price_area"><p>이미지 그룹 총 예상 요금</p><span class='total_price'>0<h4>원</h4></span></div>
+                            <div class="price_area"><p class='base_price'>0</p><p>+</p><p class='add_price'>0</p></div>
                         </div>
                         <div class="chargeFooter">
                             <div class="encryptBtn">
