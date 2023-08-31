@@ -626,12 +626,13 @@ comm = {
         });
     },
 
-    meterAdditionalEncrypt: function(requestID, fileNames, type) {
+    meterAdditionalEncrypt: function(requestID, insertID, fileNames, type) {
         let baseUrl = '/api/meterUsage/encrypt/additional';
         let apiUrl = apiUrlConverter('encrypt', baseUrl);
 
         let postData = {
             requestID,
+            insertID,
             fileNames,
             type
         }
