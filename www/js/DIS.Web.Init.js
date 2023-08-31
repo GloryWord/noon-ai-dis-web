@@ -4428,44 +4428,11 @@ init = {
                     })
                 }
                 else if(type=="video"){
-<<<<<<< HEAD
-                    detail = {
-                        'token': token,
-                        'sectorList': Object.keys(sectorInfo)
-                    }
-                    Swal.fire({
-                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
-                        showCancelButton: true,
-                        confirmButtonText: '네',
-                        cancelButtonText: '취소',
-                        icon: "info"
-                    }).then(async (result) => {
-                        if (result.isConfirmed) {
-                            let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-                            let requestType = 'masking';
-                            comm.increaseRequestCount(requestId, fileList, requestType);
-                            if (addMessage) {
-                                Swal.fire({
-                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                    allowOutsideClick: false,
-                                    icon: 'success'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                                    }
-                                })
-                            }
-=======
                     let allSectorClear = await fileModule.readallSectorClear(token, requestId)
                     if(allSectorClear==true){
                         detail = {
                             'token': token,
                             'sectorList': Object.keys(sectorInfo)
->>>>>>> 703c8d219d6f497e77772c6898e281a192d0d2eb
                         }
                         Swal.fire({
                             title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
@@ -4476,7 +4443,7 @@ init = {
                         }).then(async (result) => {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                                comm.meterAdditionalEncrypt(requestId, 1, type);
+                                comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                                 let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4545,7 +4512,7 @@ init = {
                             'sectorList': Object.keys(sectorInfo)
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                        comm.meterAdditionalEncrypt(requestId, 1, type);
+                        comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
                         let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
                         let requestType = 'masking';
                         comm.increaseRequestCount(requestId, fileList, requestType);
@@ -4563,16 +4530,7 @@ init = {
                             })
                         }
                     }
-<<<<<<< HEAD
-                    let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
-                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-                    let requestType = 'masking';
-                    comm.increaseRequestCount(requestId, additionalFileList, requestType);
-                    if (addMessage) {
-=======
                     else{
->>>>>>> 703c8d219d6f497e77772c6898e281a192d0d2eb
                         Swal.fire({
                             title: '모든 구간의 영역을 \n지정해주세요.',
                             showConfirmButton: false,
