@@ -1880,6 +1880,8 @@ init = {
         
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
 
+        fileHTML()
+
         $(document).on("change", "#searchMonth", function(){
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
         })
@@ -1892,7 +1894,180 @@ init = {
             $(".excelDownload").addClass(`${viewType}`)
             $(".logBtn").removeClass("active")
             $(this).addClass("active")
+            if(viewType=="file"){
+                fileHTML()
+            }
+            else if(viewType=="work"){
+                workHTML()
+            }
+            else if(viewType=="credit"){
+                creditHTML()
+            }
         })
+
+        function fileHTML() {
+            let contentHTML = `<div class="tableTitle">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num file'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user file'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader start file'>
+                                        <p>작업 시작일</p>
+                                    </div>
+                                    <div class='logHeader recent file'>
+                                        <p>최근 작업일</p>
+                                    </div>
+                                    <div class='logHeader filename file'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype file'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service file'>
+                                        <div class='mainHeading'>
+                                            <p>이용 서비스</p>
+                                        </div>
+                                        <div class='subHeading'>
+                                            <div class='heading'>
+                                                <p>비식별화 <br>(복호화 여부)</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>추가 <br>비식별화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>부분 <br>복호화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>다운로드</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='logHeader end file'>
+                                        <p>파일 만료일</p>
+                                    </div>
+                                    <div class='logHeader price file'>
+                                        <p>이용 요금<br>(원)</p>
+                                    </div>
+                                    <div class='logHeader detail file'>
+                                        <p>요금 <br>상세보기</p>
+                                    </div>
+                                </div>`
+                contentHTML += `<div class='tableContent'>`
+                                for(let i=0;i<5;i++){
+                    contentHTML += `<div class='contentInfo'>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                        <div class='logContent num file'>
+                                            <p>번 호</p>
+                                        </div>
+                                    </div>`
+                                }
+                contentHTML += `</div>`
+            $(".tableArea").html(contentHTML)
+        }
+
+        function workHTML() {
+            let contentHTML = `<div class="tableTitle work">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                    <div class="inputOption">
+                                        <label><input class='option' type="radio" name="option" value="all" checked>전체</label>
+                                        <label><input class='option' type="radio" name="option" value="encrypt"> 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="additional_encrypt">추가 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="decrypt">복호화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="download">다운로드 사용량</label>
+                                    </div>
+                                    <p>(부가세 별도)</p>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num work'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user work'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader date work'>
+                                        <p>작업 일시</p>
+                                    </div>
+                                    <div class='logHeader filename work'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype work'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service work'>
+                                        <p>이용 서비스</p>
+                                    </div>
+                                    <div class='logHeader basic work'>
+                                        <p>기본료</p>
+                                    </div>
+                                    <div class='logHeader resolution work'>
+                                        <p>해상도</p>
+                                    </div>
+                                    <div class='logHeader duration work'>
+                                        <p>영상 길이</p>
+                                    </div>
+                                    <div class='logHeader object work'>
+                                        <p>처리 객체수</p>
+                                    </div>
+                                    <div class='logHeader base work'>
+                                        <p>서비스 <br>기본 금액</p>
+                                    </div>
+                                    <div class='logHeader add work'>
+                                        <p>추가 <br>기본 금액</p>
+                                    </div>
+                                    <div class='logHeader discount work'>
+                                        <p>할인 금액</p>
+                                    </div>
+                                    <div class='logHeader price work'>
+                                        <p>이용 금액</p>
+                                    </div>
+                                </div>`
+            $(".tableArea").html(contentHTML)
+        }
+
+        function creditHTML() {
+            let contentHTML = ``
+            $(".tableArea").html(contentHTML)
+        }
     },
 
     decrypt_log: function () {

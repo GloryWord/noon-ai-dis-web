@@ -441,6 +441,7 @@
 .logArea .btnArea .excelDownload {
     display: flex;
     margin: auto 24px auto 218px;
+    cursor: pointer;
 }
 
 .logArea .btnArea .excelDownload p {
@@ -461,4 +462,201 @@
     height: 19px;
     object-fit: contain;
     margin: auto 0;
+}
+
+.logArea .tableArea {
+    width: 1472px;
+    height: 600px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.logArea .tableArea .tableTitle {
+    width: 100%;
+    height: 66px;
+    display: flex;
+}
+
+.logArea .tableArea .tableTitle h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 26px auto auto 24px;
+}
+
+.logArea .tableArea .tableTitle.work h3 {
+    margin: 26px 24px auto 24px;
+}
+
+.logArea .tableArea .tableTitle .inputOption {
+    display: flex;
+    margin: 30px auto auto 0;
+}
+
+.logArea .tableArea .tableTitle .inputOption label {
+    display: flex;
+    margin: 0 16px 0 0;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    cursor: pointer;
+}
+
+.logArea .tableArea .tableTitle .inputOption label input {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+}
+
+.logArea .tableArea .tableTitle p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: right;
+    color: #595959;
+    margin: auto 31px 2px 0;
+}
+
+.logArea .tableArea .tableHeader {
+    width: 1424px;
+    height: auto;
+    display: flex;
+    background-color: #f2f2f2;
+    border: solid 1px #595959;
+    margin: 0 auto;
+}
+
+.logArea .tableArea .tableHeader .logHeader {
+    display: flex;
+    border-right: solid 1px #bcc5cb;
+}
+
+.logArea .tableArea .tableHeader .logHeader:nth-last-child(1) {
+    border-right: none;
+}
+
+.logArea .tableArea .tableHeader .logHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file {
+    height: 96px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work {
+    height: 48px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.num {
+    width: 82px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.user {
+    width: 98px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.start,
+.logArea .tableArea .tableHeader .logHeader.file.recent {
+    width: 106px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.filename {
+    width: 242px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.filetype {
+    width: 82px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.service {
+    width: 393px;
+    flex-direction: column;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.service .mainHeading {
+    height: 48px;
+    display: flex;
+    border-bottom: solid 1px #bcc5cb;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.service .subHeading {
+    display: flex;
+    height: 48px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.service .subHeading .heading {
+    width: 98px;
+    display: flex;
+    border-right: solid 1px #bcc5cb;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.service .subHeading .heading:nth-last-child(1) {
+    display: flex;
+    border-right: none;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.end,
+.logArea .tableArea .tableHeader .logHeader.file.price,
+.logArea .tableArea .tableHeader .logHeader.file.detail {
+    width: 106px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.num,
+.logArea .tableArea .tableHeader .logHeader.work.filetype {
+    width: 80px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.user,
+.logArea .tableArea .tableHeader .logHeader.work.duration,
+.logArea .tableArea .tableHeader .logHeader.work.object,
+.logArea .tableArea .tableHeader .logHeader.work.base,
+.logArea .tableArea .tableHeader .logHeader.work.discount {
+    width: 96px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.date,
+.logArea .tableArea .tableHeader .logHeader.work.service,
+.logArea .tableArea .tableHeader .logHeader.work.resolution,
+.logArea .tableArea .tableHeader .logHeader.work.price  {
+    width: 102px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.filename {
+    width: 206px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.basic {
+    width: 68px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.work.add {
+    width: 94px;
 }
