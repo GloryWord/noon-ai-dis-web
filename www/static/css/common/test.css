@@ -408,12 +408,12 @@
     cursor: pointer;
 }
 
-.logArea .btnArea .logBtn:nth-child(1) {
+.logArea .btnArea .logBtn.file {
     margin: auto 24px auto auto;
 }
 
 
-.logArea .btnArea .logBtn:nth-last-child(1) {
+.logArea .btnArea .logBtn.work {
     margin: auto 0;
 }
 
@@ -440,7 +440,7 @@
 
 .logArea .btnArea .excelDownload {
     display: flex;
-    margin: auto 24px auto 218px;
+    margin: auto 24px auto 350px;
     cursor: pointer;
 }
 
@@ -466,7 +466,7 @@
 
 .logArea .tableArea {
     width: 1472px;
-    height: 600px;
+    height: auto;
     border-radius: 10px;
     background-color: #fff;
     margin: 0 auto;
@@ -580,12 +580,15 @@
 }
 
 .logArea .tableArea .tableHeader .logHeader.file.user {
-    width: 98px;
+    width: 97px;
 }
 
-.logArea .tableArea .tableHeader .logHeader.file.start,
-.logArea .tableArea .tableHeader .logHeader.file.recent {
+.logArea .tableArea .tableHeader .logHeader.file.start {
     width: 106px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.recent {
+    width: 105px;
 }
 
 .logArea .tableArea .tableHeader .logHeader.file.filename {
@@ -593,11 +596,11 @@
 }
 
 .logArea .tableArea .tableHeader .logHeader.file.filetype {
-    width: 82px;
+    width: 81px;
 }
 
 .logArea .tableArea .tableHeader .logHeader.file.service {
-    width: 393px;
+    width: 392px;
     flex-direction: column;
 }
 
@@ -618,15 +621,26 @@
     border-right: solid 1px #bcc5cb;
 }
 
+.logArea .tableArea .tableHeader .logHeader.file.service .subHeading .heading:nth-child(2) {
+    width: 97px;
+}
+
 .logArea .tableArea .tableHeader .logHeader.file.service .subHeading .heading:nth-last-child(1) {
+    width: 97px;
     display: flex;
     border-right: none;
 }
 
-.logArea .tableArea .tableHeader .logHeader.file.end,
-.logArea .tableArea .tableHeader .logHeader.file.price,
-.logArea .tableArea .tableHeader .logHeader.file.detail {
+.logArea .tableArea .tableHeader .logHeader.file.end {
     width: 106px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.price {
+    width: 105px;
+}
+
+.logArea .tableArea .tableHeader .logHeader.file.detail {
+    width: 98px;
 }
 
 .logArea .tableArea .tableHeader .logHeader.work.num,
@@ -659,4 +673,125 @@
 
 .logArea .tableArea .tableHeader .logHeader.work.add {
     width: 94px;
+}
+
+.logArea .tableArea .tableBody {    
+    display: flex;
+    flex-direction: column;
+}
+
+.logArea .tableArea .tableContent {    
+    width: 1424px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: solid 1px #595959;
+    border-top: none;
+    margin: 0 auto;
+}
+
+.logArea .tableArea .tableContent .contentInfo {    
+    width: 100%;
+    height: 44px;
+    display: flex;
+    border-bottom: solid 1px #bcc5cb;
+    margin: 0;
+}
+
+.logArea .tableArea .tableContent .contentInfo:nth-last-child(1) {    
+    border-bottom: none;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent {    
+    display: flex;
+    border-right: solid 1px #bcc5cb;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent:nth-last-child(1) {    
+    border-right: none;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent p {    
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBth {    
+    display: flex;
+    margin: 14px auto auto;
+    cursor: pointer;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBth span {    
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: 0 4px 0 0;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBth img {    
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin: 0;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.num {
+    width: 82px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.user {
+    width: 97px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.start {
+    width: 106px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.recent {
+    width: 105px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.filename {
+    width: 242px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.filetype {
+    width: 81px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.encrpyt,
+.logArea .tableArea .tableContent .contentInfo .logContent.file.decrypt {
+    width: 98px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.additional,
+.logArea .tableArea .tableContent .contentInfo .logContent.file.download {
+    width: 97px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.end {
+    width: 106px;
+}
+.logArea .tableArea .tableContent .contentInfo .logContent.file.price {
+    width: 105px;
+}
+
+.logArea .tableArea .tableContent .contentInfo .logContent.file.detail {
+    width: 98px;
 }
