@@ -3532,8 +3532,9 @@ init = {
                                             for (var i = 0; i < len; i++) {
                                                 if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
                                             }
-                                            console.log(selectedFile)
-                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                            let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
+                                            fileIDs = fileIDs.join(',');
+                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
                                         }
                                     }
                                     else if (type == 'video') {
@@ -3675,8 +3676,8 @@ init = {
         let beforeCoordinates
 
         if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             if (mode == 'single') {
+                let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
                 console.log(coordinates)
 
@@ -3714,11 +3715,12 @@ init = {
 
             }
             else if (mode == 'group') {
+                let selectedFileIDs = urlParams.get('fileIDs');
+                let fileNames = await fileModule.getFileNameFromID(selectedFileIDs);
+                let signedUrl = await resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileNames);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-                console.log(coordinates)
-                if(coordinates) totalCoordinates = coordinates
-                let imgList = ``
-                console.log(signedUrl)
+                if(coordinates) totalCoordinates = coordinates;
+                let imgList = ``;
                 for (let i = 0; i < signedUrl.length; i++) {
                     imgList += `<div class='listImgDiv'>
                                     <div class='saveIcon'>
