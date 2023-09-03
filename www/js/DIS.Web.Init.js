@@ -1870,6 +1870,24 @@ init = {
             $(".selectMonthText").text(`${month}월`)
             $(".monthPriceText").text(`${month}월 이용 요금`)
         }
+
+        function paging() {
+            $(".tableBody").paging({
+                number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+                pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+                number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+                stealth_mode: false, //default false | takes: Boolean true | false
+                theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+                animate: false, //default true | takes: true | false
+                onBeforeInit: function (instance, $el) { },
+                onAfterInit: function (instance, $el) { },
+                onBeforeEveryDraw: function (instance, $pager) { },
+                onAfterEveryDraw: function (instance, $pager) { },
+                onFirstPage: function (instance, $pager) { },
+                onLastPage: function (instance, $pager) { }
+            });
+        }
+
         let currentDate = new Date();
         let currentYear = currentDate.getFullYear();
         let currentMonth = currentDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 +1 해줍니다.
@@ -1880,6 +1898,8 @@ init = {
         $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
         
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+
+        fileHTML()
 
         $(document).on("change", "#searchMonth", function(){
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
@@ -1893,7 +1913,232 @@ init = {
             $(".excelDownload").addClass(`${viewType}`)
             $(".logBtn").removeClass("active")
             $(this).addClass("active")
+            if(viewType=="file"){
+                fileHTML()
+            }
+            else if(viewType=="work"){
+                workHTML()
+            }
+            else if(viewType=="credit"){
+                creditHTML()
+            }
         })
+
+        function fileHTML() {
+            let contentHTML = `<div class="tableTitle">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num file'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user file'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader start file'>
+                                        <p>작업 시작일</p>
+                                    </div>
+                                    <div class='logHeader recent file'>
+                                        <p>최근 작업일</p>
+                                    </div>
+                                    <div class='logHeader filename file'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype file'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service file'>
+                                        <div class='mainHeading'>
+                                            <p>이용 서비스</p>
+                                        </div>
+                                        <div class='subHeading'>
+                                            <div class='heading'>
+                                                <p>비식별화 <br>(복호화 여부)</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>추가 <br>비식별화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>부분 <br>복호화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>다운로드</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='logHeader end file'>
+                                        <p>파일 만료일</p>
+                                    </div>
+                                    <div class='logHeader price file'>
+                                        <p>차감 요금<br>(원)</p>
+                                    </div>
+                                    <div class='logHeader detail file'>
+                                        <p>요금 <br>상세보기</p>
+                                    </div>
+                                </div>`
+                contentHTML += `<div class='tableBody'>
+                                    <div class='tableContent'>`
+                                    for(let i=0;i<12;i++){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num file'>
+                                                <p>1234567</p>
+                                            </div>
+                                            <div class='logContent user file'>
+                                                <p>관리자 계정</p>
+                                            </div>
+                                            <div class='logContent start file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent recent file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent filename file'>
+                                                <p>이미지</p>
+                                            </div>
+                                            <div class='logContent filetype file'>
+                                                <p>O or X</p>
+                                            </div>
+                                            <div class='logContent encrpyt file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent additional file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent decrypt file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent download file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent end file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent price file'>
+                                                <p>000,000,000</p>
+                                            </div>
+                                            <div class='logContent detail file'>
+                                                <div class='detailBth'>
+                                                    <span>상세 내역</span>
+                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                    }
+                    contentHTML += `</div>
+                                </div>`
+            $(".tableArea").html(contentHTML)
+            paging()
+        }
+
+        function workHTML() {
+            let contentHTML = `<div class="tableTitle work">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                    <div class="inputOption">
+                                        <label><input class='option' type="radio" name="option" value="all" checked>전체</label>
+                                        <label><input class='option' type="radio" name="option" value="encrypt"> 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="additional_encrypt">추가 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="decrypt">복호화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="download">다운로드 사용량</label>
+                                    </div>
+                                    <p>(부가세 별도)</p>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num work'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user work'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader date work'>
+                                        <p>작업 일시</p>
+                                    </div>
+                                    <div class='logHeader filename work'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype work'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service work'>
+                                        <p>이용 서비스</p>
+                                    </div>
+                                    <div class='logHeader basic work'>
+                                        <p>기본료</p>
+                                    </div>
+                                    <div class='logHeader resolution work'>
+                                        <p>해상도</p>
+                                    </div>
+                                    <div class='logHeader duration work'>
+                                        <p>영상 길이</p>
+                                    </div>
+                                    <div class='logHeader object work'>
+                                        <p>처리 객체수</p>
+                                    </div>
+                                    <div class='logHeader base work'>
+                                        <p>서비스 <br>기본 금액</p>
+                                    </div>
+                                    <div class='logHeader add work'>
+                                        <p>추가 <br>발생 금액</p>
+                                    </div>
+                                    <div class='logHeader discount work'>
+                                        <p>할인 금액</p>
+                                    </div>
+                                    <div class='logHeader price work'>
+                                        <p>이용 금액</p>
+                                    </div>
+                                </div>`
+                contentHTML += `<div class='tableBody'>
+                                    <div class='tableContent'>`
+                                    for(let i=0;i<12;i++){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num file'>
+                                                <p>1234567</p>
+                                            </div>
+                                            <div class='logContent user file'>
+                                                <p>관리자 계정</p>
+                                            </div>
+                                            <div class='logContent start file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent recent file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent filename file'>
+                                                <p>이미지</p>
+                                            </div>
+                                            <div class='logContent filetype file'>
+                                                <p>O or X</p>
+                                            </div>
+                                            <div class='logContent encrpyt file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent additional file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent decrypt file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent download file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent end file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent price file'>
+                                                <p>000,000,000</p>
+                                            </div>
+                                            <div class='logContent detail file'>
+                                                <div class='detailBth'>
+                                                    <span>상세 내역</span>
+                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                    }
+                    contentHTML += `</div>
+                                </div>`
+            $(".tableArea").html(contentHTML)
+            paging()
+        }
     },
 
     decrypt_log: function () {
@@ -4386,49 +4631,74 @@ init = {
                         console.log(videoJson)
                     }
                 }
+                else{
+                    if(type == "image" && mode == "group"){
+                        $(`.img${imgNum}`).parent().find(".saveIcon").removeClass("active");
+                    }
+                }
             }
         })
 
         $(document).on("click", ".confirmAdd", async function () {
             if (restoration == 0) {
                 if(type=="image"){
-                    //DB에 비식별화 추가 관련 정보 쿼리
-                    //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-                    let additionalFileList = Object.keys(totalCoordinates)
-                    let fileCount = additionalFileList.length
-                    detail = {
-                        'token': token,
-                        'fileList': additionalFileList,
-                        'fileCount': fileCount,
-                    }
-                    Swal.fire({
-                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
-                        showCancelButton: true,
-                        confirmButtonText: '네',
-                        cancelButtonText: '취소',
-                        icon: "info"
-                    }).then(async (result) => {
-                        if (result.isConfirmed) {
-                            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-                            let requestType = 'masking';
-                            comm.increaseRequestCount(requestId, fileList, requestType);
-                            if (addMessage) {
-                                Swal.fire({
-                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                    allowOutsideClick: false,
-                                    icon: 'success'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                                    }
-                                })
-                            }
+                    let allImgClear = true;
+                    for (const key of fileList) {
+                        if (totalCoordinates.hasOwnProperty(key)) {
+                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                        } else {
+                          allImgClear = false;
+                          break; // 루프 중단
                         }
-                    })
+                    }
+                    if(allImgClear==false){
+                        Swal.fire({
+                            title: '모든 이미지의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        //DB에 비식별화 추가 관련 정보 쿼리
+                        //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                        let additionalFileList = Object.keys(totalCoordinates)
+                        let fileCount = additionalFileList.length
+                        detail = {
+                            'token': token,
+                            'fileList': additionalFileList,
+                            'fileCount': fileCount,
+                        }
+                        Swal.fire({
+                            title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '네',
+                            cancelButtonText: '취소',
+                            icon: "info"
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                                comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let requestType = 'masking';
+                                comm.increaseRequestCount(requestId, fileList, requestType);
+                                if (addMessage) {
+                                    Swal.fire({
+                                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon: 'success'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
                 }
                 else if(type=="video"){
                     let allSectorClear = await fileModule.readallSectorClear(token, requestId)
@@ -4479,32 +4749,52 @@ init = {
             }
             else {
                 if(type=="image"){
-                    //DB에 비식별화 추가 관련 정보 쿼리
-                    //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-                    let additionalFileList = Object.keys(totalCoordinates)
-                    let fileCount = additionalFileList.length
-                    detail = {
-                        'token': token,
-                        'fileList': additionalFileList,
-                        'fileCount': fileCount,
+                    let allImgClear = true;
+                    for (const key of fileList) {
+                        if (totalCoordinates.hasOwnProperty(key)) {
+                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                        } else {
+                          allImgClear = false;
+                          break; // 루프 중단
+                        }
                     }
-                    let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
-                    let requestType = 'masking';
-                    comm.increaseRequestCount(requestId, fileList, requestType);
-                    if (addMessage) {
+                    if(allImgClear==false){
                         Swal.fire({
-                            title: '비식별화 추가 요청이 \n완료되었습니다.',
-                            showCancelButton: false,
-                            confirmButtonText: '확인',
-                            allowOutsideClick: false,
-                            icon: 'success'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                            }
-                        })
+                            title: '모든 이미지의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        //DB에 비식별화 추가 관련 정보 쿼리
+                        //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                        let additionalFileList = Object.keys(totalCoordinates)
+                        let fileCount = additionalFileList.length
+                        detail = {
+                            'token': token,
+                            'fileList': additionalFileList,
+                            'fileCount': fileCount,
+                        }
+                        let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                        comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                        let requestType = 'masking';
+                        comm.increaseRequestCount(requestId, fileList, requestType);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
                     }
                 }
                 else if(type=="video"){
