@@ -1112,7 +1112,6 @@ fileModule = {
                 verify_result = { valid, msg, keyPath };
             },
             error: function (xhr, status){
-                console.log('@@@@'+JSON.stringify(xhr));
                 console.log('verify key failed');
                 verify_result = false;
             }
@@ -2253,5 +2252,46 @@ fileModule = {
             });
         }
         return [insertId, encReqInfo];
-    }
+    },
+
+    getSelectedFileID: async function(selectedFile, requestID) {
+        let baseUrl = `/api/select/fileID?selectedFile=${selectedFile}&requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let fileIDs;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function(result) {
+                fileIDs = result.fileIDs;
+            },
+            error: function() {
+
+            }
+        });
+        return fileIDs;
+    },
+    getFileNameFromID: async function(fileIDs) {
+        let baseUrl = `/api/select/fileName?fileIDs=${fileIDs}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let fileNames;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function(result) {
+                fileNames = result.fileNames;
+            },
+            error: function() {
+
+            }
+        });
+        return fileNames;
+    },
 }
