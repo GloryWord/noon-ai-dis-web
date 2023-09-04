@@ -236,7 +236,7 @@ requestTable = {
                         let fail = 'FAIL'
                         if(requestList[i]['status'] === null) status = '<p>실패</p>';
                         else {
-                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            if(requestList[i]['status'].indexOf('FAIL')==1){
                                 status = '<p>실패</p>'
                             }
                             else {  
@@ -433,7 +433,7 @@ requestTable = {
                         let fail = 'FAIL'
                         if(requestList[i]['status'] === null) status = '<p>실패</p>';
                         else {
-                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            if(requestList[i]['status'].indexOf('FAIL')==1){
                                 status = '<p>실패</p>'
                             }
                             else {  
@@ -455,11 +455,19 @@ requestTable = {
                         var disable = ""; 
                         var m_disable = ""
                         var text = "상세정보";
+                        var background=""
+                    }
+                    else if(status=="<p>실패</p>"){
+                        var disable = ""; 
+                        var m_disable = ""
+                        var text = "상세정보";
+                        var background="style='background-color:#f64957'"
                     }
                     else{
                         var disable = "disable"; 
                         var m_disable = "style='pointer-events: none;'"
                         var text= "진행중";
+                        var background=""
                     }
                     if(screen.width<=600){
                         htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
@@ -481,7 +489,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -628,11 +636,19 @@ requestTable = {
                     var disable = ""; 
                     var m_disable = ""
                     var text = "상세정보";
+                    var background=""
+                }
+                else if(status=="<p>실패</p>"){
+                    var disable = ""; 
+                    var m_disable = ""
+                    var text = "상세정보";
+                    var background="style='background-color:#f64957'"
                 }
                 else{
                     var disable = "disable"; 
                     var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
+                    var background=""
                 }
                 if(screen.width<=600){
                     htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
@@ -654,7 +670,7 @@ requestTable = {
                         <div class="rest_content"><p>'+ restoration + '</p></div>\
                         <div class="status_content">'+ status + '</div>\
                         <div class="detail_content">\
-                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                 <p>'+text+'</p>\
                             </div>\
                         </div>\

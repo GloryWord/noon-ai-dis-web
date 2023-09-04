@@ -919,3 +919,210 @@
     width: 88px;
     text-align: right;
 }
+
+.layerPopupBox .price_inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1080px;
+    height: auto;
+    max-height: 796px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px #666;
+    background: #FFFFFF;
+    border: 1px solid #EBEDF2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.layerPopupBox .price_inner .priceHeader {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 12px 0 16px 0;
+}
+
+.layerPopupBox .price_inner .priceHeader .priceTitle {
+    width: auto;
+    height: 100%;
+    display: flex;
+    margin: 8px auto 0 46px;
+}
+
+.layerPopupBox .price_inner .priceHeader .priceTitle img {  
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.layerPopupBox .price_inner .priceHeader .priceTitle h3 {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px auto 0;
+}
+
+.layerPopupBox .price_inner .priceHeader .priceTitle p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 19px auto auto 0;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel {
+    display: flex;
+    margin: 0 12px 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 22px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel:hover {
+    background-color: #3fa9f5;
+    cursor: pointer;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel .cancel_hover {  
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin: auto;
+    display: none;
+    cursor: pointer;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel .cancel_nohover {  
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel:hover .cancel_hover {
+    display: block;
+}
+
+.layerPopupBox .price_inner .priceHeader .cancel:hover .cancel_nohover {
+    display: none;
+}
+
+.layerPopupBox .price_inner .priceContent {
+    width: 988px;
+    height: auto;
+    margin: 0 auto 24px;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo {
+    width: 988px;
+    height: 28px;
+    display: flex;
+    border-bottom: 1px solid #707070;
+    margin: 0 auto 16px;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileName {
+    display: flex;
+    width: 0 24px 0 9px;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileName span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: 0 0 auto 0;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileName p {
+    width: 416px;
+    height: auto;
+    font-family: SpoqaHanSansNeo-Rgular;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.16px;
+    text-align: left;
+    color: #595959;
+    margin: 0 0 auto 0;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileType {
+    display: flex;
+    width: 0 24px 0 9px;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileType span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: 0 0 auto 0;
+}
+
+.layerPopupBox .price_inner .priceContent .priceFileInfo .fileType p {
+    width: 416px;
+    height: auto;
+    font-family: SpoqaHanSansNeo-Rgular;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.16px;
+    text-align: left;
+    color: #595959;
+    margin: 0 0 auto 0;
+}
+
+
+.layerPopupBox .price_inner .priceContent::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.layerPopupBox .price_inner .priceContent::-webkit-scrollbar-track {
+    background-color: #bcc5cb;
+}
+
+.layerPopupBox .price_inner .priceContent::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #707070;
+}
+
+.layerPopupBox .price_inner .priceContent::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
