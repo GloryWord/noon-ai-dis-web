@@ -59,7 +59,7 @@ function imgChargeTable(chargeArray, fileWidth, fileHeight, nameArray) {
                         </div>
                     </div>
                     <div class='charge_info price'>
-                        <div class="total_price_area"><p>예상 요금</p><span class='single_price ${i}'>0<h4>원</h4></span></div>
+                        <div class="total_price_area"><p>예상 요금</p><span class='single_price ${i}'>0<h4>캐시</h4></span></div>
                         <div class="price_area"><p class='single_base_price ${i}'>0</p><p>+</p><p class='single_add_price ${i}'>0</p></div>
                     </div>
                 </div>`
@@ -184,7 +184,7 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                         </div>
                                     </div>
                                     <div class='charge_tb_footer'>
-                                        <div class="total_price_area"><p>총 예상 요금</p><span class='total_price'>0<h4>원</h4></span></div>
+                                        <div class="total_price_area"><p>총 예상 요금</p><span class='total_price'>0<h4>캐시</h4></span></div>
                                         <div class="price_area"><p class='base_price'>0</p><p>+</p><p class='add_price'>0</p></div>
                                     </div>
                                 </div>`
@@ -766,10 +766,10 @@ fileModule = {
                                 $(".object_number").val("")
                                 $(".price_text").text("-")
                                 $(".add_price_text").text("-")
-                                $(".total_price").html(`0<h4>원</h4>`)
+                                $(".total_price").html(`0<h4>캐시</h4>`)
                                 $(".base_price").text("0")
                                 $(".add_price").text("0")
-                                $(".single_price").html(`0<h4>원</h4>`)
+                                $(".single_price").html(`0<h4>캐시</h4>`)
                                 $(".single_base_price").text("0")
                                 $(".single_add_price").text("0")
                             });
@@ -825,7 +825,7 @@ fileModule = {
                                     // $(".charge_text." + num + "").text(`${price_three(total_charge)} 원, ${price_three(add_charge)}`)
                                     $(".base_price").text(`${price_three(Math.floor(total_charge))}`)
                                     $(".add_price").text(`${price_three(Math.floor(add_charge))}`)
-                                    $(".total_price").html(`${price_three(Math.floor(total_charge) + Math.floor(add_charge))}<h4>원</h4>`)
+                                    $(".total_price").html(`${price_three(Math.floor(total_charge) + Math.floor(add_charge))}<h4>캐시</h4>`)
                                 }
                                 else if (fileType == "image") {
                                     chargeArray[num].total_charge = 0;
@@ -872,7 +872,7 @@ fileModule = {
                                     }
                                     $(`.single_base_price.${num}`).text(`${price_three(Math.floor(chargeArray[num].total_charge))}`)
                                     $(`.single_add_price.${num}`).text(`${price_three(Math.floor(chargeArray[num].add_charge))}`)
-                                    $(`.single_price.${num}`).html(`${price_three(Math.floor(chargeArray[num].total_charge) + Math.floor(chargeArray[num].add_charge))}<h4>원</h4>`)
+                                    $(`.single_price.${num}`).html(`${price_three(Math.floor(chargeArray[num].total_charge) + Math.floor(chargeArray[num].add_charge))}<h4>캐시</h4>`)
                                     var add_total = 0
                                     let reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
                                     for (var i = 0; i < $(".single_base_price").length; i++) {
@@ -884,7 +884,7 @@ fileModule = {
                                     }
                                     $(`.base_price`).text(`${price_three(total)}`)
                                     $(`.add_price`).text(`${price_three(add_total)}`)
-                                    $(`.total_price`).html(`${price_three(total + add_total)}<h4>원</h4>`)
+                                    $(`.total_price`).html(`${price_three(total + add_total)}<h4>캐시</h4>`)
                                 }
                             });
 

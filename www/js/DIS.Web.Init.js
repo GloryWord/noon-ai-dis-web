@@ -1970,7 +1970,7 @@ init = {
                                         <p>파일 만료일</p>
                                     </div>
                                     <div class='logHeader price file'>
-                                        <p>차감 요금<br>(원)</p>
+                                        <p>차감 요금</p>
                                     </div>
                                     <div class='logHeader detail file'>
                                         <p>요금 <br>상세보기</p>
@@ -1993,13 +1993,13 @@ init = {
                                                 <p>YYYY. MM. DD</p>
                                             </div>
                                             <div class='logContent filename file'>
-                                                <p>이미지</p>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
                                             </div>
                                             <div class='logContent filetype file'>
-                                                <p>O or X</p>
+                                                <p>이미지</p>
                                             </div>
                                             <div class='logContent encrpyt file'>
-                                                <p>00 회</p>
+                                                <p>O or X</p>
                                             </div>
                                             <div class='logContent additional file'>
                                                 <p>00 회</p>
@@ -2083,54 +2083,60 @@ init = {
                                         <p>할인 금액</p>
                                     </div>
                                     <div class='logHeader price work'>
-                                        <p>이용 금액</p>
+                                        <p>차감 금액</p>
                                     </div>
                                 </div>`
                 contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
                                     for(let i=0;i<12;i++){
                         contentHTML += `<div class='contentInfo'>
-                                            <div class='logContent num file'>
+                                            <div class='logContent num work'>
                                                 <p>1234567</p>
                                             </div>
-                                            <div class='logContent user file'>
+                                            <div class='logContent user work'>
                                                 <p>관리자 계정</p>
                                             </div>
-                                            <div class='logContent start file'>
-                                                <p>YYYY. MM. DD</p>
+                                            <div class='logContent date work'>
+                                                <p>YYYY. MM. DD <br>00 : 00 : 00</p>
                                             </div>
-                                            <div class='logContent recent file'>
-                                                <p>YYYY. MM. DD</p>
+                                            <div class='logContent filename work'>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
                                             </div>
-                                            <div class='logContent filename file'>
-                                                <p>이미지</p>
+                                            <div class='logContent filetype work'>
+                                                <p>영상</p>
                                             </div>
-                                            <div class='logContent filetype file'>
-                                                <p>O or X</p>
+                                            <div class='logContent service work'>
+                                                <p>비식별화</p>
                                             </div>
-                                            <div class='logContent encrpyt file'>
-                                                <p>00 회</p>
+                                            <div class='logContent basic work'>
+                                                <p>10,000</p>
                                             </div>
-                                            <div class='logContent additional file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent decrypt file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent download file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent end file'>
-                                                <p>YYYY. MM. DD</p>
-                                            </div>
-                                            <div class='logContent price file'>
-                                                <p>000,000,000</p>
-                                            </div>
-                                            <div class='logContent detail file'>
-                                                <div class='detailBth'>
-                                                    <span>상세 내역</span>
-                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>HD 이하</span>
+                                                    <h5>(00000X00000)</h5>
                                                 </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    <span>00분00초</span>
+                                                    <h5>(000,000초)</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>00개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>1,000,000</p>
                                             </div>
                                         </div>`
                                     }
