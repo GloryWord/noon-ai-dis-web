@@ -3718,6 +3718,7 @@ init = {
                 let selectedFileIDs = urlParams.get('fileIDs');
                 let fileNames = await fileModule.getFileNameFromID(selectedFileIDs);
                 let signedUrl = await resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileNames);
+                console.log('signedUrl : ',signedUrl);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
                 if(coordinates) totalCoordinates = coordinates;
                 let imgList = ``;
@@ -3727,7 +3728,7 @@ init = {
                                         <img src='../../static/imgs/check/saveIcon.png'>
                                     </div>
                                     <div class='thumbnailImg img${i}' style='background:url(${signedUrl[i][0]}); background-size: cover; background-position: 50% 50%;' data-imgNum=${i}></div>
-                                    <p>${fileList[i]}</p>
+                                    <p>${fileNames[i]}</p>
                                 </div>`
                 }
                 $(".checkImgList").html(imgList)
@@ -3864,7 +3865,7 @@ init = {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                             if (coordinates) {
-                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[imgNum]]);
+                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileNames[imgNum]]);
                                 let canvasCoord = coordTritonToWeb.canvasCoord;
                                 let originCoord = coordTritonToWeb.originCoord;
                                 let classArray = coordTritonToWeb.classArray;
@@ -4436,10 +4437,11 @@ init = {
         })
 
         $(document).on("click", ".thumbnailImg", async function () {
-            let num = $(this).data("imgnum")
+            let num = $(this).data("imgnum");
+            let fileIDs = urlParams.get('fileIDs');
             if (type == 'image') {
                 if (mode == 'group') {
-                    location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
+                    location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}&fileIDs=${fileIDs}`;
                 }
             }
         })
@@ -4447,14 +4449,16 @@ init = {
             let sectorType = $(".imgList").data("sectortype")
             let curCoordinates = saveInput(sectorType, restoration);
             let frameNumber = $(".frameBox.active").data("framenum");
-            let parsedCoordinates
+            let fileIDs = urlParams.get('fileIDs');
+            let fileNames = await fileModule.getFileNameFromID(fileIDs);
+            let parsedCoordinates;
             if(type=="image"){
                 parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
                 if (parsedCoordinates) {
-                    totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+                    totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
                 }
                 else {
-                    if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
+                    if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
                 }
             }
             else if(type=="video"){
@@ -4643,8 +4647,10 @@ init = {
             if (restoration == 0) {
                 if(type=="image"){
                     let allImgClear = true;
-                    for (const key of fileList) {
-                        if (totalCoordinates.hasOwnProperty(key)) {
+                    let fileIDs = urlParams.get('fileIDs');
+                    let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
+                    for (let i=0; i<selectedFiles.length; i++) {
+                        if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
                           continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
                         } else {
                           allImgClear = false;
@@ -4750,8 +4756,10 @@ init = {
             else {
                 if(type=="image"){
                     let allImgClear = true;
-                    for (const key of fileList) {
-                        if (totalCoordinates.hasOwnProperty(key)) {
+                    let fileIDs = urlParams.get('fileIDs');
+                    let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
+                    for (let i=0; i<selectedFiles.length; i++) {
+                        if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
                           continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
                         } else {
                           allImgClear = false;
@@ -4779,9 +4787,9 @@ init = {
                         }
                         let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                         comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, selectedFiles);
                         let requestType = 'masking';
-                        comm.increaseRequestCount(requestId, fileList, requestType);
+                        comm.increaseRequestCount(requestId, selectedFiles, requestType);
                         if (addMessage) {
                             Swal.fire({
                                 title: '비식별화 추가 요청이 \n완료되었습니다.',
