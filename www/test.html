@@ -56,7 +56,7 @@
         <div class="search_area">
             <div class="searchHeader">
                 <img src="./static/imgs/log/usage_icon.png">
-                <p>서비스 이용 관리</p>
+                <p>서비스 이용 및 요금 내역</p>
                 <label>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label>
             </div>
             <div class="searchContent">
@@ -71,17 +71,17 @@
                             <input id="searchMonth" type="month">
                         </div>
                         <div class="periodUse">
-                            <p>이용 기간 : YYYY. MM. DD ~ YYYY. MM. DD</p>
+                            <p>이용 기간 : 2023. 08. 01 ~ 2023. 08. 31</p>
                         </div>
                     </div>
                     <div class="totalPrice">
                         <p class="monthPriceText">8월 이용 요금</p>
                         <span class="priceText">000,000,000</span>
-                        <p class="tailText">원</p>
+                        <p class="tailText">캐시</p>
                     </div>
                 </div>
                 <div class="calcPrice">
-                    <p>총 서비스 기본 금액  000,000 + 추가 발생 금액  000,000 - 할인 금액  000,000 = 총 이용 금액  000,000원</p>
+                    <p>총 서비스 기본 금액  000,000 + 총 추가 발생 금액  000,000 - 총 할인 금액  000,000 = 총 차감 금액  000,000</p>
                 </div>
             </div>
             <div class="totalUsage">
@@ -113,19 +113,19 @@
                                 <p>이미지 파일</p>
                             </div>
                             <div class="usageContentText encrypt">
-                                <p>비식별화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText additional">
-                                <p>추가 비식별화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText decrypt">
-                                <p>부분 복호화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText download">
-                                <p>다운로드 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText total">
-                                <p>총 건수</p>
+                                <p>00 회</p>
                             </div>
                         </div>
                     </div>
@@ -135,19 +135,19 @@
                                 <p>영상 파일</p>
                             </div>
                             <div class="usageContentText encrypt">
-                                <p>비식별화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText additional">
-                                <p>추가 비식별화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText decrypt">
-                                <p>부분 복호화 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText download">
-                                <p>다운로드 건수</p>
+                                <p>00 회</p>
                             </div>
                             <div class="usageContentText total">
-                                <p>총 건수</p>
+                                <p>00 회</p>
                             </div>
                         </div>
                     </div>
@@ -230,6 +230,38 @@
                             <div class="cancel">
                                 <p>취소</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="priceDetail" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="price_inner">
+                <div class="priceHeader">
+                    <div class="priceTitle">
+                        <img src="./static/imgs/usage/priceIcon.png">
+                        <h3>상세 요금 내역</h3>
+                        <p>업로드한 파일의 이용 서비스별 상세 요금입니다.</p>
+                    </div>
+                    <div class="cancel">
+                        <img class="cancel_nohover" src="./static/imgs/common/cancel_icon.png">
+                        <img class="cancel_hover" src="./static/imgs/common/cancel_hover_icon.png">
+                    </div>
+                </div>
+                <div class="priceContent">
+                    <div class="priceFileInfo">
+                        <div class="fileName">
+                            <span>파일명 : </span>
+                            <p>파일명 전체 표기 넘치면 다음줄로 넘김</p>
+                        </div>
+                        <div class="fileType">
+                            <span>파일 유형 : </span>
+                            <p>이미지</p>
                         </div>
                     </div>
                 </div>

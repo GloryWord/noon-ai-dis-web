@@ -1924,6 +1924,10 @@ init = {
             }
         })
 
+        $(document).on("click", ".detailBth", function(){
+            $("#priceDetail").addClass("active")
+        })
+
         function fileHTML() {
             let contentHTML = `<div class="tableTitle">
                                     <h3 class="titleText">파일별 이용 및 요금 내역</h3>
@@ -1970,7 +1974,7 @@ init = {
                                         <p>파일 만료일</p>
                                     </div>
                                     <div class='logHeader price file'>
-                                        <p>차감 요금<br>(원)</p>
+                                        <p>차감 요금</p>
                                     </div>
                                     <div class='logHeader detail file'>
                                         <p>요금 <br>상세보기</p>
@@ -1993,13 +1997,13 @@ init = {
                                                 <p>YYYY. MM. DD</p>
                                             </div>
                                             <div class='logContent filename file'>
-                                                <p>이미지</p>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
                                             </div>
                                             <div class='logContent filetype file'>
-                                                <p>O or X</p>
+                                                <p>이미지</p>
                                             </div>
                                             <div class='logContent encrpyt file'>
-                                                <p>00 회</p>
+                                                <p>O or X</p>
                                             </div>
                                             <div class='logContent additional file'>
                                                 <p>00 회</p>
@@ -2083,54 +2087,60 @@ init = {
                                         <p>할인 금액</p>
                                     </div>
                                     <div class='logHeader price work'>
-                                        <p>이용 금액</p>
+                                        <p>차감 금액</p>
                                     </div>
                                 </div>`
                 contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
                                     for(let i=0;i<12;i++){
                         contentHTML += `<div class='contentInfo'>
-                                            <div class='logContent num file'>
+                                            <div class='logContent num work'>
                                                 <p>1234567</p>
                                             </div>
-                                            <div class='logContent user file'>
+                                            <div class='logContent user work'>
                                                 <p>관리자 계정</p>
                                             </div>
-                                            <div class='logContent start file'>
-                                                <p>YYYY. MM. DD</p>
+                                            <div class='logContent date work'>
+                                                <p>YYYY. MM. DD <br>00 : 00 : 00</p>
                                             </div>
-                                            <div class='logContent recent file'>
-                                                <p>YYYY. MM. DD</p>
+                                            <div class='logContent filename work'>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
                                             </div>
-                                            <div class='logContent filename file'>
-                                                <p>이미지</p>
+                                            <div class='logContent filetype work'>
+                                                <p>영상</p>
                                             </div>
-                                            <div class='logContent filetype file'>
-                                                <p>O or X</p>
+                                            <div class='logContent service work'>
+                                                <p>비식별화</p>
                                             </div>
-                                            <div class='logContent encrpyt file'>
-                                                <p>00 회</p>
+                                            <div class='logContent basic work'>
+                                                <p>10,000</p>
                                             </div>
-                                            <div class='logContent additional file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent decrypt file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent download file'>
-                                                <p>00 회</p>
-                                            </div>
-                                            <div class='logContent end file'>
-                                                <p>YYYY. MM. DD</p>
-                                            </div>
-                                            <div class='logContent price file'>
-                                                <p>000,000,000</p>
-                                            </div>
-                                            <div class='logContent detail file'>
-                                                <div class='detailBth'>
-                                                    <span>상세 내역</span>
-                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>HD 이하</span>
+                                                    <h5>(00000X00000)</h5>
                                                 </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    <span>00분00초</span>
+                                                    <h5>(000,000초)</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>00개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>1,000,000</p>
                                             </div>
                                         </div>`
                                     }
@@ -3124,8 +3134,10 @@ init = {
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
         var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
-        var encDirectory = encFileInfo.encDirectory;
-        var fileList = encFileInfo.fileList;
+        if(encFileInfo!=''){
+            var encDirectory = encFileInfo.encDirectory;
+            var fileList = encFileInfo.fileList;
+        }
         var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
         $('.infoArea')[0].innerHTML = infoHtml;
 
@@ -3297,36 +3309,50 @@ init = {
             }
         });
 
-        if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
-
-            if (mode == 'single') {
-                $('.lockData')[0].innerHTML = html;
-                $('#signedUrl').attr('href', signedUrl[0][0]);
-                var fileSize = signedUrl[0][1];
-                var fileName = fileList[0];
-
-                $(document).on("click", "#signedUrl", function () {
-                    comm.meterDownload(eventIndex, type, fileName, fileSize);
-                    let requestType = 'download';
-                    comm.increaseRequestCount(eventIndex, [fileName], requestType);
-                })
-            }
-            else if (mode == 'group') {
-                $(document).on("click", ".select_recoConfirm", function () {
-                    $('.recoConfirm').attr('data-value', $(this).data('value'));
-                    selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('check_reco');
-                    var len = imgDivList.length;
-                    for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                    }
-                    $("#select_recoData").addClass('active')
-                });
-
-                $(document).on("click", ".albumImg", function () {
-                    if (screen.width > 600) {
+        if(encFileInfo!=''){
+            if (type == 'image') {
+                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+                var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
+    
+                if (mode == 'single') {
+                    $('.lockData')[0].innerHTML = html;
+                    $('#signedUrl').attr('href', signedUrl[0][0]);
+                    var fileSize = signedUrl[0][1];
+                    var fileName = fileList[0];
+    
+                    $(document).on("click", "#signedUrl", function () {
+                        comm.meterDownload(eventIndex, type, fileName, fileSize);
+                        let requestType = 'download';
+                        comm.increaseRequestCount(eventIndex, [fileName], requestType);
+                    })
+                }
+                else if (mode == 'group') {
+                    $(document).on("click", ".select_recoConfirm", function () {
+                        $('.recoConfirm').attr('data-value', $(this).data('value'));
+                        selectedFile = [];
+                        var imgDivList = document.getElementsByClassName('check_reco');
+                        var len = imgDivList.length;
+                        for (var i = 0; i < len; i++) {
+                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                        }
+                        $("#select_recoData").addClass('active')
+                    });
+    
+                    $(document).on("click", ".albumImg", function () {
+                        if (screen.width > 600) {
+                            var imgnum = $(this).data("num")
+                            selectModalImg = imgnum
+                            var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
+                            var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                                <p>이미지 다운로드</p>\
+                            </a>'
+                            document.getElementById('selectImgArea').innerHTML = imgtag
+                            document.getElementById('selectBtnArea').innerHTML = downloadArea
+                            $("#imgView").addClass('active')
+                        }
+                    });
+    
+                    $(document).on("click", ".hoverdiv", function () {
                         var imgnum = $(this).data("num")
                         selectModalImg = imgnum
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
@@ -3336,150 +3362,143 @@ init = {
                         document.getElementById('selectImgArea').innerHTML = imgtag
                         document.getElementById('selectBtnArea').innerHTML = downloadArea
                         $("#imgView").addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".hoverdiv", function () {
-                    var imgnum = $(this).data("num")
-                    selectModalImg = imgnum
-                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                        <p>이미지 다운로드</p>\
-                    </a>'
-                    document.getElementById('selectImgArea').innerHTML = imgtag
-                    document.getElementById('selectBtnArea').innerHTML = downloadArea
-                    $("#imgView").addClass('active')
-                });
-
-                $(document).on("click", ".imgConfirm", function () {
-                    console.log(selectModalImg)
-                    var selectSize = signedUrl[selectModalImg][1];
-                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
-                    let requestType = 'download';
-                    comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
-                });
-
-                $(document).on("click", ".allselect", function () {
-                    if ($('.allselect').is(":checked")) {
-                        $("input:checkbox[class=check_reco]").prop("checked", true);
-                    }
-                    else {
-                        $('input[class=check_reco]:checked').prop('checked', false)
-                    }
-                });
-
-                $(document).on("click", ".check_reco", function () {
-                    if (!$(this).is(":checked")) {
-                        $("input:checkbox[class=allselect]").prop("checked", false);
-                    }
-                });
-
-                $(document).on("mouseover", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseover", ".hoverdiv", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseleave", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("mouseleave", ".hoverdiv", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("click", ".recoConfirm", function () {
-                    $('.modal').removeClass('active')
-                });
-
-                $(document).on("click", "#signedUrl", function () {
-                    let timerInterval
-                    Swal.fire({
-                        title: '파일 다운로드 준비중',
-                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
-                        timer: 99999999999,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            console.log('I was closed by the timer')
-                        }
-                    })
-                    resultLoader.fileToZip({
-                        id: eventIndex,
-                        bucketName: encDirectory[0],    //참조할 버킷 이름
-                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                        fileName: fileList              //참조할 object filename 목록
                     });
-                    socket.on('compress', function (data) {
-                        if (data.log == '압축 완료') {
-                            socket.emit('deleteFile', {
-                                bucketName: encDirectory[0],
-                                subDirectory: encDirectory[1],
-                                fileName: ['Download.zip']
-                            })
-
-                            setTimeout(function () {
-                                new Promise((resolve, reject) => {
-                                    //파일 다운로드 경로 획득
-                                    var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                    var fileUrl = signedUrl[0][0];
-                                    var fileSize = signedUrl[0][1];
-                                    location.href = fileUrl;
-
-                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
-                                    let requestType = 'download';
-                                    comm.increaseRequestCount(eventIndex, fileList, requestType);
-                                    resolve();
-                                }).then(() => {
-                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+    
+                    $(document).on("click", ".imgConfirm", function () {
+                        console.log(selectModalImg)
+                        var selectSize = signedUrl[selectModalImg][1];
+                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                        let requestType = 'download';
+                        comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
+                    });
+    
+                    $(document).on("click", ".allselect", function () {
+                        if ($('.allselect').is(":checked")) {
+                            $("input:checkbox[class=check_reco]").prop("checked", true);
+                        }
+                        else {
+                            $('input[class=check_reco]:checked').prop('checked', false)
+                        }
+                    });
+    
+                    $(document).on("click", ".check_reco", function () {
+                        if (!$(this).is(":checked")) {
+                            $("input:checkbox[class=allselect]").prop("checked", false);
+                        }
+                    });
+    
+                    $(document).on("mouseover", ".albumImg", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").removeClass("hide")
+                    });
+    
+                    $(document).on("mouseover", ".hoverdiv", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").removeClass("hide")
+                    });
+    
+                    $(document).on("mouseleave", ".albumImg", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").addClass("hide")
+                    });
+    
+                    $(document).on("mouseleave", ".hoverdiv", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").addClass("hide")
+                    });
+    
+                    $(document).on("click", ".recoConfirm", function () {
+                        $('.modal').removeClass('active')
+                    });
+    
+                    $(document).on("click", "#signedUrl", function () {
+                        let timerInterval
+                        Swal.fire({
+                            title: '파일 다운로드 준비중',
+                            text: '파일을 압축중입니다. 잠시만 기다려주세요!',
+                            timer: 99999999999,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                console.log('I was closed by the timer')
+                            }
+                        })
+                        resultLoader.fileToZip({
+                            id: eventIndex,
+                            bucketName: encDirectory[0],    //참조할 버킷 이름
+                            subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                            fileName: fileList              //참조할 object filename 목록
+                        });
+                        socket.on('compress', function (data) {
+                            if (data.log == '압축 완료') {
+                                socket.emit('deleteFile', {
+                                    bucketName: encDirectory[0],
+                                    subDirectory: encDirectory[1],
+                                    fileName: ['Download.zip']
                                 })
-                            }, 500)
-                        }
+    
+                                setTimeout(function () {
+                                    new Promise((resolve, reject) => {
+                                        //파일 다운로드 경로 획득
+                                        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                        var fileUrl = signedUrl[0][0];
+                                        var fileSize = signedUrl[0][1];
+                                        location.href = fileUrl;
+    
+                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                        let requestType = 'download';
+                                        comm.increaseRequestCount(eventIndex, fileList, requestType);
+                                        resolve();
+                                    }).then(() => {
+                                        Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                    })
+                                }, 500)
+                            }
+                        });
                     });
-                });
-                $('.lockDataList')[0].innerHTML = html;
+                    $('.lockDataList')[0].innerHTML = html;
+                }
+            }
+            else if (type == 'video') {
+                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+                let fileUrl, fileSize;
+                if (signedUrl[0][0].indexOf('thumbnail') >= 0) {
+                    fileUrl = signedUrl[1][0];
+                    fileSize = signedUrl[1][1];
+                }
+                else {
+                    fileUrl = signedUrl[0][0];
+                    fileSize = signedUrl[0][1];
+                }
+    
+                var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+                $('#signedUrl').attr('href', fileUrl);
+                $('.fullname').text($('.file_fullname').text())
+    
+                var fileName = fileList[0];
+    
+                $(document).on("click", "#signedUrl", function () {
+                    comm.meterDownload(eventIndex, type, fileName, fileSize);
+                    let requestType = 'download';
+                    comm.increaseRequestCount(eventIndex, fileList, requestType);
+                })
             }
         }
-        else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            let fileUrl, fileSize;
-            if (signedUrl[0][0].indexOf('thumbnail') >= 0) {
-                fileUrl = signedUrl[1][0];
-                fileSize = signedUrl[1][1];
-            }
-            else {
-                fileUrl = signedUrl[0][0];
-                fileSize = signedUrl[0][1];
-            }
-
-            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', fileUrl);
-            $('.fullname').text($('.file_fullname').text())
-
-            var fileName = fileList[0];
-
-            $(document).on("click", "#signedUrl", function () {
-                comm.meterDownload(eventIndex, type, fileName, fileSize);
-                let requestType = 'download';
-                comm.increaseRequestCount(eventIndex, fileList, requestType);
-            })
+        else {
+            $(".infoContent").addClass("error")
+            $(".viewContent").addClass("hide")
         }
+        
 
         $(document).on("click", ".checkBtn", function () {
             uploadID = makeid(6);
