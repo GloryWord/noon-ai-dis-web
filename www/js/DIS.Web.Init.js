@@ -2044,7 +2044,6 @@ init = {
                                         <label><input class='option' type="radio" name="option" value="decrypt">복호화 사용량</label>
                                         <label><input class='option' type="radio" name="option" value="download">다운로드 사용량</label>
                                     </div>
-                                    <p>(부가세 별도)</p>
                                 </div>
                                 <div class="tableHeader">
                                     <div class='logHeader num work'>
@@ -2149,6 +2148,27 @@ init = {
             $(".tableArea").html(contentHTML)
             paging()
         }
+    },
+
+    cash: function () {
+        $(".cashTableContent").paging({
+            number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+            pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+            number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+            stealth_mode: false, //default false | takes: Boolean true | false
+            theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+            animate: false, //default true | takes: true | false
+            onBeforeInit: function (instance, $el) { },
+            onAfterInit: function (instance, $el) { },
+            onBeforeEveryDraw: function (instance, $pager) { },
+            onAfterEveryDraw: function (instance, $pager) { },
+            onFirstPage: function (instance, $pager) { },
+            onLastPage: function (instance, $pager) { }
+        });
+    },
+
+    qna: function () {
+        
     },
 
     decrypt_log: function () {
