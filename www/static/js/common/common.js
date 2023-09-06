@@ -104,7 +104,12 @@ $(document).ready(function () {
     $(document).ready(function() {
         var auth = comm.adminonly();
         if(auth == "master"){
-            $(".admin_only").removeClass('hide')
+            if(screen.width>600){
+                $(".admin_only").removeClass('hide')
+            }
+            else{
+                $(".admin_only").addClass('hide')
+            }
         }
         else if(auth == "sub"){
             $(".admin_only").addClass('hide')

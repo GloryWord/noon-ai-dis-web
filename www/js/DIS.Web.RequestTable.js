@@ -143,6 +143,35 @@ requestTable = {
         return result;
     },
 
+    getSectorProgress: function () {
+        var result = {
+            'progress': '',
+            'type': '',
+            'status': ''
+        }
+
+        let baseUrl = '/api/progress/sector'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                result['status'] = data.progress['status'];
+                result['complete'] = data.progress['complete'];
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
+    },
+
     getRecentRequest: function (requestType) {
         let baseUrl = `/api/request/${requestType}/recent`
         let apiUrl = apiUrlConverter(requestType, baseUrl)
@@ -207,7 +236,7 @@ requestTable = {
                         let fail = 'FAIL'
                         if(requestList[i]['status'] === null) status = '<p>실패</p>';
                         else {
-                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            if(requestList[i]['status'].indexOf('FAIL')==1){
                                 status = '<p>실패</p>'
                             }
                             else {  
@@ -231,6 +260,12 @@ requestTable = {
                         var disable = ""; 
                         var m_disable = ""; 
                         var text = "상세정보";
+                    }
+                    else if(status=="<p>실패</p>"){
+                        var disable = ""; 
+                        var m_disable = ""
+                        var text = "상세정보";
+                        var background="style='background-color:#f64957'"
                     }
                     else{
                         var disable = "disable"; 
@@ -257,7 +292,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -404,7 +439,7 @@ requestTable = {
                         let fail = 'FAIL'
                         if(requestList[i]['status'] === null) status = '<p>실패</p>';
                         else {
-                            if(requestList[i]['status'].indexOf(fail.toLowerCase())==1){
+                            if(requestList[i]['status'].indexOf('FAIL')==1){
                                 status = '<p>실패</p>'
                             }
                             else {  
@@ -426,11 +461,19 @@ requestTable = {
                         var disable = ""; 
                         var m_disable = ""
                         var text = "상세정보";
+                        var background=""
+                    }
+                    else if(status=="<p>실패</p>"){
+                        var disable = ""; 
+                        var m_disable = ""
+                        var text = "상세정보";
+                        var background="style='background-color:#f64957'"
                     }
                     else{
                         var disable = "disable"; 
                         var m_disable = "style='pointer-events: none;'"
                         var text= "진행중";
+                        var background=""
                     }
                     if(screen.width<=600){
                         htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
@@ -452,7 +495,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
@@ -599,11 +642,19 @@ requestTable = {
                     var disable = ""; 
                     var m_disable = ""
                     var text = "상세정보";
+                    var background=""
+                }
+                else if(status=="<p>실패</p>"){
+                    var disable = ""; 
+                    var m_disable = ""
+                    var text = "상세정보";
+                    var background="style='background-color:#f64957'"
                 }
                 else{
                     var disable = "disable"; 
                     var m_disable = "style='pointer-events: none;'"
                     var text= "진행중";
+                    var background=""
                 }
                 if(screen.width<=600){
                     htmlStr += '<div class="m_logContent" data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" '+m_disable+'>\
@@ -625,7 +676,7 @@ requestTable = {
                         <div class="rest_content"><p>'+ restoration + '</p></div>\
                         <div class="status_content">'+ status + '</div>\
                         <div class="detail_content">\
-                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                            <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                 <p>'+text+'</p>\
                             </div>\
                         </div>\
@@ -929,32 +980,38 @@ requestTable = {
 
                     let visible = ""
                     if(auth !== 'master') visible = "hide";
+
+                    let memoModal = ""
+                    if(memo!=""){
+                        memoModal = `<div class='memoModal num${requestList['keyList'][i]['id']}'>
+                                        <span>${memo}</span>
+                                    </div>`
+                    }
     
-                    htmlStr += '<div class="tableContent" id=key_index-' + requestList['keyList'][i]['id'] + '>\
-                                    <div class="number_content"><p>'+ requestList['keyList'][i]['id'] + '</p></div>\
-                                    <div class="name_content"><p class="keyname'+requestList['keyList'][i]['id']+'">'+ requestList['keyList'][i]['key_name'] + '</p></div>\
-                                    <div class="user_content"><p>'+ requestList['keyList'][i]['user_name'] + '</p></div>\
-                                    <div class="create_content"><p>'+ dateFormat(date) + '</p></div>\
-                                    <div class="expiration_content"><p>'+ expiry_date + '</p></div>\
-                                    <div class="memo_content">\
-                                        <p class="memo_text">'+ memo + '</p>\
-                                    </div>\
-                                    <div class="modi_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="memo_modi '+modi+'">\
-                                            <p>수정</p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="change_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="change_btn">\
-                                            <p>변경</p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="delete_content">\
-                                        <div data-id="'+ requestList['keyList'][i]['id'] + '" class="delete_btn">\
-                                            <p>삭제</p>\
-                                        </div>\
-                                    </div>\
-                                </div>'
+                    htmlStr += `<div class="tableContent" id=key_index-${requestList['keyList'][i]['id']}>
+                                    <div class="number_content"><p>${requestList['keyList'][i]['id']}</p></div>
+                                    <div class="name_content"><p class="keyname${requestList['keyList'][i]['id']}">${requestList['keyList'][i]['key_name']}</p></div>
+                                    <div class="user_content"><p>${requestList['keyList'][i]['user_name']}</p></div>
+                                    <div class="create_content"><p>${dateFormat(date)}</p></div>
+                                    <div class="expiration_content"><p>${expiry_date}</p></div>
+                                    <div class="memo_content">
+                                        <p class="memo_text" data-id="${requestList['keyList'][i]['id']}">${memo}</p>
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="memo_modi ${modi}">
+                                            <img src="./static/imgs/key/memoModidyIcon.png">
+                                        </div>
+                                        ${memoModal}
+                                    </div>
+                                    <div class="change_content">
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="change_btn">
+                                            <p>변경</p>
+                                        </div>
+                                    </div>
+                                    <div class="delete_content">
+                                        <div data-id="${requestList['keyList'][i]['id']}" class="delete_btn">
+                                            <p>삭제</p>
+                                        </div>
+                                    </div>
+                                </div>`
                 }
             }
 

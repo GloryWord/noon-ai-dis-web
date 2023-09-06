@@ -1,5 +1,9 @@
 'use strict';
 
+// const { all } = require("../../../noon-ai-dis-was/noon-ai-dis-was-util/api/api");
+
+// const { off } = require("process");
+
 DIS.Web.Init = DIS.Web.Init || {};
 
 function escapeHTML(text) {
@@ -31,6 +35,10 @@ let whitelist = [
 
 var init = DIS.Web.Init;
 init = {
+
+    service: function () {
+
+    },
 
     // 유저 로그인 화면 제어
     index: function () {
@@ -73,8 +81,8 @@ init = {
                 let accountName = $("#name").val();
                 let password = $("#pass").val();
                 login.login(accountName, password);
-                login.updateClearLoginFailCount('tenant', mater_tenant_id, accountName);
-                login.updateClearLockCount('tenant', mater_tenant_id, accountName);
+                login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
+                login.updateClearLockCount('tenant', master_tenant_id, accountName);
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
@@ -329,6 +337,8 @@ init = {
         var fileSize = []
         var videoDuration = []
         let checksum = null;
+        var files = [];
+        var imgInfo = []
 
         var uploadID = 0;
 
@@ -349,12 +359,30 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration] = fileModule.getFileList('image', 'file');
+            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
             setTimeout(function () {
                 $('.uploadContent').html(html);
-                fileCount = fileWidth.length;
+                fileCount = fileSize.length;
                 fileIndex = [];
-                for (var i = 0; i < fileCount; i++) fileIndex.push(i);
+                for (var i = 0; i < fileCount; i++) {
+                    fileIndex.push(i);
+                }
+                imgInfo=[]
+                for (var i = 0; i < fileCount; i++) {
+                    let img = new Image();
+                    img.src = window.URL.createObjectURL(files[i]);
+                    imgInfo.push(img);
+                    // fileWidth.push(0); // 초기값으로 넣어둠
+                    // fileHeight.push(0); // 초기값으로 넣어둠
+                  
+                    img.onload = function() {
+                      const loadedImgIndex = imgInfo.indexOf(this);
+                      if (loadedImgIndex !== -1) {
+                        fileWidth[loadedImgIndex] = this.width;
+                        fileHeight[loadedImgIndex] = this.height;
+                      }
+                    };
+                }
             }, 200)
         });
 
@@ -518,7 +546,7 @@ init = {
         });
 
         var postData, filePath;
-        $(document).on("click", ".nextBtn", function () {
+        $(document).on("click", ".nextBtn", async function () {
             if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
@@ -550,6 +578,8 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
+            console.log('fileWidth : ',fileWidth);
+            console.log('fileHeight : ',fileHeight);
             var encryptObject = []
             var allCheck = ""
             for (var i = 0; i < fileCount; i++) {
@@ -583,7 +613,7 @@ init = {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum, 0);
                 socket.emit('cancelDeleteFile', {
                     id: uploadID
                 })
@@ -625,7 +655,7 @@ init = {
         const urlParams = new URLSearchParams(queryString);
         var type = urlParams.get('type');
         var service = urlParams.get('service');
-        let detail, restoration, mode, requestID, reportErrorestoration;
+        let detail, restoration, mode, requestID, reportErrorestoration, sectorid, token;
         if (service == 'thumbnail') {
             mode = urlParams.get('mode');
             var index = urlParams.get('id');
@@ -633,8 +663,28 @@ init = {
         }
         else if (service == "check") {
             requestID = urlParams.get('requestID');
+            restoration = urlParams.get('restoration');
             reportErrorestoration = urlParams.get('restoration');
+            // endID = urlParams.get('restoration');
             mode = urlParams.get('mode');
+            if (type == "image") {
+                if (mode == "single") {
+                    detail = "image"
+                }
+                else if (mode == "group") {
+                    detail = "album"
+                }
+            }
+            else if (type == "video") {
+                detail = "video"
+            }
+        }
+        else if (service == "sector") {
+            requestID = urlParams.get('requestID');
+            restoration = urlParams.get('restoration');
+            sectorid = urlParams.get('id');
+            mode = urlParams.get('mode');
+            token = urlParams.get('token');
             if (type == "image") {
                 if (mode == "single") {
                     detail = "image"
@@ -697,7 +747,10 @@ init = {
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
                             comm.meterDownload(eventIndex, type, fileName, fileSize);
-
+                            let requestType = 'download';
+                            let originEncIndex = urlParams.get('encID');
+                            if(fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);
+                            else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
                                 text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
@@ -733,6 +786,7 @@ init = {
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
             else if (service == 'check') progressObject = requestTable.getCheckProgress();
+            else if (service == 'sector') progressObject = requestTable.getSectorProgress();
             console.log(progressObject);
             var progress = progressObject['progress'];
             var status = progressObject['status']
@@ -761,6 +815,7 @@ init = {
                         else if (service == 'decrypt') var msg = '복호화가';
                         else if (service == 'thumbnail') var msg = '썸네일 생성이';
                         else if (service == 'check') var msg = '비식별화 추가가';
+                        else if (service == 'sector') var msg = '프레임 이미지 \n생성이';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
                             showCancelButton: false,
@@ -770,8 +825,12 @@ init = {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 if (service == 'encrypt') location.href = '/encrypt/log';
-                                if (service == 'thumbnail') location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}`;
+                                if (service == 'thumbnail') {
+                                    let fileNamse = urlParams.get('fileNames');
+                                    location.href = `/decrypt/inspection?type=${type}&mode=${mode}&id=${index}&encid=${encid}&fileNames=${fileNamse}`;
+                                }
                                 if (service == 'check') location.href = `/encrypt/${detail}/detail?type=${type}&id=${requestID}&restoration=${restoration}&mode=${mode}`;
+                                if (service == 'sector') location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorid}&id=${requestID}&restoration=${restoration}&mode=${mode}&sectorNum=1&imgNum=0`;
                                 if (service == 'decrypt') {
                                     let timerInterval;
                                     var typeStr = (type == 'image') ? '이미지' : '영상';
@@ -1081,7 +1140,7 @@ init = {
             if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum);
+                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum, videoDuration);
                 socket.emit('cancelDeleteFile', {
                     id: uploadID
                 })
@@ -1427,8 +1486,6 @@ init = {
         let uploadID = 0;
 
         socket.on('delMsgToClient', function (msg) {
-            console.log(uploadID);
-            console.log(msg.id);
             if (uploadID == msg.id) {
                 Swal.fire({
                     title: msg.title,
@@ -1631,6 +1688,12 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
+            console.log('selectedFile : ',selectedFile);
+            // 복호화 카운트 증가시키는 함수 추가
+            let fileNames = urlParams.get('fileNames');
+            fileNames = fileNames.split(',');
+            let requestType = 'restoration';
+            comm.increaseRequestCount(encryptIdx,fileNames,requestType);
             let decRequestId = decryptAjaxResponse.decReqInfo.decRequestId;
             let fileList = decryptAjaxResponse.fileList;
             if (decryptAjaxResponse) {
@@ -1653,7 +1716,7 @@ init = {
                     icon: 'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt';
+                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt' + '&encID='+encryptIdx;
                     }
                 })
             }
@@ -1736,6 +1799,7 @@ init = {
         $(".logArea").html(getMonthUsage);
 
         $(document).on("click", ".search", function () {
+            // resultLoader.meterUsageExcel();
             var type = $("input[type=radio][name=search_filter]:checked").val();
             var date = $("#startVal").val();
             if (type == "all_count") {
@@ -1798,6 +1862,322 @@ init = {
             }
             $(enc_list + ":lt(" + enc_total_cnt + ")").addClass("active");
         }
+    },
+
+    test: function () {        
+        function dateChange(year, month) {
+            $(".selectYearText").text(`${year}년`)
+            $(".selectMonthText").text(`${month}월`)
+            $(".monthPriceText").text(`${month}월 이용 요금`)
+        }
+
+        function paging() {
+            $(".tableBody").paging({
+                number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+                pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+                number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+                stealth_mode: false, //default false | takes: Boolean true | false
+                theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+                animate: false, //default true | takes: true | false
+                onBeforeInit: function (instance, $el) { },
+                onAfterInit: function (instance, $el) { },
+                onBeforeEveryDraw: function (instance, $pager) { },
+                onAfterEveryDraw: function (instance, $pager) { },
+                onFirstPage: function (instance, $pager) { },
+                onLastPage: function (instance, $pager) { }
+            });
+        }
+
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 +1 해줍니다.
+    
+        // 월을 두 자리로 표현하도록 포맷팅합니다.
+        let formattedMonth = currentMonth.toString().padStart(2, "0");
+
+        $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
+        
+        dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+
+        fileHTML()
+
+        $(document).on("change", "#searchMonth", function(){
+            dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+        })
+
+        $(document).on("click", ".logBtn", function(){
+            let viewType = $(this).data("type")
+            $(".excelDownload").removeClass("file")
+            $(".excelDownload").removeClass("work")
+            $(".excelDownload").removeClass("credit")
+            $(".excelDownload").addClass(`${viewType}`)
+            $(".logBtn").removeClass("active")
+            $(this).addClass("active")
+            if(viewType=="file"){
+                fileHTML()
+            }
+            else if(viewType=="work"){
+                workHTML()
+            }
+            else if(viewType=="credit"){
+                creditHTML()
+            }
+        })
+
+        $(document).on("click", ".detailBth", function(){
+            $("#priceDetail").addClass("active")
+        })
+
+        function fileHTML() {
+            let contentHTML = `<div class="tableTitle">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num file'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user file'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader start file'>
+                                        <p>작업 시작일</p>
+                                    </div>
+                                    <div class='logHeader recent file'>
+                                        <p>최근 작업일</p>
+                                    </div>
+                                    <div class='logHeader filename file'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype file'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service file'>
+                                        <div class='mainHeading'>
+                                            <p>이용 서비스</p>
+                                        </div>
+                                        <div class='subHeading'>
+                                            <div class='heading'>
+                                                <p>비식별화 <br>(복호화 여부)</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>추가 <br>비식별화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>부분 <br>복호화</p>
+                                            </div>
+                                            <div class='heading'>
+                                                <p>다운로드</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='logHeader end file'>
+                                        <p>파일 만료일</p>
+                                    </div>
+                                    <div class='logHeader price file'>
+                                        <p>차감 요금</p>
+                                    </div>
+                                    <div class='logHeader detail file'>
+                                        <p>요금 <br>상세보기</p>
+                                    </div>
+                                </div>`
+                contentHTML += `<div class='tableBody'>
+                                    <div class='tableContent'>`
+                                    for(let i=0;i<12;i++){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num file'>
+                                                <p>1234567</p>
+                                            </div>
+                                            <div class='logContent user file'>
+                                                <p>관리자 계정</p>
+                                            </div>
+                                            <div class='logContent start file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent recent file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent filename file'>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
+                                            </div>
+                                            <div class='logContent filetype file'>
+                                                <p>이미지</p>
+                                            </div>
+                                            <div class='logContent encrpyt file'>
+                                                <p>O or X</p>
+                                            </div>
+                                            <div class='logContent additional file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent decrypt file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent download file'>
+                                                <p>00 회</p>
+                                            </div>
+                                            <div class='logContent end file'>
+                                                <p>YYYY. MM. DD</p>
+                                            </div>
+                                            <div class='logContent price file'>
+                                                <p>000,000,000</p>
+                                            </div>
+                                            <div class='logContent detail file'>
+                                                <div class='detailBth'>
+                                                    <span>상세 내역</span>
+                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                    }
+                    contentHTML += `</div>
+                                </div>`
+            $(".tableArea").html(contentHTML)
+            paging()
+        }
+
+        function workHTML() {
+            let contentHTML = `<div class="tableTitle work">
+                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                    <div class="inputOption">
+                                        <label><input class='option' type="radio" name="option" value="all" checked>전체</label>
+                                        <label><input class='option' type="radio" name="option" value="encrypt"> 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="additional_encrypt">추가 비식별화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="decrypt">복호화 사용량</label>
+                                        <label><input class='option' type="radio" name="option" value="download">다운로드 사용량</label>
+                                    </div>
+                                </div>
+                                <div class="tableHeader">
+                                    <div class='logHeader num work'>
+                                        <p>번 호</p>
+                                    </div>
+                                    <div class='logHeader user work'>
+                                        <p>사용자</p>
+                                    </div>
+                                    <div class='logHeader date work'>
+                                        <p>작업 일시</p>
+                                    </div>
+                                    <div class='logHeader filename work'>
+                                        <p>파일명</p>
+                                    </div>
+                                    <div class='logHeader filetype work'>
+                                        <p>파일 유형</p>
+                                    </div>
+                                    <div class='logHeader service work'>
+                                        <p>이용 서비스</p>
+                                    </div>
+                                    <div class='logHeader basic work'>
+                                        <p>기본료</p>
+                                    </div>
+                                    <div class='logHeader resolution work'>
+                                        <p>해상도</p>
+                                    </div>
+                                    <div class='logHeader duration work'>
+                                        <p>영상 길이</p>
+                                    </div>
+                                    <div class='logHeader object work'>
+                                        <p>처리 객체수</p>
+                                    </div>
+                                    <div class='logHeader base work'>
+                                        <p>서비스 <br>기본 금액</p>
+                                    </div>
+                                    <div class='logHeader add work'>
+                                        <p>추가 <br>발생 금액</p>
+                                    </div>
+                                    <div class='logHeader discount work'>
+                                        <p>할인 금액</p>
+                                    </div>
+                                    <div class='logHeader price work'>
+                                        <p>차감 금액</p>
+                                    </div>
+                                </div>`
+                contentHTML += `<div class='tableBody'>
+                                    <div class='tableContent'>`
+                                    for(let i=0;i<12;i++){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>1234567</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>관리자 계정</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>YYYY. MM. DD <br>00 : 00 : 00</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>영상</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>비식별화</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>10,000</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>HD 이하</span>
+                                                    <h5>(00000X00000)</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    <span>00분00초</span>
+                                                    <h5>(000,000초)</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>00개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>1,000,000</p>
+                                            </div>
+                                        </div>`
+                                    }
+                    contentHTML += `</div>
+                                </div>`
+            $(".tableArea").html(contentHTML)
+            paging()
+        }
+    },
+
+    cash: function () {
+        $(".cashTableContent").paging({
+            number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+            pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+            number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+            stealth_mode: false, //default false | takes: Boolean true | false
+            theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+            animate: false, //default true | takes: true | false
+            onBeforeInit: function (instance, $el) { },
+            onAfterInit: function (instance, $el) { },
+            onBeforeEveryDraw: function (instance, $pager) { },
+            onAfterEveryDraw: function (instance, $pager) { },
+            onFirstPage: function (instance, $pager) { },
+            onLastPage: function (instance, $pager) { }
+        });
+    },
+
+    qna: function () {
+        $(document).on("click", ".checkService", function () {
+            if ($('.agreeServiceCheck').is(':checked')) {
+                $(".noneServiceCheck").addClass("active")
+                $(".checkService").removeClass("active")
+            }
+            else {
+                $(".noneServiceCheck").removeClass("active")
+                $(".checkService").addClass("active")
+            }
+        });
     },
 
     decrypt_log: function () {
@@ -2119,6 +2499,16 @@ init = {
         $(document).on("click", ".key_add", function () {
             $("#keyAdd").addClass('active')
             $("#keyAdd").find('[autofocus]').focus();
+        });
+
+        $(document).on("mouseover", ".memo_text", function () { 
+            let num = $(this).data("id")
+            $(".memoModal").removeClass("active")
+            $(`.memoModal.num${num}`).addClass("active")
+        });
+
+        $(document).on("mouseleave", ".memo_text", function () { 
+            $(".memoModal").removeClass("active")
         });
 
         $(document).on("click", ".memo_modi", function () {
@@ -2773,8 +3163,10 @@ init = {
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
         var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
-        var encDirectory = encFileInfo.encDirectory;
-        var fileList = encFileInfo.fileList;
+        if(encFileInfo!=''){
+            var encDirectory = encFileInfo.encDirectory;
+            var fileList = encFileInfo.fileList;
+        }
         var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
         $('.infoArea')[0].innerHTML = infoHtml;
 
@@ -2881,7 +3273,6 @@ init = {
                         console.log('file_name : ' + JSON.stringify(file_name));
                         let verify_result = fileModule.verifyKey(file_name, key_name);
                         let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                        console.log('restorationReq : ' + JSON.stringify(restorationReq));
                         fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                     }
                     else {
@@ -2915,7 +3306,7 @@ init = {
                         if (selected == 'all') {
                             let verify_result = fileModule.verifyKey(file_name, key_name);
                             let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, fileList);
-                            fileModule.sendThumbnailMessage(restorationReq, type, mode);
+                            fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                         }
                         else if (selected == 'select') {
                             if (selectedFile.length == 0) Swal.fire({
@@ -2929,7 +3320,7 @@ init = {
                             else {
                                 let verify_result = fileModule.verifyKey(file_name, key_name);
                                 let restorationReq = fileModule.restorationRequest(verify_result, eventIndex, selectedFile);
-                                fileModule.sendThumbnailMessage(restorationReq, type, mode);
+                                fileModule.sendThumbnailMessage(restorationReq, type, mode, eventIndex);
                             }
                         }
                     }
@@ -2947,34 +3338,50 @@ init = {
             }
         });
 
-        if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
-
-            if (mode == 'single') {
-                $('.lockData')[0].innerHTML = html;
-                $('#signedUrl').attr('href', signedUrl[0][0]);
-                var fileSize = signedUrl[0][1];
-                var fileName = fileList[0];
-
-                $(document).on("click", "#signedUrl", function () {
-                    comm.meterDownload(eventIndex, type, fileName, fileSize);
-                })
-            }
-            else if (mode == 'group') {
-                $(document).on("click", ".select_recoConfirm", function () {
-                    $('.recoConfirm').attr('data-value', $(this).data('value'));
-                    selectedFile = [];
-                    var imgDivList = document.getElementsByClassName('check_reco');
-                    var len = imgDivList.length;
-                    for (var i = 0; i < len; i++) {
-                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                    }
-                    $("#select_recoData").addClass('active')
-                });
-
-                $(document).on("click", ".albumImg", function () {
-                    if (screen.width > 600) {
+        if(encFileInfo!=''){
+            if (type == 'image') {
+                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+                var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
+    
+                if (mode == 'single') {
+                    $('.lockData')[0].innerHTML = html;
+                    $('#signedUrl').attr('href', signedUrl[0][0]);
+                    var fileSize = signedUrl[0][1];
+                    var fileName = fileList[0];
+    
+                    $(document).on("click", "#signedUrl", function () {
+                        comm.meterDownload(eventIndex, type, fileName, fileSize);
+                        let requestType = 'download';
+                        comm.increaseRequestCount(eventIndex, [fileName], requestType);
+                    })
+                }
+                else if (mode == 'group') {
+                    $(document).on("click", ".select_recoConfirm", function () {
+                        $('.recoConfirm').attr('data-value', $(this).data('value'));
+                        selectedFile = [];
+                        var imgDivList = document.getElementsByClassName('check_reco');
+                        var len = imgDivList.length;
+                        for (var i = 0; i < len; i++) {
+                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                        }
+                        $("#select_recoData").addClass('active')
+                    });
+    
+                    $(document).on("click", ".albumImg", function () {
+                        if (screen.width > 600) {
+                            var imgnum = $(this).data("num")
+                            selectModalImg = imgnum
+                            var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
+                            var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                                <p>이미지 다운로드</p>\
+                            </a>'
+                            document.getElementById('selectImgArea').innerHTML = imgtag
+                            document.getElementById('selectBtnArea').innerHTML = downloadArea
+                            $("#imgView").addClass('active')
+                        }
+                    });
+    
+                    $(document).on("click", ".hoverdiv", function () {
                         var imgnum = $(this).data("num")
                         selectModalImg = imgnum
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
@@ -2984,147 +3391,147 @@ init = {
                         document.getElementById('selectImgArea').innerHTML = imgtag
                         document.getElementById('selectBtnArea').innerHTML = downloadArea
                         $("#imgView").addClass('active')
-                    }
-                });
-
-                $(document).on("click", ".hoverdiv", function () {
-                    var imgnum = $(this).data("num")
-                    selectModalImg = imgnum
-                    var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                    var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
-                        <p>이미지 다운로드</p>\
-                    </a>'
-                    document.getElementById('selectImgArea').innerHTML = imgtag
-                    document.getElementById('selectBtnArea').innerHTML = downloadArea
-                    $("#imgView").addClass('active')
-                });
-
-                $(document).on("click", ".imgConfirm", function () {
-                    console.log(selectModalImg)
-                    var selectSize = signedUrl[selectModalImg][1];
-                    comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
-                });
-
-                $(document).on("click", ".allselect", function () {
-                    if ($('.allselect').is(":checked")) {
-                        $("input:checkbox[class=check_reco]").prop("checked", true);
-                    }
-                    else {
-                        $('input[class=check_reco]:checked').prop('checked', false)
-                    }
-                });
-
-                $(document).on("click", ".check_reco", function () {
-                    if (!$(this).is(":checked")) {
-                        $("input:checkbox[class=allselect]").prop("checked", false);
-                    }
-                });
-
-                $(document).on("mouseover", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseover", ".hoverdiv", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").removeClass("hide")
-                });
-
-                $(document).on("mouseleave", ".albumImg", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("mouseleave", ".hoverdiv", function () {
-                    var num = $(this).data('num')
-                    $("." + num + "").addClass("hide")
-                });
-
-                $(document).on("click", ".recoConfirm", function () {
-                    $('.modal').removeClass('active')
-                });
-
-                $(document).on("click", "#signedUrl", function () {
-                    let timerInterval
-                    Swal.fire({
-                        title: '파일 다운로드 준비중',
-                        text: '파일을 압축중입니다. 잠시만 기다려주세요!',
-                        timer: 99999999999,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            console.log('I was closed by the timer')
-                        }
-                    })
-                    resultLoader.fileToZip({
-                        id: eventIndex,
-                        bucketName: encDirectory[0],    //참조할 버킷 이름
-                        subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                        fileName: fileList              //참조할 object filename 목록
                     });
-                    socket.on('compress', function (data) {
-                        if (data.log == '압축 완료') {
-                            socket.emit('deleteFile', {
-                                bucketName: encDirectory[0],
-                                subDirectory: encDirectory[1],
-                                fileName: ['Download.zip']
-                            })
-
-                            setTimeout(function () {
-                                new Promise((resolve, reject) => {
-                                    //파일 다운로드 경로 획득
-                                    var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                    var fileUrl = signedUrl[0][0];
-                                    var fileSize = signedUrl[0][1];
-                                    location.href = fileUrl;
-
-                                    comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
-                                    resolve();
-                                }).then(() => {
-                                    Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+    
+                    $(document).on("click", ".imgConfirm", function () {
+                        console.log(selectModalImg)
+                        var selectSize = signedUrl[selectModalImg][1];
+                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                        let requestType = 'download';
+                        comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
+                    });
+    
+                    $(document).on("click", ".allselect", function () {
+                        if ($('.allselect').is(":checked")) {
+                            $("input:checkbox[class=check_reco]").prop("checked", true);
+                        }
+                        else {
+                            $('input[class=check_reco]:checked').prop('checked', false)
+                        }
+                    });
+    
+                    $(document).on("click", ".check_reco", function () {
+                        if (!$(this).is(":checked")) {
+                            $("input:checkbox[class=allselect]").prop("checked", false);
+                        }
+                    });
+    
+                    $(document).on("mouseover", ".albumImg", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").removeClass("hide")
+                    });
+    
+                    $(document).on("mouseover", ".hoverdiv", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").removeClass("hide")
+                    });
+    
+                    $(document).on("mouseleave", ".albumImg", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").addClass("hide")
+                    });
+    
+                    $(document).on("mouseleave", ".hoverdiv", function () {
+                        var num = $(this).data('num')
+                        $("." + num + "").addClass("hide")
+                    });
+    
+                    $(document).on("click", ".recoConfirm", function () {
+                        $('.modal').removeClass('active')
+                    });
+    
+                    $(document).on("click", "#signedUrl", function () {
+                        let timerInterval
+                        Swal.fire({
+                            title: '파일 다운로드 준비중',
+                            text: '파일을 압축중입니다. 잠시만 기다려주세요!',
+                            timer: 99999999999,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                console.log('I was closed by the timer')
+                            }
+                        })
+                        resultLoader.fileToZip({
+                            id: eventIndex,
+                            bucketName: encDirectory[0],    //참조할 버킷 이름
+                            subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                            fileName: fileList              //참조할 object filename 목록
+                        });
+                        socket.on('compress', function (data) {
+                            if (data.log == '압축 완료') {
+                                socket.emit('deleteFile', {
+                                    bucketName: encDirectory[0],
+                                    subDirectory: encDirectory[1],
+                                    fileName: ['Download.zip']
                                 })
-                            }, 500)
-                        }
+    
+                                setTimeout(function () {
+                                    new Promise((resolve, reject) => {
+                                        //파일 다운로드 경로 획득
+                                        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                        var fileUrl = signedUrl[0][0];
+                                        var fileSize = signedUrl[0][1];
+                                        location.href = fileUrl;
+    
+                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                        let requestType = 'download';
+                                        comm.increaseRequestCount(eventIndex, fileList, requestType);
+                                        resolve();
+                                    }).then(() => {
+                                        Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                    })
+                                }, 500)
+                            }
+                        });
                     });
-                });
-                $('.lockDataList')[0].innerHTML = html;
+                    $('.lockDataList')[0].innerHTML = html;
+                }
+            }
+            else if (type == 'video') {
+                var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+                let fileUrl, fileSize;
+                if (signedUrl[0][0].indexOf('thumbnail') >= 0) {
+                    fileUrl = signedUrl[1][0];
+                    fileSize = signedUrl[1][1];
+                }
+                else {
+                    fileUrl = signedUrl[0][0];
+                    fileSize = signedUrl[0][1];
+                }
+    
+                var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
+                $('#signedUrl').attr('href', fileUrl);
+                $('.fullname').text($('.file_fullname').text())
+    
+                var fileName = fileList[0];
+    
+                $(document).on("click", "#signedUrl", function () {
+                    comm.meterDownload(eventIndex, type, fileName, fileSize);
+                    let requestType = 'download';
+                    comm.increaseRequestCount(eventIndex, fileList, requestType);
+                })
             }
         }
-        else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-            let fileUrl, fileSize;
-            if (signedUrl[0][0].indexOf('thumbnail') >= 0) {
-                fileUrl = signedUrl[1][0];
-                fileSize = signedUrl[1][1];
-            }
-            else {
-                fileUrl = signedUrl[0][0];
-                fileSize = signedUrl[0][1];
-            }
-
-            var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-            $('#signedUrl').attr('href', fileUrl);
-            $('.fullname').text($('.file_fullname').text())
-
-            var fileName = fileList[0];
-
-            $(document).on("click", "#signedUrl", function () {
-                comm.meterDownload(eventIndex, type, fileName, fileSize);
-            })
+        else {
+            $(".infoContent").addClass("error")
+            $(".viewContent").addClass("hide")
         }
+        
 
         $(document).on("click", ".checkBtn", function () {
             uploadID = makeid(6);
+            console.log('restoration : ',restoration);
             if (restoration === '1') {
                 $('#addfile').val('');
                 $('.pemUpload').val('');
@@ -3167,11 +3574,19 @@ init = {
                                             location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                         }
                                         else if (mode == 'group') {
-                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                            selectedFile = [];
+                                            var imgDivList = document.getElementsByClassName('check_reco');
+                                            var len = imgDivList.length;
+                                            for (var i = 0; i < len; i++) {
+                                                if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                            }
+                                            let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
+                                            fileIDs = fileIDs.join(',');
+                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
                                         }
                                     }
                                     else if (type == 'video') {
-                                        location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                        location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                                     }
                                 }
                                 else {
@@ -3207,14 +3622,84 @@ init = {
                         location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
                     else if (mode == 'group') {
-                        location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                        selectedFile = [];
+                        var imgDivList = document.getElementsByClassName('check_reco');
+                        var len = imgDivList.length;
+                        for (var i = 0; i < len; i++) {
+                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                        }
+                        fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
+                            fileIDs = fileIDs.join(',');
+                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
+                        });
                     }
                 }
                 else if (type == 'video') {
-                    location.href = `/encrypt/video/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                    location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                 }
             }
         })
+    },
+
+    select: async function () {
+        let socketURI = apiUrlConverter('socket', '');
+        const socket = io(socketURI, {
+            withCredentials: true,
+            transports: ['websocket']
+        });
+
+        var queryString = location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var type = urlParams.get('type');
+        var requestId = urlParams.get('id');
+        var mode = urlParams.get('mode');
+        var restoration = urlParams.get('restoration');
+        var encFileInfo = resultLoader.getEncFileInfo(requestId); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
+        let encVideoData = resultLoader.getVideoData(requestId);
+        var encDirectory = encFileInfo.encDirectory;
+        var fileList = encFileInfo.fileList;
+        console.log(fileList)
+
+        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+
+        let thumbnailVideo = document.getElementById('video')
+        if(signedUrl[0][0].indexOf("thumbnail.mp4")!=-1){
+            thumbnailVideo.src = signedUrl[1][0]
+        }
+        else{
+            thumbnailVideo.src = signedUrl[0][0]
+        }
+
+        thumbnailVideo.onloadeddata = function async() {
+            var script = document.createElement('script');
+            script.src = '../../static/js/check/select.js';
+            script.onload = function () {
+                // 스크립트 로드 후에 실행되는 부분
+                // 스크립트 로드 후에 할 작업들을 여기에 추가하세요.
+            };
+            // 이제 스크립트는 영상 로딩 후에 추가됩니다.
+            document.head.appendChild(script);
+
+            //select.js가 헤더에 포함되기를 기다림.
+            let intervalId = setInterval(async () => {
+                let headScripts = document.head.getElementsByTagName('script');
+                for (let i = 0; i < headScripts.length; i++) {
+                    if (headScripts[i].attributes.src.value === '../../static/js/check/select.js') {
+
+                        frameRate(encVideoData["fps"])
+                        const frameSlider = document.getElementById('frame-slider');
+                        const frameIndicator = document.getElementById('frame-indicator');
+                        // const totalFrames = Math.round(thumbnailVideo.duration * encVideoData["fps"]);
+                        const totalFrames = encVideoData["frame_count"];
+                        frameSlider.max = totalFrames;
+                        frameIndicator.textContent = `1 / ${totalFrames}`;
+
+                        clearInterval(intervalId);
+                        break;
+                    }
+                }
+            }, 50)
+        };
     },
 
     check: async function () {
@@ -3235,11 +3720,14 @@ init = {
         var encFileInfo = resultLoader.getEncFileInfo(requestId); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
         var encDirectory = encFileInfo.encDirectory;
         var fileList = encFileInfo.fileList;
-        console.log(fileList)
+
+        let totalCoordinates = {};
+        var detail;
+        let beforeCoordinates
 
         if (type == 'image') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
             if (mode == 'single') {
+                let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
                 console.log(coordinates)
 
@@ -3250,7 +3738,7 @@ init = {
                     var height = document.getElementById('canvasBackImg').clientHeight;
                     canvas.height = Number(height)
                     var script = document.createElement('script');
-                    script.src = '../../static/js/check/check.js';
+                    script.src = '../../static/js/check/image.js';
                     document.head.appendChild(script);
                     document.getElementById("layer").style.height = `${Number(height - 39)}px`
                 }
@@ -3259,7 +3747,7 @@ init = {
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
-                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/image.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                             if (coordinates) {
@@ -3277,17 +3765,20 @@ init = {
 
             }
             else if (mode == 'group') {
+                let selectedFileIDs = urlParams.get('fileIDs');
+                let fileNames = await fileModule.getFileNameFromID(selectedFileIDs);
+                let signedUrl = await resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileNames);
+                console.log('signedUrl : ',signedUrl);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-                console.log(coordinates)
-                let imgList = ``
-                console.log(signedUrl)
+                if(coordinates) totalCoordinates = coordinates;
+                let imgList = ``;
                 for (let i = 0; i < signedUrl.length; i++) {
                     imgList += `<div class='listImgDiv'>
                                     <div class='saveIcon'>
                                         <img src='../../static/imgs/check/saveIcon.png'>
                                     </div>
                                     <div class='thumbnailImg img${i}' style='background:url(${signedUrl[i][0]}); background-size: cover; background-position: 50% 50%;' data-imgNum=${i}></div>
-                                    <p>${fileList[i]}</p>
+                                    <p>${fileNames[i]}</p>
                                 </div>`
                 }
                 $(".checkImgList").html(imgList)
@@ -3411,7 +3902,7 @@ init = {
                     var height = document.getElementById('canvasBackImg').clientHeight;
                     canvas.height = Number(height)
                     var script = document.createElement('script');
-                    script.src = '../../static/js/check/check.js';
+                    script.src = '../../static/js/check/image.js';
                     document.head.appendChild(script);
                     document.getElementById("layer").style.height = `${Number(height - 69)}px`
                 }
@@ -3420,11 +3911,11 @@ init = {
                 let intervalId = setInterval(async () => {
                     let headScripts = document.head.getElementsByTagName('script');
                     for (let i = 0; i < headScripts.length; i++) {
-                        if (headScripts[i].attributes.src.value === '../../static/js/check/check.js') {
+                        if (headScripts[i].attributes.src.value === '../../static/js/check/image.js') {
 
                             //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                             if (coordinates) {
-                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileList[imgNum]]);
+                                let coordTritonToWeb = await comm.parseCoordTritonToWeb(coordinates[fileNames[imgNum]]);
                                 let canvasCoord = coordTritonToWeb.canvasCoord;
                                 let originCoord = coordTritonToWeb.originCoord;
                                 let classArray = coordTritonToWeb.classArray;
@@ -3438,91 +3929,968 @@ init = {
             }
         }
         else if (type == 'video') {
-            var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
-        }
-
-        $(document).on("click", ".thumbnailImg", async function () {
-            let num = $(this).data("imgnum")
-            if (type == 'image') {
-                if (mode == 'group') {
-                    location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
-                }
-            }
-            else if (type == 'video') {
-                location.href = `/encrypt/video/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}`;
-            }
-        })
-
-        let totalCoordinates = {};
-        var detail;
-        $(document).on("click", ".save", async function () {
-            let beforeCoordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
+            var sectorNum = urlParams.get('sectorNum');
+            var sectorId = urlParams.get('sectorID');
+            var sectorInfo = await fileModule.readSectorToJson(token, requestId)
+            beforeCoordinates = await fileModule.readVideoJson(type, token, requestId, sectorNum);
             if (beforeCoordinates) totalCoordinates = beforeCoordinates
-            let curCoordinates = saveInput();
+            console.log(sectorInfo)
+            let sectorList = ``
+            for (let i = 0; i < Object.keys(sectorInfo).length; i++) {
+                let iconActive = ''
+                if(sectorInfo[Object.keys(sectorInfo)[i]]["complete"]==1){
+                    iconActive = "active"
+                }
+                sectorList += `<div class='listSectorDiv'>
+                                    <div class='saveIcon ${iconActive}'>
+                                        <img src='../../static/imgs/check/saveIcon.png'>
+                                    </div>
+                                    <div class='sectorBox sector${(i + 1)} ${sectorInfo[Object.keys(sectorInfo)[i]]["type"]}' data-type=${sectorInfo[Object.keys(sectorInfo)[i]]["type"]} 
+                                    data-start=${sectorInfo[Object.keys(sectorInfo)[i]]["start"]} data-end=${sectorInfo[Object.keys(sectorInfo)[i]]["end"]} data-sectornum=${(i + 1)}>
+                                        <div class='textArea'>
+                                            <h2>Sector${Object.keys(sectorInfo)[i]}</h2>
+                                            <p>${sectorInfo[Object.keys(sectorInfo)[i]]["start"]}~${sectorInfo[Object.keys(sectorInfo)[i]]["end"]}</p>
+                                        </div>
+                                    </div>
+                                </div>`
+            }
+            $(".checkSectorList").html(sectorList)
+            let sectorNumDiv = `<p>${sectorNum} / ${Object.keys(sectorInfo).length}</p>`
+            $(".selectSectorNum").html(sectorNumDiv)
 
-            let parsedCoordinates = comm.parseCoordWebToTriton(curCoordinates);
-            if (parsedCoordinates) {
-                totalCoordinates[fileList[imgNum]] = parsedCoordinates;
-            }
-            else {
-                if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
-            }
-            beforeColor = ""
+            $(`.sectorBox`).removeClass("active")
+            $(`.sector${sectorNum}`).addClass("active")
 
-            let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
-            console.log(filePath)
-            socket.emit('cancelDeleteFile', {
-                id: token
-            })
-            socket.emit('delUploadedFile', {
-                filePath: filePath,
-                id: token,
-                immediate: 'false'
-            })
-            console.log(totalCoordinates)
-            //DB에 비식별화 추가 관련 정보 쿼리
-            //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-            let additionalFileList = Object.keys(totalCoordinates)
-            let fileCount = additionalFileList.length
-            detail = {
-                'token': token,
-                'fileList': additionalFileList,
-                'fileCount': fileCount,
-            }
-            if (type == "image" && mode == "single") {
-                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
-                if (addMessage) {
-                    Swal.fire({
-                        title: '비식별화 추가 요청이 \n완료되었습니다.',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                        allowOutsideClick: false,
-                        icon: 'success'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+            var videoJson
+            if (sectorInfo != false) {
+                // 모든 listImgDiv 클래스를 가진 요소들을 가져옵니다.
+                const listImgDivElements = document.querySelectorAll(".sectorBox");
+                await $(".nowSectorInfo").text(`Sector${$(".sectorBox.active").data("sectornum")} ${$(".sectorBox.active").data("start")}~${$(".sectorBox.active").data("end")}`)
+                await $(".imgList").addClass(`${$(".sectorBox.active").data("type")}`)
+                // 이미지 요소들을 선택합니다. 여기에서는 클래스 이름이 'imgList'인 요소들을 선택하겠습니다.
+                var imgElement = document.querySelector('.imgList');
+                imgElement.setAttribute('data-sectortype', `${$(".sectorBox.active").data("type")}`);
+
+                let imgLocList = await fileModule.readSectorImg(type, token, requestId, sectorNum)
+                console.log(imgLocList)
+                let imgListHtml = ``
+                videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                console.log(videoJson)
+                if ($(".imgList").hasClass("fix") == true) {
+                    for (let i = 0; i < imgLocList.length; i++) {
+                        let imgName = imgLocList[i].split("/")
+                        imgName = imgName[imgName.length - 1].split(".")[0]
+                        let frameOrder
+                        if (i == 0) {
+                            frameOrder = "시작 프레임"
+                        }
+                        else {
+                            frameOrder = "종료 프레임"
+                        }
+
+                        let activeStatus
+                        if (imgNum == i) {
+                            activeStatus = "active"
+                        }
+                        else {
+                            activeStatus = ""
+                        }
+
+                        imgListHtml += `<div class='frameBox ${activeStatus}' data-imgnum=${i} data-framenum=${imgName}>
+                                            <div class='sectorFrame active' style="background-image: url(../../${imgLocList[i]}); background-size:cover;"></div>
+                                            <p>${frameOrder} ${imgName}</p>
+                                        </div>`
+                    }
+                    $(".imgList").html(imgListHtml)
+                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+
+                    let selectSectorType = $(".imgList").data("sectortype")
+
+                    let thumbnailImg = document.getElementById('canvasBackImg')
+                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.onload = function () {
+                        const canvas = document.getElementById('canvas');
+                        var height = document.getElementById('canvasBackImg').clientHeight;
+                        canvas.height = Number(height)
+                        var script = document.createElement('script');
+                        script.src = '../../static/js/check/video.js';
+                        document.head.appendChild(script);
+                        document.getElementById("layer").style.height = `${Number(height - 38)}px`
+                    }
+
+                    //video.js가 헤더에 포함되기를 기다림.
+                    let intervalId = setInterval(async () => {
+                        let headScripts = document.head.getElementsByTagName('script');
+                        for (let i = 0; i < headScripts.length; i++) {
+                            if (headScripts[i].attributes.src.value === '../../static/js/check/video.js') {
+
+                                //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                                if (videoJson) {
+                                    let coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"]);
+                                    if(coordTritonToWeb!=null){
+                                        let canvasCoord = coordTritonToWeb.canvas;
+                                        let originCoord = coordTritonToWeb.origin;
+                                        let classArray = coordTritonToWeb.class;
+                                        if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
+                                    }
+                                    else{
+                                        setTimeout(() => 50)
+                                    }
+                                }
+                                clearInterval(intervalId);
+                                break;
+                            }
+                        }
+                    }, 50)
+
+                    $(document).on("click", ".frameBox", async function () {
+                        let num = $(this).data("imgnum")
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+                }
+                else {
+                    $(".loadArea").addClass("active")
+                    let imgName = imgLocList[Number(imgNum)].split("/")
+                    imgName = imgName[imgName.length - 1].split(".")[0]
+                    if(imgNum!=0){
+                        let preImgName = imgLocList[Number(imgNum)-1].split("/")
+                        preImgName = preImgName[preImgName.length - 1].split(".")[0]
+                        imgListHtml += `<div class='frameBox detail prev' data-imgnum=${Number(imgNum)-1} data-framenum=${preImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)-1]}); background-size:cover;"></div>
+                                            <p>Sector${sectorNum} ${preImgName}</p>
+                                        </div>
+                                        <div class='detailPreBtn' data-imgnum=${Number(imgNum)-1}>
+                                            <img src='../../static/imgs/check/detailPreBtn.png'>
+                                        </div>`
+                    }
+                    else {
+                        imgListHtml += `<div class='blankArea'></div>`
+                    }
+                    imgListHtml += `<div class='frameBox detail active' data-imgnum=${Number(imgNum)} data-framenum=${imgName}>
+                                        <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)]}); background-size:cover;"></div>
+                                        <p>Sector${sectorNum} ${imgName}</p>
+                                    </div>`
+                    if(imgNum!=(imgLocList.length - 1)){
+                        let nextImgName = imgLocList[Number(imgNum)+1].split("/")
+                        nextImgName = nextImgName[nextImgName.length - 1].split(".")[0]
+                        imgListHtml += `<div class='detailNextBtn' data-imgnum=${Number(imgNum)+1}>
+                                            <img src='../../static/imgs/check/detailNextBtn.png'>
+                                        </div>
+                                        <div class='frameBox detail next' data-imgnum=${Number(imgNum)+1} data-framenum=${nextImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)+1]}); background-size:cover;"></div>
+                                            <p>Sector${sectorNum} ${nextImgName}</p>
+                                        </div>`
+                    }
+                    else {
+                        imgListHtml += `<div class='blankArea'></div>`
+                    }
+
+                    $(".imgList").html(imgListHtml)
+                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+
+                    let selectSectorType = $(".imgList").data("sectortype")
+
+                    let thumbnailImg = document.getElementById('canvasBackImg')
+                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.onload = function () {
+                        const canvas = document.getElementById('canvas');
+                        var height = document.getElementById('canvasBackImg').clientHeight;
+                        canvas.height = Number(height)
+                        var script = document.createElement('script');
+                        script.src = '../../static/js/check/video.js';
+                        document.head.appendChild(script);
+                        document.getElementById("layer").style.height = `${Number(height - 38)}px`
+                    }
+
+                    //video.js가 헤더에 포함되기를 기다림.
+                    let intervalId = setInterval(async () => {
+                        let headScripts = document.head.getElementsByTagName('script');
+                        for (let i = 0; i < headScripts.length; i++) {
+                            if (headScripts[i].attributes.src.value === '../../static/js/check/video.js') {
+
+                                //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
+                                if (videoJson) {
+                                    let coordTritonToWeb
+                                    if(imgNum==0){
+                                        coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                                    }
+                                    else{
+                                        coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                                        if(coordTritonToWeb["canvas"].length==0){
+                                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                                        }
+                                    }
+                                    
+                                    if(restoration==0){
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+    
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
+                                        }
+                                        else{
+                                            setTimeout(() => 50)
+                                        }
+                                    }
+                                    else {
+                                        if(coordTritonToWeb!=null){
+                                            let canvasCoord = coordTritonToWeb.canvas;
+                                            let originCoord = coordTritonToWeb.origin;
+                                            let classArray = coordTritonToWeb.class;
+                                            let objectArray = coordTritonToWeb.objectID;
+
+                                            loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                            if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
+                                        }
+                                        else{
+                                            setTimeout(() => 50)
+                                        }
+                                    }
+                                }
+                                clearInterval(intervalId);
+                                break;
+                            }
+                        }
+                    }, 50)
+
+                    $(document).on("click", ".frameBox", async function () {
+                        let num = $(this).data("imgnum")
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if($(this).hasClass("next")){
+                            if($(".frameBox.active").data("imgnum")==0){
+                                if (parsedCoordinates) {
+                                    totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                    console.log(totalCoordinates)
+                                    if(restoration==1) {
+                                        let classMax = sendCount()
+                                        totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                        totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                        totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                    }
+                                    let isComplete = true;
+                                    for (let key in totalCoordinates["frame"]["location"]) {
+                                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                            totalCoordinates["complete"] = 0;
+                                            isComplete = false;
+                                            break;
+                                        }
+                                    }
+                                    if(isComplete){
+                                        totalCoordinates["complete"] = 1;
+                                    }
+                                    let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                    socket.emit('cancelDeleteFile', {
+                                        id: token
+                                    })
+                                    socket.emit('delUploadedFile', {
+                                        filePath: filePath,
+                                        id: token,
+                                        immediate: 'false'
+                                    })
+
+                                    location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                                }
+                                else{
+                                    Swal.fire({
+                                        title: '영역을 그려주세요.',
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
+                                    }).then((result) => {
+                                    })
+                                }
+                            }
+                            else{
+                                if(restoration==1) {
+                                    let classMax = sendCount()
+                                    totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                    totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                    totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                }
+                                if (parsedCoordinates) {
+                                    totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                    console.log(totalCoordinates)
+                                }
+                                else {
+                                    if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                                }
+                                let isComplete = true;
+                                for (let key in totalCoordinates["frame"]["location"]) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                        totalCoordinates["complete"] = 0;
+                                        isComplete = false;
+                                        break;
+                                    }
+                                }
+                                if(isComplete){
+                                    totalCoordinates["complete"] = 1;
+                                }
+                                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                socket.emit('cancelDeleteFile', {
+                                    id: token
+                                })
+                                socket.emit('delUploadedFile', {
+                                    filePath: filePath,
+                                    id: token,
+                                    immediate: 'false'
+                                })
+
+                                location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                            }
+                        }
+                        else if($(this).hasClass("prev")){
+                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                            let isComplete = true;
+                            for (let key in totalCoordinates["frame"]["location"]) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    totalCoordinates["complete"] = 0;
+                                    isComplete = false;
+                                    break;
+                                }
+                            }
+                            if(isComplete){
+                                totalCoordinates["complete"] = 1;
+                            }
+                            let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                            socket.emit('cancelDeleteFile', {
+                                id: token
+                            })
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath,
+                                id: token,
+                                immediate: 'false'
+                            })
+
+                            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                         }
                     })
+
+                    $(document).on("click", ".detailPreBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        let isComplete = true;
+                        for (let key in totalCoordinates["frame"]["location"]) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                totalCoordinates["complete"] = 0;
+                                isComplete = false;
+                                break;
+                            }
+                        }
+                        if(isComplete){
+                            totalCoordinates["complete"] = 1;
+                        }
+                        let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                        socket.emit('cancelDeleteFile', {
+                            id: token
+                        })
+                        socket.emit('delUploadedFile', {
+                            filePath: filePath,
+                            id: token,
+                            immediate: 'false'
+                        })
+
+                        location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                    })
+
+                    $(document).on("click", ".detailNextBtn", async function () {
+                        let num = $(this).data("imgnum")
+                        let sectorType = $(".imgList").data("sectortype")
+                        let curCoordinates = saveInput(sectorType, restoration);
+                        let frameNumber = $(".frameBox.active").data("framenum");
+                        let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                        if($(".frameBox.active").data("imgnum")==0){
+                            if (parsedCoordinates) {
+                                totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                console.log(totalCoordinates)
+                                if(restoration==1) {
+                                    let classMax = sendCount()
+                                    totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                    totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                    totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                                }
+                                let isComplete = true;
+                                for (let key in totalCoordinates["frame"]["location"]) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                        totalCoordinates["complete"] = 0;
+                                        isComplete = false;
+                                        break;
+                                    }
+                                }
+                                if(isComplete){
+                                    totalCoordinates["complete"] = 1;
+                                }
+                                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                                socket.emit('cancelDeleteFile', {
+                                    id: token
+                                })
+                                socket.emit('delUploadedFile', {
+                                    filePath: filePath,
+                                    id: token,
+                                    immediate: 'false'
+                                })
+
+                                location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                            }
+                            else{
+                                Swal.fire({
+                                    title: '영역을 그려주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                }).then((result) => {
+                                })
+                            }
+                        }
+                        else{
+                            if(restoration==1) {
+                                let classMax = sendCount()
+                                totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                                totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                                totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                            }
+                            if (parsedCoordinates) {
+                                totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                                console.log(totalCoordinates)
+                            }
+                            else {
+                                if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                            }
+                            let isComplete = true;
+                            for (let key in totalCoordinates["frame"]["location"]) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    totalCoordinates["complete"] = 0;
+                                    isComplete = false;
+                                    break;
+                                }
+                            }
+                            if(isComplete){
+                                totalCoordinates["complete"] = 1;
+                            }
+                            let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                            socket.emit('cancelDeleteFile', {
+                                id: token
+                            })
+                            socket.emit('delUploadedFile', {
+                                filePath: filePath,
+                                id: token,
+                                immediate: 'false'
+                            })
+
+                            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
+                        }
+                    })
+
+                    $(document).on("click", ".loadArea", async function () {
+                        let coordTritonToWeb
+                        allClear()
+                        if(restoration==1){
+                            loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                        }
+                        else{
+                            loadCount(1, 1, 1)
+                        }
+                        if(imgNum==0){
+                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                        }
+                        else{
+                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
+                            if(coordTritonToWeb["canvas"].length==0){
+                                coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                            }
+                        }
+                        
+                        if(restoration==0){
+                            if(coordTritonToWeb!=null){
+                                let canvasCoord = coordTritonToWeb.canvas;
+                                let originCoord = coordTritonToWeb.origin;
+                                let classArray = coordTritonToWeb.class;
+
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
+                            }
+                            else{
+                                setTimeout(() => 50)
+                            }
+                        }
+                        else {
+                            if(coordTritonToWeb!=null){
+                                let canvasCoord = coordTritonToWeb.canvas;
+                                let originCoord = coordTritonToWeb.origin;
+                                let classArray = coordTritonToWeb.class;
+                                let objectArray = coordTritonToWeb.objectID;
+
+                                loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
+                                if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
+                            }
+                            else{
+                                setTimeout(() => 50)
+                            }
+                        }
+                    })
+                }
+            }
+
+            let scrollableDiv = document.getElementById('sectorDiv');
+
+            scrollableDiv.addEventListener('wheel', (event) => {
+                event.preventDefault();
+                let scrollDirection = 0;
+                let scrollSpeed = 40;
+                if (event.deltaY < 0) {
+                    // 휠업 이벤트 처리
+                    scrollDirection = -1;
+                }
+                else if (event.deltaY > 0) {
+                    // 휠다운 이벤트 처리
+                    scrollDirection = 1;
+                }
+
+                scrollableDiv.scrollLeft += scrollDirection * scrollSpeed;
+            });
+
+            const container = document.getElementById("sectorDiv");
+            const activeElement = container.querySelector(".sectorBox.active").parentElement;
+            if (activeElement) {
+                const containerWidth = container.offsetWidth;
+                const containerScrollLeft = container.scrollLeft;
+                const activeElementWidth = activeElement.offsetWidth;
+                const activeElementLeft = activeElement.offsetLeft - ((screen.width - 988) / 2);
+                const activeElementRight = activeElementLeft + activeElementWidth;
+                const centerPosition = containerScrollLeft + containerWidth / 2;
+
+                // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
+                if (activeElementLeft < centerPosition + (screen.width - 988) / 2 || activeElementRight > containerScrollLeft + containerWidth) {
+                    const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
+
+                    // 스크롤 이동
+                    container.scrollTo({
+                        left: scrollOffset,
+                        // behavior: "smooth" // 부드러운 스크롤
+                    });
+                }
+            }
+            // var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
+        }
+
+        $(document).on("click", ".sectorBox", async function () {
+            let num = $(this).data("sectornum")
+            location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${num}&imgNum=0`;
+        })
+
+        $(document).on("click", ".thumbnailImg", async function () {
+            let num = $(this).data("imgnum");
+            let fileIDs = urlParams.get('fileIDs');
+            if (type == 'image') {
+                if (mode == 'group') {
+                    location.href = `/encrypt/album/check?type=${type}&token=${token}&id=${requestId}&restoration=${restoration}&mode=${mode}&imgNum=${num}&fileIDs=${fileIDs}`;
+                }
+            }
+        })
+        $(document).on("click", ".save", async function () {
+            let sectorType = $(".imgList").data("sectortype")
+            let curCoordinates = saveInput(sectorType, restoration);
+            let frameNumber = $(".frameBox.active").data("framenum");
+            let fileIDs = urlParams.get('fileIDs');
+            let fileNames = await fileModule.getFileNameFromID(fileIDs);
+            let parsedCoordinates;
+            if(type=="image"){
+                parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                if (parsedCoordinates) {
+                    totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
+                }
+                else {
+                    if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
+                }
+            }
+            else if(type=="video"){
+                if(sectorType=="fix"){
+                    parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates["frame"]["location"] = parsedCoordinates;
+                        totalCoordinates["complete"] = 1;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').addClass('active');
+                            }
+                        });
+                        console.log(totalCoordinates)
+                    }
+                    else {
+                        if (totalCoordinates["frame"]["location"]) delete totalCoordinates["frame"]["location"]
+                        totalCoordinates["complete"] = 0;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').removeClass('active');
+                            }
+                        });
+                    }
+                }
+                else {
+                    parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
+                    if(restoration==1) {
+                        let classMax = sendCount()
+                        totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
+                        totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
+                        totalCoordinates["frame"]["location"]["carMax"] = classMax[2]
+                    }
+                    if (parsedCoordinates) {
+                        totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
+                        console.log(totalCoordinates)
+                    }
+                    else {
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                    }
+                    let isComplete = true;
+                    for (let key in totalCoordinates["frame"]["location"]) {
+                        if (!isNaN(key)) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                totalCoordinates["complete"] = 0;
+                                isComplete = false;
+                                $('.listSectorDiv').each(function() {
+                                    if ($(this).find('.sectorBox').hasClass('active')) {
+                                        // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                        $(this).find('.saveIcon').removeClass('active');
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
+                    if(isComplete){
+                        totalCoordinates["complete"] = 1;
+                        $('.listSectorDiv').each(function() {
+                            if ($(this).find('.sectorBox').hasClass('active')) {
+                                // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
+                                $(this).find('.saveIcon').addClass('active');
+                            }
+                        });
+                    }
+                }
+            }
+            // beforeColor = ""
+
+            if(type=="image"){
+                let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
+                console.log(filePath)
+                socket.emit('cancelDeleteFile', {
+                    id: token
+                })
+                socket.emit('delUploadedFile', {
+                    filePath: filePath,
+                    id: token,
+                    immediate: 'false'
+                })
+                console.log(totalCoordinates)
+            }
+            else if(type=="video"){
+                let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
+                socket.emit('cancelDeleteFile', {
+                    id: token
+                })
+                socket.emit('delUploadedFile', {
+                    filePath: filePath,
+                    id: token,
+                    immediate: 'false'
+                })
+                console.log(totalCoordinates)
+            }
+            if (type == "image" && mode == "single") {
+                //DB에 비식별화 추가 관련 정보 쿼리
+                //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                let additionalFileList = Object.keys(totalCoordinates)
+                let fileCount = additionalFileList.length
+                detail = {
+                    'token': token,
+                    'fileList': additionalFileList,
+                    'fileCount': fileCount,
+                }
+                if (restoration == 0) {
+                    Swal.fire({
+                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                        showCancelButton: true,
+                        confirmButtonText: '네',
+                        cancelButtonText: '취소',
+                        icon: "info"
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                            // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
+                            // restoration, request_id, fileList, postData.fileNameList
+                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let requestType = 'masking';
+                            comm.increaseRequestCount(requestId, additionalFileList, requestType);
+                            if (addMessage) {
+                                Swal.fire({
+                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                    allowOutsideClick: false,
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+                else {
+                    let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let requestType = 'masking';
+                    comm.increaseRequestCount(requestId, additionalFileList, requestType);
+                    if (addMessage) {
+                        Swal.fire({
+                            title: '비식별화 추가 요청이 \n완료되었습니다.',
+                            showCancelButton: false,
+                            confirmButtonText: '확인',
+                            allowOutsideClick: false,
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                            }
+                        })
+                    }
+                }
+            }
+            else {
+                Swal.fire({
+                    title: '저장이 완료되었습니다.',
+                    showCancelButton: false,
+                    confirmButtonText: '확인',
+                    allowOutsideClick: false,
+                    icon: 'success'
+                })
+                if (document.querySelectorAll(".tag").length != 0) {
+                    if(type == "image" && mode == "group"){
+                        $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
+                    }
+                    else if(type == "video" && mode == "single") {
+                        videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
+                        console.log(videoJson)
+                    }
+                }
+                else{
+                    if(type == "image" && mode == "group"){
+                        $(`.img${imgNum}`).parent().find(".saveIcon").removeClass("active");
+                    }
                 }
             }
         })
 
         $(document).on("click", ".confirmAdd", async function () {
-            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo);
-            if (addMessage) {
-                Swal.fire({
-                    title: '비식별화 추가 요청이 \n완료되었습니다.',
-                    showCancelButton: false,
-                    confirmButtonText: '확인',
-                    allowOutsideClick: false,
-                    icon: 'success'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+            if (restoration == 0) {
+                if(type=="image"){
+                    let allImgClear = true;
+                    let fileIDs = urlParams.get('fileIDs');
+                    let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
+                    for (let i=0; i<selectedFiles.length; i++) {
+                        if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
+                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                        } else {
+                          allImgClear = false;
+                          break; // 루프 중단
+                        }
                     }
-                })
+                    if(allImgClear==false){
+                        Swal.fire({
+                            title: '모든 이미지의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        //DB에 비식별화 추가 관련 정보 쿼리
+                        //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                        let additionalFileList = Object.keys(totalCoordinates)
+                        let fileCount = additionalFileList.length
+                        detail = {
+                            'token': token,
+                            'fileList': additionalFileList,
+                            'fileCount': fileCount,
+                        }
+                        Swal.fire({
+                            title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '네',
+                            cancelButtonText: '취소',
+                            icon: "info"
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                                comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let requestType = 'masking';
+                                comm.increaseRequestCount(requestId, fileList, requestType);
+                                if (addMessage) {
+                                    Swal.fire({
+                                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon: 'success'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }
+                else if(type=="video"){
+                    let allSectorClear = await fileModule.readallSectorClear(token, requestId)
+                    if(allSectorClear==true){
+                        detail = {
+                            'token': token,
+                            'sectorList': Object.keys(sectorInfo)
+                        }
+                        Swal.fire({
+                            title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '네',
+                            cancelButtonText: '취소',
+                            icon: "info"
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                                comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let requestType = 'masking';
+                                comm.increaseRequestCount(requestId, fileList, requestType);
+                                if (addMessage) {
+                                    Swal.fire({
+                                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon: 'success'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+                    else{
+                        Swal.fire({
+                            title: '모든 구간의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                }
+            }
+            else {
+                if(type=="image"){
+                    let allImgClear = true;
+                    let fileIDs = urlParams.get('fileIDs');
+                    let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
+                    for (let i=0; i<selectedFiles.length; i++) {
+                        if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
+                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                        } else {
+                          allImgClear = false;
+                          break; // 루프 중단
+                        }
+                    }
+                    if(allImgClear==false){
+                        Swal.fire({
+                            title: '모든 이미지의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        //DB에 비식별화 추가 관련 정보 쿼리
+                        //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                        let additionalFileList = Object.keys(totalCoordinates)
+                        let fileCount = additionalFileList.length
+                        detail = {
+                            'token': token,
+                            'fileList': additionalFileList,
+                            'fileCount': fileCount,
+                        }
+                        let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                        comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, selectedFiles);
+                        let requestType = 'masking';
+                        comm.increaseRequestCount(requestId, selectedFiles, requestType);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
+                    }
+                }
+                else if(type=="video"){
+                    let allSectorClear = await fileModule.readallSectorClear(token, requestId)
+                    if(allSectorClear==true){
+                        detail = {
+                            'token': token,
+                            'sectorList': Object.keys(sectorInfo)
+                        }
+                        let [insertId, encReqInfo] = await fileModule.additionalVideoEncrypt(detail, requestId);
+                        comm.meterAdditionalEncrypt(requestId, insertId, fileList, type);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                        let requestType = 'masking';
+                        comm.increaseRequestCount(requestId, fileList, requestType);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
+                    }
+                    else{
+                        Swal.fire({
+                            title: '모든 구간의 영역을 \n지정해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                }
             }
         })
     },

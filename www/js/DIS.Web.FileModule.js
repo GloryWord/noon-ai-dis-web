@@ -1,35 +1,69 @@
 'use strict';
 
-function imgChargeTable(chargeArray, fileWidth, fileHeight) {
+function imgChargeTable(chargeArray, fileWidth, fileHeight, nameArray) {
     var html = ''
     for (var i = 0; i < chargeArray.length; i++) {
-        chargeArray[i].resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640);
-
-        html += "<div class='charge_tb_content'>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>해상도</p></div>\
-                                            <div class='content_content'><p>"+ fileWidth[i] + " X " + fileHeight[i] + "</p></div>\
-                                            <div class='price_content'><p>"+ price_three(chargeArray[i].resolution_charge) + "원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>평균 객체 수</p></div>\
-                                            <div class='content_content'>\
-                                                <textarea data-num='"+ i + "' onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' class='object_number' maxlength='2' placeholder='동영상에 평균적으로 등장하는 비식별 처리할 객체 수를 입력해주세요!'></textarea>\
-                                            </div>\
-                                            <div class='price_content'><p class='price_text "+ i + "'>?원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p></p></div>\
-                                            <div class='content_content'><p>예상 요금</p></div>\
-                                            <div class='price_content'><p class='charge_text "+ i + "'>?원</p></div>\
-                                        </div>\
-                                    </div>"
+        // chargeArray[i].resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640);
+        let hdType = ``
+        let fileResolution = fileWidth[i]*fileHeight[i]
+        if(fileResolution<=921600){
+            hdType = `HD 이하`
+        }
+        else if(fileResolution<=2073600){
+            hdType = `FHD 이하`
+        }
+        else{
+            hdType = `FHD 초과`
+        }
+        html += `<div class='name_text_area'>
+                    <h3>파일명 : </h3>
+                    <p>${nameArray[i]["name"]}</p>
+                </div>
+                <div class="charge_tb_header">
+                    <div class="category_header"><p>구 분</p></div>
+                    <div class="content_header"><p>파일 정보</p></div>
+                    <div class="price_header"><p>기본 서비스 요금</p></div>
+                    <div class="add_price_header"><p>추가 요금</p></div>
+                </div>
+                <div class='charge_tb_content'>
+                    <div class='charge_info' style='height:48px;'>
+                        <div class='category_content'><p>복호화 여부</p></div>
+                        <div class='content_content'><p class='reso_text'>복호화 진행 안함</p></div>
+                        <div class='price_content'><p class='base_charge'>기본료 : 400</p></div>
+                        <div class='add_price_content'><p class='add_base_charge'>추가 요금 기본료 : 200</p></div>
+                    </div>
+                    <div class='charge_info' style='height:64px;'>
+                        <div class='category_content'><p>해상도</p></div>
+                        <div class='content_content'>
+                            <div class='textArea'>
+                                <h5>${hdType}</h5>
+                                <p>(${fileWidth[i]}X${fileHeight[i]})</p>
+                            </div>
+                        </div>
+                        <div class='price_content'><p>X ${price_three(chargeArray[i].resolution_charge)}</p></div>
+                        <div class='add_price_content'><p>-</p></div>
+                    </div>
+                    <div class='charge_info' style='height:64px;'>
+                        <div class='category_content'><p>평균 객체 수</p></div>
+                        <div class='content_content'>
+                            <textarea data-num=${i} onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' class='object_number' maxlength='2' placeholder='이미지에서 비식별 처리할 \n객체 수를 입력해주세요!'></textarea>
+                        </div>
+                        <div class='price_content'>
+                            <p class='price_text ${i}'>-</p>
+                        </div>
+                        <div class='add_price_content'>
+                            <div class='textArea ${i}'>
+                                <h5 class='object_over ${i}'></h5>
+                                <p class='add_price_text ${i}'>-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='charge_info price'>
+                        <div class="total_price_area"><p>예상 요금</p><span class='single_price ${i}'>0<h4>캐시</h4></span></div>
+                        <div class="price_area"><p class='single_base_price ${i}'>0</p><p>+</p><p class='single_add_price ${i}'>0</p></div>
+                    </div>
+                </div>`
     }
-    html += "<div class='charge_tb_footer'>\
-                                        <div class='empty_area'></div>\
-                                        <div class='text_area'><p>총 요금</p></div>\
-                                        <div class='price_area'><p class='total_text'>?원</p></div>\
-                                    </div>"
 
     return html;
 }
@@ -42,7 +76,30 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
     avg_frame_rate = avg_frame_rate.split('/');
     avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
 
-    var [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge] = chargeArray
+    let add_duration = `-`
+    if(chargeArray[2]!=0){
+        add_duration = `X ${chargeArray[2]}`
+    }
+
+    let duration_over = ``
+    let duration_over_margin = ``
+    if(Math.floor(currentFile.duration)>300){
+        duration_over = `${Math.floor(currentFile.duration)-300}초 초과`
+        duration_over_margin = `style='margin-bottom:0px;'`
+    }
+
+    let hdType = ``
+    let fileResolution = fileWidth[0]*fileHeight[0]
+    if(fileResolution<=921600){
+        hdType = `HD 이하`
+    }
+    else if(fileResolution<=2073600){
+        hdType = `FHD 이하`
+    }
+    else{
+        hdType = `FHD 초과`
+    }
+
     if (screen.width <= 600) {
         info_content_html = "<div class='info_area'>\
                                     <div class='first_area'>\
@@ -51,8 +108,8 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                             <p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p>\
                                         </div>\
                                         <div class='frame_content'>\
-                                            <h1>프레임 레이트</h1>\
-                                            <p>"+ avg_frame_rate + " FPS</p>\
+                                            <h1>"+ avg_frame_rate + " 프레임 레이트</h1>\
+                                            <p>FPS</p>\
                                         </div>\
                                     </div>\
                                     <div class='second_area'>\
@@ -61,8 +118,8 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                             <p>"+ time_change(currentFile.duration) + "</p>\
                                         </div>\
                                         <div class='bit_content'>\
-                                            <h1>비트 레이트</h1>\
-                                            <p>"+ currentFile.bit_rate + " bps</p>\
+                                            <h1>"+ currentFile.bit_rate + " 비트 레이트</h1>\
+                                            <p>bps</p>\
                                         </div>\
                                     </div>\
                                 </div>"
@@ -83,40 +140,54 @@ function videoChargeTable(currentFile, fileWidth, fileHeight, chargeArray) {
                                     </div>\
                                 </div>"
 
-        charge_content_html = "<div class='charge_tb_content'>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>해상도</p></div>\
-                                            <div class='content_content'><p>"+ fileWidth[0] + " X " + fileHeight[0] + "</p></div>\
-                                            <div class='price_content'><p>"+ price_three(resolution_charge) + "원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>프레임 레이트</p></div>\
-                                            <div class='content_content'><p>"+ avg_frame_rate + " FPS</p></div>\
-                                            <div class='price_content'><p>"+ price_three(frame_rate_charge) + "원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>길 이</p></div>\
-                                            <div class='content_content'><p>"+ time_change(currentFile.duration) + "</p></div>\
-                                            <div class='price_content'><p>"+ price_three(duration_charge) + "원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>비트 레이트</p></div>\
-                                            <div class='content_content'><p>"+ currentFile.bit_rate + " bps</p></div>\
-                                            <div class='price_content'><p>"+ price_three(bitrate_charge) + "원</p></div>\
-                                        </div>\
-                                        <div class='charge_info'>\
-                                            <div class='category_content'><p>평균 객체 수</p></div>\
-                                            <div class='content_content'>\
-                                                <textarea data-num='"+ 0 + "' onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' class='object_number' maxlength='2' placeholder='동영상에 평균적으로 등장하는 비식별 처리할 객체 수를 입력해주세요!'></textarea>\
-                                            </div>\
-                                            <div class='price_content'><p class='price_text "+ 0 + "'>?원</p></div>\
-                                        </div>\
-                                    </div>\
-                                    <div class='charge_tb_footer'>\
-                                        <div class='empty_area'></div>\
-                                        <div class='text_area'><p>예상 요금</p></div>\
-                                        <div class='price_area'><p class='charge_text "+ 0 + "'>?원</p></div>\
-                                    </div>"
+        charge_content_html = `<div class='charge_tb_content'>
+                                        <div class='charge_info' style='height:48px;'>
+                                            <div class='category_content'><p>복호화 여부</p></div>
+                                            <div class='content_content'><p class='reso_text'>복호화 진행 안함</p></div>
+                                            <div class='price_content'><p class='base_charge'>기본료 : 7,000</p></div>
+                                            <div class='add_price_content'><p class='add_base_charge'>추가 요금 기본료 : 3,500</p></div>
+                                        </div>
+                                        <div class='charge_info' style='height:64px;'>
+                                            <div class='category_content'><p>해상도</p></div>
+                                            <div class='content_content'>
+                                                <div class='textArea'>
+                                                    <h5>${hdType}</h5>
+                                                    <p>(${fileWidth[0]}X${fileHeight[0]})</p>
+                                                </div>
+                                            </div>
+                                            <div class='price_content'><p>X ${chargeArray[0]}</p></div>
+                                            <div class='add_price_content'><p>-</p></div>
+                                        </div>
+                                        <div class='charge_info' style='height:64px;'>
+                                            <div class='category_content'><p>영상 길이</p></div>
+                                            <div class='content_content'><p>${time_change(currentFile.duration)} (${Math.floor(currentFile.duration)}초)</p></div>
+                                            <div class='price_content'><p>X ${chargeArray[1]}</p></div>
+                                            <div class='add_price_content'>
+                                                <div class='textArea'>
+                                                    <h5 class='duration_over' ${duration_over_margin}>${duration_over}</h5>
+                                                    <p>${add_duration}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='charge_info' style='height:64px;'>
+                                            <div class='category_content'><p>처리 객체 수</p></div>
+                                            <div class='content_content'>
+                                                <textarea data-num=0  onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' class='object_number' maxlength='2' placeholder='동영상에서 비식별 처리할 \n객체 수를 입력해주세요!'></textarea>
+                                            </div>
+                                            <div class='price_content'><p class='price_text 0'>-</p></div>
+                                            <div class='add_price_content'>
+                                                <div class='textArea'>
+                                                    <h5 class='object_over'></h5>
+                                                    <p class='add_price_text'>-</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='charge_tb_footer'>
+                                        <div class="total_price_area"><p>총 예상 요금</p><span class='total_price'>0<h4>캐시</h4></span></div>
+                                        <div class="price_area"><p class='base_price'>0</p><p>+</p><p class='add_price'>0</p></div>
+                                    </div>
+                                </div>`
     }
 
     return [info_content_html, charge_content_html]
@@ -232,12 +303,6 @@ fileModule = {
             if (fileType[i] == 'image') {
                 let img = new Image()
                 img.src = window.URL.createObjectURL(files[i])
-                img.onload = () => {
-                    // alert(img.width + " " + img.height);
-                    fileWidth.push(img.width);
-                    fileHeight.push(img.height);
-                    fileCount += 1;
-                }
                 img.onerror = (error) => {
                     Swal.fire({
                         title: '파일 에러',
@@ -438,7 +503,7 @@ fileModule = {
 
         }
         if (type == 'image') html += '</div>'
-        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration];
+        return [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files];
     },
 
     alldeleteFile: function () {
@@ -544,7 +609,7 @@ fileModule = {
                         var response = JSON.parse(this.responseText);
                         if (response.message == 'success') {
                             let coefficient = {};
-                            let resolution_charge, frame_rate_charge, duration_charge, bitrate_charge, avg_object_charge;
+                            let resolution_charge, frame_rate_charge, duration_charge, duration_base, duration_add, bitrate_charge, avg_object_charge;
                             let base_charge;
 
                             checksum = response.checksum;
@@ -558,12 +623,10 @@ fileModule = {
                                 
                                 coefficient = {
                                     resolution: '',
-                                    frame_rate: '',
                                     duration: '',
-                                    bitrate: '',
                                     avg_object: 1
                                 }
-                                base_charge = 2000;
+                                base_charge = 5000;
                                 const charging_variable_count = Object.keys(coefficient).length;
 
                                 for (var i = 0; i < fileWidth.length; i++) {
@@ -583,37 +646,52 @@ fileModule = {
                                         fileWidth[i] = curFile.width;
                                         fileHeight[i] = curFile.height;
                                     }
-
-                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
+                                    bitrateArray.push(curFile.bit_rate)
 
                                     var avg_frame_rate = curFile.avg_frame_rate
                                     avg_frame_rate = avg_frame_rate.split('/');
                                     avg_frame_rate = Math.round(avg_frame_rate[0]/avg_frame_rate[1])
-                                    coefficient.frame_rate = avg_frame_rate / 30;
 
-                                    coefficient.duration = curFile.duration / 60;
-
-                                    bitrateArray.push(curFile.bit_rate)
-                                    coefficient.bitrate = curFile.bit_rate / (((640 * 640) * 30) / 4);
-
+                                    // coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
                                     // 요금 = (각 항목별 상대계수 X 기본요금) / 총 항목 갯수
                                     // 요금은 소숫점 둘째자리까지 반올림하여 계산
-                                    resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                    resolution_charge = Math.round(resolution_charge * 100) / 100
+                                    // resolution_charge = coefficient.resolution * base_charge;
+                                    // resolution_charge = Math.round(resolution_charge * 100) / 100
 
-                                    frame_rate_charge = coefficient.frame_rate * base_charge / charging_variable_count;
-                                    frame_rate_charge = Math.round(frame_rate_charge * 100) / 100
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i])
+                                    if(coefficient.resolution<=921600){
+                                        resolution_charge = 1
+                                    }
+                                    else if(921600<coefficient.resolution<=2073600){
+                                        resolution_charge = 1.5
+                                    }
+                                    else{
+                                        //미정
+                                        resolution_charge = 2
+                                    }
 
-                                    duration_charge = coefficient.duration * base_charge / charging_variable_count;
-                                    duration_charge = Math.round(duration_charge * 100) / 100
+                                    // coefficient.duration = curFile.duration / 60;
+                                    if(curFile.duration<=180){
+                                        coefficient.duration = [1, 0]
+                                        // duration_charge = coefficient.duration[0]
+                                        duration_base = coefficient.duration[0]
+                                        duration_add = coefficient.duration[1]
+                                    }
+                                    else if(curFile.duration<=300){
+                                        coefficient.duration = [1.5, 0]
+                                        // duration_charge = coefficient.duration[1].toFixed(2)
+                                        duration_base = coefficient.duration[0]
+                                        duration_add = coefficient.duration[1]
+                                        // duration_charge = coefficient.duration[0] + coefficient.duration[1]
+                                    }
+                                    else {
+                                        let addTime = Math.floor(((curFile.duration - 300)/10))*0.03
+                                        coefficient.duration = [1.5, addTime]
+                                        duration_base = coefficient.duration[0]
+                                        duration_add = coefficient.duration[1]
+                                    }
 
-                                    bitrate_charge = coefficient.bitrate * base_charge / charging_variable_count;
-                                    bitrate_charge = Math.round(bitrate_charge * 100) / 100
-
-                                    avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                    if (restoration == 1) avg_object_charge = avg_object_charge * 1.5
-
-                                    var chargeArray = [resolution_charge, frame_rate_charge, duration_charge, bitrate_charge]
+                                    var chargeArray = [resolution_charge, duration_base, duration_add.toFixed(2)]
 
                                     var [info_content_html, charge_content_html] = videoChargeTable(curFile, fileWidth, fileHeight, chargeArray)
 
@@ -622,9 +700,8 @@ fileModule = {
                                 }
                             }
                             else if (fileType == "image") {
-                                base_charge = 200;
-
                                 var chargeArray = [];
+                                var nameArray = JSON.parse(getFileNames());
                                 for (var i = 0; i < fileWidth.length; i++) {
                                     coefficient = {
                                         resolution: '',
@@ -637,65 +714,177 @@ fileModule = {
                                         total_charge: 0
                                     }
 
-                                    const charging_variable_count = Object.keys(coefficient).length;
-                                    coefficient.resolution = (fileWidth[i] * fileHeight[i]) / (640 * 640)
-                                    charge.resolution_charge = coefficient.resolution * base_charge / charging_variable_count;
-                                    charge.resolution_charge = Math.round(charge.resolution_charge * 100) / 100
-                                    charge.avg_object_charge = coefficient.avg_object * base_charge / charging_variable_count;
-                                    if (restoration == 1) charge.avg_object_charge = charge.avg_object_charge * 1.5
+                                    coefficient.resolution = (fileWidth[i] * fileHeight[i])
+                                    if(coefficient.resolution<=921600){
+                                        charge.resolution_charge = 1
+                                    }
+                                    else if(coefficient.resolution<=2073600){
+                                        charge.resolution_charge = 1.5
+                                    }
+                                    else{
+                                        //미정
+                                        charge.resolution_charge = 2
+                                    }
 
                                     chargeArray.push(charge);
                                 }
 
-                                var html = imgChargeTable(chargeArray, fileWidth, fileHeight);
+                                var html = imgChargeTable(chargeArray, fileWidth, fileHeight, nameArray);
                                 var charge_content = document.querySelector(".charge_content")
                                 charge_content.innerHTML = html;
                             }
 
                             $('input[type=radio][name=restoration]').on('change', function () {
-                                if ($(this).val() == 'true') {
-                                    if (fileType == "video") avg_object_charge *= 1.5
-                                    else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge *= 1.5
+                                if (fileType == 'video') {
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        $(".reso_text").text("복호화 진행")
+                                        $(".base_charge").text("기본료 : 10,000")
+                                        $(".add_base_charge").text("추가 요금 기본료 : 5,000")
+                                    }
+                                    else {
+                                        $(".reso_text").text("복호화 진행 안함")
+                                        $(".base_charge").text("기본료 : 7,000")
+                                        $(".add_base_charge").text("추가 요금 기본료 : 3,500")
                                     }
                                 }
                                 else {
-                                    if (fileType == "video") avg_object_charge /= 1.5;
-                                    else for (let i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].avg_object_charge *= 1.5
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        $(".reso_text").text("복호화 진행")
+                                        $(".base_charge").text("기본료 : 600")
+                                        $(".add_base_charge").text("추가 요금 기본료 : 300")
+                                    }
+                                    else {
+                                        $(".reso_text").text("복호화 진행 안함")
+                                        $(".base_charge").text("기본료 : 400")
+                                        $(".add_base_charge").text("추가 요금 기본료 : 200")
                                     }
                                 }
                             });
 
+                            $(document).on("click", ".cancel", function () {
+                                $(".modal").removeClass("active")
+                                $(".object_number").val("")
+                                $(".price_text").text("-")
+                                $(".add_price_text").text("-")
+                                $(".total_price").html(`0<h4>캐시</h4>`)
+                                $(".base_price").text("0")
+                                $(".add_price").text("0")
+                                $(".single_price").html(`0<h4>캐시</h4>`)
+                                $(".single_base_price").text("0")
+                                $(".single_add_price").text("0")
+                            });
+
                             $(document).on("change", ".object_number", function () {
-                                var object_num = $(this).val();
+                                var object_num = Number($(this).val());
                                 var num = $(this).data("num")
                                 var total = 0;
                                 if (fileType == "video") {
-                                    var total_avg_object_charge = object_num * avg_object_charge
-                                    var total_charge = resolution_charge + frame_rate_charge + duration_charge + bitrate_charge + total_avg_object_charge;
-                                    total_charge = Math.round(total_charge * 100) / 100
-                                    $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                    $(".charge_text." + num + "").text(price_three(total_charge) + "원")
+                                    var total_avg_object_charge
+                                    var add_charge
+                                    if(object_num<=5){
+                                        total_avg_object_charge = [1, 0]
+                                    }
+                                    else if(object_num<=10){
+                                        total_avg_object_charge = [1.5, 0]
+                                    }
+                                    else if(10<object_num){
+                                        let addObject = ((object_num - 10))*0.08
+                                        total_avg_object_charge = [1.5, addObject.toFixed(2)]
+                                    }
+
+                                    var total_charge
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        // total_charge = Math.round((((resolution_charge)/3) * duration_base * total_avg_object_charge * 5000) + (((resolution_charge)/3) * duration_add * total_avg_object_charge * 3000));
+                                        total_charge = 10000*resolution_charge*Number(duration_base)*total_avg_object_charge[0]
+                                        if(Number(duration_add)!=0 || total_avg_object_charge[1]!=0){
+                                            add_charge = 5000*(1+Number(duration_add))*(1+total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            add_charge = 0
+                                        }
+                                    }
+                                    else{
+                                        total_charge = 7000*resolution_charge*Number(duration_base)*total_avg_object_charge[0]
+                                        if(Number(duration_add)!=0 || total_avg_object_charge[1]!=0){
+                                            add_charge = 3500*(1+Number(duration_add))*(1+total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            add_charge = 0
+                                        }
+                                    }
+                                    // total_charge = Math.round(total_charge * 100) / 100
+                                    $(".price_text." + num + "").text(`X ${total_avg_object_charge[0]}`)
+                                    if(total_avg_object_charge[1]!=0){
+                                        $(".object_over").text(`${object_num-10}개 초과`)
+                                        $(".add_price_text").text(`X ${total_avg_object_charge[1]}`)
+                                    }
+                                    else{
+                                        $(".object_over").text(``)
+                                        $(".add_price_text").text(`-`)
+                                    }
+                                    // $(".charge_text." + num + "").text(`${price_three(total_charge)} 원, ${price_three(add_charge)}`)
+                                    $(".base_price").text(`${price_three(Math.floor(total_charge))}`)
+                                    $(".add_price").text(`${price_three(Math.floor(add_charge))}`)
+                                    $(".total_price").html(`${price_three(Math.floor(total_charge) + Math.floor(add_charge))}<h4>캐시</h4>`)
                                 }
                                 else if (fileType == "image") {
-
-                                    var total_avg_object_charge = object_num * chargeArray[0].avg_object_charge;
-                                    for (var i = 0; i < chargeArray.length; i++) {
-                                        chargeArray[i].total_charge = 0;
-                                        chargeArray[i].total_charge += chargeArray[i].resolution_charge;
-                                        chargeArray[i].total_charge += chargeArray[i].avg_object_charge * object_num;
-                                        chargeArray[i].total_charge = Math.round(chargeArray[i].total_charge * 100) / 100
+                                    chargeArray[num].total_charge = 0;
+                                    chargeArray[num].add_charge = 0;
+                                    chargeArray[num].total_avg_object_charge
+                                    if(object_num<=5){
+                                        chargeArray[num].total_avg_object_charge = [1, 0]
+                                    }
+                                    else if(object_num<=10){
+                                        chargeArray[num].total_avg_object_charge = [1.5, 0]
+                                    }
+                                    else if(10<object_num){
+                                        let addObject = ((object_num - 10))*0.08
+                                        chargeArray[num].total_avg_object_charge = [1.5, addObject.toFixed(2)]
                                     }
 
-                                    $(".price_text." + num + "").text(price_three(total_avg_object_charge) + "원")
-                                    $(".charge_text." + num + "").text(price_three(chargeArray[num].total_charge) + "원")
-                                    for (var i = 0; i < $(".charge_text").length; i++) {
-                                        const regex = /[^0-9.]/g;
-                                        const result = $(".charge_text." + i + "").text().replace(regex, "");
-                                        total += Number(result)
+                                    
+                                    if($('input[type=radio][name=restoration]:checked').val()=='true'){
+                                        chargeArray[num].total_charge = 600*chargeArray[num].total_avg_object_charge[0]
+                                        if(chargeArray[num].total_avg_object_charge[1]!=0){
+                                            chargeArray[num].add_charge = 300*(1+chargeArray[num].total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            chargeArray[num].add_charge = 0
+                                        }
                                     }
-                                    $(".total_text").text(price_three(Math.round(total * 100) / 100) + "원")
+                                    else{
+                                        chargeArray[num].total_charge = 400*chargeArray[num].total_avg_object_charge[0]
+                                        if(chargeArray[num].total_avg_object_charge[1]!=0){
+                                            chargeArray[num].add_charge = 200*(1+chargeArray[num].total_avg_object_charge[1])
+                                        }
+                                        else{
+                                            chargeArray[num].add_charge = 0
+                                        }
+                                    }
+                                    $(`.price_text.${num}`).text(`X ${chargeArray[num].total_avg_object_charge[0]}`)
+                                    if(chargeArray[num].total_avg_object_charge[1]!=0){
+                                        $(`.object_over.${num}`).text(`${object_num-10}개 초과`)
+                                        $(`.add_price_text.${num}`).text(`X ${chargeArray[num].total_avg_object_charge[1]}`)
+                                    }
+                                    else{
+                                        $(`.object_over.${num}`).text(``)
+                                        $(`.add_price_text.${num}`).text(`-`)
+                                    }
+                                    $(`.single_base_price.${num}`).text(`${price_three(Math.floor(chargeArray[num].total_charge))}`)
+                                    $(`.single_add_price.${num}`).text(`${price_three(Math.floor(chargeArray[num].add_charge))}`)
+                                    $(`.single_price.${num}`).html(`${price_three(Math.floor(chargeArray[num].total_charge) + Math.floor(chargeArray[num].add_charge))}<h4>캐시</h4>`)
+                                    var add_total = 0
+                                    let reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+                                    for (var i = 0; i < $(".single_base_price").length; i++) {
+                                        // const regex = /[^0-9.]/g;
+                                        // const result = $(".charge_text." + i + "").text().replace(regex, "");
+                                        // total += Number(result)
+                                        total += Number($(`.single_base_price.${i}`).text().replace(reg,''))
+                                        add_total += Number($(`.single_add_price.${i}`).text().replace(reg,''))
+                                    }
+                                    $(`.base_price`).text(`${price_three(total)}`)
+                                    $(`.add_price`).text(`${price_three(add_total)}`)
+                                    $(`.total_price`).html(`${price_three(total + add_total)}<h4>캐시</h4>`)
                                 }
                             });
 
@@ -731,7 +920,7 @@ fileModule = {
         })
     },
 
-    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType, checksum) {
+    encrypt: function (postData, fileWidth, fileHeight, restoration, bitrateArray, fileType, checksum, videoDuration) {
         new Promise((resolve, reject) => {
             var requestIndex = ''
 
@@ -777,12 +966,12 @@ fileModule = {
                 }
             });
             postData['bitrate'] = JSON.stringify(bitrateArray);
+            postData['videoDuration'] = JSON.stringify(videoDuration);
             postData['requestIndex'] = requestIndex;
             resolve();
         }).then(() => {
             let baseUrl = '/api/sendMessage/encrypt'
             let apiUrl = apiUrlConverter('encrypt', baseUrl)
-            console.log(postData);
             $.ajax({
                 method: "post",
                 url: apiUrl,
@@ -923,7 +1112,6 @@ fileModule = {
                 verify_result = { valid, msg, keyPath };
             },
             error: function (xhr, status){
-                console.log('@@@@'+JSON.stringify(xhr));
                 console.log('verify key failed');
                 verify_result = false;
             }
@@ -999,8 +1187,7 @@ fileModule = {
             delete msgTemplate.reqInfo;
 
             let baseUrl = '/api/sendMessage/thumbnail'
-            let apiUrl = apiUrlConverter('decrypt', baseUrl)
-
+            let apiUrl = apiUrlConverter('decrypt', baseUrl);
             $.ajax({
                 method: 'post',
                 url: apiUrl,
@@ -1014,8 +1201,9 @@ fileModule = {
                 },
                 async: false,
                 success: function (data) {
+                    let fileNames = data.fileNames;
                     console.log('last request success');
-                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail&encid='+eventIndex;
+                    location.href = '/loading?type=' + fileType + '&mode=' + mode + '&id=' + thumbRequestId + '&service=thumbnail&encid='+eventIndex + '&fileNames='+fileNames;
                 },
                 error: function (xhr, status) {
                     console.log('encrypt request message send failed');
@@ -1404,7 +1592,12 @@ fileModule = {
                 let objtype = bodylen[0].split("_")[0]
                 let fileType = bodylen[0].split("_")[1].split(".")[1]
                 for(var i=0;i<bodylen.length;i++){
-                    numBody.push(Number(bodylen[i].split("_")[1].split(".")[0]))
+                    if(bodylen[i].split("_")[1].split(".")[0].indexOf("A")==0){
+                        numBody.push(bodylen[i].split("_")[1].split(".")[0])
+                    }
+                    else{
+                        numBody.push(Number(bodylen[i].split("_")[1].split(".")[0]))
+                    }
                 }
                 bodylen = []
                 numBody.sort(function compare(a, b) {
@@ -1456,7 +1649,12 @@ fileModule = {
                 let objtype = headlen[0].split("_")[0]
                 let fileType = headlen[0].split("_")[1].split(".")[1]
                 for(var i=0;i<headlen.length;i++){
-                    numHead.push(Number(headlen[i].split("_")[1].split(".")[0]))
+                    if(headlen[i].split("_")[1].split(".")[0].indexOf("A")==0){
+                        numHead.push(headlen[i].split("_")[1].split(".")[0])
+                    }
+                    else{
+                        numHead.push(Number(headlen[i].split("_")[1].split(".")[0]))
+                    }
                 }
                 headlen = []
                 numHead.sort(function compare(a, b) {
@@ -1511,7 +1709,12 @@ fileModule = {
                 let objtype = lplen[0].split("_")[0]
                 let fileType = lplen[0].split("_")[1].split(".")[1]
                 for(var i=0;i<lplen.length;i++){
-                    numLp.push(Number(lplen[i].split("_")[1].split(".")[0]))
+                    if(lplen[i].split("_")[1].split(".")[0].indexOf("A")==0){
+                        numLp.push(lplen[i].split("_")[1].split(".")[0])
+                    }
+                    else{
+                        numLp.push(Number(lplen[i].split("_")[1].split(".")[0]))
+                    }
                 }
                 numLp.sort(function compare(a, b) {
                     return a - b;
@@ -1655,8 +1858,35 @@ fileModule = {
         });
     },
 
-    sendAdditionalEncryptMessage: async function (msg) {
+    sendAdditionalEncryptMessage: function (msg, fileList) {
         let baseUrl = '/api/sendMessage/encrypt/additional'
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+        let result = false;
+        $.ajax({
+            method: "post",
+            url: apiUrl, //DB에 저장 후 복호화 요청정보를 Queue에 담아 전달
+            dataType: "json",
+            data: {
+                msgTemplate: JSON.stringify(msg),
+                fileList: fileList
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') result = true;
+            },
+            error: function (xhr, status) {
+                // alert(xhr + " : " + status);
+                // alert(JSON.stringify(xhr));
+            }
+        });
+        return result
+    },
+
+    sendSectorEncryptMessage: async function (msg) {
+        let baseUrl = '/api/sendMessage/encrypt/sector'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
         let result = false;
         $.ajax({
@@ -1710,6 +1940,61 @@ fileModule = {
         return result;
     },
 
+    writeSectorToJson: async function (token, requestId, sectors, type, mode, restoration) {
+        let userAuth = comm.getAuth();
+        let account_auth_id = userAuth.id;
+        let baseUrl = '/api/sector'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let result
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'token': token,
+                'requestId': requestId,
+                'sectors': JSON.stringify(sectors),
+                'account_auth_id' : account_auth_id
+            },
+            async: false,
+            success: function (data) {
+                result = data
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result
+    },
+
+    readSectorToJson: async function (token, requestId) {
+        let baseUrl = `/api/sector/${token}/${requestId}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let sectors = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.sectors !== '') sectors = data.sectors;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return sectors;
+    },
+
     writeCoordinatesToJson: async function (token, requestId, totalCoordinates = {}) {
         let baseUrl = '/api/coordinates'
         let apiUrl = apiUrlConverter('util', baseUrl)
@@ -1725,6 +2010,88 @@ fileModule = {
             data: {
                 'token': token,
                 'requestId': requestId,
+                'totalCoordinates': JSON.stringify(totalCoordinates)
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    filePath = data.filePath;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return filePath;
+    },
+
+    readSectorImg: async function (type, token, requestId, sectorNum) {
+        let baseUrl = `/api/sector/${type}/${token}/${requestId}/${sectorNum}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let imageFiles = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.imageFiles !== '') imageFiles = JSON.parse(data.imageFiles);
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return imageFiles;
+    },
+
+    readVideoJson: async function (type, token, requestId, sectorNum) {
+        let baseUrl = `/api/video/${type}/${token}/${requestId}/${sectorNum}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let coordinates = false;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    if(data.coordinates !== '') coordinates = JSON.parse(data.coordinates);
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return coordinates;
+    },
+
+    writeVideoJson: async function (token, requestId, sectorNum, totalCoordinates = {}) {
+        let baseUrl = '/api/video'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let filePath = '';
+        
+        $.ajax({
+            method: "POST",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                'token': token,
+                'requestId': requestId,
+                'sectorNum': sectorNum,
                 'totalCoordinates': JSON.stringify(totalCoordinates)
             },
             async: false,
@@ -1764,6 +2131,31 @@ fileModule = {
         });
 
         return coordinates;
+    },
+
+    readallSectorClear: async function (token, requestId) {
+        let baseUrl = `/api/sector/clear/${token}/${requestId}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let result;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(data.message === 'success') {
+                    result = data.complete;
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result;
     },
 
     additionalEncrypt: async function (detail, requestId) {
@@ -1812,5 +2204,94 @@ fileModule = {
             });
         }
         return [insertId, encReqInfo];
-    }
+    },
+
+    additionalVideoEncrypt: async function (detail, requestId) {
+        let userAuth = comm.getAuth();
+        let detailStr = JSON.stringify(detail);
+        let account_auth_id = userAuth.id;
+
+        let insertId = ''
+        let encReqInfo = ''
+        if (userAuth['encrypt_auth'] === 0) {
+            Swal.fire({
+                title: '비식별화화 권한이 없어요.',
+                showCancelButton: false,
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
+            })
+            location.reload;
+        }
+        else {
+            let baseUrl = `/api/request/encrypt/video`;
+            let apiUrl = apiUrlConverter('encrypt', baseUrl);
+            $.ajax({
+                method: "POST",
+                url: apiUrl,
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    detailStr,
+                    account_auth_id,
+                    requestId
+                },
+                async: false,
+                success: function (data) {
+                    if(data.message === 'success') {
+                        console.log(data)
+                        insertId = data.insertId;
+                        encReqInfo = data.encReqInfo;
+                    }
+                },
+                error: function (xhr, status) {
+                    // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+                }
+            });
+        }
+        return [insertId, encReqInfo];
+    },
+
+    getSelectedFileID: async function(selectedFile, requestID) {
+        let baseUrl = `/api/select/fileID?selectedFile=${selectedFile}&requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let fileIDs;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function(result) {
+                fileIDs = result.fileIDs;
+            },
+            error: function() {
+
+            }
+        });
+        return fileIDs;
+    },
+    getFileNameFromID: async function(fileIDs) {
+        let baseUrl = `/api/select/fileName?fileIDs=${fileIDs}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let fileNames;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function(result) {
+                fileNames = result.fileNames;
+            },
+            error: function() {
+
+            }
+        });
+        return fileNames;
+    },
 }

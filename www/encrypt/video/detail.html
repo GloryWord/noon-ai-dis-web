@@ -74,8 +74,8 @@
                     <a href="/main">홈</a>
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
-                    <a href="/usage">사용량 조회</a>
-                    <a href="/key">KEY 관리</a>
+                    <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
                     <div id="logout">로그아웃</div>
@@ -96,6 +96,15 @@
             </div>
             <div class="infoArea">
             </div>
+            <div class="errorArea">
+                <h3>비식별화에 실패했습니다. 다시 시도해 주세요.<br>
+                    같은 현상이 지속될 경우 noonAI DIS팀에게 문의하세요.</h3>
+                <div class="serviceCenterBtn">
+                    <a href="/qna">
+                        <p>문의하기</p>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="viewContent">
             <div class="viewHeader">
@@ -104,7 +113,10 @@
                         <p>영상 다운로드</p>
                     </div>
                 </a>
-                <div class="file_recoConfirm single hide">
+                <div class="checkBtn single">
+                    <p>추가 비식별화</p>
+                </div>
+                <div class="file_recoConfirm hide">
                     <p>원본 복원</p>
                 </div>
             </div>
@@ -240,5 +252,36 @@
 <div id="servicePrivacyView" class="modal"></div>
 
 <div id="emailPrivacyView" class="modal"></div>
+
+<div id="addData" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="inner">
+                <div class="recoContent">
+                    <div class="recoHeader">
+                        <h1>비식별화 추가</h1>
+                    </div>
+                    <div class="recoBody">
+                        <div class="recoMiddle">
+                            <input class="pemUpload" value="" readonly>
+                            <label class="uploadBtn" for="addfile">
+                                <p>키 파일 업로드</p>
+                            </label>
+                            <input type="file" id="addfile" value="키 선택" name="addfile" accept=".pem" />
+                        </div>
+                        <div class="recoFooter">
+                            <div class="addConfirm">
+                                <p>추가</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </html>
