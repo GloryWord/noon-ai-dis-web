@@ -3628,8 +3628,10 @@ init = {
                         for (var i = 0; i < len; i++) {
                             if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
                         }
-                        console.log(selectedFile)
-                        location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                        fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
+                            fileIDs = fileIDs.join(',');
+                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
+                        });
                     }
                 }
                 else if (type == 'video') {
