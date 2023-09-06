@@ -2168,7 +2168,16 @@ init = {
     },
 
     qna: function () {
-        
+        $(document).on("click", ".checkService", function () {
+            if ($('.agreeServiceCheck').is(':checked')) {
+                $(".noneServiceCheck").addClass("active")
+                $(".checkService").removeClass("active")
+            }
+            else {
+                $(".noneServiceCheck").removeClass("active")
+                $(".checkService").addClass("active")
+            }
+        });
     },
 
     decrypt_log: function () {

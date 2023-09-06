@@ -45,3 +45,409 @@
     flex-direction: column;
     min-height: calc(100vh - 436px);
 }
+
+.qna_content .qnaHeader {
+    width: 988px;
+    display: flex;
+    margin: 90px auto 20px;
+}
+
+.qna_content .qnaHeader {
+    display: flex;
+    margin: 90px auto 20px;
+}
+
+.qna_content .qnaHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+    object-fit: contain;
+}
+
+.qna_content .qnaHeader span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 7px 8px auto 0;
+}
+
+.qna_content .qnaHeader p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 17px 0 auto;
+}
+
+.qna_content .qnaContent {
+    width: 988px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    margin: 0 auto 90px;
+}
+
+.qna_content .qnaContent .firstArea,
+.qna_content .qnaContent .secondArea {
+    display: flex;
+    margin: 48px auto 24px;
+}
+
+.qna_content .qnaContent .secondArea {
+    margin: 0 auto 24px;
+}
+
+.qna_content .qnaContent .qnaInput {
+    width: auto;
+    height: auto;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.qna_content .qnaContent .qnaInput.name,
+.qna_content .qnaContent .qnaInput.type {
+    margin: 0 60px 0 auto;
+}
+
+.qna_content .qnaContent .qnaInput.email,
+.qna_content .qnaContent .qnaInput.phone {
+    width: auto;
+    height: auto;
+    margin: 0 0 0 auto;
+}
+
+.qna_content .qnaContent .qnaInput .textArea {
+    display: flex;
+    margin: 0 auto 8px 0;
+}
+
+.qna_content .qnaContent .qnaInput .textArea span {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
+}
+
+.qna_content .qnaContent .qnaInput .textArea p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto 0 0;
+}
+
+.qna_content .qnaContent .qnaInput .textArea .agreeServiceCheck {
+    display: none;
+}
+
+.qna_content .qnaContent .qnaInput .textArea label {
+    cursor: pointer;
+    display: flex;
+    margin: 0 auto 0 0;
+}
+
+.qna_content .qnaContent .qnaInput .textArea label .noneServiceCheck, 
+.qna_content .qnaContent .qnaInput .textArea label .checkService {
+    width: 28px;
+    height: 28px;
+    margin: auto 8px auto 0;
+    object-fit: contain;
+    display: none;
+}
+
+.qna_content .qnaContent .qnaInput .textArea label .noneServiceCheck.active, 
+.qna_content .qnaContent .qnaInput .textArea label .checkService.active {
+    display: flex;
+}
+
+.qna_content .qnaContent .qnaInput.serviceContent .textArea span,
+.qna_content .qnaContent .qnaInput.serviceContent .textArea p {
+    margin: auto auto auto 0;
+}
+
+.qna_content .qnaContent .qnaInput input {
+    display: flex;
+    margin: 0 auto 8px 0;
+    width: 388px;
+    height: 18px;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+}
+
+.qna_content .qnaContent .qnaInput.title input {
+    width: 864px;
+}
+
+.qna_content .qnaContent .qnaInput textarea {
+    display: flex;
+    width: 864px;
+    height: 178px;
+    margin: 8px 0 0;
+    padding: 12px 14px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    resize: none;
+    border: none;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #16284d;
+}
+
+.qna_content .qnaContent .qnaInput textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.qna_content .qnaContent .qnaInput textarea::-webkit-scrollbar-thumb {  
+    border-radius: 6px;
+    background-color: #bcc5cb;
+}
+
+.qna_content .qnaContent .qnaInput textarea:focus {
+    outline: none;
+}
+
+.qna_content .qnaContent .qnaInput input::placeholder,
+.qna_content .qnaContent .qnaInput textarea::placeholder {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #707070;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo {
+    width: 874px;
+    height: 144px;
+    margin: 8px 0 0;
+    padding: 12px 6px 12px 12px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    display: flex;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox {
+    width: 874px;
+    height: 144px;
+    display: flex;
+    overflow-y: auto;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox::-webkit-scrollbar-thumb {  
+    border-radius: 6px;
+    background-color: #bcc5cb;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox .textArea {
+    width: 856px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 0 0;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox .textArea h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+}
+
+.qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox .textArea p {
+    font-family: SpoqaHanSansNeo-Light;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #707070;
+    margin: 0;
+}
+
+.qna_content .qnaContent .confirmBtn {
+    width: 288px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    margin: 8px auto 48px;
+    cursor: pointer;
+}
+
+.qna_content .qnaContent .confirmBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+@media(max-width:1024px){
+    .qna_content .qnaHeader {
+        width: 600px;
+        display: flex;
+        margin: 90px auto 20px;
+    }
+
+    .qna_content .qnaContent {
+        width: 600px;
+    }
+
+    .qna_content .qnaContent .firstArea {
+        display: flex;
+        flex-direction: column;
+        margin: 48px auto 24px;
+    } 
+
+    .qna_content .qnaContent .secondArea {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput.name, 
+    .qna_content .qnaContent .qnaInput.type {
+        margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput input,
+    .qna_content .qnaContent .qnaInput.title input,
+    .qna_content .qnaContent .qnaInput textarea,
+    .qna_content .qnaContent .qnaInput .serviceContentInfo {
+        width: 436px;
+        margin: 0 auto;
+    }
+
+    .qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox {
+        width: 436px;
+    }
+
+    .qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox .textArea {
+        width: 424px;
+    }
+}
+
+@media(max-width:600px){
+    .qna_content .qnaHeader {
+        width: 288px;
+        display: flex;
+        margin: 90px auto 20px;
+    }
+    .qna_content .qnaHeader p {
+        display: none;
+    }
+
+    .qna_content .qnaContent {
+        width: 288px;
+    }
+
+    .qna_content .qnaContent .firstArea {
+        display: flex;
+        flex-direction: column;
+        margin: 24px auto;
+    } 
+
+    .qna_content .qnaContent .secondArea {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput.name, 
+    .qna_content .qnaContent .qnaInput.type {
+        margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput input,
+    .qna_content .qnaContent .qnaInput.title input,
+    .qna_content .qnaContent .qnaInput textarea,
+    .qna_content .qnaContent .qnaInput .serviceContentInfo {
+        width: 212px;
+        margin: 0 auto;
+    }
+
+    .qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox {
+        width: 212px;
+    }
+
+    .qna_content .qnaContent .qnaInput .serviceContentInfo .serviceContentBox .textArea {
+        width: 200px;
+    }
+
+    .qna_content .qnaContent .confirmBtn {  
+        width: 212px;
+        height: 40px;
+        margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .confirmBtn p {  
+        font-size: 18px;
+    }
+}
