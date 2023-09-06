@@ -445,12 +445,12 @@
     margin: auto;
 }
 
-.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-child(1) {
-    margin: auto 12px auto 24px;
-}
-
 .checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-last-child(1) {
     margin: auto 24px auto 0;
+}
+
+.checkArea .checkContent .checkImgContent .checkImgList .listImgDiv:nth-child(1) {
+    margin: auto 12px auto 24px;
 }
 
 .checkArea .checkContent .checkImgContent .checkImgList .listImgDiv .thumbnailImg {  

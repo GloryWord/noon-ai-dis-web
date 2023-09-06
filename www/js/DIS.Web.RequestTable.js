@@ -261,6 +261,12 @@ requestTable = {
                         var m_disable = ""; 
                         var text = "상세정보";
                     }
+                    else if(status=="<p>실패</p>"){
+                        var disable = ""; 
+                        var m_disable = ""
+                        var text = "상세정보";
+                        var background="style='background-color:#f64957'"
+                    }
                     else{
                         var disable = "disable"; 
                         var m_disable = "style='pointer-events: none;'"
@@ -286,7 +292,7 @@ requestTable = {
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
                             <div class="status_content">'+ status + '</div>\
                             <div class="detail_content">\
-                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'">\
+                                <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo '+disable+'" '+background+'>\
                                     <p>'+text+'</p>\
                                 </div>\
                             </div>\
