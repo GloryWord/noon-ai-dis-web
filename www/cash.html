@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./static/imgs/favicon/android-icon-48x48.png">
+
+    <link rel="stylesheet" href="./static/css/common/base.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/cash.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/outside/paging.css" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
+    <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
+    <script src="./static/js/sweetalert/sweetalert.js"></script>
+    <script src="./static/js/common/common.js"></script>
+    <script src="./static/js/common/header.js"></script>
+    <script src="./static/js/common/footer.js"></script>
+    <script src="./static/js/outside/paging.js"></script>
+    <style>
+        ul.pager {
+            margin: 24px auto;
+            display: flex;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_content">
+            <div class="logo">
+              <a href="/main">
+                <img src="./static/imgs/common/new_header_logo.png">
+              </a>
+            </div>
+          <div class="flow">
+          </div>
+          <div class="login_user">
+          </div>
+          <div class="menuBtn">
+            <img class="menu_nohover" src="./static/imgs/common/header_menu.png">
+            <img class="menu_hover" src="./static/imgs/common/header_menu_hover.png">
+            <div id="myDropdown" class="dropdown-content">
+                <a href="/main">홈</a>
+                <a href="/encrypt/log">비식별화 기록 열람</a>
+                <a href="/decrypt/log">복호화 기록 열람</a>
+                <a href="/usage">사용량 조회</a>
+                <a href="/key">KEY 관리</a>
+                <a class="infoMove">내 정보</a>
+                <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <div id="logout">로그아웃</div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="log_content">
+        <div class="search_area">
+            <div class="searchHeader">
+                <img src="./static/imgs/usage/cashIcon.png">
+                <p>캐시 결제 내역</p>
+                <label>캐시의 충전/차감 내역을 확인하실 수 있습니다.</label>
+            </div>
+            <div class="searchContent">
+                <div class="selectDate">
+                    <div class="textArea">
+                        <p>조회 기간</p>
+                        <span>(최대 1년)</span>
+                    </div>
+                    <div class="dateArea">
+                        <div class="startDateArea">
+                            <div class="dateText">
+                                <span>시작날짜</span>
+                            </div>
+                            <input class="startDate" type="date" data-placeholder="YYYY.MM.DD">
+                        </div>
+                        <p>-</p>
+                        <div class="endDateArea">
+                            <div class="dateText">
+                                <span>종료날짜</span>
+                            </div>
+                            <input class="endDate" type="date" data-placeholder="YYYY.MM.DD">
+                        </div>
+                    </div>
+                </div>
+                <div class="nowBalance">
+                    <p class="headText">현재 잔액</p>
+                    <span class="priceText">000,000,000</span>
+                    <p class="tailText">캐시</p>
+                </div>
+            </div>
+        </div>
+        <div class="logArea">
+            <div class="tableArea">
+                <div class="tableHeaderArea">
+                    <div class="btnArea">
+                        <label><input class='option' type="radio" name="option" value="all" checked>전체</label>
+                        <label><input class='option' type="radio" name="option" value="charge">캐시 충전</label>
+                        <label><input class='option' type="radio" name="option" value="use">캐시 차감</label>
+                    </div>
+                    <div class="excelDownload file">
+                        <p>엑셀 다운로드</p>
+                        <img src="./static/imgs/usage/download.png">
+                    </div>
+                </div>
+                <div class="tableContentArea">
+                    <div class="cashTableHeader">
+                        <div class="cashHeader date">
+                            <p>일 시</p>
+                        </div>
+                        <div class="cashHeader content">
+                            <p>내 용</p>
+                        </div>
+                        <div class="cashHeader cash">
+                            <p>캐 시</p>
+                        </div>
+                    </div>
+                    <div class="cashTableContent">
+                        <div class="cashList">
+                            <div class="cashBox">
+                                <div class="cashContent date">
+                                    <p>YYYY. MM. DD  00 : 00 : 00</p>
+                                </div>
+                                <div class="cashContent content">
+                                    <div class="textArea">
+                                        <h5>{사용자}</h5>
+                                        <h3>{이용서비스}</h3>
+                                        <h4>{파일명}</h4>
+                                    </div>
+                                </div>
+                                <div class="cashContent cash">
+                                    <span class="plusCash">+ 000,000,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+      <div class="logo">
+        <img src="./static/imgs/common/new_footer_logo.png">
+        <div class="upBtn">
+          <img src="./static/imgs/common/upBtn_icon.png">
+        </div>
+      </div>
+      <div class="textArea">
+        <div class="footer_menu">
+          <label class="privacy">개인정보처리방침</label>
+          <p>|</p>
+          <label class="servicePrivacy">서비스이용약관</label>
+          <p>|</p>
+          <label class="emailPrivacy">이메일무단수집거부</label>
+        </div>
+        <div class="companyInfo">
+          <div class="loc">
+            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+          </div>
+          <div class="ceo_num">
+            <p class="info">대표 :&nbsp;<label>조판희</label></p>
+            <p>|</p>
+            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+            <p>|</p>
+            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+          </div>
+          <div class="call_num">
+            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+            <p>|</p>
+            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+          </div>
+          <div class="inc">
+            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+<div id="saveConfir" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="info_inner">
+                <div class="saveContent">
+                    <div class="saveHeader">
+                        <h1>비밀번호 입력</h1>
+                    </div>
+                    <div class="saveBody">
+                        <div class="bodyHeader">
+                            <p>현재 비밀번호</p>
+                            <input type="password" class="cur_password" autofocus>
+                        </div>
+                        <div class="saveFooter">
+                            <div class="infoConfir">
+                                <p>확인</p>
+                            </div>
+                            <div class="cancel">
+                                <p>취소</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="privacyView" class="modal"></div>
+
+<div id="servicePrivacyView" class="modal"></div>
+
+<div id="emailPrivacyView" class="modal"></div>
+
+</html>

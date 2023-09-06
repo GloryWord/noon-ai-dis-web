@@ -1,0 +1,507 @@
+@font-face {
+    font-family: 'S-CoreDream-4Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-5Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-6Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.log_content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 436px);
+}
+
+.log_content .search_area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.log_content .search_area .searchHeader {
+    width: 986px;
+    display: flex;
+    margin: 100px auto 32px;
+}
+
+.log_content .search_area .searchHeader img {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px 0 0;
+}
+
+.log_content .search_area .searchHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: auto 0;
+}
+
+.log_content .search_area .searchHeader label {
+    font-family: SpoqaHanSansNeo-Regular;
+    height: 15px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.12px;
+    text-align: left;
+    color: #3fa9f5;
+    margin: auto 0 8px 8px;
+}
+
+.log_content .search_area .searchContent {
+    width: 986px;
+    height: auto;
+    display: flex;
+    margin: 0 auto 24px;
+}
+
+.log_content .search_area .searchContent .selectDate {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto auto 44px;
+}
+
+.log_content .search_area .searchContent .selectDate .textArea {
+    display: flex;
+    margin: 0 auto 7px 0;
+}
+
+.log_content .search_area .searchContent .selectDate .textArea p {
+    width: 60px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0;
+}
+
+.log_content .search_area .searchContent .selectDate .textArea span {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: 0;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea {
+    display: flex;
+    margin: 0 auto auto 0;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea .startDateArea,
+.log_content .search_area .searchContent .selectDate .dateArea .endDateArea {
+    display: flex;
+    margin: 0;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea .dateText {
+    width: 53px;
+    height: 18px;
+    padding: 6px 0 6px 7px;
+    border-radius: 5px 0 0 5px;
+    border: solid 1px #bcc5cb;
+    border-right: none;
+    display: flex;
+    margin: 0;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea .dateText span {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: 0;
+}
+
+
+.log_content .search_area .searchContent .selectDate .dateArea input {  
+    width: 120px;
+    height: 18px;
+    margin: 0;
+    padding: 6px 0 6px 2px;
+    border-radius: 0 5px 5px 0;
+    border: solid 1px #bcc5cb;
+    border-left: none;
+    background: url(../../imgs/usage/dateIcon.png) no-repeat right 2px center / 30px 30px;
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    position: relative;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea input[type='date']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+}
+
+
+.log_content .search_area .searchContent .selectDate .dateArea input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.log_content .search_area .searchContent .selectDate .dateArea p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: left;
+    color: #bcc5cb;
+    margin: auto 4px;
+}
+
+.log_content .search_area .searchContent .nowBalance {
+    display: flex;
+    margin: 13px 42px 0 auto;
+}
+
+.log_content .search_area .searchContent .nowBalance p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: auto 12px auto 0;
+}
+
+.log_content .search_area .searchContent .nowBalance span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3fa9f5;
+    margin: 0 4px 0 0;
+}
+
+.log_content .search_area .searchContent .nowBalance .tailText {
+    margin: auto 0;
+}
+
+.logArea {
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 698px);
+    display: flex;
+    flex-direction: column;  
+    background-color: #e9f6ff;
+    padding: 40px 0 90px;
+}
+
+.logArea .tableArea {
+    width: 986px;
+    height: auto;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.logArea .tableArea .tableHeaderArea {
+    width: 938px;
+    height: auto;
+    margin: 27px auto 20px;
+    display: flex;
+}
+
+.logArea .tableArea .tableHeaderArea .btnArea {
+    display: flex;
+    margin: auto 0 0 0;
+}
+
+.logArea .tableArea .tableHeaderArea .btnArea label {
+    display: flex;
+    margin: 0 16px 0 0;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    cursor: pointer;
+}
+
+.logArea .tableArea .tableHeaderArea .btnArea label input {
+    width: 14px;
+    height: 14px;
+    margin: auto 6px auto 0;
+}
+
+.logArea .tableArea .tableHeaderArea .excelDownload {
+    display: flex;
+    margin: 0 0 0 auto;
+    cursor: pointer;
+}
+
+.logArea .tableArea .tableHeaderArea .excelDownload p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto 6px auto 0;
+}
+
+.logArea .tableArea .tableHeaderArea .excelDownload img {
+    width: 22px;
+    height: 19px;
+    object-fit: contain;
+    margin: auto 0;
+}
+
+.logArea .tableArea .tableContentArea {
+    width: 938px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader {
+    width: 938px;
+    height: auto;
+    display: flex;
+    border: 1px solid #595959;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader {
+    height: 48px;
+    background-color: #f2f2f2;
+    display: flex;
+    border-right: 1px solid #bcc5cb;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader:nth-last-child(1) {
+    border-right: none;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: 16px auto 14px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader.date {
+    width: 200px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader.content {
+    width: 584px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableHeader .cashHeader.cash {
+    width: 152px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent {
+    width: 939px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashList {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #595959;
+    border-top: none;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox {
+    width: 939px;
+    height: 96px;
+    display: flex;
+    border-bottom: 1px solid #bcc5cb;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox:nth-last-child(1) {
+    border-bottom: none;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent {
+    height: 96px;
+    display: flex;
+    border-right: 1px solid #bcc5cb;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent:nth-last-child(1) {
+    border-right: none;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent.date {
+    width: 200px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent.content {
+    width: 584px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent.cash {
+    width: 152px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: center;
+    color: #595959;
+    margin: auto;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea {
+    width: 546px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h5,
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h4 {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: -0.14px;
+    text-align: left;
+    color: #595959;
+    margin: 0 0 8px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h3 {
+    font-family: SpoqaHanSansNeo-bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: -0.16px;
+    text-align: left;
+    color: #595959;
+    margin: 0 0 8px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h4 {
+    margin: 0;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .plusCash,
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .minusCash {
+    width: 112px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.31;
+    letter-spacing: -0.16px;
+    text-align: right;
+    color: #4b8bff;
+    margin: auto;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .minusCash {
+    color: #f64957;
+}
