@@ -63,7 +63,510 @@
 .logoArea {
     width: 100%;
     height: 720px;
-    opacity: 0.4;
     display: flex;
     position: relative;
+}
+
+.logoArea::before{
+    content: "";
+    opacity: 0.4;
+    background: url(../../imgs/service/mainBack.png);
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.logoArea .textArea {
+    width: auto;
+    height: auto;
+    opacity: 1;
+    margin: 214px 14px 160px auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.logoArea .textArea span {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 34px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 auto 8px 0;
+}
+
+.logoArea .textArea h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 68px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16284d;
+    margin: 0 auto 16px 0;
+}
+
+.logoArea .textArea h5 {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.42;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 36px 0;
+}
+
+.logoArea .textArea .startBtn {
+    width: 288px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    margin: 0 auto 0 0;
+    cursor: pointer;
+}
+
+.logoArea .textArea .startBtn p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.logoArea .imgArea {
+    width: 681px;
+    height: auto;
+    opacity: 1;
+    display: flex;
+    margin: auto auto auto 0;
+    position: relative;
+}
+
+.logoArea .imgArea img {
+    width: 100%;
+    height: 100%;
+}
+
+.explanArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.explanArea .explanSlider {
+    width: 100%;
+    height: 887px;
+    background: url(../../imgs/service/sliderBack.png);
+    background-repeat: no-repeat;
+    background-size: 1920px 887px;
+    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+}
+
+.explanArea .explanSlider .slick-list {
+    width: 1024px;
+    height: auto;
+    display: flex;
+    margin: 140px auto 0;
+}
+
+.explanArea .explanSlider .slick-list .slick-track {
+    width: 1024px;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+}
+
+.explanArea .explanSlider .slider {
+    width: 1024px;
+    margin: 0 auto;
+    display: flex !important;
+    position: relative;
+}
+
+.explanArea .explanSlider .slick-dots {
+    margin: 88px auto 0;
+    padding: 0 0;
+    display: flex;
+    /* position: absolute; */
+}
+
+.explanArea .explanSlider .slick-dots li {
+    position: relative;
+    display: flex;
+    width: 16px;
+    height: 16px;
+    margin: 0 24px 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.explanArea .explanSlider .slick-dots li:nth-last-child(1) {
+    margin: 0;
+}
+  
+.explanArea .explanSlider .slick-dots li button {
+    font-size: 0;
+    width: 16px;
+    height: 16px;
+    display: block;
+    padding: 0;
+    cursor: pointer;
+    color: transparent;
+    border: 1px solid #3fa9f5;
+    border-radius: 50%;
+    outline: 0;
+    background: 0 0;
+}
+
+.explanArea .explanSlider .slick-dots li button:before {
+    font-size: 2.7rem;
+    line-height: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '•';
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+}
+
+.explanArea .explanSlider .slick-dots li.slick-active button:before {
+    width: 16px;
+    height: 16px;
+    color: #3fa9f5;
+    background-color: #3fa9f5;
+}
+
+.explanArea .explanSlider .slider .imgBox {
+    width: 416px;
+    height: auto;
+    margin: 24px 20px auto 0;
+}
+
+.explanArea .explanSlider .slider .imgBox img {
+    width: 100%;
+    height: auto;
+}
+
+.explanArea .explanSlider .slider .textBox {
+    width: 588px;
+    height: auto;
+    margin: 96px 0 auto 0;
+}
+
+.explanArea .explanSlider .slider .textBox h2 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: left;
+    color: #155aa0;
+    margin: 0 auto 8px 0;
+}
+
+.explanArea .explanSlider .slider .textBox h3 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 0 auto 8px 0;
+}
+
+.explanArea .explanSlider .slider .textBox p {  
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.42;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 8px auto 0 0;
+}
+
+.explanArea .explanSlider .slider .textBox .logoBox {
+    width: 588px;
+    height: auto;
+    margin: 44px auto 23px 0;
+}
+
+.explanArea .explanSlider .slider .textBox .logoBox img {
+    width: 376px;
+    height: auto;
+    margin: 0 auto 0 0;
+}
+
+.explanArea .explanSlider .slider .textBox .possBox {
+    width: 588px;
+    height: auto;
+    margin: 51px auto 0 158px;
+    display: flex;
+}
+
+.explanArea .explanSlider .slider .textBox .possBox img {
+    width: 128px;
+    height: 128px;
+    margin: 0;
+}
+
+.explanArea .explanSlider .slider .textBox .possBox img:nth-child(1) {
+    margin: 0 24px 0 0;
+}
+
+.guideArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+}
+
+.guideArea .title {
+    display: flex;
+    margin: 140px auto 48px;
+}
+
+.guideArea .title h2 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: auto;
+}
+
+.guideArea .content {
+    display: flex;
+    flex-direction: column;
+    margin: 136px auto 64px;
+}
+
+.guideArea .content .firstBox {
+    display: flex;
+    margin: 0 auto 184px;
+}
+
+.guideArea .content .secondBox {
+    display: flex;
+    margin: 0 auto;
+}
+
+.guideArea .content .contentBox {  
+    width: 482px;
+    height: 298px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: 0 60px 0 0;
+}
+
+.guideArea .content .contentBox:nth-child(2),
+.guideArea .content .contentBox:nth-child(4) {  
+    margin: 0;
+}
+
+.guideArea .content .contentBox img {  
+    width: 386px;
+    height: auto;
+    object-fit: contain;
+    margin: -136px auto 16px;
+}
+
+.guideArea .content .contentBox span {  
+    width: 386px;
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 32px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: -0.8px;
+    text-align: left;
+    color: #155aa0;
+    margin: 0 auto 12px;
+}
+
+.guideArea .content .contentBox p {  
+    width: 386px;
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 48px;
+}
+
+.guideArea .guideBtn {  
+    width: 288px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    margin: 0 auto 116px;
+}
+
+.guideArea .guideBtn a {  
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.guideArea .guideBtn a p {  
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
+.creditArea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    background-color: #e9f6ff;
+}
+
+.creditArea .creditBox {
+    width: 1024px;
+    height: 388px;
+    border-radius: 24px;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 193px auto 140px;
+}
+
+.creditArea .creditBox img {
+    width: 280px;
+    height: auto;
+    object-fit: contain;
+    position: absolute;
+    left: 0;
+    top: -114px;
+}
+
+.creditArea .creditBox .textArea {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 48px auto 24px 304px;
+}
+
+.creditArea .creditBox .textArea h4 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: normal;
+    text-align: center;
+    color: #16284d;
+    margin: 0 auto 12px 0;
+}
+
+.creditArea .creditBox .textArea h2 {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1.05px;
+    text-align: left;
+    color: #155aa0;
+    margin: 0 auto 12px 0;
+}
+
+.creditArea .creditBox .textArea p {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 0 auto 0 0;
+}
+
+.creditArea .creditBox .usageBtn {
+    width: 288px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+    margin: 0 auto 48px;
+}
+
+.creditArea .creditBox .usageBtn a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.creditArea .creditBox .usageBtn a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
 }
