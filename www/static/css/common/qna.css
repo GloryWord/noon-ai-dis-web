@@ -349,7 +349,7 @@
     margin: auto;
 }
 
-@media(max-width:1024px){
+@media(max-width:1023px){
     .qna_content .qnaHeader {
         width: 600px;
         display: flex;
