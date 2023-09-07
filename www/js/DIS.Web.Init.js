@@ -56,6 +56,10 @@ init = {
         });
     },
 
+    charge: function () {
+        
+    },
+
     // 유저 로그인 화면 제어
     index: function () {
         let isDev = comm.getEnv();
@@ -555,6 +559,8 @@ init = {
             $(".progressContainer").addClass('hide')
             $(".file_info_area").removeClass('active')
             $(".uploadFooter").removeClass('active')
+            $('input[type=radio][name=restoration]').prop("checked", false)
+            $('input[type=radio][name=restoration][value=false]').prop("checked", true)
         });
 
         $(document).on("click", ".prevBtn", function () {
@@ -590,6 +596,40 @@ init = {
                         immediate: 'false'
                     })
                 })
+                // let reso = true;
+                // for(let i=0;i<fileWidth.length;i++){
+                //     if (fileWidth[i] + fileHeight[i] > 3000) {
+                //         Swal.fire({
+                //             title: '파일 해상도 초과',
+                //             html:
+                //                 '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+                //                 '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+                //                 '영상을 서비스합니다.',
+                //             showConfirmButton: false,
+                //             showDenyButton: true,
+                //             denyButtonText: "확 인",
+                //             icon: "error"
+                //         });
+                //         reso = false;
+                //         break;
+                //     }
+                // }
+                // if(reso==true){
+                //     uploadID = makeid(6);
+                //     $(".nextBtn").addClass('hide')
+                //     $(".progressContainer").removeClass('hide')
+                //     var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
+                //     callback.then((data) => {
+                //         postData = data[0]
+                //         filePath = data[2][0]
+                //         checksum = data[3]
+                //         socket.emit('delUploadedFile', {
+                //             filePath: filePath,
+                //             id: uploadID,
+                //             immediate: 'false'
+                //         })
+                //     })
+                // }
             }
         });
 
@@ -1057,6 +1097,8 @@ init = {
             $(".progressContainer").addClass('hide')
             $(".file_info_area").removeClass('active')
             $(".uploadFooter").removeClass('active')
+            $('input[type=radio][name=restoration]').prop("checked", false)
+            $('input[type=radio][name=restoration][value=false]').prop("checked", true)
         });
 
         $(document).on("click", ".prevBtn", function () {
@@ -1069,8 +1111,8 @@ init = {
                 Swal.fire({
                     title: '파일 해상도 초과',
                     html:
-                        '1920 X 1080 을 초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 1920 X 1080 크기 까지의<br/>' +
+                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
                         '영상을 서비스합니다.',
                     showConfirmButton: false,
                     showDenyButton: true,
