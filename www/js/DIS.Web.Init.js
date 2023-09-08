@@ -56,6 +56,10 @@ init = {
         });
     },
 
+    charge: function () {
+        
+    },
+
     // 유저 로그인 화면 제어
     index: function () {
         let isDev = comm.getEnv();
@@ -555,6 +559,8 @@ init = {
             $(".progressContainer").addClass('hide')
             $(".file_info_area").removeClass('active')
             $(".uploadFooter").removeClass('active')
+            $('input[type=radio][name=restoration]').prop("checked", false)
+            $('input[type=radio][name=restoration][value=false]').prop("checked", true)
         });
 
         $(document).on("click", ".prevBtn", function () {
@@ -590,6 +596,40 @@ init = {
                         immediate: 'false'
                     })
                 })
+                // let reso = true;
+                // for(let i=0;i<fileWidth.length;i++){
+                //     if (fileWidth[i] + fileHeight[i] > 3000) {
+                //         Swal.fire({
+                //             title: '파일 해상도 초과',
+                //             html:
+                //                 '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+                //                 '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+                //                 '영상을 서비스합니다.',
+                //             showConfirmButton: false,
+                //             showDenyButton: true,
+                //             denyButtonText: "확 인",
+                //             icon: "error"
+                //         });
+                //         reso = false;
+                //         break;
+                //     }
+                // }
+                // if(reso==true){
+                //     uploadID = makeid(6);
+                //     $(".nextBtn").addClass('hide')
+                //     $(".progressContainer").removeClass('hide')
+                //     var callback = fileModule.uploadFile(fileWidth, fileHeight, videoDuration, restoration, 'image');
+                //     callback.then((data) => {
+                //         postData = data[0]
+                //         filePath = data[2][0]
+                //         checksum = data[3]
+                //         socket.emit('delUploadedFile', {
+                //             filePath: filePath,
+                //             id: uploadID,
+                //             immediate: 'false'
+                //         })
+                //     })
+                // }
             }
         });
 
@@ -1057,6 +1097,8 @@ init = {
             $(".progressContainer").addClass('hide')
             $(".file_info_area").removeClass('active')
             $(".uploadFooter").removeClass('active')
+            $('input[type=radio][name=restoration]').prop("checked", false)
+            $('input[type=radio][name=restoration][value=false]').prop("checked", true)
         });
 
         $(document).on("click", ".prevBtn", function () {
@@ -1069,8 +1111,8 @@ init = {
                 Swal.fire({
                     title: '파일 해상도 초과',
                     html:
-                        '1920 X 1080 을 초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 1920 X 1080 크기 까지의<br/>' +
+                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
                         '영상을 서비스합니다.',
                     showConfirmButton: false,
                     showDenyButton: true,
@@ -1880,7 +1922,7 @@ init = {
         }
     },
 
-    test: function () {        
+    test: function () {
         function dateChange(year, month) {
             $(".selectYearText").text(`${year}년`)
             $(".selectMonthText").text(`${month}월`)
@@ -1912,6 +1954,15 @@ init = {
         let formattedMonth = currentMonth.toString().padStart(2, "0");
 
         $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
+        let yearMonth = `${currentYear}-${formattedMonth}`;
+        requestTable.getMonthFare(yearMonth).then((fares) => {
+            console.log('fares.total_charge : ',fares.total_charge);
+            $('.priceText').text(`${fares.total_charge}`);
+        });
+        requestTable.getMonthUsage(yearMonth).then(([imageUsage, videoUsage]) => {
+            console.log('imageUsage : ',imageUsage);
+            console.log('videoUsage : ',videoUsage);
+        })
         
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
 
@@ -1934,9 +1985,6 @@ init = {
             }
             else if(viewType=="work"){
                 workHTML()
-            }
-            else if(viewType=="credit"){
-                creditHTML()
             }
         })
 
@@ -4519,12 +4567,23 @@ init = {
             let fileNames = await fileModule.getFileNameFromID(fileIDs);
             let parsedCoordinates;
             if(type=="image"){
-                parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
-                if (parsedCoordinates) {
-                    totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
+                if(mode=="group"){
+                    parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
+                    }
+                    else {
+                        if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
+                    }
                 }
-                else {
-                    if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
+                else{
+                    parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+                    }
+                    else {
+                        if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
+                    }
                 }
             }
             else if(type=="video"){
@@ -4644,7 +4703,7 @@ init = {
                             // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
                             // restoration, request_id, fileList, postData.fileNameList
                             comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, additionalFileList, requestType);
                             if (addMessage) {
@@ -4666,7 +4725,7 @@ init = {
                 else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                     comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, additionalFileList, requestType);
                     if (addMessage) {
@@ -4752,7 +4811,7 @@ init = {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                                 comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
                                 if (addMessage) {

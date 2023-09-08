@@ -1010,7 +1010,8 @@
 .uploadFooter .footerbtnArea .encryptBtn {  
     width: 294px;
     height: 60px;
-    margin: auto 40px auto auto;
+    /* margin: auto 40px auto auto; */
+    margin: auto;
     border-radius: 20px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #16284d;

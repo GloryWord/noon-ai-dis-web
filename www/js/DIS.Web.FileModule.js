@@ -671,7 +671,19 @@ fileModule = {
                                     }
 
                                     // coefficient.duration = curFile.duration / 60;
-                                    if(curFile.duration<=180){
+                                    if(curFile.duration<=60){
+                                        coefficient.duration = [0.35, 0]
+                                        // duration_charge = coefficient.duration[0]
+                                        duration_base = coefficient.duration[0]
+                                        duration_add = coefficient.duration[1]
+                                    }
+                                    else if(curFile.duration<=120){
+                                        coefficient.duration = [0.7, 0]
+                                        // duration_charge = coefficient.duration[0]
+                                        duration_base = coefficient.duration[0]
+                                        duration_add = coefficient.duration[1]
+                                    }
+                                    else if(curFile.duration<=180){
                                         coefficient.duration = [1, 0]
                                         // duration_charge = coefficient.duration[0]
                                         duration_base = coefficient.duration[0]
@@ -685,7 +697,7 @@ fileModule = {
                                         // duration_charge = coefficient.duration[0] + coefficient.duration[1]
                                     }
                                     else {
-                                        let addTime = Math.floor(((curFile.duration - 300)/10))*0.03
+                                        let addTime = Math.ceil((curFile.duration - 300)/10)*0.03
                                         coefficient.duration = [1.5, addTime]
                                         duration_base = coefficient.duration[0]
                                         duration_add = coefficient.duration[1]
@@ -772,6 +784,7 @@ fileModule = {
                                 $(".single_price").html(`0<h4>캐시</h4>`)
                                 $(".single_base_price").text("0")
                                 $(".single_add_price").text("0")
+                                $(".object_over").text("")
                             });
 
                             $(document).on("change", ".object_number", function () {
@@ -789,7 +802,7 @@ fileModule = {
                                     }
                                     else if(10<object_num){
                                         let addObject = ((object_num - 10))*0.08
-                                        total_avg_object_charge = [1.5, addObject.toFixed(2)]
+                                        total_avg_object_charge = [1.5, addObject]
                                     }
 
                                     var total_charge
@@ -805,8 +818,8 @@ fileModule = {
                                     }
                                     else{
                                         total_charge = 7000*resolution_charge*Number(duration_base)*total_avg_object_charge[0]
-                                        if(Number(duration_add)!=0 || total_avg_object_charge[1]!=0){
-                                            add_charge = 3500*(1+Number(duration_add))*(1+total_avg_object_charge[1])
+                                        if(Number(duration_add)!=0 || Number(total_avg_object_charge[1])!=0){
+                                            add_charge = 3500*(1+Number(duration_add))*(1+Number(total_avg_object_charge[1]))
                                         }
                                         else{
                                             add_charge = 0
@@ -814,7 +827,7 @@ fileModule = {
                                     }
                                     // total_charge = Math.round(total_charge * 100) / 100
                                     $(".price_text." + num + "").text(`X ${total_avg_object_charge[0]}`)
-                                    if(total_avg_object_charge[1]!=0){
+                                    if(Number(total_avg_object_charge[1])!=0){
                                         $(".object_over").text(`${object_num-10}개 초과`)
                                         $(".add_price_text").text(`X ${total_avg_object_charge[1]}`)
                                     }
@@ -823,9 +836,9 @@ fileModule = {
                                         $(".add_price_text").text(`-`)
                                     }
                                     // $(".charge_text." + num + "").text(`${price_three(total_charge)} 원, ${price_three(add_charge)}`)
-                                    $(".base_price").text(`${price_three(Math.floor(total_charge))}`)
-                                    $(".add_price").text(`${price_three(Math.floor(add_charge))}`)
-                                    $(".total_price").html(`${price_three(Math.floor(total_charge) + Math.floor(add_charge))}<h4>캐시</h4>`)
+                                    $(".base_price").text(`${price_three(Math.round(total_charge))}`)
+                                    $(".add_price").text(`${price_three(Math.round(add_charge))}`)
+                                    $(".total_price").html(`${price_three(Math.round(total_charge) + Math.round(add_charge))}<h4>캐시</h4>`)
                                 }
                                 else if (fileType == "image") {
                                     chargeArray[num].total_charge = 0;
@@ -839,7 +852,7 @@ fileModule = {
                                     }
                                     else if(10<object_num){
                                         let addObject = ((object_num - 10))*0.08
-                                        chargeArray[num].total_avg_object_charge = [1.5, addObject.toFixed(2)]
+                                        chargeArray[num].total_avg_object_charge = [1.5, addObject]
                                     }
 
                                     
