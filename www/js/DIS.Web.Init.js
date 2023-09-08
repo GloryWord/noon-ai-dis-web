@@ -4703,7 +4703,7 @@ init = {
                             // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
                             // restoration, request_id, fileList, postData.fileNameList
                             comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                             let requestType = 'masking';
                             comm.increaseRequestCount(requestId, additionalFileList, requestType);
                             if (addMessage) {
@@ -4725,7 +4725,7 @@ init = {
                 else {
                     let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                     comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                     let requestType = 'masking';
                     comm.increaseRequestCount(requestId, additionalFileList, requestType);
                     if (addMessage) {
@@ -4811,7 +4811,7 @@ init = {
                             if (result.isConfirmed) {
                                 let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
                                 comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, fileList);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
                                 let requestType = 'masking';
                                 comm.increaseRequestCount(requestId, fileList, requestType);
                                 if (addMessage) {
