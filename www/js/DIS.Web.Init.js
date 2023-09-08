@@ -1922,7 +1922,7 @@ init = {
         }
     },
 
-    test: function () {        
+    test: function () {
         function dateChange(year, month) {
             $(".selectYearText").text(`${year}년`)
             $(".selectMonthText").text(`${month}월`)
@@ -1954,6 +1954,15 @@ init = {
         let formattedMonth = currentMonth.toString().padStart(2, "0");
 
         $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
+        let yearMonth = `${currentYear}-${formattedMonth}`;
+        requestTable.getMonthFare(yearMonth).then((fares) => {
+            console.log('fares.total_charge : ',fares.total_charge);
+            $('.priceText').text(`${fares.total_charge}`);
+        });
+        requestTable.getMonthUsage(yearMonth).then(([imageUsage, videoUsage]) => {
+            console.log('imageUsage : ',imageUsage);
+            console.log('videoUsage : ',videoUsage);
+        })
         
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
 
