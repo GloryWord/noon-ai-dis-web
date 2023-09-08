@@ -23,7 +23,7 @@
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="./static/js/common/common.js"></script>
     <script src="./static/js/common/header.js"></script>
-  <script src="./static/js/common/footer.js"></script>
+    <script src="./static/js/common/footer.js"></script>
     <script src="../modules/download.js"></script>
 </head>
 
@@ -47,6 +47,7 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
@@ -135,7 +136,7 @@
         <div class="logo">
             <img src="./static/imgs/common/new_footer_logo.png">
             <div class="upBtn">
-              <img src="static/imgs/common/upBtn_icon.png">
+                <img src="static/imgs/common/upBtn_icon.png">
             </div>
         </div>
         <div class="textArea">
@@ -249,7 +250,8 @@
                             </div>
                         </div>
                         <div class="bodyMiddle">
-                            <textarea id="key_memoBox" class="keymemo_modi" placeholder="메모 내용은 200자 이하로 작성해주세요." maxlength="200"></textarea>
+                            <textarea id="key_memoBox" class="keymemo_modi" placeholder="메모 내용은 200자 이하로 작성해주세요."
+                                maxlength="200"></textarea>
                         </div>
                         <div class="bodyFooter">
                             <div class="memosave">

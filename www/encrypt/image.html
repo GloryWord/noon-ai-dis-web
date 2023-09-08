@@ -23,12 +23,12 @@
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="../static/js/common/common.js"></script>
     <script src="../static/js/common/header.js"></script>
-  <script src="../static/js/common/footer.js"></script>
+    <script src="../static/js/common/footer.js"></script>
     <script src="../modules/download.js"></script>
     <style>
-      .swal2-actions {
-        margin: 0 !important;
-      }
+        .swal2-actions {
+            margin: 0 !important;
+        }
     </style>
 </head>
 
@@ -52,6 +52,7 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
@@ -149,7 +150,7 @@
                 <div class="progress progressTotal"></div>
                 <div class="progress progressNow"></div>
                 <div class="progress progressPer">0 %</div>
-            </div>	
+            </div>
         </div>
         <div class="uploadFooter">
             <div class="restBtnArea">
@@ -159,10 +160,12 @@
                         <p>복호화 진행 여부</p>
                     </div>
                     <div class="rest_btn_area">
-                        <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를 진행합니다.</label>
+                        <input class="restore" type="radio" name="restoration" value="true"><label for="true">복호화를
+                            진행합니다.</label>
                     </div>
                     <div class="rest_btn_area">
-                        <input class="restore" type="radio" name="restoration" value="false" checked><label for="false">진행하지 않겠습니다.</label>
+                        <input class="restore" type="radio" name="restoration" value="false" checked><label
+                            for="false">진행하지 않겠습니다.</label>
                     </div>
                 </div>
                 <div class="textArea">
@@ -172,7 +175,8 @@
             <div class="restoreKey">
                 <div class="sKeyArea">
                     <div class="keySelectBox">
-                        <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은 Key를 사용합니다.</label>
+                        <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은
+                            Key를 사용합니다.</label>
                     </div>
                     <div class="selectKey">
                         <p class="selectText">Key 선택하기</p>
@@ -183,11 +187,14 @@
                 </div>
                 <div class="cKeyArea">
                     <div class="keySelectBox">
-                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를 발급 받아 사용합니다.</label>
+                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를
+                            발급 받아 사용합니다.</label>
                     </div>
                     <div class="createKey">
                         <div class="createArea">
-                            <input class="keyCreate" id="genKeyName" onKeyup="this.value=this.value.replace(/[^a-z0-9]/g,'');" style="ime-mode:inactive" placeholder="Key 이름을 작성해 주세요">
+                            <input class="keyCreate" id="genKeyName"
+                                onKeyup="this.value=this.value.replace(/[^a-z0-9]/g,'');" style="ime-mode:inactive"
+                                placeholder="Key 이름을 작성해 주세요">
                             <p1>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p1>
                             <div class="keyCD" id="generateKey">
                                 <h3>Key 생성 및 다운로드</h3>
@@ -212,41 +219,41 @@
     </div>
     <div class="footer">
         <div class="logo">
-          <img src="../static/imgs/common/new_footer_logo.png">
+            <img src="../static/imgs/common/new_footer_logo.png">
         </div>
         <div class="upBtn">
-          <img src="../static/imgs/common/upBtn_icon.png">
+            <img src="../static/imgs/common/upBtn_icon.png">
         </div>
         <div class="textArea">
-          <div class="footer_menu">
-            <label class="privacy">개인정보처리방침</label>
-            <p>|</p>
-            <label class="servicePrivacy">서비스이용약관</label>
-            <p>|</p>
-            <label class="emailPrivacy">이메일무단수집거부</label>
-          </div>
-          <div class="companyInfo">
-            <div class="loc">
-              <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+            <div class="footer_menu">
+                <label class="privacy">개인정보처리방침</label>
+                <p>|</p>
+                <label class="servicePrivacy">서비스이용약관</label>
+                <p>|</p>
+                <label class="emailPrivacy">이메일무단수집거부</label>
             </div>
-            <div class="ceo_num">
-              <p class="info">대표 :&nbsp;<label>조판희</label></p>
-              <p>|</p>
-              <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
-              <p>|</p>
-              <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+            <div class="companyInfo">
+                <div class="loc">
+                    <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+                </div>
+                <div class="ceo_num">
+                    <p class="info">대표 :&nbsp;<label>조판희</label></p>
+                    <p>|</p>
+                    <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+                    <p>|</p>
+                    <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+                </div>
+                <div class="call_num">
+                    <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+                    <p>|</p>
+                    <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+                </div>
+                <div class="inc">
+                    <p>(주)엠에이치엔씨티 © mhncity Inc. all rights reserved</p>
+                </div>
             </div>
-            <div class="call_num">
-              <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
-              <p>|</p>
-              <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
-            </div>
-            <div class="inc">
-              <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 </body>
 
 <div id="chargeModal" class="modal">
@@ -287,8 +294,14 @@
                             </div>
                         </div>
                         <div class="bodyMiddle">
-                            <div class="total_price_area"><p>이미지 그룹 총 예상 요금</p><span class='total_price'>0<h4>원</h4></span></div>
-                            <div class="price_area"><p class='base_price'>0</p><p>+</p><p class='add_price'>0</p></div>
+                            <div class="total_price_area">
+                                <p>이미지 그룹 총 예상 요금</p><span class='total_price'>0<h4>원</h4></span>
+                            </div>
+                            <div class="price_area">
+                                <p class='base_price'>0</p>
+                                <p>+</p>
+                                <p class='add_price'>0</p>
+                            </div>
                         </div>
                         <div class="chargeFooter">
                             <div class="encryptBtn">
