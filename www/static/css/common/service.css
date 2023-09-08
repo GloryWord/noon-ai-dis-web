@@ -576,3 +576,18 @@
     color: #fff;
     margin: auto;
 }
+
+@media(max-width:1200px){
+    .logoArea {
+        height: auto;
+        flex-direction: column-reverse;
+    }
+
+    .logoArea .textArea {
+        margin: 0px auto 100px;
+    }
+
+    .logoArea .imgArea {
+        margin: 90px auto 0;
+    }
+}
