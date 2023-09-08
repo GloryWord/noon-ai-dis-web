@@ -4567,12 +4567,23 @@ init = {
             let fileNames = await fileModule.getFileNameFromID(fileIDs);
             let parsedCoordinates;
             if(type=="image"){
-                parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
-                if (parsedCoordinates) {
-                    totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
+                if(mode=="group"){
+                    parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
+                    }
+                    else {
+                        if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
+                    }
                 }
-                else {
-                    if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
+                else{
+                    parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
+                    if (parsedCoordinates) {
+                        totalCoordinates[fileList[imgNum]] = parsedCoordinates;
+                    }
+                    else {
+                        if (totalCoordinates[fileList[imgNum]]) delete totalCoordinates[fileList[imgNum]]
+                    }
                 }
             }
             else if(type=="video"){
