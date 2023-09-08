@@ -1977,9 +1977,6 @@ init = {
             else if(viewType=="work"){
                 workHTML()
             }
-            else if(viewType=="credit"){
-                creditHTML()
-            }
         })
 
         $(document).on("click", ".detailBth", function(){

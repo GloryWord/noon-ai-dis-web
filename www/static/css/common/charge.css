@@ -174,7 +174,7 @@
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.22;
+    line-height: 1.23;
     letter-spacing: normal;
     text-align: left;
     color: #595959;
@@ -187,7 +187,7 @@
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    line-height: 2;
+    line-height: 1;
     letter-spacing: -0.12px;
     text-align: right;
     color: #595959;
@@ -462,6 +462,14 @@
     margin: 0 4px 0 0;
 }
 
+.chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .pcText {
+    display: flex;
+}
+
+.chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .mText {
+    display: none;
+}
+
 .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader h5 {
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;
@@ -644,4 +652,237 @@
     text-align: center;
     color: #fff;
     margin: auto;
+}
+
+@media(max-width:1023px) {
+    .chargeContent .chargeHeader {
+        width: 600px;
+    }
+
+    .chargeContent .chargeBody {
+        width: 600px;
+    }
+
+    .chargeContent .chargeBody .bodyHeader p {
+        line-height: 1.24;
+    }
+
+    .chargeContent .chargeBody .bodyContent {
+        width: 600px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .headTextArea {
+        width: 426px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea {
+        flex-direction: column;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox {
+        width: 426px;
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxHeader {
+        width: 426px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxHeader .line {
+        width: 378px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent {
+        width: 426px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent p,
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent .taxArea,
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent h4 {
+        width: 362px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent .arrow {
+        left: 193px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea {
+        flex-direction: column;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox {
+        width: 426px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyFooter {
+        width: 600px;
+        flex-direction: column;
+    }
+
+    .chargeContent .chargeBody .bodyFooter span {
+        margin: 0 auto 40px 0;
+    }
+
+    .chargeContent .chargeBody .bodyFooter .moveBtn {
+        margin: 0 auto;
+    }
+}
+
+@media(max-width:600px) {
+    .chargeContent .chargeHeader {
+        width: 312px;
+        display: flex;
+        margin: 90px auto 24px;
+    }
+    
+    .chargeContent .chargeHeader p {
+        display: none;
+    }
+
+    .chargeContent .chargeBody {
+        width: 312px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 90px;
+    }
+
+    .chargeContent .chargeBody .bodyHeader {
+        width: 312px;
+        margin: 0 auto 24px;
+    }
+
+    .chargeContent .chargeBody .bodyHeader p {
+        line-height: 1.24;
+    }
+
+    .chargeContent .chargeBody .bodyContent {
+        width: 312px;
+        margin: 0 auto 24px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .headTextArea {
+        width: 268px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox {
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox {
+        width: 268px;
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader {
+        width: 268px;
+        height: 186px;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+        border-radius: 10px 10px 0 0;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .line {
+        width: 220px;
+        margin: 0 auto 18px;
+        border-top: 1px solid #fff;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .pcText {
+        display: none;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .mText {
+        display: flex;
+        flex-direction: column;
+        width: 220px;
+        margin: 0 auto;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .mText .topText {
+        display: flex;
+        margin: 0 auto 8px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxHeader .mText h4 {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 18px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: -0.18px;
+        text-align: center;
+        color: #fff;
+        margin: 0 auto;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent {
+        width: 268px;
+        height: 238px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent {
+        width: 268px;
+        height: 238px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.16);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent .arrow {
+        left: 114px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent p {
+        width: 204px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent .taxArea {
+        width: 204px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent h4 {
+        width: 204px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .secondArea .chargeBox .boxContent .textArea {
+        width: 204px;
+    }
+
+    .chargeContent .chargeBody .bodyFooter {
+        width: 268px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 90px;
+    }
+
+    .chargeContent .chargeBody .bodyFooter span {
+        margin: 0 0 24px 0;
+    }
 }
