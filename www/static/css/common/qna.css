@@ -398,7 +398,7 @@
     .qna_content .qnaHeader {
         width: 288px;
         display: flex;
-        margin: 90px auto 20px;
+        margin: 48px auto 20px;
     }
     .qna_content .qnaHeader p {
         display: none;
@@ -406,6 +406,7 @@
 
     .qna_content .qnaContent {
         width: 288px;
+        margin: 0 auto 48px;
     }
 
     .qna_content .qnaContent .firstArea {

@@ -735,7 +735,7 @@
     .chargeContent .chargeHeader {
         width: 312px;
         display: flex;
-        margin: 90px auto 24px;
+        margin: 48px auto 24px;
     }
     
     .chargeContent .chargeHeader p {
@@ -746,7 +746,7 @@
         width: 312px;
         display: flex;
         flex-direction: column;
-        margin: 0 auto 90px;
+        margin: 0 auto;
     }
 
     .chargeContent .chargeBody .bodyHeader {
@@ -771,6 +771,33 @@
         display: flex;
         flex-direction: column;
         margin: 0 auto;
+    }    
+    
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox {
+        width: 268px;
+        margin: 0 auto 48px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxHeader {
+        width: 268px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxHeader .line {
+        width: 220px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent {
+        width: 268px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent p,
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent .taxArea,
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent h4 {
+        width: 204px;
+    }
+
+    .chargeContent .chargeBody .bodyContent .firstArea .chargeBox .boxContent .arrow {
+        left: 114px;
     }
 
     .chargeContent .chargeBody .bodyContent .firstArea .chargeBox {
@@ -879,7 +906,7 @@
         width: 268px;
         display: flex;
         flex-direction: column;
-        margin: 0 auto 90px;
+        margin: 0 auto 48px;
     }
 
     .chargeContent .chargeBody .bodyFooter span {
