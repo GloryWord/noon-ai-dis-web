@@ -39,25 +39,25 @@ init = {
     service: function () {
         $('.explanSlider').slick({
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
-            infinite : true, 	//무한 반복 옵션	 
-            slidesToShow : 1,		// 한 화면에 보여질 컨텐츠 개수
-            slidesToScroll : 1,		//스크롤 한번에 움직일 컨텐츠 개수
-            speed : 500,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-            arrows : false, 		// 옆으로 이동하는 화살표 표시 여부
-            dots : true, 		// 스크롤바 아래 점으로 페이지네이션 여부
-            autoplay : true,			// 자동 스크롤 사용 여부
-            autoplaySpeed : 7000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
-            pauseOnHover : true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
-            vertical : false,		// 세로 방향 슬라이드 옵션
-            prevArrow : false,		// 이전 화살표 모양 설정
-            nextArrow : false,		// 다음 화살표 모양 설정
-            dotsClass : "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
-            draggable : true, 	//드래그 가능 여부 
+            infinite: true, 	//무한 반복 옵션	 
+            slidesToShow: 1,		// 한 화면에 보여질 컨텐츠 개수
+            slidesToScroll: 1,		//스크롤 한번에 움직일 컨텐츠 개수
+            speed: 500,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+            arrows: false, 		// 옆으로 이동하는 화살표 표시 여부
+            dots: true, 		// 스크롤바 아래 점으로 페이지네이션 여부
+            autoplay: true,			// 자동 스크롤 사용 여부
+            autoplaySpeed: 7000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+            pauseOnHover: true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+            vertical: false,		// 세로 방향 슬라이드 옵션
+            prevArrow: false,		// 이전 화살표 모양 설정
+            nextArrow: false,		// 다음 화살표 모양 설정
+            dotsClass: "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
+            draggable: true, 	//드래그 가능 여부 
         });
     },
 
     charge: function () {
-        
+
     },
 
     // 유저 로그인 화면 제어
@@ -387,20 +387,20 @@ init = {
                 for (var i = 0; i < fileCount; i++) {
                     fileIndex.push(i);
                 }
-                imgInfo=[]
+                imgInfo = []
                 for (var i = 0; i < fileCount; i++) {
                     let img = new Image();
                     img.src = window.URL.createObjectURL(files[i]);
                     imgInfo.push(img);
                     // fileWidth.push(0); // 초기값으로 넣어둠
                     // fileHeight.push(0); // 초기값으로 넣어둠
-                  
-                    img.onload = function() {
-                      const loadedImgIndex = imgInfo.indexOf(this);
-                      if (loadedImgIndex !== -1) {
-                        fileWidth[loadedImgIndex] = this.width;
-                        fileHeight[loadedImgIndex] = this.height;
-                      }
+
+                    img.onload = function () {
+                        const loadedImgIndex = imgInfo.indexOf(this);
+                        if (loadedImgIndex !== -1) {
+                            fileWidth[loadedImgIndex] = this.width;
+                            fileHeight[loadedImgIndex] = this.height;
+                        }
                     };
                 }
             }, 200)
@@ -634,8 +634,8 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
-            console.log('fileWidth : ',fileWidth);
-            console.log('fileHeight : ',fileHeight);
+            console.log('fileWidth : ', fileWidth);
+            console.log('fileHeight : ', fileHeight);
             var encryptObject = []
             var allCheck = ""
             for (var i = 0; i < fileCount; i++) {
@@ -805,7 +805,7 @@ init = {
                             comm.meterDownload(eventIndex, type, fileName, fileSize);
                             let requestType = 'download';
                             let originEncIndex = urlParams.get('encID');
-                            if(fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);
+                            if (fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);
                             else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
@@ -1746,12 +1746,12 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
-            console.log('selectedFile : ',selectedFile);
+            console.log('selectedFile : ', selectedFile);
             // 복호화 카운트 증가시키는 함수 추가
             let fileNames = urlParams.get('fileNames');
             fileNames = fileNames.split(',');
             let requestType = 'restoration';
-            comm.increaseRequestCount(encryptIdx,fileNames,requestType);
+            comm.increaseRequestCount(encryptIdx, fileNames, requestType);
             let decRequestId = decryptAjaxResponse.decReqInfo.decRequestId;
             let fileList = decryptAjaxResponse.fileList;
             if (decryptAjaxResponse) {
@@ -1774,7 +1774,7 @@ init = {
                     icon: 'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt' + '&encID='+encryptIdx;
+                        location.href = '/loading?type=' + type + '&id=' + decRequestId + '&service=decrypt' + '&encID=' + encryptIdx;
                     }
                 })
             }
@@ -1842,7 +1842,7 @@ init = {
         }
     },
 
-    usage: function () {
+    usage_past: function () {
         var d = new Date();
         var sel_month = -1; // 월을 조절하시면 됩니다. -1이면 전달을 +1이면 다음달을..
         d.setMonth(d.getMonth() + sel_month);
@@ -1922,7 +1922,7 @@ init = {
         }
     },
 
-    test: function () {
+    usage: function () {
         function dateChange(year, month) {
             $(".selectYearText").text(`${year}년`)
             $(".selectMonthText").text(`${month}월`)
@@ -1946,33 +1946,91 @@ init = {
             });
         }
 
+        function getHeaderData(yearMonth) {
+            requestTable.getMonthFare(yearMonth).then((fares) => {
+                console.log('fares.total_charge : ', fares.total_charge);
+                $('.priceText').text(`${price_three(fares["total_charge"])}`);
+                let calcPrice = `<p>총 서비스 기본 금액  ${price_three(fares["basic_charge"])} + 총 추가 발생 금액  ${price_three(fares["extra_charge"])} - 총 할인 금액  ${price_three(fares["free_charge"])} = 총 차감 금액  ${price_three(fares["total_charge"])}</p>`
+                $(".calcPrice").html(calcPrice)
+            });
+            requestTable.getMonthUsage(yearMonth).then(([imageUsage, videoUsage]) => {
+                console.log('imageUsage : ', imageUsage);
+                console.log('videoUsage : ', videoUsage);
+                let usageCountTable = `<div class="usageTableContent">
+                                            <div class="usageTableInfo">
+                                                <div class="usageContentText category">
+                                                    <p>이미지 파일</p>
+                                                </div>
+                                                <div class="usageContentText encrypt">
+                                                    <p>${imageUsage["masking_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText additional">
+                                                    <p>${imageUsage["de_identification"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText decrypt">
+                                                    <p>${imageUsage["restoration_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText download">
+                                                    <p>${imageUsage["download_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText total">
+                                                    <p>${imageUsage["total_count"]} 회</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="usageTableContent">
+                                            <div class="usageTableInfo">
+                                                <div class="usageContentText category">
+                                                    <p>영상 파일</p>
+                                                </div>
+                                                <div class="usageContentText encrypt">
+                                                    <p>${videoUsage["masking_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText additional">
+                                                    <p>${videoUsage["de_identification"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText decrypt">
+                                                    <p>${videoUsage["restoration_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText download">
+                                                    <p>${videoUsage["download_count"]} 회</p>
+                                                </div>
+                                                <div class="usageContentText total">
+                                                    <p>${videoUsage["total_count"]} 회</p>
+                                                </div>
+                                            </div>
+                                        </div>`
+                $(".usageTableBody").html(usageCountTable)
+            })
+        }
+
         let currentDate = new Date();
         let currentYear = currentDate.getFullYear();
         let currentMonth = currentDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 +1 해줍니다.
-    
+
         // 월을 두 자리로 표현하도록 포맷팅합니다.
         let formattedMonth = currentMonth.toString().padStart(2, "0");
 
         $("#searchMonth").val(`${currentYear}-${formattedMonth}`);
-        let yearMonth = `${currentYear}-${formattedMonth}`;
-        requestTable.getMonthFare(yearMonth).then((fares) => {
-            console.log('fares.total_charge : ',fares.total_charge);
-            $('.priceText').text(`${fares.total_charge}`);
-        });
-        requestTable.getMonthUsage(yearMonth).then(([imageUsage, videoUsage]) => {
-            console.log('imageUsage : ',imageUsage);
-            console.log('videoUsage : ',videoUsage);
+        getHeaderData($("#searchMonth").val())
+
+        $(document).on("change", "#searchMonth", function () {
+            getHeaderData($("#searchMonth").val())
         })
-        
+
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
 
         fileHTML()
 
-        $(document).on("change", "#searchMonth", function(){
+        $(document).on("change", "#searchMonth", function () {
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
+            $(".tableArea").html("")
+            fileHTML()
+            $(".logBtn.file").addClass("active")
+            $(".logBtn.work").removeClass("active")
         })
 
-        $(document).on("click", ".logBtn", function(){
+        $(document).on("click", ".logBtn", function () {
             let viewType = $(this).data("type")
             $(".excelDownload").removeClass("file")
             $(".excelDownload").removeClass("work")
@@ -1980,15 +2038,15 @@ init = {
             $(".excelDownload").addClass(`${viewType}`)
             $(".logBtn").removeClass("active")
             $(this).addClass("active")
-            if(viewType=="file"){
+            if (viewType == "file") {
                 fileHTML()
             }
-            else if(viewType=="work"){
+            else if (viewType == "work") {
                 workHTML()
             }
         })
 
-        $(document).on("click", ".detailBth", function(){
+        $(document).on("click", ".detailBth", function () {
             $("#priceDetail").addClass("active")
         })
 
@@ -2044,10 +2102,10 @@ init = {
                                         <p>요금 <br>상세보기</p>
                                     </div>
                                 </div>`
-                contentHTML += `<div class='tableBody'>
+            contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-                                    for(let i=0;i<12;i++){
-                        contentHTML += `<div class='contentInfo'>
+            for (let i = 0; i < 12; i++) {
+                contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num file'>
                                                 <p>1234567</p>
                                             </div>
@@ -2091,8 +2149,8 @@ init = {
                                                 </div>
                                             </div>
                                         </div>`
-                                    }
-                    contentHTML += `</div>
+            }
+            contentHTML += `</div>
                                 </div>`
             $(".tableArea").html(contentHTML)
             paging()
@@ -2153,61 +2211,61 @@ init = {
                                         <p>차감 금액</p>
                                     </div>
                                 </div>`
-                contentHTML += `<div class='tableBody'>
+            contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-                                    for(let i=0;i<12;i++){
-                        contentHTML += `<div class='contentInfo'>
-                                            <div class='logContent num work'>
-                                                <p>1234567</p>
-                                            </div>
-                                            <div class='logContent user work'>
-                                                <p>관리자 계정</p>
-                                            </div>
-                                            <div class='logContent date work'>
-                                                <p>YYYY. MM. DD <br>00 : 00 : 00</p>
-                                            </div>
-                                            <div class='logContent filename work'>
-                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
-                                            </div>
-                                            <div class='logContent filetype work'>
-                                                <p>영상</p>
-                                            </div>
-                                            <div class='logContent service work'>
-                                                <p>비식별화</p>
-                                            </div>
-                                            <div class='logContent basic work'>
-                                                <p>10,000</p>
-                                            </div>
-                                            <div class='logContent resolution work'>
-                                                <div class='textArea'>
-                                                    <span>HD 이하</span>
-                                                    <h5>(00000X00000)</h5>
-                                                </div>
-                                            </div>
-                                            <div class='logContent duration work'>
-                                                <div class='textArea'>
-                                                    <span>00분00초</span>
-                                                    <h5>(000,000초)</h5>
-                                                </div>
-                                            </div>
-                                            <div class='logContent object work'>
-                                                <p>00개</p>
-                                            </div>
-                                            <div class='logContent base work'>
-                                                <p>1,000,000</p>
-                                            </div>
-                                            <div class='logContent add work'>
-                                                <p>1,000,000</p>
-                                            </div>
-                                            <div class='logContent discount work'>
-                                                <p>1,000,000</p>
-                                            </div>
-                                            <div class='logContent price work'>
-                                                <p>1,000,000</p>
-                                            </div>
-                                        </div>`
-                                    }
-                    contentHTML += `</div>
+            for (let i = 0; i < 12; i++) {
+                contentHTML += `<div class='contentInfo'>
+                                    <div class='logContent num work'>
+                                        <p>1234567</p>
+                                    </div>
+                                    <div class='logContent user work'>
+                                        <p>관리자 계정</p>
+                                    </div>
+                                    <div class='logContent date work'>
+                                        <p>YYYY. MM. DD <br>00 : 00 : 00</p>
+                                    </div>
+                                    <div class='logContent filename work'>
+                                        <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
+                                    </div>
+                                    <div class='logContent filetype work'>
+                                        <p>영상</p>
+                                    </div>
+                                    <div class='logContent service work'>
+                                        <p>비식별화</p>
+                                    </div>
+                                    <div class='logContent basic work'>
+                                        <p>10,000</p>
+                                    </div>
+                                    <div class='logContent resolution work'>
+                                        <div class='textArea'>
+                                            <span>HD 이하</span>
+                                            <h5>(00000X00000)</h5>
+                                        </div>
+                                    </div>
+                                    <div class='logContent duration work'>
+                                        <div class='textArea'>
+                                            <span>00분00초</span>
+                                            <h5>(000,000초)</h5>
+                                        </div>
+                                    </div>
+                                    <div class='logContent object work'>
+                                        <p>00개</p>
+                                    </div>
+                                    <div class='logContent base work'>
+                                        <p>1,000,000</p>
+                                    </div>
+                                    <div class='logContent add work'>
+                                        <p>1,000,000</p>
+                                    </div>
+                                    <div class='logContent discount work'>
+                                        <p>1,000,000</p>
+                                    </div>
+                                    <div class='logContent price work'>
+                                        <p>1,000,000</p>
+                                    </div>
+                                </div>`
+            }
+            contentHTML += `</div>
                                 </div>`
             $(".tableArea").html(contentHTML)
             paging()
@@ -2565,13 +2623,13 @@ init = {
             $("#keyAdd").find('[autofocus]').focus();
         });
 
-        $(document).on("mouseover", ".memo_text", function () { 
+        $(document).on("mouseover", ".memo_text", function () {
             let num = $(this).data("id")
             $(".memoModal").removeClass("active")
             $(`.memoModal.num${num}`).addClass("active")
         });
 
-        $(document).on("mouseleave", ".memo_text", function () { 
+        $(document).on("mouseleave", ".memo_text", function () {
             $(".memoModal").removeClass("active")
         });
 
@@ -3227,7 +3285,7 @@ init = {
         var selectedFile = []
         // [encDirectory, fileList] = resultLoader.getEncFileInfo(eventIndex);
         var encFileInfo = resultLoader.getEncFileInfo(eventIndex); //비식별화 결과물 저장 경로와 파일 목록을 불러옴
-        if(encFileInfo!=''){
+        if (encFileInfo != '') {
             var encDirectory = encFileInfo.encDirectory;
             var fileList = encFileInfo.fileList;
         }
@@ -3402,17 +3460,17 @@ init = {
             }
         });
 
-        if(encFileInfo!=''){
+        if (encFileInfo != '') {
             if (type == 'image') {
                 var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
                 var html = resultLoader.getImageDetailHtml(signedUrl, mode, fileList);
-    
+
                 if (mode == 'single') {
                     $('.lockData')[0].innerHTML = html;
                     $('#signedUrl').attr('href', signedUrl[0][0]);
                     var fileSize = signedUrl[0][1];
                     var fileName = fileList[0];
-    
+
                     $(document).on("click", "#signedUrl", function () {
                         comm.meterDownload(eventIndex, type, fileName, fileSize);
                         let requestType = 'download';
@@ -3430,7 +3488,7 @@ init = {
                         }
                         $("#select_recoData").addClass('active')
                     });
-    
+
                     $(document).on("click", ".albumImg", function () {
                         if (screen.width > 600) {
                             var imgnum = $(this).data("num")
@@ -3444,7 +3502,7 @@ init = {
                             $("#imgView").addClass('active')
                         }
                     });
-    
+
                     $(document).on("click", ".hoverdiv", function () {
                         var imgnum = $(this).data("num")
                         selectModalImg = imgnum
@@ -3456,7 +3514,7 @@ init = {
                         document.getElementById('selectBtnArea').innerHTML = downloadArea
                         $("#imgView").addClass('active')
                     });
-    
+
                     $(document).on("click", ".imgConfirm", function () {
                         console.log(selectModalImg)
                         var selectSize = signedUrl[selectModalImg][1];
@@ -3464,7 +3522,7 @@ init = {
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                     });
-    
+
                     $(document).on("click", ".allselect", function () {
                         if ($('.allselect').is(":checked")) {
                             $("input:checkbox[class=check_reco]").prop("checked", true);
@@ -3473,37 +3531,37 @@ init = {
                             $('input[class=check_reco]:checked').prop('checked', false)
                         }
                     });
-    
+
                     $(document).on("click", ".check_reco", function () {
                         if (!$(this).is(":checked")) {
                             $("input:checkbox[class=allselect]").prop("checked", false);
                         }
                     });
-    
+
                     $(document).on("mouseover", ".albumImg", function () {
                         var num = $(this).data('num')
                         $("." + num + "").removeClass("hide")
                     });
-    
+
                     $(document).on("mouseover", ".hoverdiv", function () {
                         var num = $(this).data('num')
                         $("." + num + "").removeClass("hide")
                     });
-    
+
                     $(document).on("mouseleave", ".albumImg", function () {
                         var num = $(this).data('num')
                         $("." + num + "").addClass("hide")
                     });
-    
+
                     $(document).on("mouseleave", ".hoverdiv", function () {
                         var num = $(this).data('num')
                         $("." + num + "").addClass("hide")
                     });
-    
+
                     $(document).on("click", ".recoConfirm", function () {
                         $('.modal').removeClass('active')
                     });
-    
+
                     $(document).on("click", "#signedUrl", function () {
                         let timerInterval
                         Swal.fire({
@@ -3539,7 +3597,7 @@ init = {
                                     subDirectory: encDirectory[1],
                                     fileName: ['Download.zip']
                                 })
-    
+
                                 setTimeout(function () {
                                     new Promise((resolve, reject) => {
                                         //파일 다운로드 경로 획득
@@ -3547,7 +3605,7 @@ init = {
                                         var fileUrl = signedUrl[0][0];
                                         var fileSize = signedUrl[0][1];
                                         location.href = fileUrl;
-    
+
                                         comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
                                         let requestType = 'download';
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
@@ -3573,13 +3631,13 @@ init = {
                     fileUrl = signedUrl[0][0];
                     fileSize = signedUrl[0][1];
                 }
-    
+
                 var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
                 $('#signedUrl').attr('href', fileUrl);
                 $('.fullname').text($('.file_fullname').text())
-    
+
                 var fileName = fileList[0];
-    
+
                 $(document).on("click", "#signedUrl", function () {
                     comm.meterDownload(eventIndex, type, fileName, fileSize);
                     let requestType = 'download';
@@ -3591,11 +3649,11 @@ init = {
             $(".infoContent").addClass("error")
             $(".viewContent").addClass("hide")
         }
-        
+
 
         $(document).on("click", ".checkBtn", function () {
             uploadID = makeid(6);
-            console.log('restoration : ',restoration);
+            console.log('restoration : ', restoration);
             if (restoration === '1') {
                 $('#addfile').val('');
                 $('.pemUpload').val('');
@@ -3727,10 +3785,10 @@ init = {
         var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileList);
 
         let thumbnailVideo = document.getElementById('video')
-        if(signedUrl[0][0].indexOf("thumbnail.mp4")!=-1){
+        if (signedUrl[0][0].indexOf("thumbnail.mp4") != -1) {
             thumbnailVideo.src = signedUrl[1][0]
         }
-        else{
+        else {
             thumbnailVideo.src = signedUrl[0][0]
         }
 
@@ -3832,9 +3890,9 @@ init = {
                 let selectedFileIDs = urlParams.get('fileIDs');
                 let fileNames = await fileModule.getFileNameFromID(selectedFileIDs);
                 let signedUrl = await resultLoader.getFileUrl(encDirectory[0], encDirectory[1], fileNames);
-                console.log('signedUrl : ',signedUrl);
+                console.log('signedUrl : ', signedUrl);
                 let coordinates = await fileModule.readCoordinatesToJson(token, mode, requestId);
-                if(coordinates) totalCoordinates = coordinates;
+                if (coordinates) totalCoordinates = coordinates;
                 let imgList = ``;
                 for (let i = 0; i < signedUrl.length; i++) {
                     imgList += `<div class='listImgDiv'>
@@ -3903,12 +3961,12 @@ init = {
                     const containerWidth = container.offsetWidth;
                     const containerScrollLeft = container.scrollLeft;
                     const activeElementWidth = activeElement.offsetWidth;
-                    const activeElementLeft = activeElement.offsetLeft-((screen.width-988)/2);
+                    const activeElementLeft = activeElement.offsetLeft - ((screen.width - 988) / 2);
                     const activeElementRight = activeElementLeft + activeElementWidth;
                     const centerPosition = containerScrollLeft + containerWidth / 2;
 
                     // activeElement가 container 영역의 절반을 넘어간 경우에만 스크롤 이동
-                    if (activeElementLeft < centerPosition+(screen.width-988)/2 || activeElementRight > containerScrollLeft + containerWidth) {
+                    if (activeElementLeft < centerPosition + (screen.width - 988) / 2 || activeElementRight > containerScrollLeft + containerWidth) {
                         const scrollOffset = activeElementLeft - containerWidth / 2 + activeElementWidth / 2;
 
                         // 스크롤 이동
@@ -4002,7 +4060,7 @@ init = {
             let sectorList = ``
             for (let i = 0; i < Object.keys(sectorInfo).length; i++) {
                 let iconActive = ''
-                if(sectorInfo[Object.keys(sectorInfo)[i]]["complete"]==1){
+                if (sectorInfo[Object.keys(sectorInfo)[i]]["complete"] == 1) {
                     iconActive = "active"
                 }
                 sectorList += `<div class='listSectorDiv'>
@@ -4066,12 +4124,12 @@ init = {
                                         </div>`
                     }
                     $(".imgList").html(imgListHtml)
-                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+                    $(".selectImgNum").text(`${(Number(imgNum) + 1)} / ${imgLocList.length}`)
 
                     let selectSectorType = $(".imgList").data("sectortype")
 
                     let thumbnailImg = document.getElementById('canvasBackImg')
-                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.src = "../../" + imgLocList[imgNum]
                     thumbnailImg.onload = function () {
                         const canvas = document.getElementById('canvas');
                         var height = document.getElementById('canvasBackImg').clientHeight;
@@ -4091,13 +4149,13 @@ init = {
                                 //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                                 if (videoJson) {
                                     let coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"]);
-                                    if(coordTritonToWeb!=null){
+                                    if (coordTritonToWeb != null) {
                                         let canvasCoord = coordTritonToWeb.canvas;
                                         let originCoord = coordTritonToWeb.origin;
                                         let classArray = coordTritonToWeb.class;
                                         if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray), 50)
                                     }
-                                    else{
+                                    else {
                                         setTimeout(() => 50)
                                     }
                                 }
@@ -4116,14 +4174,14 @@ init = {
                     $(".loadArea").addClass("active")
                     let imgName = imgLocList[Number(imgNum)].split("/")
                     imgName = imgName[imgName.length - 1].split(".")[0]
-                    if(imgNum!=0){
-                        let preImgName = imgLocList[Number(imgNum)-1].split("/")
+                    if (imgNum != 0) {
+                        let preImgName = imgLocList[Number(imgNum) - 1].split("/")
                         preImgName = preImgName[preImgName.length - 1].split(".")[0]
-                        imgListHtml += `<div class='frameBox detail prev' data-imgnum=${Number(imgNum)-1} data-framenum=${preImgName}>
-                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)-1]}); background-size:cover;"></div>
+                        imgListHtml += `<div class='frameBox detail prev' data-imgnum=${Number(imgNum) - 1} data-framenum=${preImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum) - 1]}); background-size:cover;"></div>
                                             <p>Sector${sectorNum} ${preImgName}</p>
                                         </div>
-                                        <div class='detailPreBtn' data-imgnum=${Number(imgNum)-1}>
+                                        <div class='detailPreBtn' data-imgnum=${Number(imgNum) - 1}>
                                             <img src='../../static/imgs/check/detailPreBtn.png'>
                                         </div>`
                     }
@@ -4134,14 +4192,14 @@ init = {
                                         <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)]}); background-size:cover;"></div>
                                         <p>Sector${sectorNum} ${imgName}</p>
                                     </div>`
-                    if(imgNum!=(imgLocList.length - 1)){
-                        let nextImgName = imgLocList[Number(imgNum)+1].split("/")
+                    if (imgNum != (imgLocList.length - 1)) {
+                        let nextImgName = imgLocList[Number(imgNum) + 1].split("/")
                         nextImgName = nextImgName[nextImgName.length - 1].split(".")[0]
-                        imgListHtml += `<div class='detailNextBtn' data-imgnum=${Number(imgNum)+1}>
+                        imgListHtml += `<div class='detailNextBtn' data-imgnum=${Number(imgNum) + 1}>
                                             <img src='../../static/imgs/check/detailNextBtn.png'>
                                         </div>
-                                        <div class='frameBox detail next' data-imgnum=${Number(imgNum)+1} data-framenum=${nextImgName}>
-                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum)+1]}); background-size:cover;"></div>
+                                        <div class='frameBox detail next' data-imgnum=${Number(imgNum) + 1} data-framenum=${nextImgName}>
+                                            <div class='sectorFrame' style="background-image: url(../../${imgLocList[Number(imgNum) + 1]}); background-size:cover;"></div>
                                             <p>Sector${sectorNum} ${nextImgName}</p>
                                         </div>`
                     }
@@ -4150,12 +4208,12 @@ init = {
                     }
 
                     $(".imgList").html(imgListHtml)
-                    $(".selectImgNum").text(`${(Number(imgNum)+1)} / ${imgLocList.length}`)
+                    $(".selectImgNum").text(`${(Number(imgNum) + 1)} / ${imgLocList.length}`)
 
                     let selectSectorType = $(".imgList").data("sectortype")
 
                     let thumbnailImg = document.getElementById('canvasBackImg')
-                    thumbnailImg.src = "../../"+imgLocList[imgNum]
+                    thumbnailImg.src = "../../" + imgLocList[imgNum]
                     thumbnailImg.onload = function () {
                         const canvas = document.getElementById('canvas');
                         var height = document.getElementById('canvasBackImg').clientHeight;
@@ -4175,30 +4233,30 @@ init = {
                                 //헤더에 포함 완료되었다면 기존 좌표를 읽어옴
                                 if (videoJson) {
                                     let coordTritonToWeb
-                                    if(imgNum==0){
+                                    if (imgNum == 0) {
                                         coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
                                     }
-                                    else{
+                                    else {
                                         coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
-                                        if(coordTritonToWeb["canvas"].length==0){
-                                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                                        if (coordTritonToWeb["canvas"].length == 0) {
+                                            coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum")) - 1]);
                                         }
                                     }
-                                    
-                                    if(restoration==0){
-                                        if(coordTritonToWeb!=null){
+
+                                    if (restoration == 0) {
+                                        if (coordTritonToWeb != null) {
                                             let canvasCoord = coordTritonToWeb.canvas;
                                             let originCoord = coordTritonToWeb.origin;
                                             let classArray = coordTritonToWeb.class;
-    
+
                                             if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
                                         }
-                                        else{
+                                        else {
                                             setTimeout(() => 50)
                                         }
                                     }
                                     else {
-                                        if(coordTritonToWeb!=null){
+                                        if (coordTritonToWeb != null) {
                                             let canvasCoord = coordTritonToWeb.canvas;
                                             let originCoord = coordTritonToWeb.origin;
                                             let classArray = coordTritonToWeb.class;
@@ -4207,7 +4265,7 @@ init = {
                                             loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
                                             if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
                                         }
-                                        else{
+                                        else {
                                             setTimeout(() => 50)
                                         }
                                     }
@@ -4224,12 +4282,12 @@ init = {
                         let curCoordinates = saveInput(sectorType, restoration);
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
-                        if($(this).hasClass("next")){
-                            if($(".frameBox.active").data("imgnum")==0){
+                        if ($(this).hasClass("next")) {
+                            if ($(".frameBox.active").data("imgnum") == 0) {
                                 if (parsedCoordinates) {
                                     totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                                     console.log(totalCoordinates)
-                                    if(restoration==1) {
+                                    if (restoration == 1) {
                                         let classMax = sendCount()
                                         totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
                                         totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
@@ -4237,13 +4295,13 @@ init = {
                                     }
                                     let isComplete = true;
                                     for (let key in totalCoordinates["frame"]["location"]) {
-                                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                        if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                             totalCoordinates["complete"] = 0;
                                             isComplete = false;
                                             break;
                                         }
                                     }
-                                    if(isComplete){
+                                    if (isComplete) {
                                         totalCoordinates["complete"] = 1;
                                     }
                                     let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4258,7 +4316,7 @@ init = {
 
                                     location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                                 }
-                                else{
+                                else {
                                     Swal.fire({
                                         title: '영역을 그려주세요.',
                                         showConfirmButton: false,
@@ -4269,8 +4327,8 @@ init = {
                                     })
                                 }
                             }
-                            else{
-                                if(restoration==1) {
+                            else {
+                                if (restoration == 1) {
                                     let classMax = sendCount()
                                     totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
                                     totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
@@ -4281,17 +4339,17 @@ init = {
                                     console.log(totalCoordinates)
                                 }
                                 else {
-                                    if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                                    if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber] = {}
                                 }
                                 let isComplete = true;
                                 for (let key in totalCoordinates["frame"]["location"]) {
-                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                         totalCoordinates["complete"] = 0;
                                         isComplete = false;
                                         break;
                                     }
                                 }
-                                if(isComplete){
+                                if (isComplete) {
                                     totalCoordinates["complete"] = 1;
                                 }
                                 let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4307,17 +4365,17 @@ init = {
                                 location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                             }
                         }
-                        else if($(this).hasClass("prev")){
-                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        else if ($(this).hasClass("prev")) {
+                            if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber] = {}
                             let isComplete = true;
                             for (let key in totalCoordinates["frame"]["location"]) {
-                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                     totalCoordinates["complete"] = 0;
                                     isComplete = false;
                                     break;
                                 }
                             }
-                            if(isComplete){
+                            if (isComplete) {
                                 totalCoordinates["complete"] = 1;
                             }
                             let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4340,16 +4398,16 @@ init = {
                         let curCoordinates = saveInput(sectorType, restoration);
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
-                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber] = {}
                         let isComplete = true;
                         for (let key in totalCoordinates["frame"]["location"]) {
-                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                 totalCoordinates["complete"] = 0;
                                 isComplete = false;
                                 break;
                             }
                         }
-                        if(isComplete){
+                        if (isComplete) {
                             totalCoordinates["complete"] = 1;
                         }
                         let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4371,11 +4429,11 @@ init = {
                         let curCoordinates = saveInput(sectorType, restoration);
                         let frameNumber = $(".frameBox.active").data("framenum");
                         let parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
-                        if($(".frameBox.active").data("imgnum")==0){
+                        if ($(".frameBox.active").data("imgnum") == 0) {
                             if (parsedCoordinates) {
                                 totalCoordinates["frame"]["location"][frameNumber] = parsedCoordinates;
                                 console.log(totalCoordinates)
-                                if(restoration==1) {
+                                if (restoration == 1) {
                                     let classMax = sendCount()
                                     totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
                                     totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
@@ -4383,13 +4441,13 @@ init = {
                                 }
                                 let isComplete = true;
                                 for (let key in totalCoordinates["frame"]["location"]) {
-                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                    if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                         totalCoordinates["complete"] = 0;
                                         isComplete = false;
                                         break;
                                     }
                                 }
-                                if(isComplete){
+                                if (isComplete) {
                                     totalCoordinates["complete"] = 1;
                                 }
                                 let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4404,7 +4462,7 @@ init = {
 
                                 location.href = `/encrypt/video/check?type=${type}&token=${token}&sectorID=${sectorId}&id=${requestId}&restoration=${restoration}&mode=${mode}&sectorNum=${sectorNum}&imgNum=${num}`;
                             }
-                            else{
+                            else {
                                 Swal.fire({
                                     title: '영역을 그려주세요.',
                                     showConfirmButton: false,
@@ -4415,8 +4473,8 @@ init = {
                                 })
                             }
                         }
-                        else{
-                            if(restoration==1) {
+                        else {
+                            if (restoration == 1) {
                                 let classMax = sendCount()
                                 totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
                                 totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
@@ -4427,17 +4485,17 @@ init = {
                                 console.log(totalCoordinates)
                             }
                             else {
-                                if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                                if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber] = {}
                             }
                             let isComplete = true;
                             for (let key in totalCoordinates["frame"]["location"]) {
-                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                                if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                     totalCoordinates["complete"] = 0;
                                     isComplete = false;
                                     break;
                                 }
                             }
-                            if(isComplete){
+                            if (isComplete) {
                                 totalCoordinates["complete"] = 1;
                             }
                             let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
@@ -4457,36 +4515,36 @@ init = {
                     $(document).on("click", ".loadArea", async function () {
                         let coordTritonToWeb
                         allClear()
-                        if(restoration==1){
+                        if (restoration == 1) {
                             loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
                         }
-                        else{
+                        else {
                             loadCount(1, 1, 1)
                         }
-                        if(imgNum==0){
+                        if (imgNum == 0) {
                             coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
                         }
-                        else{
+                        else {
                             coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][$(".frameBox.active").data("framenum")]);
-                            if(coordTritonToWeb["canvas"].length==0){
-                                coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum"))-1]);
+                            if (coordTritonToWeb["canvas"].length == 0) {
+                                coordTritonToWeb = await comm.parseCoordTritonToWebVideo(selectSectorType, restoration, videoJson["frame"]["location"][Number($(".frameBox.active").data("framenum")) - 1]);
                             }
                         }
-                        
-                        if(restoration==0){
-                            if(coordTritonToWeb!=null){
+
+                        if (restoration == 0) {
+                            if (coordTritonToWeb != null) {
                                 let canvasCoord = coordTritonToWeb.canvas;
                                 let originCoord = coordTritonToWeb.origin;
                                 let classArray = coordTritonToWeb.class;
 
                                 if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype")), 50)
                             }
-                            else{
+                            else {
                                 setTimeout(() => 50)
                             }
                         }
                         else {
-                            if(coordTritonToWeb!=null){
+                            if (coordTritonToWeb != null) {
                                 let canvasCoord = coordTritonToWeb.canvas;
                                 let originCoord = coordTritonToWeb.origin;
                                 let classArray = coordTritonToWeb.class;
@@ -4495,7 +4553,7 @@ init = {
                                 loadCount(videoJson["frame"]["location"]["bodyMax"], videoJson["frame"]["location"]["headMax"], videoJson["frame"]["location"]["carMax"])
                                 if (canvasCoord.length > 0) setTimeout(() => loadData(canvasCoord, originCoord, classArray, restoration, $(".imgList").data("sectortype"), objectArray), 50)
                             }
-                            else{
+                            else {
                                 setTimeout(() => 50)
                             }
                         }
@@ -4566,8 +4624,8 @@ init = {
             let fileIDs = urlParams.get('fileIDs');
             let fileNames = await fileModule.getFileNameFromID(fileIDs);
             let parsedCoordinates;
-            if(type=="image"){
-                if(mode=="group"){
+            if (type == "image") {
+                if (mode == "group") {
                     parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
                     if (parsedCoordinates) {
                         totalCoordinates[fileNames[imgNum]] = parsedCoordinates;
@@ -4576,7 +4634,7 @@ init = {
                         if (totalCoordinates[fileNames[imgNum]]) delete totalCoordinates[fileNames[imgNum]]
                     }
                 }
-                else{
+                else {
                     parsedCoordinates = await comm.parseCoordWebToTriton(curCoordinates);
                     if (parsedCoordinates) {
                         totalCoordinates[fileList[imgNum]] = parsedCoordinates;
@@ -4586,13 +4644,13 @@ init = {
                     }
                 }
             }
-            else if(type=="video"){
-                if(sectorType=="fix"){
+            else if (type == "video") {
+                if (sectorType == "fix") {
                     parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates);
                     if (parsedCoordinates) {
                         totalCoordinates["frame"]["location"] = parsedCoordinates;
                         totalCoordinates["complete"] = 1;
-                        $('.listSectorDiv').each(function() {
+                        $('.listSectorDiv').each(function () {
                             if ($(this).find('.sectorBox').hasClass('active')) {
                                 // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
                                 $(this).find('.saveIcon').addClass('active');
@@ -4603,7 +4661,7 @@ init = {
                     else {
                         if (totalCoordinates["frame"]["location"]) delete totalCoordinates["frame"]["location"]
                         totalCoordinates["complete"] = 0;
-                        $('.listSectorDiv').each(function() {
+                        $('.listSectorDiv').each(function () {
                             if ($(this).find('.sectorBox').hasClass('active')) {
                                 // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
                                 $(this).find('.saveIcon').removeClass('active');
@@ -4613,7 +4671,7 @@ init = {
                 }
                 else {
                     parsedCoordinates = await comm.parseCoordWebToTritonVideo(sectorType, restoration, curCoordinates, frameNumber);
-                    if(restoration==1) {
+                    if (restoration == 1) {
                         let classMax = sendCount()
                         totalCoordinates["frame"]["location"]["bodyMax"] = classMax[0]
                         totalCoordinates["frame"]["location"]["headMax"] = classMax[1]
@@ -4624,15 +4682,15 @@ init = {
                         console.log(totalCoordinates)
                     }
                     else {
-                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber]={}
+                        if (totalCoordinates["frame"]["location"][frameNumber]) totalCoordinates["frame"]["location"][frameNumber] = {}
                     }
                     let isComplete = true;
                     for (let key in totalCoordinates["frame"]["location"]) {
                         if (!isNaN(key)) {
-                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length==0) {
+                            if (Object.keys(totalCoordinates["frame"]["location"][key]).length == 0) {
                                 totalCoordinates["complete"] = 0;
                                 isComplete = false;
-                                $('.listSectorDiv').each(function() {
+                                $('.listSectorDiv').each(function () {
                                     if ($(this).find('.sectorBox').hasClass('active')) {
                                         // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
                                         $(this).find('.saveIcon').removeClass('active');
@@ -4642,9 +4700,9 @@ init = {
                             }
                         }
                     }
-                    if(isComplete){
+                    if (isComplete) {
                         totalCoordinates["complete"] = 1;
-                        $('.listSectorDiv').each(function() {
+                        $('.listSectorDiv').each(function () {
                             if ($(this).find('.sectorBox').hasClass('active')) {
                                 // sectorBox가 active 클래스를 가지고 있으면 saveIcon에도 active 클래스 추가
                                 $(this).find('.saveIcon').addClass('active');
@@ -4655,7 +4713,7 @@ init = {
             }
             // beforeColor = ""
 
-            if(type=="image"){
+            if (type == "image") {
                 let filePath = await fileModule.writeCoordinatesToJson(token, requestId, totalCoordinates);
                 console.log(filePath)
                 socket.emit('cancelDeleteFile', {
@@ -4668,7 +4726,7 @@ init = {
                 })
                 console.log(totalCoordinates)
             }
-            else if(type=="video"){
+            else if (type == "video") {
                 let filePath = await fileModule.writeVideoJson(token, requestId, sectorNum, totalCoordinates);
                 socket.emit('cancelDeleteFile', {
                     id: token
@@ -4752,16 +4810,16 @@ init = {
                     icon: 'success'
                 })
                 if (document.querySelectorAll(".tag").length != 0) {
-                    if(type == "image" && mode == "group"){
+                    if (type == "image" && mode == "group") {
                         $(`.img${imgNum}`).parent().find(".saveIcon").addClass("active");
                     }
-                    else if(type == "video" && mode == "single") {
+                    else if (type == "video" && mode == "single") {
                         videoJson = await fileModule.readVideoJson(type, token, requestId, sectorNum)
                         console.log(videoJson)
                     }
                 }
-                else{
-                    if(type == "image" && mode == "group"){
+                else {
+                    if (type == "image" && mode == "group") {
                         $(`.img${imgNum}`).parent().find(".saveIcon").removeClass("active");
                     }
                 }
@@ -4770,19 +4828,19 @@ init = {
 
         $(document).on("click", ".confirmAdd", async function () {
             if (restoration == 0) {
-                if(type=="image"){
+                if (type == "image") {
                     let allImgClear = true;
                     let fileIDs = urlParams.get('fileIDs');
                     let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
-                    for (let i=0; i<selectedFiles.length; i++) {
+                    for (let i = 0; i < selectedFiles.length; i++) {
                         if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
-                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                            continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
                         } else {
-                          allImgClear = false;
-                          break; // 루프 중단
+                            allImgClear = false;
+                            break; // 루프 중단
                         }
                     }
-                    if(allImgClear==false){
+                    if (allImgClear == false) {
                         Swal.fire({
                             title: '모든 이미지의 영역을 \n지정해주세요.',
                             showConfirmButton: false,
@@ -4791,7 +4849,7 @@ init = {
                             icon: "error"
                         });
                     }
-                    else{
+                    else {
                         //DB에 비식별화 추가 관련 정보 쿼리
                         //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
                         let additionalFileList = Object.keys(totalCoordinates)
@@ -4831,9 +4889,9 @@ init = {
                         })
                     }
                 }
-                else if(type=="video"){
+                else if (type == "video") {
                     let allSectorClear = await fileModule.readallSectorClear(token, requestId)
-                    if(allSectorClear==true){
+                    if (allSectorClear == true) {
                         detail = {
                             'token': token,
                             'sectorList': Object.keys(sectorInfo)
@@ -4867,7 +4925,7 @@ init = {
                             }
                         })
                     }
-                    else{
+                    else {
                         Swal.fire({
                             title: '모든 구간의 영역을 \n지정해주세요.',
                             showConfirmButton: false,
@@ -4879,19 +4937,19 @@ init = {
                 }
             }
             else {
-                if(type=="image"){
+                if (type == "image") {
                     let allImgClear = true;
                     let fileIDs = urlParams.get('fileIDs');
                     let selectedFiles = await fileModule.getFileNameFromID(fileIDs);
-                    for (let i=0; i<selectedFiles.length; i++) {
+                    for (let i = 0; i < selectedFiles.length; i++) {
                         if (totalCoordinates.hasOwnProperty(selectedFiles[i])) {
-                          continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
+                            continue; // 해당 키가 객체에 있는 경우, 다음 반복으로 이동
                         } else {
-                          allImgClear = false;
-                          break; // 루프 중단
+                            allImgClear = false;
+                            break; // 루프 중단
                         }
                     }
-                    if(allImgClear==false){
+                    if (allImgClear == false) {
                         Swal.fire({
                             title: '모든 이미지의 영역을 \n지정해주세요.',
                             showConfirmButton: false,
@@ -4900,7 +4958,7 @@ init = {
                             icon: "error"
                         });
                     }
-                    else{
+                    else {
                         //DB에 비식별화 추가 관련 정보 쿼리
                         //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
                         let additionalFileList = Object.keys(totalCoordinates)
@@ -4930,9 +4988,9 @@ init = {
                         }
                     }
                 }
-                else if(type=="video"){
+                else if (type == "video") {
                     let allSectorClear = await fileModule.readallSectorClear(token, requestId)
-                    if(allSectorClear==true){
+                    if (allSectorClear == true) {
                         detail = {
                             'token': token,
                             'sectorList': Object.keys(sectorInfo)
@@ -4956,7 +5014,7 @@ init = {
                             })
                         }
                     }
-                    else{
+                    else {
                         Swal.fire({
                             title: '모든 구간의 영역을 \n지정해주세요.',
                             showConfirmButton: false,
