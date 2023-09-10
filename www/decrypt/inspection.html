@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="../static/css/common/header.css" type="text/css" />
     <link rel="stylesheet" href="../static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="../static/css/common/modal.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.1/video-js.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.1/video.min.js"></script>
 
@@ -25,12 +25,12 @@
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="../static/js/common/common.js"></script>
     <script src="../static/js/common/header.js"></script>
-  <script src="../static/js/common/footer.js"></script>
+    <script src="../static/js/common/footer.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <style>
-      .swal2-actions {
-        margin: 0 !important;
-      }
+        .swal2-actions {
+            margin: 0 !important;
+        }
     </style>
 </head>
 
@@ -54,9 +54,14 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                     <div id="logout">로그아웃</div>
                 </div>
             </div>
@@ -67,9 +72,11 @@
             <div class="inspec_header">
                 <img src="../static/imgs/detail/inspection.png">
                 <h1>원본 복원</h1>
-                <p>비식별 처리된  객체를 선택하여 복원합니다.</p>
+                <p>비식별 처리된 객체를 선택하여 복원합니다.</p>
                 <!-- <input class="allselect" type="checkbox"><label class="allselect">전체 선택</label> -->
-                <div class="recovery"><p>선택 객체 복원</p></div>
+                <div class="recovery">
+                    <p>선택 객체 복원</p>
+                </div>
             </div>
             <div class="inspec_body">
 
@@ -80,7 +87,7 @@
         <div class="logo">
             <img src="../static/imgs/common/new_footer_logo.png">
             <div class="upBtn">
-              <img src="../static/imgs/common/upBtn_icon.png">
+                <img src="../static/imgs/common/upBtn_icon.png">
             </div>
         </div>
         <div class="textArea">
@@ -172,8 +179,8 @@
 <div id="emailPrivacyView" class="modal"></div>
 
 <script>
-    document.addEventListener('mouseup', function(e) {
-        if($('#cropView').hasClass('active')){
+    document.addEventListener('mouseup', function (e) {
+        if ($('#cropView').hasClass('active')) {
             var container = document.getElementById('crop_inner');
             if (!container.contains(e.target)) {
                 $(".cancel").removeClass('active')

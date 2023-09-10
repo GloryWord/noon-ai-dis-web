@@ -212,6 +212,14 @@
     position: relative;
 }
 
+.explanArea .explanSlider .slider .pcSlider {
+    display: flex;
+}
+
+.explanArea .explanSlider .slider .mSlider {
+    display: none;
+}
+
 .explanArea .explanSlider .slick-dots {
     margin: 88px auto 0;
     padding: 0 0;
@@ -575,4 +583,249 @@
     text-align: center;
     color: #fff;
     margin: auto;
+}
+
+@media(max-width:1200px){
+    .logoArea {
+        height: auto;
+        flex-direction: column-reverse;
+    }
+
+    .logoArea .textArea {
+        margin: 0px auto 100px;
+    }
+
+    .logoArea .imgArea {
+        margin: 90px auto 0;
+    }
+
+    .guideArea .content .firstBox {
+        flex-direction: column;
+    }
+
+    .guideArea .content .contentBox {
+        margin: 0 auto 184px;
+    }
+
+    .guideArea .content .secondBox {
+        flex-direction: column;
+    }
+}
+
+@media(max-width:600px){
+    .logoArea .imgArea {
+        width: 288px;
+        margin: 48px auto 0;
+    }
+
+    .logoArea .textArea {
+        margin: 0px auto 48px;
+    }
+
+    .logoArea .textArea span {
+        font-size: 18px;
+        margin: 0 auto 8px;
+    }
+
+    .logoArea .textArea h3 {
+        font-size: 32px;
+        margin: 0 auto 16px;
+    }
+
+    .logoArea .textArea h5 {
+        font-size: 12px;
+        margin: 0 auto 24px;
+        text-align: center;
+    }
+
+    .logoArea .textArea .startBtn {
+        width: 140px;
+        height: 40px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        display: flex;
+        margin: 0 auto;
+        cursor: pointer;
+    }
+
+    .logoArea .textArea .startBtn a p {
+        font-size: 18px;
+    }
+
+    .explanArea .explanSlider {
+        width: 100%;
+        height: auto;
+        background: none;
+    }
+    
+    .explanArea .explanSlider .slick-list {
+        width: 288px;
+        height: auto;
+        display: flex;
+        margin: 48px auto 0;
+    }
+
+    .explanArea .explanSlider .slick-dots {
+        margin: 24px auto 48px;
+        padding: 0 0;
+        display: flex;
+        /* position: absolute; */
+    }
+    
+    .explanArea .explanSlider .slider .pcSlider {
+        display: none;
+    }
+    
+    .explanArea .explanSlider .slider .mSlider {
+        width: 288px;
+        display: flex;
+        position: relative;
+    }
+
+    .explanArea .explanSlider .slider .textBox {
+        width: 288px;
+        height: auto;
+        margin: 12px 0 0;
+        z-index: 3;
+    }
+
+    .explanArea .explanSlider .slider .textBox .noonai_logo {
+        display: flex;
+        margin: 0 0 8px;
+    }
+
+    .explanArea .explanSlider .slider .textBox .noonai_logo img {
+        width: 200px;
+        margin: 0;
+    }
+
+    .explanArea .explanSlider .slider .textBox .noonai_logo p {
+        font-family: SpoqaHanSansNeo-Bold;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.26;
+        letter-spacing: normal;
+        text-align: left;
+        color: #155aa0;
+        margin: auto auto 0 0;
+    }
+
+    .explanArea .explanSlider .slider .textBox h2,
+    .explanArea .explanSlider .slider .textBox h3 {
+        font-size: 20px;
+    }
+
+    .explanArea .explanSlider .slider .textBox p {
+        font-size: 14px;
+    }
+
+    .explanArea .explanSlider .slider .textBox .logoBox {
+        width: 288px;
+        height: auto;
+        margin: 24px auto 0;
+    }
+
+    .explanArea .explanSlider .slider .textBox .logoBox img {
+        width: 288px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .explanArea .explanSlider .slider .textBox .possBox {
+        width: 288px;
+        height: auto;
+        margin: 24px auto 0;
+        display: flex;
+    }
+
+    .explanArea .explanSlider .slider .textBox .possBox img {
+        width: 92px;
+        height: 92px;
+        margin: 0;
+    }
+
+    .explanArea .explanSlider .slider .textBox .possBox img:nth-child(1) {
+        margin: 0 12px 0 0;
+    }
+    
+    .explanArea .explanSlider .slider .smallCircle {
+        width: 116px;
+        height: 116px;
+        border-radius: 50%;
+        background-color: #f2f2f2;
+        opacity: 0.5;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        display: none;
+    }
+    
+    .explanArea .explanSlider .slider .bigCircle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background-color: #e3f3fd;
+        opacity: 0.5;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        display: none;
+    }
+
+    .guideArea .title {
+        display: flex;
+        margin: 48px auto 0;
+    }
+
+    .guideArea .title h2 {
+        font-size: 32px;
+    }
+
+    .guideArea .content {
+        margin: 94px auto 48px;
+    }
+
+    .guideArea .content .contentBox {
+        width: 288px;
+        height: auto;
+        margin: 0 auto 94px;
+    }
+
+    .guideArea .content .firstBox {
+        margin: 0 auto 94px;
+    }
+
+    .guideArea .content .contentBox img {
+        width: 192px;
+        height: auto;
+        object-fit: contain;
+        margin: -70px auto 16px;
+    }
+
+    .guideArea .content .contentBox span {
+        width: 240px;
+        font-size: 24px;
+    }
+
+    .guideArea .content .contentBox p {
+        width: 240px;
+        font-size: 14px;
+        margin: 0 auto 24px;
+    }
+
+    .guideArea .guideBtn {
+        width: 140px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 0 auto 48px;
+    }
+
+    .guideArea .guideBtn a p {
+        font-size: 18px;
+    }
 }
