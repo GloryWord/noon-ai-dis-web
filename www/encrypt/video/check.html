@@ -33,6 +33,7 @@
 </head>
 
 <!-- <body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'> -->
+
 <body>
     <div class="header">
         <div class="header_content">
@@ -53,9 +54,14 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                     <div id="logout">로그아웃</div>
                 </div>
             </div>
@@ -66,7 +72,7 @@
             <div class="checkHeader">
                 <img src="../../static/imgs/check/checkIcon.png">
                 <h1>추가 비식별화</h1>
-                <p>결과물에 추가적으로  비식별화를 진행하실 수 있습니다.</p>
+                <p>결과물에 추가적으로 비식별화를 진행하실 수 있습니다.</p>
             </div>
             <div class="checkSectorContent">
                 <div class="checkSectorContentHeader">
@@ -187,8 +193,8 @@
     //         }
     //     });
     // });
-    
-    $(document).on('contextmenu', function() {
+
+    $(document).on('contextmenu', function () {
         return false;
     });
 </script>

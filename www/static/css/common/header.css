@@ -211,11 +211,13 @@
 }
 
 .menuBtn .onlyPC,
+.menuBtn .onlyMobile,
 .menuBtn .admin_only {
     display: flex;
 }
 
 .menuBtn .onlyPC.hide,
+.menuBtn .onlyMobile.hide,
 .menuBtn .admin_only.hide {
     display: none;
 }
