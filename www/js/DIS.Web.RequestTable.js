@@ -1564,7 +1564,7 @@ requestTable = {
     getFileHistory: async function(yearMonth) {
         let baseUrl = `/api/history/file?yearMonth=${yearMonth}`;
         let apiUrl = apiUrlConverter('util', baseUrl);
-        let imageUsage, videoUsage;
+        let monthFiles;
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -1573,13 +1573,12 @@ requestTable = {
             },
             async: false,
             success: function (result) {
-                imageUsage = result.imageUsage;
-                videoUsage = result.videoUsage;
+                monthFiles = result.monthFiles;
             },
             error: function() {
 
             }
         });
-        return [imageUsage, videoUsage];
+        return monthFiles;
     },
 }
