@@ -2016,6 +2016,19 @@ init = {
 
         $(document).on("change", "#searchMonth", function () {
             getHeaderData($("#searchMonth").val())
+        })        
+        
+        let yearMonth = `${currentYear}-${formattedMonth}`;
+        // requestTable.getMonthFare(yearMonth).then((fares) => {
+        //     console.log('fares.total_charge : ',fares.total_charge);
+        //     $('.priceText').text(`${fares.total_charge}`);
+        // });
+        // requestTable.getMonthUsage('2023-10').then(([imageUsage, videoUsage]) => {
+        //     console.log('imageUsage : ',imageUsage);
+        //     console.log('videoUsage : ',videoUsage);
+        // })
+        requestTable.getFileHistory(yearMonth).then((monthFiles) => {
+            console.log('monthFiles : ',monthFiles);
         })
 
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
