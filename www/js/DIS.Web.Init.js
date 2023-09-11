@@ -1927,6 +1927,12 @@ init = {
             $(".selectYearText").text(`${year}년`)
             $(".selectMonthText").text(`${month}월`)
             $(".monthPriceText").text(`${month}월 이용 요금`)
+            let yearMonth = `${year}-${month}`;
+            console.log(yearMonth)
+            requestTable.getFileHistory(yearMonth).then((monthFiles) => {
+                sessionStorage.setItem("fileData", JSON.stringify(monthFiles))
+                fileHTML(JSON.parse(sessionStorage.getItem("fileData")))
+            })
         }
 
         function paging() {
@@ -1962,10 +1968,10 @@ init = {
                                                     <p>이미지 파일</p>
                                                 </div>
                                                 <div class="usageContentText encrypt">
-                                                    <p>${imageUsage["masking_count"]} 회</p>
+                                                    <p>${imageUsage["de_identification"]} 회</p>
                                                 </div>
                                                 <div class="usageContentText additional">
-                                                    <p>${imageUsage["de_identification"]} 회</p>
+                                                    <p>${imageUsage["masking_count"]} 회</p>
                                                 </div>
                                                 <div class="usageContentText decrypt">
                                                     <p>${imageUsage["restoration_count"]} 회</p>
@@ -1984,10 +1990,10 @@ init = {
                                                     <p>영상 파일</p>
                                                 </div>
                                                 <div class="usageContentText encrypt">
-                                                    <p>${videoUsage["masking_count"]} 회</p>
+                                                    <p>${videoUsage["de_identification"]} 회</p>
                                                 </div>
                                                 <div class="usageContentText additional">
-                                                    <p>${videoUsage["de_identification"]} 회</p>
+                                                    <p>${videoUsage["masking_count"]} 회</p>
                                                 </div>
                                                 <div class="usageContentText decrypt">
                                                     <p>${videoUsage["restoration_count"]} 회</p>
@@ -2018,7 +2024,7 @@ init = {
             getHeaderData($("#searchMonth").val())
         })        
         
-        let yearMonth = `${currentYear}-${formattedMonth}`;
+        // let yearMonth = `${currentYear}-${formattedMonth}`;
         // requestTable.getMonthFare(yearMonth).then((fares) => {
         //     console.log('fares.total_charge : ',fares.total_charge);
         //     $('.priceText').text(`${fares.total_charge}`);
@@ -2027,13 +2033,8 @@ init = {
         //     console.log('imageUsage : ',imageUsage);
         //     console.log('videoUsage : ',videoUsage);
         // })
-        requestTable.getFileHistory(yearMonth).then((monthFiles) => {
-            console.log('monthFiles : ',monthFiles);
-        })
 
         dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
-
-        fileHTML()
 
         $(document).on("change", "#searchMonth", function () {
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
@@ -2059,14 +2060,15 @@ init = {
             }
         })
 
-        $(document).on("click", ".detailBth", function () {
+        $(document).on("click", ".detailBtn", function () {
             $("#priceDetail").addClass("active")
             requestTable.getFileDetailHistory(281).then(()=> {
                 console.log('getFileDetailHistory Success');
             })
         })
 
-        function fileHTML() {
+        function fileHTML(fileData) {
+            console.log(fileData)
             let contentHTML = `<div class="tableTitle">
                                     <h3 class="titleText">파일별 이용 및 요금 내역</h3>
                                 </div>
@@ -2120,46 +2122,60 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < fileData.length; i++) {
+                let restorationData
+                let fileType
+                if(fileData[i]["restoration"]==0){
+                    restorationData = "X"
+                }
+                else{
+                    restorationData = "O"
+                }
+                if(fileData[i]["file_type"]=="image"){
+                    fileType = "이미지"
+                }
+                else{
+                    fileType = "비디오"
+                }
                 contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num file'>
-                                                <p>1234567</p>
+                                                <p>${fileData[i]["id"]}</p>
                                             </div>
                                             <div class='logContent user file'>
-                                                <p>관리자 계정</p>
+                                                <p>${fileData[i]["fk_account_name"]}</p>
                                             </div>
                                             <div class='logContent start file'>
-                                                <p>YYYY. MM. DD</p>
+                                                <p>${fileData[i]["upload_datetime"]}</p>
                                             </div>
                                             <div class='logContent recent file'>
-                                                <p>YYYY. MM. DD</p>
+                                                <p>${fileData[i]["recent_date"]}</p>
                                             </div>
                                             <div class='logContent filename file'>
-                                                <p>파일명 전체 표기 넘치면 2줄로 넘어감, 2줄을 넘쳐 그 이상일 경우...</p>
+                                                <p>${fileData[i]["upload_filename"]}</p>
                                             </div>
                                             <div class='logContent filetype file'>
-                                                <p>이미지</p>
+                                                <p>${fileType}</p>
                                             </div>
                                             <div class='logContent encrpyt file'>
-                                                <p>O or X</p>
+                                                <p>${restorationData}</p>
                                             </div>
                                             <div class='logContent additional file'>
-                                                <p>00 회</p>
+                                                <p>${fileData[i]["masking_success"]} 회</p>
                                             </div>
                                             <div class='logContent decrypt file'>
-                                                <p>00 회</p>
+                                                <p>${fileData[i]["restoration_success"]} 회</p>
                                             </div>
                                             <div class='logContent download file'>
-                                                <p>00 회</p>
+                                                <p>${fileData[i]["download_count"]} 회</p>
                                             </div>
                                             <div class='logContent end file'>
-                                                <p>YYYY. MM. DD</p>
+                                                <p>${fileData[i]["expiration_datetime"]}</p>
                                             </div>
                                             <div class='logContent price file'>
-                                                <p>000,000,000</p>
+                                                <p>${price_three(Number(fileData[i]["file_charge"]))}</p>
                                             </div>
                                             <div class='logContent detail file'>
-                                                <div class='detailBth'>
+                                                <div class='detailBtn' data-idx=${fileData[i]["id"]}>
                                                     <span>상세 내역</span>
                                                     <img src='./static/imgs/usage/detailPriceIcon.png'>
                                                 </div>
