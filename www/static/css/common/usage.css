@@ -740,13 +740,13 @@
     margin: auto;
 }
 
-.logArea .tableArea .tableContent .contentInfo .logContent .detailBth {    
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBtn {    
     display: flex;
     margin: 14px auto auto;
     cursor: pointer;
 }
 
-.logArea .tableArea .tableContent .contentInfo .logContent .detailBth span {    
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBtn span {    
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 14px;
     font-weight: bold;
@@ -759,7 +759,7 @@
     margin: 0 4px 0 0;
 }
 
-.logArea .tableArea .tableContent .contentInfo .logContent .detailBth img {    
+.logArea .tableArea .tableContent .contentInfo .logContent .detailBtn img {    
     width: 18px;
     height: 18px;
     object-fit: contain;
