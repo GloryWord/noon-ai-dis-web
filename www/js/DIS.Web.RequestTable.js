@@ -1581,4 +1581,45 @@ requestTable = {
         });
         return monthFiles;
     },
+
+    getFileDetailHistory: async function(additionalRequestID) {
+        let baseUrl = `/api/history/file/detail?additionalRequestID=${additionalRequestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                
+            },
+            error: function() {
+
+            }
+        });
+        return result;
+    },
+
+    getJobHistory: async function(yearMonth) {
+        let baseUrl = `/api/history/job?yearMonth=${yearMonth}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                console.log('getJobHistory result : ',result.jobHistory);
+            },
+            error: function() {
+
+            }
+        });
+        // return result;
+    }, 
 }
