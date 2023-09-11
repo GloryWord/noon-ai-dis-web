@@ -1585,7 +1585,6 @@ requestTable = {
     getFileDetailHistory: async function(additionalRequestID) {
         let baseUrl = `/api/history/file/detail?additionalRequestID=${additionalRequestID}`;
         let apiUrl = apiUrlConverter('util', baseUrl);
-        let monthFiles;
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -1594,12 +1593,33 @@ requestTable = {
             },
             async: false,
             success: function (result) {
-                console.log(result);
+                
             },
             error: function() {
 
             }
         });
-        return monthFiles;
-    },    
+        return result;
+    },
+
+    getJobHistory: async function(yearMonth) {
+        let baseUrl = `/api/history/job?yearMonth=${yearMonth}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                console.log('getJobHistory result : ',result.jobHistory);
+            },
+            error: function() {
+
+            }
+        });
+        // return result;
+    }, 
 }
