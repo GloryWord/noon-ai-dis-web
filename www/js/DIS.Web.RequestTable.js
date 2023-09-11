@@ -1581,4 +1581,25 @@ requestTable = {
         });
         return monthFiles;
     },
+
+    getFileDetailHistory: async function(additionalRequestID) {
+        let baseUrl = `/api/history/file/detail?additionalRequestID=${additionalRequestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let monthFiles;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function() {
+
+            }
+        });
+        return monthFiles;
+    },    
 }

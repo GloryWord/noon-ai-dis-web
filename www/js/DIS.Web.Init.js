@@ -2061,6 +2061,9 @@ init = {
 
         $(document).on("click", ".detailBth", function () {
             $("#priceDetail").addClass("active")
+            requestTable.getFileDetailHistory(281).then(()=> {
+                console.log('getFileDetailHistory Success');
+            })
         })
 
         function fileHTML() {
