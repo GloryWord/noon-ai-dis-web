@@ -2039,7 +2039,6 @@ init = {
         $(document).on("change", "#searchMonth", function () {
             dateChange($("#searchMonth").val().split('-')[0], $("#searchMonth").val().split('-')[1])
             $(".tableArea").html("")
-            fileHTML()
             $(".logBtn.file").addClass("active")
             $(".logBtn.work").removeClass("active")
         })
@@ -2053,7 +2052,7 @@ init = {
             $(".logBtn").removeClass("active")
             $(this).addClass("active")
             if (viewType == "file") {
-                fileHTML()
+                fileHTML(JSON.parse(sessionStorage.getItem("fileData")))
             }
             else if (viewType == "work") {
                 workHTML()
@@ -2062,6 +2061,9 @@ init = {
 
         $(document).on("click", ".detailBtn", function () {
             $("#priceDetail").addClass("active")
+            requestTable.getFileDetailHistory(281).then(()=> {
+                console.log('getFileDetailHistory Success');
+            })
         })
 
         function fileHTML(fileData) {
