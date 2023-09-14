@@ -1621,5 +1621,26 @@ requestTable = {
             }
         });
         // return result;
-    }, 
+    },
+
+    getCashHistory: async function(startDate, endDate) {
+        let baseUrl = `/api/history/cash?startDate=${startDate}&endDate=${endDate}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                console.log('getCashHistory result : ',result.cashHistory);
+            },
+            error: function() {
+
+            }
+        });
+        // return result;
+    },
 }
