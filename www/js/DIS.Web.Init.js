@@ -2608,6 +2608,7 @@ init = {
     },
 
     cash: function () {
+        requestTable.getCashHistory('2023-09-01', '2023-09-15');
         $(".cashTableContent").paging({
             number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
             pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last

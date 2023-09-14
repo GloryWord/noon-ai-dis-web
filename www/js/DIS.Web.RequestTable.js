@@ -1647,16 +1647,16 @@ requestTable = {
                             <div class="priceTableContent">
                                 <div class="tableBox">
                                     <div class="tableContent date">
-                                        <p>${results["encrypt"][0][0]["request_date"]}<br>
-                                        ${results["encrypt"][0][0]["request_time"]}</p>
+                                        <p>${results["encrypt"][0]["request_date"]}<br>
+                                        ${results["encrypt"][0]["request_time"]}</p>
                                     </div>
                                     <div class="tableContent basic">
                                         <p>${encrypt_base(filetype, rest)}</p>
                                     </div>
                                     <div class="tableContent resolution">
                                         <div class="textArea">
-                                            <p>${hd_change(Number(results["encrypt"][0][0]["file_width"]), Number(results["encrypt"][0][0]["file_height"]))}</p>
-                                            <span>(${results["encrypt"][0][0]["file_width"]}X${results["encrypt"][0][0]["file_height"]})</span>
+                                            <p>${hd_change(Number(results["encrypt"][0]["file_width"]), Number(results["encrypt"][0]["file_height"]))}</p>
+                                            <span>(${results["encrypt"][0]["file_width"]}X${results["encrypt"][0]["file_height"]})</span>
                                         </div>
                                     </div>
                                     <div class="tableContent duration">
@@ -1665,25 +1665,25 @@ requestTable = {
                                 resultStr += `<p>-</p>`
                                         }
                                         else{
-                                resultStr += `<p>${time_change(Number(results["encrypt"][0][0]["duration"]))}</p>
-                                            <span>(${price_three(Number(results["encrypt"][0][0]["duration"]))}초)</span>`
+                                resultStr += `<p>${time_change(Number(results["encrypt"][0]["duration"]))}</p>
+                                            <span>(${price_three(Number(results["encrypt"][0]["duration"]))}초)</span>`
                                         }
                         resultStr += `</div>
                                     </div>
                                     <div class="tableContent object">
-                                        <p>${results["encrypt"][0][0]["object_count"]}개</p>
+                                        <p>${results["encrypt"][0]["object_count"]}개</p>
                                     </div>
                                     <div class="tableContent base">
-                                        <p>${price_three(results["encrypt"][0][0]["basic_charge"])}</p>
+                                        <p>${price_three(results["encrypt"][0]["basic_charge"])}</p>
                                     </div>
                                     <div class="tableContent add">
-                                        <p>${price_three(results["encrypt"][0][0]["extra_charge"])}</p>
+                                        <p>${price_three(results["encrypt"][0]["extra_charge"])}</p>
                                     </div>
                                     <div class="tableContent discount">
                                         <p>-</p>
                                     </div>
                                     <div class="tableContent total">
-                                        <h3>${price_three(results["encrypt"][0][0]["service_charge"])}</h3>
+                                        <h3>${price_three(results["encrypt"][0]["service_charge"])}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -1720,7 +1720,7 @@ requestTable = {
                                 </div>
                             </div>
                             <div class="priceTableContent">`
-        if (results["additional"][0].length == 0) {
+        if (results["additional"].length == 0) {
             resultStr += `<div class="tableBox">
                             <div class="tableContent" style='width:100%;'>
                                 <p>내역이 없습니다.</p>
@@ -1728,19 +1728,19 @@ requestTable = {
                         </div>`
         }
         else {
-            for (let i = 0; i < results["additional"][0].length; i++) {
+            for (let i = 0; i < results["additional"].length; i++) {
                 resultStr += `<div class="tableBox">
                                 <div class="tableContent date">
-                                    <p>${results["additional"][0][i]["request_date"]}<br>
-                                    ${results["additional"][0][i]["request_time"]}</p>
+                                    <p>${results["additional"][i]["request_date"]}<br>
+                                    ${results["additional"][i]["request_time"]}</p>
                                 </div>
                                 <div class="tableContent basic">
                                     <p>-</p>
                                 </div>
                                 <div class="tableContent resolution">
                                     <div class="textArea">
-                                        <p>${hd_change(Number(results["additional"][0][i]["file_width"]), Number(results["additional"][0][i]["file_height"]))}</p>
-                                        <span>(${results["additional"][0][i]["file_width"]}X${results["additional"][0][i]["file_height"]})</span>
+                                        <p>${hd_change(Number(results["additional"][i]["file_width"]), Number(results["additional"][i]["file_height"]))}</p>
+                                        <span>(${results["additional"][i]["file_width"]}X${results["additional"][i]["file_height"]})</span>
                                     </div>
                                 </div>
                                 <div class="tableContent duration">
@@ -1749,25 +1749,25 @@ requestTable = {
                             resultStr += `<p>-</p>`
                                     }
                                     else{
-                            resultStr += `<p>${time_change(Number(results["additional"][0][i]["duration"]))}</p>
-                                        <span>(${price_three(Number(results["additional"][0][i]["duration"]))}초)</span>`
+                            resultStr += `<p>${time_change(Number(results["additional"][i]["duration"]))}</p>
+                                        <span>(${price_three(Number(results["additional"][i]["duration"]))}초)</span>`
                                     }
                     resultStr += `</div>
                                 </div>
                                 <div class="tableContent object">
-                                    <p>${results["additional"][0][i]["object_count"]}개</p>
+                                    <p>${results["additional"][i]["object_count"]}개</p>
                                 </div>
                                 <div class="tableContent base">
-                                    <p>${price_three(results["additional"][0][i]["basic_charge"])}</p>
+                                    <p>${price_three(results["additional"][i]["basic_charge"])}</p>
                                 </div>
                                 <div class="tableContent add">
-                                    <p>${price_three(results["additional"][0][i]["extra_charge"])}</p>
+                                    <p>${price_three(results["additional"][i]["extra_charge"])}</p>
                                 </div>
                                 <div class="tableContent discount">
-                                    <p>${price_three(results["additional"][0][i]["free_charge"])}</p>
+                                    <p>${price_three(results["additional"][i]["free_charge"])}</p>
                                 </div>
                                 <div class="tableContent total">
-                                    <h3>${price_three(results["additional"][0][i]["service_charge"])}</h3>
+                                    <h3>${price_three(results["additional"][i]["service_charge"])}</h3>
                                 </div>
                             </div>`
             }
@@ -1810,7 +1810,7 @@ requestTable = {
                                 </div>
                             </div>
                             <div class="priceTableContent">`
-        if (results["decrypt"][0].length == 0) {
+        if (results["decrypt"].length == 0) {
             resultStr += `<div class="tableBox">
                             <div class="tableContent" style='width:100%;'>
                                 <p>내역이 없습니다.</p>
@@ -1818,19 +1818,19 @@ requestTable = {
                         </div>`
         }
         else {
-            for (let i = 0; i < results["decrypt"][0].length; i++) {
+            for (let i = 0; i < results["decrypt"].length; i++) {
                 resultStr += `<div class="tableBox">
                                 <div class="tableContent date">
-                                    <p>${results["decrypt"][0][i]["request_date"]}<br>
-                                    ${results["decrypt"][0][i]["request_time"]}</p>
+                                    <p>${results["decrypt"][i]["request_date"]}<br>
+                                    ${results["decrypt"][i]["request_time"]}</p>
                                 </div>
                                 <div class="tableContent basic">
                                     <p>-</p>
                                 </div>
                                 <div class="tableContent resolution">
                                     <div class="textArea">
-                                        <p>${hd_change(Number(results["decrypt"][0][i]["file_width"]), Number(results["decrypt"][0][i]["file_height"]))}</p>
-                                        <span>(${results["decrypt"][0][i]["file_width"]}X${results["decrypt"][0][i]["file_height"]})</span>
+                                        <p>${hd_change(Number(results["decrypt"][i]["file_width"]), Number(results["decrypt"][i]["file_height"]))}</p>
+                                        <span>(${results["decrypt"][i]["file_width"]}X${results["decrypt"][i]["file_height"]})</span>
                                     </div>
                                 </div>
                                 <div class="tableContent duration">
@@ -1839,25 +1839,25 @@ requestTable = {
                             resultStr += `<p>-</p>`
                                     }
                                     else{
-                            resultStr += `<p>${time_change(Number(results["decrypt"][0][i]["duration"]))}</p>
-                                        <span>(${price_three(Number(results["decrypt"][0][i]["duration"]))}초)</span>`
+                            resultStr += `<p>${time_change(Number(results["decrypt"][i]["duration"]))}</p>
+                                        <span>(${price_three(Number(results["decrypt"][i]["duration"]))}초)</span>`
                                     }
                     resultStr += `</div>
                                 </div>
                                 <div class="tableContent object">
-                                    <p>${results["decrypt"][0][i]["object_count"]}개</p>
+                                    <p>${results["decrypt"][i]["object_count"]}개</p>
                                 </div>
                                 <div class="tableContent base">
-                                    <p>${price_three(results["decrypt"][0][i]["basic_charge"])}</p>
+                                    <p>${price_three(results["decrypt"][i]["basic_charge"])}</p>
                                 </div>
                                 <div class="tableContent add">
-                                    <p>${price_three(results["decrypt"][0][i]["extra_charge"])}</p>
+                                    <p>${price_three(results["decrypt"][i]["extra_charge"])}</p>
                                 </div>
                                 <div class="tableContent discount">
-                                    <p>${price_three(results["decrypt"][0][i]["free_charge"])}</p>
+                                    <p>${price_three(results["decrypt"][i]["free_charge"])}</p>
                                 </div>
                                 <div class="tableContent total">
-                                    <h3>${price_three(results["decrypt"][0][i]["service_charge"])}</h3>
+                                    <h3>${price_three(results["decrypt"][i]["service_charge"])}</h3>
                                 </div>
                             </div>`
             }
@@ -1900,7 +1900,7 @@ requestTable = {
                                 </div>
                             </div>
                             <div class="priceTableContent">`
-        if (results["download"][0].length == 0) {
+        if (results["download"].length == 0) {
             resultStr += `<div class="tableBox">
                             <div class="tableContent" style='width:100%;'>
                                 <p>내역이 없습니다.</p>
@@ -1908,19 +1908,19 @@ requestTable = {
                         </div>`
         }
         else {
-            for (let i = 0; i < results["download"][0].length; i++) {
+            for (let i = 0; i < results["download"].length; i++) {
                 resultStr += `<div class="tableBox">
                                 <div class="tableContent date">
-                                    <p>${results["download"][0][i]["request_date"]}<br>
-                                    ${results["download"][0][i]["request_time"]}</p>
+                                    <p>${results["download"][i]["request_date"]}<br>
+                                    ${results["download"][i]["request_time"]}</p>
                                 </div>
                                 <div class="tableContent basic">
                                     <p>-</p>
                                 </div>
                                 <div class="tableContent resolution">
                                     <div class="textArea">
-                                        <p>${hd_change(Number(results["download"][0][i]["file_width"]), Number(results["download"][0][i]["file_height"]))}</p>
-                                        <span>(${results["download"][0][i]["file_width"]}X${results["download"][0][i]["file_height"]})</span>
+                                        <p>${hd_change(Number(results["download"][i]["file_width"]), Number(results["download"][i]["file_height"]))}</p>
+                                        <span>(${results["download"][i]["file_width"]}X${results["download"][i]["file_height"]})</span>
                                     </div>
                                 </div>
                                 <div class="tableContent duration">
@@ -1932,16 +1932,16 @@ requestTable = {
                                     <p>-</p>
                                 </div>
                                 <div class="tableContent base">
-                                    <p>${price_three(results["download"][0][i]["basic_charge"])}</p>
+                                    <p>${price_three(results["download"][i]["basic_charge"])}</p>
                                 </div>
                                 <div class="tableContent add">
                                     <p>-</p>
                                 </div>
                                 <div class="tableContent discount">
-                                    <p>${price_three(results["download"][0][i]["free_charge"])}</p>
+                                    <p>${price_three(results["download"][i]["free_charge"])}</p>
                                 </div>
                                 <div class="tableContent total">
-                                    <h3>${price_three(results["download"][0][i]["service_charge"])}</h3>
+                                    <h3>${price_three(results["download"][i]["service_charge"])}</h3>
                                 </div>
                             </div>`
             }
@@ -1955,7 +1955,7 @@ requestTable = {
                     </div>
                     <div class="totalPriceArea">
                         <h2>총 차감 금액</h2>
-                        <span>${price_three(Number(results["addSum"]) + Number(results["decSum"]) + Number(results["downSum"]) + Number(results["encrypt"][0][0]["service_charge"]))}</span>
+                        <span>${price_three(Number(results["addSum"]) + Number(results["decSum"]) + Number(results["downSum"]) + Number(results["encrypt"][0]["service_charge"]))}</span>
                         <p>원</p>
                     </div>`
 
@@ -1981,6 +1981,26 @@ requestTable = {
 
             }
         });
-        return results;
+        // return result;
+    },
+
+    getCashHistory: async function(startDate, endDate) {
+        let baseUrl = `/api/history/cash?startDate=${startDate}&endDate=${endDate}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                console.log('getCashHistory result : ',result.cashHistory);
+            },
+            error: function() {
+
+            }
+        });
+        // return result;
     },
 }
