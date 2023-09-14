@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+
+<head>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+
+        #videoPlayer {
+            width: 500px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chartdiv"></div>
+    <video id="videoPlayer" src="./static/test/1_15.mp4" controls></video>
+</body>
+
+<script>
+    var video = document.getElementById('videoPlayer');
+    var chart;
+    var FPS = 30
+    var data = [];
+    video.onloadeddata = function async() {
+        var duration = Math.floor(video.duration*FPS)
+        am4core.useTheme(am4themes_animated);
+
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.paddingRight = 20;
+
+        var chartData = generateChartData();
+        chart.data = chartData;
+
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "category";
+        categoryAxis.renderer.minGridDistance = 30;
+        // range의 하단에 있는 X축값을 숨김
+        categoryAxis.renderer.labels.template.disabled = true;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+        var series = chart.series.push(new am4charts.LineSeries());
+        series.dataFields.valueY = "visits";
+        series.dataFields.categoryX = "category";
+        series.strokeWidth = 1;
+        series.minBulletDistance = 10;
+        series.tooltipText = "{valueY}";
+        series.fillOpacity = 0.1;
+        series.tooltip.pointerOrientation = "vertical";
+        series.tooltip.getFillFromObject = false;
+        series.tooltip.background.fill = series.fill;
+
+        function generateChartData() {
+            var chartData = [];
+            var timeData;
+            for (var i = 1; i <= duration; i++) {
+                timeData = Math.floor(Math.random() * (200 - 1 + 1)) + 1;
+                chartData.push({
+                    category: i.toString(),
+                    visits: timeData
+                });
+            }
+            return chartData;
+        }
+
+        var scrollbarX = new am4core.Scrollbar();
+        scrollbarX.marginBottom = 20;
+        chart.scrollbarX = scrollbarX;
+
+        chart.cursor = new am4charts.XYCursor();
+        chart.cursor.behavior = "panX";
+        chart.cursor.lineX.disabled = true;
+
+        // Modify date-related code to use integers
+        var firstIndex = 0;
+        var lastIndex = chartData.length - 1;
+        var dateIndex = Math.floor((lastIndex - firstIndex) / 2);
+
+        var range = categoryAxis.axisRanges.create();
+        range.category = chartData[0].category;
+        range.grid.stroke = chart.colors.getIndex(0);
+        range.grid.strokeOpacity = 1;
+        range.bullet = new am4core.ResizeButton();
+        range.bullet.background.fill = chart.colors.getIndex(0);
+        range.bullet.background.states.copyFrom(chart.zoomOutButton.background.states);
+        range.bullet.minX = 0;
+        range.label.text = "";
+        // range를 유저가 조작하지 못하도록 설정
+        range.draggable = false;
+
+        // var seriesRange = categoryAxis.createSeriesRange(series);
+        // seriesRange.category = chartData[dateIndex].category;
+        // seriesRange.endDate = chartData[lastIndex].category;
+
+        // 비디오 재생 시간에 따라 그래프 데이터 업데이트
+        video.addEventListener('timeupdate', function () {
+            var currentTime = Math.floor(video.currentTime * FPS);; // 현재 비디오 재생 시간 (초)
+            console.log(currentTime)
+            updateGraph(currentTime);
+        });
+
+        // 그래프 업데이트 함수
+        function updateGraph(currentTime) {
+            // 현재 시간에 해당하는 범주(category)를 찾아서 range를 이동
+            var category = currentTime;
+            range.category = category;
+        }
+    };
+</script>
+
+</html>
