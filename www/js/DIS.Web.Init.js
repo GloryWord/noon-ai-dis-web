@@ -2189,7 +2189,7 @@ init = {
 
         function workHTML() {
             let contentHTML = `<div class="tableTitle work">
-                                    <h3 class="titleText">파일별 이용 및 요금 내역</h3>
+                                    <h3 class="titleText">작업별 이용 및 요금 내역</h3>
                                     <div class="inputOption">
                                         <label><input class='option' type="radio" name="option" value="all" checked>전체</label>
                                         <label><input class='option' type="radio" name="option" value="encrypt"> 비식별화 사용량</label>
