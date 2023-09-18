@@ -45,9 +45,14 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                     <div id="logout">로그아웃</div>
                 </div>
             </div>
@@ -74,67 +79,142 @@
         <div class="explanArea">
             <div class="explanSlider">
                 <div class="slider">
-                    <div class="imgBox">
-                        <img src="./static/imgs/service/slider1.png">
+                    <div class="pcSlider">
+                        <div class="imgBox">
+                            <img src="./static/imgs/service/slider1.png">
+                        </div>
+                        <div class="textBox">
+                            <h2>공공기관 및 지자체를 위한</h2>
+                            <h3>클라우드 AI 영상/이미지</h3>
+                            <h3>비식별화 서비스</h3>
+                            <p>noonAI DIS(De-Identification Service)는<br>
+                                과학기술정보통신부와 한국지능정보사회진흥원(NIA)이<br>
+                                주관하는 '22년 공공부문 이용 SaaS 개발·검증' 사업의<br>
+                                지원을 받아 개발되었습니다.</p>
+                            <div class="logoBox">
+                                <img src="./static/imgs/service/publicLogo.png">
+                            </div>
+                        </div>
                     </div>
-                    <div class="textBox">
-                        <h2>공공기관 및 지자체를 위한</h2>
-                        <h3>클라우드 AI 영상/이미지</h3>
-                        <h3>비식별화 서비스</h3>
-                        <p>noonAI DIS(De-Identification Service)는<br>
-                            과학기술정보통신부와 한국지능정보사회진흥원(NIA)이<br>
-                            주관하는 '22년 공공부문 이용 SaaS 개발·검증' 사업의<br>
-                            지원을 받아 개발되었습니다.</p>
-                        <div class="logoBox">
-                            <img src="./static/imgs/service/publicLogo.png">
+                    <div class="mSlider">
+                        <div class="smallCircle"></div>
+                        <div class="bigCircle"></div>
+                        <div class="textBox">
+                            <div class="noonai_logo">
+                                <img src="./static/imgs/service/m_logo.png">
+                                <p>는</p>
+                            </div>
+                            <h2>공공기관 및 지자체를 위한</h2>
+                            <h3>클라우드 AI 영상/이미지</h3>
+                            <h3>비식별화 서비스</h3>
+                            <p>noonAI DIS(De-Identification Service)는 과학기술정보통신부와 한국지능정보사회진흥원(NIA)이 주관하는 '22년 공공부문 이용
+                                SaaS 개발·검증' 사업의 지원을 받아 개발되었습니다.</p>
+                            <div class="logoBox">
+                                <img src="./static/imgs/service/publicLogo.png">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="slider">
-                    <div class="imgBox">
-                        <img src="./static/imgs/service/slider2.png">
+                    <div class="pcSlider">
+                        <div class="imgBox">
+                            <img src="./static/imgs/service/slider2.png">
+                        </div>
+                        <div class="textBox">
+                            <h2>클라우드 서비스 보안인증(CSAP)</h2>
+                            <h3>요건을 충족한 안전한 서비스</h3>
+                            <p>강화된 보안 체계를 적용하여 엄격한 한국인터넷진흥원의<br>
+                                클라우드 서비스 보안인증을 획득했으며, 다수의 인증으로<br>
+                                그 안전성을 검증했습니다. 안심하고 사용하세요!</p>
+                            <div class="possBox">
+                                <img src="./static/imgs/service/cloudServiceIcon.png">
+                                <img src="./static/imgs/service/passtaIcon.png">
+                                <img src="./static/imgs/service/ttaIcon.png">
+                            </div>
+                        </div>
                     </div>
-                    <div class="textBox">
-                        <h2>클라우드 서비스 보안인증(CSAP)</h2>
-                        <h3>요건을 충족한 안전한 서비스</h3>
-                        <p>강화된 보안 체계를 적용하여 엄격한 한국인터넷진흥원의<br>
-                            클라우드 서비스 보안인증을 획득했으며, 다수의 인증으로<br>
-                            그 안전성을 검증했습니다. 안심하고 사용하세요!</p>
-                        <div class="possBox">
-                            <img src="./static/imgs/service/cloudServiceIcon.png">
-                            <img src="./static/imgs/service/passtaIcon.png">
-                            <img src="./static/imgs/service/ttaIcon.png">
+                    <div class="mSlider">
+                        <div class="smallCircle"></div>
+                        <div class="bigCircle"></div>
+                        <div class="textBox">
+                            <div class="noonai_logo">
+                                <img src="./static/imgs/service/m_logo.png">
+                                <p>는</p>
+                            </div>
+                            <h2>클라우드 서비스 보안인증(CSAP)</h2>
+                            <h3>요건을 충족한 안전한 서비스</h3>
+                            <p>강화된 보안 체계를 적용하여 엄격한 한국인터넷진흥원의 클라우드 서비스 보안인증을 획득했으며, 다수의 인증으로 그 안전성을 검증했습니다. 안심하고 사용하세요!
+                            </p>
+                            <div class="possBox">
+                                <img src="./static/imgs/service/cloudServiceIcon.png">
+                                <img src="./static/imgs/service/passtaIcon.png">
+                                <img src="./static/imgs/service/ttaIcon.png">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="slider">
-                    <div class="imgBox">
-                        <img src="./static/imgs/service/slider3.png">
+                    <div class="pcSlider">
+                        <div class="imgBox">
+                            <img src="./static/imgs/service/slider3.png">
+                        </div>
+                        <div class="textBox">
+                            <h2>누구나 쉽고,</h2>
+                            <h2>클라우드 AI 영상/이미지</h2>
+                            <h3>간편하게 사용할 수 있는</h3>
+                            <p>개인정보 보호를 위해 비식별화가 필수적입니다.<br>
+                                noonAI DIS는 noonAI의 기술과 노하우를 바탕으로<br>
+                                이미지와 영상 속 개인정보를 식별할 수 있는 요소들을<br>
+                                AI가 찾아 비식별화를 진행합니다. 직관적인 UI/UX로<br>
+                                부담없이 쉽고, 간편하게 비식별화를 진행하세요.</p>
+                        </div>
                     </div>
-                    <div class="textBox">
-                        <h2>누구나 쉽고,</h2>
-                        <h2>클라우드 AI 영상/이미지</h2>
-                        <h3>간편하게 사용할 수 있는</h3>
-                        <p>개인정보 보호를 위해 비식별화가 필수적입니다.<br>
-                            noonAI DIS는 noonAI의 기술과 노하우를 바탕으로<br>
-                            이미지와 영상 속 개인정보를 식별할 수 있는 요소들을<br>
-                            AI가 찾아 비식별화를 진행합니다. 직관적인 UI/UX로<br>
-                            부담없이 쉽고, 간편하게 비식별화를 진행하세요.</p>
+                    <div class="mSlider">
+                        <div class="smallCircle"></div>
+                        <div class="bigCircle"></div>
+                        <div class="textBox">
+                            <div class="noonai_logo">
+                                <img src="./static/imgs/service/m_logo.png">
+                                <p>는</p>
+                            </div>
+                            <h2>누구나 쉽고,</h2>
+                            <h2>클라우드 AI 영상/이미지</h2>
+                            <h3>간편하게 사용할 수 있는</h3>
+                            <p>개인정보 보호를 위해 비식별화가 필수적입니다. noonAI DIS는 noonAI의 기술과 노하우를 바탕으로 이미지와 영상 속 개인정보를 식별할 수 있는 요소들을
+                                AI가 찾아 비식별화를 진행합니다. 직관적인 UI/UX로 부담없이 쉽고, 간편하게 비식별화를 진행하세요.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="slider">
-                    <div class="imgBox">
-                        <img src="./static/imgs/service/slider4.png">
+                    <div class="pcSlider">
+                        <div class="imgBox">
+                            <img src="./static/imgs/service/slider4.png">
+                        </div>
+                        <div class="textBox">
+                            <h2>한층 더 강화된</h2>
+                            <h2>개인정보 보호법을 적용한</h2>
+                            <h3>개인정보 보호 중심 설계 서비스</h3>
+                            <p>영상 속 개인정보를 보호하기 위한 noonAI DIS는<br>
+                                기획, AI 개발, AI 서비스 등 모든 과정에서<br>
+                                보호법 상 개인정보 보호원칙을 준수하였습니다.<br>
+                                이제 noonAI DIS로 이미지와 영상 속 개인정보를<br>
+                                안전하게 보호하세요.</p>
+                        </div>
                     </div>
-                    <div class="textBox">
-                        <h2>한층 더 강화된</h2>
-                        <h2>개인정보 보호법을 적용한</h2>
-                        <h3>개인정보 보호 중심 설계 서비스</h3>
-                        <p>영상 속 개인정보를 보호하기 위한 noonAI DIS는<br>
-                            기획, AI 개발, AI 서비스 등 모든 과정에서<br>
-                            보호법 상 개인정보 보호원칙을 준수하였습니다.<br>
-                            이제 noonAI DIS로 이미지와 영상 속 개인정보를<br>
-                            안전하게 보호하세요.</p>
+                    <div class="mSlider">
+                        <div class="smallCircle"></div>
+                        <div class="bigCircle"></div>
+                        <div class="textBox">
+                            <div class="noonai_logo">
+                                <img src="./static/imgs/service/m_logo.png">
+                                <p>는</p>
+                            </div>
+                            <h2>한층 더 강화된</h2>
+                            <h2>개인정보 보호법을 적용한</h2>
+                            <h3>개인정보 보호 중심 설계 서비스</h3>
+                            <p>영상 속 개인정보를 보호하기 위한 noonAI DIS는 기획, AI 개발, AI 서비스 등 모든 과정에서 보호법 상 개인정보 보호원칙을 준수하였습니다. 이제
+                                noonAI DIS로 이미지와 영상 속 개인정보를 안전하게 보호하세요.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,7 +250,8 @@
                 </div>
             </div>
             <div class="guideBtn">
-                <a href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">
+                <a href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46"
+                    target="_blank">
                     <p>사용 가이드 보기</p>
                 </a>
             </div>

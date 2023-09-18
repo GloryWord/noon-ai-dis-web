@@ -205,6 +205,39 @@ function time_change(duration) {
     }
 }
 
+function hd_change(width, height){
+    let reso = Number(width)*Number(height)
+    let result
+    if(reso<=921600){
+        result = `HD 이하`
+    }
+    else if(reso<=2073600){
+        result = `FHD 이하`
+    }
+    else{
+        result = `FHD 초과`
+    }
+
+    return result
+}
+
+function encrypt_base(filetype, rest){
+    let result
+    if(filetype=="영상" && rest=="O"){
+        result = price_three(10000) 
+    }
+    else if(filetype=="영상" && rest=="X"){
+        result = price_three(7000) 
+    }
+    else if(filetype=="이미지" && rest=="O"){
+        result = price_three(600) 
+    }
+    else if(filetype=="이미지" && rest=="X"){
+        result = price_three(400) 
+    }
+    return result
+}
+
 function onlyNumber(event) {
     event = event || window.event;
     var keyID = (event.which) ? event.which : event.keyCode;

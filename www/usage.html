@@ -11,16 +11,17 @@
     <link rel="stylesheet" href="./static/css/common/header.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="./static/css/common/modal.css" type="text/css" />
+    <link rel="stylesheet" href="./static/css/outside/paging.css" type="text/css" />
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Common.js"></script>
     <script type="text/javascript" src="js/DIS.Web.Init.js"></script>
     <script type="text/javascript" src="js/DIS.Web.RequestTable.js"></script>
-    <!-- <script type="text/javascript" src="js/DIS.Web.ResultLoader.js"></script> -->
     <script src="./static/js/sweetalert/sweetalert.js"></script>
     <script src="./static/js/common/common.js"></script>
     <script src="./static/js/common/header.js"></script>
   <script src="./static/js/common/footer.js"></script>
+  <script src="./static/js/outside/paging.js"></script>
 </head>
 
 <body>
@@ -43,9 +44,14 @@
                 <a href="/encrypt/log">비식별화 기록 열람</a>
                 <a href="/decrypt/log">복호화 기록 열람</a>
                 <a class='onlyPC' href="/usage">사용량 조회</a>
+                <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                 <a class='onlyPC' href="/key">Key 관리</a>
                 <a class="infoMove">내 정보</a>
                 <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                 <div id="logout">로그아웃</div>
             </div>
           </div>
@@ -55,66 +61,121 @@
         <div class="search_area">
             <div class="searchHeader">
                 <img src="./static/imgs/log/usage_icon.png">
-                <p>서비스 사용량 조회</p>
-                <label>진행한 모든 기능에 대한 사용량을 확인 할 수 있습니다.</label>
-                <div class="m_textArea">
-                    <p1>서비스 이용 관리</p1>
-                    <label1>진행한 모든 기능에 대한 사용량을 확인 할 수 있습니다.</label1>
-                </div>
+                <p>서비스 이용 및 요금 내역</p>
+                <label>진행한 모든 비식별 처리 내역을 확인하실 수 있습니다.</label>
             </div>
             <div class="searchContent">
-                <div class="searchFirst">
-                    <h1>검색</h1>
-                    <div class="refreshArea">
-                        <p>검색초기화</p>
-                        <a href="/usage"><img src="./static/imgs/log/refresh_icon.png"></a>
-                    </div>
-                </div>
-                <div class="searchSecond">
-                    <div class="searchTop">
-                        <div class="searchFile">
-                            <h1>타입</h1>             
-                            <div class="searchFile_first">
-                                <input class="search_filter" type="radio" name="search_filter" value="encrypt_request"><label class="encrypt_request" for="encrypt_request">비식별화 요청</label>
-                                <input class="search_filter" type="radio" name="search_filter" value="decrypt_request"><label class="decrypt_request" for="decrypt_request">복호화 요청</label>
-                            </div>
-                            <div class="searchFile_second">
-                                <input class="search_filter" type="radio" name="search_filter" value="download_request"><label class="download_request" for="download_request">파일 다운로드</label>
-                                <input class="search_filter" type="radio" name="search_filter" value="all_count" checked><label class="all_count" for="all_count">월별 사용량</label>
-                            </div> 
+                <div class="totalPriceAndSearch">
+                    <div class="selectMonth">
+                        <div class="textArea">
+                            <p class="selectYearText">2023년</p>
+                            <span class="selectMonthText">8월</span>
+                        </div>
+                        <div class="selectDate">
+                            <img src="./static/imgs/upload/selectBox_icon.png">
+                            <input id="searchMonth" type="month">
+                        </div>
+                        <div class="periodUse">
+                            <p class="dateLength">이용 기간 : 2023. 08. 01 ~ 2023. 08. 31</p>
                         </div>
                     </div>
-                    <div class="searchBottom">
-                        <div class="searchDate">
-                            <h1>날짜</h1>
-                            <div class="dateFirst">
-                                <input id="startVal" data-placeholder="YYYY.MM" type="month">
-                            </div>
-                        </div>
+                    <div class="totalPrice">
+                        <p class="monthPriceText">8월 이용 요금</p>
+                        <span class="priceText">000,000,000</span>
+                        <p class="tailText">캐시</p>
                     </div>
                 </div>
-                <div class="searchThird">
-                    <div class="search">
-                        <p>검 색</p>
+                <div class="calcPrice">
+                    <p>총 서비스 기본 금액  000,000 + 총 추가 발생 금액  000,000 - 총 할인 금액  000,000 = 총 차감 금액  000,000</p>
+                </div>
+            </div>
+            <div class="totalUsage">
+                <h3>총 사용량</h3>
+                <div class="usageTable">
+                    <div class="usageTableHeader">
+                        <div class="usageHaederText category">
+                            <p>구 분</p>
+                        </div>
+                        <div class="usageHaederText encrypt">
+                            <p>비식별화 건수</p>
+                        </div>
+                        <div class="usageHaederText additional">
+                            <p>추가 비식별화 건수</p>
+                        </div>
+                        <div class="usageHaederText decrypt">
+                            <p>부분 복호화 건수</p>
+                        </div>
+                        <div class="usageHaederText download">
+                            <p>다운로드 건수</p>
+                        </div>
+                        <div class="usageHaederText total">
+                            <p>총 건수</p>
+                        </div>
+                    </div>
+                    <div class="usageTableBody">
+                        <div class="usageTableContent">
+                            <div class="usageTableInfo">
+                                <div class="usageContentText category">
+                                    <p>이미지 파일</p>
+                                </div>
+                                <div class="usageContentText encrypt">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText additional">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText decrypt">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText download">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText total">
+                                    <p>00 회</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="usageTableContent">
+                            <div class="usageTableInfo">
+                                <div class="usageContentText category">
+                                    <p>영상 파일</p>
+                                </div>
+                                <div class="usageContentText encrypt">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText additional">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText decrypt">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText download">
+                                    <p>00 회</p>
+                                </div>
+                                <div class="usageContentText total">
+                                    <p>00 회</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="logArea">
-            <!-- <div class="logTable">
-                <div class="logHeader">
-                    <div class="id_content"><h3>ID</h3></div>
-                    <div class="type_content"><h3>파일 타입</h3></div>
-                    <div class="name_content"><h3>파일명</h3></div>
-                    <div class="date_content"><h3>작업 날짜</h3></div>
-                    <div class="rest_content"><h3>복호화 여부</h3></div>
-                    <div class="status_content"><h3>진행도</h3></div>
-                    <div class="detail_content"></div>
+            <div class="btnArea">
+                <div class="logBtn file active" data-type="file">
+                    <p>파일별 내역 보기</p>
                 </div>
-                <div class="mainLog">
+                <div class="logBtn work" data-type="work">
+                    <p>작업별 내역 보기</p>
                 </div>
-                <div id="enc_more" class="btn-wrap"><a href="javascript:;" class="morebutton"><p>더보기</p><img src="./static/imgs/main/plus_icon.png"></a></div>
-            </div> -->
+                <div class="excelDownload file">
+                    <p>엑셀 다운로드</p>
+                    <img src="./static/imgs/usage/download.png">
+                </div>
+            </div>
+            <div class="tableArea">
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -177,6 +238,445 @@
                                 <p>취소</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="priceDetail" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="price_inner">
+                <div class="priceHeader">
+                    <div class="priceTitle">
+                        <img src="./static/imgs/usage/priceIcon.png">
+                        <h3>상세 요금 내역</h3>
+                        <p>업로드한 파일의 이용 서비스별 상세 요금입니다.</p>
+                    </div>
+                    <div class="cancel">
+                        <img class="cancel_nohover" src="./static/imgs/common/cancel_icon.png">
+                        <img class="cancel_hover" src="./static/imgs/common/cancel_hover_icon.png">
+                    </div>
+                </div>
+                <div class="priceContent">
+                    <div class="priceFileInfo">
+                        <div class="fileName">
+                            <span>파일명 :&nbsp;</span>
+                            <p>파일명 전체 표기 넘치면 다음줄로 넘김</p>
+                        </div>
+                        <div class="fileType">
+                            <span>파일 유형 :&nbsp;</span>
+                            <p>이미지</p>
+                        </div>
+                    </div>
+                    <div class="priceInfo">
+                        <div class="priceArea encrypt">
+                            <h2>비식별화 요금 내역</h2>
+                            <div class="priceTableHeader">
+                                <div class="tableHeader date">
+                                    <p>작업 일시</p>
+                                </div>
+                                <div class="tableHeader basic">
+                                    <p>기본료</p>
+                                </div>
+                                <div class="tableHeader resolution">
+                                    <p>해상도</p>
+                                </div>
+                                <div class="tableHeader duration">
+                                    <p>영상 길이</p>
+                                </div>
+                                <div class="tableHeader object">
+                                    <p>처리 객체수</p>
+                                </div>
+                                <div class="tableHeader base">
+                                    <p>서비스 기본 금액</p>
+                                </div>
+                                <div class="tableHeader add">
+                                    <p>추가 발생 금액</p>
+                                </div>
+                                <div class="tableHeader discount">
+                                    <p>할인 금액</p>
+                                </div>
+                                <div class="tableHeader total">
+                                    <p>차감 금액</p>
+                                </div>
+                            </div>
+                            <div class="priceTableContent">
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <h3>00,000,000</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="priceArea additional">
+                            <h2>추가 비식별화 요금 내역</h2>
+                            <div class="priceTableHeader">
+                                <div class="tableHeader date">
+                                    <p>작업 일시</p>
+                                </div>
+                                <div class="tableHeader basic">
+                                    <p>기본료</p>
+                                </div>
+                                <div class="tableHeader resolution">
+                                    <p>해상도</p>
+                                </div>
+                                <div class="tableHeader duration">
+                                    <p>영상 길이</p>
+                                </div>
+                                <div class="tableHeader object">
+                                    <p>처리 객체수</p>
+                                </div>
+                                <div class="tableHeader base">
+                                    <p>서비스 기본 금액</p>
+                                </div>
+                                <div class="tableHeader add">
+                                    <p>추가 발생 금액</p>
+                                </div>
+                                <div class="tableHeader discount">
+                                    <p>할인 금액</p>
+                                </div>
+                                <div class="tableHeader total">
+                                    <p>차감 금액</p>
+                                </div>
+                            </div>
+                            <div class="priceTableContent">
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="subtotal additional">
+                                <p>소 계</p>
+                                <h3>000,046,196</h3>
+                            </div>
+                        </div>
+                        <div class="priceArea decrypt">
+                            <h2>부분 복호화 요금 내역</h2>
+                            <div class="priceTableHeader">
+                                <div class="tableHeader date">
+                                    <p>작업 일시</p>
+                                </div>
+                                <div class="tableHeader basic">
+                                    <p>기본료</p>
+                                </div>
+                                <div class="tableHeader resolution">
+                                    <p>해상도</p>
+                                </div>
+                                <div class="tableHeader duration">
+                                    <p>영상 길이</p>
+                                </div>
+                                <div class="tableHeader object">
+                                    <p>처리 객체수</p>
+                                </div>
+                                <div class="tableHeader base">
+                                    <p>서비스 기본 금액</p>
+                                </div>
+                                <div class="tableHeader add">
+                                    <p>추가 발생 금액</p>
+                                </div>
+                                <div class="tableHeader discount">
+                                    <p>할인 금액</p>
+                                </div>
+                                <div class="tableHeader total">
+                                    <p>차감 금액</p>
+                                </div>
+                            </div>
+                            <div class="priceTableContent">
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="subtotal decrypt">
+                                <p>소 계</p>
+                                <h3>000,046,196</h3>
+                            </div>
+                        </div>
+                        <div class="priceArea download">
+                            <h2>다운로드 요금 내역</h2>
+                            <div class="priceTableHeader">
+                                <div class="tableHeader date">
+                                    <p>작업 일시</p>
+                                </div>
+                                <div class="tableHeader basic">
+                                    <p>기본료</p>
+                                </div>
+                                <div class="tableHeader resolution">
+                                    <p>해상도</p>
+                                </div>
+                                <div class="tableHeader duration">
+                                    <p>영상 길이</p>
+                                </div>
+                                <div class="tableHeader object">
+                                    <p>처리 객체수</p>
+                                </div>
+                                <div class="tableHeader base">
+                                    <p>서비스 기본 금액</p>
+                                </div>
+                                <div class="tableHeader add">
+                                    <p>추가 발생 금액</p>
+                                </div>
+                                <div class="tableHeader discount">
+                                    <p>할인 금액</p>
+                                </div>
+                                <div class="tableHeader total">
+                                    <p>차감 금액</p>
+                                </div>
+                            </div>
+                            <div class="priceTableContent">
+                                <div class="tableBox">
+                                    <div class="tableContent date">
+                                        <p>YYYY. MM. DD<br>
+                                            00 : 00 : 00</p>
+                                    </div>
+                                    <div class="tableContent basic">
+                                        <p>0,000</p>
+                                    </div>
+                                    <div class="tableContent resolution">
+                                        <div class="textArea">
+                                            <p>HD 이하</p>
+                                            <span>(00000X00000)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent duration">
+                                        <div class="textArea">
+                                            <p>00분00초</p>
+                                            <span>(000,000초)</span>
+                                        </div>
+                                    </div>
+                                    <div class="tableContent object">
+                                        <p>00개</p>
+                                    </div>
+                                    <div class="tableContent base">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent add">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent discount">
+                                        <p>000,000</p>
+                                    </div>
+                                    <div class="tableContent total">
+                                        <p>00,000,000</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="subtotal download">
+                                <p>소 계</p>
+                                <h3>000,046,196</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="totalPriceArea">
+                        <h2>총 차감 금액</h2>
+                        <span>000,046,196</span>
+                        <p>원</p>
                     </div>
                 </div>
             </div>

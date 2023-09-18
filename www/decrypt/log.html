@@ -20,7 +20,7 @@
     <script src="../static/js/sweetalert/sweetalert.js"></script>
     <script src="../static/js/common/common.js"></script>
     <script src="../static/js/common/header.js"></script>
-  <script src="../static/js/common/footer.js"></script>
+    <script src="../static/js/common/footer.js"></script>
 </head>
 
 <body>
@@ -43,9 +43,14 @@
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                     <div id="logout">로그아웃</div>
                 </div>
             </div>
@@ -87,22 +92,32 @@
                             <h1>작업 날짜</h1>
                             <div class="dateFirst">
                                 <div class="pc_input">
-                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label
+                                        class="yesterdaylabel" for="yesterday">어제</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label
+                                        class="todaytlabel" for="today">오늘</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label
+                                        class="weeklabel" for="week">일주일</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label
+                                        class="monthlabel" for="month">한달</label>
                                 </div>
                                 <div class="m_input">
-                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label class="yesterdaylabel" for="yesterday">어제</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label class="todaytlabel" for="today">오늘</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label class="weeklabel" for="week">일주일</label>
-                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label class="monthlabel" for="month">한달</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="yesterday"><label
+                                        class="yesterdaylabel" for="yesterday">어제</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="today"><label
+                                        class="todaytlabel" for="today">오늘</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="week"><label
+                                        class="weeklabel" for="week">일주일</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="month"><label
+                                        class="monthlabel" for="month">한달</label>
                                 </div>
                                 <div class="pc_select">
-                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label
+                                        class="selectlabel" for="select">직접선택</label>
                                 </div>
                                 <div class="m_select">
-                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label class="selectlabel" for="select">직접선택</label>
+                                    <input class="date_filter" type="radio" name="date_filter" value="select"><label
+                                        class="selectlabel" for="select">직접선택</label>
                                 </div>
                                 <div class="pc_date">
                                     <input class="startVal disable" data-placeholder="시작날짜  YYYY.MM.DD" type="date">
@@ -135,12 +150,24 @@
         <div class="logArea">
             <div class="logTable">
                 <div class="logHeader">
-                    <div class="id_content"><h3>ID</h3></div>
-                    <div class="type_content"><h3>파일 타입</h3></div>
-                    <div class="name_content"><h3>파일명</h3></div>
-                    <div class="date_content"><h3>작업 날짜</h3></div>
-                    <div class="rest_content"><h3></h3></div>
-                    <div class="status_content"><h3>진행도</h3></div>
+                    <div class="id_content">
+                        <h3>ID</h3>
+                    </div>
+                    <div class="type_content">
+                        <h3>파일 타입</h3>
+                    </div>
+                    <div class="name_content">
+                        <h3>파일명</h3>
+                    </div>
+                    <div class="date_content">
+                        <h3>작업 날짜</h3>
+                    </div>
+                    <div class="rest_content">
+                        <h3></h3>
+                    </div>
+                    <div class="status_content">
+                        <h3>진행도</h3>
+                    </div>
                     <div class="detail_content"></div>
                 </div>
                 <div class="mainLog">
@@ -155,7 +182,7 @@
         <div class="logo">
             <img src="../static/imgs/common/new_footer_logo.png">
             <div class="upBtn">
-              <img src="../static/imgs/common/upBtn_icon.png">
+                <img src="../static/imgs/common/upBtn_icon.png">
             </div>
         </div>
         <div class="textArea">

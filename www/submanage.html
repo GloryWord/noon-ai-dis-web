@@ -23,7 +23,7 @@
     <script src="./static/js/common/footer.js"></script>
     <style>
         .swal2-actions {
-          margin: 0 !important;
+            margin: 0 !important;
         }
     </style>
 </head>
@@ -42,15 +42,20 @@
             </div>
             <div class="menuBtn">
                 <img class="menu_nohover" src="./static/imgs/common/header_menu.png">
-            <img class="menu_hover" src="./static/imgs/common/header_menu_hover.png">
+                <img class="menu_hover" src="./static/imgs/common/header_menu_hover.png">
                 <div id="myDropdown" class="dropdown-content">
                     <a href="/main">홈</a>
                     <a href="/encrypt/log">비식별화 기록 열람</a>
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
                     <a class='onlyPC' href="/key">Key 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/charge">요금 안내</a>
+                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
+                <a class='onlyMobile' href="/qna">고객센터</a>
                     <div id="logout">로그아웃</div>
                 </div>
             </div>
@@ -113,7 +118,7 @@
         <div class="logo">
             <img src="./static/imgs/common/new_footer_logo.png">
             <div class="upBtn">
-              <img src="./static/imgs/common/upBtn_icon.png">
+                <img src="./static/imgs/common/upBtn_icon.png">
             </div>
         </div>
         <div class="textArea">
@@ -314,29 +319,29 @@
             var check_symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수기호
             if (newPassword == '') {
                 Swal.fire({
-                    title:'빈 칸에 정보를 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    title: '빈 칸에 정보를 입력해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 });
             }
-            else if(newPassword.length<8){
+            else if (newPassword.length < 8) {
                 Swal.fire({
                     title: '비밀번호는 8자 이상 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
-            else if(check_num.test(newPassword)!=true || check_big.test(newPassword)!=true || check_small.test(newPassword)!=true || check_symbol.test(newPassword)!=true){
+            else if (check_num.test(newPassword) != true || check_big.test(newPassword) != true || check_small.test(newPassword) != true || check_symbol.test(newPassword) != true) {
                 Swal.fire({
                     title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
-                    showConfirmButton:false,
-                    showDenyButton:true,
-                    denyButtonText:"확 인",
-                    icon:"error"
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
                 })
             }
             else {
