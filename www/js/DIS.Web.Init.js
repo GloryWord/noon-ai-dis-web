@@ -1195,7 +1195,31 @@ init = {
                     allCheck = "true"
                 }
             }
-            if (allCheck == "true" && cKey == 1 && sKey != "") {
+            if(videoDuration[0]>300 && $(".restore:checked").val()=="false"){
+                Swal.fire({
+                    title: '파일 길이 초과',
+                    html:
+                        '파일의 길이가 5분을 초과했습니다.<br/>' +
+                        '복호화 불가능 파일은 5분 이하의 <br>파일만 올려주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if(videoDuration[0]>180 && $(".restore:checked").val()=="true"){
+                Swal.fire({
+                    title: '파일 길이 초과',
+                    html:
+                        '파일의 길이가 3분을 초과했습니다.<br/>' +
+                        '복호화 가능 파일은 3분 이하의 <br>파일만 올려주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum, videoDuration);
