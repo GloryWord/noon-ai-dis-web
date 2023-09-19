@@ -838,12 +838,12 @@ init = {
         }
 
         function reloadProgress() {
+            let progressID = urlParams.get('id');
             if (service == 'encrypt') progressObject = requestTable.getEncProgress();
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
-            else if (service == 'check') progressObject = requestTable.getCheckProgress();
+            else if (service == 'check') progressObject = requestTable.getCheckProgress(progressID);
             else if (service == 'sector') progressObject = requestTable.getSectorProgress();
-            console.log(progressObject);
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
@@ -851,7 +851,6 @@ init = {
                 setTimeout(reloadProgress, 200);
             }
             else {
-                console.log(status);
                 if (status.indexOf('FAIL') == 1 || status.indexOf('Fail') != -1) {
                     Swal.fire({
                         title: '예기치 못한 오류로 작업이 중단됐습니다.',
