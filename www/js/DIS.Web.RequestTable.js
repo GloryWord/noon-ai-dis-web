@@ -114,14 +114,14 @@ requestTable = {
         return result;
     },
 
-    getCheckProgress: function () {
+    getCheckProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/check'
+        let baseUrl = `/api/progress/check?requestID=${requestID}`
         let apiUrl = apiUrlConverter('util', baseUrl)
 
         $.ajax({
@@ -134,6 +134,7 @@ requestTable = {
             success: function (data) {
                 result['status'] = data.progress['status'];
                 result['complete'] = data.progress['complete'];
+                result['progress'] = data.progress['additional_progress'];
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
