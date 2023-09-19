@@ -42,6 +42,7 @@ frameSlider.addEventListener('change', function () {
 video.addEventListener('timeupdate', function () {
     if (!isSliding) { // Only update when not sliding
         const currentTime = video.currentTime;
+        console.log("currentTime : " + currentTime)
         const currentFrame = Math.floor(currentTime * FPS);
         frameSlider.value = currentFrame;
         frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
@@ -62,7 +63,7 @@ $(document).on("click", ".startFrame", function () {
         $(".playIcon").addClass("active");
         $(".pauseIcon").removeClass("active");
         const currentTime = video.currentTime;
-        let currentFrame = Math.floor(currentTime * FPS) + 1;
+        let currentFrame = Math.floor(currentTime * FPS);
         if(currentFrame==0){
             currentFrame = 1;
         }
@@ -117,7 +118,7 @@ $(document).on("click", ".endFrame", function () {
             $(".playIcon").addClass("active");
             $(".pauseIcon").removeClass("active");
             const currentTime = video.currentTime;
-            const currentFrame = Math.floor(currentTime * FPS) + 1;
+            const currentFrame = Math.floor(currentTime * FPS);
             frameSlider.value = currentFrame;
             frameIndicator.textContent = `${currentFrame} / ${frameSlider.max}`;
             video.currentTime = (currentFrame / FPS);
