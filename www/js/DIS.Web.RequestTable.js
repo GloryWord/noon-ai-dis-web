@@ -1982,7 +1982,7 @@ requestTable = {
 
             }
         });
-        // return result;
+        return results;
     },
 
     getCashHistory: async function(startDate, endDate) {
