@@ -252,7 +252,7 @@ login = {
                             <p>변경하기</p>\
                         </div>\
                         <div id="cancel">\
-                            <a href="/">\
+                            <a href="/login">\
                                 <p>취소</p>\
                             </a>\
                         </div>\

@@ -36,7 +36,7 @@ let whitelist = [
 var init = DIS.Web.Init;
 init = {
 
-    service: function () {
+    index: function () {
         $('.explanSlider').slick({
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
             infinite: true, 	//무한 반복 옵션	 
@@ -61,7 +61,7 @@ init = {
     },
 
     // 유저 로그인 화면 제어
-    index: function () {
+    login: function () {
         let isDev = comm.getEnv();
         login.sessionCheck();
         let master_tenant_id = null;

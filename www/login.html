@@ -27,14 +27,13 @@
             <div class="loginHeader">
                 <img src="./static/imgs/login/new_login_logo.png">
                 <div class="loginAuth">
-                    <a class="adminLogin" href="/login"><h3>관리자 계정</h3></a>
+                    <a class="adminLogin active" href="/login"><h3>관리자 계정</h3></a>
                     <p>|</p>
-                    <a class="subLogin active" href="/sublogin"><h3>서브 계정</h3></a>
+                    <a class="subLogin" href="/sublogin"><h3>서브 계정</h3></a>
                 </div>
             </div>
             <div class="loginBody">
-                <input type="text" name="loginAlias" id="loginAlias" placeholder="관리자가 설정한 접속키를 입력해 주세요">
-                <input type="text" name="name" id="name" placeholder="아이디를 입력해 주세요">
+                <input type="email" name="name" id="name" placeholder="관리자 아이디를 입력해 주세요">
                 <input type="password" name="pass" id="pass" placeholder="비밀번호를 입력해 주세요">
                 <div class="loginBtn" onkeyup="enterkey();" id="loginButton">
                     <!-- <button><span>로그인</span> <i class="fa fa-check"></i></button> -->
@@ -42,7 +41,11 @@
                 </div>
             </div>
             <div class="loginFooter">
-                <h3>로그인페이지 접속키, 서브 계정 아이디/비밀번호를 잊으신 경우, 귀사의 관리자 계정 담당자에게 문의해 주십시오.</h3>
+                <!-- <a class="passid" href="/findid"><p>아이디 찾기</p></a>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</p> -->
+                <a class="passfind" href="/findpwd"><p>비밀번호 찾기</p></a>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                <a class="register" href="/agree"><p>회원가입</p></a>
             </div>
             <div class="loginPrivacy">
                 <label class="privacy">개인정보처리방침</label>
@@ -89,6 +92,39 @@
     </div>
 </div>
 
+<div id="lockModal" class="modal">
+    <div id="wrap">
+        <div class="layerPopupBox active">
+            <div class="lock_inner">
+                <div class="lockContent">
+                    <div class="lockHeader">
+                        <h1>본인 인증</h1>
+                        <p>가입 시 입력한 이름, 전화번호 확인 후 <br>임시 비밀번호를 이메일로 발송합니다.</p>
+                    </div>
+                    <div class="lockBody">
+                        <div class="bodyHeader">
+                            <p>이 름</p>
+                            <input class="lock_name" placeholder="가입 시 입력한 사용자 이름을 입력해 주세요.">
+                            <p>전화번호</p>
+                            <input class="lock_phone" placeholder="가입 시 입력한 전화번호를 입력해 주세요.">
+                        </div>
+                        <div class="bodyFooter">
+                            <div class="btnArea">
+                                <div class="lock_confirm">
+                                    <p>확 인</p>
+                                </div>
+                                <div class="cancel">
+                                    <p>취 소</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="privacyView" class="modal"></div>
 
 <div id="servicePrivacyView" class="modal"></div>
@@ -105,7 +141,7 @@
     });
 
     $(document).on("click", ".cancel", function () {
-        $('.modal').removeClass('active');
+        $('.modal').removeClass('active')
         $(".login_auth").val();
     });
 </script>
