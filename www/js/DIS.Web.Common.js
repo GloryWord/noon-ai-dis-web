@@ -304,6 +304,12 @@ comm = {
      */
 
     getUser: function () {
+        let url = document.location.href;
+        let len = url.split('/').length;
+        let pageName = url.split('/')[len - 1];
+        pageName = pageName.split('#')[0]
+        pageName = pageName.split('?')[0]
+
         let baseUrl = '/api/user'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
@@ -320,12 +326,46 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                location.href = '/error'
+                if(pageName=="" || pageName=="service" ||pageName=="charge" || pageName=="qna"){
+                    result=""
+                }
+                else{
+                    location.href = '/error'
+                }
                 // alert(xhr + " : " + status);
             }
         });
-        resultStr = "<p>" + result.user_name + '님</p>'
+        if(result==""){
+            resultStr = `noLogin`
+        }
+        else{
+            resultStr = "<p>" + result.user_name + '님</p>'
+        }
         return resultStr;
+    },
+
+    moveMain: function () {
+        let baseUrl = '/api/user'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        var result = '';
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                result = data;
+            },
+            error: function (xhr, status) {
+                result=""
+                // alert(xhr + " : " + status);
+            }
+        });
+        
+        return result;
     },
 
     getKeyList: function () {

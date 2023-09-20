@@ -731,7 +731,7 @@
     }
 }
 
-@media(max-width:600px) {
+@media(max-width:900px) {
     .chargeContent .chargeHeader {
         width: 312px;
         display: flex;

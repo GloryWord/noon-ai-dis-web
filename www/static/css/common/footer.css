@@ -73,6 +73,7 @@
     height: 336px;
     display: flex;
     background-color: #16284d;
+    position: relative;
 }
 
 .footer .logo {
@@ -86,7 +87,22 @@
 }
 
 .footer .upBtn {
-    display: none;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: #3fa9f5;
+    position: absolute;
+    bottom: 46px;
+    right: 46px;;
+    cursor: pointer;
+}
+
+.footer .upBtn img {  
+    width: 26px !important;
+    height: 26px !important;
+    object-fit: contain !important;
+    margin: auto !important;
 }
 
 .footer .textArea {

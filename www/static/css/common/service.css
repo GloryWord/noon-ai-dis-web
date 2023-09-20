@@ -61,10 +61,11 @@
 }
 
 .logoArea {
-    width: 100%;
+    width: calc(100% - 14px);
     height: 720px;
     display: flex;
     position: relative;
+    padding-left: 14px;
 }
 
 .logoArea::before{
@@ -83,7 +84,7 @@
     width: auto;
     height: auto;
     opacity: 1;
-    margin: 214px 14px 160px auto;
+    margin: 214px 28px 160px auto;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -587,6 +588,8 @@
 
 @media(max-width:1200px){
     .logoArea {
+        width: 100%;
+        padding-left: 0;
         height: auto;
         flex-direction: column-reverse;
     }
@@ -612,7 +615,7 @@
     }
 }
 
-@media(max-width:600px){
+@media(max-width:900px){
     .logoArea .imgArea {
         width: 288px;
         margin: 48px auto 0;

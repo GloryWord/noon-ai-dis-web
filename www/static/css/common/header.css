@@ -64,29 +64,61 @@
     width: 198px;
     height: auto;
     display: flex;
-    margin: auto 658px auto auto;
+    margin: auto 60px auto auto;
     cursor: pointer;
 }
 
-.logo a {
-    display: flex;
-}
-
-.logo a img {
+.logo img {
     width: 100%;
-    margin: auto;
+    margin: 28px auto 36px;
     cursor: pointer;
 }
 
 .flow {
-    margin: auto;
     display: flex;
-    flex-direction: column;
-    position: absolute;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+}
+
+.flow .flowMenu {
+    display: flex;
+    margin: 0 54px 0 0;
+}
+
+.flow .flowMenu:nth-child(4) {
+    display: flex;
+    margin: 0 134px 0 0;
+}
+
+.flow .flowMenu a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.flow .flowMenu a p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 41px auto 37px;
+    cursor: pointer;
+}
+
+.flow .flowMenu.active a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 41px auto 37px;
 }
 
 .flow .circleArea,
@@ -210,6 +242,43 @@
     position: relative;
 }
 
+.menuBtn.noLogin {
+    width: auto;
+    height: auto;
+    display: flex;
+    margin: 32px auto 28px 26px;
+    background: none;
+}
+
+.menuBtn.noLogin .loginMove {
+    width: 98px;
+    height: 40px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+}
+
+.menuBtn.noLogin .loginMove a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.menuBtn.noLogin .loginMove a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
 .menuBtn .onlyPC,
 .menuBtn .onlyMobile,
 .menuBtn .admin_only {
@@ -296,6 +365,20 @@
     display: block;
 }
 
+@media(max-width:1023px){
+    .logo {
+        width: 198px;
+        height: auto;
+        display: flex;
+        margin: auto 658px auto auto;
+        cursor: pointer;
+    }
+
+    .flow {
+        display: none;
+    }
+}
+
 @media(max-width:600px){
     .header {
         background: #fff;
@@ -316,7 +399,7 @@
         cursor: pointer;
     }
     
-    .logo a img {
+    .logo img {
         width: 100%;
         margin: auto;
         cursor: pointer;
@@ -330,6 +413,32 @@
         width: 36px;
         height: 36px;
         margin: auto 16px auto 0;
+    }
+
+    .menuBtn.noLogin {
+        margin: auto 16px auto auto;
+    }
+
+    .menuBtn.noLogin .loginMove {
+        width: 64px;
+        height: 24px;
+        margin: auto;  
+        border-radius: 13px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        display: flex;
+    }
+
+    .menuBtn.noLogin .loginMove a p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
     }
 
     .menuBtn .menu_nohover,
