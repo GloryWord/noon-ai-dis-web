@@ -70,7 +70,7 @@
 
 .logo img {
     width: 100%;
-    margin: auto;
+    margin: 28px auto 36px;
     cursor: pointer;
 }
 
@@ -83,14 +83,9 @@
     margin: 0 54px 0 0;
 }
 
-.flow .flowMenu:nth-child(3) {
-    display: flex;
-    margin: 0 70px 0 0;
-}
-
 .flow .flowMenu:nth-child(4) {
     display: flex;
-    margin: 0 118px 0 0;
+    margin: 0 134px 0 0;
 }
 
 .flow .flowMenu a {
@@ -418,6 +413,32 @@
         width: 36px;
         height: 36px;
         margin: auto 16px auto 0;
+    }
+
+    .menuBtn.noLogin {
+        margin: auto 16px auto auto;
+    }
+
+    .menuBtn.noLogin .loginMove {
+        width: 64px;
+        height: 24px;
+        margin: auto;  
+        border-radius: 13px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        display: flex;
+    }
+
+    .menuBtn.noLogin .loginMove a p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
     }
 
     .menuBtn .menu_nohover,

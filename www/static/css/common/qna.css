@@ -394,7 +394,7 @@
     }
 }
 
-@media(max-width:600px){
+@media(max-width:900px){
     .qna_content .qnaHeader {
         width: 288px;
         display: flex;
