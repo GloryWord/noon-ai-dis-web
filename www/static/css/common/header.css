@@ -53,18 +53,19 @@
 }
 
 .header_content {
-    width: 100%;
+    width: 988px;
     height: 100%;
     display: flex;
     justify-content: center;
     position: relative;
+    margin: 0 auto;
 }
 
 .logo {
     width: 198px;
     height: auto;
     display: flex;
-    margin: auto 60px auto auto;
+    margin: auto 60px auto 0;
     cursor: pointer;
 }
 
@@ -85,7 +86,7 @@
 
 .flow .flowMenu:nth-child(4) {
     display: flex;
-    margin: 0 134px 0 0;
+    margin: 0 auto 0 0;
 }
 
 .flow .flowMenu a {
@@ -212,12 +213,12 @@
     width: auto;
     height: 100%;
     display: flex;
-    margin: 0 6px 0 0;
+    flex-direction: column;
+    margin: 0 6px 0 auto;
     justify-content: right;
 }
 
 .login_user p {
-    margin: auto 0;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;
     font-weight: bold;
@@ -227,6 +228,20 @@
     letter-spacing: normal;
     text-align: right;
     color: #16284d;
+    margin: auto 0 2px;
+}
+
+.login_user span {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: 0 0 auto;
 }
 
 .menuBtn {
@@ -235,7 +250,7 @@
     display: flex;
     margin: 0;
     display: flex;
-    margin: auto auto auto 0;
+    margin: auto 0;
     cursor: pointer;
     border-radius: 50%;
     background-color: #f9f9f9;
@@ -370,8 +385,14 @@
         width: 198px;
         height: auto;
         display: flex;
-        margin: auto 658px auto auto;
+        margin: auto auto auto 16px;
         cursor: pointer;
+    }
+
+    .menuBtn {
+        width: 36px;
+        height: 36px;
+        margin: auto 16px auto 0;
     }
 
     .flow {
@@ -389,6 +410,10 @@
         width: 100%;
         display: flex;
         z-index: 15;
+    }
+
+    .header_content {
+        width: 100%;
     }
     
     .logo {

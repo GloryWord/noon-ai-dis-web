@@ -6,7 +6,8 @@ $(document).ready(function () {
         $(".menuBtn").addClass("noLogin")
     }
     else{
-        $(".login_user").html(loginUser);
+        $(".login_user").html(loginUser.split("<span>")[0]);
+        $(".header_content .login_user").html(loginUser);
         $(".menuBtn").removeClass("noLogin")
     }
 

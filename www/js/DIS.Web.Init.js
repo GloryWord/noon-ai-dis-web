@@ -1194,7 +1194,7 @@ init = {
                     allCheck = "true"
                 }
             }
-            if(videoDuration[0]>300 && $(".restore:checked").val()=="false"){
+            if (videoDuration[0] > 300 && $(".restore:checked").val() == "false") {
                 Swal.fire({
                     title: '파일 길이 초과',
                     html:
@@ -1206,7 +1206,7 @@ init = {
                     icon: "error"
                 });
             }
-            else if(videoDuration[0]>180 && $(".restore:checked").val()=="true"){
+            else if (videoDuration[0] > 180 && $(".restore:checked").val() == "true") {
                 Swal.fire({
                     title: '파일 길이 초과',
                     html:
@@ -1259,9 +1259,12 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
+        var mainLog = requestTable.getAllEncRequestList()
+        $(".mainLog").html(mainLog[0]);
+        console.log(mainLog[1])
+
         function reloadProgress() {
-            if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
-            else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+            var reqProgress = requestTable.getEncProgress();
             if (reqProgress['progress']) {
                 var progress = reqProgress['progress']
                 $('#progress').html(progress);
@@ -1276,9 +1279,8 @@ init = {
                     else if (status.indexOf("SUCCESS") == 1) {
                         if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
                         else {
-                            if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                            else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                            $(".mainLog").html(mainLog);
+                            var loadLog = requestTable.getAllEncRequestList()
+                            $(".mainLog").html(loadLog[0]);
                         }
                     }
                 }
@@ -1502,10 +1504,6 @@ init = {
                 }
             }
         });
-
-        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-        $(".mainLog").html(mainLog);
 
         if (screen.width <= 600) {
             m_load('.mainLog', '5');
@@ -1955,10 +1953,10 @@ init = {
             let todayMonth = todayDate.getMonth() + 1
             let startDate = `${year}. ${month}. 01`
             let endDate
-            if(month==String(todayMonth).padStart(2, "0")){
+            if (month == String(todayMonth).padStart(2, "0")) {
                 endDate = `${year}. ${month}. ${String(todayDate.getDate()).padStart(2, "0")}`
             }
-            else{
+            else {
                 let end = new Date(year, month, 0)
                 endDate = `${year}. ${month}. ${String(end.getDate()).padStart(2, "0")}`
             }
@@ -2060,13 +2058,13 @@ init = {
 
         $(document).on("change", "#searchMonth", function () {
             getHeaderData($("#searchMonth").val())
-        })        
+        })
 
         $(document).on("click", ".option", function () {
             let type = $(this).val()
             workHTML(JSON.parse(sessionStorage.getItem("workData")), type)
-        })    
-        
+        })
+
         // let yearMonth = `${currentYear}-${formattedMonth}`;
         // requestTable.getMonthFare(yearMonth).then((fares) => {
         //     console.log('fares.total_charge : ',fares.total_charge);
@@ -2107,7 +2105,7 @@ init = {
             let filename = $(this).parent().parent().children()[4].textContent.replace(/ /g, "").replace(/\n/g, "")
             let filetype = $(this).parent().parent().children()[5].textContent.replace(/ /g, "").replace(/\n/g, "")
             let rest = $(this).parent().parent().children()[6].textContent.replace(/ /g, "").replace(/\n/g, "")
-            requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData)=> {
+            requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData) => {
                 $(".priceContent").html(detailData)
             })
         })
@@ -2166,27 +2164,27 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            if(fileData.length==0){
+            if (fileData.length == 0) {
                 contentHTML += `<div class='contentInfo'>
                                     <div class='logContent num file' style='width:100%'>
                                         <p>내역이 없습니다.</p>
                                     </div>
                                 </div>`
             }
-            else{
+            else {
                 for (let i = 0; i < fileData.length; i++) {
                     let restorationData
                     let fileType
-                    if(fileData[i]["restoration"]==0){
+                    if (fileData[i]["restoration"] == 0) {
                         restorationData = "X"
                     }
-                    else{
+                    else {
                         restorationData = "O"
                     }
-                    if(fileData[i]["file_type"]=="image"){
+                    if (fileData[i]["file_type"] == "image") {
                         fileType = "이미지"
                     }
-                    else{
+                    else {
                         fileType = "영상"
                     }
                     contentHTML += `<div class='contentInfo'>
@@ -2247,19 +2245,19 @@ init = {
             let addCheck = ""
             let decCheck = ""
             let downCheck = ""
-            if(viewType=="all"){
+            if (viewType == "all") {
                 allCheck = "checked"
             }
-            else if(viewType=="encrypt"){
+            else if (viewType == "encrypt") {
                 encCheck = "checked"
             }
-            else if(viewType=="additional_encrypt"){
+            else if (viewType == "additional_encrypt") {
                 addCheck = "checked"
             }
-            else if(viewType=="decrypt"){
+            else if (viewType == "decrypt") {
                 decCheck = "checked"
             }
-            else if(viewType=="download"){
+            else if (viewType == "download") {
                 downCheck = "checked"
             }
             let contentHTML = `<div class="tableTitle work">
@@ -2318,14 +2316,14 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            if(workData["jobHistory"].length==0){
+            if (workData["jobHistory"].length == 0) {
                 contentHTML += `<div class='contentInfo'>
                                     <div class='logContent num work' style='width:100%'>
                                         <p>내역이 없습니다.</p>
                                     </div>
                                 </div>`
             }
-            else{
+            else {
                 for (let i = 0; i < workData["jobHistory"].length; i++) {
                     let fileType
                     let serviceType
@@ -2333,54 +2331,54 @@ init = {
                     let fileResolution = Number(workData["jobHistory"][i]["file_width"]) * Number(workData["jobHistory"][i]["file_height"])
                     let duration = "<p>-</p>"
                     let basePrice
-                    if(workData["jobHistory"][i]["file_type"]=="image"){
+                    if (workData["jobHistory"][i]["file_type"] == "image") {
                         fileType = "이미지"
                     }
-                    else{
+                    else {
                         fileType = "영상"
                     }
-        
-                    if(workData["jobHistory"][i]["request_type"]=="encrypt"){
+
+                    if (workData["jobHistory"][i]["request_type"] == "encrypt") {
                         serviceType = "비식별화"
                     }
-                    else if(workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
+                    else if (workData["jobHistory"][i]["request_type"] == "additional_encrypt") {
                         serviceType = "추가 비식별화"
                     }
-                    else if(workData["jobHistory"][i]["request_type"]=="decrypt"){
+                    else if (workData["jobHistory"][i]["request_type"] == "decrypt") {
                         serviceType = "부분 복호화"
                     }
-                    else if(workData["jobHistory"][i]["request_type"]=="download"){
+                    else if (workData["jobHistory"][i]["request_type"] == "download") {
                         serviceType = "다운로드"
                     }
-                    
-                    if(fileResolution<=921600){
+
+                    if (fileResolution <= 921600) {
                         hdType = `HD 이하`
                     }
-                    else if(fileResolution<=2073600){
+                    else if (fileResolution <= 2073600) {
                         hdType = `FHD 이하`
                     }
-                    else{
+                    else {
                         hdType = `FHD 초과`
                     }
-        
-                    if(fileType != "이미지"){
+
+                    if (fileType != "이미지") {
                         duration = `<span>${time_change(Number(workData["jobHistory"][i]["duration"]))}</span>
                                     <h5>(${price_three(Number(workData["jobHistory"][i]["duration"]))}초)</h5>`
                     }
-                    
-                    if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==1){
-                        basePrice = price_three(10000) 
+
+                    if (fileType == "영상" && workData["jobHistory"][i]["restoration"] == 1) {
+                        basePrice = price_three(10000)
                     }
-                    else if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==0){
-                        basePrice = price_three(7000) 
+                    else if (fileType == "영상" && workData["jobHistory"][i]["restoration"] == 0) {
+                        basePrice = price_three(7000)
                     }
-                    else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==1){
-                        basePrice = price_three(600) 
+                    else if (fileType == "이미지" && workData["jobHistory"][i]["restoration"] == 1) {
+                        basePrice = price_three(600)
                     }
-                    else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==0){
-                        basePrice = price_three(400) 
+                    else if (fileType == "이미지" && workData["jobHistory"][i]["restoration"] == 0) {
+                        basePrice = price_three(400)
                     }
-                    if(viewType=="all"){
+                    if (viewType == "all") {
                         contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num work'>
                                                 <p>${workData["jobHistory"][i]["id"]}</p>
@@ -2431,7 +2429,7 @@ init = {
                                             </div>
                                         </div>`
                     }
-                    else if(viewType=="encrypt" && workData["jobHistory"][i]["request_type"]=="encrypt"){
+                    else if (viewType == "encrypt" && workData["jobHistory"][i]["request_type"] == "encrypt") {
                         contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num work'>
                                                 <p>${workData["jobHistory"][i]["id"]}</p>
@@ -2482,7 +2480,7 @@ init = {
                                             </div>
                                         </div>`
                     }
-                    else if(viewType=="additional_encrypt" && workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
+                    else if (viewType == "additional_encrypt" && workData["jobHistory"][i]["request_type"] == "additional_encrypt") {
                         contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num work'>
                                                 <p>${workData["jobHistory"][i]["id"]}</p>
@@ -2533,7 +2531,7 @@ init = {
                                             </div>
                                         </div>`
                     }
-                    else if(viewType=="decrypt" && workData["jobHistory"][i]["request_type"]=="decrypt"){
+                    else if (viewType == "decrypt" && workData["jobHistory"][i]["request_type"] == "decrypt") {
                         contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num work'>
                                                 <p>${workData["jobHistory"][i]["id"]}</p>
@@ -2584,7 +2582,7 @@ init = {
                                             </div>
                                         </div>`
                     }
-                    else if(viewType=="download" && workData["jobHistory"][i]["request_type"]=="download"){
+                    else if (viewType == "download" && workData["jobHistory"][i]["request_type"] == "download") {
                         contentHTML += `<div class='contentInfo'>
                                             <div class='logContent num work'>
                                                 <p>${workData["jobHistory"][i]["id"]}</p>
@@ -2644,22 +2642,269 @@ init = {
         }
     },
 
-    cash: function () {
-        requestTable.getCashHistory('2023-09-01', '2023-09-15');
-        $(".cashTableContent").paging({
-            number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
-            pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
-            number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
-            stealth_mode: false, //default false | takes: Boolean true | false
-            theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
-            animate: false, //default true | takes: true | false
-            onBeforeInit: function (instance, $el) { },
-            onAfterInit: function (instance, $el) { },
-            onBeforeEveryDraw: function (instance, $pager) { },
-            onAfterEveryDraw: function (instance, $pager) { },
-            onFirstPage: function (instance, $pager) { },
-            onLastPage: function (instance, $pager) { }
-        });
+    cash: function async() {
+        function getCash(start, end) {
+            requestTable.getCashHistory(start, end).then((cashData) => {
+                sessionStorage.setItem("cashData", JSON.stringify(cashData))
+                tableCreate(JSON.parse(sessionStorage.getItem("cashData")), "all")
+            })
+        }
+
+        function tablePaging() {
+            $(".cashTableContent").paging({
+                number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+                pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+                number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+                stealth_mode: false, //default false | takes: Boolean true | false
+                theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+                animate: false, //default true | takes: true | false
+                onBeforeInit: function (instance, $el) { },
+                onAfterInit: function (instance, $el) { },
+                onBeforeEveryDraw: function (instance, $pager) { },
+                onAfterEveryDraw: function (instance, $pager) { },
+                onFirstPage: function (instance, $pager) { },
+                onLastPage: function (instance, $pager) { }
+            });
+        }
+
+        function checkDateDifference() {
+            // 입력 요소에서 날짜 값을 가져옵니다.
+            var date1 = new Date($(".startDate").val());
+            var date2 = new Date($(".endDate").val());
+
+            // 날짜 차이를 계산합니다.
+            var timeDiff = Math.abs(date2 - date1);
+            var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            // 날짜 차이가 1년 이상이면 alert를 표시합니다.
+            if (daysDiff >= 365) {
+                return false
+            } else {
+                return true
+            }
+        }
+
+        let todayDate = new Date()
+        let todayYear = todayDate.getFullYear()
+        let todayMonth = String(todayDate.getMonth() + 1).padStart(2, "0")
+        let todayDay = String(todayDate.getDate()).padStart(2, "0")
+        let startDate = `${todayYear}-${todayMonth}-01`
+        let endDate = `${todayYear}-${todayMonth}-${todayDay}`
+
+        getCash(startDate, endDate)
+
+        $(".priceText").text(`${price_three(comm.getNowPoint())}`)
+
+        $(document).on("click", ".option", function () {
+            let type = $(this).val()
+            tableCreate(JSON.parse(sessionStorage.getItem("cashData")), type)
+        })
+
+        $(document).on("change", ".endDate", function () {
+            if($(".startDate").val()==""){
+                Swal.fire({
+                    title: '시작날짜를 선택해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".endDate").val("")
+            }
+            else if($(".startDate").val()>$(".endDate").val()){
+                Swal.fire({
+                    title: '시작날짜를 종료날짜보다 \n크게 할 수 없어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".startDate").val("")
+                $(".endDate").val("")
+            }
+            else if(checkDateDifference()==false){
+                Swal.fire({
+                    title: '검색할 수 있는 \n최대 범위를 초과했어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".startDate").val("")
+                $(".endDate").val("")
+            }
+            else{
+                getCash($(".startDate").val(), $(".endDate").val())
+                $(".priceText").text(`${price_three(comm.getNowPoint())}`)
+            }
+        })
+
+        function tableCreate(cash, type) {
+            let tableHTML = `<div class="cashTableHeader">
+                                <div class="cashHeader date">
+                                    <p>일 시</p>
+                                </div>
+                                <div class="cashHeader content">
+                                    <p>내 용</p>
+                                </div>
+                                <div class="cashHeader cash">
+                                    <p>캐 시</p>
+                                </div>
+                            </div>
+                            <div class="cashTableContent">
+                                <div class="cashList">`
+            if (cash.length == 0) {
+                tableHTML += `<div class='cashBox'>
+                                <div class="cashContent date" style='width:100%;'>
+                                    <p>내역이 없습니다.</p>
+                                </div>
+                            </div>`
+            }
+            else {
+                if (type == "all") {
+                    for (let i = 0; i < cash.length; i++) {
+                        let contentHTML = ``
+                        let plusAndminus = ``
+                        let cashType = ``
+                        if (cash[i]["transaction_type"] == "charge") {
+                            contentHTML = `<h2>캐시 충전</h2>`
+                            cashType = `plusCash`
+                            plusAndminus = `+`
+                        }
+                        else {
+                            let serviceType
+                            if (cash[i]["request_type"] == "encrypt") {
+                                serviceType = "비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "additional_encrypt") {
+                                serviceType = "추가 비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "decrypt") {
+                                serviceType = "부분 복호화"
+                            }
+                            else if (cash[i]["request_type"] == "download") {
+                                serviceType = "다운로드"
+                            }
+                            contentHTML = `<h5>${cash[i]["user_name"]}</h5>
+                                            <h3>${serviceType}</h3>
+                                            <h4>{파일명}</h4>`
+                            cashType = `minusCash`
+                            plusAndminus = `-`
+                        }
+                        tableHTML += `<div class='cashBox'>
+                                        <div class="cashContent date">
+                                            <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                        </div>
+                                        <div class="cashContent content">
+                                            <div class="textArea">
+                                                ${contentHTML}
+                                            </div>
+                                        </div>
+                                        <div class="cashContent cash">
+                                            <span class="${cashType}">${plusAndminus} ${price_three(cash[i]["amount"])}</span>
+                                        </div>
+                                    </div>`
+                    }
+                }
+                else if (type == "charge") {
+                    // let chargeLength = 0
+        
+                    // for(let i;i<cash.length;i++){
+                    //     if(cash[i]["transaction_type"] == "charge"){
+                    //         chargeLength += 1
+                    //     }
+                    // }
+
+                    // if(chargeLength==0){
+                    //     tableHTML += `<div class='cashBox'>
+                    //                     <div class="cashContent date" style='width:100%;'>
+                    //                         <p>내역이 없습니다.</p>
+                    //                     </div>
+                    //                 </div>`
+                    // }
+                    // else{
+                        for (let i = 0; i < cash.length; i++) {
+                            if (cash[i]["transaction_type"] == "charge") {
+                                let contentHTML = `<h2>캐시 충전</h2>`
+                                let cashType = `plusCash`
+                                tableHTML += `<div class='cashBox'>
+                                                <div class="cashContent date">
+                                                    <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                                </div>
+                                                <div class="cashContent content">
+                                                    <div class="textArea">
+                                                        ${contentHTML}
+                                                    </div>
+                                                </div>
+                                                <div class="cashContent cash">
+                                                    <span class="${cashType}">+ ${price_three(cash[i]["amount"])}</span>
+                                                </div>
+                                            </div>`
+                            }
+                        }
+                    // }
+                }
+                else if (type == "use") {
+                    // let useLength = 0
+        
+                    // for(let i;i<cash.length;i++){
+                    //     if(cash[i]["transaction_type"] == "withdraw"){
+                    //         useLength += 1
+                    //     }
+                    // }
+
+                    // if(useLength==0){
+                    //     tableHTML += `<div class='cashBox'>
+                    //                     <div class="cashContent date" style='width:100%;'>
+                    //                         <p>내역이 없습니다.</p>
+                    //                     </div>
+                    //                 </div>`
+                    // }
+                    // else{
+                        for (let i = 0; i < cash.length; i++) {
+                            if (cash[i]["transaction_type"] == "withdraw") {
+                                let cashType = ``
+                                let serviceType
+                                if (cash[i]["request_type"] == "encrypt") {
+                                    serviceType = "비식별화"
+                                }
+                                else if (cash[i]["request_type"] == "additional_encrypt") {
+                                    serviceType = "추가 비식별화"
+                                }
+                                else if (cash[i]["request_type"] == "decrypt") {
+                                    serviceType = "부분 복호화"
+                                }
+                                else if (cash[i]["request_type"] == "download") {
+                                    serviceType = "다운로드"
+                                }
+                                let contentHTML = `<h5>${cash[i]["user_name"]}</h5>
+                                                <h3>${serviceType}</h3>
+                                                <h4>{파일명}</h4>`
+                                cashType = `minusCash`
+                                tableHTML += `<div class='cashBox'>
+                                                <div class="cashContent date">
+                                                    <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                                </div>
+                                                <div class="cashContent content">
+                                                    <div class="textArea">
+                                                        ${contentHTML}
+                                                    </div>
+                                                </div>
+                                                <div class="cashContent cash">
+                                                    <span class="${cashType}">- ${price_three(cash[i]["amount"])}</span>
+                                                </div>
+                                            </div>`
+                            }
+                        }
+                    // }
+                }
+            }
+            tableHTML += `    </div>
+                                </div>`
+
+            $(".tableContentArea").html(tableHTML)
+            tablePaging()
+        }
     },
 
     qna: function () {
