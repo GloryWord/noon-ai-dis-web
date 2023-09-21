@@ -839,7 +839,7 @@ init = {
 
         function reloadProgress() {
             let progressID = urlParams.get('id');
-            if (service == 'encrypt') progressObject = requestTable.getEncProgress();
+            if (service == 'encrypt') progressObject = requestTable.getEncProgress(progressID);
             else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
             else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
             else if (service == 'check') progressObject = requestTable.getCheckProgress(progressID);
@@ -3845,7 +3845,8 @@ init = {
                     var fileName = fileList[0];
 
                     $(document).on("click", "#signedUrl", function () {
-                        comm.meterDownload(eventIndex, type, fileName, fileSize);
+                        let additionalID = comm.getAdditionalID(eventIndex, fileName);
+                        comm.meterDownload(eventIndex, type, fileName, fileSize, additionalID[0]);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileName], requestType);
                     })
@@ -3890,8 +3891,10 @@ init = {
 
                     $(document).on("click", ".imgConfirm", function () {
                         console.log(selectModalImg)
+                        let additionalID = comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
+                        additionalID = additionalID.join('');
                         var selectSize = signedUrl[selectModalImg][1];
-                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize, additionalID);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                     });
@@ -3978,8 +3981,8 @@ init = {
                                         var fileUrl = signedUrl[0][0];
                                         var fileSize = signedUrl[0][1];
                                         location.href = fileUrl;
-
-                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                        let additionalIDs = comm.getAdditionalID(eventIndex, '');
+                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize, additionalIDs);
                                         let requestType = 'download';
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
                                         resolve();
