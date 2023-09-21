@@ -277,31 +277,34 @@ init = {
 
         $(".curTenant").html(temp);
 
-        function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            if (encProgress['progress']) {
-                var progress = encProgress['progress']
-                $('#progress').html(progress);
-                var status = encProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            var mainLog = requestTable.getRecentRequest('encrypt');
-                            $(".mainLog").html(mainLog);
-                        }
-                    }
-                }
-            }
-        }
+        // function reloadProgress() {
+        //     var encProgress = requestTable.getEncProgress();
+        //     if (encProgress['progress']) {
+        //         var progress = encProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = encProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     var mainLog = requestTable.getRecentRequest('encrypt');
+        //                     $(".mainLog").html(mainLog);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        reloadProgress();
+        // reloadProgress();
+
+        var mainLog = requestTable.getRecentRequest('encrypt');
+        $(".mainLog").html(mainLog);
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -840,10 +843,10 @@ init = {
         function reloadProgress() {
             let progressID = urlParams.get('id');
             if (service == 'encrypt') progressObject = requestTable.getEncProgress(progressID);
-            else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
-            else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
+            else if (service == 'decrypt') progressObject = requestTable.getDecProgress(progressID);
+            else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress(progressID);
             else if (service == 'check') progressObject = requestTable.getCheckProgress(progressID);
-            else if (service == 'sector') progressObject = requestTable.getSectorProgress();
+            else if (service == 'sector') progressObject = requestTable.getSectorProgress(progressID);
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
@@ -1259,34 +1262,36 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
-        function reloadProgress() {
-            if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
-            else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
-            if (reqProgress['progress']) {
-                var progress = reqProgress['progress']
-                $('#progress').html(progress);
-                var status = reqProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                            else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                            $(".mainLog").html(mainLog);
-                        }
-                    }
-                }
-            }
-        }
+        // function reloadProgress() {
+        //     if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
+        //     else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+        //     if (reqProgress['progress']) {
+        //         var progress = reqProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = reqProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        //                     else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        //                     $(".mainLog").html(mainLog);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        reloadProgress();
-
+        // reloadProgress();
+        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        $(".mainLog").html(mainLog);
         $(document).on("click", ".allSearch", function () {
             if ($('.allSearch').is(':checked')) {
                 $(".filter_video").prop("checked", true);

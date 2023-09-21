@@ -12,7 +12,7 @@ DIS.Web.RequestTable = DIS.Web.RequestTable || {};
  */
 var requestTable = DIS.Web.RequestTable;
 requestTable = {
-    getEncProgress: function () {
+    getEncProgress: function (progressID) {
         var result = {
             'progress': '',
             'type': '',
@@ -22,8 +22,8 @@ requestTable = {
 
         let responseMessage;
 
-        let baseUrl = '/api/progress/encrypt'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/encrypt?requestID=${progressID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -49,7 +49,7 @@ requestTable = {
         return result;
     },
 
-    getDecProgress: function () {
+    getDecProgress: function (progressID) {
         var result = {
             'progress': '',
             'type': '',
@@ -59,8 +59,8 @@ requestTable = {
 
         let responseMessage;
 
-        let baseUrl = '/api/progress/decrypt'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/decrypt?requestID=${progressID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -71,7 +71,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 if (data.progress) {
-                    result['progress'] = data.progress['encrypt_progress'];
+                    result['progress'] = data.progress['decrypt_progress'];
                     result['status'] = data.progress['status'];
                     result['complete'] = data.progress['complete'];
                 }
@@ -85,15 +85,15 @@ requestTable = {
         return result;
     },
 
-    getThumbProgress: function () {
+    getThumbProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/thumbnail'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/thumbnail?requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -144,15 +144,15 @@ requestTable = {
         return result;
     },
 
-    getSectorProgress: function () {
+    getSectorProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/sector'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/sector?requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
