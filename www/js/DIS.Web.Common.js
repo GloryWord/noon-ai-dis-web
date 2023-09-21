@@ -672,9 +672,16 @@ comm = {
         });
     },
 
-    meterDownload: function (requestIndex, fileType, fileName, fileSize) {
-        let baseUrl = '/api/meterUsage/download'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+    meterDownload: function (requestIndex, fileType, fileName, fileSize, additionalID) {
+        let baseUrl = '/api/meterUsage/download';
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        console.log({
+            requestIndex,
+            fileType,
+            fileName,
+            fileSize,
+            additionalID
+        });
 
         $.ajax({
             method: "post",
@@ -683,7 +690,8 @@ comm = {
                 requestIndex,
                 fileType,
                 fileName,
-                fileSize
+                fileSize,
+                additionalID
             },
             xhrFields: {
                 withCredentials: true
@@ -1109,6 +1117,48 @@ comm = {
                 };
             }
         }
+    },
+
+    getNowPoint: function () {
+        let baseUrl = `/api/point`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let pointBalance;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                pointBalance = result.point_balance;
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return pointBalance;
+    },
+
+    getAdditionalID: function (encryptID, fileName) {
+        let baseUrl = `/api/additional/id?encryptID=${encryptID}&fileName=${fileName}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let additionalID;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                additionalID = result.additionalID;
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return additionalID;
     },
 
     test: function (requestIndex) {

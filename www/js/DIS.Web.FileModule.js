@@ -981,8 +981,8 @@ fileModule = {
             postData['bitrate'] = JSON.stringify(bitrateArray);
             postData['videoDuration'] = JSON.stringify(videoDuration);
             postData['requestIndex'] = requestIndex;
-            resolve();
-        }).then(() => {
+            resolve(requestIndex);
+        }).then((requestIndex) => {
             let baseUrl = '/api/sendMessage/encrypt'
             let apiUrl = apiUrlConverter('encrypt', baseUrl)
             $.ajax({
@@ -1012,7 +1012,7 @@ fileModule = {
                     icon:'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/loading?type=' + fileType + '&service=encrypt';
+                        location.href = '/loading?type=' + fileType + '&service=encrypt&id=' + requestIndex;
                     }
                 })
             })
