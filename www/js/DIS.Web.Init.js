@@ -1990,10 +1990,6 @@ init = {
             });
         }
 
-        function dateLength(inputMonth){
-            
-        }
-
         function getHeaderData(yearMonth) {
             requestTable.getMonthFare(yearMonth).then((fares) => {
                 console.log('fares.total_charge : ', fares.total_charge);
@@ -2170,65 +2166,74 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            for (let i = 0; i < fileData.length; i++) {
-                let restorationData
-                let fileType
-                if(fileData[i]["restoration"]==0){
-                    restorationData = "X"
-                }
-                else{
-                    restorationData = "O"
-                }
-                if(fileData[i]["file_type"]=="image"){
-                    fileType = "이미지"
-                }
-                else{
-                    fileType = "영상"
-                }
+            if(fileData.length==0){
                 contentHTML += `<div class='contentInfo'>
-                                            <div class='logContent num file'>
-                                                <p>${fileData[i]["id"]}</p>
+                                    <div class='logContent num file' style='width:100%'>
+                                        <p>내역이 없습니다.</p>
+                                    </div>
+                                </div>`
+            }
+            else{
+                for (let i = 0; i < fileData.length; i++) {
+                    let restorationData
+                    let fileType
+                    if(fileData[i]["restoration"]==0){
+                        restorationData = "X"
+                    }
+                    else{
+                        restorationData = "O"
+                    }
+                    if(fileData[i]["file_type"]=="image"){
+                        fileType = "이미지"
+                    }
+                    else{
+                        fileType = "영상"
+                    }
+                    contentHTML += `<div class='contentInfo'>
+                                        <div class='logContent num file'>
+                                            <p>${fileData[i]["id"]}</p>
+                                        </div>
+                                        <div class='logContent user file'>
+                                            <p>${fileData[i]["fk_account_name"]}</p>
+                                        </div>
+                                        <div class='logContent start file'>
+                                            <p>${fileData[i]["upload_datetime"]}</p>
+                                        </div>
+                                        <div class='logContent recent file'>
+                                            <p>${fileData[i]["recent_date"]}</p>
+                                        </div>
+                                        <div class='logContent filename file'>
+                                            <p>${fileData[i]["upload_filename"]}</p>
+                                        </div>
+                                        <div class='logContent filetype file'>
+                                            <p>${fileType}</p>
+                                        </div>
+                                        <div class='logContent encrpyt file'>
+                                            <p>${restorationData}</p>
+                                        </div>
+                                        <div class='logContent additional file'>
+                                            <p>${fileData[i]["masking_success"]} 회</p>
+                                        </div>
+                                        <div class='logContent decrypt file'>
+                                            <p>${fileData[i]["restoration_success"]} 회</p>
+                                        </div>
+                                        <div class='logContent download file'>
+                                            <p>${fileData[i]["download_count"]} 회</p>
+                                        </div>
+                                        <div class='logContent end file'>
+                                            <p>${fileData[i]["expiration_datetime"]}</p>
+                                        </div>
+                                        <div class='logContent price file'>
+                                            <p>${price_three(Number(fileData[i]["file_charge"]))}</p>
+                                        </div>
+                                        <div class='logContent detail file'>
+                                            <div class='detailBtn' data-idx=${fileData[i]["id"]}>
+                                                <span>상세 내역</span>
+                                                <img src='./static/imgs/usage/detailPriceIcon.png'>
                                             </div>
-                                            <div class='logContent user file'>
-                                                <p>${fileData[i]["fk_account_name"]}</p>
-                                            </div>
-                                            <div class='logContent start file'>
-                                                <p>${fileData[i]["upload_datetime"]}</p>
-                                            </div>
-                                            <div class='logContent recent file'>
-                                                <p>${fileData[i]["recent_date"]}</p>
-                                            </div>
-                                            <div class='logContent filename file'>
-                                                <p>${fileData[i]["upload_filename"]}</p>
-                                            </div>
-                                            <div class='logContent filetype file'>
-                                                <p>${fileType}</p>
-                                            </div>
-                                            <div class='logContent encrpyt file'>
-                                                <p>${restorationData}</p>
-                                            </div>
-                                            <div class='logContent additional file'>
-                                                <p>${fileData[i]["masking_success"]} 회</p>
-                                            </div>
-                                            <div class='logContent decrypt file'>
-                                                <p>${fileData[i]["restoration_success"]} 회</p>
-                                            </div>
-                                            <div class='logContent download file'>
-                                                <p>${fileData[i]["download_count"]} 회</p>
-                                            </div>
-                                            <div class='logContent end file'>
-                                                <p>${fileData[i]["expiration_datetime"]}</p>
-                                            </div>
-                                            <div class='logContent price file'>
-                                                <p>${price_three(Number(fileData[i]["file_charge"]))}</p>
-                                            </div>
-                                            <div class='logContent detail file'>
-                                                <div class='detailBtn' data-idx=${fileData[i]["id"]}>
-                                                    <span>상세 내역</span>
-                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
-                                                </div>
-                                            </div>
-                                        </div>`
+                                        </div>
+                                    </div>`
+                }
             }
             contentHTML += `</div>
                                 </div>`
@@ -2313,314 +2318,323 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            for (let i = 0; i < workData["jobHistory"].length; i++) {
-                let fileType
-                let serviceType
-                let hdType
-                let fileResolution = Number(workData["jobHistory"][i]["file_width"]) * Number(workData["jobHistory"][i]["file_height"])
-                let duration = "<p>-</p>"
-                let basePrice
-                if(workData["jobHistory"][i]["file_type"]=="image"){
-                    fileType = "이미지"
-                }
-                else{
-                    fileType = "영상"
-                }
-    
-                if(workData["jobHistory"][i]["request_type"]=="encrypt"){
-                    serviceType = "비식별화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
-                    serviceType = "추가 비식별화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="decrypt"){
-                    serviceType = "부분 복호화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="download"){
-                    serviceType = "다운로드"
-                }
-                
-                if(fileResolution<=921600){
-                    hdType = `HD 이하`
-                }
-                else if(fileResolution<=2073600){
-                    hdType = `FHD 이하`
-                }
-                else{
-                    hdType = `FHD 초과`
-                }
-    
-                if(fileType != "이미지"){
-                    duration = `<span>${time_change(Number(workData["jobHistory"][i]["duration"]))}</span>
-                                <h5>(${price_three(Number(workData["jobHistory"][i]["duration"]))}초)</h5>`
-                }
-                
-                if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==1){
-                    basePrice = price_three(10000) 
-                }
-                else if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==0){
-                    basePrice = price_three(7000) 
-                }
-                else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==1){
-                    basePrice = price_three(600) 
-                }
-                else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==0){
-                    basePrice = price_three(400) 
-                }
-                if(viewType=="all"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+            if(workData["jobHistory"].length==0){
+                contentHTML += `<div class='contentInfo'>
+                                    <div class='logContent num work' style='width:100%'>
+                                        <p>내역이 없습니다.</p>
+                                    </div>
+                                </div>`
+            }
+            else{
+                for (let i = 0; i < workData["jobHistory"].length; i++) {
+                    let fileType
+                    let serviceType
+                    let hdType
+                    let fileResolution = Number(workData["jobHistory"][i]["file_width"]) * Number(workData["jobHistory"][i]["file_height"])
+                    let duration = "<p>-</p>"
+                    let basePrice
+                    if(workData["jobHistory"][i]["file_type"]=="image"){
+                        fileType = "이미지"
+                    }
+                    else{
+                        fileType = "영상"
+                    }
+        
+                    if(workData["jobHistory"][i]["request_type"]=="encrypt"){
+                        serviceType = "비식별화"
+                    }
+                    else if(workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
+                        serviceType = "추가 비식별화"
+                    }
+                    else if(workData["jobHistory"][i]["request_type"]=="decrypt"){
+                        serviceType = "부분 복호화"
+                    }
+                    else if(workData["jobHistory"][i]["request_type"]=="download"){
+                        serviceType = "다운로드"
+                    }
+                    
+                    if(fileResolution<=921600){
+                        hdType = `HD 이하`
+                    }
+                    else if(fileResolution<=2073600){
+                        hdType = `FHD 이하`
+                    }
+                    else{
+                        hdType = `FHD 초과`
+                    }
+        
+                    if(fileType != "이미지"){
+                        duration = `<span>${time_change(Number(workData["jobHistory"][i]["duration"]))}</span>
+                                    <h5>(${price_three(Number(workData["jobHistory"][i]["duration"]))}초)</h5>`
+                    }
+                    
+                    if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==1){
+                        basePrice = price_three(10000) 
+                    }
+                    else if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==0){
+                        basePrice = price_three(7000) 
+                    }
+                    else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==1){
+                        basePrice = price_three(600) 
+                    }
+                    else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==0){
+                        basePrice = price_three(400) 
+                    }
+                    if(viewType=="all"){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="encrypt" && workData["jobHistory"][i]["request_type"]=="encrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="additional_encrypt" && workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="decrypt" && workData["jobHistory"][i]["request_type"]=="decrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="download" && workData["jobHistory"][i]["request_type"]=="download"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if(viewType=="encrypt" && workData["jobHistory"][i]["request_type"]=="encrypt"){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if(viewType=="additional_encrypt" && workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if(viewType=="decrypt" && workData["jobHistory"][i]["request_type"]=="decrypt"){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if(viewType=="download" && workData["jobHistory"][i]["request_type"]=="download"){
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
                 }
             }
             contentHTML += `</div>
