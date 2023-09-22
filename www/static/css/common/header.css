@@ -261,7 +261,7 @@
     width: auto;
     height: auto;
     display: flex;
-    margin: 32px auto 28px 26px;
+    margin: 32px 0 28px auto;
     background: none;
 }
 
@@ -393,6 +393,14 @@
         width: 36px;
         height: 36px;
         margin: auto 16px auto 0;
+    }
+    
+    .menuBtn.noLogin {
+        width: auto;
+        height: auto;
+        display: flex;
+        margin: 32px 16px 28px auto;
+        background: none;
     }
 
     .flow {
