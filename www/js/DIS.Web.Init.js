@@ -2925,6 +2925,87 @@ init = {
                 $(".checkService").addClass("active")
             }
         });
+
+        $(document).on("click", ".confirmBtn", function () {
+            if ($('.nameInfo').val()=="") {
+                Swal.fire({
+                    title: '이름(기관명)을 \n입력해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else{
+                if ($('.emailInfo').val()=="") {
+                    Swal.fire({
+                        title: '이메일을 입력해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else{
+                    if ($('.typeInfo').val()=="") {
+                        Swal.fire({
+                            title: '문의 유형을 입력해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        if ($('.phoneInfo').val()=="") {
+                            Swal.fire({
+                                title: '연락처를 입력해주세요.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            });
+                        }
+                        else{
+                            if ($('.titleInfo').val()=="") {
+                                Swal.fire({
+                                    title: '문의 제목을 입력해주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                });
+                            }
+                            else{
+                                if ($('.contentInfo').val()=="") {
+                                    Swal.fire({
+                                        title: '문의 내용을 입력해주세요.',
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
+                                    });
+                                }
+                                else{
+                                    if ($(".agreeServiceCheck").is(":checked")==false) {
+                                        Swal.fire({
+                                            title: '개인정보 수집 및 이용에 \n동의해주세요.',
+                                            showConfirmButton: false,
+                                            showDenyButton: true,
+                                            denyButtonText: "확 인",
+                                            icon: "error"
+                                        });
+                                    }
+                                    else{
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
     },
 
     decrypt_log: function () {
