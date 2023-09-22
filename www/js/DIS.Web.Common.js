@@ -339,7 +339,8 @@ comm = {
             resultStr = `noLogin`
         }
         else{
-            resultStr = "<p>" + result.user_name + '님</p>'
+            resultStr = `<p>${result.user_name}님</p>
+                        <span>${price_three(comm.getNowPoint())} 캐시</span>`
         }
         return resultStr;
     },
