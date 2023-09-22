@@ -3851,7 +3851,7 @@ init = {
 
                     $(document).on("click", "#signedUrl", function () {
                         let additionalID = comm.getAdditionalID(eventIndex, fileName);
-                        comm.meterDownload(eventIndex, type, fileName, fileSize, additionalID[0]);
+                        comm.meterDownload(eventIndex, type, fileName, fileSize, additionalID[0]); // complete
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileName], requestType);
                     })
@@ -3899,7 +3899,8 @@ init = {
                         let additionalID = comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
                         additionalID = additionalID.join('');
                         var selectSize = signedUrl[selectModalImg][1];
-                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize, additionalID);
+                        // comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize, additionalID);
+                        comm.meterDownload(eventIndex, type, additionalID);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                     });
@@ -3987,7 +3988,8 @@ init = {
                                         var fileSize = signedUrl[0][1];
                                         location.href = fileUrl;
                                         let additionalIDs = comm.getAdditionalID(eventIndex, '');
-                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize, additionalIDs);
+                                        // comm.meterDownload(eventIndex, type, 'Download.zip', fileSize, additionalIDs);
+                                        comm.meterDownload(eventIndex, type, fileList, additionalIDs);
                                         let requestType = 'download';
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
                                         resolve();

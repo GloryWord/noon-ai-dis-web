@@ -672,9 +672,10 @@ comm = {
         });
     },
 
-    meterDownload: function (requestIndex, fileType, fileName, fileSize, additionalID) {
+    meterDownload: function (requestIndex, fileType, additionalID) {
         let baseUrl = '/api/meterUsage/download';
         let apiUrl = apiUrlConverter('util', baseUrl);
+        console.log('additionalID : ',additionalID);
 
         $.ajax({
             method: "post",
@@ -682,8 +683,6 @@ comm = {
             data: {
                 requestIndex,
                 fileType,
-                fileName,
-                fileSize,
                 additionalID
             },
             xhrFields: {
