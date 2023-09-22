@@ -676,7 +676,7 @@ comm = {
     meterDownload: function (requestIndex, fileType, additionalID) {
         let baseUrl = '/api/meterUsage/download';
         let apiUrl = apiUrlConverter('util', baseUrl);
-        console.log('additionalID : ',additionalID);
+        if(typeof(additionalID) == 'object') additionalID = additionalID.join('/');
 
         $.ajax({
             method: "post",
