@@ -470,7 +470,8 @@
     margin: 0 0 8px;
 }
 
-.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h3 {
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h3,
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h2 {
     font-family: SpoqaHanSansNeo-bold;
     font-size: 16px;
     font-weight: bold;
@@ -481,6 +482,10 @@
     text-align: left;
     color: #595959;
     margin: 0 0 8px;
+}
+
+.logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h2 {
+    margin: 38px auto 37px 0;
 }
 
 .logArea .tableArea .tableContentArea .cashTableContent .cashBox .cashContent .textArea h4 {

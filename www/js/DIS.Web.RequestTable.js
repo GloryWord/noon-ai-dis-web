@@ -373,6 +373,8 @@ requestTable = {
         let baseUrl = '/api/request/encrypt/all'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
 
+        let noConfirm = []
+
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -444,6 +446,7 @@ requestTable = {
                                 status = '<p>실패</p>'
                             }
                             else {
+                                noConfirm.push(requestList[i]['id'])
                                 status = '<p id="progress"></p>'
                             }
                         }
@@ -564,7 +567,7 @@ requestTable = {
             }
         }
 
-        return htmlStr;
+        return [htmlStr, noConfirm];
         // return requestList;
     },
 
@@ -1988,6 +1991,8 @@ requestTable = {
     getCashHistory: async function(startDate, endDate) {
         let baseUrl = `/api/history/cash?startDate=${startDate}&endDate=${endDate}`;
         let apiUrl = apiUrlConverter('util', baseUrl);
+        let results
+        let resultStr = ``
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -1996,12 +2001,13 @@ requestTable = {
             },
             async: false,
             success: function (result) {
+                results = result.cashHistory
                 console.log('getCashHistory result : ',result.cashHistory);
             },
             error: function() {
 
             }
         });
-        // return result;
+        return results;
     },
 }
