@@ -4311,13 +4311,11 @@ init = {
                                 setTimeout(function () {
                                     new Promise((resolve, reject) => {
                                         //파일 다운로드 경로 획득
-                                        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                        var fileUrl = signedUrl[0][0];
-                                        var fileSize = signedUrl[0][1];
+                                        let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                        let fileUrl = signedUrl[0][0];
                                         location.href = fileUrl;
                                         let additionalIDs = comm.getAdditionalID(eventIndex, '');
-                                        // comm.meterDownload(eventIndex, type, 'Download.zip', fileSize, additionalIDs);
-                                        comm.meterDownload(eventIndex, type, fileList, additionalIDs);
+                                        comm.meterDownload(eventIndex, type, additionalIDs);
                                         let requestType = 'download';
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
                                         resolve();
