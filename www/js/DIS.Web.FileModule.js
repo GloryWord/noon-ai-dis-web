@@ -1038,8 +1038,8 @@ fileModule = {
             }
             if (file == undefined) {
                 Swal.fire({
-                    title: '키 파일이 없습니다!',
-                    text: '키 파일을 업로드했는지 확인해주세요.',
+                    title: '암호 키 파일이 없습니다!',
+                    text: '암호 키 파일을 업로드했는지 확인해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -1137,7 +1137,7 @@ fileModule = {
         let result;
         if (!valid) {
             Swal.fire({
-                title: '복호화 키 불일치',
+                title: '암호 키 불일치',
                 text: msg,
                 showCancelButton: false,
                 showConfirmButton: false,
