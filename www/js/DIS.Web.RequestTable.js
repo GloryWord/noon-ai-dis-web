@@ -256,11 +256,12 @@ requestTable = {
                     // else{
                     //     var status = '<p id="progress"></p>'
                     // }
-
+                    
                     if (status == "<p>완료</p>") {
                         var disable = "";
-                        var m_disable = "";
+                        var m_disable = ""
                         var text = "상세정보";
+                        var background = ""
                     }
                     else if (status == "<p>실패</p>") {
                         var disable = "";
@@ -272,7 +273,9 @@ requestTable = {
                         var disable = "disable";
                         var m_disable = "style='pointer-events: none;'"
                         var text = "진행중";
+                        var background = ""
                     }
+
                     if (screen.width <= 600) {
                         htmlStr += '<div class="m_logContent" data-id="' + requestList[i]['id'] + '" data-type="' + type + '" ' + m_disable + '>\
                                         <div class="name_content" '+ css + '><p>' + namelist[0] + list + '</p></div>\
@@ -446,7 +449,7 @@ requestTable = {
                                 status = '<p>실패</p>'
                             }
                             else {
-                                noConfirm.push(requestList[i]['id'])
+                                // noConfirm.push(requestList[i]['id'])
                                 status = '<p id="progress"></p>'
                             }
                         }
@@ -933,7 +936,7 @@ requestTable = {
         var htmlStr = ''
         if (responseMessage == "no key list") {
             htmlStr += '<div class="tableContent">\
-                            <p>생성된 Key가 없어요</p>\
+                            <p>생성된 암호 키가 없어요</p>\
                         </div>'
         }
         else {

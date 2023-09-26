@@ -68,7 +68,7 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".keySelect", function () {
-        $('.selectText').text("Key 선택하기")
+        $('.selectText').text("암호 키 선택하기")
         $('.selectKey').data("idx", "")
         $("#genKeyName").val("")
     });

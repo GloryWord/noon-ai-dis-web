@@ -172,12 +172,12 @@
 
 .key_table .keyList .listHeader .headArea .change_head {
     width: 60px;
-    margin: 24px 16px auto 0;
+    margin: auto 16px auto 0;
 }
 
 .key_table .keyList .listHeader .headArea .delete_head {
     width: 60px;
-    margin: 24px 0 auto;
+    margin: auto 0 auto;
 }
 
 .key_table .keyList .listHeader .headArea h3 {

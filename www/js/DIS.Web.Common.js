@@ -485,7 +485,7 @@ comm = {
                         download(data.privateKey, data.keyName + ".pem", "text/plain")
                         resolve();
                     }).then(() => {
-                        Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
+                        Swal.fire('암호 키 발급이 완료되었습니다.', '', 'success').then(() => {
                             if (window.location.pathname == '/key') {
                                 location.reload();
                             }
@@ -498,7 +498,7 @@ comm = {
                 }
                 else if (data.message == 'fail') {
                     Swal.fire({
-                        title: '동일 이름의 키가 존재합니다.',
+                        title: '동일 이름의 암호 키가 존재합니다.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",

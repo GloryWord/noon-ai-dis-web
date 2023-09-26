@@ -456,7 +456,7 @@ init = {
             var check_small = /[a-z]/;    // 소문자
             if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
-                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -465,7 +465,7 @@ init = {
             }
             else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
-                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -513,8 +513,8 @@ init = {
             let notification = $(this).data("notification")
             if (validUntil < 90 && notification) {
                 Swal.fire({
-                    title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
-                    html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
+                    title: `해당 암호 키는 ${validUntil}일 뒤 \n만료됩니다.`,
+                    html: `선택한 암호 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 암호 키를 사용하거나 추후 다른 암호 키로 변경해 주세요.`,
                     showCancelButton: true,
                     confirmButtonText: '확인',
                     cancelButtonText: '일주일동안 알림 끄기'
@@ -691,9 +691,9 @@ init = {
             }
             else if (cKey == 0 || sKey == "") {
                 Swal.fire({
-                    title: '키 선택 오류',
+                    title: '암호 키 선택 오류',
                     html:
-                        '키를 선택하지 않으셨습니다.<br/>' +
+                        '암호 키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
@@ -872,7 +872,7 @@ init = {
                         if (service == 'encrypt') var msg = '비식별화가';
                         else if (service == 'decrypt') var msg = '복호화가';
                         else if (service == 'thumbnail') var msg = '썸네일 생성이';
-                        else if (service == 'check') var msg = '비식별화 추가가';
+                        else if (service == 'check') var msg = '비식별화 추가가\n';
                         else if (service == 'sector') var msg = '프레임 이미지 \n생성이';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
@@ -998,7 +998,7 @@ init = {
             var check_small = /[a-z]/;    // 소문자
             if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
-                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -1007,7 +1007,7 @@ init = {
             }
             else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
-                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -2997,7 +2997,7 @@ init = {
                                         });
                                     }
                                     else{
-                                        
+                                        console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.typeInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
                                     }
                                 }
                             }
@@ -3372,9 +3372,9 @@ init = {
             let key_idx = $(this).data("id");
             let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: `${keyName} 키를 변경하시겠습니까?`,
-                html: `${keyName} 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
-                 변경 후 ${keyName} 키로는 복호화가 불가능합니다.`,
+                title: `${keyName} 암호 키를 변경하시겠습니까?`,
+                html: `${keyName} 암호 키를 사용하여 비식별화한 기록들을 다른 암호 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 ${keyName} 암호 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -3385,9 +3385,9 @@ init = {
                     console.log(count);
                     if (changed) {
                         Swal.fire({
-                            title: '키 변경 완료',
+                            title: '암호 키 변경 완료',
                             icon: 'success',
-                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            html: `${count}개의 기록에 대해 <br>암호 키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
                             if (result.isConfirmed) location.reload();
@@ -3401,9 +3401,9 @@ init = {
             let key_idx = $(this).data("id");
             let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: `${keyName} 키를\n 삭제하시겠습니까?`,
-                html: `<p>${keyName} 키를 삭제하면 ${keyName} 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.</p>
-                        <input class='deleteKeyInput' placeholder='삭제할 KEY 이름을 입력해주세요.'>`,
+                title: `${keyName} 암호 키를\n 삭제하시겠습니까?`,
+                html: `<p>${keyName} 암호 키를 삭제하면 ${keyName} 암호 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.</p>
+                        <input class='deleteKeyInput' placeholder='삭제할 암호 키 이름을 입력해주세요.'>`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -3414,7 +3414,7 @@ init = {
                         const deleted = key.deleteKey(key_idx);
                         if (removed && deleted) {
                             Swal.fire({
-                                title: '키 삭제 완료',
+                                title: '암호 키 삭제 완료',
                                 icon: 'success',
                                 allowOutsideClick: false
                             }).then((result) => {
@@ -3423,7 +3423,7 @@ init = {
                         }
                         else {
                             Swal.fire({
-                                title: '키 삭제 실패',
+                                title: '암호 키 삭제 실패',
                                 html: '다시 시도해 주세요',
                                 icon: 'error',
                                 allowOutsideClick: false,
@@ -3434,8 +3434,8 @@ init = {
                     }
                     else if ($(".deleteKeyInput").val() == "") {
                         Swal.fire({
-                            title: '키 삭제 실패',
-                            html: '삭제할 KEY 이름을 \n입력해주세요.',
+                            title: '암호 키 삭제 실패',
+                            html: '삭제할 암호 키 이름을 \n입력해주세요.',
                             icon: 'error',
                             denyButtonText: "확 인",
                             showConfirmButton: false,
@@ -3444,8 +3444,8 @@ init = {
                     }
                     else if (keyName != $(".deleteKeyInput").val()) {
                         Swal.fire({
-                            title: '키 삭제 실패',
-                            html: '삭제할 KEY 이름이 \n일치하지 않습니다.',
+                            title: '암호 키 삭제 실패',
+                            html: '삭제할 암호 키 이름이 \n일치하지 않습니다.',
                             icon: 'error',
                             denyButtonText: "확 인",
                             showConfirmButton: false,
@@ -3474,7 +3474,7 @@ init = {
         $(document).on("click", "#generateKey", function () {
             if ($("#genKeyName").val() == "") {
                 Swal.fire({
-                    title: 'Key 이름을 입력해주세요.',
+                    title: '암호 키 이름을 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -3490,7 +3490,7 @@ init = {
                 var check_small = /[a-z]/;    // 소문자
                 if (genKeyName.length < 8 || genKeyName.length > 20) {
                     Swal.fire({
-                        title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                        title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -3508,7 +3508,7 @@ init = {
                 // }
                 else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                     Swal.fire({
-                        title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                        title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -4016,9 +4016,9 @@ init = {
             let key_idx = $(this).data("id");
 
             Swal.fire({
-                title: '해당 키를 변경하시겠습니까?',
-                html: `해당 키를 사용하여 비식별화한 기록을 다른 키로 복호화 할 수 있도록 변경합니다.
-                 변경 후 기존 키로는 복호화가 불가능합니다.`,
+                title: '해당 암호 키를 변경하시겠습니까?',
+                html: `해당 암호 키를 사용하여 비식별화한 기록을 다른 암호 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 기존 암호 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -4027,9 +4027,9 @@ init = {
                     const { changed, count } = await key.changeKeyElement(socket, key_idx, eventIndex);
                     if (changed) {
                         Swal.fire({
-                            title: '키 변경 완료',
+                            title: '암호 키 변경 완료',
                             icon: 'success',
-                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            html: `${count}개의 기록에 대해 <br>암호 키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
                             if (result.isConfirmed) location.reload();
@@ -4106,8 +4106,8 @@ init = {
                     else {
                         console.log('file_name : ' + file_name);
                         Swal.fire({
-                            title: '키 파일 업로드 실패',
-                            text: '키 파일을 다시 업로드해주세요.',
+                            title: '암호 키 파일 업로드 실패',
+                            text: '암호 키 파일을 다시 업로드해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -4154,8 +4154,8 @@ init = {
                     }
                     else {
                         Swal.fire({
-                            title: '키 파일 업로드 실패',
-                            text: '키 파일을 다시 업로드해주세요.',
+                            title: '암호 키 파일 업로드 실패',
+                            text: '암호 키 파일을 다시 업로드해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -4390,7 +4390,7 @@ init = {
                             const { valid, msg, keyPath } = verify_result;
                             if (!valid) {
                                 Swal.fire({
-                                    title: '복호화 키 불일치',
+                                    title: '암호 키 불일치',
                                     text: msg,
                                     showCancelButton: false,
                                     showConfirmButton: false,
@@ -4438,8 +4438,8 @@ init = {
                         else {
                             console.log('file_name : ' + file_name);
                             Swal.fire({
-                                title: '키 파일 업로드 실패',
-                                text: '키 파일을 다시 업로드해주세요.',
+                                title: '암호 키 파일 업로드 실패',
+                                text: '암호 키 파일을 다시 업로드해주세요.',
                                 showConfirmButton: false,
                                 showDenyButton: true,
                                 denyButtonText: "확 인",
