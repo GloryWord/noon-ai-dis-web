@@ -153,6 +153,8 @@ key = {
                     html: '기존 암호 키로 암호화된 정보를 새로운 암호 키로 암호화합니다..',
                     showCancelButton: false,
                     showLoaderOnConfirm: true,
+                    confirmButtonText: '확 인',
+                    cancelButtonText: '취 소',
                     preConfirm: () => {
                         let baseUrl = '/api/key/re-encryption/element'
                         let apiUrl = apiUrlConverter('key', baseUrl)

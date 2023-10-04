@@ -13,6 +13,10 @@ a {
     text-decoration: none;
 }
 
+a:focus {
+    outline: none;
+}
+
 .video-js .vjs-progress-holder .vjs-play-progress.highlight {
     background-color: yellow;
 }

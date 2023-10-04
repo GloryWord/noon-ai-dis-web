@@ -485,7 +485,7 @@ comm = {
                         download(data.privateKey, data.keyName + ".pem", "text/plain")
                         resolve();
                     }).then(() => {
-                        Swal.fire('암호 키 발급이 완료되었습니다.', '', 'success').then(() => {
+                        Swal.fire('암호 키 발급이 \n완료되었습니다.', '', 'success').then(() => {
                             if (window.location.pathname == '/key') {
                                 location.reload();
                             }
