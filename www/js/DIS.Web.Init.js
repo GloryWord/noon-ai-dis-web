@@ -763,9 +763,9 @@ init = {
         function downloadAlert(typeStr, downloadURL, decDirectory, fileList, fileSize) {
             let timerInterval;
             Swal.fire({
-                title: '원본 ' + typeStr + ' 다운로드',
+                title: '부분 복호화 ' + typeStr + ' 다운로드',
                 html:
-                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
+                    '생성된 다운로드 버튼은 <br><b></b>동안 유효합니다.<br/>' +
                     '<a href="" id="signedUrl" download>' +
                     '<div id="download" class="btn">' +
                     '<p>다운로드</p>' +
@@ -773,14 +773,15 @@ init = {
                     '</a>',
                 // timer: 60000 * 15,
                 timer: 60000 * 15,
-                timerProgressBar: true,
+                timerProgressBar: false,
+                showConfirmButton: false,
                 icon: 'info',
                 allowOutsideClick: false,
                 didOpen: () => {
                     const content = Swal.getHtmlContainer()
                     const $ = content.querySelector.bind(content)
 
-                    Swal.showLoading()
+                    // Swal.showLoading()
 
                     const download = $('#download');
                     const downloadLink = $('#signedUrl');
@@ -812,7 +813,7 @@ init = {
                             else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
-                                text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
+                                html: '확인 버튼을 누르면 <br>메인 페이지로 이동합니다.',
                                 confirmButtonText: '확인',
                                 allowOutsideClick: false,
                                 icon: 'success'
@@ -871,7 +872,7 @@ init = {
                     else {
                         if (service == 'encrypt') var msg = '비식별화가';
                         else if (service == 'decrypt') var msg = '복호화가';
-                        else if (service == 'thumbnail') var msg = '썸네일 생성이';
+                        else if (service == 'thumbnail') var msg = '썸네일 생성이\n';
                         else if (service == 'check') var msg = '비식별화 추가가\n';
                         else if (service == 'sector') var msg = '프레임 이미지 \n생성이';
                         Swal.fire({
