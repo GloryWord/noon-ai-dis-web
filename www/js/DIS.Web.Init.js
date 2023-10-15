@@ -1775,7 +1775,6 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
-            console.log('selectedFile : ', selectedFile);
             // 복호화 카운트 증가시키는 함수 추가
             let fileNames = urlParams.get('fileNames');
             fileNames = fileNames.split(',');
