@@ -36,7 +36,7 @@ let whitelist = [
 var init = DIS.Web.Init;
 init = {
 
-    service: function () {
+    index: function () {
         $('.explanSlider').slick({
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
             infinite: true, 	//무한 반복 옵션	 
@@ -61,7 +61,7 @@ init = {
     },
 
     // 유저 로그인 화면 제어
-    index: function () {
+    login: function () {
         let isDev = comm.getEnv();
         login.sessionCheck();
         let master_tenant_id = null;
@@ -277,31 +277,34 @@ init = {
 
         $(".curTenant").html(temp);
 
-        function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            if (encProgress['progress']) {
-                var progress = encProgress['progress']
-                $('#progress').html(progress);
-                var status = encProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            var mainLog = requestTable.getRecentRequest('encrypt');
-                            $(".mainLog").html(mainLog);
-                        }
-                    }
-                }
-            }
-        }
+        // function reloadProgress() {
+        //     var encProgress = requestTable.getEncProgress();
+        //     if (encProgress['progress']) {
+        //         var progress = encProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = encProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     var mainLog = requestTable.getRecentRequest('encrypt');
+        //                     $(".mainLog").html(mainLog);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        reloadProgress();
+        // reloadProgress();
+
+        var mainLog = requestTable.getRecentRequest('encrypt');
+        $(".mainLog").html(mainLog);
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -453,7 +456,7 @@ init = {
             var check_small = /[a-z]/;    // 소문자
             if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
-                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -462,7 +465,7 @@ init = {
             }
             else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
-                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -510,8 +513,8 @@ init = {
             let notification = $(this).data("notification")
             if (validUntil < 90 && notification) {
                 Swal.fire({
-                    title: `해당 키는 ${validUntil}일 뒤 \n만료됩니다.`,
-                    html: `선택한 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 키를 사용하거나 추후 다른 키로 변경해 주세요.`,
+                    title: `해당 암호 키는 ${validUntil}일 뒤 \n만료됩니다.`,
+                    html: `선택한 암호 키를 사용해서 비식별화 한 기록은 ${validUntil}일 뒤 복호화가 불가능합니다. 다른 암호 키를 사용하거나 추후 다른 암호 키로 변경해 주세요.`,
                     showCancelButton: true,
                     confirmButtonText: '확인',
                     cancelButtonText: '일주일동안 알림 끄기'
@@ -688,9 +691,9 @@ init = {
             }
             else if (cKey == 0 || sKey == "") {
                 Swal.fire({
-                    title: '키 선택 오류',
+                    title: '암호 키 선택 오류',
                     html:
-                        '키를 선택하지 않으셨습니다.<br/>' +
+                        '암호 키를 선택하지 않으셨습니다.<br/>' +
                         '확인 후 재시도해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
@@ -760,9 +763,9 @@ init = {
         function downloadAlert(typeStr, downloadURL, decDirectory, fileList, fileSize) {
             let timerInterval;
             Swal.fire({
-                title: '원본 ' + typeStr + ' 다운로드',
+                title: '부분 복호화 ' + typeStr + ' 다운로드',
                 html:
-                    '생성된 다운로드 버튼은 <b></b>동안 유효합니다.<br/>' +
+                    '생성된 다운로드 버튼은 <br><b></b>동안 유효합니다.<br/>' +
                     '<a href="" id="signedUrl" download>' +
                     '<div id="download" class="btn">' +
                     '<p>다운로드</p>' +
@@ -770,14 +773,15 @@ init = {
                     '</a>',
                 // timer: 60000 * 15,
                 timer: 60000 * 15,
-                timerProgressBar: true,
+                timerProgressBar: false,
+                showConfirmButton: false,
                 icon: 'info',
                 allowOutsideClick: false,
                 didOpen: () => {
                     const content = Swal.getHtmlContainer()
                     const $ = content.querySelector.bind(content)
 
-                    Swal.showLoading()
+                    // Swal.showLoading()
 
                     const download = $('#download');
                     const downloadLink = $('#signedUrl');
@@ -809,7 +813,7 @@ init = {
                             else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
-                                text: '확인 버튼을 누르면 메인 페이지로 이동합니다.',
+                                html: '확인 버튼을 누르면 <br>메인 페이지로 이동합니다.',
                                 confirmButtonText: '확인',
                                 allowOutsideClick: false,
                                 icon: 'success'
@@ -838,12 +842,12 @@ init = {
         }
 
         function reloadProgress() {
-            if (service == 'encrypt') progressObject = requestTable.getEncProgress();
-            else if (service == 'decrypt') progressObject = requestTable.getDecProgress();
-            else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress();
-            else if (service == 'check') progressObject = requestTable.getCheckProgress();
-            else if (service == 'sector') progressObject = requestTable.getSectorProgress();
-            console.log(progressObject);
+            let progressID = urlParams.get('id');
+            if (service == 'encrypt') progressObject = requestTable.getEncProgress(progressID);
+            else if (service == 'decrypt') progressObject = requestTable.getDecProgress(progressID);
+            else if (service == 'thumbnail') progressObject = requestTable.getThumbProgress(progressID);
+            else if (service == 'check') progressObject = requestTable.getCheckProgress(progressID);
+            else if (service == 'sector') progressObject = requestTable.getSectorProgress(progressID);
             var progress = progressObject['progress'];
             var status = progressObject['status']
             $('#progress').html(progress);
@@ -851,7 +855,6 @@ init = {
                 setTimeout(reloadProgress, 200);
             }
             else {
-                console.log(status);
                 if (status.indexOf('FAIL') == 1 || status.indexOf('Fail') != -1) {
                     Swal.fire({
                         title: '예기치 못한 오류로 작업이 중단됐습니다.',
@@ -869,8 +872,8 @@ init = {
                     else {
                         if (service == 'encrypt') var msg = '비식별화가';
                         else if (service == 'decrypt') var msg = '복호화가';
-                        else if (service == 'thumbnail') var msg = '썸네일 생성이';
-                        else if (service == 'check') var msg = '비식별화 추가가';
+                        else if (service == 'thumbnail') var msg = '썸네일 생성이\n';
+                        else if (service == 'check') var msg = '비식별화 추가가\n';
                         else if (service == 'sector') var msg = '프레임 이미지 \n생성이';
                         Swal.fire({
                             title: msg + ' 완료되었습니다!',
@@ -996,7 +999,7 @@ init = {
             var check_small = /[a-z]/;    // 소문자
             if (genKeyName.length < 8 || genKeyName.length > 20) {
                 Swal.fire({
-                    title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                    title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -1005,7 +1008,7 @@ init = {
             }
             else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                 Swal.fire({
-                    title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                    title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -1195,7 +1198,7 @@ init = {
                     allCheck = "true"
                 }
             }
-            if(videoDuration[0]>300 && $(".restore:checked").val()=="false"){
+            if (videoDuration[0] > 300 && $(".restore:checked").val() == "false") {
                 Swal.fire({
                     title: '파일 길이 초과',
                     html:
@@ -1207,7 +1210,7 @@ init = {
                     icon: "error"
                 });
             }
-            else if(videoDuration[0]>180 && $(".restore:checked").val()=="true"){
+            else if (videoDuration[0] > 180 && $(".restore:checked").val() == "true") {
                 Swal.fire({
                     title: '파일 길이 초과',
                     html:
@@ -1260,9 +1263,12 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
+        var mainLog = requestTable.getAllEncRequestList()
+        $(".mainLog").html(mainLog[0]);
+        console.log(mainLog[1])
+
         function reloadProgress() {
-            if (requestType == 'encrypt') var reqProgress = requestTable.getEncProgress();
-            else if (requestType == 'decrypt') var reqProgress = requestTable.getDecProgress();
+            var reqProgress = requestTable.getEncProgress();
             if (reqProgress['progress']) {
                 var progress = reqProgress['progress']
                 $('#progress').html(progress);
@@ -1277,9 +1283,8 @@ init = {
                     else if (status.indexOf("SUCCESS") == 1) {
                         if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
                         else {
-                            if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-                            else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-                            $(".mainLog").html(mainLog);
+                            var loadLog = requestTable.getAllEncRequestList()
+                            $(".mainLog").html(loadLog[0]);
                         }
                     }
                 }
@@ -1288,6 +1293,10 @@ init = {
 
         reloadProgress();
 
+        // reloadProgress();
+        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
+        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+        $(".mainLog").html(mainLog);
         $(document).on("click", ".allSearch", function () {
             if ($('.allSearch').is(':checked')) {
                 $(".filter_video").prop("checked", true);
@@ -1503,10 +1512,6 @@ init = {
                 }
             }
         });
-
-        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-        $(".mainLog").html(mainLog);
 
         if (screen.width <= 600) {
             m_load('.mainLog', '5');
@@ -1770,7 +1775,6 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
-            console.log('selectedFile : ', selectedFile);
             // 복호화 카운트 증가시키는 함수 추가
             let fileNames = urlParams.get('fileNames');
             fileNames = fileNames.split(',');
@@ -1956,10 +1960,10 @@ init = {
             let todayMonth = todayDate.getMonth() + 1
             let startDate = `${year}. ${month}. 01`
             let endDate
-            if(month==String(todayMonth).padStart(2, "0")){
+            if (month == String(todayMonth).padStart(2, "0")) {
                 endDate = `${year}. ${month}. ${String(todayDate.getDate()).padStart(2, "0")}`
             }
-            else{
+            else {
                 let end = new Date(year, month, 0)
                 endDate = `${year}. ${month}. ${String(end.getDate()).padStart(2, "0")}`
             }
@@ -1989,10 +1993,6 @@ init = {
                 onFirstPage: function (instance, $pager) { },
                 onLastPage: function (instance, $pager) { }
             });
-        }
-
-        function dateLength(inputMonth){
-            
         }
 
         function getHeaderData(yearMonth) {
@@ -2065,13 +2065,13 @@ init = {
 
         $(document).on("change", "#searchMonth", function () {
             getHeaderData($("#searchMonth").val())
-        })        
+        })
 
         $(document).on("click", ".option", function () {
             let type = $(this).val()
             workHTML(JSON.parse(sessionStorage.getItem("workData")), type)
-        })    
-        
+        })
+
         // let yearMonth = `${currentYear}-${formattedMonth}`;
         // requestTable.getMonthFare(yearMonth).then((fares) => {
         //     console.log('fares.total_charge : ',fares.total_charge);
@@ -2112,7 +2112,7 @@ init = {
             let filename = $(this).parent().parent().children()[4].textContent.replace(/ /g, "").replace(/\n/g, "")
             let filetype = $(this).parent().parent().children()[5].textContent.replace(/ /g, "").replace(/\n/g, "")
             let rest = $(this).parent().parent().children()[6].textContent.replace(/ /g, "").replace(/\n/g, "")
-            requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData)=> {
+            requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData) => {
                 $(".priceContent").html(detailData)
             })
         })
@@ -2171,65 +2171,74 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            for (let i = 0; i < fileData.length; i++) {
-                let restorationData
-                let fileType
-                if(fileData[i]["restoration"]==0){
-                    restorationData = "X"
-                }
-                else{
-                    restorationData = "O"
-                }
-                if(fileData[i]["file_type"]=="image"){
-                    fileType = "이미지"
-                }
-                else{
-                    fileType = "영상"
-                }
+            if (fileData.length == 0) {
                 contentHTML += `<div class='contentInfo'>
-                                            <div class='logContent num file'>
-                                                <p>${fileData[i]["id"]}</p>
+                                    <div class='logContent num file' style='width:100%'>
+                                        <p>내역이 없습니다.</p>
+                                    </div>
+                                </div>`
+            }
+            else {
+                for (let i = 0; i < fileData.length; i++) {
+                    let restorationData
+                    let fileType
+                    if (fileData[i]["restoration"] == 0) {
+                        restorationData = "X"
+                    }
+                    else {
+                        restorationData = "O"
+                    }
+                    if (fileData[i]["file_type"] == "image") {
+                        fileType = "이미지"
+                    }
+                    else {
+                        fileType = "영상"
+                    }
+                    contentHTML += `<div class='contentInfo'>
+                                        <div class='logContent num file'>
+                                            <p>${fileData[i]["id"]}</p>
+                                        </div>
+                                        <div class='logContent user file'>
+                                            <p>${fileData[i]["fk_account_name"]}</p>
+                                        </div>
+                                        <div class='logContent start file'>
+                                            <p>${fileData[i]["upload_datetime"]}</p>
+                                        </div>
+                                        <div class='logContent recent file'>
+                                            <p>${fileData[i]["recent_date"]}</p>
+                                        </div>
+                                        <div class='logContent filename file'>
+                                            <p>${fileData[i]["upload_filename"]}</p>
+                                        </div>
+                                        <div class='logContent filetype file'>
+                                            <p>${fileType}</p>
+                                        </div>
+                                        <div class='logContent encrpyt file'>
+                                            <p>${restorationData}</p>
+                                        </div>
+                                        <div class='logContent additional file'>
+                                            <p>${fileData[i]["masking_success"]} 회</p>
+                                        </div>
+                                        <div class='logContent decrypt file'>
+                                            <p>${fileData[i]["restoration_success"]} 회</p>
+                                        </div>
+                                        <div class='logContent download file'>
+                                            <p>${fileData[i]["download_count"]} 회</p>
+                                        </div>
+                                        <div class='logContent end file'>
+                                            <p>${fileData[i]["expiration_datetime"]}</p>
+                                        </div>
+                                        <div class='logContent price file'>
+                                            <p>${price_three(Number(fileData[i]["file_charge"]))}</p>
+                                        </div>
+                                        <div class='logContent detail file'>
+                                            <div class='detailBtn' data-idx=${fileData[i]["id"]}>
+                                                <span>상세 내역</span>
+                                                <img src='./static/imgs/usage/detailPriceIcon.png'>
                                             </div>
-                                            <div class='logContent user file'>
-                                                <p>${fileData[i]["fk_account_name"]}</p>
-                                            </div>
-                                            <div class='logContent start file'>
-                                                <p>${fileData[i]["upload_datetime"]}</p>
-                                            </div>
-                                            <div class='logContent recent file'>
-                                                <p>${fileData[i]["recent_date"]}</p>
-                                            </div>
-                                            <div class='logContent filename file'>
-                                                <p>${fileData[i]["upload_filename"]}</p>
-                                            </div>
-                                            <div class='logContent filetype file'>
-                                                <p>${fileType}</p>
-                                            </div>
-                                            <div class='logContent encrpyt file'>
-                                                <p>${restorationData}</p>
-                                            </div>
-                                            <div class='logContent additional file'>
-                                                <p>${fileData[i]["masking_success"]} 회</p>
-                                            </div>
-                                            <div class='logContent decrypt file'>
-                                                <p>${fileData[i]["restoration_success"]} 회</p>
-                                            </div>
-                                            <div class='logContent download file'>
-                                                <p>${fileData[i]["download_count"]} 회</p>
-                                            </div>
-                                            <div class='logContent end file'>
-                                                <p>${fileData[i]["expiration_datetime"]}</p>
-                                            </div>
-                                            <div class='logContent price file'>
-                                                <p>${price_three(Number(fileData[i]["file_charge"]))}</p>
-                                            </div>
-                                            <div class='logContent detail file'>
-                                                <div class='detailBtn' data-idx=${fileData[i]["id"]}>
-                                                    <span>상세 내역</span>
-                                                    <img src='./static/imgs/usage/detailPriceIcon.png'>
-                                                </div>
-                                            </div>
-                                        </div>`
+                                        </div>
+                                    </div>`
+                }
             }
             contentHTML += `</div>
                                 </div>`
@@ -2243,19 +2252,19 @@ init = {
             let addCheck = ""
             let decCheck = ""
             let downCheck = ""
-            if(viewType=="all"){
+            if (viewType == "all") {
                 allCheck = "checked"
             }
-            else if(viewType=="encrypt"){
+            else if (viewType == "encrypt") {
                 encCheck = "checked"
             }
-            else if(viewType=="additional_encrypt"){
+            else if (viewType == "additional_encrypt") {
                 addCheck = "checked"
             }
-            else if(viewType=="decrypt"){
+            else if (viewType == "decrypt") {
                 decCheck = "checked"
             }
-            else if(viewType=="download"){
+            else if (viewType == "download") {
                 downCheck = "checked"
             }
             let contentHTML = `<div class="tableTitle work">
@@ -2314,314 +2323,323 @@ init = {
                                 </div>`
             contentHTML += `<div class='tableBody'>
                                     <div class='tableContent'>`
-            for (let i = 0; i < workData["jobHistory"].length; i++) {
-                let fileType
-                let serviceType
-                let hdType
-                let fileResolution = Number(workData["jobHistory"][i]["file_width"]) * Number(workData["jobHistory"][i]["file_height"])
-                let duration = "<p>-</p>"
-                let basePrice
-                if(workData["jobHistory"][i]["file_type"]=="image"){
-                    fileType = "이미지"
-                }
-                else{
-                    fileType = "영상"
-                }
-    
-                if(workData["jobHistory"][i]["request_type"]=="encrypt"){
-                    serviceType = "비식별화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
-                    serviceType = "추가 비식별화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="decrypt"){
-                    serviceType = "부분 복호화"
-                }
-                else if(workData["jobHistory"][i]["request_type"]=="download"){
-                    serviceType = "다운로드"
-                }
-                
-                if(fileResolution<=921600){
-                    hdType = `HD 이하`
-                }
-                else if(fileResolution<=2073600){
-                    hdType = `FHD 이하`
-                }
-                else{
-                    hdType = `FHD 초과`
-                }
-    
-                if(fileType != "이미지"){
-                    duration = `<span>${time_change(Number(workData["jobHistory"][i]["duration"]))}</span>
-                                <h5>(${price_three(Number(workData["jobHistory"][i]["duration"]))}초)</h5>`
-                }
-                
-                if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==1){
-                    basePrice = price_three(10000) 
-                }
-                else if(fileType=="영상" && workData["jobHistory"][i]["restoration"]==0){
-                    basePrice = price_three(7000) 
-                }
-                else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==1){
-                    basePrice = price_three(600) 
-                }
-                else if(fileType=="이미지" && workData["jobHistory"][i]["restoration"]==0){
-                    basePrice = price_three(400) 
-                }
-                if(viewType=="all"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+            if (workData["jobHistory"].length == 0) {
+                contentHTML += `<div class='contentInfo'>
+                                    <div class='logContent num work' style='width:100%'>
+                                        <p>내역이 없습니다.</p>
+                                    </div>
+                                </div>`
+            }
+            else {
+                for (let i = 0; i < workData["jobHistory"].length; i++) {
+                    let fileType
+                    let serviceType
+                    let hdType
+                    let fileResolution = Number(workData["jobHistory"][i]["file_width"]) * Number(workData["jobHistory"][i]["file_height"])
+                    let duration = "<p>-</p>"
+                    let basePrice
+                    if (workData["jobHistory"][i]["file_type"] == "image") {
+                        fileType = "이미지"
+                    }
+                    else {
+                        fileType = "영상"
+                    }
+
+                    if (workData["jobHistory"][i]["request_type"] == "encrypt") {
+                        serviceType = "비식별화"
+                    }
+                    else if (workData["jobHistory"][i]["request_type"] == "additional_encrypt") {
+                        serviceType = "추가 비식별화"
+                    }
+                    else if (workData["jobHistory"][i]["request_type"] == "decrypt") {
+                        serviceType = "부분 복호화"
+                    }
+                    else if (workData["jobHistory"][i]["request_type"] == "download") {
+                        serviceType = "다운로드"
+                    }
+
+                    if (fileResolution <= 921600) {
+                        hdType = `HD 이하`
+                    }
+                    else if (fileResolution <= 2073600) {
+                        hdType = `FHD 이하`
+                    }
+                    else {
+                        hdType = `FHD 초과`
+                    }
+
+                    if (fileType != "이미지") {
+                        duration = `<span>${time_change(Number(workData["jobHistory"][i]["duration"]))}</span>
+                                    <h5>(${price_three(Number(workData["jobHistory"][i]["duration"]))}초)</h5>`
+                    }
+
+                    if (fileType == "영상" && workData["jobHistory"][i]["restoration"] == 1) {
+                        basePrice = price_three(10000)
+                    }
+                    else if (fileType == "영상" && workData["jobHistory"][i]["restoration"] == 0) {
+                        basePrice = price_three(7000)
+                    }
+                    else if (fileType == "이미지" && workData["jobHistory"][i]["restoration"] == 1) {
+                        basePrice = price_three(600)
+                    }
+                    else if (fileType == "이미지" && workData["jobHistory"][i]["restoration"] == 0) {
+                        basePrice = price_three(400)
+                    }
+                    if (viewType == "all") {
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="encrypt" && workData["jobHistory"][i]["request_type"]=="encrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="additional_encrypt" && workData["jobHistory"][i]["request_type"]=="additional_encrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="decrypt" && workData["jobHistory"][i]["request_type"]=="decrypt"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
-                }
-                else if(viewType=="download" && workData["jobHistory"][i]["request_type"]=="download"){
-                    contentHTML += `<div class='contentInfo'>
-                                        <div class='logContent num work'>
-                                            <p>${workData["jobHistory"][i]["id"]}</p>
-                                        </div>
-                                        <div class='logContent user work'>
-                                            <p>${workData["jobHistory"][i]["account_name"]}</p>
-                                        </div>
-                                        <div class='logContent date work'>
-                                            <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
-                                        </div>
-                                        <div class='logContent filename work'>
-                                            <p>${workData["jobHistory"][i]["file_name"]}</p>
-                                        </div>
-                                        <div class='logContent filetype work'>
-                                            <p>${fileType}</p>
-                                        </div>
-                                        <div class='logContent service work'>
-                                            <p>${serviceType}</p>
-                                        </div>
-                                        <div class='logContent basic work'>
-                                            <p>${basePrice}</p>
-                                        </div>
-                                        <div class='logContent resolution work'>
-                                            <div class='textArea'>
-                                                <span>${hdType}</span>
-                                                <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='logContent duration work'>
-                                            <div class='textArea'>
-                                                ${duration}
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
                                             </div>
-                                        </div>
-                                        <div class='logContent object work'>
-                                            <p>${workData["jobHistory"][i]["object_count"]}개</p>
-                                        </div>
-                                        <div class='logContent base work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent add work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent discount work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
-                                        </div>
-                                        <div class='logContent price work'>
-                                            <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
-                                        </div>
-                                    </div>`
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if (viewType == "encrypt" && workData["jobHistory"][i]["request_type"] == "encrypt") {
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if (viewType == "additional_encrypt" && workData["jobHistory"][i]["request_type"] == "additional_encrypt") {
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if (viewType == "decrypt" && workData["jobHistory"][i]["request_type"] == "decrypt") {
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
+                    else if (viewType == "download" && workData["jobHistory"][i]["request_type"] == "download") {
+                        contentHTML += `<div class='contentInfo'>
+                                            <div class='logContent num work'>
+                                                <p>${workData["jobHistory"][i]["id"]}</p>
+                                            </div>
+                                            <div class='logContent user work'>
+                                                <p>${workData["jobHistory"][i]["account_name"]}</p>
+                                            </div>
+                                            <div class='logContent date work'>
+                                                <p>${workData["jobHistory"][i]["request_date"]} <br>${workData["jobHistory"][i]["request_time"]}</p>
+                                            </div>
+                                            <div class='logContent filename work'>
+                                                <p>${workData["jobHistory"][i]["file_name"]}</p>
+                                            </div>
+                                            <div class='logContent filetype work'>
+                                                <p>${fileType}</p>
+                                            </div>
+                                            <div class='logContent service work'>
+                                                <p>${serviceType}</p>
+                                            </div>
+                                            <div class='logContent basic work'>
+                                                <p>${basePrice}</p>
+                                            </div>
+                                            <div class='logContent resolution work'>
+                                                <div class='textArea'>
+                                                    <span>${hdType}</span>
+                                                    <h5>(${workData["jobHistory"][i]["file_width"]}X${workData["jobHistory"][i]["file_height"]})</h5>
+                                                </div>
+                                            </div>
+                                            <div class='logContent duration work'>
+                                                <div class='textArea'>
+                                                    ${duration}
+                                                </div>
+                                            </div>
+                                            <div class='logContent object work'>
+                                                <p>${workData["jobHistory"][i]["object_count"]}개</p>
+                                            </div>
+                                            <div class='logContent base work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["basic_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent add work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["extra_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent discount work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["free_charge"]))}</p>
+                                            </div>
+                                            <div class='logContent price work'>
+                                                <p>${price_three(Number(workData["jobHistory"][i]["service_charge"]))}</p>
+                                            </div>
+                                        </div>`
+                    }
                 }
             }
             contentHTML += `</div>
@@ -2631,22 +2649,269 @@ init = {
         }
     },
 
-    cash: function () {
-        requestTable.getCashHistory('2023-09-01', '2023-09-15');
-        $(".cashTableContent").paging({
-            number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
-            pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
-            number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
-            stealth_mode: false, //default false | takes: Boolean true | false
-            theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
-            animate: false, //default true | takes: true | false
-            onBeforeInit: function (instance, $el) { },
-            onAfterInit: function (instance, $el) { },
-            onBeforeEveryDraw: function (instance, $pager) { },
-            onAfterEveryDraw: function (instance, $pager) { },
-            onFirstPage: function (instance, $pager) { },
-            onLastPage: function (instance, $pager) { }
-        });
+    cash: function async() {
+        function getCash(start, end) {
+            requestTable.getCashHistory(start, end).then((cashData) => {
+                sessionStorage.setItem("cashData", JSON.stringify(cashData))
+                tableCreate(JSON.parse(sessionStorage.getItem("cashData")), "all")
+            })
+        }
+
+        function tablePaging() {
+            $(".cashTableContent").paging({
+                number_of_items: 10,   //default: 5 | takes: non-zero numeral less than total limit
+                pagination_type: "full_numbers", // default full_numbers | takes: full_numbers | prev_next | first_prev_next_last
+                number_of_page_buttons: 10, //default 3 | takes: non-zero numeral less than total page size
+                stealth_mode: false, //default false | takes: Boolean true | false
+                theme: "light_connected", //default light_connected | takes: light_connected | light | blue | ""
+                animate: false, //default true | takes: true | false
+                onBeforeInit: function (instance, $el) { },
+                onAfterInit: function (instance, $el) { },
+                onBeforeEveryDraw: function (instance, $pager) { },
+                onAfterEveryDraw: function (instance, $pager) { },
+                onFirstPage: function (instance, $pager) { },
+                onLastPage: function (instance, $pager) { }
+            });
+        }
+
+        function checkDateDifference() {
+            // 입력 요소에서 날짜 값을 가져옵니다.
+            var date1 = new Date($(".startDate").val());
+            var date2 = new Date($(".endDate").val());
+
+            // 날짜 차이를 계산합니다.
+            var timeDiff = Math.abs(date2 - date1);
+            var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            // 날짜 차이가 1년 이상이면 alert를 표시합니다.
+            if (daysDiff >= 365) {
+                return false
+            } else {
+                return true
+            }
+        }
+
+        let todayDate = new Date()
+        let todayYear = todayDate.getFullYear()
+        let todayMonth = String(todayDate.getMonth() + 1).padStart(2, "0")
+        let todayDay = String(todayDate.getDate()).padStart(2, "0")
+        let startDate = `${todayYear}-${todayMonth}-01`
+        let endDate = `${todayYear}-${todayMonth}-${todayDay}`
+
+        getCash(startDate, endDate)
+
+        $(".priceText").text(`${price_three(comm.getNowPoint())}`)
+
+        $(document).on("click", ".option", function () {
+            let type = $(this).val()
+            tableCreate(JSON.parse(sessionStorage.getItem("cashData")), type)
+        })
+
+        $(document).on("change", ".endDate", function () {
+            if($(".startDate").val()==""){
+                Swal.fire({
+                    title: '시작날짜를 선택해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".endDate").val("")
+            }
+            else if($(".startDate").val()>$(".endDate").val()){
+                Swal.fire({
+                    title: '시작날짜를 종료날짜보다 \n크게 할 수 없어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".startDate").val("")
+                $(".endDate").val("")
+            }
+            else if(checkDateDifference()==false){
+                Swal.fire({
+                    title: '검색할 수 있는 \n최대 범위를 초과했어요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+                $(".startDate").val("")
+                $(".endDate").val("")
+            }
+            else{
+                getCash($(".startDate").val(), $(".endDate").val())
+                $(".priceText").text(`${price_three(comm.getNowPoint())}`)
+            }
+        })
+
+        function tableCreate(cash, type) {
+            let tableHTML = `<div class="cashTableHeader">
+                                <div class="cashHeader date">
+                                    <p>일 시</p>
+                                </div>
+                                <div class="cashHeader content">
+                                    <p>내 용</p>
+                                </div>
+                                <div class="cashHeader cash">
+                                    <p>캐 시</p>
+                                </div>
+                            </div>
+                            <div class="cashTableContent">
+                                <div class="cashList">`
+            if (cash.length == 0) {
+                tableHTML += `<div class='cashBox'>
+                                <div class="cashContent date" style='width:100%;'>
+                                    <p>내역이 없습니다.</p>
+                                </div>
+                            </div>`
+            }
+            else {
+                if (type == "all") {
+                    for (let i = 0; i < cash.length; i++) {
+                        let contentHTML = ``
+                        let plusAndminus = ``
+                        let cashType = ``
+                        if (cash[i]["transaction_type"] == "charge") {
+                            contentHTML = `<h2>캐시 충전</h2>`
+                            cashType = `plusCash`
+                            plusAndminus = `+`
+                        }
+                        else {
+                            let serviceType
+                            if (cash[i]["request_type"] == "encrypt") {
+                                serviceType = "비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "additional_encrypt") {
+                                serviceType = "추가 비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "decrypt") {
+                                serviceType = "부분 복호화"
+                            }
+                            else if (cash[i]["request_type"] == "download") {
+                                serviceType = "다운로드"
+                            }
+                            contentHTML = `<h5>${cash[i]["user_name"]}</h5>
+                                            <h3>${serviceType}</h3>
+                                            <h4>{파일명}</h4>`
+                            cashType = `minusCash`
+                            plusAndminus = `-`
+                        }
+                        tableHTML += `<div class='cashBox'>
+                                        <div class="cashContent date">
+                                            <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                        </div>
+                                        <div class="cashContent content">
+                                            <div class="textArea">
+                                                ${contentHTML}
+                                            </div>
+                                        </div>
+                                        <div class="cashContent cash">
+                                            <span class="${cashType}">${plusAndminus} ${price_three(cash[i]["amount"])}</span>
+                                        </div>
+                                    </div>`
+                    }
+                }
+                else if (type == "charge") {
+                    // let chargeLength = 0
+        
+                    // for(let i;i<cash.length;i++){
+                    //     if(cash[i]["transaction_type"] == "charge"){
+                    //         chargeLength += 1
+                    //     }
+                    // }
+
+                    // if(chargeLength==0){
+                    //     tableHTML += `<div class='cashBox'>
+                    //                     <div class="cashContent date" style='width:100%;'>
+                    //                         <p>내역이 없습니다.</p>
+                    //                     </div>
+                    //                 </div>`
+                    // }
+                    // else{
+                        for (let i = 0; i < cash.length; i++) {
+                            if (cash[i]["transaction_type"] == "charge") {
+                                let contentHTML = `<h2>캐시 충전</h2>`
+                                let cashType = `plusCash`
+                                tableHTML += `<div class='cashBox'>
+                                                <div class="cashContent date">
+                                                    <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                                </div>
+                                                <div class="cashContent content">
+                                                    <div class="textArea">
+                                                        ${contentHTML}
+                                                    </div>
+                                                </div>
+                                                <div class="cashContent cash">
+                                                    <span class="${cashType}">+ ${price_three(cash[i]["amount"])}</span>
+                                                </div>
+                                            </div>`
+                            }
+                        }
+                    // }
+                }
+                else if (type == "use") {
+                    // let useLength = 0
+        
+                    // for(let i;i<cash.length;i++){
+                    //     if(cash[i]["transaction_type"] == "withdraw"){
+                    //         useLength += 1
+                    //     }
+                    // }
+
+                    // if(useLength==0){
+                    //     tableHTML += `<div class='cashBox'>
+                    //                     <div class="cashContent date" style='width:100%;'>
+                    //                         <p>내역이 없습니다.</p>
+                    //                     </div>
+                    //                 </div>`
+                    // }
+                    // else{
+                        for (let i = 0; i < cash.length; i++) {
+                            if (cash[i]["transaction_type"] == "withdraw") {
+                                let cashType = ``
+                                let serviceType
+                                if (cash[i]["request_type"] == "encrypt") {
+                                    serviceType = "비식별화"
+                                }
+                                else if (cash[i]["request_type"] == "additional_encrypt") {
+                                    serviceType = "추가 비식별화"
+                                }
+                                else if (cash[i]["request_type"] == "decrypt") {
+                                    serviceType = "부분 복호화"
+                                }
+                                else if (cash[i]["request_type"] == "download") {
+                                    serviceType = "다운로드"
+                                }
+                                let contentHTML = `<h5>${cash[i]["user_name"]}</h5>
+                                                <h3>${serviceType}</h3>
+                                                <h4>{파일명}</h4>`
+                                cashType = `minusCash`
+                                tableHTML += `<div class='cashBox'>
+                                                <div class="cashContent date">
+                                                    <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
+                                                </div>
+                                                <div class="cashContent content">
+                                                    <div class="textArea">
+                                                        ${contentHTML}
+                                                    </div>
+                                                </div>
+                                                <div class="cashContent cash">
+                                                    <span class="${cashType}">- ${price_three(cash[i]["amount"])}</span>
+                                                </div>
+                                            </div>`
+                            }
+                        }
+                    // }
+                }
+            }
+            tableHTML += `    </div>
+                                </div>`
+
+            $(".tableContentArea").html(tableHTML)
+            tablePaging()
+        }
     },
 
     qna: function () {
@@ -2658,6 +2923,87 @@ init = {
             else {
                 $(".noneServiceCheck").removeClass("active")
                 $(".checkService").addClass("active")
+            }
+        });
+
+        $(document).on("click", ".confirmBtn", function () {
+            if ($('.nameInfo').val()=="") {
+                Swal.fire({
+                    title: '이름(기관명)을 \n입력해주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else{
+                if ($('.emailInfo').val()=="") {
+                    Swal.fire({
+                        title: '이메일을 입력해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else{
+                    if ($('.typeInfo').val()=="") {
+                        Swal.fire({
+                            title: '문의 유형을 입력해주세요.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
+                    else{
+                        if ($('.phoneInfo').val()=="") {
+                            Swal.fire({
+                                title: '연락처를 입력해주세요.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            });
+                        }
+                        else{
+                            if ($('.titleInfo').val()=="") {
+                                Swal.fire({
+                                    title: '문의 제목을 입력해주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                });
+                            }
+                            else{
+                                if ($('.contentInfo').val()=="") {
+                                    Swal.fire({
+                                        title: '문의 내용을 입력해주세요.',
+                                        showConfirmButton: false,
+                                        showDenyButton: true,
+                                        denyButtonText: "확 인",
+                                        icon: "error"
+                                    });
+                                }
+                                else{
+                                    if ($(".agreeServiceCheck").is(":checked")==false) {
+                                        Swal.fire({
+                                            title: '개인정보 수집 및 이용에 \n동의해주세요.',
+                                            showConfirmButton: false,
+                                            showDenyButton: true,
+                                            denyButtonText: "확 인",
+                                            icon: "error"
+                                        });
+                                    }
+                                    else{
+                                        console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.typeInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         });
     },
@@ -3026,9 +3372,9 @@ init = {
             let key_idx = $(this).data("id");
             let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: `${keyName} 키를 변경하시겠습니까?`,
-                html: `${keyName} 키를 사용하여 비식별화한 기록들을 다른 키로 복호화 할 수 있도록 변경합니다.
-                 변경 후 ${keyName} 키로는 복호화가 불가능합니다.`,
+                title: `${keyName} 암호 키를 변경하시겠습니까?`,
+                html: `${keyName} 암호 키를 사용하여 비식별화한 기록들을 다른 암호 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 ${keyName} 암호 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -3039,9 +3385,9 @@ init = {
                     console.log(count);
                     if (changed) {
                         Swal.fire({
-                            title: '키 변경 완료',
+                            title: '암호 키 변경 완료',
                             icon: 'success',
-                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            html: `${count}개의 기록에 대해 <br>암호 키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
                             if (result.isConfirmed) location.reload();
@@ -3055,9 +3401,9 @@ init = {
             let key_idx = $(this).data("id");
             let keyName = $(`.keyname${key_idx}`).text()
             Swal.fire({
-                title: `${keyName} 키를\n 삭제하시겠습니까?`,
-                html: `<p>${keyName} 키를 삭제하면 ${keyName} 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.</p>
-                        <input class='deleteKeyInput' placeholder='삭제할 KEY 이름을 입력해주세요.'>`,
+                title: `${keyName} 암호 키를\n 삭제하시겠습니까?`,
+                html: `<p>${keyName} 암호 키를 삭제하면 ${keyName} 암호 키를 사용하여 비식별화한 데이터들을 복원할 수 없습니다.</p>
+                        <input class='deleteKeyInput' placeholder='삭제할 암호 키 이름을 입력해주세요.'>`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -3068,7 +3414,7 @@ init = {
                         const deleted = key.deleteKey(key_idx);
                         if (removed && deleted) {
                             Swal.fire({
-                                title: '키 삭제 완료',
+                                title: '암호 키 삭제 완료',
                                 icon: 'success',
                                 allowOutsideClick: false
                             }).then((result) => {
@@ -3077,7 +3423,7 @@ init = {
                         }
                         else {
                             Swal.fire({
-                                title: '키 삭제 실패',
+                                title: '암호 키 삭제 실패',
                                 html: '다시 시도해 주세요',
                                 icon: 'error',
                                 allowOutsideClick: false,
@@ -3088,8 +3434,8 @@ init = {
                     }
                     else if ($(".deleteKeyInput").val() == "") {
                         Swal.fire({
-                            title: '키 삭제 실패',
-                            html: '삭제할 KEY 이름을 \n입력해주세요.',
+                            title: '암호 키 삭제 실패',
+                            html: '삭제할 암호 키 이름을 \n입력해주세요.',
                             icon: 'error',
                             denyButtonText: "확 인",
                             showConfirmButton: false,
@@ -3098,8 +3444,8 @@ init = {
                     }
                     else if (keyName != $(".deleteKeyInput").val()) {
                         Swal.fire({
-                            title: '키 삭제 실패',
-                            html: '삭제할 KEY 이름이 \n일치하지 않습니다.',
+                            title: '암호 키 삭제 실패',
+                            html: '삭제할 암호 키 이름이 \n일치하지 않습니다.',
                             icon: 'error',
                             denyButtonText: "확 인",
                             showConfirmButton: false,
@@ -3128,7 +3474,7 @@ init = {
         $(document).on("click", "#generateKey", function () {
             if ($("#genKeyName").val() == "") {
                 Swal.fire({
-                    title: 'Key 이름을 입력해주세요.',
+                    title: '암호 키 이름을 입력해주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -3144,7 +3490,7 @@ init = {
                 var check_small = /[a-z]/;    // 소문자
                 if (genKeyName.length < 8 || genKeyName.length > 20) {
                     Swal.fire({
-                        title: 'Key 이름은 8~20자 이내로 입력해주세요.',
+                        title: '암호 키 이름은 8~20자 이내로 입력해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -3162,7 +3508,7 @@ init = {
                 // }
                 else if (check_num.test(genKeyName) != true || check_small.test(genKeyName) != true) {
                     Swal.fire({
-                        title: 'Key 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
+                        title: '암호 키 이름은 영문 소문자, 숫자를 혼합하여 입력해주세요.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -3670,9 +4016,9 @@ init = {
             let key_idx = $(this).data("id");
 
             Swal.fire({
-                title: '해당 키를 변경하시겠습니까?',
-                html: `해당 키를 사용하여 비식별화한 기록을 다른 키로 복호화 할 수 있도록 변경합니다.
-                 변경 후 기존 키로는 복호화가 불가능합니다.`,
+                title: '해당 암호 키를 변경하시겠습니까?',
+                html: `해당 암호 키를 사용하여 비식별화한 기록을 다른 암호 키로 복호화 할 수 있도록 변경합니다.
+                 변경 후 기존 암호 키로는 복호화가 불가능합니다.`,
                 showCancelButton: true,
                 confirmButtonText: '네',
                 cancelButtonText: '취소'
@@ -3681,9 +4027,9 @@ init = {
                     const { changed, count } = await key.changeKeyElement(socket, key_idx, eventIndex);
                     if (changed) {
                         Swal.fire({
-                            title: '키 변경 완료',
+                            title: '암호 키 변경 완료',
                             icon: 'success',
-                            html: `${count}개의 기록에 대해 <br>키 변경이 완료되었습니다.`,
+                            html: `${count}개의 기록에 대해 <br>암호 키 변경이 완료되었습니다.`,
                             allowOutsideClick: false
                         }).then((result) => {
                             if (result.isConfirmed) location.reload();
@@ -3760,8 +4106,8 @@ init = {
                     else {
                         console.log('file_name : ' + file_name);
                         Swal.fire({
-                            title: '키 파일 업로드 실패',
-                            text: '키 파일을 다시 업로드해주세요.',
+                            title: '암호 키 파일 업로드 실패',
+                            text: '암호 키 파일을 다시 업로드해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -3808,8 +4154,8 @@ init = {
                     }
                     else {
                         Swal.fire({
-                            title: '키 파일 업로드 실패',
-                            text: '키 파일을 다시 업로드해주세요.',
+                            title: '암호 키 파일 업로드 실패',
+                            text: '암호 키 파일을 다시 업로드해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -3832,7 +4178,8 @@ init = {
                     var fileName = fileList[0];
 
                     $(document).on("click", "#signedUrl", function () {
-                        comm.meterDownload(eventIndex, type, fileName, fileSize);
+                        let additionalID = comm.getAdditionalID(eventIndex, fileName);
+                        comm.meterDownload(eventIndex, type, fileName, fileSize, additionalID[0]); // complete
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileName], requestType);
                     })
@@ -3877,8 +4224,11 @@ init = {
 
                     $(document).on("click", ".imgConfirm", function () {
                         console.log(selectModalImg)
+                        let additionalID = comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
+                        additionalID = additionalID.join('');
                         var selectSize = signedUrl[selectModalImg][1];
-                        comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize);
+                        // comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize, additionalID);
+                        comm.meterDownload(eventIndex, type, additionalID);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                     });
@@ -3961,12 +4311,11 @@ init = {
                                 setTimeout(function () {
                                     new Promise((resolve, reject) => {
                                         //파일 다운로드 경로 획득
-                                        var signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                        var fileUrl = signedUrl[0][0];
-                                        var fileSize = signedUrl[0][1];
+                                        let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                        let fileUrl = signedUrl[0][0];
                                         location.href = fileUrl;
-
-                                        comm.meterDownload(eventIndex, type, 'Download.zip', fileSize);
+                                        let additionalIDs = comm.getAdditionalID(eventIndex, '');
+                                        comm.meterDownload(eventIndex, type, additionalIDs);
                                         let requestType = 'download';
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
                                         resolve();
@@ -4039,7 +4388,7 @@ init = {
                             const { valid, msg, keyPath } = verify_result;
                             if (!valid) {
                                 Swal.fire({
-                                    title: '복호화 키 불일치',
+                                    title: '암호 키 불일치',
                                     text: msg,
                                     showCancelButton: false,
                                     showConfirmButton: false,
@@ -4087,8 +4436,8 @@ init = {
                         else {
                             console.log('file_name : ' + file_name);
                             Swal.fire({
-                                title: '키 파일 업로드 실패',
-                                text: '키 파일을 다시 업로드해주세요.',
+                                title: '암호 키 파일 업로드 실패',
+                                text: '암호 키 파일을 다시 업로드해주세요.',
                                 showConfirmButton: false,
                                 showDenyButton: true,
                                 denyButtonText: "확 인",

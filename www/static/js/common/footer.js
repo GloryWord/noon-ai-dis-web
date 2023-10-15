@@ -8,11 +8,11 @@ $(document).ready(function () {
   if (pageName == 'detail') imgPath = "../../"
   else if (pageName == 'inspection' || pageName == 'image' || pageName == 'video' || pageName == 'log' || pageName == 'add') imgPath = "../"
   else imgPath = "./"
-  setTimeout(function () {
-    if (pageName !== "inspection" && pageName !== "select" && pageName !== "check" && pageName !== "image" && pageName !== "video") {
-      location.reload();
-    }
-  }, 1000 * 60 * 3)
+  // setTimeout(function () {
+  //   if (pageName !== "inspection" && pageName !== "select" && pageName !== "check" && pageName !== "image" && pageName !== "video") {
+  //     location.reload();
+  //   }
+  // }, 1000 * 60 * 3)
   $(document).on("click", ".privacy", function () {
     document.getElementById("privacyView").innerHTML = `<div id="wrap">
       <div class="layerPopupBox active">

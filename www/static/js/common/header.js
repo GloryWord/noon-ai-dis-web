@@ -1,6 +1,15 @@
 $(document).ready(function () {
     var loginUser = comm.getUser()
-    $(".login_user").html(loginUser);
+    if(loginUser=="noLogin"){
+        let menu = `<div class='loginMove'><a href='/login'><p>로그인</p></a></div>`
+        $(".menuBtn").html(menu)
+        $(".menuBtn").addClass("noLogin")
+    }
+    else{
+        $(".login_user").html(loginUser.split("<span>")[0]);
+        $(".header_content .login_user").html(loginUser);
+        $(".menuBtn").removeClass("noLogin")
+    }
 
     if(screen.width<1024){
         $(".onlyPC").addClass("hide")
@@ -26,6 +35,16 @@ $(document).ready(function () {
     //         }
     //     }
     // });
+
+    $(document).on("click", ".header_content .logo", function () {
+        var loginUser = comm.moveMain()
+        if(loginUser==""){
+            location.href = "/"
+        }
+        else{
+            location.href = "/main"
+        }
+    });
 
     $(document).on("click", ".infoMove", function () {
         $("#saveConfir").addClass('active')

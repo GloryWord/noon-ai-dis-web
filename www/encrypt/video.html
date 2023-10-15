@@ -36,11 +36,29 @@
     <div class="header">
         <div class="header_content">
             <div class="logo">
-                <a href="/main">
-                    <img src="../static/imgs/common/new_header_logo.png">
-                </a>
+                <img src="../static/imgs/common/new_header_logo.png">
             </div>
             <div class="flow">
+                <div class="flowMenu">
+                    <a href="/">
+                        <p>서비스 소개</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="/charge">
+                        <p>요금 안내</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">
+                        <p>사용 가이드</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="/qna">
+                        <p>고객 센터</p>
+                    </a>
+                </div>
             </div>
             <div class="login_user">
             </div>
@@ -53,10 +71,10 @@
                     <a href="/decrypt/log">복호화 기록 열람</a>
                     <a class='onlyPC' href="/usage">사용량 조회</a>
                     <a class='onlyPC' href="/cash">캐시 결제 내역</a>
-                    <a class='onlyPC' href="/key">Key 관리</a>
+                    <a class='onlyPC' href="/key">암호 키 관리</a>
                     <a class="infoMove">내 정보</a>
                     <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                <a class='onlyMobile' href="/service">서비스 소개</a>
+                <a class='onlyMobile' href="/">서비스 소개</a>
                 <a class='onlyMobile' href="/charge">요금 안내</a>
                 <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
                 <a class='onlyMobile' href="/qna">고객센터</a>
@@ -179,17 +197,17 @@
                     </div>
                 </div>
                 <div class="textArea">
-                    <p>복호화란? 비식별화 진행 시 암호화 Key를 선택하여 비식별화된 파일을 추후 원본으로 복원하는 기능입니다.</p>
+                    <p>복호화란? 비식별화 진행 시 암호 키를 선택하여 비식별화된 파일을 추후 원본으로 복원하는 기능입니다.</p>
                 </div>
             </div>
             <div class="restoreKey">
                 <div class="sKeyArea">
                     <div class="keySelectBox">
                         <input class="keySelect" type="radio" name="keySelect" value="skey"><label for="skey">기존의 발급 받은
-                            Key를 사용합니다.</label>
+                            암호 키를 사용합니다.</label>
                     </div>
                     <div class="selectKey">
-                        <p class="selectText">Key 선택하기</p>
+                        <p class="selectText">암호 키 선택하기</p>
                         <img class="select_img" src="../static/imgs/upload/selectBox_icon.png">
                         <div id="selectKeyName">
                         </div>
@@ -197,17 +215,17 @@
                 </div>
                 <div class="cKeyArea">
                     <div class="keySelectBox">
-                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 Key를
+                        <input class="keySelect" type="radio" name="keySelect" value="ckey"><label for="ckey">새로운 암호 키를
                             발급 받아 사용합니다.</label>
                     </div>
                     <div class="createKey">
                         <div class="createArea">
                             <input class="keyCreate" id="genKeyName"
                                 onKeyup="this.value=this.value.replace(/[^a-z0-9]/g,'');" style="ime-mode:inactive"
-                                placeholder="Key 이름을 작성해 주세요">
+                                placeholder="암호 키 이름을 작성해 주세요">
                             <p1>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p1>
                             <div class="keyCD" id="generateKey">
-                                <h3>Key 생성 및 다운로드</h3>
+                                <h3>암호 키 생성 및 다운로드</h3>
                             </div>
                         </div>
                         <p>영문 소문자, 숫자 8~20자 이내로 혼합하여 작성해 주세요.</p>

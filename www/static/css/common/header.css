@@ -53,40 +53,73 @@
 }
 
 .header_content {
-    width: 100%;
+    width: 988px;
     height: 100%;
     display: flex;
     justify-content: center;
     position: relative;
+    margin: 0 auto;
 }
 
 .logo {
     width: 198px;
     height: auto;
     display: flex;
-    margin: auto 658px auto auto;
+    margin: auto 60px auto 0;
     cursor: pointer;
 }
 
-.logo a {
-    display: flex;
-}
-
-.logo a img {
+.logo img {
     width: 100%;
-    margin: auto;
+    margin: 28px auto 36px;
     cursor: pointer;
 }
 
 .flow {
-    margin: auto;
     display: flex;
-    flex-direction: column;
-    position: absolute;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+}
+
+.flow .flowMenu {
+    display: flex;
+    margin: 0 54px 0 0;
+}
+
+.flow .flowMenu:nth-child(4) {
+    display: flex;
+    margin: 0 auto 0 0;
+}
+
+.flow .flowMenu a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.flow .flowMenu a p {
+    font-family: SpoqaHanSansNeo-Medium;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #595959;
+    margin: 41px auto 37px;
+    cursor: pointer;
+}
+
+.flow .flowMenu.active a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fa9f5;
+    margin: 41px auto 37px;
 }
 
 .flow .circleArea,
@@ -180,12 +213,12 @@
     width: auto;
     height: 100%;
     display: flex;
-    margin: 0 6px 0 0;
+    flex-direction: column;
+    margin: 0 6px 0 auto;
     justify-content: right;
 }
 
 .login_user p {
-    margin: auto 0;
     font-family: SpoqaHanSansNeo-Bold;
     font-size: 18px;
     font-weight: bold;
@@ -195,6 +228,20 @@
     letter-spacing: normal;
     text-align: right;
     color: #16284d;
+    margin: auto 0 2px;
+}
+
+.login_user span {
+    font-family: SpoqaHanSansNeo-Regular;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: right;
+    color: #595959;
+    margin: 0 0 auto;
 }
 
 .menuBtn {
@@ -203,11 +250,48 @@
     display: flex;
     margin: 0;
     display: flex;
-    margin: auto auto auto 0;
+    margin: auto 0;
     cursor: pointer;
     border-radius: 50%;
     background-color: #f9f9f9;
     position: relative;
+}
+
+.menuBtn.noLogin {
+    width: auto;
+    height: auto;
+    display: flex;
+    margin: 32px 0 28px auto;
+    background: none;
+}
+
+.menuBtn.noLogin .loginMove {
+    width: 98px;
+    height: 40px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #3fa9f5;
+    display: flex;
+}
+
+.menuBtn.noLogin .loginMove a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.menuBtn.noLogin .loginMove a p {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
 }
 
 .menuBtn .onlyPC,
@@ -296,6 +380,34 @@
     display: block;
 }
 
+@media(max-width:1023px){
+    .logo {
+        width: 198px;
+        height: auto;
+        display: flex;
+        margin: auto auto auto 16px;
+        cursor: pointer;
+    }
+
+    .menuBtn {
+        width: 36px;
+        height: 36px;
+        margin: auto 16px auto 0;
+    }
+    
+    .menuBtn.noLogin {
+        width: auto;
+        height: auto;
+        display: flex;
+        margin: 32px 16px 28px auto;
+        background: none;
+    }
+
+    .flow {
+        display: none;
+    }
+}
+
 @media(max-width:600px){
     .header {
         background: #fff;
@@ -307,6 +419,10 @@
         display: flex;
         z-index: 15;
     }
+
+    .header_content {
+        width: 100%;
+    }
     
     .logo {
         width: 142px;
@@ -316,7 +432,7 @@
         cursor: pointer;
     }
     
-    .logo a img {
+    .logo img {
         width: 100%;
         margin: auto;
         cursor: pointer;
@@ -330,6 +446,32 @@
         width: 36px;
         height: 36px;
         margin: auto 16px auto 0;
+    }
+
+    .menuBtn.noLogin {
+        margin: auto 16px auto auto;
+    }
+
+    .menuBtn.noLogin .loginMove {
+        width: 64px;
+        height: 24px;
+        margin: auto;  
+        border-radius: 13px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+        background-color: #3fa9f5;
+        display: flex;
+    }
+
+    .menuBtn.noLogin .loginMove a p {
+        font-family: SpoqaHanSansNeo-Medium;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: normal;
+        text-align: center;
+        color: #fff;
     }
 
     .menuBtn .menu_nohover,

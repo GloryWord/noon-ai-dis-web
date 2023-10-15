@@ -35,7 +35,7 @@ subaccount = {
         })
 
         var html = ''
-        if(result.message == "error"){
+        if(result.message == "error" || result.length==0){
             html += '<div class="tableContent">\
                         <p>생성된 서브 계정이 없어요</p>\
                     </div>';

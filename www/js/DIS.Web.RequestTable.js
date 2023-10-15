@@ -12,7 +12,7 @@ DIS.Web.RequestTable = DIS.Web.RequestTable || {};
  */
 var requestTable = DIS.Web.RequestTable;
 requestTable = {
-    getEncProgress: function () {
+    getEncProgress: function (progressID) {
         var result = {
             'progress': '',
             'type': '',
@@ -22,8 +22,8 @@ requestTable = {
 
         let responseMessage;
 
-        let baseUrl = '/api/progress/encrypt'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/encrypt?requestID=${progressID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -49,7 +49,7 @@ requestTable = {
         return result;
     },
 
-    getDecProgress: function () {
+    getDecProgress: function (progressID) {
         var result = {
             'progress': '',
             'type': '',
@@ -59,8 +59,8 @@ requestTable = {
 
         let responseMessage;
 
-        let baseUrl = '/api/progress/decrypt'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/decrypt?requestID=${progressID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -71,7 +71,7 @@ requestTable = {
             async: false,
             success: function (data) {
                 if (data.progress) {
-                    result['progress'] = data.progress['encrypt_progress'];
+                    result['progress'] = data.progress['decrypt_progress'];
                     result['status'] = data.progress['status'];
                     result['complete'] = data.progress['complete'];
                 }
@@ -85,15 +85,15 @@ requestTable = {
         return result;
     },
 
-    getThumbProgress: function () {
+    getThumbProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/thumbnail'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/thumbnail?requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -114,14 +114,14 @@ requestTable = {
         return result;
     },
 
-    getCheckProgress: function () {
+    getCheckProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/check'
+        let baseUrl = `/api/progress/check?requestID=${requestID}`
         let apiUrl = apiUrlConverter('util', baseUrl)
 
         $.ajax({
@@ -134,6 +134,7 @@ requestTable = {
             success: function (data) {
                 result['status'] = data.progress['status'];
                 result['complete'] = data.progress['complete'];
+                result['progress'] = data.progress['additional_progress'];
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -143,15 +144,15 @@ requestTable = {
         return result;
     },
 
-    getSectorProgress: function () {
+    getSectorProgress: function (requestID) {
         var result = {
             'progress': '',
             'type': '',
             'status': ''
         }
 
-        let baseUrl = '/api/progress/sector'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+        let baseUrl = `/api/progress/sector?requestID=${requestID}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
 
         $.ajax({
             method: "get",
@@ -255,11 +256,12 @@ requestTable = {
                     // else{
                     //     var status = '<p id="progress"></p>'
                     // }
-
+                    
                     if (status == "<p>완료</p>") {
                         var disable = "";
-                        var m_disable = "";
+                        var m_disable = ""
                         var text = "상세정보";
+                        var background = ""
                     }
                     else if (status == "<p>실패</p>") {
                         var disable = "";
@@ -271,7 +273,9 @@ requestTable = {
                         var disable = "disable";
                         var m_disable = "style='pointer-events: none;'"
                         var text = "진행중";
+                        var background = ""
                     }
+
                     if (screen.width <= 600) {
                         htmlStr += '<div class="m_logContent" data-id="' + requestList[i]['id'] + '" data-type="' + type + '" ' + m_disable + '>\
                                         <div class="name_content" '+ css + '><p>' + namelist[0] + list + '</p></div>\
@@ -372,6 +376,8 @@ requestTable = {
         let baseUrl = '/api/request/encrypt/all'
         let apiUrl = apiUrlConverter('encrypt', baseUrl)
 
+        let noConfirm = []
+
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -443,6 +449,7 @@ requestTable = {
                                 status = '<p>실패</p>'
                             }
                             else {
+                                // noConfirm.push(requestList[i]['id'])
                                 status = '<p id="progress"></p>'
                             }
                         }
@@ -563,7 +570,7 @@ requestTable = {
             }
         }
 
-        return htmlStr;
+        return [htmlStr, noConfirm];
         // return requestList;
     },
 
@@ -929,7 +936,7 @@ requestTable = {
         var htmlStr = ''
         if (responseMessage == "no key list") {
             htmlStr += '<div class="tableContent">\
-                            <p>생성된 Key가 없어요</p>\
+                            <p>생성된 암호 키가 없어요</p>\
                         </div>'
         }
         else {
@@ -1981,12 +1988,14 @@ requestTable = {
 
             }
         });
-        // return result;
+        return results;
     },
 
     getCashHistory: async function(startDate, endDate) {
         let baseUrl = `/api/history/cash?startDate=${startDate}&endDate=${endDate}`;
         let apiUrl = apiUrlConverter('util', baseUrl);
+        let results
+        let resultStr = ``
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -1995,12 +2004,13 @@ requestTable = {
             },
             async: false,
             success: function (result) {
+                results = result.cashHistory
                 console.log('getCashHistory result : ',result.cashHistory);
             },
             error: function() {
 
             }
         });
-        // return result;
+        return results;
     },
 }

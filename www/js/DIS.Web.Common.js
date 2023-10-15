@@ -304,6 +304,12 @@ comm = {
      */
 
     getUser: function () {
+        let url = document.location.href;
+        let len = url.split('/').length;
+        let pageName = url.split('/')[len - 1];
+        pageName = pageName.split('#')[0]
+        pageName = pageName.split('?')[0]
+
         let baseUrl = '/api/user'
         let apiUrl = apiUrlConverter('util', baseUrl)
 
@@ -320,12 +326,47 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                location.href = '/error'
+                if(pageName=="" || pageName=="service" ||pageName=="charge" || pageName=="qna"){
+                    result=""
+                }
+                else{
+                    location.href = '/error'
+                }
                 // alert(xhr + " : " + status);
             }
         });
-        resultStr = "<p>" + result.user_name + '님</p>'
+        if(result==""){
+            resultStr = `noLogin`
+        }
+        else{
+            resultStr = `<p>${result.user_name}님</p>
+                        <span>${price_three(comm.getNowPoint())} 캐시</span>`
+        }
         return resultStr;
+    },
+
+    moveMain: function () {
+        let baseUrl = '/api/user'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        var result = '';
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                result = data;
+            },
+            error: function (xhr, status) {
+                result=""
+                // alert(xhr + " : " + status);
+            }
+        });
+        
+        return result;
     },
 
     getKeyList: function () {
@@ -444,7 +485,7 @@ comm = {
                         download(data.privateKey, data.keyName + ".pem", "text/plain")
                         resolve();
                     }).then(() => {
-                        Swal.fire('키 발급이 완료되었습니다.', '', 'success').then(() => {
+                        Swal.fire('암호 키 발급이 \n완료되었습니다.', '', 'success').then(() => {
                             if (window.location.pathname == '/key') {
                                 location.reload();
                             }
@@ -457,7 +498,7 @@ comm = {
                 }
                 else if (data.message == 'fail') {
                     Swal.fire({
-                        title: '동일 이름의 키가 존재합니다.',
+                        title: '동일 이름의 암호 키가 존재합니다.',
                         showConfirmButton: false,
                         showDenyButton: true,
                         denyButtonText: "확 인",
@@ -632,9 +673,10 @@ comm = {
         });
     },
 
-    meterDownload: function (requestIndex, fileType, fileName, fileSize) {
-        let baseUrl = '/api/meterUsage/download'
-        let apiUrl = apiUrlConverter('util', baseUrl)
+    meterDownload: function (requestIndex, fileType, additionalID) {
+        let baseUrl = '/api/meterUsage/download';
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        if(typeof(additionalID) == 'object') additionalID = additionalID.join('/');
 
         $.ajax({
             method: "post",
@@ -642,8 +684,7 @@ comm = {
             data: {
                 requestIndex,
                 fileType,
-                fileName,
-                fileSize
+                additionalID
             },
             xhrFields: {
                 withCredentials: true
@@ -1069,6 +1110,68 @@ comm = {
                 };
             }
         }
+    },
+
+    getNowPoint: function () {
+        let baseUrl = `/api/point`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let pointBalance;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                pointBalance = result.point_balance;
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return pointBalance;
+    },
+
+    getAdditionalID: function (encryptID, fileName) {
+        let baseUrl = `/api/additional/id?encryptID=${encryptID}&fileName=${fileName}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let additionalID;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                additionalID = result.additionalID;
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return additionalID;
+    },
+
+    withdrawCash: function (fileName, requestType, amount, transactionDate, transactionTime, fileCount) {
+        let baseUrl = `/api/withdraw/cash`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let postData = {fileName, requestType, amount, transactionDate, transactionTime, fileCount};
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: postData,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function () {                
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
     },
 
     test: function (requestIndex) {

@@ -73,22 +73,22 @@ key = {
         let complete = false;
         let count = 0;
         await Swal.fire({
-            title: '변경할 키 선택',
+            title: '변경할 암호 키 선택',
             input: 'select',
-            inputPlaceholder: '키 목록',
+            inputPlaceholder: '암호 키 목록',
             inputOptions: inputOptions,
-            html: `${keyName} 암호키로 비식별화한 기록을 선택한 암호키로 대체합니다.`,
+            html: `${keyName} 암호 키로 비식별화한 기록을 선택한 암호 키로 대체합니다.`,
             allowOutsideClick: false,
             showCancelButton: true,
             inputValidator: (value) => {
-                if (value === '') return '키를 선택해 주세요'
+                if (value === '') return '암호 키를 선택해 주세요'
             },
         }).then(async (result) => {
             if(result.isConfirmed) {
                 let newKeyId = result.value;
                 await Swal.fire({
-                    title: '암호화 키 변경',
-                    html: '기존 키로 암호화된 정보를 새로운 키로 암호화합니다.',
+                    title: '암호 키 변경',
+                    html: '기존 암호 키로 암호화된 정보를 새로운 암호 키로 암호화합니다.',
                     showCancelButton: false,
                     showLoaderOnConfirm: true,
                     preConfirm: () => {
@@ -135,24 +135,26 @@ key = {
         let complete = false;
         let count = 0;
         await Swal.fire({
-            title: '변경할 키 선택',
+            title: '변경할 암호 키 선택',
             input: 'select',
-            inputPlaceholder: '키 목록',
+            inputPlaceholder: '암호 키 목록',
             inputOptions: inputOptions,
-            html: `${keyName} 암호키로 비식별화한 기록을 선택한 암호키로 대체합니다.`,
+            html: `${keyName} 암호 키로 비식별화한 기록을 선택한 암호 키로 대체합니다.`,
             allowOutsideClick: false,
             showCancelButton: true,
             inputValidator: (value) => {
-                if (value === '') return '키를 선택해 주세요'
+                if (value === '') return '암호 키를 선택해 주세요'
             },
         }).then(async (result) => {
             if(result.isConfirmed) {
                 let newKeyId = result.value;
                 await Swal.fire({
-                    title: '암호화 키 변경',
-                    html: '기존 키로 암호화된 정보를 새로운 키로 암호화합니다..',
+                    title: '암호 키 변경',
+                    html: '기존 암호 키로 암호화된 정보를 새로운 암호 키로 암호화합니다..',
                     showCancelButton: false,
                     showLoaderOnConfirm: true,
+                    confirmButtonText: '확 인',
+                    cancelButtonText: '취 소',
                     preConfirm: () => {
                         let baseUrl = '/api/key/re-encryption/element'
                         let apiUrl = apiUrlConverter('key', baseUrl)
@@ -321,8 +323,8 @@ key = {
         let msg, upload_result, keyPath;
 
         const { value: file } = await Swal.fire({
-            title: '키 업로드',
-            text: '기존 사용중 키를 업로드 해 주세요',
+            title: '암호 키 업로드',
+            text: '기존 사용중인 암호 키를 업로드 해 주세요',
             input: 'file',
             inputAttributes: {
                 'accept': '.pem',
@@ -350,7 +352,7 @@ key = {
             }
             else {
                 Swal.fire({
-                    title: '복호화 키 불일치',
+                    title: '암호 키 불일치',
                     text: msg,
                     showCancelButton: false,
                     showConfirmButton: false,
@@ -406,8 +408,8 @@ key = {
         let msg, upload_result, keyPath;
 
         const { value: file } = await Swal.fire({
-            title: '키 업로드',
-            text: '기존 사용중 키를 업로드 해 주세요',
+            title: '암호 키 업로드',
+            text: '기존 사용중인 암호 키를 업로드 해 주세요',
             input: 'file',
             inputAttributes: {
                 'accept': '.pem',
@@ -436,7 +438,7 @@ key = {
             }
             else {
                 Swal.fire({
-                    title: '복호화 키 불일치',
+                    title: '암호 키 불일치',
                     text: msg,
                     showCancelButton: false,
                     showConfirmButton: false,

@@ -322,14 +322,14 @@ resultLoader = {
                         </div>'
             if (restoration == '복원 가능') {
                 html += '<div class="file_key">\
-                                <p class="title">복호화 키</p>\
+                                <p class="title">암호 키</p>\
                                 <p>'+ result.key_name + '</p>\
                             </div>';
             }
             else {
                 html += '<div class="file_key">\
-                                <p class="title">복호화 키</p>\
-                                <p>복호화 키 지정 안됨</p>\
+                                <p class="title">암호 키</p>\
+                                <p>암호 키 지정 안됨</p>\
                             </div>';
             }
             html += '</div>';
@@ -362,7 +362,7 @@ resultLoader = {
                         </div>'
             if (restoration == '복원 가능') {
                 html += '<div class="file_key">\
-                                <p class="title">복호화 키</p>\
+                                <p class="title">암호 키</p>\
                                 <p>'+ result.key_name + '</p>\
                                 <div class="keyChange" data-id=' + result.fk_rsa_key_pair_id + '>\
                                     <span>변경하기</span>\
@@ -371,8 +371,8 @@ resultLoader = {
             }
             else {
                 html += '<div class="file_key">\
-                                <p class="title">복호화 키</p>\
-                                <p>복호화 키 지정 안됨</p>\
+                                <p class="title">복암호 키</p>\
+                                <p>암호 키 지정 안됨</p>\
                             </div>';
             }
             html += '</div>';

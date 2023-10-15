@@ -35,37 +35,59 @@
     <div class="header">
         <div class="header_content">
             <div class="logo">
-              <a href="/main">
                 <img src="./static/imgs/common/new_header_logo.png">
-              </a>
             </div>
-          <div class="flow">
-          </div>
-          <div class="login_user">
-          </div>
-          <div class="menuBtn">
-            <img class="menu_nohover" src="./static/imgs/common/header_menu.png">
-            <img class="menu_hover" src="./static/imgs/common/header_menu_hover.png">
-            <div id="myDropdown" class="dropdown-content">
-                <a href="/main">홈</a>
-                <a href="/encrypt/log">비식별화 기록 열람</a>
-                <a href="/decrypt/log">복호화 기록 열람</a>
-                <a class='onlyPC' href="/usage">사용량 조회</a>
-                <a class='onlyPC' href="/cash">캐시 결제 내역</a>
-                <a class='onlyPC' href="/key">Key 관리</a>
-                <a class="infoMove">내 정보</a>
-                <a class="admin_only" href="/submanage">서브 계정 관리</a>
-                <a class='onlyMobile' href="/service">서비스 소개</a>
-                <a class='onlyMobile' href="/charge">요금 안내</a>
-                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
-                <a class='onlyMobile' href="/qna">고객센터</a>
-                <a class='onlyMobile' href="/service">서비스 소개</a>
-                <a class='onlyMobile' href="/charge">요금 안내</a>
-                <a class='onlyMobile' href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank">사용 가이드</a>
-                <a class='onlyMobile' href="/qna">고객센터</a>
-                <div id="logout">로그아웃</div>
+            <div class="flow">
+                <div class="flowMenu">
+                    <a href="/">
+                        <p>서비스 소개</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="/charge">
+                        <p>요금 안내</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46" target="_blank" target="_blank">
+                        <p>사용 가이드</p>
+                    </a>
+                </div>
+                <div class="flowMenu">
+                    <a href="/qna">
+                        <p>고객 센터</p>
+                    </a>
+                </div>
             </div>
-          </div>
+            <div class="login_user">
+            </div>
+            <div class="menuBtn">
+                <img class="menu_nohover" src="./static/imgs/common/header_menu.png">
+                <img class="menu_hover" src="./static/imgs/common/header_menu_hover.png">
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/main">홈</a>
+                    <a href="/encrypt/log">비식별화 기록 열람</a>
+                    <a href="/decrypt/log">복호화 기록 열람</a>
+                    <a class='onlyPC' href="/usage">사용량 조회</a>
+                    <a class='onlyPC' href="/cash">캐시 결제 내역</a>
+                    <a class='onlyPC' href="/key">암호 키 관리</a>
+                    <a class="infoMove">내 정보</a>
+                    <a class="admin_only" href="/submanage">서브 계정 관리</a>
+                    <a class='onlyMobile' href="/">서비스 소개</a>
+                    <a class='onlyMobile' href="/charge">요금 안내</a>
+                    <a class='onlyMobile'
+                        href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46"
+                        target="_blank">사용 가이드</a>
+                    <a class='onlyMobile' href="/qna">고객센터</a>
+                    <a class='onlyMobile' href="/">서비스 소개</a>
+                    <a class='onlyMobile' href="/charge">요금 안내</a>
+                    <a class='onlyMobile'
+                        href="https://www.notion.so/83ae25e8b20d478580d59e733e45ac45?v=ae4e40c02581401d944da68b1f757c46"
+                        target="_blank">사용 가이드</a>
+                    <a class='onlyMobile' href="/qna">고객센터</a>
+                    <div id="logout">로그아웃</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="log_content">
@@ -133,7 +155,7 @@
                         <div class="cashList">
                             <div class="cashBox">
                                 <div class="cashContent date">
-                                    <p>YYYY. MM. DD  00 : 00 : 00</p>
+                                    <p>YYYY. MM. DD 00 : 00 : 00</p>
                                 </div>
                                 <div class="cashContent content">
                                     <div class="textArea">
@@ -153,41 +175,41 @@
         </div>
     </div>
     <div class="footer">
-      <div class="logo">
-        <img src="./static/imgs/common/new_footer_logo.png">
-        <div class="upBtn">
-          <img src="./static/imgs/common/upBtn_icon.png">
+        <div class="logo">
+            <img src="./static/imgs/common/new_footer_logo.png">
+            <div class="upBtn">
+                <img src="./static/imgs/common/upBtn_icon.png">
+            </div>
         </div>
-      </div>
-      <div class="textArea">
-        <div class="footer_menu">
-          <label class="privacy">개인정보처리방침</label>
-          <p>|</p>
-          <label class="servicePrivacy">서비스이용약관</label>
-          <p>|</p>
-          <label class="emailPrivacy">이메일무단수집거부</label>
+        <div class="textArea">
+            <div class="footer_menu">
+                <label class="privacy">개인정보처리방침</label>
+                <p>|</p>
+                <label class="servicePrivacy">서비스이용약관</label>
+                <p>|</p>
+                <label class="emailPrivacy">이메일무단수집거부</label>
+            </div>
+            <div class="companyInfo">
+                <div class="loc">
+                    <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
+                </div>
+                <div class="ceo_num">
+                    <p class="info">대표 :&nbsp;<label>조판희</label></p>
+                    <p>|</p>
+                    <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
+                    <p>|</p>
+                    <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
+                </div>
+                <div class="call_num">
+                    <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
+                    <p>|</p>
+                    <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
+                </div>
+                <div class="inc">
+                    <p>(주)엠에이치엔씨티 © mhncity Inc. all rights reserved</p>
+                </div>
+            </div>
         </div>
-        <div class="companyInfo">
-          <div class="loc">
-            <p>[04794] 서울특별시 성동구 아차산로 103 (성수동2가, 영동테크노타워) 609호</p>
-          </div>
-          <div class="ceo_num">
-            <p class="info">대표 :&nbsp;<label>조판희</label></p>
-            <p>|</p>
-            <p class="info">사업자번호 :&nbsp;<label>120-87-43532</label></p>
-            <p>|</p>
-            <p class="info">통신판매업신고번호 :&nbsp;<label>제0000-서울성동-0000호</label></p>
-          </div>
-          <div class="call_num">
-            <p class="num">Tel :&nbsp;<label>070-7553-2372</label></p>
-            <p>|</p>
-            <p class="num">Fax :&nbsp;<label>02-2051-2370</label></p>
-          </div>
-          <div class="inc">
-            <p>(주)엠에이치엔씨티  © mhncity Inc. all rights reserved</p>
-          </div>
-        </div>
-      </div>
     </div>
 </body>
 
