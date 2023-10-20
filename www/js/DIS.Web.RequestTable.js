@@ -1994,8 +1994,7 @@ requestTable = {
     getCashHistory: async function(startDate, endDate) {
         let baseUrl = `/api/history/cash?startDate=${startDate}&endDate=${endDate}`;
         let apiUrl = apiUrlConverter('util', baseUrl);
-        let results
-        let resultStr = ``
+        let results;
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -2004,8 +2003,7 @@ requestTable = {
             },
             async: false,
             success: function (result) {
-                results = result.cashHistory
-                console.log('getCashHistory result : ',result.cashHistory);
+                results = result.cashHistory;
             },
             error: function() {
 
@@ -2013,4 +2011,26 @@ requestTable = {
         });
         return results;
     },
+
+    downloadExcel: async function (workData, fileData) {
+        const baseUrl = `/api/usage/excel`
+        const apiUrl = apiUrlConverter('util', baseUrl)
+        const sessionData = { workData, fileData }
+        
+        try {
+            const data = await $.ajax({
+                method: 'post',
+                url: apiUrl,
+                data: sessionData,
+                xhrFields: {
+                    withCredentials: true,
+                    responseType: 'blob'
+                },
+            });
+            return data
+        } catch(err) {
+            console.error(err)
+            return null
+        }
+    }
 }
