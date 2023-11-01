@@ -305,7 +305,7 @@ login = {
                     result = data.verifyId
                     Swal.fire({
                         title: '인증번호 발송 완료',
-                        text: '등록되어 있는 이메일 주소로 인증번호가 발송되었습니다.',
+                        text: '등록되어 있는 이메일 주소로 \n인증번호가 발송되었습니다.',
                         confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'
@@ -407,7 +407,7 @@ login = {
                 if (data.message == 'success') {
                     Swal.fire({
                         title: '메일 발송 완료',
-                        text: '등록되어 있는 이메일 주소로 임시 비밀번호가 발송되었습니다.',
+                        text: '등록되어 있는 이메일 주소로 \n임시 비밀번호가 발송되었습니다.',
                         confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'

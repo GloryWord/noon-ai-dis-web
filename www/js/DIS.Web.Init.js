@@ -76,7 +76,7 @@ init = {
                 if (password == '') var msg = '비밀번호';
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
                 Swal.fire({
-                    title: msg + '를 입력해 주세요.',
+                    title: msg + '를 \n입력해 주세요.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
@@ -143,7 +143,7 @@ init = {
                 if (password == '') var msg = '비밀번호';
                 if (accountName == '' && password == '') var msg = '아이디와 비밀번호';
                 Swal.fire({
-                    title: msg + '를 입력해 주세요.',
+                    title: msg + '를 \n입력해 주세요.',
                     showCancelButton: false,
                     showConfirmButton: false,
                     showDenyButton: true,
@@ -1688,7 +1688,10 @@ init = {
                 var data = new Object();
                 var allCheck = [$('.body_allselect.' + i + '').is(':checked'), $('.head_allselect.' + i + '').is(':checked'), $('.lp_allselect.' + i + '').is(':checked')]
                 if (allCheck[0] == true && allCheck[1] == true && allCheck[2] == true) {
-                    data.allCheck = true
+                    data.allCheck = false
+                    data.body = ["all"]
+                    data.head = ["all"]
+                    data.lp = ["all"]
                 }
                 else {
                     if (allCheck[0] == true) {
@@ -1755,10 +1758,10 @@ init = {
                         }
                     }
                     if (data.body == ["all"] && data.head == ["all"] && data.lp == ["all"]) {
-                        data.allCheck = true
-                        delete data.body
-                        delete data.head
-                        delete data.lp
+                        data.allCheck = false
+                        // delete data.body
+                        // delete data.head
+                        // delete data.lp
                     }
                     else {
                         data.allCheck = false
@@ -2709,7 +2712,7 @@ init = {
         })
 
         $(document).on("change", ".endDate", function () {
-            if($(".startDate").val()==""){
+            if ($(".startDate").val() == "") {
                 Swal.fire({
                     title: '시작날짜를 선택해주세요.',
                     showConfirmButton: false,
@@ -2719,7 +2722,7 @@ init = {
                 });
                 $(".endDate").val("")
             }
-            else if($(".startDate").val()>$(".endDate").val()){
+            else if ($(".startDate").val() > $(".endDate").val()) {
                 Swal.fire({
                     title: '시작날짜를 종료날짜보다 \n크게 할 수 없어요.',
                     showConfirmButton: false,
@@ -2730,7 +2733,7 @@ init = {
                 $(".startDate").val("")
                 $(".endDate").val("")
             }
-            else if(checkDateDifference()==false){
+            else if (checkDateDifference() == false) {
                 Swal.fire({
                     title: '검색할 수 있는 \n최대 범위를 초과했어요.',
                     showConfirmButton: false,
@@ -2741,7 +2744,7 @@ init = {
                 $(".startDate").val("")
                 $(".endDate").val("")
             }
-            else{
+            else {
                 getCash($(".startDate").val(), $(".endDate").val())
                 $(".priceText").text(`${price_three(comm.getNowPoint())}`)
             }
@@ -2816,7 +2819,7 @@ init = {
                 }
                 else if (type == "charge") {
                     // let chargeLength = 0
-        
+
                     // for(let i;i<cash.length;i++){
                     //     if(cash[i]["transaction_type"] == "charge"){
                     //         chargeLength += 1
@@ -2831,11 +2834,11 @@ init = {
                     //                 </div>`
                     // }
                     // else{
-                        for (let i = 0; i < cash.length; i++) {
-                            if (cash[i]["transaction_type"] == "charge") {
-                                let contentHTML = `<h2>캐시 충전</h2>`
-                                let cashType = `plusCash`
-                                tableHTML += `<div class='cashBox'>
+                    for (let i = 0; i < cash.length; i++) {
+                        if (cash[i]["transaction_type"] == "charge") {
+                            let contentHTML = `<h2>캐시 충전</h2>`
+                            let cashType = `plusCash`
+                            tableHTML += `<div class='cashBox'>
                                                 <div class="cashContent date">
                                                     <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
                                                 </div>
@@ -2848,13 +2851,13 @@ init = {
                                                     <span class="${cashType}">+ ${price_three(cash[i]["amount"])}</span>
                                                 </div>
                                             </div>`
-                            }
                         }
+                    }
                     // }
                 }
                 else if (type == "use") {
                     // let useLength = 0
-        
+
                     // for(let i;i<cash.length;i++){
                     //     if(cash[i]["transaction_type"] == "withdraw"){
                     //         useLength += 1
@@ -2869,27 +2872,27 @@ init = {
                     //                 </div>`
                     // }
                     // else{
-                        for (let i = 0; i < cash.length; i++) {
-                            if (cash[i]["transaction_type"] == "withdraw") {
-                                let cashType = ``
-                                let serviceType
-                                if (cash[i]["request_type"] == "encrypt") {
-                                    serviceType = "비식별화"
-                                }
-                                else if (cash[i]["request_type"] == "additional_encrypt") {
-                                    serviceType = "추가 비식별화"
-                                }
-                                else if (cash[i]["request_type"] == "decrypt") {
-                                    serviceType = "부분 복호화"
-                                }
-                                else if (cash[i]["request_type"] == "download") {
-                                    serviceType = "다운로드"
-                                }
-                                let contentHTML = `<h5>${cash[i]["user_name"]}</h5>
+                    for (let i = 0; i < cash.length; i++) {
+                        if (cash[i]["transaction_type"] == "withdraw") {
+                            let cashType = ``
+                            let serviceType
+                            if (cash[i]["request_type"] == "encrypt") {
+                                serviceType = "비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "additional_encrypt") {
+                                serviceType = "추가 비식별화"
+                            }
+                            else if (cash[i]["request_type"] == "decrypt") {
+                                serviceType = "부분 복호화"
+                            }
+                            else if (cash[i]["request_type"] == "download") {
+                                serviceType = "다운로드"
+                            }
+                            let contentHTML = `<h5>${cash[i]["user_name"]}</h5>
                                                 <h3>${serviceType}</h3>
                                                 <h4>{파일명}</h4>`
-                                cashType = `minusCash`
-                                tableHTML += `<div class='cashBox'>
+                            cashType = `minusCash`
+                            tableHTML += `<div class='cashBox'>
                                                 <div class="cashContent date">
                                                     <p>${cash[i]["transaction_date"].split("T")[0]} ${cash[i]["transaction_time"]}</p>
                                                 </div>
@@ -2902,8 +2905,8 @@ init = {
                                                     <span class="${cashType}">- ${price_three(cash[i]["amount"])}</span>
                                                 </div>
                                             </div>`
-                            }
                         }
+                    }
                     // }
                 }
             }
@@ -2928,7 +2931,7 @@ init = {
         });
 
         $(document).on("click", ".confirmBtn", function () {
-            if ($('.nameInfo').val()=="") {
+            if ($('.nameInfo').val() == "") {
                 Swal.fire({
                     title: '이름(기관명)을 \n입력해주세요.',
                     showConfirmButton: false,
@@ -2937,8 +2940,8 @@ init = {
                     icon: "error"
                 });
             }
-            else{
-                if ($('.emailInfo').val()=="") {
+            else {
+                if ($('.emailInfo').val() == "") {
                     Swal.fire({
                         title: '이메일을 입력해주세요.',
                         showConfirmButton: false,
@@ -2947,8 +2950,8 @@ init = {
                         icon: "error"
                     });
                 }
-                else{
-                    if ($('.typeInfo').val()=="") {
+                else {
+                    if ($('.typeInfo').val() == "") {
                         Swal.fire({
                             title: '문의 유형을 입력해주세요.',
                             showConfirmButton: false,
@@ -2957,8 +2960,8 @@ init = {
                             icon: "error"
                         });
                     }
-                    else{
-                        if ($('.phoneInfo').val()=="") {
+                    else {
+                        if ($('.phoneInfo').val() == "") {
                             Swal.fire({
                                 title: '연락처를 입력해주세요.',
                                 showConfirmButton: false,
@@ -2967,8 +2970,8 @@ init = {
                                 icon: "error"
                             });
                         }
-                        else{
-                            if ($('.titleInfo').val()=="") {
+                        else {
+                            if ($('.titleInfo').val() == "") {
                                 Swal.fire({
                                     title: '문의 제목을 입력해주세요.',
                                     showConfirmButton: false,
@@ -2977,8 +2980,8 @@ init = {
                                     icon: "error"
                                 });
                             }
-                            else{
-                                if ($('.contentInfo').val()=="") {
+                            else {
+                                if ($('.contentInfo').val() == "") {
                                     Swal.fire({
                                         title: '문의 내용을 입력해주세요.',
                                         showConfirmButton: false,
@@ -2987,8 +2990,8 @@ init = {
                                         icon: "error"
                                     });
                                 }
-                                else{
-                                    if ($(".agreeServiceCheck").is(":checked")==false) {
+                                else {
+                                    if ($(".agreeServiceCheck").is(":checked") == false) {
                                         Swal.fire({
                                             title: '개인정보 수집 및 이용에 \n동의해주세요.',
                                             showConfirmButton: false,
@@ -2997,7 +3000,7 @@ init = {
                                             icon: "error"
                                         });
                                     }
-                                    else{
+                                    else {
                                         console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.typeInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
                                     }
                                 }
@@ -3640,7 +3643,13 @@ init = {
                     }
                     var result = subaccount.addSubAccount(subAccountInfo);
                     if (result == true) {
-                        Swal.fire('서브계정 생성이 완료되었습니다.', '', 'success').then(() => {
+                        Swal.fire({
+                            title: '서브계정 생성이 \n완료되었습니다.',
+                            showConfirmButton: true,
+                            showDenyButton: false,
+                            confirmButtonText: "확 인",
+                            icon: "success"
+                        }).then((result) => {
                             location.href = '/submanage';
                         })
                     }
@@ -3727,7 +3736,13 @@ init = {
             if (email) {
                 var exist = signup.checkDuplicate(email);
                 if (!exist) {
-                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'success').then(() => {
+                    Swal.fire({
+                        title: '이메일로 인증번호가 \n전송되었습니다.',
+                        showConfirmButton: true,
+                        showDenyButton: false,
+                        confirmButtonText: "확 인",
+                        icon: "success"
+                    }).then(() => {
                         verifyCode = signup.sendMail(email);
                         $('.auth_send').addClass('hide')
                         $('.re_auth_send').addClass('active')
@@ -3758,7 +3773,13 @@ init = {
             if (email) {
                 var exist = signup.checkDuplicate(email);
                 if (!exist) {
-                    Swal.fire('이메일로 인증번호가 전송되었습니다.', '', 'success').then(() => {
+                    Swal.fire({
+                        title: '이메일로 인증번호가 \n전송되었습니다.',
+                        showConfirmButton: true,
+                        showDenyButton: false,
+                        confirmButtonText: "확 인",
+                        icon: "success"
+                    }).then(() => {
                         verifyCode = signup.sendMail(email);
                     })
                 }
@@ -3785,7 +3806,13 @@ init = {
         $(document).on("click", "#email_verify", function () {
             if (!$(this).hasClass('click')) {
                 if ($("#verify_number").val() == verifyCode) {
-                    Swal.fire('인증이 완료되었습니다.', '', 'success').then(() => {
+                    Swal.fire({
+                        title: '인증이 완료되었습니다.',
+                        showConfirmButton: true,
+                        showDenyButton: false,
+                        confirmButtonText: "확 인",
+                        icon: "success"
+                    }).then(() => {
                         $('.re_auth_send').removeClass('active')
                         $('.auth_confirm').addClass('hide')
                         $('.su_auth_send').addClass('active')
@@ -4321,7 +4348,13 @@ init = {
                                         comm.increaseRequestCount(eventIndex, fileList, requestType);
                                         resolve();
                                     }).then(() => {
-                                        Swal.fire('파일 다운로드가 시작되었습니다.', '', 'success')
+                                        Swal.fire({
+                                            title: '파일 다운로드가 \n시작되었습니다.',
+                                            showConfirmButton: true,
+                                            showDenyButton: false,
+                                            confirmButtonText: "확 인",
+                                            icon: "success"
+                                        })
                                     })
                                 }, 500)
                             }

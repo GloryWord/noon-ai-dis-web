@@ -352,7 +352,13 @@ subaccount = {
             data: postdata,
             async: false,
             success: function (data) {
-                Swal.fire('권한 설정이 완료됐습니다.', '', 'success').then(() => {
+                Swal.fire({
+                    title: '권한 설정이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then(() => {
                     location.href = '/submanage';
                 })
             }, // success 
@@ -418,7 +424,13 @@ subaccount = {
             data: postdata,
             async: false,
             success: function (data) {
-                Swal.fire('접속 키를 변경했어요.', '', 'success').then(() => {
+                Swal.fire({
+                    title: '접속 키 변경이 \n완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then(() => {
                     location.href = "/submanage"
                 })
             }, // success 
