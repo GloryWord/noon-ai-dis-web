@@ -1778,7 +1778,6 @@ init = {
             }
 
             let decryptAjaxResponse = fileModule.decrypt(decryptArgs);
-            console.log('selectedFile : ', selectedFile);
             // 복호화 카운트 증가시키는 함수 추가
             let fileNames = urlParams.get('fileNames');
             fileNames = fileNames.split(',');
@@ -2108,6 +2107,37 @@ init = {
             }
             else if (viewType == "work") {
                 workHTML(JSON.parse(sessionStorage.getItem("workData")), "all")
+            }
+        })
+        
+        // 엑셀 다운
+        $(document).on('click', '.excelDownload', async () => {
+            try {
+                // parse 하고 stringify gksek
+                const workData = JSON.stringify(JSON.parse(sessionStorage.getItem('workData')).jobHistory)
+                const fileData = sessionStorage.getItem('fileData')
+                
+                // 세션에서 가지고오는 데이터 필터링 필요
+                const data = await requestTable.downloadExcel(workData, fileData);
+                
+                if (data) {
+                    // Blob 데이터를 사용하여 Blob URL 생성
+                    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                    const blobUrl = URL.createObjectURL(blob);
+                
+                    // Blob URL을 사용하여 파일 다운로드 링크 생성
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = blobUrl;
+                    a.download = 'data.xlsx';
+                    document.body.appendChild(a);  
+                    a.click();
+                    window.URL.revokeObjectURL(blobUrl);
+                } else {
+                    console.error('No data received.');
+                }
+            } catch (error) {
+                console.error(error);
             }
         })
 

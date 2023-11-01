@@ -1166,6 +1166,26 @@ comm = {
         return additionalID;
     },
 
+    withdrawCash: function (fileName, requestType, amount, transactionDate, transactionTime, fileCount) {
+        let baseUrl = `/api/withdraw/cash`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let postData = {fileName, requestType, amount, transactionDate, transactionTime, fileCount};
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: postData,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function () {                
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+    },
+
     test: function (requestIndex) {
         let keyIndex = requestIndex;
         let baseUrl = '/api/test'

@@ -197,7 +197,7 @@ login = {
                 master_tenant_id = data.tenant;
 
                 lockStatus = login.selectLockStatus('sub-account', master_tenant_id, account_name);
-                loginable = lockStatus.loginable
+                loginable = lockStatus.loginable;
                 activateTime = lockStatus.activateTime
 
                 if (loginable) {
@@ -217,22 +217,34 @@ login = {
                 }
             },
             error: function (xhr, status) {
-                let reason = xhr.responseJSON.reason;
+                let reason = xhr.responseJSON.message;
+
                 if (reason !== 'ID not found' && reason !== 'tenant not found') {
                     let tenant_id = xhr.responseJSON.tenant_id;
                     let loginFailCount = 0;
                     loginFailCount = login.plusLoginFailCount('sub-account', tenant_id, account_name);
                     let lock_count = Math.floor(loginFailCount / 5)
-                    if (loginFailCount >= 5) login.updateLockStatus('sub-account', tenant_id, account_name, lock_count);
+                    
+                    if (loginFailCount >= 5)  {
+                        login.updateLockStatus('sub-account', tenant_id, account_name, lock_count); 
+                        Swal.fire({
+                            title: '계정 로그인 비활성화',
+                            text: `소속된 기관의 관리자를 통해 잠금을 해제해 주세요.`,
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '로그인에 실패하였습니다.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
                 }
-
-                Swal.fire({
-                    title: '로그인에 실패하였습니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
             }
         })
         return master_tenant_id;
@@ -339,7 +351,7 @@ login = {
             },
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
+                if (data.message == '2차 인증번호 확인') {
                     if (data.verify === true) verify = true;
                 }
             },
