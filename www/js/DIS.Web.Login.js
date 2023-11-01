@@ -351,7 +351,7 @@ login = {
             },
             async: false,
             success: function (data) {
-                if (data.message == 'success') {
+                if (data.message == '2차 인증번호 확인') {
                     if (data.verify === true) verify = true;
                 }
             },
