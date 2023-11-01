@@ -607,7 +607,7 @@ fileModule = {
                             $(".uploadFooter").addClass('active')
                         });
                         var response = JSON.parse(this.responseText);
-                        if (response.message == 'success') {
+                        if (response.message == 'upload success') {
                             let coefficient = {};
                             let resolution_charge, frame_rate_charge, duration_charge, duration_base, duration_add, bitrate_charge, avg_object_charge;
                             let base_charge;
@@ -1085,7 +1085,7 @@ fileModule = {
                         },
                         async: false,
                         success: function (data) {
-                            if (data.message == 'success') {
+                            if (data.message == 'upload success') {
                                 upload_result = file_name;
                                 keyPath = data.filePath;
                             }
