@@ -431,7 +431,7 @@ comm = {
         await Swal.fire({
             title: '2차 인증',
             input: 'password',
-            text: `정보 보호를 위하여 다시 한 번 로그인해 주시기 바랍니다`,
+            text: `정보 보호를 위하여 다시 한 번 \n로그인해 주시기 바랍니다`,
             inputPlaceholder: '비밀번호를 입력해 주세요',
             inputAttributes: {
                 maxlength: 16,
@@ -446,7 +446,13 @@ comm = {
             if (result.isDismissed) location.href = '/submanage';
             if (password) {
                 var verify = login.secondaryLogin(password);
-                if (verify) Swal.fire('2차 인증이 완료되었습니다.', '', 'success')
+                if (verify) Swal.fire({
+                    title: '2차 인증이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                })
                 else Swal.fire({
                     title: '2차 인증에 실패하였습니다.',
                     showConfirmButton: false,
@@ -485,7 +491,13 @@ comm = {
                         download(data.privateKey, data.keyName + ".pem", "text/plain")
                         resolve();
                     }).then(() => {
-                        Swal.fire('암호 키 발급이 \n완료되었습니다.', '', 'success').then(() => {
+                        Swal.fire({
+                            title: '암호 키 발급이 \n완료되었습니다.',
+                            showConfirmButton: true,
+                            showDenyButton: false,
+                            confirmButtonText: "확 인",
+                            icon: "success"
+                        }).then(() => {
                             if (window.location.pathname == '/key') {
                                 location.reload();
                             }
