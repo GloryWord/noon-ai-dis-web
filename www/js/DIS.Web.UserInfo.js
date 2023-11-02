@@ -172,8 +172,14 @@ userinfo = {
             data: postdata,
             async: false,
             success: function (data) {
-                Swal.fire(data.change + '\n완료됐습니다.', '', 'success').then(() => {
-                    location.href = "/myinfo";
+                Swal.fire({
+                    title: `${data.change}\n완료되었습니다.`,
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then(() => {
+                    location.href = '/main';
                 })
             },
             error: function (xhr, status) {
@@ -322,7 +328,7 @@ userinfo = {
                     result = data.verifyCode;
                     Swal.fire({
                         title: '인증번호 발송 완료',
-                        text: '등록되어 있는 이메일 주소로 인증번호가 발송되었습니다.',
+                        text: '등록되어 있는 이메일 주소로 \n인증번호가 발송되었습니다.',
                         confirmButtonText: '확 인',
                         allowOutsideClick: false,
                         icon: 'success'
