@@ -1073,7 +1073,13 @@ requestTable = {
             data: postdata,
             async: false,
             success: function (data) {
-                Swal.fire('메모 수정이 완료됐습니다.', '', 'success').then(() => {
+                Swal.fire({
+                    title: '메모 수정이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then(() => {
                     location.href = '/key';
                 })
             },
