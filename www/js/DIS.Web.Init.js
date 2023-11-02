@@ -102,7 +102,7 @@ init = {
                 let password = $("#pass").val();
                 login.login(accountName, password);
                 login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
-                login.updateClearLockCount('tenant', master_tenant_id, accountName);
+                login.updateClearLockCount('tenant', master_tenant_id, accountName); 
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
