@@ -1186,26 +1186,23 @@ comm = {
         });
     },
 
-    test: function (requestIndex) {
-        let keyIndex = requestIndex;
-        let baseUrl = '/api/test'
-        let apiUrl = apiUrlConverter('encrypt', baseUrl)
-
+    updateDownloadStatus: function (decryptID) {
+        let baseUrl = `/api/decrypt/downloaded`;
+        let apiUrl = apiUrlConverter('decrypt', baseUrl);
+        let sendData = {decryptID:decryptID};
         $.ajax({
-            method: "post",
+            method: "PATCH",
             url: apiUrl,
-            data: {
-                keyIndex,
-            },
+            data: sendData,
             xhrFields: {
                 withCredentials: true
             },
-            success: function (data) {
-                console.log(data.result);
+            async: false,
+            success: function () {                
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
-    }
+    },
 }
