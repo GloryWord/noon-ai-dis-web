@@ -670,6 +670,7 @@ init = {
             }
             if (allCheck == "true" && cKey == 1 && sKey != "") {
                 var encryptObj = Object.assign({}, encryptObject);
+                // if(postData["encryptObject"])
                 postData['encryptObject'] = JSON.stringify(encryptObj);
                 var bitrateArray = []
                 fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum, 0);
