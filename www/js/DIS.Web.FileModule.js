@@ -963,7 +963,7 @@ fileModule = {
                 method: "post",
                 url: apiUrl,
                 dataType: "json",
-                data: {postData: postData},
+                data: postData,
                 xhrFields: {
                     withCredentials: true
                 },
