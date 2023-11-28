@@ -102,7 +102,7 @@ init = {
                 let password = $("#pass").val();
                 login.login(accountName, password);
                 login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
-                login.updateClearLockCount('tenant', master_tenant_id, accountName);
+                login.updateClearLockCount('tenant', master_tenant_id, accountName); 
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
@@ -787,6 +787,7 @@ init = {
                     const download = $('#download');
                     const downloadLink = $('#signedUrl');
                     downloadLink.href = downloadURL;
+                    fileModule.updateDownloadLink(eventIndex, downloadURL);
 
                     download.addEventListener('click', () => {
                         if (downloadLink.href == '') {
@@ -808,6 +809,7 @@ init = {
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
                             comm.meterDownload(eventIndex, type, fileName, fileSize);
+                            comm.updateDownloadStatus(eventIndex);
                             let requestType = 'download';
                             let originEncIndex = urlParams.get('encID');
                             if (fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);

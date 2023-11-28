@@ -2307,4 +2307,23 @@ fileModule = {
         });
         return fileNames;
     },
+
+    updateDownloadLink: async function (decryptID, downloadUrl) {
+        let baseUrl = `/api/decrypt/download`;
+        let apiUrl = apiUrlConverter('decrypt', baseUrl);
+        let sendData = { downloadUrl: downloadUrl, decryptID: decryptID };
+        $.ajax({
+            method: "PATCH",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: sendData,
+            async: false,
+            success: function () {
+            },
+            error: function () {
+            }
+        });
+    },
 }
