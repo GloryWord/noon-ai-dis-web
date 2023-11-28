@@ -633,7 +633,7 @@
 }
 
 .logTable .mainLog .logContent .name_content label {
-    width: 62px;
+    /* width: 62px; */
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
