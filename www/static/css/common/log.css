@@ -593,6 +593,13 @@
     color: #595959;
 }
 
+.logTable .mainLog .logContent .date_content p {
+    line-height: 1.1;
+}
+
+.logTable .mainLog .logContent .rest_content p {
+    line-height: 1.1;
+}
 
 .logTable .logHeader .id_content,
 .logTable .mainLog .logContent .id_content {
@@ -626,7 +633,7 @@
 }
 
 .logTable .mainLog .logContent .name_content label {
-    width: 62px;
+    /* width: 62px; */
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
