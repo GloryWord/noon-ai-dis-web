@@ -31,6 +31,7 @@ const patterns = {
 let whitelist = [
     { tenant_id: 39 },
     { tenant_id: 62 },
+    { tenant_id: 81 },
 ]
 
 var init = DIS.Web.Init;
