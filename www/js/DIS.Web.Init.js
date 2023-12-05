@@ -278,31 +278,31 @@ init = {
 
         $(".curTenant").html(temp);
 
-        // function reloadProgress() {
-        //     var encProgress = requestTable.getEncProgress();
-        //     if (encProgress['progress']) {
-        //         var progress = encProgress['progress']
-        //         $('#progress').html(progress);
-        //         var status = encProgress['status']
-        //         if (status == null) {
-        //             return 0
-        //         }
-        //         else {
-        //             if (status.indexOf('FAIL') == 1) {
-        //                 return 0
-        //             }
-        //             else if (status.indexOf("SUCCESS") == 1) {
-        //                 if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-        //                 else {
-        //                     var mainLog = requestTable.getRecentRequest('encrypt');
-        //                     $(".mainLog").html(mainLog);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        function reloadProgress() {
+            var encProgress = requestTable.getEncProgress();
+            if (encProgress['progress']) {
+                var progress = encProgress['progress']
+                $('#progress').html(progress);
+                var status = encProgress['status']
+                if (status == null) {
+                    return 0
+                }
+                else {
+                    if (status.indexOf('FAIL') == 1) {
+                        return 0
+                    }
+                    else if (status.indexOf("SUCCESS") == 1) {
+                        if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+                        else {
+                            var mainLog = requestTable.getRecentRequest('encrypt');
+                            $(".mainLog").html(mainLog);
+                        }
+                    }
+                }
+            }
+        }
 
-        // reloadProgress();
+        reloadProgress();
 
         var mainLog = requestTable.getRecentRequest('encrypt');
         $(".mainLog").html(mainLog);
