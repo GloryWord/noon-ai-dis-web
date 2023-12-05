@@ -1267,10 +1267,6 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
-        var mainLog = requestTable.getAllEncRequestList()
-        $(".mainLog").html(mainLog[0]);
-        console.log(mainLog[1])
-
         function reloadProgress() {
             var reqProgress = requestTable.getEncProgress();
             if (reqProgress['progress']) {
@@ -1297,7 +1293,6 @@ init = {
 
         reloadProgress();
 
-        // reloadProgress();
         if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
         else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
         $(".mainLog").html(mainLog);
