@@ -809,12 +809,13 @@ init = {
                             })
 
                             var fileName = (fileList.length > 1) ? 'Download.zip' : fileList[0];
-                            comm.meterDownload(eventIndex, type, fileName, fileSize);
-                            // comm.updateDownloadStatus(eventIndex);
+                            let additionalIDFile = (fileList.length > 1) ? '' : fileList[0];
+                            let encID = urlParams.get('encID');
+                            let additionalID = comm.getAdditionalID(encID, additionalIDFile);
+                            comm.meterDownload(eventIndex, type, additionalID);
                             let requestType = 'download';
-                            let originEncIndex = urlParams.get('encID');
-                            if (fileList.length > 1) comm.increaseRequestCount(originEncIndex, fileList, requestType);
-                            else comm.increaseRequestCount(originEncIndex, [fileName], requestType);
+                            if (fileList.length > 1) comm.increaseRequestCount(encID, fileList, requestType);
+                            else comm.increaseRequestCount(encID, [fileName], requestType);
                             Swal.fire({
                                 title: '다운로드가 시작됩니다!',
                                 html: '확인 버튼을 누르면 <br>메인 페이지로 이동합니다.',
@@ -4203,7 +4204,7 @@ init = {
 
                     $(document).on("click", "#signedUrl", function () {
                         let additionalID = comm.getAdditionalID(eventIndex, fileName);
-                        comm.meterDownload(eventIndex, type, fileName, fileSize, additionalID[0]); // complete
+                        comm.meterDownload(eventIndex, type, additionalID[0]);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileName], requestType);
                     })
@@ -4250,8 +4251,6 @@ init = {
                         console.log(selectModalImg)
                         let additionalID = comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
                         additionalID = additionalID.join('');
-                        var selectSize = signedUrl[selectModalImg][1];
-                        // comm.meterDownload(eventIndex, type, fileList[selectModalImg], selectSize, additionalID);
                         comm.meterDownload(eventIndex, type, additionalID);
                         let requestType = 'download';
                         comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
@@ -4378,7 +4377,8 @@ init = {
                 var fileName = fileList[0];
 
                 $(document).on("click", "#signedUrl", function () {
-                    comm.meterDownload(eventIndex, type, fileName, fileSize);
+                    let additionalID = comm.getAdditionalID(eventIndex, fileName);
+                    comm.meterDownload(eventIndex, type, additionalID);
                     let requestType = 'download';
                     comm.increaseRequestCount(eventIndex, fileList, requestType);
                 })
