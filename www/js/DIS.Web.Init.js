@@ -1268,31 +1268,29 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
-        function reloadProgress() {
-            var reqProgress = requestTable.getEncProgress();
-            if (reqProgress['progress']) {
-                var progress = reqProgress['progress']
-                $('#progress').html(progress);
-                var status = reqProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            var loadLog = requestTable.getAllEncRequestList()
-                            $(".mainLog").html(loadLog[0]);
-                        }
-                    }
-                }
-            }
-        }
-
-        reloadProgress();
+        // function reloadProgress() {
+        //     var reqProgress = requestTable.getEncProgress();
+        //     if (reqProgress['progress']) {
+        //         var progress = reqProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = reqProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     var loadLog = requestTable.getAllEncRequestList()
+        //                     $(".mainLog").html(loadLog[0]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
         else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
