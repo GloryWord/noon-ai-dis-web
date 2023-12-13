@@ -1004,17 +1004,35 @@ fileModule = {
             new Promise((resolve, reject) => {
                 resolve()
             }).then(() => {
-                Swal.fire({
-                    title: '비식별화 요청이 \n완료되었습니다.',
-                    showCancelButton: false,
-                    confirmButtonText: '확인',
-                    allowOutsideClick: false,
-                    icon:'success'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = '/loading?type=' + fileType + '&service=encrypt&id=' + requestIndex;
-                    }
-                })
+                if(fileType=="image"){
+                    Swal.fire({
+                        title: '비식별화 요청이 \n완료되었습니다.',
+                        showCancelButton: false,
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon:'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/encrypt/log';
+                            // location.href = '/loading?type=' + fileType + '&service=encrypt&id=' + requestIndex;
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: '비식별화 요청이 \n완료되었습니다.',
+                        text: `비식별화가 완료되면 \n이메일로 알림을 전달드립니다.`,
+                        showCancelButton: false,
+                        confirmButtonText: '확인',
+                        allowOutsideClick: false,
+                        icon:'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/encrypt/log';
+                            // location.href = '/loading?type=' + fileType + '&service=encrypt&id=' + requestIndex;
+                        }
+                    })
+                }
             })
         })
     },

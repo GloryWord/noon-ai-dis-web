@@ -103,7 +103,7 @@ init = {
                 let password = $("#pass").val();
                 login.login(accountName, password);
                 login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
-                login.updateClearLockCount('tenant', master_tenant_id, accountName); 
+                login.updateClearLockCount('tenant', master_tenant_id, accountName);
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
@@ -274,9 +274,9 @@ init = {
     },
 
     main: function () {
-        var temp = comm.getUser()
+        // var temp = comm.getUser()
 
-        $(".curTenant").html(temp);
+        // $(".curTenant").html(temp);
 
         // function reloadProgress() {
         //     var encProgress = requestTable.getEncProgress();
@@ -315,8 +315,8 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        var mainLog = requestTable.getRecentRequest('encrypt');
-        $(".mainLog").html(mainLog);
+        // var mainLog = requestTable.getRecentRequest('encrypt');
+        // $(".mainLog").html(mainLog);
 
         $(document).on("click", ".detailInfo", function () {
             let type = $(this).data('type')
@@ -1114,33 +1114,45 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileWidth[0] + fileHeight[0] > 3000) {
-                Swal.fire({
-                    title: '파일 해상도 초과',
-                    html:
-                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileSize[0] > 157286400) {
-                Swal.fire({
-                    title: '파일 용량제한 초과',
-                    html:
-                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
-                        '서비스 안정성을 위해 150MB 이하의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileCount == 0) {
+            // if (fileWidth[0] + fileHeight[0] > 3000) {
+            //     Swal.fire({
+            //         title: '파일 해상도 초과',
+            //         html:
+            //             '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+            //             '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileSize[0] > 157286400) {
+            //     Swal.fire({
+            //         title: '파일 용량제한 초과',
+            //         html:
+            //             '파일 용량이 150MB를 초과하였습니다.<br/>' +
+            //             '서비스 안정성을 위해 150MB 이하의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileCount == 0) {
+            //     Swal.fire({
+            //         title: '파일 오류',
+            //         html:
+            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+            //             '확인 후 재시도해 주세요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
                     html:
@@ -1267,35 +1279,35 @@ init = {
         pathname = pathname.split('/');
         var requestType = pathname[1];
 
-        var mainLog = requestTable.getAllEncRequestList()
-        $(".mainLog").html(mainLog[0]);
-        console.log(mainLog[1])
+        // var mainLog = requestTable.getAllEncRequestList()
+        // $(".mainLog").html(mainLog[0]);
+        // console.log(mainLog[1])
 
-        function reloadProgress() {
-            var reqProgress = requestTable.getEncProgress();
-            if (reqProgress['progress']) {
-                var progress = reqProgress['progress']
-                $('#progress').html(progress);
-                var status = reqProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            var loadLog = requestTable.getAllEncRequestList()
-                            $(".mainLog").html(loadLog[0]);
-                        }
-                    }
-                }
-            }
-        }
+        // function reloadProgress() {
+        //     var reqProgress = requestTable.getEncProgress();
+        //     if (reqProgress['progress']) {
+        //         var progress = reqProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = reqProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (reqProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     var loadLog = requestTable.getAllEncRequestList()
+        //                     $(".mainLog").html(loadLog[0]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        reloadProgress();
+        // reloadProgress();
 
         // reloadProgress();
         if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
@@ -2120,6 +2132,23 @@ init = {
             requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData) => {
                 $(".priceContent").html(detailData)
             })
+        })
+
+        $(document).on("click", ".excelDownload", async function () {
+            const yourBlob = await requestTable.downloadExcel(JSON.stringify(JSON.parse(sessionStorage.getItem("workData"))["jobHistory"]), sessionStorage.getItem("fileData"));
+
+            const link = document.createElement('a');
+
+            // Set the href attribute with the Blob data
+            link.href = window.URL.createObjectURL(yourBlob);
+
+            link.download = '요금표.xlsx';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
         })
 
         function fileHTML(fileData) {
@@ -3600,10 +3629,12 @@ init = {
             else var enc = 0
             if ($('.decAuth').is(':checked')) var dec = 1
             else var dec = 0
+            if ($('.additionalAuth').is(':checked')) var addi = 1
+            else var addi = 0
 
             var accountName = $(".subid").val()
 
-            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, accountName)
+            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, addi, accountName)
         });
 
         $(document).on("click", ".cancel", function () {
