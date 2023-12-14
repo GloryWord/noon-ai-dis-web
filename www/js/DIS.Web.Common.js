@@ -701,6 +701,7 @@ comm = {
             xhrFields: {
                 withCredentials: true
             },
+            async: false,
             success: function (data) {
                 if (data.message == "success") {
 
