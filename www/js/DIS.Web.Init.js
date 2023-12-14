@@ -4242,11 +4242,11 @@ init = {
                     var fileSize = signedUrl[0][1];
                     var fileName = fileList[0];
 
-                    $(document).on("click", "#signedUrl", function () {
-                        let additionalID = comm.getAdditionalID(eventIndex, fileName);
-                        comm.meterDownload(eventIndex, type, additionalID[0]);
+                    $(document).on("click", "#signedUrl", async function () {
+                        let additionalID = await comm.getAdditionalID(eventIndex, fileName);
+                        await comm.meterDownload(eventIndex, type, additionalID[0]);
                         let requestType = 'download';
-                        comm.increaseRequestCount(eventIndex, [fileName], requestType);
+                        await comm.increaseRequestCount(eventIndex, [fileName], requestType);
                     })
                 }
                 else if (mode == 'group') {
@@ -4287,13 +4287,12 @@ init = {
                         $("#imgView").addClass('active')
                     });
 
-                    $(document).on("click", ".imgConfirm", function () {
-                        console.log(selectModalImg)
-                        let additionalID = comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
+                    $(document).on("click", ".imgConfirm", async function () {
+                        let additionalID = await comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
                         additionalID = additionalID.join('');
-                        comm.meterDownload(eventIndex, type, additionalID);
+                        await comm.meterDownload(eventIndex, type, additionalID);
                         let requestType = 'download';
-                        comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
+                        await comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
                     });
 
                     $(document).on("click", ".allselect", function () {
