@@ -4416,11 +4416,11 @@ init = {
 
                 var fileName = fileList[0];
 
-                $(document).on("click", "#signedUrl", function () {
+                $(document).on("click", "#signedUrl", async function () {
                     let additionalID = comm.getAdditionalID(eventIndex, fileName);
-                    comm.meterDownload(eventIndex, type, additionalID);
+                    await comm.meterDownload(eventIndex, type, additionalID);
                     let requestType = 'download';
-                    comm.increaseRequestCount(eventIndex, fileList, requestType);
+                    await comm.increaseRequestCount(eventIndex, fileList, requestType);
                 })
             }
         }
