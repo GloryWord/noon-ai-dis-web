@@ -728,6 +728,7 @@
 }
 
 .logArea .tableArea .tableContent .contentInfo .logContent p {    
+    width: 80%;
     font-family: SpoqaHanSansNeo-Regular;
     font-size: 14px;
     font-weight: normal;
@@ -738,6 +739,9 @@
     text-align: center;
     color: #595959;
     margin: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .logArea .tableArea .tableContent .contentInfo .logContent .detailBtn {    
