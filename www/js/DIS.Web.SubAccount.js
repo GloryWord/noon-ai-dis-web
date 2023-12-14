@@ -286,6 +286,8 @@ subaccount = {
             else var enc = result[0]['encrypt_auth']
             if(result[0]['decrypt_auth']==null) var dec = "0"
             else var dec = result[0]['decrypt_auth']
+            if(result[0]['encrypt_auth']==null) var additional = "0"
+            else var additional = result[0]['encrypt_auth']
         }
 
         if(bucket[0]=="1") var bucket_c = "checked"
@@ -309,6 +311,9 @@ subaccount = {
 
         if(dec=="1") var decCheck = "checked"
         else var decCheck = ""
+
+        if(additional=="1") var additionalCheck = "checked"
+        else var additionalCheck = ""
 
         var html = '<div class="bucketAuth">\
                         <h1>버킷 권한 설정</h1>\
@@ -334,11 +339,12 @@ subaccount = {
                             <input class="decAuth" type="checkbox" '+decCheck+'><label>복호화</label>\
                         </div>\
                     </div>';
+                    // <input class="additionalAuth" type="checkbox" '+additionalCheck+'><label>추가 비식별화</label>\
         return html;
     },
     
-    putSubAuth: function (bucketAuth, dbAuth, enc, dec, accountName) {
-        var postdata = { bucketAuth:bucketAuth, dbAuth:dbAuth, enc:enc, dec:dec, accountName:accountName }
+    putSubAuth: function (bucketAuth, dbAuth, enc, dec, addi, accountName) {
+        var postdata = { bucketAuth:bucketAuth, dbAuth:dbAuth, enc:enc, dec:dec, addi:addi, accountName:accountName }
 
         let baseUrl = `/api/subaccount/auth`
         let apiUrl = apiUrlConverter('sub-account', baseUrl)

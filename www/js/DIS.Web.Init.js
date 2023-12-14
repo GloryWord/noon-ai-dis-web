@@ -103,7 +103,7 @@ init = {
                 let password = $("#pass").val();
                 login.login(accountName, password);
                 login.updateClearLoginFailCount('tenant', master_tenant_id, accountName);
-                login.updateClearLockCount('tenant', master_tenant_id, accountName); 
+                login.updateClearLockCount('tenant', master_tenant_id, accountName);
             }
             else {
                 let verify = login.verifyOTP(verifyId, user_code);
@@ -274,35 +274,35 @@ init = {
     },
 
     main: function () {
-        var temp = comm.getUser()
+        // var temp = comm.getUser()
 
-        $(".curTenant").html(temp);
+        // $(".curTenant").html(temp);
 
-        function reloadProgress() {
-            var encProgress = requestTable.getEncProgress();
-            if (encProgress['progress']) {
-                var progress = encProgress['progress']
-                $('#progress').html(progress);
-                var status = encProgress['status']
-                if (status == null) {
-                    return 0
-                }
-                else {
-                    if (status.indexOf('FAIL') == 1) {
-                        return 0
-                    }
-                    else if (status.indexOf("SUCCESS") == 1) {
-                        if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
-                        else {
-                            var mainLog = requestTable.getRecentRequest('encrypt');
-                            $(".mainLog").html(mainLog);
-                        }
-                    }
-                }
-            }
-        }
+        // function reloadProgress() {
+        //     var encProgress = requestTable.getEncProgress();
+        //     if (encProgress['progress']) {
+        //         var progress = encProgress['progress']
+        //         $('#progress').html(progress);
+        //         var status = encProgress['status']
+        //         if (status == null) {
+        //             return 0
+        //         }
+        //         else {
+        //             if (status.indexOf('FAIL') == 1) {
+        //                 return 0
+        //             }
+        //             else if (status.indexOf("SUCCESS") == 1) {
+        //                 if (encProgress['complete'] != 1) setTimeout(reloadProgress, 200);
+        //                 else {
+        //                     var mainLog = requestTable.getRecentRequest('encrypt');
+        //                     $(".mainLog").html(mainLog);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        reloadProgress();
+        // reloadProgress();
 
         var mainLog = requestTable.getRecentRequest('encrypt');
         $(".mainLog").html(mainLog);
@@ -315,8 +315,8 @@ init = {
             location.href = "/encrypt/image"
         });
 
-        var mainLog = requestTable.getRecentRequest('encrypt');
-        $(".mainLog").html(mainLog);
+        // var mainLog = requestTable.getRecentRequest('encrypt');
+        // $(".mainLog").html(mainLog);
 
         $(document).on("click", ".detailInfo", function () {
             let type = $(this).data('type')
@@ -383,31 +383,42 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
-            setTimeout(function () {
-                $('.uploadContent').html(html);
-                fileCount = fileSize.length;
-                fileIndex = [];
-                for (var i = 0; i < fileCount; i++) {
-                    fileIndex.push(i);
-                }
-                imgInfo = []
-                for (var i = 0; i < fileCount; i++) {
-                    let img = new Image();
-                    img.src = window.URL.createObjectURL(files[i]);
-                    imgInfo.push(img);
-                    // fileWidth.push(0); // 초기값으로 넣어둠
-                    // fileHeight.push(0); // 초기값으로 넣어둠
-
-                    img.onload = function () {
-                        const loadedImgIndex = imgInfo.indexOf(this);
-                        if (loadedImgIndex !== -1) {
-                            fileWidth[loadedImgIndex] = this.width;
-                            fileHeight[loadedImgIndex] = this.height;
-                        }
-                    };
-                }
-            }, 200)
+            if(this.files.length>10){
+                Swal.fire({
+                    title: '이미지는 10개까지 \n선택할 수 있습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                })
+            }
+            else{
+                [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
+                setTimeout(function () {
+                    $('.uploadContent').html(html);
+                    fileCount = fileSize.length;
+                    fileIndex = [];
+                    for (var i = 0; i < fileCount; i++) {
+                        fileIndex.push(i);
+                    }
+                    imgInfo = []
+                    for (var i = 0; i < fileCount; i++) {
+                        let img = new Image();
+                        img.src = window.URL.createObjectURL(files[i]);
+                        imgInfo.push(img);
+                        // fileWidth.push(0); // 초기값으로 넣어둠
+                        // fileHeight.push(0); // 초기값으로 넣어둠
+    
+                        img.onload = function () {
+                            const loadedImgIndex = imgInfo.indexOf(this);
+                            if (loadedImgIndex !== -1) {
+                                fileWidth[loadedImgIndex] = this.width;
+                                fileHeight[loadedImgIndex] = this.height;
+                            }
+                        };
+                    }
+                }, 200)
+            }
         });
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
@@ -1115,33 +1126,45 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileWidth[0] + fileHeight[0] > 3000) {
-                Swal.fire({
-                    title: '파일 해상도 초과',
-                    html:
-                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileSize[0] > 157286400) {
-                Swal.fire({
-                    title: '파일 용량제한 초과',
-                    html:
-                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
-                        '서비스 안정성을 위해 150MB 이하의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileCount == 0) {
+            // if (fileWidth[0] + fileHeight[0] > 3000) {
+            //     Swal.fire({
+            //         title: '파일 해상도 초과',
+            //         html:
+            //             '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+            //             '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileSize[0] > 157286400) {
+            //     Swal.fire({
+            //         title: '파일 용량제한 초과',
+            //         html:
+            //             '파일 용량이 150MB를 초과하였습니다.<br/>' +
+            //             '서비스 안정성을 위해 150MB 이하의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileCount == 0) {
+            //     Swal.fire({
+            //         title: '파일 오류',
+            //         html:
+            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+            //             '확인 후 재시도해 주세요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
                     html:
@@ -2114,6 +2137,23 @@ init = {
             requestTable.getFileDetailHistory($(this).data("idx"), filename, filetype, rest).then((detailData) => {
                 $(".priceContent").html(detailData)
             })
+        })
+
+        $(document).on("click", ".excelDownload", async function () {
+            const yourBlob = await requestTable.downloadExcel(JSON.stringify(JSON.parse(sessionStorage.getItem("workData"))["jobHistory"]), sessionStorage.getItem("fileData"));
+
+            const link = document.createElement('a');
+
+            // Set the href attribute with the Blob data
+            link.href = window.URL.createObjectURL(yourBlob);
+
+            link.download = '요금표.xlsx';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
         })
 
         function fileHTML(fileData) {
@@ -3594,10 +3634,12 @@ init = {
             else var enc = 0
             if ($('.decAuth').is(':checked')) var dec = 1
             else var dec = 0
+            if ($('.additionalAuth').is(':checked')) var addi = 1
+            else var addi = 0
 
             var accountName = $(".subid").val()
 
-            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, accountName)
+            subaccount.putSubAuth(bucketAuth, dbAuth, enc, dec, addi, accountName)
         });
 
         $(document).on("click", ".cancel", function () {
