@@ -383,31 +383,42 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
-            setTimeout(function () {
-                $('.uploadContent').html(html);
-                fileCount = fileSize.length;
-                fileIndex = [];
-                for (var i = 0; i < fileCount; i++) {
-                    fileIndex.push(i);
-                }
-                imgInfo = []
-                for (var i = 0; i < fileCount; i++) {
-                    let img = new Image();
-                    img.src = window.URL.createObjectURL(files[i]);
-                    imgInfo.push(img);
-                    // fileWidth.push(0); // 초기값으로 넣어둠
-                    // fileHeight.push(0); // 초기값으로 넣어둠
-
-                    img.onload = function () {
-                        const loadedImgIndex = imgInfo.indexOf(this);
-                        if (loadedImgIndex !== -1) {
-                            fileWidth[loadedImgIndex] = this.width;
-                            fileHeight[loadedImgIndex] = this.height;
-                        }
-                    };
-                }
-            }, 200)
+            if(this.files.length>10){
+                Swal.fire({
+                    title: '이미지는 10개까지 \n선택할 수 있습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                })
+            }
+            else{
+                [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
+                setTimeout(function () {
+                    $('.uploadContent').html(html);
+                    fileCount = fileSize.length;
+                    fileIndex = [];
+                    for (var i = 0; i < fileCount; i++) {
+                        fileIndex.push(i);
+                    }
+                    imgInfo = []
+                    for (var i = 0; i < fileCount; i++) {
+                        let img = new Image();
+                        img.src = window.URL.createObjectURL(files[i]);
+                        imgInfo.push(img);
+                        // fileWidth.push(0); // 초기값으로 넣어둠
+                        // fileHeight.push(0); // 초기값으로 넣어둠
+    
+                        img.onload = function () {
+                            const loadedImgIndex = imgInfo.indexOf(this);
+                            if (loadedImgIndex !== -1) {
+                                fileWidth[loadedImgIndex] = this.width;
+                                fileHeight[loadedImgIndex] = this.height;
+                            }
+                        };
+                    }
+                }, 200)
+            }
         });
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
