@@ -38,6 +38,17 @@ var init = DIS.Web.Init;
 init = {
 
     index: function () {
+        
+        // Swal.fire({
+        //     title: '점검 진행 예정',
+        //     html: '<p>~~~사유로 인해 <br>NN시~NN시까지 점검 예정입니다.</p>',
+        //     showCancelButton: true,
+        //     showConfirmButton: false,
+        //     showDenyButton: false,
+        //     cancelButtonText: "확 인",
+        //     icon: "info"
+        // });
+
         $('.explanSlider').slick({
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
             infinite: true, 	//무한 반복 옵션	 

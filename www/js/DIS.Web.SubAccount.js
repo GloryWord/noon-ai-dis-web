@@ -286,8 +286,8 @@ subaccount = {
             else var enc = result[0]['encrypt_auth']
             if(result[0]['decrypt_auth']==null) var dec = "0"
             else var dec = result[0]['decrypt_auth']
-            if(result[0]['encrypt_auth']==null) var additional = "0"
-            else var additional = result[0]['encrypt_auth']
+            if(result[0]['additional_encrypt_auth']==null) var additional = "0"
+            else var additional = result[0]['additional_encrypt_auth']
         }
 
         if(bucket[0]=="1") var bucket_c = "checked"
@@ -337,9 +337,9 @@ subaccount = {
                         <div class="selectArea">\
                             <input class="encAuth" type="checkbox" '+encCheck+'><label>비식별화</label>\
                             <input class="decAuth" type="checkbox" '+decCheck+'><label>복호화</label>\
+                            <input class="additionalAuth" type="checkbox" '+additionalCheck+'><label>추가 비식별화</label>\
                         </div>\
                     </div>';
-                    // <input class="additionalAuth" type="checkbox" '+additionalCheck+'><label>추가 비식별화</label>\
         return html;
     },
     
