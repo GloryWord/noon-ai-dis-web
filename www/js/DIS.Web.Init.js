@@ -38,6 +38,17 @@ var init = DIS.Web.Init;
 init = {
 
     index: function () {
+        
+        // Swal.fire({
+        //     title: '점검 진행 예정',
+        //     html: '<p>~~~사유로 인해 <br>NN시~NN시까지 점검 예정입니다.</p>',
+        //     showCancelButton: true,
+        //     showConfirmButton: false,
+        //     showDenyButton: false,
+        //     cancelButtonText: "확 인",
+        //     icon: "info"
+        // });
+
         $('.explanSlider').slick({
             slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
             infinite: true, 	//무한 반복 옵션	 
@@ -347,6 +358,8 @@ init = {
     },
 
     image: function () {
+        comm.authCheck("encrypt")
+
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
@@ -949,6 +962,8 @@ init = {
     },
 
     video: function () {
+        comm.authCheck("encrypt")
+        
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
@@ -4023,6 +4038,7 @@ init = {
     },
 
     detail: function () {
+        
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
@@ -4105,10 +4121,24 @@ init = {
         });
 
         $(document).on("click", ".file_recoConfirm", function () {
-            $('#file').val('');
-            $('.pemUpload').val('');
-            $('.recoConfirm').attr('data-value', $(this).data('value'));
-            $("#recoData").addClass('active')
+            let auth = comm.authCheck("decrypt")
+            if(auth == false){
+                Swal.fire({
+                    title: '복호화 권한이 없습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(async (result) => {
+                    location.reload()
+                })
+            }
+            else{
+                $('#file').val('');
+                $('.pemUpload').val('');
+                $('.recoConfirm').attr('data-value', $(this).data('value'));
+                $("#recoData").addClass('active')
+            }
         });
 
         $(document).on("click", ".cancel", function () {
@@ -4121,20 +4151,48 @@ init = {
 
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#file").on('change', function () {
-            var file = document.getElementById('file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-            $('.pemUpload').addClass("active");
-            $('.uploadBtn').addClass("active");
+            let auth = comm.authCheck("decrypt")
+            if(auth == false){
+                Swal.fire({
+                    title: '복호화 권한이 없습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(async (result) => {
+                    location.reload()
+                })
+            }
+            else{
+                var file = document.getElementById('file').files[0];
+                var fileName = file.name;
+                $('.pemUpload').val(fileName);
+                $('.pemUpload').addClass("active");
+                $('.uploadBtn').addClass("active");
+            }
         });
 
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#addfile").on('change', function () {
-            var file = document.getElementById('addfile').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-            $('.pemUpload').addClass("active");
-            $('.uploadBtn').addClass("active");
+            let auth = comm.authCheck("additional_encrypt")
+            if(auth == false){
+                Swal.fire({
+                    title: '추가 비식별화 \n권한이 없습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(async (result) => {
+                    location.reload()
+                })
+            }
+            else{
+                var file = document.getElementById('addfile').files[0];
+                var fileName = file.name;
+                $('.pemUpload').val(fileName);
+                $('.pemUpload').addClass("active");
+                $('.uploadBtn').addClass("active");
+            }
         });
 
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
@@ -4430,69 +4488,48 @@ init = {
 
 
         $(document).on("click", ".checkBtn", function () {
-            uploadID = makeid(6);
-            console.log('restoration : ', restoration);
-            if (restoration === '1') {
-                $('#addfile').val('');
-                $('.pemUpload').val('');
-                $('.addConfirm').attr('data-value', $(this).data('value'));
-                $("#addData").addClass('active')
-
-                $(document).on("click", ".addConfirm", function () {
-                    let key_name = $('.file_key')[0].children[1].innerHTML
-                    let uploadResult = fileModule.uploadKey('addfile');
-
-                    uploadResult.then(async (data) => {
-                        let file_name = data[0]
-                        let keyPath = data[1]
-                        socket.emit('delUploadedFile', {
-                            filePath: keyPath,
-                            id: uploadID,
-                            immediate: 'false'
-                        })
-
-                        if (file_name) {
-                            console.log('file_name : ' + JSON.stringify(file_name));
-                            let verify_result = fileModule.verifyKey(file_name, key_name);
-                            const { valid, msg, keyPath } = verify_result;
-                            if (!valid) {
-                                Swal.fire({
-                                    title: '암호 키 불일치',
-                                    text: msg,
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    showDenyButton: true,
-                                    denyButtonText: "확 인",
-                                    icon: "error"
-                                });
-                            }
-                            else {
-                                let result = await fileModule.makePasswordbin(eventIndex, keyPath);
-                                if (result) {
-                                    if (type == 'image') {
-                                        if (mode == 'single') {
-                                            location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
-                                        }
-                                        else if (mode == 'group') {
-                                            selectedFile = [];
-                                            var imgDivList = document.getElementsByClassName('check_reco');
-                                            var len = imgDivList.length;
-                                            for (var i = 0; i < len; i++) {
-                                                if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                                            }
-                                            let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
-                                            fileIDs = fileIDs.join(',');
-                                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
-                                        }
-                                    }
-                                    else if (type == 'video') {
-                                        location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
-                                    }
-                                }
-                                else {
+            let auth = comm.authCheck("additional_encrypt")
+            if(auth == false){
+                Swal.fire({
+                    title: '추가 비식별화 \n권한이 없습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(async (result) => {
+                    location.reload()
+                })
+            }
+            else{
+                uploadID = makeid(6);
+                console.log('restoration : ', restoration);
+                if (restoration === '1') {
+                    $('#addfile').val('');
+                    $('.pemUpload').val('');
+                    $('.addConfirm').attr('data-value', $(this).data('value'));
+                    $("#addData").addClass('active')
+    
+                    $(document).on("click", ".addConfirm", function () {
+                        let key_name = $('.file_key')[0].children[1].innerHTML
+                        let uploadResult = fileModule.uploadKey('addfile');
+    
+                        uploadResult.then(async (data) => {
+                            let file_name = data[0]
+                            let keyPath = data[1]
+                            socket.emit('delUploadedFile', {
+                                filePath: keyPath,
+                                id: uploadID,
+                                immediate: 'false'
+                            })
+    
+                            if (file_name) {
+                                console.log('file_name : ' + JSON.stringify(file_name));
+                                let verify_result = fileModule.verifyKey(file_name, key_name);
+                                const { valid, msg, keyPath } = verify_result;
+                                if (!valid) {
                                     Swal.fire({
-                                        title: '작업 실패',
-                                        text: '다시 시도해 주세요',
+                                        title: '암호 키 불일치',
+                                        text: msg,
                                         showCancelButton: false,
                                         showConfirmButton: false,
                                         showDenyButton: true,
@@ -4500,42 +4537,77 @@ init = {
                                         icon: "error"
                                     });
                                 }
+                                else {
+                                    let result = await fileModule.makePasswordbin(eventIndex, keyPath);
+                                    if (result) {
+                                        if (type == 'image') {
+                                            if (mode == 'single') {
+                                                location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                            }
+                                            else if (mode == 'group') {
+                                                selectedFile = [];
+                                                var imgDivList = document.getElementsByClassName('check_reco');
+                                                var len = imgDivList.length;
+                                                for (var i = 0; i < len; i++) {
+                                                    if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                                }
+                                                let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
+                                                fileIDs = fileIDs.join(',');
+                                                location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
+                                            }
+                                        }
+                                        else if (type == 'video') {
+                                            location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
+                                        }
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            title: '작업 실패',
+                                            text: '다시 시도해 주세요',
+                                            showCancelButton: false,
+                                            showConfirmButton: false,
+                                            showDenyButton: true,
+                                            denyButtonText: "확 인",
+                                            icon: "error"
+                                        });
+                                    }
+                                }
                             }
+                            else {
+                                console.log('file_name : ' + file_name);
+                                Swal.fire({
+                                    title: '암호 키 파일 업로드 실패',
+                                    text: '암호 키 파일을 다시 업로드해주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                });
+                            }
+                        })
+                    })
+                }
+                else {
+                    if (type == 'image') {
+                        if (mode == 'single') {
+                            location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                         }
-                        else {
-                            console.log('file_name : ' + file_name);
-                            Swal.fire({
-                                title: '암호 키 파일 업로드 실패',
-                                text: '암호 키 파일을 다시 업로드해주세요.',
-                                showConfirmButton: false,
-                                showDenyButton: true,
-                                denyButtonText: "확 인",
-                                icon: "error"
+                        else if (mode == 'group') {
+                            selectedFile = [];
+                            var imgDivList = document.getElementsByClassName('check_reco');
+                            var len = imgDivList.length;
+                            for (var i = 0; i < len; i++) {
+                                if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                            }
+                            fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
+                                fileIDs = fileIDs.join(',');
+                                location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
                             });
                         }
-                    })
-                })
-            }
-            else {
-                if (type == 'image') {
-                    if (mode == 'single') {
-                        location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                     }
-                    else if (mode == 'group') {
-                        selectedFile = [];
-                        var imgDivList = document.getElementsByClassName('check_reco');
-                        var len = imgDivList.length;
-                        for (var i = 0; i < len; i++) {
-                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                        }
-                        fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
-                            fileIDs = fileIDs.join(',');
-                            location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
-                        });
+                    else if (type == 'video') {
+                        location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                     }
-                }
-                else if (type == 'video') {
-                    location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                 }
             }
         })

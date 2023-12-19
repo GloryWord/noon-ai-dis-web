@@ -61,6 +61,12 @@ a:focus {
     background-color: #4b8bff !important;
 }
 
+.swal2-icon.swal2-info {
+    border-color: #16284d !important;
+    background-color: #16284d !important;
+    color: #fff !important;
+}
+
 .swal2-icon.swal2-error {
     border-color: #f64957 !important;
     background-color: #f64957 !important;
