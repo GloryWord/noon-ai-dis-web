@@ -1206,4 +1206,60 @@ comm = {
             }
         });
     },
+
+    authCheck: function (type) {
+        let baseUrl = `/api/auth/check?type=${type}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let result = null
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if(type == "encrypt"){
+                    if(data.message=="sub auth"){
+                        if(data.auth==0){
+                            Swal.fire({
+                                title: '비식별화 권한이 없습니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(async (result) => {
+                                location.href = "/main"
+                            })
+                        }
+                    }
+                }
+                else if(type == "decrypt"){
+                    if(data.message=="sub auth"){
+                        if(data.auth==0){
+                            result = false
+                        }
+                        else {
+                            result = true
+                        }
+                    }
+                }
+                else if(type == "additional_encrypt"){
+                    if(data.message=="sub auth"){
+                        if(data.auth==0){
+                            result = false
+                        }
+                        else {
+                            result = true
+                        }
+                    }
+                }
+            },
+            error: function (xhr, status) {
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+
+        return result
+    },
 }
