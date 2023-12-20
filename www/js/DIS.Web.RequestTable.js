@@ -2108,7 +2108,7 @@ requestTable = {
     downloadCashExcel: async function (cashData) {
         const baseUrl = `/api/cash/excel`
         const apiUrl = apiUrlConverter('util', baseUrl)
-        const sessionData = { workData }
+        const sessionData = { cashData }
         
         try {
             const data = await $.ajax({

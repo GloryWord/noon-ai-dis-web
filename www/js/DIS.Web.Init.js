@@ -2979,7 +2979,7 @@ init = {
         }
 
         $(document).on("click", ".excelDownload", async function () {
-            const yourBlob = await requestTable.downloadCashExcel(JSON.stringify(JSON.parse(sessionStorage.getItem("cashData"))));
+            const yourBlob = await requestTable.downloadCashExcel(sessionStorage.getItem("cashData"));
 
             const link = document.createElement('a');
 
