@@ -1534,6 +1534,17 @@ init = {
             }
         });
 
+        $(document).on("click", ".decDownload.active", function () {
+            let decID = $(this).data("idx")
+            comm.updateDownloadStatus(decID)
+            $(this).removeClass("active")
+            $(this).addClass("disable")
+            let btnChange = `<span>만 료</span>`
+            $(this).html(btnChange)
+            $(`.status${decID}`).text("다운로드 완료")
+            $(this).children()
+        });
+
         $(document).on("click", ".m_logContent", function () {
             if (requestType == 'encrypt') {
                 var type = $(this).data('type')
@@ -2848,7 +2859,7 @@ init = {
                             }
                             contentHTML = `<h5>${cash[i]["user_name"]}</h5>
                                             <h3>${serviceType}</h3>
-                                            <h4>{파일명}</h4>`
+                                            <h4>${cash[i]["file_name"]}</h4>`
                             cashType = `minusCash`
                             plusAndminus = `-`
                         }
@@ -2966,6 +2977,23 @@ init = {
             $(".tableContentArea").html(tableHTML)
             tablePaging()
         }
+
+        $(document).on("click", ".excelDownload", async function () {
+            const yourBlob = await requestTable.downloadCashExcel(JSON.stringify(JSON.parse(sessionStorage.getItem("cashData"))));
+
+            const link = document.createElement('a');
+
+            // Set the href attribute with the Blob data
+            link.href = window.URL.createObjectURL(yourBlob);
+
+            link.download = '캐시결제내역.xlsx';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+        })
     },
 
     qna: function () {
