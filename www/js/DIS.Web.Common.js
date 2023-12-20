@@ -1199,7 +1199,7 @@ comm = {
                 withCredentials: true
             },
             async: false,
-            success: function () {                
+            success: function () {              
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));

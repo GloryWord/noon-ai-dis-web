@@ -708,6 +708,45 @@
     color: #595959;
 }
 
+.logTable .mainLog .logContent .detail_content .decDownload {
+    width: 64px;
+    height: 24px;
+    margin: auto;
+    border-radius: 13px;
+    display: flex;
+    cursor: pointer;  
+    background-color: #3fa9f5;
+    cursor: pointer;
+}
+
+.logTable .mainLog .logContent .detail_content .decDownload.fail {
+    background-color: #f64957;
+}
+
+.logTable .mainLog .logContent .detail_content .decDownload.disable {
+    background-color: #707070;
+    pointer-events: none;
+}
+
+.logTable .mainLog .logContent .detail_content .decDownload a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.logTable .mainLog .logContent .detail_content .decDownload span {
+    font-family: SpoqaHanSansNeo-Bold;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+}
+
 .logTable .btn-wrap {
     width: 100%;
     height: auto;
