@@ -729,10 +729,8 @@ requestTable = {
             if (requestList.length !== 0) {
                 let status;
                 let btn;
-                for (var i = 0; i < requestList.length; i++) {
-                    var date = new Date(requestList[i]['request_date'])
-
-                    var namelist = requestList[i]['request_file_list'].split('\n')
+                for (let i = 0; i < requestList.length; i++) {
+                    let namelist = requestList[i]['request_file_list'].split('\n')
                     namelist = namelist.splice(0, namelist.length - 1);
 
                     if (namelist.length > 2 && requestList[i].file_type === 'image') {
@@ -744,7 +742,7 @@ requestTable = {
                         var css = 'style="margin:auto 0 auto auto"'
                     }
 
-                    var fileList = requestList[i]['request_file_list'].split('\n');
+                    let fileList = requestList[i]['request_file_list'].split('\n');
                     fileList = fileList.splice(0, fileList.length - 1);
 
                     // status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
@@ -805,8 +803,8 @@ requestTable = {
                                         <div class="id_content"><p>${underTen(requestList[i]['id'])}</p></div>
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
-                                        <div class="date_content"><p>${dateFormat(date)}<br>${requestList[i]["complete_time"]}</p></div>
-                                        <div class="rest_content"><p>${dateFormat(date)}<br>${requestList[i]["complete_time"]}</p></div>
+                                        <div class="date_content"><p>${koreanTimeStamp(requestList[i]["request_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${koreanTimeStamp(requestList[i]["expiration_datetime"])}</p></div>
                                         <div class="status_content"><p class='status${requestList[i]['id']}'>${status}</p></div>
                                         <div class="detail_content">${btn}</div>
                                     </div>`
@@ -819,9 +817,9 @@ requestTable = {
                                 <span>만 료</span>
                             </div>`
                 for (let i = 0; i < archived.length; i++) {
-                    var date = new Date(archived[i]['request_date'])
+                    let date = new Date(archived[i]['request_date'])
 
-                    var namelist = archived[i]['request_file_list'].split('\n')
+                    let namelist = archived[i]['request_file_list'].split('\n')
                     namelist = namelist.splice(0, namelist.length - 1);
 
                     if (namelist.length > 2 && archived[i].file_type === 'image') {
@@ -881,8 +879,8 @@ requestTable = {
                                         <div class="id_content"><p>${underTen(archived[i]['fk_dec_request_list_id'])}</p></div>
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
-                                        <div class="date_content"><p>${dateFormat(date)}<br>${archived[i]["complete_time"]}</p></div>
-                                        <div class="rest_content"><p>${dateFormat(date)}<br>${archived[i]["complete_time"]}</p></div>
+                                        <div class="date_content"><p>${koreanTimeStamp(archived[i]["request_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${koreanTimeStamp(archived[i]["expiration_datetime"])}</p></div>
                                         <div class="status_content"><p>${status}</p></div>
                                         <div class="detail_content">${btn}</div>
                                     </div>`
