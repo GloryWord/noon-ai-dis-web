@@ -28,6 +28,22 @@ const patterns = {
     phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
 };
 
+function koreanTimeStamp(timeData) {
+    let date = new Date(timeData);
+
+    let utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
+
+    let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+
+    let koreanTime = new Date(utc + (KR_TIME_DIFF));
+
+    // 원하는 형식으로 출력
+    let eventDate = `${koreanTime.getFullYear()}. ${(koreanTime.getMonth() + 1).toString().padStart(2, '0')}. ${koreanTime.getDate().toString().padStart(2, '0')}`;
+    let eventTime = `${koreanTime.getHours().toString().padStart(2, '0')}:${koreanTime.getMinutes().toString().padStart(2, '0')}:${koreanTime.getSeconds().toString().padStart(2, '0')}`;
+
+    return `${eventDate} \n${eventTime}`
+}
+
 let whitelist = [
     { tenant_id: 39 },
     { tenant_id: 62 },
@@ -1534,6 +1550,17 @@ init = {
             }
         });
 
+        $(document).on("click", ".decDownload.active", function () {
+            let decID = $(this).data("idx")
+            comm.updateDownloadStatus(decID)
+            $(this).removeClass("active")
+            $(this).addClass("disable")
+            let btnChange = `<span>만 료</span>`
+            $(this).html(btnChange)
+            $(`.status${decID}`).text("다운로드 완료")
+            $(this).children()
+        });
+
         $(document).on("click", ".m_logContent", function () {
             if (requestType == 'encrypt') {
                 var type = $(this).data('type')
@@ -2267,7 +2294,7 @@ init = {
                                         <div class='logContent filetype file'>
                                             <p>${fileType}</p>
                                         </div>
-                                        <div class='logContent encrpyt file'>
+                                        <div class='logContent encrypt file'>
                                             <p>${restorationData}</p>
                                         </div>
                                         <div class='logContent additional file'>
@@ -2848,7 +2875,7 @@ init = {
                             }
                             contentHTML = `<h5>${cash[i]["user_name"]}</h5>
                                             <h3>${serviceType}</h3>
-                                            <h4>{파일명}</h4>`
+                                            <h4>${cash[i]["file_name"]}</h4>`
                             cashType = `minusCash`
                             plusAndminus = `-`
                         }
@@ -2966,6 +2993,23 @@ init = {
             $(".tableContentArea").html(tableHTML)
             tablePaging()
         }
+
+        $(document).on("click", ".excelDownload", async function () {
+            const yourBlob = await requestTable.downloadCashExcel(sessionStorage.getItem("cashData"));
+
+            const link = document.createElement('a');
+
+            // Set the href attribute with the Blob data
+            link.href = window.URL.createObjectURL(yourBlob);
+
+            link.download = '캐시결제내역.xlsx';
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+        })
     },
 
     qna: function () {

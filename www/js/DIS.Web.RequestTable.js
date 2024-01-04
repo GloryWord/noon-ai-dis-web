@@ -728,14 +728,13 @@ requestTable = {
         else {
             if (requestList.length !== 0) {
                 let status;
-                for (var i = 0; i < requestList.length; i++) {
-                    var date = new Date(requestList[i]['request_date'])
-
-                    var namelist = requestList[i]['request_file_list'].split('\n')
+                let btn;
+                for (let i = 0; i < requestList.length; i++) {
+                    let namelist = requestList[i]['request_file_list'].split('\n')
                     namelist = namelist.splice(0, namelist.length - 1);
 
-                    if (namelist.length > 1 && requestList[i].file_type === 'image') {
-                        var list = "<label> 외 " + (Number(namelist.length) - 1) + "개</label>"
+                    if (namelist.length > 2 && requestList[i].file_type === 'image') {
+                        var list = "<label> 외 " + (Number(namelist.length) / 2 - 1) + "개</label>"
                         var css = ""
                     }
                     else {
@@ -743,22 +742,59 @@ requestTable = {
                         var css = 'style="margin:auto 0 auto auto"'
                     }
 
-                    var fileList = requestList[i]['request_file_list'].split('\n');
+                    let fileList = requestList[i]['request_file_list'].split('\n');
                     fileList = fileList.splice(0, fileList.length - 1);
 
-                    status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                    // status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                    
+                    if(requestList[i]['download_status']=="waiting"){
+                        status="대기중"
+                        btn = ""
+                    }
+                    else if(requestList[i]['download_status']=="processing"){
+                        status="진행중"
+                        btn = ""
+                    }
+                    else if(requestList[i]['download_status']=="complete"){
+                        status="완 료"
+                        btn = `<div class='decDownload active' data-idx=${requestList[i]['id']}>
+                                    <a href=${requestList[i]['download_url']} download>
+                                        <span>다운로드</span>
+                                    </a>
+                                </div>`
+                    }
+                    else if(requestList[i]['download_status']=="downloaded"){
+                        status="다운로드 \n완료"
+                        btn = `<div class='decDownload disable'>
+                                    <span>만 료</span>
+                                </div>`
+                    }
+                    else if(requestList[i]['download_status']=="expired" || requestList[i]['download_status']==null){
+                        status="기간 만료"
+                        btn = `<div class='decDownload disable'>
+                                    <span>만 료</span>
+                                </div>`
+                    }
+                    else if(requestList[i]['download_status']=="failed"){
+                        status="실 패"
+                        btn = `<div class='decDownload fail'>
+                                    <a href='/qna'>
+                                        <span>실 패</span>
+                                    </a>
+                                </div>`
+                    }
 
                     if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
-                    if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                    if (requestList[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${requestList[i]["id"]}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
                                         <div class="etc_content">
                                             <div class="type_content"><p>${type}</p></div>
                                             <div class="date_content"><p>${dateFormat(date)}</p></div>
-                                            <div class="status_content">${status}</div>
+                                            <div class="status_content"><p>${status}</p></div>
                                         </div>\
                                     </div>`
                     }
@@ -767,24 +803,27 @@ requestTable = {
                                         <div class="id_content"><p>${underTen(requestList[i]['id'])}</p></div>
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
-                                        <div class="date_content"><p>${dateFormat(date)}<br>nn:nn:nn</p></div>
-                                        <div class="rest_content"><p>${dateFormat(date)}<br>nn:nn:nn</p></div>
-                                        <div class="status_content">${status}</div>
-                                        <div class="detail_content"></div>
+                                        <div class="date_content"><p>${koreanTimeStamp(requestList[i]["request_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${koreanTimeStamp(requestList[i]["expiration_datetime"])}</p></div>
+                                        <div class="status_content"><p class='status${requestList[i]['id']}'>${status}</p></div>
+                                        <div class="detail_content">${btn}</div>
                                     </div>`
                     }
                 }
             }
             if (archived.length !== 0) {
                 let status;
+                let btn = `<div class='decDownload disable'>
+                                <span>만 료</span>
+                            </div>`
                 for (let i = 0; i < archived.length; i++) {
-                    var date = new Date(archived[i]['request_date'])
+                    let date = new Date(archived[i]['request_date'])
 
-                    var namelist = archived[i]['request_file_list'].split('\n')
+                    let namelist = archived[i]['request_file_list'].split('\n')
                     namelist = namelist.splice(0, namelist.length - 1);
 
-                    if (namelist.length > 1 && archived[i].file_type === 'image') {
-                        var list = "<label> 외 " + (Number(namelist.length) - 1) + "개</label>"
+                    if (namelist.length > 2 && archived[i].file_type === 'image') {
+                        var list = "<label> 외 " + (Number(namelist.length) / 2 - 1) + "개</label>"
                         var css = ""
                     }
                     else {
@@ -795,12 +834,36 @@ requestTable = {
                     var fileList = archived[i]['request_file_list'].split('\n');
                     fileList = fileList.splice(0, fileList.length - 1);
 
-                    status = (archived[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                    // status = (archived[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                    
+                    if(archived[i]['download_status']=="waiting"){
+                        status="대기중"
+                    }
+                    else if(archived[i]['download_status']=="processing"){
+                        status="진행중"
+                    }
+                    else if(archived[i]['download_status']=="complete"){
+                        status="완 료"
+                    }
+                    else if(archived[i]['download_status']=="downloaded"){
+                        status="다운로드 \n완료"
+                    }
+                    else if(archived[i]['download_status']=="expired" || archived[i]['download_status']==null){
+                        status="기간 만료"
+                    }
+                    else if(archived[i]['download_status']=="failed"){
+                        status="실 패"
+                        btn = `<div class='decDownload disable'>
+                                    <a href='/qna'>
+                                        <span>실 패</span>
+                                    </a>
+                                </div>`
+                    }
 
                     if (archived[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
-                    if (archived[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+                    if (archived[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${archived[i]['fk_dec_request_list_id']}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
@@ -816,10 +879,10 @@ requestTable = {
                                         <div class="id_content"><p>${underTen(archived[i]['fk_dec_request_list_id'])}</p></div>
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
-                                        <div class="date_content"><p>${dateFormat(date)}<br>nn:nn:nn</p></div>
-                                        <div class="rest_content"><p>${dateFormat(date)}<br>nn:nn:nn</p></div>
-                                        <div class="status_content">${status}</div>
-                                        <div class="detail_content"></div>
+                                        <div class="date_content"><p>${koreanTimeStamp(archived[i]["request_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${koreanTimeStamp(archived[i]["expiration_datetime"])}</p></div>
+                                        <div class="status_content"><p>${status}</p></div>
+                                        <div class="detail_content">${btn}</div>
                                     </div>`
                     }
                 }
@@ -2022,6 +2085,28 @@ requestTable = {
         const baseUrl = `/api/usage/excel`
         const apiUrl = apiUrlConverter('util', baseUrl)
         const sessionData = { workData, fileData }
+        
+        try {
+            const data = await $.ajax({
+                method: 'post',
+                url: apiUrl,
+                data: sessionData,
+                xhrFields: {
+                    withCredentials: true,
+                    responseType: 'blob'
+                },
+            });
+            return data
+        } catch(err) {
+            console.error(err)
+            return null
+        }
+    },
+
+    downloadCashExcel: async function (cashData) {
+        const baseUrl = `/api/cash/excel`
+        const apiUrl = apiUrlConverter('util', baseUrl)
+        const sessionData = { cashData }
         
         try {
             const data = await $.ajax({
