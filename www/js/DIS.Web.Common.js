@@ -1267,6 +1267,7 @@ comm = {
         let baseUrl = `/api/inquiry`;
         let apiUrl = apiUrlConverter('util', baseUrl);
         let postData = { userName, userEmail, userPhone, mailTitle, mailContent };
+        let result;
         $.ajax({
             method: 'POST',
             url: apiUrl,
@@ -1276,11 +1277,12 @@ comm = {
             data: postData,
             async: false,
             success: function (data) {
-                return true;
+                if(data.message == 'success') result = true;
             },
             error: function (xhr, status) {
-                return false;
+                result = false;
             }
         })
+        return result;
     }
 }
