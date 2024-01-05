@@ -54,7 +54,7 @@ var init = DIS.Web.Init;
 init = {
 
     index: function () {
-        
+
         // Swal.fire({
         //     title: '점검 진행 예정',
         //     html: '<p>~~~사유로 인해 <br>NN시~NN시까지 점검 예정입니다.</p>',
@@ -412,7 +412,7 @@ init = {
 
         // 파일 업로드 정보가 바뀔때마다 html 엎어서 화면에 갱신하고, 파일 너비 높이, 갯수 최신화
         $("#file").on('change', function () {
-            if(this.files.length>10){
+            if (this.files.length > 10) {
                 Swal.fire({
                     title: '이미지는 10개까지 \n선택할 수 있습니다.',
                     showConfirmButton: false,
@@ -421,7 +421,7 @@ init = {
                     icon: "error"
                 })
             }
-            else{
+            else {
                 [html, fileWidth, fileHeight, fileSize, fileCount, videoDuration, files] = fileModule.getFileList('image', 'file');
                 setTimeout(function () {
                     $('.uploadContent').html(html);
@@ -437,7 +437,7 @@ init = {
                         imgInfo.push(img);
                         // fileWidth.push(0); // 초기값으로 넣어둠
                         // fileHeight.push(0); // 초기값으로 넣어둠
-    
+
                         img.onload = function () {
                             const loadedImgIndex = imgInfo.indexOf(this);
                             if (loadedImgIndex !== -1) {
@@ -979,7 +979,7 @@ init = {
 
     video: function () {
         comm.authCheck("encrypt")
-        
+
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
@@ -1157,45 +1157,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            // if (fileCount == 0) {
-            //     Swal.fire({
-            //         title: '파일 오류',
-            //         html:
-            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
-            //             '확인 후 재시도해 주세요.',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         denyButtonText: "확 인",
-            //         icon: "error"
-            //     });
-            // }
-            if (fileWidth[0] + fileHeight[0] > 3000) {
-                Swal.fire({
-                    title: '파일 해상도 초과',
-                    html:
-                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileSize[0] > 157286400) {
-                Swal.fire({
-                    title: '파일 용량제한 초과',
-                    html:
-                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
-                        '서비스 안정성을 위해 150MB 이하의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileCount == 0) {
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
                     html:
@@ -1207,6 +1169,44 @@ init = {
                     icon: "error"
                 });
             }
+            // if (fileWidth[0] + fileHeight[0] > 3000) {
+            //     Swal.fire({
+            //         title: '파일 해상도 초과',
+            //         html:
+            //             '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+            //             '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileSize[0] > 157286400) {
+            //     Swal.fire({
+            //         title: '파일 용량제한 초과',
+            //         html:
+            //             '파일 용량이 150MB를 초과하였습니다.<br/>' +
+            //             '서비스 안정성을 위해 150MB 이하의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileCount == 0) {
+            //     Swal.fire({
+            //         title: '파일 오류',
+            //         html:
+            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+            //             '확인 후 재시도해 주세요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
             else {
                 uploadID = makeid(6);
                 $(".nextBtn").addClass('hide')
@@ -3045,9 +3045,9 @@ init = {
                     });
                 }
                 else {
-                    if ($('.typeInfo').val() == "") {
+                    if ($('.phoneInfo').val() == "") {
                         Swal.fire({
-                            title: '문의 유형을 입력해주세요.',
+                            title: '연락처를 입력해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -3055,9 +3055,9 @@ init = {
                         });
                     }
                     else {
-                        if ($('.phoneInfo').val() == "") {
+                        if ($('.titleInfo').val() == "") {
                             Swal.fire({
-                                title: '연락처를 입력해주세요.',
+                                title: '문의 제목을 입력해주세요.',
                                 showConfirmButton: false,
                                 showDenyButton: true,
                                 denyButtonText: "확 인",
@@ -3065,9 +3065,9 @@ init = {
                             });
                         }
                         else {
-                            if ($('.titleInfo').val() == "") {
+                            if ($('.contentInfo').val() == "") {
                                 Swal.fire({
-                                    title: '문의 제목을 입력해주세요.',
+                                    title: '문의 내용을 입력해주세요.',
                                     showConfirmButton: false,
                                     showDenyButton: true,
                                     denyButtonText: "확 인",
@@ -3075,9 +3075,9 @@ init = {
                                 });
                             }
                             else {
-                                if ($('.contentInfo').val() == "") {
+                                if ($(".agreeServiceCheck").is(":checked") == false) {
                                     Swal.fire({
-                                        title: '문의 내용을 입력해주세요.',
+                                        title: '개인정보 수집 및 이용에 \n동의해주세요.',
                                         showConfirmButton: false,
                                         showDenyButton: true,
                                         denyButtonText: "확 인",
@@ -3085,17 +3085,16 @@ init = {
                                     });
                                 }
                                 else {
-                                    if ($(".agreeServiceCheck").is(":checked") == false) {
-                                        Swal.fire({
-                                            title: '개인정보 수집 및 이용에 \n동의해주세요.',
-                                            showConfirmButton: false,
-                                            showDenyButton: true,
-                                            denyButtonText: "확 인",
-                                            icon: "error"
-                                        });
-                                    }
-                                    else {
-                                        console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.typeInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
+                                    const userName = $('.nameInfo').val();
+                                    const userEmail = $('.emailInfo').val();
+                                    const userPhone = $('.phoneInfo').val();
+                                    const mailTitle = $('.titleInfo').val()
+                                    const mailContent = $('.contentInfo').val();
+                                    const mailResult = comm.sendInquiry(userName, userEmail, userPhone, mailTitle, mailContent);
+                                    if (mailResult) {
+                                        console.log('문의 성공');
+                                    } else {
+                                        console.log('문의 실패');
                                     }
                                 }
                             }
@@ -4082,7 +4081,7 @@ init = {
     },
 
     detail: function () {
-        
+
         let socketURI = apiUrlConverter('socket', '');
         const socket = io(socketURI, {
             withCredentials: true,
@@ -4166,7 +4165,7 @@ init = {
 
         $(document).on("click", ".file_recoConfirm", function () {
             let auth = comm.authCheck("decrypt")
-            if(auth == false){
+            if (auth == false) {
                 Swal.fire({
                     title: '복호화 권한이 없습니다.',
                     showConfirmButton: false,
@@ -4177,7 +4176,7 @@ init = {
                     location.reload()
                 })
             }
-            else{
+            else {
                 $('#file').val('');
                 $('.pemUpload').val('');
                 $('.recoConfirm').attr('data-value', $(this).data('value'));
@@ -4196,7 +4195,7 @@ init = {
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#file").on('change', function () {
             let auth = comm.authCheck("decrypt")
-            if(auth == false){
+            if (auth == false) {
                 Swal.fire({
                     title: '복호화 권한이 없습니다.',
                     showConfirmButton: false,
@@ -4207,7 +4206,7 @@ init = {
                     location.reload()
                 })
             }
-            else{
+            else {
                 var file = document.getElementById('file').files[0];
                 var fileName = file.name;
                 $('.pemUpload').val(fileName);
@@ -4219,7 +4218,7 @@ init = {
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#addfile").on('change', function () {
             let auth = comm.authCheck("additional_encrypt")
-            if(auth == false){
+            if (auth == false) {
                 Swal.fire({
                     title: '추가 비식별화 \n권한이 없습니다.',
                     showConfirmButton: false,
@@ -4230,7 +4229,7 @@ init = {
                     location.reload()
                 })
             }
-            else{
+            else {
                 var file = document.getElementById('addfile').files[0];
                 var fileName = file.name;
                 $('.pemUpload').val(fileName);
@@ -4353,7 +4352,7 @@ init = {
                 }
                 else if (mode == 'group') {
                     $(document).on("click", ".select_recoConfirm", function () {
-                        if($('.check_reco').is(':checked')){
+                        if ($('.check_reco').is(':checked')) {
                             $('.recoConfirm').attr('data-value', $(this).data('value'));
                             selectedFile = [];
                             var imgDivList = document.getElementsByClassName('check_reco');
@@ -4363,7 +4362,7 @@ init = {
                             }
                             $("#select_recoData").addClass('active')
                         }
-                        else{
+                        else {
                             Swal.fire({
                                 title: '선택된 파일이 없습니다',
                                 text: '복호화할 파일을 선택해 주세요.',
@@ -4545,7 +4544,7 @@ init = {
 
         $(document).on("click", ".checkBtn", function () {
             let auth = comm.authCheck("additional_encrypt")
-            if(auth == false){
+            if (auth == false) {
                 Swal.fire({
                     title: '추가 비식별화 \n권한이 없습니다.',
                     showConfirmButton: false,
@@ -4556,10 +4555,10 @@ init = {
                     location.reload()
                 })
             }
-            else{
+            else {
                 let check = true
-                if(mode=="group"){
-                    if(!$('.check_reco').is(':checked')){
+                if (mode == "group") {
+                    if (!$('.check_reco').is(':checked')) {
                         check = false
                         Swal.fire({
                             title: '선택된 파일이 없습니다',
@@ -4571,7 +4570,7 @@ init = {
                         });
                     }
                 }
-                if(check==true){
+                if (check == true) {
                     uploadID = makeid(6);
                     console.log('restoration : ', restoration);
                     if (restoration === '1') {
@@ -4579,11 +4578,11 @@ init = {
                         $('.pemUpload').val('');
                         $('.addConfirm').attr('data-value', $(this).data('value'));
                         $("#addData").addClass('active')
-        
+
                         $(document).on("click", ".addConfirm", function () {
                             let key_name = $('.file_key')[0].children[1].innerHTML
                             let uploadResult = fileModule.uploadKey('addfile');
-        
+
                             uploadResult.then(async (data) => {
                                 let file_name = data[0]
                                 let keyPath = data[1]
@@ -4592,7 +4591,7 @@ init = {
                                     id: uploadID,
                                     immediate: 'false'
                                 })
-        
+
                                 if (file_name) {
                                     console.log('file_name : ' + JSON.stringify(file_name));
                                     let verify_result = fileModule.verifyKey(file_name, key_name);

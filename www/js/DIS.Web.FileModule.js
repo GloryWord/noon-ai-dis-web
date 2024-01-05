@@ -323,25 +323,33 @@ fileModule = {
                     videoDuration.push(video.duration);
                 });
                 video.addEventListener('error', function() {
+                    Swal.fire({
+                        title: '파일 에러',
+                        html: '올바르지 않은 파일을<br>업로드하였습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    }).then(() => location.reload())
                     /* Video playback failed: show a message saying why */
-                    switch (video.error.code) {
-                        case 1:
-                            // alert('MEDIA_ERR_ABORTED = 1 Media data download is stopped by the user');
-                            break;
-                        case 2:
-                            // alert('MEDIA_ERR_NETWORK = 2 Download is stopped due to network error ');
-                            break;
-                        case 3:
-                            // alert('MEDIA_ERR_DECODE = 3 Media data decoding failure ');
-                            break;
-                        case 4:
-                            // alert('MEDIA_ERR_SRC_NOT_SUPPORTED = 4 Format not supported');
-                            fileCount += 1;
-                            fileWidth.push(0);
-                            fileHeight.push(0);
-                            videoDuration.push(0);
-                            break
-                    }
+                    // switch (video.error.code) {
+                    //     case 1:
+                    //         // alert('MEDIA_ERR_ABORTED = 1 Media data download is stopped by the user');
+                    //         break;
+                    //     case 2:
+                    //         // alert('MEDIA_ERR_NETWORK = 2 Download is stopped due to network error ');
+                    //         break;
+                    //     case 3:
+                    //         // alert('MEDIA_ERR_DECODE = 3 Media data decoding failure ');
+                    //         break;
+                    //     case 4:
+                    //         // alert('MEDIA_ERR_SRC_NOT_SUPPORTED = 4 Format not supported');
+                    //         fileCount += 1;
+                    //         fileWidth.push(0);
+                    //         fileHeight.push(0);
+                    //         videoDuration.push(0);
+                    //         break
+                    // }
                 }, false);
                 video.src = URL.createObjectURL(files[i]);
             }

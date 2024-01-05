@@ -197,7 +197,7 @@ function time_change(duration) {
     if (minutes < 10) { minutes = "0" + minutes; }
     if (seconds < 10) { seconds = "0" + seconds; }
 
-    if(hours=="00"){
+    if (hours == "00") {
         return minutes + '분 ' + seconds + '초';
     }
     else {
@@ -205,35 +205,35 @@ function time_change(duration) {
     }
 }
 
-function hd_change(width, height){
-    let reso = Number(width)*Number(height)
+function hd_change(width, height) {
+    let reso = Number(width) * Number(height)
     let result
-    if(reso<=921600){
+    if (reso <= 921600) {
         result = `HD 이하`
     }
-    else if(reso<=2073600){
+    else if (reso <= 2073600) {
         result = `FHD 이하`
     }
-    else{
+    else {
         result = `FHD 초과`
     }
 
     return result
 }
 
-function encrypt_base(filetype, rest){
+function encrypt_base(filetype, rest) {
     let result
-    if(filetype=="영상" && rest=="O"){
-        result = price_three(10000) 
+    if (filetype == "영상" && rest == "O") {
+        result = price_three(10000)
     }
-    else if(filetype=="영상" && rest=="X"){
-        result = price_three(7000) 
+    else if (filetype == "영상" && rest == "X") {
+        result = price_three(7000)
     }
-    else if(filetype=="이미지" && rest=="O"){
-        result = price_three(600) 
+    else if (filetype == "이미지" && rest == "O") {
+        result = price_three(600)
     }
-    else if(filetype=="이미지" && rest=="X"){
-        result = price_three(400) 
+    else if (filetype == "이미지" && rest == "X") {
+        result = price_three(400)
     }
     return result
 }
@@ -326,19 +326,19 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                if(pageName=="" || pageName=="service" ||pageName=="charge" || pageName=="qna"){
-                    result=""
+                if (pageName == "" || pageName == "service" || pageName == "charge" || pageName == "qna") {
+                    result = ""
                 }
-                else{
+                else {
                     location.href = '/error'
                 }
                 // alert(xhr + " : " + status);
             }
         });
-        if(result==""){
+        if (result == "") {
             resultStr = `noLogin`
         }
-        else{
+        else {
             resultStr = `<p>${result.user_name}님</p>
                         <span>${price_three(comm.getNowPoint())} 캐시</span>`
         }
@@ -361,11 +361,11 @@ comm = {
                 result = data;
             },
             error: function (xhr, status) {
-                result=""
+                result = ""
                 // alert(xhr + " : " + status);
             }
         });
-        
+
         return result;
     },
 
@@ -688,7 +688,7 @@ comm = {
     meterDownload: function (requestIndex, fileType, additionalID) {
         let baseUrl = '/api/meterUsage/download';
         let apiUrl = apiUrlConverter('util', baseUrl);
-        if(typeof(additionalID) == 'object') additionalID = additionalID.join('/');
+        if (typeof (additionalID) == 'object') additionalID = additionalID.join('/');
 
         $.ajax({
             method: "post",
@@ -713,7 +713,7 @@ comm = {
         });
     },
 
-    meterAdditionalEncrypt: function(requestID, insertID, fileNames, type) {
+    meterAdditionalEncrypt: function (requestID, insertID, fileNames, type) {
         let baseUrl = '/api/meterUsage/encrypt/additional';
         let apiUrl = apiUrlConverter('encrypt', baseUrl);
 
@@ -733,7 +733,7 @@ comm = {
             async: false,
             success: function (data) {
                 if (data.message == "success") {
-                    
+
                 }
             },
             error: function (xhr, status) {
@@ -814,7 +814,7 @@ comm = {
         return env;
     },
 
-    increaseRequestCount: function(requestIndex, fileNames, requestType) {
+    increaseRequestCount: function (requestIndex, fileNames, requestType) {
         let baseUrl = `/api/request/additional/increaseCount`;
         let apiUrl = apiUrlConverter('util', baseUrl);
         $.ajax({
@@ -829,10 +829,10 @@ comm = {
                 'requestType': requestType
             },
             async: false,
-            success: function() {
-                
+            success: function () {
+
             },
-            error: function(xhr, status) {
+            error: function (xhr, status) {
 
             }
         })
@@ -971,7 +971,7 @@ comm = {
                         parsedCurCoordinates[curClass]['canvas'].push(loc)
                     }
                 }
-                else{
+                else {
                     for (let i = 0; i < keys.length; i++) {
                         let curClass = curCoordinates[i].class
                         let classID = curCoordinates[i].objectID
@@ -1011,7 +1011,7 @@ comm = {
                             //real 좌상단, 우하단
                             let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
                             let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
-        
+
                             canvasCoord.push([canvasLeftTop, canvasRightBottom])
                             originCoord.push([realLeftTop, realRightBottom])
                             classArray.push(Number(keys[i]))
@@ -1033,7 +1033,7 @@ comm = {
                     console.log(keys)
 
                     for (let i = 0; i < keys.length; i++) {
-                        if( curCoordinates[keys[i]].canvas){
+                        if (curCoordinates[keys[i]].canvas) {
                             for (let j = 0; j < curCoordinates[keys[i]].canvas.length; j++) {
                                 //canvas 좌상단, 우하단
                                 let canvasLeftTop = [curCoordinates[keys[i]].canvas[j][0], curCoordinates[keys[i]].canvas[j][1]]
@@ -1041,7 +1041,7 @@ comm = {
                                 //real 좌상단, 우하단
                                 let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
                                 let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
-            
+
                                 canvasCoord.push([canvasLeftTop, canvasRightBottom])
                                 originCoord.push([realLeftTop, realRightBottom])
                                 classArray.push(Number(keys[i]))
@@ -1070,7 +1070,7 @@ comm = {
                             //real 좌상단, 우하단
                             let realLeftTop = [curCoordinates[keys[i]].real[j][0], curCoordinates[keys[i]].real[j][1]]
                             let realRightBottom = [curCoordinates[keys[i]].real[j][2], curCoordinates[keys[i]].real[j][3]]
-        
+
                             canvasCoord.push([canvasLeftTop, canvasRightBottom])
                             originCoord.push([realLeftTop, realRightBottom])
                             classArray.push(Number(keys[i]))
@@ -1095,8 +1095,8 @@ comm = {
                     for (let i = 0; i < keys.length; i++) {
                         let objectKeys = Object.keys(curCoordinates[keys[i]]);
                         console.log(objectKeys)
-                        for(let j=0;j<objectKeys.length;j++){
-                            if( curCoordinates[keys[i]][objectKeys[j]].canvas){
+                        for (let j = 0; j < objectKeys.length; j++) {
+                            if (curCoordinates[keys[i]][objectKeys[j]].canvas) {
                                 for (let k = 0; k < curCoordinates[keys[i]][objectKeys[j]].canvas.length; k++) {
                                     //canvas 좌상단, 우하단
                                     let canvasLeftTop = [curCoordinates[keys[i]][objectKeys[j]].canvas[k][0], curCoordinates[keys[i]][objectKeys[j]].canvas[k][1]]
@@ -1104,7 +1104,7 @@ comm = {
                                     //real 좌상단, 우하단
                                     let realLeftTop = [curCoordinates[keys[i]][objectKeys[j]].real[k][0], curCoordinates[keys[i]][objectKeys[j]].real[k][1]]
                                     let realRightBottom = [curCoordinates[keys[i]][objectKeys[j]].real[k][2], curCoordinates[keys[i]][objectKeys[j]].real[k][3]]
-                
+
                                     canvasCoord.push([canvasLeftTop, canvasRightBottom])
                                     originCoord.push([realLeftTop, realRightBottom])
                                     classArray.push(Number(keys[i]))
@@ -1170,7 +1170,7 @@ comm = {
     withdrawCash: function (fileName, requestType, amount, transactionDate, transactionTime, fileCount) {
         let baseUrl = `/api/withdraw/cash`;
         let apiUrl = apiUrlConverter('util', baseUrl);
-        let postData = {fileName, requestType, amount, transactionDate, transactionTime, fileCount};
+        let postData = { fileName, requestType, amount, transactionDate, transactionTime, fileCount };
         $.ajax({
             method: "post",
             url: apiUrl,
@@ -1179,7 +1179,7 @@ comm = {
                 withCredentials: true
             },
             async: false,
-            success: function () {                
+            success: function () {
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -1190,7 +1190,7 @@ comm = {
     updateDownloadStatus: function (decryptID) {
         let baseUrl = `/api/decrypt/downloaded`;
         let apiUrl = apiUrlConverter('decrypt', baseUrl);
-        let sendData = {decryptID:decryptID};
+        let sendData = { decryptID: decryptID };
         $.ajax({
             method: "PATCH",
             url: apiUrl,
@@ -1199,7 +1199,7 @@ comm = {
                 withCredentials: true
             },
             async: false,
-            success: function () {              
+            success: function () {
             },
             error: function (xhr, status) {
                 // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
@@ -1219,9 +1219,9 @@ comm = {
             },
             async: false,
             success: function (data) {
-                if(type == "encrypt"){
-                    if(data.message=="sub auth"){
-                        if(data.auth==0){
+                if (type == "encrypt") {
+                    if (data.message == "sub auth") {
+                        if (data.auth == 0) {
                             Swal.fire({
                                 title: '비식별화 권한이 없습니다.',
                                 showConfirmButton: false,
@@ -1234,9 +1234,9 @@ comm = {
                         }
                     }
                 }
-                else if(type == "decrypt"){
-                    if(data.message=="sub auth"){
-                        if(data.auth==0){
+                else if (type == "decrypt") {
+                    if (data.message == "sub auth") {
+                        if (data.auth == 0) {
                             result = false
                         }
                         else {
@@ -1244,9 +1244,9 @@ comm = {
                         }
                     }
                 }
-                else if(type == "additional_encrypt"){
-                    if(data.message=="sub auth"){
-                        if(data.auth==0){
+                else if (type == "additional_encrypt") {
+                    if (data.message == "sub auth") {
+                        if (data.auth == 0) {
                             result = false
                         }
                         else {
@@ -1262,4 +1262,27 @@ comm = {
 
         return result
     },
+
+    sendInquiry: function (userName, userEmail, userPhone, mailTitle, mailContent) {
+        let baseUrl = `/api/inquiry`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let postData = { userName, userEmail, userPhone, mailTitle, mailContent };
+        let result;
+        $.ajax({
+            method: 'POST',
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: postData,
+            async: false,
+            success: function (data) {
+                if(data.message == 'success') result = true;
+            },
+            error: function (xhr, status) {
+                result = false;
+            }
+        })
+        return result;
+    }
 }
