@@ -120,15 +120,19 @@
 }
 
 .qna_content .qnaContent .qnaInput.name,
-.qna_content .qnaContent .qnaInput.type {
+.qna_content .qnaContent .qnaInput.phone {
     margin: 0 60px 0 auto;
 }
 
 .qna_content .qnaContent .qnaInput.email,
-.qna_content .qnaContent .qnaInput.phone {
+.qna_content .qnaContent .qnaInput.type {
     width: auto;
     height: auto;
     margin: 0 0 0 auto;
+}
+
+.qna_content .qnaContent .qnaInput.type {
+    width: 416px;
 }
 
 .qna_content .qnaContent .qnaInput .textArea {
@@ -372,9 +376,12 @@
         margin: 0 auto 24px;
     }
 
-    .qna_content .qnaContent .qnaInput.name, 
-    .qna_content .qnaContent .qnaInput.type {
+    .qna_content .qnaContent .qnaInput.name {
         margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput.phone {
+        margin: 0 auto;
     }
 
     .qna_content .qnaContent .qnaInput input,
@@ -421,9 +428,16 @@
         margin: 0 auto 24px;
     }
 
-    .qna_content .qnaContent .qnaInput.name, 
-    .qna_content .qnaContent .qnaInput.type {
+    .qna_content .qnaContent .qnaInput.name {
         margin: 0 auto 24px;
+    }
+
+    .qna_content .qnaContent .qnaInput.phone {
+        margin: 0 auto;
+    }
+
+    .qna_content .qnaContent .qnaInput.type {
+        width: 0px;
     }
 
     .qna_content .qnaContent .qnaInput input,

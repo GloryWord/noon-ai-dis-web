@@ -1157,45 +1157,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            // if (fileCount == 0) {
-            //     Swal.fire({
-            //         title: '파일 오류',
-            //         html:
-            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
-            //             '확인 후 재시도해 주세요.',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         denyButtonText: "확 인",
-            //         icon: "error"
-            //     });
-            // }
-            if (fileWidth[0] + fileHeight[0] > 3000) {
-                Swal.fire({
-                    title: '파일 해상도 초과',
-                    html:
-                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
-                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileSize[0] > 157286400) {
-                Swal.fire({
-                    title: '파일 용량제한 초과',
-                    html:
-                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
-                        '서비스 안정성을 위해 150MB 이하의<br/>' +
-                        '영상을 서비스합니다.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (fileCount == 0) {
+            if (fileCount == 0) {
                 Swal.fire({
                     title: '파일 오류',
                     html:
@@ -1207,6 +1169,44 @@ init = {
                     icon: "error"
                 });
             }
+            // if (fileWidth[0] + fileHeight[0] > 3000) {
+            //     Swal.fire({
+            //         title: '파일 해상도 초과',
+            //         html:
+            //             '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+            //             '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileSize[0] > 157286400) {
+            //     Swal.fire({
+            //         title: '파일 용량제한 초과',
+            //         html:
+            //             '파일 용량이 150MB를 초과하였습니다.<br/>' +
+            //             '서비스 안정성을 위해 150MB 이하의<br/>' +
+            //             '영상을 서비스합니다.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
+            // else if (fileCount == 0) {
+            //     Swal.fire({
+            //         title: '파일 오류',
+            //         html:
+            //             '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+            //             '확인 후 재시도해 주세요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
             else {
                 uploadID = makeid(6);
                 $(".nextBtn").addClass('hide')
@@ -3045,9 +3045,9 @@ init = {
                     });
                 }
                 else {
-                    if ($('.typeInfo').val() == "") {
+                    if ($('.phoneInfo').val() == "") {
                         Swal.fire({
-                            title: '문의 유형을 입력해주세요.',
+                            title: '연락처를 입력해주세요.',
                             showConfirmButton: false,
                             showDenyButton: true,
                             denyButtonText: "확 인",
@@ -3055,9 +3055,9 @@ init = {
                         });
                     }
                     else {
-                        if ($('.phoneInfo').val() == "") {
+                        if ($('.titleInfo').val() == "") {
                             Swal.fire({
-                                title: '연락처를 입력해주세요.',
+                                title: '문의 제목을 입력해주세요.',
                                 showConfirmButton: false,
                                 showDenyButton: true,
                                 denyButtonText: "확 인",
@@ -3065,9 +3065,9 @@ init = {
                             });
                         }
                         else {
-                            if ($('.titleInfo').val() == "") {
+                            if ($('.contentInfo').val() == "") {
                                 Swal.fire({
-                                    title: '문의 제목을 입력해주세요.',
+                                    title: '문의 내용을 입력해주세요.',
                                     showConfirmButton: false,
                                     showDenyButton: true,
                                     denyButtonText: "확 인",
@@ -3075,9 +3075,9 @@ init = {
                                 });
                             }
                             else {
-                                if ($('.contentInfo').val() == "") {
+                                if ($(".agreeServiceCheck").is(":checked") == false) {
                                     Swal.fire({
-                                        title: '문의 내용을 입력해주세요.',
+                                        title: '개인정보 수집 및 이용에 \n동의해주세요.',
                                         showConfirmButton: false,
                                         showDenyButton: true,
                                         denyButtonText: "확 인",
@@ -3085,18 +3085,7 @@ init = {
                                     });
                                 }
                                 else {
-                                    if ($(".agreeServiceCheck").is(":checked") == false) {
-                                        Swal.fire({
-                                            title: '개인정보 수집 및 이용에 \n동의해주세요.',
-                                            showConfirmButton: false,
-                                            showDenyButton: true,
-                                            denyButtonText: "확 인",
-                                            icon: "error"
-                                        });
-                                    }
-                                    else {
-                                        console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.typeInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
-                                    }
+                                    console.log($('.nameInfo').val(), $('.emailInfo').val(), $('.phoneInfo').val(), $('.titleInfo').val(), $('.contentInfo').val())
                                 }
                             }
                         }
