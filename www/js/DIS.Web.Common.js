@@ -1284,5 +1284,26 @@ comm = {
             }
         })
         return result;
+    },
+
+    getFreeCounts: function(selectedFile, requestID, requestType) {
+        let baseUrl = `/api/check/free?selectedFile=${selectedFile}&requestID=${requestID}&requestType=${requestType}`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let freeCounts;
+        $.ajax({
+            method: "GET",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function(result) {
+                freeCounts = result.freeCounts;
+            },
+            error: function() {
+
+            }
+        });
+        return freeCounts;
     }
 }
