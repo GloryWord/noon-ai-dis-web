@@ -878,6 +878,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #3fa9f5;
     display: flex;
+    cursor: pointer;
 }
 
 .layerPopupBox .img_inner .imgHeader .btnArea .imgConfirm p {  

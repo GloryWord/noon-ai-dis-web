@@ -32,6 +32,10 @@
                     e.preventDefault();
                     e.returnValue = false;
                 }
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 73 /* F12 */) {
+                    e.preventDefault();
+                    e.returnValue = false;
+                }
             });
         });
 
@@ -127,11 +131,11 @@
         </div>
         <div class="viewContent">
             <div class="viewHeader">
-                <a href="" id="signedUrl" download>
+                <div id="signedUrl">
                     <div class="file_download">
                         <p>이미지 다운로드</p>
                     </div>
-                </a>
+                </div>
                 <div class="checkBtn single">
                     <p>추가 비식별화</p>
                 </div>
