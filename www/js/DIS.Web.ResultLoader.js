@@ -162,7 +162,7 @@ resultLoader = {
             for (var i = 0; i < urlList.length; i++) {
                 html += '<img class="getImg" src="' + urlList[i][0] + '">\
                 <div class="fileFullName">\
-                    <p>'+ objectName[0] + '</p>\
+                    <p class="fullname">'+ objectName[0] + '</p>\
                 </div>'
             }
         }
@@ -176,7 +176,7 @@ resultLoader = {
                 html += '<div class ="albumlist">\
                             <img data-num='+ i + ' class="albumImg" src="' + urlList[i][0] + '">\
                             <div class="albumFooter">\
-                                <p>'+ objectName[i] + '</p>\
+                                <p class="fullname num'+i+'">'+ objectName[i] + '</p>\
                             </div>\
                             <input class="check_reco" type="checkbox">\
                             <div class="'+ i + ' hoverdiv hide" data-num=' + i + '><p>이미지 크게 보기</p></div>\
@@ -214,6 +214,7 @@ resultLoader = {
             });
         });
 
+        $('.fullname').text(objectName[0])
 
         const canvas = document.getElementById('captureCanvas');
         const canvasDiv = document.getElementById('canvasDiv');
