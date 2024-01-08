@@ -678,70 +678,81 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
-            console.log('fileWidth : ', fileWidth);
-            console.log('fileHeight : ', fileHeight);
-            var encryptObject = []
-            var allCheck = ""
-            for (var i = 0; i < fileCount; i++) {
-                if (screen.width <= 600) {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
-                }
-                else {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
-                }
-
-                var select = ''
-                select = (body) ? select += '1' : select += '0'
-                select = (head) ? select += '1' : select += '0'
-                select = (lp) ? select += '1' : select += '0'
-                encryptObject.push(select)
-            }
-            for (var j = 0; j < encryptObject.length; j++) {
-                if (encryptObject[j] == "000") {
-                    allCheck = "false"
-                    break;
-                }
-                else {
-                    allCheck = "true"
-                }
-            }
-            if (allCheck == "true" && cKey == 1 && sKey != "") {
-                var encryptObj = Object.assign({}, encryptObject);
-                // if(postData["encryptObject"])
-                postData['encryptObject'] = JSON.stringify(encryptObj);
-                var bitrateArray = []
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum, 0);
-                socket.emit('cancelDeleteFile', {
-                    id: uploadID
+            if(Number(comm.getNowPoint())<=0){
+                Swal.fire({
+                    title: '캐시가 부족합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(() => {
+                    location.reload()
                 })
             }
-            else if (allCheck == "false") {
-                Swal.fire({
-                    title: '비식별 객체 선택 오류',
-                    html:
-                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (cKey == 0 || sKey == "") {
-                Swal.fire({
-                    title: '암호 키 선택 오류',
-                    html:
-                        '암호 키를 선택하지 않으셨습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
+            else{
+                var encryptObject = []
+                var allCheck = ""
+                for (var i = 0; i < fileCount; i++) {
+                    if (screen.width <= 600) {
+                        var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                        var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                        var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
+                    }
+                    else {
+                        var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[1].checked
+                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                    }
+
+                    var select = ''
+                    select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                }
+                for (var j = 0; j < encryptObject.length; j++) {
+                    if (encryptObject[j] == "000") {
+                        allCheck = "false"
+                        break;
+                    }
+                    else {
+                        allCheck = "true"
+                    }
+                }
+                if (allCheck == "true" && cKey == 1 && sKey != "") {
+                    var encryptObj = Object.assign({}, encryptObject);
+                    // if(postData["encryptObject"])
+                    postData['encryptObject'] = JSON.stringify(encryptObj);
+                    var bitrateArray = []
+                    fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'image', checksum, 0);
+                    socket.emit('cancelDeleteFile', {
+                        id: uploadID
+                    })
+                }
+                else if (allCheck == "false") {
+                    Swal.fire({
+                        title: '비식별 객체 선택 오류',
+                        html:
+                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (cKey == 0 || sKey == "") {
+                    Swal.fire({
+                        title: '암호 키 선택 오류',
+                        html:
+                            '암호 키를 선택하지 않으셨습니다.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
             }
         });
     },
@@ -1157,45 +1168,7 @@ init = {
 
         var postData, bitrateArray, filePath;
         $(document).on("click", ".nextBtn", function () {
-            if (fileCount == 0) {
-                Swal.fire({
-                    title: '파일 오류',
-                    html:
-                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            // if (fileWidth[0] + fileHeight[0] > 3000) {
-            //     Swal.fire({
-            //         title: '파일 해상도 초과',
-            //         html:
-            //             '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
-            //             '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
-            //             '영상을 서비스합니다.',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         denyButtonText: "확 인",
-            //         icon: "error"
-            //     });
-            // }
-            // else if (fileSize[0] > 157286400) {
-            //     Swal.fire({
-            //         title: '파일 용량제한 초과',
-            //         html:
-            //             '파일 용량이 150MB를 초과하였습니다.<br/>' +
-            //             '서비스 안정성을 위해 150MB 이하의<br/>' +
-            //             '영상을 서비스합니다.',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         denyButtonText: "확 인",
-            //         icon: "error"
-            //     });
-            // }
-            // else if (fileCount == 0) {
+            // if (fileCount == 0) {
             //     Swal.fire({
             //         title: '파일 오류',
             //         html:
@@ -1207,6 +1180,44 @@ init = {
             //         icon: "error"
             //     });
             // }
+            if (fileWidth[0] + fileHeight[0] > 3000) {
+                Swal.fire({
+                    title: '파일 해상도 초과',
+                    html:
+                        '1920 X 1080 을 <br>초과하는 해상도입니다.<br/>' +
+                        '서비스 안정성을 위해 <br>1920 X 1080 크기 까지의<br/>' +
+                        '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (fileSize[0] > 157286400) {
+                Swal.fire({
+                    title: '파일 용량제한 초과',
+                    html:
+                        '파일 용량이 150MB를 초과하였습니다.<br/>' +
+                        '서비스 안정성을 위해 150MB 이하의<br/>' +
+                        '영상을 서비스합니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
+            else if (fileCount == 0) {
+                Swal.fire({
+                    title: '파일 오류',
+                    html:
+                        '업로드된 파일이 없거나 잘못되었습니다.<br/>' +
+                        '확인 후 재시도해 주세요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
+            }
             else {
                 uploadID = makeid(6);
                 $(".nextBtn").addClass('hide')
@@ -1228,90 +1239,103 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
-            var encryptObject = []
-            var allCheck = ""
-            for (var i = 0; i < fileCount; i++) {
-                if (screen.width <= 600) {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
-                }
-                else {
-                    var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
-                    var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
-                    var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
-                }
-
-                var select = ''
-                select = (body) ? select += '1' : select += '0'
-                select = (head) ? select += '1' : select += '0'
-                select = (lp) ? select += '1' : select += '0'
-                encryptObject.push(select)
-            }
-            for (var j = 0; j < encryptObject.length; j++) {
-                if (encryptObject[j] == "000") {
-                    allCheck = "false"
-                    break;
-                }
-                else {
-                    allCheck = "true"
-                }
-            }
-            if (videoDuration[0] > 300 && $(".restore:checked").val() == "false") {
+            if(Number(comm.getNowPoint())<=0){
                 Swal.fire({
-                    title: '파일 길이 초과',
-                    html:
-                        '파일의 길이가 5분을 초과했습니다.<br/>' +
-                        '복호화 불가능 파일은 5분 이하의 <br>파일만 올려주세요.',
+                    title: '캐시가 부족합니다.',
                     showConfirmButton: false,
                     showDenyButton: true,
                     denyButtonText: "확 인",
                     icon: "error"
-                });
-            }
-            else if (videoDuration[0] > 180 && $(".restore:checked").val() == "true") {
-                Swal.fire({
-                    title: '파일 길이 초과',
-                    html:
-                        '파일의 길이가 3분을 초과했습니다.<br/>' +
-                        '복호화 가능 파일은 3분 이하의 <br>파일만 올려주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (allCheck == "true" && cKey == 1 && sKey != "") {
-                var encryptObj = Object.assign({}, encryptObject);
-                postData['encryptObject'] = JSON.stringify(encryptObj);
-                fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum, videoDuration);
-                socket.emit('cancelDeleteFile', {
-                    id: uploadID
+                }).then(() => {
+                    location.reload()
                 })
             }
-            else if (allCheck == "false") {
-                Swal.fire({
-                    title: '비식별 객체 선택 오류',
-                    html:
-                        '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
-            else if (cKey == 0 || sKey == "") {
-                Swal.fire({
-                    title: '키 선택 오류',
-                    html:
-                        '키를 선택하지 않으셨습니다.<br/>' +
-                        '확인 후 재시도해 주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
+            else{
+                var encryptObject = []
+                var allCheck = ""
+                for (var i = 0; i < fileCount; i++) {
+                    if (screen.width <= 600) {
+                        var body = $('#file-' + i + ' .selectObject')[0].children[1].children[0].children[0].checked
+                        var head = $('#file-' + i + ' .selectObject')[0].children[1].children[1].children[0].checked
+                        var lp = $('#file-' + i + ' .selectObject')[0].children[1].children[2].children[0].checked
+                    }
+                    else {
+                        var body = $('#file-' + i + ' .selectObject')[0].children[0].children[0].checked
+                        var head = $('#file-' + i + ' .selectObject')[0].children[0].children[2].checked
+                        var lp = $('#file-' + i + ' .selectObject')[0].children[0].children[4].checked
+                    }
+
+                    var select = ''
+                    select = (body) ? select += '1' : select += '0'
+                    select = (head) ? select += '1' : select += '0'
+                    select = (lp) ? select += '1' : select += '0'
+                    encryptObject.push(select)
+                }
+                for (var j = 0; j < encryptObject.length; j++) {
+                    if (encryptObject[j] == "000") {
+                        allCheck = "false"
+                        break;
+                    }
+                    else {
+                        allCheck = "true"
+                    }
+                }
+                if (videoDuration[0] > 300 && $(".restore:checked").val() == "false") {
+                    Swal.fire({
+                        title: '파일 길이 초과',
+                        html:
+                            '파일의 길이가 5분을 초과했습니다.<br/>' +
+                            '복호화 불가능 파일은 5분 이하의 <br>파일만 올려주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (videoDuration[0] > 180 && $(".restore:checked").val() == "true") {
+                    Swal.fire({
+                        title: '파일 길이 초과',
+                        html:
+                            '파일의 길이가 3분을 초과했습니다.<br/>' +
+                            '복호화 가능 파일은 3분 이하의 <br>파일만 올려주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (allCheck == "true" && cKey == 1 && sKey != "") {
+                    var encryptObj = Object.assign({}, encryptObject);
+                    postData['encryptObject'] = JSON.stringify(encryptObj);
+                    fileModule.encrypt(postData, fileWidth, fileHeight, restoration, bitrateArray, 'video', checksum, videoDuration);
+                    socket.emit('cancelDeleteFile', {
+                        id: uploadID
+                    })
+                }
+                else if (allCheck == "false") {
+                    Swal.fire({
+                        title: '비식별 객체 선택 오류',
+                        html:
+                            '비식별 객체를 선택하지 않은 파일이 있어요.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if (cKey == 0 || sKey == "") {
+                    Swal.fire({
+                        title: '키 선택 오류',
+                        html:
+                            '키를 선택하지 않으셨습니다.<br/>' +
+                            '확인 후 재시도해 주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
             }
         });
     },
@@ -4177,10 +4201,23 @@ init = {
                 })
             }
             else {
-                $('#file').val('');
-                $('.pemUpload').val('');
-                $('.recoConfirm').attr('data-value', $(this).data('value'));
-                $("#recoData").addClass('active')
+                if(Number(comm.getNowPoint())<=0){
+                    Swal.fire({
+                        title: '캐시가 부족합니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    }).then(async (result) => {
+                        location.reload()
+                    })
+                }
+                else{
+                    $('#file').val('');
+                    $('.pemUpload').val('');
+                    $('.recoConfirm').attr('data-value', $(this).data('value'));
+                    $("#recoData").addClass('active')
+                }
             }
         });
 
@@ -4339,38 +4376,64 @@ init = {
 
                 if (mode == 'single') {
                     $('.lockData')[0].innerHTML = html;
-                    $('#signedUrl').attr('href', signedUrl[0][0]);
                     var fileSize = signedUrl[0][1];
                     var fileName = fileList[0];
 
                     $(document).on("click", "#signedUrl", async function () {
-                        let additionalID = await comm.getAdditionalID(eventIndex, fileName);
-                        await comm.meterDownload(eventIndex, type, additionalID[0]);
-                        let requestType = 'download';
-                        await comm.increaseRequestCount(eventIndex, [fileName], requestType);
-                    })
-                }
-                else if (mode == 'group') {
-                    $(document).on("click", ".select_recoConfirm", function () {
-                        if ($('.check_reco').is(':checked')) {
-                            $('.recoConfirm').attr('data-value', $(this).data('value'));
-                            selectedFile = [];
-                            var imgDivList = document.getElementsByClassName('check_reco');
-                            var len = imgDivList.length;
-                            for (var i = 0; i < len; i++) {
-                                if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                            }
-                            $("#select_recoData").addClass('active')
-                        }
-                        else {
+                        if(Number(comm.getNowPoint())<=0){
                             Swal.fire({
-                                title: '선택된 파일이 없습니다',
-                                text: '복호화할 파일을 선택해 주세요.',
+                                title: '캐시가 부족합니다.',
                                 showConfirmButton: false,
                                 showDenyButton: true,
                                 denyButtonText: "확 인",
                                 icon: "error"
+                            }).then(() => {
+                                location.reload()
                             })
+                        }
+                        else{
+                            window.location.href = signedUrl[0][0]
+                            let additionalID = await comm.getAdditionalID(eventIndex, fileName);
+                            await comm.meterDownload(eventIndex, type, additionalID[0]);
+                            let requestType = 'download';
+                            await comm.increaseRequestCount(eventIndex, [fileName], requestType);
+                        }
+                    })
+                }
+                else if (mode == 'group') {
+                    $(document).on("click", ".select_recoConfirm", function () {
+                        if(Number(comm.getNowPoint())<=0){
+                            Swal.fire({
+                                title: '캐시가 부족합니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(() => {
+                                location.reload()
+                            })
+                        }
+                        else{
+                            if ($('.check_reco').is(':checked')) {
+                                $('.recoConfirm').attr('data-value', $(this).data('value'));
+                                selectedFile = [];
+                                var imgDivList = document.getElementsByClassName('check_reco');
+                                var len = imgDivList.length;
+                                for (var i = 0; i < len; i++) {
+                                    if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                }
+                                $("#select_recoData").addClass('active')
+                            }
+                            else {
+                                Swal.fire({
+                                    title: '선택된 파일이 없습니다',
+                                    text: '복호화할 파일을 선택해 주세요.',
+                                    showConfirmButton: false,
+                                    showDenyButton: true,
+                                    denyButtonText: "확 인",
+                                    icon: "error"
+                                })
+                            }
                         }
                     });
 
@@ -4379,9 +4442,9 @@ init = {
                             var imgnum = $(this).data("num")
                             selectModalImg = imgnum
                             var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                            var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                            var downloadArea = '<div class="imgConfirm" data-idx="'+imgnum+'">\
                                 <p>이미지 다운로드</p>\
-                            </a>'
+                            </div>'
                             document.getElementById('selectImgArea').innerHTML = imgtag
                             document.getElementById('selectBtnArea').innerHTML = downloadArea
                             $("#imgView").addClass('active')
@@ -4392,20 +4455,34 @@ init = {
                         var imgnum = $(this).data("num")
                         selectModalImg = imgnum
                         var imgtag = '<img class="viewImg" src="' + signedUrl[imgnum][0] + '">'
-                        var downloadArea = '<a class="imgConfirm" href="' + signedUrl[imgnum][0] + '" download>\
+                        var downloadArea = '<div class="imgConfirm" data-idx="'+imgnum+'">\
                             <p>이미지 다운로드</p>\
-                        </a>'
+                        </div>'
                         document.getElementById('selectImgArea').innerHTML = imgtag
                         document.getElementById('selectBtnArea').innerHTML = downloadArea
                         $("#imgView").addClass('active')
                     });
 
                     $(document).on("click", ".imgConfirm", async function () {
-                        let additionalID = await comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
-                        additionalID = additionalID.join('');
-                        await comm.meterDownload(eventIndex, type, additionalID);
-                        let requestType = 'download';
-                        await comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
+                        if(Number(comm.getNowPoint())<=0){
+                            Swal.fire({
+                                title: '캐시가 부족합니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(() => {
+                                location.reload()
+                            })
+                        }
+                        else{
+                            window.location.href = signedUrl[$(this).data("idx")][0]
+                            let additionalID = await comm.getAdditionalID(eventIndex, fileList[selectModalImg]);
+                            additionalID = additionalID.join('');
+                            await comm.meterDownload(eventIndex, type, additionalID);
+                            let requestType = 'download';
+                            await comm.increaseRequestCount(eventIndex, [fileList[selectModalImg]], requestType);
+                        }
                     });
 
                     $(document).on("click", ".allselect", function () {
@@ -4448,64 +4525,77 @@ init = {
                     });
 
                     $(document).on("click", "#signedUrl", function () {
-                        let timerInterval
-                        Swal.fire({
-                            title: '파일 다운로드 준비중',
-                            text: '파일을 압축중입니다. 잠시만 기다려주세요!',
-                            timer: 99999999999,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                const b = Swal.getHtmlContainer().querySelector('b')
-                                timerInterval = setInterval(() => {
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        }).then((result) => {
-                            /* Read more about handling dismissals below */
-                            if (result.dismiss === Swal.DismissReason.timer) {
-                                console.log('I was closed by the timer')
-                            }
-                        })
-                        resultLoader.fileToZip({
-                            id: eventIndex,
-                            bucketName: encDirectory[0],    //참조할 버킷 이름
-                            subDirectory: encDirectory[1],  //참조할 object의 세부 경로
-                            fileName: fileList              //참조할 object filename 목록
-                        });
-                        socket.on('compress', function (data) {
-                            if (data.log == '압축 완료') {
-                                socket.emit('deleteFile', {
-                                    bucketName: encDirectory[0],
-                                    subDirectory: encDirectory[1],
-                                    fileName: ['Download.zip']
-                                })
-
-                                setTimeout(function () {
-                                    new Promise((resolve, reject) => {
-                                        //파일 다운로드 경로 획득
-                                        let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
-                                        let fileUrl = signedUrl[0][0];
-                                        location.href = fileUrl;
-                                        let additionalIDs = comm.getAdditionalID(eventIndex, '');
-                                        comm.meterDownload(eventIndex, type, additionalIDs);
-                                        let requestType = 'download';
-                                        comm.increaseRequestCount(eventIndex, fileList, requestType);
-                                        resolve();
-                                    }).then(() => {
-                                        Swal.fire({
-                                            title: '파일 다운로드가 \n시작되었습니다.',
-                                            showConfirmButton: true,
-                                            showDenyButton: false,
-                                            confirmButtonText: "확 인",
-                                            icon: "success"
-                                        })
+                        if(Number(comm.getNowPoint())<=0){
+                            Swal.fire({
+                                title: '캐시가 부족합니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(async (result) => {
+                                location.reload()
+                            })
+                        }
+                        else{
+                            let timerInterval
+                            Swal.fire({
+                                title: '파일 다운로드 준비중',
+                                text: '파일을 압축중입니다. 잠시만 기다려주세요!',
+                                timer: 99999999999,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                    timerInterval = setInterval(() => {
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    console.log('I was closed by the timer')
+                                }
+                            })
+                            resultLoader.fileToZip({
+                                id: eventIndex,
+                                bucketName: encDirectory[0],    //참조할 버킷 이름
+                                subDirectory: encDirectory[1],  //참조할 object의 세부 경로
+                                fileName: fileList              //참조할 object filename 목록
+                            });
+                            socket.on('compress', function (data) {
+                                if (data.log == '압축 완료') {
+                                    socket.emit('deleteFile', {
+                                        bucketName: encDirectory[0],
+                                        subDirectory: encDirectory[1],
+                                        fileName: ['Download.zip']
                                     })
-                                }, 500)
-                            }
-                        });
+
+                                    setTimeout(function () {
+                                        new Promise((resolve, reject) => {
+                                            //파일 다운로드 경로 획득
+                                            let signedUrl = resultLoader.getFileUrl(encDirectory[0], encDirectory[1], ['Download.zip']);
+                                            let fileUrl = signedUrl[0][0];
+                                            location.href = fileUrl;
+                                            let additionalIDs = comm.getAdditionalID(eventIndex, '');
+                                            comm.meterDownload(eventIndex, type, additionalIDs);
+                                            let requestType = 'download';
+                                            comm.increaseRequestCount(eventIndex, fileList, requestType);
+                                            resolve();
+                                        }).then(() => {
+                                            Swal.fire({
+                                                title: '파일 다운로드가 \n시작되었습니다.',
+                                                showConfirmButton: true,
+                                                showDenyButton: false,
+                                                confirmButtonText: "확 인",
+                                                icon: "success"
+                                            })
+                                        })
+                                    }, 500)
+                                }
+                            });
+                        }
                     });
                     $('.lockDataList')[0].innerHTML = html;
                 }
@@ -4523,16 +4613,29 @@ init = {
                 }
 
                 var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
-                $('#signedUrl').attr('href', fileUrl);
                 $('.fullname').text($('.file_fullname').text())
 
                 var fileName = fileList[0];
 
                 $(document).on("click", "#signedUrl", async function () {
-                    let additionalID = comm.getAdditionalID(eventIndex, fileName);
-                    await comm.meterDownload(eventIndex, type, additionalID);
-                    let requestType = 'download';
-                    await comm.increaseRequestCount(eventIndex, fileList, requestType);
+                    if(Number(comm.getNowPoint())<=0){
+                        Swal.fire({
+                            title: '캐시가 부족합니다.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        }).then(() => {
+                            location.reload()
+                        })
+                    }
+                    else{
+                        window.location.href = fileUrl
+                        let additionalID = comm.getAdditionalID(eventIndex, fileName);
+                        await comm.meterDownload(eventIndex, type, additionalID);
+                        let requestType = 'download';
+                        await comm.increaseRequestCount(eventIndex, fileList, requestType);
+                    }
                 })
             }
         }
@@ -4556,84 +4659,62 @@ init = {
                 })
             }
             else {
-                let check = true
-                if (mode == "group") {
-                    if (!$('.check_reco').is(':checked')) {
-                        check = false
-                        Swal.fire({
-                            title: '선택된 파일이 없습니다',
-                            text: '추가 비식별화할 파일을 선택해 주세요.',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                    }
+                if(Number(comm.getNowPoint())<=0){
+                    Swal.fire({
+                        title: '캐시가 부족합니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    }).then(async (result) => {
+                        location.reload()
+                    })
                 }
-                if (check == true) {
-                    uploadID = makeid(6);
-                    console.log('restoration : ', restoration);
-                    if (restoration === '1') {
-                        $('#addfile').val('');
-                        $('.pemUpload').val('');
-                        $('.addConfirm').attr('data-value', $(this).data('value'));
-                        $("#addData").addClass('active')
-
-                        $(document).on("click", ".addConfirm", function () {
-                            let key_name = $('.file_key')[0].children[1].innerHTML
-                            let uploadResult = fileModule.uploadKey('addfile');
-
-                            uploadResult.then(async (data) => {
-                                let file_name = data[0]
-                                let keyPath = data[1]
-                                socket.emit('delUploadedFile', {
-                                    filePath: keyPath,
-                                    id: uploadID,
-                                    immediate: 'false'
-                                })
-
-                                if (file_name) {
-                                    console.log('file_name : ' + JSON.stringify(file_name));
-                                    let verify_result = fileModule.verifyKey(file_name, key_name);
-                                    const { valid, msg, keyPath } = verify_result;
-                                    if (!valid) {
-                                        Swal.fire({
-                                            title: '암호 키 불일치',
-                                            text: msg,
-                                            showCancelButton: false,
-                                            showConfirmButton: false,
-                                            showDenyButton: true,
-                                            denyButtonText: "확 인",
-                                            icon: "error"
-                                        });
-                                    }
-                                    else {
-                                        let result = await fileModule.makePasswordbin(eventIndex, keyPath);
-                                        if (result) {
-                                            if (type == 'image') {
-                                                if (mode == 'single') {
-                                                    location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
-                                                }
-                                                else if (mode == 'group') {
-                                                    selectedFile = [];
-                                                    var imgDivList = document.getElementsByClassName('check_reco');
-                                                    var len = imgDivList.length;
-                                                    for (var i = 0; i < len; i++) {
-                                                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                                                    }
-                                                    let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
-                                                    fileIDs = fileIDs.join(',');
-                                                    location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
-                                                }
-                                            }
-                                            else if (type == 'video') {
-                                                location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
-                                            }
-                                        }
-                                        else {
+                else{
+                    let check = true
+                    if (mode == "group") {
+                        if (!$('.check_reco').is(':checked')) {
+                            check = false
+                            Swal.fire({
+                                title: '선택된 파일이 없습니다',
+                                text: '추가 비식별화할 파일을 선택해 주세요.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            });
+                        }
+                    }
+                    if (check == true) {
+                        uploadID = makeid(6);
+                        console.log('restoration : ', restoration);
+                        if (restoration === '1') {
+                            $('#addfile').val('');
+                            $('.pemUpload').val('');
+                            $('.addConfirm').attr('data-value', $(this).data('value'));
+                            $("#addData").addClass('active')
+    
+                            $(document).on("click", ".addConfirm", function () {
+                                let key_name = $('.file_key')[0].children[1].innerHTML
+                                let uploadResult = fileModule.uploadKey('addfile');
+    
+                                uploadResult.then(async (data) => {
+                                    let file_name = data[0]
+                                    let keyPath = data[1]
+                                    socket.emit('delUploadedFile', {
+                                        filePath: keyPath,
+                                        id: uploadID,
+                                        immediate: 'false'
+                                    })
+    
+                                    if (file_name) {
+                                        console.log('file_name : ' + JSON.stringify(file_name));
+                                        let verify_result = fileModule.verifyKey(file_name, key_name);
+                                        const { valid, msg, keyPath } = verify_result;
+                                        if (!valid) {
                                             Swal.fire({
-                                                title: '작업 실패',
-                                                text: '다시 시도해 주세요',
+                                                title: '암호 키 불일치',
+                                                text: msg,
                                                 showCancelButton: false,
                                                 showConfirmButton: false,
                                                 showDenyButton: true,
@@ -4641,42 +4722,77 @@ init = {
                                                 icon: "error"
                                             });
                                         }
+                                        else {
+                                            let result = await fileModule.makePasswordbin(eventIndex, keyPath);
+                                            if (result) {
+                                                if (type == 'image') {
+                                                    if (mode == 'single') {
+                                                        location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
+                                                    }
+                                                    else if (mode == 'group') {
+                                                        selectedFile = [];
+                                                        var imgDivList = document.getElementsByClassName('check_reco');
+                                                        var len = imgDivList.length;
+                                                        for (var i = 0; i < len; i++) {
+                                                            if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                                        }
+                                                        let fileIDs = await fileModule.getSelectedFileID(selectedFile, eventIndex);
+                                                        fileIDs = fileIDs.join(',');
+                                                        location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
+                                                    }
+                                                }
+                                                else if (type == 'video') {
+                                                    location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
+                                                }
+                                            }
+                                            else {
+                                                Swal.fire({
+                                                    title: '작업 실패',
+                                                    text: '다시 시도해 주세요',
+                                                    showCancelButton: false,
+                                                    showConfirmButton: false,
+                                                    showDenyButton: true,
+                                                    denyButtonText: "확 인",
+                                                    icon: "error"
+                                                });
+                                            }
+                                        }
                                     }
+                                    else {
+                                        console.log('file_name : ' + file_name);
+                                        Swal.fire({
+                                            title: '암호 키 파일 업로드 실패',
+                                            text: '암호 키 파일을 다시 업로드해주세요.',
+                                            showConfirmButton: false,
+                                            showDenyButton: true,
+                                            denyButtonText: "확 인",
+                                            icon: "error"
+                                        });
+                                    }
+                                })
+                            })
+                        }
+                        else {
+                            if (type == 'image') {
+                                if (mode == 'single') {
+                                    location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                                 }
-                                else {
-                                    console.log('file_name : ' + file_name);
-                                    Swal.fire({
-                                        title: '암호 키 파일 업로드 실패',
-                                        text: '암호 키 파일을 다시 업로드해주세요.',
-                                        showConfirmButton: false,
-                                        showDenyButton: true,
-                                        denyButtonText: "확 인",
-                                        icon: "error"
+                                else if (mode == 'group') {
+                                    selectedFile = [];
+                                    var imgDivList = document.getElementsByClassName('check_reco');
+                                    var len = imgDivList.length;
+                                    for (var i = 0; i < len; i++) {
+                                        if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
+                                    }
+                                    fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
+                                        fileIDs = fileIDs.join(',');
+                                        location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
                                     });
                                 }
-                            })
-                        })
-                    }
-                    else {
-                        if (type == 'image') {
-                            if (mode == 'single') {
-                                location.href = `/encrypt/image/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0`;
                             }
-                            else if (mode == 'group') {
-                                selectedFile = [];
-                                var imgDivList = document.getElementsByClassName('check_reco');
-                                var len = imgDivList.length;
-                                for (var i = 0; i < len; i++) {
-                                    if (imgDivList[i].checked == true) selectedFile.push(fileList[i])
-                                }
-                                fileModule.getSelectedFileID(selectedFile, eventIndex).then((fileIDs) => {
-                                    fileIDs = fileIDs.join(',');
-                                    location.href = `/encrypt/album/check?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}&imgNum=0&fileIDs=${fileIDs}`;
-                                });
+                            else if (type == 'video') {
+                                location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                             }
-                        }
-                        else if (type == 'video') {
-                            location.href = `/encrypt/video/select?type=${type}&token=${uploadID}&id=${eventIndex}&mode=${mode}&restoration=${restoration}`;
                         }
                     }
                 }

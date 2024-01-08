@@ -32,6 +32,10 @@
                     e.preventDefault();
                     e.returnValue = false;
                 }
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 73 /* F12 */) {
+                    e.preventDefault();
+                    e.returnValue = false;
+                }
             });
         });
 
