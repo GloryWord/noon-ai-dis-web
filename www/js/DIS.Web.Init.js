@@ -3321,7 +3321,7 @@ init = {
         // });
         let verify = await comm.joinInfo();
         if (!verify) location.href = '/main';
-        await comm.expireJoinInfo();
+        // await comm.expireJoinInfo();
 
         let verifyCode = '';
         let email_config = false;
