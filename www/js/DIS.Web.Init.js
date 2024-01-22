@@ -301,6 +301,8 @@ init = {
     },
 
     main: function () {
+       //console.log(requestTable.processTest());
+       //console.log(requestTable.processTestdec())
         // var temp = comm.getUser()
 
         // $(".curTenant").html(temp);
