@@ -301,6 +301,8 @@ init = {
     },
 
     main: function () {
+       //console.log(requestTable.processTest());
+       //console.log(requestTable.processTestdec())
         // var temp = comm.getUser()
 
         // $(".curTenant").html(temp);
@@ -3330,7 +3332,7 @@ init = {
         // });
         let verify = await comm.joinInfo();
         if (!verify) location.href = '/main';
-        await comm.expireJoinInfo();
+        // await comm.expireJoinInfo();
 
         let verifyCode = '';
         let email_config = false;

@@ -2128,5 +2128,61 @@ requestTable = {
             console.error(err)
             return null
         }
-    }
+    },
+
+    // precessTest: async function () {
+    //     const baseUrl = `/api/encrypt/id/process`
+    //     const apiUrl = apiUrlConverter('encrypt', baseUrl)
+        
+    //     try {
+    //         const data = await $.ajax({
+    //             method: 'get',
+    //             url: apiUrl,
+    //             data,
+    //         });
+    //         console.log(data)
+    //         return data
+    //     } catch(err) {
+    //         console.error(err)
+    //         return null
+    //     }
+    // },
+
+    processTest: function() {
+        let baseUrl = `/api/encrypt/id/progress`
+        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+        let results;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            async: false,
+            success: function (result) {
+                results = result;
+            },
+            error: function() {
+
+            }
+        });
+        console.log(results)
+        return results;
+    },
+
+    processTestdec: function() {
+        let baseUrl = `/api/decrypt/id/progress`
+        let apiUrl = apiUrlConverter('decrypt', baseUrl)
+        let results;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            async: false,
+            success: function (result) {
+                results = result;
+            },
+            error: function() {
+
+            }
+        });
+        console.log(results)
+        return results;
+    },
 }

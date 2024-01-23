@@ -567,7 +567,7 @@ comm = {
                 // location.href = "/myinfo";
             },
             error: function (xhr, status) {
-                if (xhr.responsJSON.message === 'password is not matching') {
+                if (xhr.responseJSON.message === 'password is not matching') {
                     Swal.fire({
                         title: '비밀번호가 틀렸습니다.',
                         showConfirmButton: false,
