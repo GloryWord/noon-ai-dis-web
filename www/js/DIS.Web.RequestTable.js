@@ -234,17 +234,22 @@ requestTable = {
                         status = '<p>완료</p>'
                     }
                     else {
-                        let fail = 'FAIL'
-                        if (requestList[i]['status'] === null) status = '<p>실패</p>';
-                        else {
-                            if (requestList[i]['status'].indexOf('FAIL') == 1) {
-                                status = '<p>실패</p>'
-                            }
-                            else {
-                                status = '<p id="progress"></p>'
-                            }
+                        // if (requestList[i]['status'] === null) status = '<p>실패</p>';
+                        // else {
+                        //     if (requestList[i]['status'].indexOf('FAIL') == 1) {
+                        //         status = '<p>실패</p>'
+                        //     }
+                        //     else {
+                        //         status = `<p class="progress log${requestList[i]['id']}">${requestList[i]['encrypt_progress']}</p>`
+                        //     }
+                        // }
+                        if (requestList[i]['status'].indexOf('FAIL') == 1) {
+                            status = '<p>실패</p>'
                         }
-                    }
+                        else {
+                            status = `<p class="progress log${requestList[i]['id']}">${requestList[i]['encrypt_progress']}</p>`
+                        }
+                    }   
 
                     // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
                     // if(requestList[i]['complete'] == 1){
@@ -450,7 +455,7 @@ requestTable = {
                             }
                             else {
                                 // noConfirm.push(requestList[i]['id'])
-                                status = '<p id="progress"></p>'
+                                status = `<p class="progress log${requestList[i]['id']}"></p>`
                             }
                         }
                     }

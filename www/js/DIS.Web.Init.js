@@ -333,6 +333,15 @@ init = {
 
         var mainLog = requestTable.getRecentRequest('encrypt');
         $(".mainLog").html(mainLog);
+        
+        // 함수를 정의합니다.
+        function updateMainLog() {
+            var mainLog = requestTable.getRecentRequest('encrypt');
+            $(".mainLog").html(mainLog);
+        }
+
+        // 5초마다 함수를 실행하는 타이머를 설정합니다.
+        setInterval(updateMainLog, 5000);
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
