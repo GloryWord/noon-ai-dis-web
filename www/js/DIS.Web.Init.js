@@ -301,6 +301,9 @@ init = {
     },
 
     main: function () {
+        const searchID = requestTable.getProcessing('enc'); // 복호화는 'dec'로 전달
+        if(searchID.length != 0) requestTable.getSpecificProgress('enc', searchID);
+        // requestTable.getProcessing('dec');
        //console.log(requestTable.processTest());
        //console.log(requestTable.processTestdec())
         // var temp = comm.getUser()
