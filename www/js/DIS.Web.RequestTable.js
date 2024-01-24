@@ -234,17 +234,22 @@ requestTable = {
                         status = '<p>완료</p>'
                     }
                     else {
-                        let fail = 'FAIL'
-                        if (requestList[i]['status'] === null) status = '<p>실패</p>';
-                        else {
-                            if (requestList[i]['status'].indexOf('FAIL') == 1) {
-                                status = '<p>실패</p>'
-                            }
-                            else {
-                                status = '<p id="progress"></p>'
-                            }
+                        // if (requestList[i]['status'] === null) status = '<p>실패</p>';
+                        // else {
+                        //     if (requestList[i]['status'].indexOf('FAIL') == 1) {
+                        //         status = '<p>실패</p>'
+                        //     }
+                        //     else {
+                        //         status = `<p class="progress log${requestList[i]['id']}">${requestList[i]['encrypt_progress']}</p>`
+                        //     }
+                        // }
+                        if (requestList[i]['status'].indexOf('FAIL') == 1) {
+                            status = '<p>실패</p>'
                         }
-                    }
+                        else {
+                            status = `<p class="progress log${requestList[i]['id']}">${requestList[i]['encrypt_progress']}</p>`
+                        }
+                    }   
 
                     // var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
                     // if(requestList[i]['complete'] == 1){
@@ -450,7 +455,7 @@ requestTable = {
                             }
                             else {
                                 // noConfirm.push(requestList[i]['id'])
-                                status = '<p id="progress"></p>'
+                                status = `<p class="progress log${requestList[i]['id']}"></p>`
                             }
                         }
                     }
@@ -500,8 +505,8 @@ requestTable = {
                             <div class="name_content"><p>'+ namelist[0] + '</p>' + list + '</div>\
                             <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                             <div class="rest_content"><p>'+ restoration + '</p></div>\
-                            <div class="status_content">'+ status + '</div>\
-                            <div class="detail_content">\
+                            <div class="status_content status'+requestList[i]['id']+'">'+ status + '</div>\
+                            <div class="detail_content detail'+requestList[i]['id']+'">\
                                 <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo ' + disable + '" ' + background + '>\
                                     <p>'+ text + '</p>\
                                 </div>\
@@ -681,8 +686,8 @@ requestTable = {
                         <div class="name_content"><p>'+ namelist[0] + '</p>' + list + '</div>\
                         <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
                         <div class="rest_content"><p>'+ restoration + '</p></div>\
-                        <div class="status_content">'+ status + '</div>\
-                        <div class="detail_content">\
+                        <div class="status_content status'+ requestList[i]['id'] + '">'+ status + '</div>\
+                        <div class="detail_content detail'+ requestList[i]['id'] + '">\
                             <div data-id="'+ requestList[i]['id'] + '" data-type="' + type + '" data-restoration="' + requestList[i]['restoration'] + '" class="detailInfo ' + disable + '" ' + background + '>\
                                 <p>'+ text + '</p>\
                             </div>\
@@ -709,7 +714,7 @@ requestTable = {
             },
             async: false,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 requestList = data.requestList;
                 archived = data.archived;
             },
@@ -783,11 +788,15 @@ requestTable = {
                                     </a>
                                 </div>`
                     }
-
+                    
                     if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
                     if (requestList[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
+                    let expiredDate = ""
+                    if(requestList[i]["expiration_datetime"]!=null){
+                        expiredDate = koreanTimeStamp(requestList[i]["expiration_datetime"])
+                    }
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${requestList[i]["id"]}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
@@ -804,9 +813,9 @@ requestTable = {
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
                                         <div class="date_content"><p>${koreanTimeStamp(requestList[i]["request_datetime"])}</p></div>
-                                        <div class="rest_content"><p>${koreanTimeStamp(requestList[i]["expiration_datetime"])}</p></div>
-                                        <div class="status_content"><p class='status${requestList[i]['id']}'>${status}</p></div>
-                                        <div class="detail_content">${btn}</div>
+                                        <div class="rest_content expired${requestList[i]['id']}"><p>${expiredDate}</p></div>
+                                        <div class="status_content status${requestList[i]['id']}"><p class='status${requestList[i]['id']} progress log${requestList[i]['id']}'>${status}</p></div>
+                                        <div class="detail_content detail${requestList[i]['id']}">${btn}</div>
                                     </div>`
                     }
                 }
@@ -864,6 +873,10 @@ requestTable = {
                     else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
                     if (archived[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
+                    let expiredDate = ""
+                    if(archived[i]["expiration_datetime"]!=null){
+                        expiredDate = koreanTimeStamp(archived[i]["expiration_datetime"])
+                    }
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${archived[i]['fk_dec_request_list_id']}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
@@ -880,7 +893,7 @@ requestTable = {
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
                                         <div class="date_content"><p>${koreanTimeStamp(archived[i]["request_datetime"])}</p></div>
-                                        <div class="rest_content"><p>${koreanTimeStamp(archived[i]["expiration_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${expiredDate}</p></div>
                                         <div class="status_content"><p>${status}</p></div>
                                         <div class="detail_content">${btn}</div>
                                     </div>`
@@ -938,12 +951,55 @@ requestTable = {
                 var fileList = requestList[i]['request_file_list'].split('\n');
                 fileList = fileList.splice(0, fileList.length - 1);
 
-                var status = (requestList[i]['complete'] == 1) ? '<p>완료</p>' : '<p id="progress"></p>'
+                var status
+                var btn
+                if(requestList[i]['download_status']=="waiting"){
+                    status="대기중"
+                    btn = ""
+                }
+                else if(requestList[i]['download_status']=="processing"){
+                    status="진행중"
+                    btn = ""
+                }
+                else if(requestList[i]['download_status']=="complete"){
+                    status="완 료"
+                    btn = `<div class='decDownload active' data-idx=${requestList[i]['id']}>
+                                <a href=${requestList[i]['download_url']} download>
+                                    <span>다운로드</span>
+                                </a>
+                            </div>`
+                }
+                else if(requestList[i]['download_status']=="downloaded"){
+                    status="다운로드 \n완료"
+                    btn = `<div class='decDownload disable'>
+                                <span>만 료</span>
+                            </div>`
+                }
+                else if(requestList[i]['download_status']=="expired" || requestList[i]['download_status']==null){
+                    status="기간 만료"
+                    btn = `<div class='decDownload disable'>
+                                <span>만 료</span>
+                            </div>`
+                }
+                else if(requestList[i]['download_status']=="failed"){
+                    status="실 패"
+                    btn = `<div class='decDownload fail'>
+                                <a href='/qna'>
+                                    <span>실 패</span>
+                                </a>
+                            </div>`
+                }
 
                 if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                 else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                 else var type = ""
                 if (requestList[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+
+                let expiredDate = ""
+                if(requestList[i]["expiration_datetime"]!=null){
+                    expiredDate = koreanTimeStamp(requestList[i]["expiration_datetime"])
+                }
+
                 if (screen.width <= 600) {
                     htmlStr += '<div class="m_logContent" data-id="' + requestList[i]['id'] + '" data-type="' + type + '">\
                                     <div class="name_content" '+ css + '><p>' + namelist[0] + list + '</p></div>\
@@ -955,15 +1011,15 @@ requestTable = {
                                 </div>'
                 }
                 else {
-                    htmlStr += '<div class="logContent" id=enc_request_index-' + requestList[i]['id'] + '>\
-                                    <div class="id_content"><p>'+ underTen(requestList[i]['id']) + '</p></div>\
-                                    <div class="type_content"><p>'+ type + '</p></div>\
-                                    <div class="name_content" '+ css + '><p>' + namelist[0] + '</p>' + list + '</div>\
-                                    <div class="date_content"><p>'+ dateFormat(date) + '</p></div>\
-                                    <div class="rest_content"><p></p></div>\
-                                    <div class="status_content">'+ status + '</div>\
-                                    <div class="detail_content"></div>\
-                                </div>'
+                    htmlStr += `<div class="logContent" id=enc_request_index-${requestList[i]['id']}>
+                                    <div class="id_content"><p>${underTen(requestList[i]['id'])}</p></div>
+                                    <div class="type_content"><p>${type}</p></div>
+                                    <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
+                                    <div class="date_content"><p>${koreanTimeStamp(requestList[i]["request_datetime"])}</p></div>
+                                    <div class="rest_content expired${requestList[i]['id']}"><p>${expiredDate}</p></div>
+                                    <div class="status_content status${requestList[i]['id']}"><p class='status${requestList[i]['id']} progress log${requestList[i]['id']}'>${status}</p></div>
+                                    <div class="detail_content detail${requestList[i]['id']}">${btn}</div>
+                                </div>`
                 }
             }
         }
@@ -2143,41 +2199,27 @@ requestTable = {
     //     }
     // },
 
-    processTest: function() {
-        let baseUrl = `/api/encrypt/id/progress`
-        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+    processTest: function(requestType) {
+        let baseUrl = `/api/${requestType}/id/progress`
+        let apiUrl = apiUrlConverter(requestType, baseUrl)
         let results;
         $.ajax({
             method: "get",
             url: apiUrl,
             async: false,
             success: function (result) {
-                results = result;
+                results = result["result"];
             },
             error: function() {
 
             }
         });
         console.log(results)
-        return results;
-    },
-
-    processTestdec: function() {
-        let baseUrl = `/api/decrypt/id/progress`
-        let apiUrl = apiUrlConverter('decrypt', baseUrl)
-        let results;
-        $.ajax({
-            method: "get",
-            url: apiUrl,
-            async: false,
-            success: function (result) {
-                results = result;
-            },
-            error: function() {
-
+        if(0<results.length){
+            for(let i=0;i<results.length;i++){
+                $(`.progress.log${results[i]["id"]}`).text(results[i]["encrypt_progress"])
             }
-        });
-        console.log(results)
+        }
         return results;
     },
     
@@ -2191,6 +2233,7 @@ requestTable = {
             async: false,
             success: function (result) {
                 results = result.processing;
+                console.log(results)
             },
             error: function() {
 
@@ -2208,12 +2251,111 @@ requestTable = {
             url: apiUrl,
             async: false,
             success: function (result) {
-                results = result;
+                results = result["result"];
+                console.log(results)
             },
             error: function() {
 
             }
         });
+
+        if(requestType=="enc"){
+            for(let i=0;i<results.length;i++){
+                var status
+                if (results[i]['complete'] == 1) {
+                    status = '<p>완료</p>'
+                }
+                else {
+                    if (results[i]['status'].indexOf('FAIL') == 1) {
+                        status = '<p>실패</p>'
+                    }
+                    else {
+                        status = `<p class="progress">${results[i]["encrypt_progress"]}</p>`
+                    }
+                }
+                $(`.status${results[i]["id"]}`).html(status)
+
+                var fileList = results[i]['request_file_list'].split('\n');
+                fileList = fileList.splice(0, fileList.length - 1);
+
+                if (results[i]['file_type'] == "video") var type = "동영상 파일"
+                else if (results[i]['file_type'] == "image") var type = "이미지 파일"
+                if (results[i]['file_type'] == "image" && fileList.length > 1) var type = "이미지 그룹"
+
+                if (status == "<p>완료</p>") {
+                    var disable = "";
+                    var text = "상세정보";
+                    var background = ""
+                }
+                else if (status == "<p>실패</p>") {
+                    var disable = "";
+                    var text = "상세정보";
+                    var background = "style='background-color:#f64957'"
+                }
+                else {
+                    var disable = "disable";
+                    var text = "진행중";
+                    var background = ""
+                }
+                
+                let btn = `<div data-id=${results[i]["id"]} data-type="${type}" data-restoration=${results[i]["restoration"]} class="detailInfo ${disable}" ${background}>
+                                <p>${text}</p>
+                            </div>`
+
+                $(`.detail${results[i]["id"]}`).html(btn)
+            }
+        }
+        else{
+            for(let i=0;i<results.length;i++){
+                let expiredDate = ""
+                if(results[i]["expiration_datetime"]!=null){
+                    expiredDate = koreanTimeStamp(results[i]["expiration_datetime"])
+                }
+                $(`.expired${results[i]["id"]}`).html(`<p>${expiredDate}</p>`)
+
+                let status
+                let btn
+                if(results[i]['download_status']=="waiting"){
+                    status="대기중"
+                    btn = ""
+                }
+                else if(results[i]['download_status']=="processing"){
+                    status=`${results[i]["decrypt_progress"]}`
+                    btn = ""
+                }
+                else if(results[i]['download_status']=="complete"){
+                    status="완 료"
+                    btn = `<div class='decDownload active' data-idx=${results[i]['id']}>
+                                <a href=${results[i]['download_url']} download>
+                                    <span>다운로드</span>
+                                </a>
+                            </div>`
+                }
+                else if(results[i]['download_status']=="downloaded"){
+                    status="다운로드 \n완료"
+                    btn = `<div class='decDownload disable'>
+                                <span>만 료</span>
+                            </div>`
+                }
+                else if(results[i]['download_status']=="expired" || results[i]['download_status']==null){
+                    status="기간 만료"
+                    btn = `<div class='decDownload disable'>
+                                <span>만 료</span>
+                            </div>`
+                }
+                else if(results[i]['download_status']=="failed"){
+                    status="실 패"
+                    btn = `<div class='decDownload fail'>
+                                <a href='/qna'>
+                                    <span>실 패</span>
+                                </a>
+                            </div>`
+                }
+
+                $(`.log${results[i]["id"]}`).text(status)
+                $(`.detail${results[i]["id"]}`).html(btn)
+            }
+        }
         return results;
     },
 }
