@@ -1383,6 +1383,16 @@ init = {
 
         if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
         else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
+
+        requestTable.processTest(requestType);
+        // 함수를 정의합니다.
+        function updateMainLog() {
+            requestTable.processTest(requestType);
+        }
+
+        // 5초마다 함수를 실행하는 타이머를 설정합니다.
+        setInterval(updateMainLog, 5000);
+
         $(".mainLog").html(mainLog);
         $(document).on("click", ".allSearch", function () {
             if ($('.allSearch').is(':checked')) {

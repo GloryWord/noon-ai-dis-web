@@ -788,11 +788,15 @@ requestTable = {
                                     </a>
                                 </div>`
                     }
-
+                    
                     if (requestList[i]['file_type'] == "video") var type = "동영상 파일"
                     else if (requestList[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
                     if (requestList[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
+                    let expiredDate = ""
+                    if(requestList[i]["expiration_datetime"]!=null){
+                        expiredDate = koreanTimeStamp(requestList[i]["expiration_datetime"])
+                    }
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${requestList[i]["id"]}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
@@ -809,8 +813,8 @@ requestTable = {
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
                                         <div class="date_content"><p>${koreanTimeStamp(requestList[i]["request_datetime"])}</p></div>
-                                        <div class="rest_content"><p>${koreanTimeStamp(requestList[i]["expiration_datetime"])}</p></div>
-                                        <div class="status_content"><p class='status${requestList[i]['id']}'>${status}</p></div>
+                                        <div class="rest_content"><p>${expiredDate}</p></div>
+                                        <div class="status_content"><p class='status${requestList[i]['id']} progress log${requestList[i]['id']}'>${status}</p></div>
                                         <div class="detail_content">${btn}</div>
                                     </div>`
                     }
@@ -869,6 +873,10 @@ requestTable = {
                     else if (archived[i]['file_type'] == "image") var type = "이미지 파일"
                     else var type = ""
                     if (archived[i]['file_type'] == "image" && fileList.length > 2) var type = "이미지 그룹"
+                    let expiredDate = ""
+                    if(archived[i]["expiration_datetime"]!=null){
+                        expiredDate = koreanTimeStamp(archived[i]["expiration_datetime"])
+                    }
                     if (screen.width <= 600) {
                         htmlStr += `<div class="m_logContent" data-id="${archived[i]['fk_dec_request_list_id']}" data-type="${type}">
                                         <div class="name_content" ${css}><p>${namelist[0]}${list}</p></div>
@@ -885,7 +893,7 @@ requestTable = {
                                         <div class="type_content"><p>${type}</p></div>
                                         <div class="name_content" ${css}><p>${namelist[0]}</p>${list}</div>
                                         <div class="date_content"><p>${koreanTimeStamp(archived[i]["request_datetime"])}</p></div>
-                                        <div class="rest_content"><p>${koreanTimeStamp(archived[i]["expiration_datetime"])}</p></div>
+                                        <div class="rest_content"><p>${expiredDate}</p></div>
                                         <div class="status_content"><p>${status}</p></div>
                                         <div class="detail_content">${btn}</div>
                                     </div>`
@@ -2148,41 +2156,27 @@ requestTable = {
     //     }
     // },
 
-    processTest: function() {
-        let baseUrl = `/api/encrypt/id/progress`
-        let apiUrl = apiUrlConverter('encrypt', baseUrl)
+    processTest: function(requestType) {
+        let baseUrl = `/api/${requestType}/id/progress`
+        let apiUrl = apiUrlConverter(requestType, baseUrl)
         let results;
         $.ajax({
             method: "get",
             url: apiUrl,
             async: false,
             success: function (result) {
-                results = result;
+                results = result["result"];
             },
             error: function() {
 
             }
         });
         console.log(results)
-        return results;
-    },
-
-    processTestdec: function() {
-        let baseUrl = `/api/decrypt/id/progress`
-        let apiUrl = apiUrlConverter('decrypt', baseUrl)
-        let results;
-        $.ajax({
-            method: "get",
-            url: apiUrl,
-            async: false,
-            success: function (result) {
-                results = result;
-            },
-            error: function() {
-
+        if(0<results.length){
+            for(let i=0;i<results.length;i++){
+                $(`.progress.log${results[i]["id"]}`).text(results[i]["encrypt_progress"])
             }
-        });
-        console.log(results)
+        }
         return results;
     },
 }
