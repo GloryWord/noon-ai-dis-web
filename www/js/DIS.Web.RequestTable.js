@@ -2180,4 +2180,40 @@ requestTable = {
         console.log(results)
         return results;
     },
+    
+    getProcessing: function(requestType) {
+        let baseUrl = `/api/request/processing?requestType=${requestType}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let results;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            async: false,
+            success: function (result) {
+                results = result.processing;
+            },
+            error: function() {
+
+            }
+        });
+        return results;
+    },
+
+    getSpecificProgress: function(requestType, searchID) {
+        let baseUrl = `/api/request/specific/progress?requestType=${requestType}&searchID=${searchID}`
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let results;
+        $.ajax({
+            method: "get",
+            url: apiUrl,
+            async: false,
+            success: function (result) {
+                results = result;
+            },
+            error: function() {
+
+            }
+        });
+        return results;
+    },
 }
