@@ -301,8 +301,6 @@ init = {
     },
 
     main: function () {
-        const searchID = requestTable.getProcessing('enc'); // 복호화는 'dec'로 전달
-        if(searchID.length != 0) requestTable.getSpecificProgress('enc', searchID);
         // requestTable.getProcessing('dec');
        //console.log(requestTable.processTest());
        //console.log(requestTable.processTestdec())
@@ -1383,18 +1381,30 @@ init = {
         //         }
         //     }
         // }
+        var searchID
+        if (requestType == 'encrypt') {
+            var mainLog = requestTable.getAllEncRequestList()
+            searchID = requestTable.getProcessing('enc'); // 복호화는 'dec'로 전달
+            if(searchID.length != 0) requestTable.getSpecificProgress('enc', searchID);
+        }
+        else if (requestType == 'decrypt'){
+            var mainLog = requestTable.getAllDecRequestList()
+            searchID = requestTable.getProcessing('dec'); // 복호화는 'dec'로 전달
+            if(searchID.length != 0) requestTable.getSpecificProgress('dec', searchID);
+        } 
 
-        if (requestType == 'encrypt') var mainLog = requestTable.getAllEncRequestList()
-        else if (requestType == 'decrypt') var mainLog = requestTable.getAllDecRequestList()
-
-        requestTable.processTest(requestType);
         // 함수를 정의합니다.
-        function updateMainLog() {
-            requestTable.processTest(requestType);
+        function updateLog() {
+            if (requestType == 'encrypt') {
+                if(searchID.length != 0) requestTable.getSpecificProgress('enc', searchID);
+            }
+            else if (requestType == 'decrypt'){
+                if(searchID.length != 0) requestTable.getSpecificProgress('dec', searchID);
+            } 
         }
 
         // 5초마다 함수를 실행하는 타이머를 설정합니다.
-        setInterval(updateMainLog, 5000);
+        setInterval(updateLog, 5000);
 
         $(".mainLog").html(mainLog);
         $(document).on("click", ".allSearch", function () {
