@@ -2230,6 +2230,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (result) {
                 results = result.processing;
@@ -2249,6 +2252,9 @@ requestTable = {
         $.ajax({
             method: "get",
             url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
             async: false,
             success: function (result) {
                 results = result["result"];
