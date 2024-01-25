@@ -335,16 +335,20 @@ init = {
         // reloadProgress();
 
         var mainLog = requestTable.getRecentRequest('encrypt');
-        $(".mainLog").html(mainLog);
-        
+        $(".mainLog").html(mainLog[0]);
+
         // 함수를 정의합니다.
         function updateMainLog() {
             var mainLog = requestTable.getRecentRequest('encrypt');
-            $(".mainLog").html(mainLog);
+            $(".mainLog").html(mainLog[0]);
+           if(mainLog[1]==false){
+                clearInterval(loadData)
+           }
         }
 
         // 5초마다 함수를 실행하는 타이머를 설정합니다.
-        setInterval(updateMainLog, 5000);
+        let loadData = setInterval(updateMainLog, 5000);
+
 
         $(document).on("click", ".video_select", function () {
             location.href = "/encrypt/video"
@@ -1396,15 +1400,25 @@ init = {
         // 함수를 정의합니다.
         function updateLog() {
             if (requestType == 'encrypt') {
-                if(searchID.length != 0) requestTable.getSpecificProgress('enc', searchID);
+                if(searchID.length != 0) {
+                   let moreLoad = requestTable.getSpecificProgress('enc', searchID);
+                   if(moreLoad==false){
+                        clearInterval(loadData)
+                   }
+                }
             }
             else if (requestType == 'decrypt'){
-                if(searchID.length != 0) requestTable.getSpecificProgress('dec', searchID);
+                if(searchID.length != 0) {
+                   let moreLoad = requestTable.getSpecificProgress('dec', searchID);
+                   if(moreLoad==false){
+                        clearInterval(loadData)
+                   }
+                }
             } 
         }
 
         // 5초마다 함수를 실행하는 타이머를 설정합니다.
-        setInterval(updateLog, 5000);
+        let loadData = setInterval(updateLog, 5000);
 
         $(".mainLog").html(mainLog);
         $(document).on("click", ".allSearch", function () {
@@ -1615,7 +1629,7 @@ init = {
             $(this).addClass("disable")
             let btnChange = `<span>만 료</span>`
             $(this).html(btnChange)
-            $(`.status${decID}`).text("다운로드 완료")
+            $(`.status${decID}`).html("<p>다운로드 완료</p>")
             $(this).children()
         });
 
