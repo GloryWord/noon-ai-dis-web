@@ -307,6 +307,7 @@ requestTable = {
                             </div>\
                             </div>'
                     }
+                    cnt++
                 }
                 // 배열의 각 요소를 순회하면서 complete가 0이거나 status가 'fail'인 경우 b를 false로 설정합니다.
                 for (let key in requestList) {
