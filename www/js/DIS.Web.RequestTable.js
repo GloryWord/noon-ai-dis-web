@@ -177,6 +177,7 @@ requestTable = {
         let baseUrl = `/api/request/${requestType}/recent`
         let apiUrl = apiUrlConverter(requestType, baseUrl)
         let requestList, archived, responseMessage;
+        let moreLoad = false;
 
         $.ajax({
             method: "get",
@@ -200,7 +201,6 @@ requestTable = {
         }
         else {
             let cnt = 0
-            console.log(requestList);
             if (requestList.length !== 0) {
                 let status;
                 for (var i = 0; i < requestList.length; i++) {
@@ -307,7 +307,13 @@ requestTable = {
                             </div>\
                             </div>'
                     }
-                    cnt++;
+                }
+                // 배열의 각 요소를 순회하면서 complete가 0이거나 status가 'fail'인 경우 b를 false로 설정합니다.
+                for (let key in requestList) {
+                    if (requestList.hasOwnProperty(key) && (requestList[key]["complete"] === 0 || requestList[key]["status"].indexOf('FAIL')===0)) {
+                        moreLoad = true;
+                        break; // 하나라도 찾으면 반복문을 종료합니다.
+                    }
                 }
             }
             if (archived.length !== 0 && cnt < 5) {
@@ -371,7 +377,7 @@ requestTable = {
             }
         }
 
-        return htmlStr;
+        return [htmlStr, moreLoad];
     },
 
     getAllEncRequestList: function (mode) {
@@ -2246,6 +2252,8 @@ requestTable = {
         let baseUrl = `/api/request/specific/progress?requestType=${requestType}&searchID=${searchID}`
         let apiUrl = apiUrlConverter('util', baseUrl)
         let results;
+        let moreLoad = false;
+
         $.ajax({
             method: "get",
             url: apiUrl,
@@ -2304,6 +2312,15 @@ requestTable = {
 
                 $(`.detail${results[i]["id"]}`).html(btn)
             }
+            
+            // 배열의 각 요소를 순회하면서 complete가 0이거나 status가 'fail'인 경우 b를 false로 설정합니다.
+            for (let key in results) {
+                if (results.hasOwnProperty(key) && (results[key]["complete"] === 0 || results[key]["status"].indexOf('FAIL')===0)) {
+                    moreLoad = true;
+                    break; // 하나라도 찾으면 반복문을 종료합니다.
+                }
+            }
+            console.log(moreLoad); // b 변수의 값을 출력합니다.
         }
         else{
             for(let i=0;i<results.length;i++){
@@ -2355,7 +2372,15 @@ requestTable = {
                 $(`.log${results[i]["id"]}`).text(status)
                 $(`.detail${results[i]["id"]}`).html(btn)
             }
+            
+            // 배열의 각 요소를 순회하면서 complete가 0이거나 status가 'fail'인 경우 b를 false로 설정합니다.
+            for (let key in results) {
+                if (results.hasOwnProperty(key) && (results[key]["download_status"] === "processing" || results[key]["download_status"] === "waiting")) {
+                    moreLoad = true;
+                    break; // 하나라도 찾으면 반복문을 종료합니다.
+                }
+            }
         }
-        return results;
+        return moreLoad;
     },
 }
