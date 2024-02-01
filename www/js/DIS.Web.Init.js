@@ -6092,65 +6092,76 @@ init = {
                 console.log(totalCoordinates)
             }
             if (type == "image" && mode == "single") {
-                //DB에 비식별화 추가 관련 정보 쿼리
-                //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
-                let additionalFileList = Object.keys(totalCoordinates)
-                let fileCount = additionalFileList.length
-                detail = {
-                    'token': token,
-                    'fileList': additionalFileList,
-                    'fileCount': fileCount,
-                }
-                if (restoration == 0) {
+                if(curCoordinates[0]==null){
                     Swal.fire({
-                        title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
-                        showCancelButton: true,
-                        confirmButtonText: '네',
-                        cancelButtonText: '취소',
-                        icon: "info"
-                    }).then(async (result) => {
-                        if (result.isConfirmed) {
-                            let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                            // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
-                            // restoration, request_id, fileList, postData.fileNameList
-                            comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                            let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
-                            let requestType = 'masking';
-                            comm.increaseRequestCount(requestId, additionalFileList, requestType);
-                            if (addMessage) {
-                                Swal.fire({
-                                    title: '비식별화 추가 요청이 \n완료되었습니다.',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                    allowOutsideClick: false,
-                                    icon: 'success'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
-                                    }
-                                })
-                            }
-                        }
+                        title: '영역을 그려주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
                     })
                 }
-                else {
-                    let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
-                    comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
-                    let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
-                    let requestType = 'masking';
-                    comm.increaseRequestCount(requestId, additionalFileList, requestType);
-                    if (addMessage) {
+                else{
+                    //DB에 비식별화 추가 관련 정보 쿼리
+                    //현재 토큰, id, mode 전달하고 keypath는 세션에서 읽어와서 MQ에 담아보내기.
+                    let additionalFileList = Object.keys(totalCoordinates)
+                    let fileCount = additionalFileList.length
+                    detail = {
+                        'token': token,
+                        'fileList': additionalFileList,
+                        'fileCount': fileCount,
+                    }
+                    if (restoration == 0) {
                         Swal.fire({
-                            title: '비식별화 추가 요청이 \n완료되었습니다.',
-                            showCancelButton: false,
-                            confirmButtonText: '확인',
-                            allowOutsideClick: false,
-                            icon: 'success'
-                        }).then((result) => {
+                            title: '추가 비식별화를 진행할 경우 \n기존 비식별화 파일은 \n다운로드 받을 수 없습니다.\n 진행하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '네',
+                            cancelButtonText: '취소',
+                            icon: "info"
+                        }).then(async (result) => {
                             if (result.isConfirmed) {
-                                location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                                // additional_encrypt에 대한 metering DB 테이블 삽입 함수 호출
+                                // restoration, request_id, fileList, postData.fileNameList
+                                comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                                let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
+                                let requestType = 'masking';
+                                comm.increaseRequestCount(requestId, additionalFileList, requestType);
+                                if (addMessage) {
+                                    Swal.fire({
+                                        title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                        allowOutsideClick: false,
+                                        icon: 'success'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                        }
+                                    })
+                                }
                             }
                         })
+                    }
+                    else {
+                        let [insertId, encReqInfo] = await fileModule.additionalEncrypt(detail, requestId);
+                        comm.meterAdditionalEncrypt(requestId, insertId, additionalFileList, type);
+                        let addMessage = await fileModule.sendAdditionalEncryptMessage(encReqInfo, additionalFileList);
+                        let requestType = 'masking';
+                        comm.increaseRequestCount(requestId, additionalFileList, requestType);
+                        if (addMessage) {
+                            Swal.fire({
+                                title: '비식별화 추가 요청이 \n완료되었습니다.',
+                                showCancelButton: false,
+                                confirmButtonText: '확인',
+                                allowOutsideClick: false,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = `/loading?type=${type}&token=${token}&requestID=${requestId}&id=${insertId}&restoration=${restoration}&mode=${mode}&service=check`
+                                }
+                            })
+                        }
                     }
                 }
             }
