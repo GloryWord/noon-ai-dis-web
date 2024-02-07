@@ -890,7 +890,7 @@ init = {
                                 allowOutsideClick: false,
                                 icon: 'success'
                             }).then((result) => {
-                                if (result.isConfirmed) location.href = '/main';
+                                // if (result.isConfirmed) location.href = '/main';
                             })
                         }
                     })
@@ -994,6 +994,7 @@ init = {
                                             }
                                         });
                                     }
+                                    location.href = `/decrypt/log`
                                 }
                             }
                         })
