@@ -117,7 +117,7 @@ subaccount = {
                                     <div class="lockBtn '+lockBtn+'" data-id='+result[i].id+'><p>해제</p></div>\
                                 </div>\
                                 <div class="del_content">\
-                                    <div class="delBtn" value='+result[i].id+'><p>삭제</p></div>\
+                                    <div class="delBtn" value='+result[i].id+' data-account='+result[i].account_name+'><p>삭제</p></div>\
                                 </div>\
                             </div>';
                 }

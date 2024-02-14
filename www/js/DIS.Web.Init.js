@@ -117,6 +117,7 @@ init = {
             let account_name = $(".auth_id").val();
             verifyId = login.secondaryEmailSend(account_name);
         });
+
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let pass = false;
@@ -152,6 +153,10 @@ init = {
                 }
             }
         });
+
+        $(document).on("click", ".logoImg", function () {
+            location.href = "/"
+        });
     },
 
     sublogin: function () {
@@ -184,6 +189,10 @@ init = {
         $(document).on("click", "#email_send", function () {
             let account_name = $(".auth_id").val();
             verifyId = login.secondaryEmailSend(account_name);
+        });
+
+        $(document).on("click", ".logoImg", function () {
+            location.href = "/"
         });
 
         $(document).on("click", ".auth_confirm", function () {
