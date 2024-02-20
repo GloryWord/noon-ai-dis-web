@@ -93,6 +93,7 @@ a {
     height: auto;
     margin: 0 auto 42px;
     object-fit: contain;
+    cursor: pointer;
 }
 
 .loginArea .loginContent .loginHeader .loginAuth {

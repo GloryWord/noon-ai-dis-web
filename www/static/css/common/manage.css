@@ -360,6 +360,7 @@
     width: auto;
     height: auto;
     display: flex;
+    min-height: calc(100vh - 436px);
 }
 
 .add_content .addArea {

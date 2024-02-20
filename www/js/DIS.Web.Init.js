@@ -117,6 +117,7 @@ init = {
             let account_name = $(".auth_id").val();
             verifyId = login.secondaryEmailSend(account_name);
         });
+
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let pass = false;
@@ -152,6 +153,10 @@ init = {
                 }
             }
         });
+
+        $(document).on("click", ".logoImg", function () {
+            location.href = "/"
+        });
     },
 
     sublogin: function () {
@@ -184,6 +189,10 @@ init = {
         $(document).on("click", "#email_send", function () {
             let account_name = $(".auth_id").val();
             verifyId = login.secondaryEmailSend(account_name);
+        });
+
+        $(document).on("click", ".logoImg", function () {
+            location.href = "/"
         });
 
         $(document).on("click", ".auth_confirm", function () {
@@ -890,7 +899,7 @@ init = {
                                 allowOutsideClick: false,
                                 icon: 'success'
                             }).then((result) => {
-                                if (result.isConfirmed) location.href = '/main';
+                                // if (result.isConfirmed) location.href = '/main';
                             })
                         }
                     })
@@ -994,6 +1003,7 @@ init = {
                                             }
                                         });
                                     }
+                                    location.href = `/decrypt/log`
                                 }
                             }
                         })
@@ -3698,9 +3708,11 @@ init = {
             location.href = "/submanage/add"
         });
 
+        var beforeKey
         $(document).on("click", ".subkey_modi", function () {
             var accessInput = subaccount.getAccessKey();
-            $(".keyArea").html(accessInput);
+            $(".keyArea").html(accessInput[0]);
+            beforeKey = accessInput[1]
             $("#subKeyModi").addClass('active')
         });
 
@@ -3708,18 +3720,36 @@ init = {
             var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
             var accessKey = escapeHTML($(".accessKey").val());
             subaccount.putAccessKey(accessKey)
-            // if (regExp.test(accessKey)) {
-            //     Swal.fire({
-            //         title: '접속 키는 특수 문자 사용이 불가능해요.',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         denyButtonText: "확 인",
-            //         icon: "error"
-            //     })
-            // }
-            // else {
-            //     subaccount.putAccessKey(accessKey)
-            // }
+            if(accessKey==""){
+                Swal.fire({
+                    title: '접속 키를 입력해주세요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else if (beforeKey==accessKey) {
+                Swal.fire({
+                    title: '접속 키가 변경되지 않았어요.',
+                    showConfirmButton:false,
+                    showDenyButton:true,
+                    denyButtonText:"확 인",
+                    icon:"error"
+                })
+            }
+            else if (regExp.test(accessKey)) {
+                Swal.fire({
+                    title: '접속 키는 특수 문자 \n용이 불가능해요.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                })
+            }
+            else {
+                subaccount.putAccessKey(accessKey)
+            }
         });
 
         $(document).on("click", ".pass_modi", function () {
@@ -3801,61 +3831,53 @@ init = {
                 icon: "error"
             });
             else {
-                if (password == repassword) {
+                let idReg = /^[a-zA-Z0-9]{6,20}$/;
+                let passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                let emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                if(idReg.test(accountName)==false){
+                    Swal.fire({
+                        title: '아이디는 6~20자 내로 \n입력해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if(passwordReg.test(password)==false){
+                    Swal.fire({
+                        title: '비밀번호는 \n 영어 대문자, 소문자, \n숫자, 특수기호를 \n혼합하여 8자 이상 \n입력해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if(password!=repassword){
+                    Swal.fire({
+                        title: '비밀번호가 \n일치하지 않습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else if(emailReg.test(email)==false){
+                    Swal.fire({
+                        title: '이메일을 다시 한번 \n확인해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
+                else {
                     var subAccountInfo = {
                         account_name: accountName,
                         password: password,
                         user_name: userName,
                         email: email
                     }
-                    var result = subaccount.addSubAccount(subAccountInfo);
-                    if (result == true) {
-                        Swal.fire({
-                            title: '서브계정 생성이 \n완료되었습니다.',
-                            showConfirmButton: true,
-                            showDenyButton: false,
-                            confirmButtonText: "확 인",
-                            icon: "success"
-                        }).then((result) => {
-                            location.href = '/submanage';
-                        })
-                    }
-                    else if (result == "length_error") {
-                        Swal.fire({
-                            title: '비밀번호는 8자 이상 입력해주세요.',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                    }
-                    else if (result == "check_error") {
-                        Swal.fire({
-                            title: '비밀번호는 대문자, 소문자, 숫자, 특수기호를 혼합하여 입력해주세요.',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                    }
-                    else {
-                        Swal.fire({
-                            title: '비밀번호를 다시 한번 확인해주세요.',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: "확 인",
-                            icon: "error"
-                        });
-                    }
-                }
-                else {
-                    Swal.fire({
-                        title: '비밀번호가 일치하지 않습니다.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
+                    subaccount.addSubAccount(subAccountInfo);
                 }
             }
         });

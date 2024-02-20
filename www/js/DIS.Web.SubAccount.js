@@ -117,7 +117,7 @@ subaccount = {
                                     <div class="lockBtn '+lockBtn+'" data-id='+result[i].id+'><p>해제</p></div>\
                                 </div>\
                                 <div class="del_content">\
-                                    <div class="delBtn" value='+result[i].id+'><p>삭제</p></div>\
+                                    <div class="delBtn" value='+result[i].id+' data-account='+result[i].account_name+'><p>삭제</p></div>\
                                 </div>\
                             </div>';
                 }
@@ -209,18 +209,26 @@ subaccount = {
             data: subAccountInfo,
             async: false,
             success: function (data) {
-                    result = true;
+                Swal.fire({
+                    title: '서브계정 생성이 \n완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then((result) => {
+                    location.href = '/submanage';
+                })
             }, // success 
             error: function (xhr, status) {
-                let message = JSON.parse(xhr.responseText).message;
-                if(message == 'length_error') {
-                    result = "length_error"
-                }
-                else if(message == 'check_error') {
-                    result = "check_error"
-                }
-                else {
-                    result = false
+                let message = JSON.parse(xhr.responseText).log;
+                if(message == 'User already exist') {
+                    Swal.fire({
+                        title: '중복되는 아이디입니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
                 }
             }
         })
@@ -412,7 +420,7 @@ subaccount = {
             <input class='accessKey' value='"+result+"'>"
         }
         
-        return resultStr
+        return [resultStr, result]
     },
 
     putAccessKey: function (accessKey) {
@@ -442,27 +450,18 @@ subaccount = {
             }, // success 
             error: function (xhr, status) {
                 let message = JSON.parse(xhr.responseText).message;
-                if(message == "need access key"){
+                if(message == "error"){
                     Swal.fire({
-                        title: '접속 키를 입력해주세요.',
+                        title: '다시 시도해주세요.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",
                         icon:"error"
                     })
                 }
-                else if(message == "already exist"){
+                else if(message == "accessKey already exist"){
                     Swal.fire({
                         title: '존재하는 접속 키에요.',
-                        showConfirmButton:false,
-                        showDenyButton:true,
-                        denyButtonText:"확 인",
-                        icon:"error"
-                    })
-                }
-                else if(message == "same login alias"){
-                    Swal.fire({
-                        title: '접속 키가 변경되지 않았어요.',
                         showConfirmButton:false,
                         showDenyButton:true,
                         denyButtonText:"확 인",
