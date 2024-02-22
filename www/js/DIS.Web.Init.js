@@ -4216,6 +4216,8 @@ init = {
         var infoHtml = resultLoader.getInfoHtml(eventIndex); // 우측 상세 정보 불러오기
         $('.infoArea')[0].innerHTML = infoHtml;
 
+        let addConfirmCheck = false
+
         $(document).on("click", ".recoBtn", function () {
             location.href = `/decrypt/inspection?type=${type}&mode=${mode}`;
         });
@@ -4854,8 +4856,7 @@ init = {
                 }).then(async (result) => {
                     location.reload()
                 })
-            }
-            else {
+            } else {
                 if(Number(comm.getNowPoint())<=0){
                     let fileListName;
                     if(mode=="single"){
@@ -4909,20 +4910,26 @@ init = {
         
                                         if (file_name) {
                                             console.log('file_name : ' + JSON.stringify(file_name));
-                                            let verify_result = fileModule.verifyKey(file_name, key_name);
+                                            let verify_result
+                                            if(addConfirmCheck==false){
+                                                verify_result = fileModule.verifyKey(file_name, key_name);
+                                            }
                                             const { valid, msg, keyPath } = verify_result;
                                             if (!valid) {
-                                                Swal.fire({
-                                                    title: '암호 키 불일치',
-                                                    text: msg,
-                                                    showCancelButton: false,
-                                                    showConfirmButton: false,
-                                                    showDenyButton: true,
-                                                    denyButtonText: "확 인",
-                                                    icon: "error"
-                                                });
+                                                if(addConfirmCheck == false){
+                                                    Swal.fire({
+                                                        title: '암호 키 불일치',
+                                                        text: msg,
+                                                        showCancelButton: false,
+                                                        showConfirmButton: false,
+                                                        showDenyButton: true,
+                                                        denyButtonText: "확 인",
+                                                        icon: "error"
+                                                    });
+                                                }
                                             }
                                             else {
+                                                addConfirmCheck = true
                                                 let result = await fileModule.makePasswordbin(eventIndex, keyPath);
                                                 if (result) {
                                                     if (type == 'image') {
@@ -5027,11 +5034,16 @@ init = {
                         uploadID = makeid(6);
                         console.log('restoration : ', restoration);
                         if (restoration === '1') {
-                            $('#addfile').val('');
+                            $('#addfile').val(null);
                             $('.pemUpload').val('');
                             $('.addConfirm').attr('data-value', $(this).data('value'));
                             $("#addData").addClass('active')
-    
+
+                            $(document).on("click", ".cancel", function () {
+                                $('#addfile').val(null);
+                                $('.pemUpload').val('');
+                            })
+
                             $(document).on("click", ".addConfirm", function () {
                                 let key_name = $('.file_key')[0].children[1].innerHTML
                                 let uploadResult = fileModule.uploadKey('addfile');
@@ -5047,20 +5059,27 @@ init = {
     
                                     if (file_name) {
                                         console.log('file_name : ' + JSON.stringify(file_name));
-                                        let verify_result = fileModule.verifyKey(file_name, key_name);
+                                        console.log(addConfirmCheck);
+                                        let verify_result
+                                        if(addConfirmCheck==false){
+                                            verify_result = fileModule.verifyKey(file_name, key_name);
+                                        }
                                         const { valid, msg, keyPath } = verify_result;
                                         if (!valid) {
-                                            Swal.fire({
-                                                title: '암호 키 불일치',
-                                                text: msg,
-                                                showCancelButton: false,
-                                                showConfirmButton: false,
-                                                showDenyButton: true,
-                                                denyButtonText: "확 인",
-                                                icon: "error"
-                                            });
+                                            if(addConfirmCheck==false){
+                                                Swal.fire({
+                                                    title: '암호 키 불일치',
+                                                    text: msg,
+                                                    showCancelButton: false,
+                                                    showConfirmButton: false,
+                                                    showDenyButton: true,
+                                                    denyButtonText: "확 인",
+                                                    icon: "error"
+                                                });
+                                            }
                                         }
                                         else {
+                                            addConfirmCheck = true
                                             let result = await fileModule.makePasswordbin(eventIndex, keyPath);
                                             if (result) {
                                                 if (type == 'image') {
