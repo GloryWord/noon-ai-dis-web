@@ -311,7 +311,7 @@ requestTable = {
                 }
                 // 배열의 각 요소를 순회하면서 complete가 0이거나 status가 'fail'인 경우 b를 false로 설정합니다.
                 for (let key in requestList) {
-                    if (requestList.hasOwnProperty(key) && (requestList[key]["complete"] === 0 || requestList[key]["status"].indexOf('FAIL')===0)) {
+                    if (requestList.hasOwnProperty(key) && (requestList[key]["complete"] === 0 && requestList[key]["status"].indexOf('FAIL')===-1 || requestList[key]["status"].indexOf('FAIL')===0)) {
                         moreLoad = true;
                         break; // 하나라도 찾으면 반복문을 종료합니다.
                     }
@@ -378,6 +378,7 @@ requestTable = {
             }
         }
 
+        console.log(moreLoad)
         return [htmlStr, moreLoad];
     },
 
