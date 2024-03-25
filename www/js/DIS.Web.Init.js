@@ -48,6 +48,7 @@ let whitelist = [
     { tenant_id: 39 },
     { tenant_id: 62 },
     { tenant_id: 81 },
+    { tenant_id: 104 },
 ]
 
 var init = DIS.Web.Init;
