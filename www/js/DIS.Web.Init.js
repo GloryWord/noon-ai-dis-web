@@ -188,8 +188,10 @@ init = {
         });
         let verifyId = null;
         $(document).on("click", "#email_send", function () {
-            let account_name = $(".auth_id").val();
-            verifyId = login.secondaryEmailSend(account_name);
+            let login_alias = $("#loginAlias").val();
+            let account_name = $("#name").val();
+            // let account_name = $(".auth_id").val();
+            verifyId = login.subSecondaryEmailSend(login_alias, account_name);
         });
 
         $(document).on("click", ".logoImg", function () {
@@ -1307,7 +1309,7 @@ init = {
                         allCheck = "true"
                     }
                 }
-                if (videoDuration[0] > 300 && $(".restore:checked").val() == "false") {
+                if (videoDuration[0] > 360 && $(".restore:checked").val() == "false") {
                     Swal.fire({
                         title: '파일 길이 초과',
                         html:
@@ -3720,7 +3722,6 @@ init = {
         $(document).on("click", ".keyConfig", function () {
             var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
             var accessKey = escapeHTML($(".accessKey").val());
-            subaccount.putAccessKey(accessKey)
             if(accessKey==""){
                 Swal.fire({
                     title: '접속 키를 입력해주세요.',
@@ -4461,6 +4462,7 @@ init = {
                     $('.lockData')[0].innerHTML = html;
                     var fileSize = signedUrl[0][1];
                     var fileName = fileList[0];
+                    $(".fileFullName").remove()
 
                     $(document).on("click", "#signedUrl", async function () {
                         if(Number(comm.getNowPoint())<=0){
@@ -4805,6 +4807,7 @@ init = {
                 var html = resultLoader.getVideoDetailHtml(signedUrl, fileList);
 
                 var fileName = fileList[0];
+                $(".fileFullName").remove()
 
                 $(document).on("click", "#signedUrl", async function () {
                     if(Number(comm.getNowPoint())<=0){
