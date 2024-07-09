@@ -190,8 +190,11 @@ resultLoader = {
     getVideoDetailHtml: function (urlList, objectName) {
         let videoURL = (urlList[0][0].indexOf('thumbnail') >= 0) ? urlList[1][0] : urlList[0][0]
         var player = videojs("myPlayer", {
+            techOrder: ['html5', 'flash'],
             sources: [
-                { src: videoURL, type: "video/mp4" }
+                { src: videoURL, type: "video/mp4" },
+                { src: videoURL, type: "video/avi" },
+                { src: videoURL, type: "video/webm" }
             ],
             // poster : "test-poster.png",
             controls: true,

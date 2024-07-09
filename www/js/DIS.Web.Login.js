@@ -334,6 +334,44 @@ login = {
         return result;
     },
 
+    subSecondaryEmailSend: function (login_alias, account_name) {
+        let baseUrl = '/api/secondary-email-send-sub'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        let result = '';
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                login_alias,
+                account_name
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                if (data.message == 'success') {
+                    result = data.verifyId
+                    Swal.fire({
+                        title: '인증번호 발송 완료',
+                        text: '등록되어 있는 이메일 주소로 \n인증번호가 발송되었습니다.',
+                        confirmButtonText: '확 인',
+                        allowOutsideClick: false,
+                        icon: 'success'
+                    })
+                } else {
+                    alert("secondary email send failed.");
+                }
+            },
+            error: function (xhr, status) {
+                // alert("error : " + JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        })
+
+        return result;
+    },
+
     verifyOTP: function (id, verifyCode) {
         let baseUrl = '/api/verifyOTP'
         let apiUrl = apiUrlConverter('util', baseUrl)
