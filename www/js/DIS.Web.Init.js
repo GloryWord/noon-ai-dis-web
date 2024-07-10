@@ -45,10 +45,10 @@ function koreanTimeStamp(timeData) {
 }
 
 let whitelist = [
-    { tenant_id: 39 },
-    { tenant_id: 62 },
-    { tenant_id: 81 },
-    { tenant_id: 104 },
+    // { tenant_id: 39 },
+    // { tenant_id: 62 },
+    // { tenant_id: 81 },
+    // { tenant_id: 104 },
 ]
 
 var init = DIS.Web.Init;
@@ -122,11 +122,11 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let pass = false;
-            whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id || isDev === 'dev') {
-                    pass = true;
-                }
-            });
+            // whitelist.forEach((val) => {
+            //     if (val.tenant_id == master_tenant_id || isDev === 'dev') {
+            //         pass = true;
+            //     }
+            // });
             if (pass) {
                 let accountName = $("#name").val();
                 let password = $("#pass").val();
@@ -201,11 +201,11 @@ init = {
         $(document).on("click", ".auth_confirm", function () {
             let user_code = $("#user_input_code").val();
             let pass = false;
-            whitelist.forEach((val) => {
-                if (val.tenant_id == master_tenant_id || isDev === 'dev') {
-                    pass = true;
-                }
-            });
+            // whitelist.forEach((val) => {
+            //     if (val.tenant_id == master_tenant_id || isDev === 'dev') {
+            //         pass = true;
+            //     }
+            // });
             if (pass) {
                 let accountName = $("#name").val();
                 let loginAlias = $("#loginAlias").val();
