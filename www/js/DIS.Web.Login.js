@@ -56,20 +56,25 @@ login = {
             },
             async: false,
             success: function (data) {
-                let lockStatus = null;
-                let loginable = false;
-
-                lockStatus = login.selectLockStatus('tenant', '', account_name);
-                loginable = lockStatus.loginable
-
-                if (loginable) {
-                    $(".auth_id").val($("#name").val());
-                    $("#authModal").addClass('active');
+                if(data.message=="password over 90days"){
+                    $("#passwordModal").addClass('active')
                 }
-                else {
-                    login.resetPasswordAfterLock(account_name);
+                else{
+                    let lockStatus = null;
+                    let loginable = false;
+    
+                    lockStatus = login.selectLockStatus('tenant', '', account_name);
+                    loginable = lockStatus.loginable
+    
+                    if (loginable) {
+                        $(".auth_id").val($("#name").val());
+                        $("#authModal").addClass('active');
+                    }
+                    else {
+                        login.resetPasswordAfterLock(account_name);
+                    }
+                    master_tenant_id = data.tenant_id;
                 }
-                master_tenant_id = data.tenant_id;
             },
             error: function (xhr, status) {
                 if (xhr.responseJSON.reason !== 'ID not found') {
@@ -89,6 +94,53 @@ login = {
             }
         })
         return master_tenant_id;
+    },
+
+    passwordChange: function (account_name, now_password, new_password) {
+        let baseUrl = '/api/password-change'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            data: {
+                account_name,
+                now_password,
+                new_password
+            },
+            success: function (data) {
+                Swal.fire({
+                    title: '비밀번호 변경이 완료되었습니다.',
+                    showConfirmButton: true,
+                    showDenyButton: false,
+                    confirmButtonText: "확 인",
+                    icon: "success"
+                }).then(() => {
+                    location.reload();
+                })
+            }, // success 
+            error: function (xhr, status) {
+                let message = xhr.responseJSON.message;
+                if (message == 'ID not found') {
+                    Swal.fire({
+                        title: '존재하지 않는 아이디입니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    })
+                }
+                else if (message == 'user_input_not_match') {
+                    Swal.fire({
+                        title: '현재 비밀번호가 일치하지 않습니다.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    })
+                }
+            }
+        })
     },
 
     secondaryLogin: function (password) {
@@ -191,29 +243,34 @@ login = {
             },
             async: false,
             success: function (data) {
-                let lockStatus = null;
-                let loginable = false;
-                let activateTime = null;
-                master_tenant_id = data.tenant;
-
-                lockStatus = login.selectLockStatus('sub-account', master_tenant_id, account_name);
-                loginable = lockStatus.loginable;
-                activateTime = lockStatus.activateTime
-
-                if (loginable) {
-                    let subEmail = login.getSubEmail(account_name, master_tenant_id);
-                    $(".auth_id").val(subEmail);
-                    $("#authModal").addClass('active');
+                if(data.message=="password over 90days"){
+                    $("#passwordModal").addClass('active')
                 }
-                else {
-                    Swal.fire({
-                        title: '계정 로그인 비활성화',
-                        text: `소속된 기관의 관리자를 통해 잠금을 해제해 주세요.`,
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
+                else{
+                    let lockStatus = null;
+                    let loginable = false;
+                    let activateTime = null;
+                    master_tenant_id = data.tenant;
+    
+                    lockStatus = login.selectLockStatus('sub-account', master_tenant_id, account_name);
+                    loginable = lockStatus.loginable;
+                    activateTime = lockStatus.activateTime
+    
+                    if (loginable) {
+                        let subEmail = login.getSubEmail(account_name, master_tenant_id);
+                        $(".auth_id").val(subEmail);
+                        $("#authModal").addClass('active');
+                    }
+                    else {
+                        Swal.fire({
+                            title: '계정 로그인 비활성화',
+                            text: `소속된 기관의 관리자를 통해 잠금을 해제해 주세요.`,
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        });
+                    }
                 }
             },
             error: function (xhr, status) {
