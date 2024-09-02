@@ -1,11 +1,20 @@
 'use strict';
 
 function makeid(length) {
+    // var result = '';
+    // var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // var charactersLength = characters.length;
+    // for (var i = 0; i < length; i++) {
+    //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    // }
+    // return result
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
+    var array = new Uint32Array(length);
+    crypto.getRandomValues(array);
     for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(array[i] % charactersLength);
     }
     return result;
 }
