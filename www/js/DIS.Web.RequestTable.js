@@ -2162,7 +2162,6 @@ requestTable = {
             });
             return data
         } catch(err) {
-            console.error(err)
             return null
         }
     },
@@ -2184,7 +2183,6 @@ requestTable = {
             });
             return data
         } catch(err) {
-            console.error(err)
             return null
         }
     },
