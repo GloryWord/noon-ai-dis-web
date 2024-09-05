@@ -1077,18 +1077,27 @@ fileModule = {
                     file = document.getElementById('select_file').files[0];
                     file_name = file.name;
                 }
-                catch (error) {}
+                catch (error) {
+                    Swal.fire({
+                        title: '암호 키 파일이 없습니다!',
+                        text: '암호 키 파일을 업로드했는지 확인해주세요.',
+                        showConfirmButton: false,
+                        showDenyButton: true,
+                        denyButtonText: "확 인",
+                        icon: "error"
+                    });
+                }
             }
-            if (file == undefined) {
-                Swal.fire({
-                    title: '암호 키 파일이 없습니다!',
-                    text: '암호 키 파일을 업로드했는지 확인해주세요.',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    denyButtonText: "확 인",
-                    icon: "error"
-                });
-            }
+            // if (file == undefined) {
+            //     Swal.fire({
+            //         title: '암호 키 파일이 없습니다!',
+            //         text: '암호 키 파일을 업로드했는지 확인해주세요.',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         denyButtonText: "확 인",
+            //         icon: "error"
+            //     });
+            // }
             else {
                 formData.append('file', file);
 
@@ -1266,7 +1275,16 @@ fileModule = {
                 }
             });
         }
-        catch (error) { }
+        catch (error) { 
+            Swal.fire({
+                title: '암호 키 파일 업로드 실패',
+                text: '암호 키 파일을 다시 업로드해주세요.',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: "확 인",
+                icon: "error"
+            });
+        }
     },
     
     thumbnailList: function (idx, type, mode) {

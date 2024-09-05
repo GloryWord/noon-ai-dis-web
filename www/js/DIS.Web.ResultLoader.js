@@ -368,10 +368,10 @@ resultLoader = {
                 html += '<div class="file_key">\
                                 <p class="title">암호 키</p>\
                                 <p>'+ result.key_name + '</p>\
-                                <div class="keyChange" data-id=' + result.fk_rsa_key_pair_id + '>\
-                                    <span>변경하기</span>\
-                                </div>\
                             </div>';
+                            // <div class="keyChange" data-id=' + result.fk_rsa_key_pair_id + '>\
+                            //     <span>변경하기</span>\
+                            // </div>\
             }
             else {
                 html += '<div class="file_key">\
