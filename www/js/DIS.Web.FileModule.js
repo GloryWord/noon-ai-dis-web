@@ -945,7 +945,16 @@ fileModule = {
                             resolve([postData, bitrateArray, filePath, checksum])
                         }
                         else {
-                            alert('파일 업로드 실패')
+                            Swal.fire({
+                                title: '파일 에러',
+                                html: '올바르지 않은 파일을<br>업로드하였습니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(() => {
+                                location.reload();
+                            })
                         }
                     };
                     xhr.send(formData);
