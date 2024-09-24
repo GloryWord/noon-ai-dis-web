@@ -3446,8 +3446,21 @@ init = {
         //     }
         // });
         let verify = await comm.joinInfo();
-        if (!verify) location.href = '/main';
-        // await comm.expireJoinInfo();
+        if (!verify) {
+            location.href = '/main';
+        }
+        else{
+            await comm.expireJoinInfo();
+
+            var { getFirstInfo, first_name, first_email, first_phone } = userinfo.getFirtstInfo();
+            $(".userinfoFirst").html(getFirstInfo);
+    
+            var getSecondInfo = userinfo.getSecondInfo()
+            $(".userinfoSecond").html(getSecondInfo);
+    
+            var getloginAlias = userinfo.getloginAlias()
+            $(".login_alias").html(getloginAlias);
+        }
 
         let verifyCode = '';
         let email_config = false;
@@ -3551,15 +3564,6 @@ init = {
                 }
             }
         });
-
-        var { getFirstInfo, first_name, first_email, first_phone } = userinfo.getFirtstInfo();
-        $(".userinfoFirst").html(getFirstInfo);
-
-        var getSecondInfo = userinfo.getSecondInfo()
-        $(".userinfoSecond").html(getSecondInfo);
-
-        var getloginAlias = userinfo.getloginAlias()
-        $(".login_alias").html(getloginAlias);
     },
 
     key: function () {
