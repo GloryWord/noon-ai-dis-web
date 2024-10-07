@@ -4430,11 +4430,30 @@ init = {
 
         // 여기서는 업로드된 복호화 키 정보를 읽어오는 부분
         $("#select_file").on('change', function () {
-            var file = document.getElementById('select_file').files[0];
-            var fileName = file.name;
-            $('.pemUpload').val(fileName);
-            $('.pemUpload').addClass("active");
-            $('.uploadBtn').addClass("active");
+            let auth = comm.authCheck("decrypt")
+            if (auth == false) {
+                Swal.fire({
+                    title: '복호화 권한이 없습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                }).then(async (result) => {
+                    location.reload()
+                })
+            }
+            else {
+                var file = document.getElementById('select_file').files[0];
+                var fileName = file.name;
+                $('.pemUpload').val(fileName);
+                $('.pemUpload').addClass("active");
+                $('.uploadBtn').addClass("active");
+            }
+            // var file = document.getElementById('select_file').files[0];
+            // var fileName = file.name;
+            // $('.pemUpload').val(fileName);
+            // $('.pemUpload').addClass("active");
+            // $('.uploadBtn').addClass("active");
         });
 
         //이게 복호화 요청 확인 누르면
@@ -4475,7 +4494,7 @@ init = {
             else if (mode == 'group') {
                 var selected = $(this).data('value');
                 uploadID = makeid(6);
-                let uploadResult = fileModule.uploadKey();
+                let uploadResult = fileModule.uploadKey("select_file");
 
                 uploadResult.then((data) => {
                     let file_name = data[0]

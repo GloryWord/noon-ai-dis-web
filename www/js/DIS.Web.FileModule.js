@@ -1075,7 +1075,7 @@ fileModule = {
         return new Promise((resolve, reject) => {
             let formData = new FormData();
             let file = null;
-            if(inputElementClass === 'file' || inputElementClass === 'addfile') file = document.getElementById(inputElementClass).files[0];
+            if(inputElementClass === 'file' || inputElementClass === 'addfile' || inputElementClass === 'select_file') file = document.getElementById(inputElementClass).files[0];
             else file = document.getElementsByClassName(inputElementClass)[0].files[0];
             let upload_result, keyPath;
             let file_name = (file != undefined) ? file.name : null;
