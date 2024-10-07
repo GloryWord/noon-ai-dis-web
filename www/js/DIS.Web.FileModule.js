@@ -945,7 +945,16 @@ fileModule = {
                             resolve([postData, bitrateArray, filePath, checksum])
                         }
                         else {
-                            alert('파일 업로드 실패')
+                            Swal.fire({
+                                title: '파일 에러',
+                                html: '올바르지 않은 파일을<br>업로드하였습니다.',
+                                showConfirmButton: false,
+                                showDenyButton: true,
+                                denyButtonText: "확 인",
+                                icon: "error"
+                            }).then(() => {
+                                location.reload();
+                            })
                         }
                     };
                     xhr.send(formData);
@@ -1066,7 +1075,7 @@ fileModule = {
         return new Promise((resolve, reject) => {
             let formData = new FormData();
             let file = null;
-            if(inputElementClass === 'file' || inputElementClass === 'addfile') file = document.getElementById(inputElementClass).files[0];
+            if(inputElementClass === 'file' || inputElementClass === 'addfile' || inputElementClass === 'select_file') file = document.getElementById(inputElementClass).files[0];
             else file = document.getElementsByClassName(inputElementClass)[0].files[0];
             let upload_result, keyPath;
             let file_name = (file != undefined) ? file.name : null;
