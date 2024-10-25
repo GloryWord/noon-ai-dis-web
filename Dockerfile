@@ -1,6 +1,8 @@
 ## Dockerfile for nginx
 FROM nginx:1.27.0-alpine
 
+USER root
+RUN chown root:root /etc/shadow && chmod 600 /etc/shadow
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY www /usr/share/nginx/html/
 
