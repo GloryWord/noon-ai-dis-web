@@ -182,9 +182,9 @@ $(document).ready(function () {
                   <br>
                   ※ 개인정보 보호 담당부서로 연결됩니다.<br>
                   &nbsp;&nbsp;▶ 개인정보보호 담당부서<br>
-                  &nbsp;&nbsp; ⦁ 부서명: AI연구소<br>
-                  &nbsp;&nbsp; ⦁ 담당자: 연구소장 조정희<br>
-                  &nbsp;&nbsp; ⦁ 이메일: albert00kr@gmail.com<br>
+                  &nbsp;&nbsp; ⦁ 부서명: 경영관리본부<br>
+                  &nbsp;&nbsp; ⦁ 담당자: 허지현 경영관리부장<br>
+                  &nbsp;&nbsp; ⦁ 이메일: jh@mhncity.com<br>
                   <br>
                   ② 정보주체께서는 주식회사 엠에이치엔씨티 의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을
                   개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 주식회사 엠에이치엔씨티 은(는) 정보주체의 문의에 대해 지체 없이 답변 및 처리해드릴 것입니다.
@@ -196,9 +196,9 @@ $(document).ready(function () {
                 </span>
                 <p>
                   &nbsp;&nbsp;▶ 개인정보 열람청구 접수·처리 부서<br>
-                  &nbsp;&nbsp; ⦁ 부서명 : 영업마케팅본부<br>
-                  &nbsp;&nbsp; ⦁ 담당자 : 정 현<br>
-                  &nbsp;&nbsp; ⦁ 이메일 : twljh@mhncity.com
+                  &nbsp;&nbsp; ⦁ 부서명 : 영업관리본부<br>
+                  &nbsp;&nbsp; ⦁ 담당자 : 김지선<br>
+                  &nbsp;&nbsp; ⦁ 이메일 : jeesun712@mhncity.com
                 </p><br>
                 <span>
                   제12조(정보주체의 권익침해에 대한 구제방법)
