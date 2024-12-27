@@ -19,7 +19,7 @@ userinfo = {
         let apiUrl = apiUrlConverter('user-info', baseUrl)
 
         $.ajax({
-            method: "get",
+            method: "post",
             url: apiUrl,
             xhrFields: {
                 withCredentials: true
@@ -83,7 +83,7 @@ userinfo = {
         let apiUrl = apiUrlConverter('user-info', baseUrl)
 
         $.ajax({
-            method: "get",
+            method: "post",
             url: apiUrl,
             xhrFields: {
                 withCredentials: true
@@ -344,5 +344,41 @@ userinfo = {
         })
 
         return result;
+    },
+
+    joinCheck: function () {
+        let baseUrl = '/api/user/checkjoin'
+        let apiUrl = apiUrlConverter('util', baseUrl)
+        let first_name, first_email, first_phone
+
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (data) {
+                comm.expireJoinInfo();
+    
+                let infoData = userinfo.getFirtstInfo();
+                let getFirstInfo = infoData["getFirstInfo"]
+                first_name = infoData["first_name"]
+                first_email = infoData["first_email"]
+                first_phone = infoData["first_phone"]
+                $(".userinfoFirst").html(getFirstInfo);
+        
+                let getSecondInfo = userinfo.getSecondInfo()
+                $(".userinfoSecond").html(getSecondInfo);
+        
+                let getloginAlias = userinfo.getloginAlias()
+                $(".login_alias").html(getloginAlias);
+            },
+            error: function (xhr, status) {
+                location.href = "/main";
+            }
+        });
+
+        return {first_name:first_name, first_email:first_email, first_phone:first_phone};
     },
 }

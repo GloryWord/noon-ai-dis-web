@@ -66,8 +66,9 @@ $(document).ready(function () {
     $(document).on("click", ".infoConfir", function () {
         // location.href="/myinfo"
         var cur_password = $(".cur_password").val()
-        let verify = comm.joinInfo(cur_password);
-        if(verify) location.href = '/myinfo'
+        // let verify = comm.joinInfo(cur_password);
+        // if(verify) location.href = '/myinfo'
+        comm.joinInfo(cur_password);
     });
 
     $(document).on("click", "#logout", function () {
