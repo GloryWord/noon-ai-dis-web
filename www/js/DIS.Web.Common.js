@@ -572,23 +572,30 @@ comm = {
             },
             async: false,
             success: function (data) {
-                verify = data.verify;
-                // location.href = "/myinfo";
+                // verify = data.verify;
+                location.href = "/myinfo";
             },
             error: function (xhr, status) {
-                if (xhr.responseJSON.message === 'password is not matching') {
-                    Swal.fire({
-                        title: '비밀번호가 틀렸습니다.',
-                        showConfirmButton: false,
-                        showDenyButton: true,
-                        denyButtonText: "확 인",
-                        icon: "error"
-                    });
-                }
+                // if (xhr.responseJSON.message === 'password is not matching') {
+                //     Swal.fire({
+                //         title: '비밀번호가 틀렸습니다.',
+                //         showConfirmButton: false,
+                //         showDenyButton: true,
+                //         denyButtonText: "확 인",
+                //         icon: "error"
+                //     });
+                // }
+                Swal.fire({
+                    title: '비밀번호가 틀렸습니다.',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: "확 인",
+                    icon: "error"
+                });
             }
         });
 
-        return verify;
+        // return verify;
     },
 
     expireJoinInfo: function () {
@@ -1139,7 +1146,7 @@ comm = {
         let apiUrl = apiUrlConverter('util', baseUrl);
         let pointBalance;
         $.ajax({
-            method: "get",
+            method: "post",
             url: apiUrl,
             xhrFields: {
                 withCredentials: true
@@ -1153,6 +1160,37 @@ comm = {
             }
         });
         return pointBalance;
+    },
+
+    checkPoint: function () {
+        let baseUrl = `/api/check/point`;
+        let apiUrl = apiUrlConverter('util', baseUrl);
+        let result;
+        $.ajax({
+            method: "post",
+            url: apiUrl,
+            xhrFields: {
+                withCredentials: true
+            },
+            async: false,
+            success: function (result) {
+                result = true;
+            },
+            error: function (xhr, status) {
+                result = false;
+                // Swal.fire({
+                //     title: '캐시가 부족합니다.',
+                //     showConfirmButton: false,
+                //     showDenyButton: true,
+                //     denyButtonText: "확 인",
+                //     icon: "error"
+                // }).then(() => {
+                //     location.reload()
+                // })
+                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
+            }
+        });
+        return result;
     },
 
     getAdditionalID: function (encryptID, fileName) {

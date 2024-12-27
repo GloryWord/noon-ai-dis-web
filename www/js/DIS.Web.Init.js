@@ -770,8 +770,8 @@ init = {
             }
         });
 
-        $(document).on("click", ".encryptBtn", function () {
-            if(Number(comm.getNowPoint())<=0){
+        $(document).on("click", ".encryptBtn", function (req) {
+            if(!comm.checkPoint()){
                 Swal.fire({
                     title: '캐시가 부족합니다.',
                     showConfirmButton: false,
@@ -1333,7 +1333,7 @@ init = {
         });
 
         $(document).on("click", ".encryptBtn", function () {
-            if(Number(comm.getNowPoint())<=0){
+            if(!comm.checkPoint()){
                 Swal.fire({
                     title: '캐시가 부족합니다.',
                     showConfirmButton: false,
@@ -3445,22 +3445,23 @@ init = {
         //         location.href = "/main"
         //     }
         // });
-        let verify = await comm.joinInfo();
-        if (!verify) {
-            location.href = '/main';
-        }
-        else{
-            await comm.expireJoinInfo();
+        // let verify = await comm.joinInfo();
+        // if (!verify) {
+        //     location.href = '/main';
+        // }
+        // else{
+        //     await comm.expireJoinInfo();
 
-            var { getFirstInfo, first_name, first_email, first_phone } = userinfo.getFirtstInfo();
-            $(".userinfoFirst").html(getFirstInfo);
+        //     var { getFirstInfo, first_name, first_email, first_phone } = userinfo.getFirtstInfo();
+        //     $(".userinfoFirst").html(getFirstInfo);
     
-            var getSecondInfo = userinfo.getSecondInfo()
-            $(".userinfoSecond").html(getSecondInfo);
+        //     var getSecondInfo = userinfo.getSecondInfo()
+        //     $(".userinfoSecond").html(getSecondInfo);
     
-            var getloginAlias = userinfo.getloginAlias()
-            $(".login_alias").html(getloginAlias);
-        }
+        //     var getloginAlias = userinfo.getloginAlias()
+        //     $(".login_alias").html(getloginAlias);
+        // }
+        let {first_name, first_email, first_phone} = userinfo.joinCheck();
 
         let verifyCode = '';
         let email_config = false;
@@ -4344,7 +4345,7 @@ init = {
                 })
             }
             else {
-                if(Number(comm.getNowPoint())<=0){
+                if(comm.checkPoint()){
                     let fileListName = $(".fullname").text()
                     let freeCounts = comm.getFreeCounts(fileListName, eventIndex, 'restoration');
                     if(freeCounts.includes(0)==false){
@@ -4553,7 +4554,7 @@ init = {
                     $(".fileFullName").remove()
 
                     $(document).on("click", "#signedUrl", async function () {
-                        if(Number(comm.getNowPoint())<=0){
+                        if(comm.checkPoint()){
                             let fileListName = $(".fullname").text()
                             let freeCounts = comm.getFreeCounts(fileListName, eventIndex, 'download');
                             if(freeCounts.includes(0)==false){
@@ -4586,7 +4587,7 @@ init = {
                 }
                 else if (mode == 'group') {
                     $(document).on("click", ".select_recoConfirm", function () {
-                        if(Number(comm.getNowPoint())<=0){
+                        if(comm.checkPoint()){
                             let fileListName = [];
                             var imgDivList = document.getElementsByClassName('check_reco');
                             var len = imgDivList.length;
@@ -4663,7 +4664,7 @@ init = {
                     });
 
                     $(document).on("click", ".imgConfirm", async function () {
-                        if(Number(comm.getNowPoint())<=0){
+                        if(comm.checkPoint()){
                             let num = $(this).data("idx")
                             let fileListName = $(`.fullname.num${num}`).text()
                             let freeCounts = comm.getFreeCounts(fileListName, eventIndex, 'download');
@@ -4737,7 +4738,7 @@ init = {
                     });
 
                     $(document).on("click", "#signedUrl", function () {
-                        if(Number(comm.getNowPoint())<=0){
+                        if(comm.checkPoint()){
                             let fileListName = document.querySelectorAll(".fullname")
                             let fileArrName = []
                             for(let i=0; i<fileListName.length;i++){
@@ -4898,7 +4899,7 @@ init = {
                 $(".fileFullName").remove()
 
                 $(document).on("click", "#signedUrl", async function () {
-                    if(Number(comm.getNowPoint())<=0){
+                    if(comm.checkPoint()){
                         let fileListName = $(".fullname").text()
                         let freeCounts = comm.getFreeCounts(fileListName, eventIndex, 'download');
                         if(freeCounts.includes(0)==false){
@@ -4949,7 +4950,7 @@ init = {
                     location.reload()
                 })
             } else {
-                if(Number(comm.getNowPoint())<=0){
+                if(comm.checkPoint()){
                     let fileListName;
                     if(mode=="single"){
                         fileListName = $(".fullname").text()
