@@ -1173,7 +1173,7 @@ comm = {
                 withCredentials: true
             },
             async: false,
-            success: function (result) {
+            success: function (data) {
                 result = true;
             },
             error: function (xhr, status) {
