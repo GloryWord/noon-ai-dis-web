@@ -1178,16 +1178,6 @@ comm = {
             },
             error: function (xhr, status) {
                 result = false;
-                // Swal.fire({
-                //     title: '캐시가 부족합니다.',
-                //     showConfirmButton: false,
-                //     showDenyButton: true,
-                //     denyButtonText: "확 인",
-                //     icon: "error"
-                // }).then(() => {
-                //     location.reload()
-                // })
-                // alert(JSON.stringify(xhr) + " : " + JSON.stringify(status));
             }
         });
         return result;
