@@ -1004,8 +1004,21 @@ fileModule = {
                 async: false,
                 success: function (data) {
                     requestIndex = data.enc_request_list_id;
-                    comm.meterEncrypt(postData.fileNameList, fileWidth, fileHeight, requestIndex, restoration);
-                    comm.loggingEncrypt(requestIndex);
+                    if (requestIndex === undefined) {
+                        Swal.fire({
+                            title: '캐시가 부족합니다.',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: "확 인",
+                            icon: "error"
+                        }).then(() => {
+                            location.reload()
+                        })
+                        reject('requestIndex is undefined');
+                    } else {
+                        comm.meterEncrypt(postData.fileNameList, fileWidth, fileHeight, requestIndex, restoration);
+                        comm.loggingEncrypt(requestIndex);
+                    }
                 },
                 error: function (xhr, status) {
                     // alert(xhr + " : " + status);
@@ -1068,7 +1081,9 @@ fileModule = {
                     })
                 }
             })
-        })
+        }).catch((error) => {
+            console.error(error); // 에러 처리 (필요에 따라 수정 가능)
+        });
     },
 
     uploadKey: function (inputElementClass = 'file') {
