@@ -68,9 +68,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 echo "Deploying to Kind cluster..."
-                withCredentials([file(credentialsId: KUBECONFIG_CREDENTIALS, variable: 'KUBECONFIG')]) {
                     sh """
-                        export KUBECONFIG=\$KUBECONFIG
                         kubectl set image rollout/web-rollout web-rollout=${DOCKER_HUB_REPO}:${IMAGE_TAG} -n argo-rollouts
                         kubectl argo rollouts get rollout web-rollout -n argo-rollouts
                     """
@@ -81,9 +79,7 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 echo "Verifying deployment..."
-                withCredentials([file(credentialsId: KUBECONFIG_CREDENTIALS, variable: 'KUBECONFIG')]) {
                     sh """
-                        export KUBECONFIG=\$KUBECONFIG
                         kubectl get pods -n argo-rollouts -l app=web-rollout
                         kubectl argo rollouts status web-rollout -n argo-rollouts
                     """
