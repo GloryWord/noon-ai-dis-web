@@ -16,4 +16,4 @@ RUN apk --no-cache add tzdata && \
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"];
+CMD ["nginx", "-g", "daemon off;"]
