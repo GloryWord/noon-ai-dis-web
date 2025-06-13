@@ -69,8 +69,8 @@ pipeline {
             steps {
                 echo "Deploying to Kind cluster..."
                 sh """
-                    kubectl argo rollouts set image web-rollout web-rollout=${DOCKER_HUB_REPO}:${IMAGE_TAG} -n argo-rollouts
-                    kubectl argo rollouts get rollout web-rollout -n argo-rollouts
+                    kubectl argo rollouts set image web-rollout web-rollout=${DOCKER_HUB_REPO}:${IMAGE_TAG} 
+                    kubectl argo rollouts get rollout web-rollout 
                 """
             }
         }
@@ -80,8 +80,8 @@ pipeline {
             steps {
                 echo "Verifying deployment..."
                 sh """
-                    kubectl get pods -n argo-rollouts -l app=web-rollout
-                    kubectl argo rollouts status web-rollout -n argo-rollouts
+                    kubectl get pods  -l app=web-rollout
+                    kubectl argo rollouts status web-rollout 
                 """
             }
         }
