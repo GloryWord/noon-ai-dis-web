@@ -86,16 +86,17 @@ pipeline {
             }
         }
     
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh 'docker system prune -f'
-        }
-        success {
-            echo "🎉 Deployment successful! Image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
-        }
-        failure {
-            echo "❌ Deployment failed!"
+        post {
+            always {
+                echo 'Cleaning up...'
+                sh 'docker system prune -f'
+            }
+            success {
+                echo "🎉 Deployment successful! Image: ${DOCKER_HUB_REPO}:${IMAGE_TAG}"
+            }
+            failure {
+                echo "❌ Deployment failed!"
+            }
         }
     }
 }
