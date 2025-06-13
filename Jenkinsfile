@@ -30,6 +30,7 @@ pipeline {
         KUBECONFIG_CREDENTIALS = 'kubeconfig-credentials'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         IMAGE_TAG = "build-${BUILD_NUMBER}"
+        K8S_NS = 'default'
     }
     
     stages {
@@ -67,25 +68,23 @@ pipeline {
         
         stage('Deploy to Kubernetes') {
             steps {
-                echo "Deploying to Kind cluster..."
                 sh """
-                    kubectl argo rollouts set image web-rollout web-rollout=${DOCKER_HUB_REPO}:${IMAGE_TAG} 
-                    kubectl argo rollouts get rollout web-rollout 
+                kubectl argo rollouts set image web-rollout \
+                        web-rollout=${DOCKER_HUB_REPO}:${IMAGE_TAG} \
+                        -n ${K8S_NS}
+                kubectl argo rollouts get rollout web-rollout -n ${K8S_NS}
                 """
             }
         }
-
 
         stage('Verify Deployment') {
             steps {
-                echo "Verifying deployment..."
                 sh """
-                    kubectl get pods  -l app=web-rollout
-                    kubectl argo rollouts status web-rollout 
+                kubectl get pods -n ${K8S_NS} -l app=web-rollout
+                kubectl argo rollouts status web-rollout -n ${K8S_NS}
                 """
             }
         }
-    }
     
     post {
         always {
